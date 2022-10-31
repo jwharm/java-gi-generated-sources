@@ -22,21 +22,34 @@ public class DrawContext extends org.gtk.gobject.Object {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkDrawContext";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public DrawContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DrawContext */
+    /**
+     * Cast object to DrawContext if its GType is a (or inherits from) "GdkDrawContext".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DrawContext" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkDrawContext", a ClassCastException will be thrown.
+     */
     public static DrawContext castFrom(org.gtk.gobject.Object gobject) {
-        return new DrawContext(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkDrawContext"))) {
+            return new DrawContext(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkDrawContext");
+        }
     }
     
     /**
@@ -69,7 +82,9 @@ public class DrawContext extends org.gtk.gobject.Object {
     public void beginFrame(@NotNull org.cairographics.Region region) {
         java.util.Objects.requireNonNull(region, "Parameter 'region' must not be null");
         try {
-            DowncallHandles.gdk_draw_context_begin_frame.invokeExact(handle(), region.handle());
+            DowncallHandles.gdk_draw_context_begin_frame.invokeExact(
+                    handle(),
+                    region.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,7 +102,8 @@ public class DrawContext extends org.gtk.gobject.Object {
      */
     public void endFrame() {
         try {
-            DowncallHandles.gdk_draw_context_end_frame.invokeExact(handle());
+            DowncallHandles.gdk_draw_context_end_frame.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,7 +116,8 @@ public class DrawContext extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_draw_context_get_display.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_draw_context_get_display.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,7 +138,8 @@ public class DrawContext extends org.gtk.gobject.Object {
     public @Nullable org.cairographics.Region getFrameRegion() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_draw_context_get_frame_region.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_draw_context_get_frame_region.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,7 +153,8 @@ public class DrawContext extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdk.Surface getSurface() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_draw_context_get_surface.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_draw_context_get_surface.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,7 +173,8 @@ public class DrawContext extends org.gtk.gobject.Object {
     public boolean isInFrame() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_draw_context_is_in_frame.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_draw_context_is_in_frame.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -31,21 +31,34 @@ public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwCarouselIndicatorDots";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public CarouselIndicatorDots(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CarouselIndicatorDots */
+    /**
+     * Cast object to CarouselIndicatorDots if its GType is a (or inherits from) "AdwCarouselIndicatorDots".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CarouselIndicatorDots" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwCarouselIndicatorDots", a ClassCastException will be thrown.
+     */
     public static CarouselIndicatorDots castFrom(org.gtk.gobject.Object gobject) {
-        return new CarouselIndicatorDots(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwCarouselIndicatorDots"))) {
+            return new CarouselIndicatorDots(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwCarouselIndicatorDots");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -72,7 +85,8 @@ public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk
     public @Nullable org.gnome.adw.Carousel getCarousel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_carousel_indicator_dots_get_carousel.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_carousel_indicator_dots_get_carousel.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,9 +98,10 @@ public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk
      * @param carousel a carousel
      */
     public void setCarousel(@Nullable org.gnome.adw.Carousel carousel) {
-        java.util.Objects.requireNonNullElse(carousel, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_carousel_indicator_dots_set_carousel.invokeExact(handle(), carousel.handle());
+            DowncallHandles.adw_carousel_indicator_dots_set_carousel.invokeExact(
+                    handle(),
+                    (Addressable) (carousel == null ? MemoryAddress.NULL : carousel.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

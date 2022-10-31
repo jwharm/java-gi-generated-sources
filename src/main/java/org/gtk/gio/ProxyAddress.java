@@ -15,37 +15,64 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GProxyAddress";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.InetSocketAddress.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.ProxyAddressPrivate.getMemoryLayout().withName("priv")
-    ).withName("GProxyAddress");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gio.InetSocketAddress parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gio.InetSocketAddress(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public ProxyAddress(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ProxyAddress */
+    /**
+     * Cast object to ProxyAddress if its GType is a (or inherits from) "GProxyAddress".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ProxyAddress" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GProxyAddress", a ClassCastException will be thrown.
+     */
     public static ProxyAddress castFrom(org.gtk.gobject.Object gobject) {
-        return new ProxyAddress(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GProxyAddress"))) {
+            return new ProxyAddress(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GProxyAddress");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gio.InetAddress inetaddr, short port, @NotNull java.lang.String protocol, @NotNull java.lang.String destHostname, short destPort, @Nullable java.lang.String username, @Nullable java.lang.String password) {
         java.util.Objects.requireNonNull(inetaddr, "Parameter 'inetaddr' must not be null");
         java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
         java.util.Objects.requireNonNull(destHostname, "Parameter 'destHostname' must not be null");
-        java.util.Objects.requireNonNullElse(username, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(password, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_proxy_address_new.invokeExact(inetaddr.handle(), port, Interop.allocateNativeString(protocol), Interop.allocateNativeString(destHostname), destPort, Interop.allocateNativeString(username), Interop.allocateNativeString(password)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_proxy_address_new.invokeExact(
+                    inetaddr.handle(),
+                    port,
+                    Interop.allocateNativeString(protocol),
+                    Interop.allocateNativeString(destHostname),
+                    destPort,
+                    (Addressable) (username == null ? MemoryAddress.NULL : Interop.allocateNativeString(username)),
+                    (Addressable) (password == null ? MemoryAddress.NULL : Interop.allocateNativeString(password))), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,11 +109,12 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
     public @NotNull java.lang.String getDestinationHostname() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_destination_hostname.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_destination_hostname.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -98,7 +126,8 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
     public short getDestinationPort() {
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.g_proxy_address_get_destination_port.invokeExact(handle());
+            RESULT = (short) DowncallHandles.g_proxy_address_get_destination_port.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -113,11 +142,12 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
     public @NotNull java.lang.String getDestinationProtocol() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_destination_protocol.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_destination_protocol.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -127,11 +157,12 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
     public @Nullable java.lang.String getPassword() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_password.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_password.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -141,11 +172,12 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
     public @NotNull java.lang.String getProtocol() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_protocol.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_protocol.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -155,11 +187,12 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
     public @Nullable java.lang.String getUri() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_uri.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_uri.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -169,11 +202,12 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
     public @Nullable java.lang.String getUsername() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_username.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_username.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     private static class DowncallHandles {

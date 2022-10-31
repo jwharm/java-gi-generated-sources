@@ -25,30 +25,45 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkAppChooserDialog";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public AppChooserDialog(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to AppChooserDialog */
+    /**
+     * Cast object to AppChooserDialog if its GType is a (or inherits from) "GtkAppChooserDialog".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "AppChooserDialog" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkAppChooserDialog", a ClassCastException will be thrown.
+     */
     public static AppChooserDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new AppChooserDialog(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkAppChooserDialog"))) {
+            return new AppChooserDialog(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkAppChooserDialog");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @NotNull org.gtk.gio.File file) {
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_app_chooser_dialog_new.invokeExact(parent.handle(), flags.getValue(), file.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_app_chooser_dialog_new.invokeExact(
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                    flags.getValue(),
+                    file.handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -68,12 +83,14 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
     }
     
     private static Refcounted constructNewForContentType(@Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @NotNull java.lang.String contentType) {
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_app_chooser_dialog_new_for_content_type.invokeExact(parent.handle(), flags.getValue(), Interop.allocateNativeString(contentType)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_app_chooser_dialog_new_for_content_type.invokeExact(
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                    flags.getValue(),
+                    Interop.allocateNativeString(contentType)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -101,11 +118,12 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
     public @Nullable java.lang.String getHeading() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_dialog_get_heading.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_dialog_get_heading.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -115,7 +133,8 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
     public @NotNull org.gtk.gtk.Widget getWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_dialog_get_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_dialog_get_widget.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -131,7 +150,9 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
     public void setHeading(@NotNull java.lang.String heading) {
         java.util.Objects.requireNonNull(heading, "Parameter 'heading' must not be null");
         try {
-            DowncallHandles.gtk_app_chooser_dialog_set_heading.invokeExact(handle(), Interop.allocateNativeString(heading));
+            DowncallHandles.gtk_app_chooser_dialog_set_heading.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(heading));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

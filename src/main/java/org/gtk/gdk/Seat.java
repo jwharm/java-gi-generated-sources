@@ -15,25 +15,47 @@ public class Seat extends org.gtk.gobject.Object {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkSeat";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName("GdkSeat");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Seat(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Seat */
+    /**
+     * Cast object to Seat if its GType is a (or inherits from) "GdkSeat".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Seat" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkSeat", a ClassCastException will be thrown.
+     */
     public static Seat castFrom(org.gtk.gobject.Object gobject) {
-        return new Seat(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkSeat"))) {
+            return new Seat(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkSeat");
+        }
     }
     
     /**
@@ -43,7 +65,8 @@ public class Seat extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.SeatCapabilities getCapabilities() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_seat_get_capabilities.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_seat_get_capabilities.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -61,7 +84,9 @@ public class Seat extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(capabilities, "Parameter 'capabilities' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_seat_get_devices.invokeExact(handle(), capabilities.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_seat_get_devices.invokeExact(
+                    handle(),
+                    capabilities.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,7 +101,8 @@ public class Seat extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_seat_get_display.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_seat_get_display.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,7 +117,8 @@ public class Seat extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdk.Device getKeyboard() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_seat_get_keyboard.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_seat_get_keyboard.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,7 +133,8 @@ public class Seat extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdk.Device getPointer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_seat_get_pointer.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_seat_get_pointer.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,7 +148,8 @@ public class Seat extends org.gtk.gobject.Object {
     public @NotNull org.gtk.glib.List getTools() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_seat_get_tools.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_seat_get_tools.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

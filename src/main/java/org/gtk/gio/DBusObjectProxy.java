@@ -18,26 +18,39 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements org.gtk.g
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GDBusObjectProxy";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.DBusObjectProxyPrivate.getMemoryLayout().withName("priv")
-    ).withName("GDBusObjectProxy");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    @ApiStatus.Internal
     public DBusObjectProxy(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DBusObjectProxy */
+    /**
+     * Cast object to DBusObjectProxy if its GType is a (or inherits from) "GDBusObjectProxy".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DBusObjectProxy" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GDBusObjectProxy", a ClassCastException will be thrown.
+     */
     public static DBusObjectProxy castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusObjectProxy(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusObjectProxy"))) {
+            return new DBusObjectProxy(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDBusObjectProxy");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gio.DBusConnection connection, @NotNull java.lang.String objectPath) {
@@ -45,7 +58,9 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements org.gtk.g
         java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_object_proxy_new.invokeExact(connection.handle(), Interop.allocateNativeString(objectPath)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_object_proxy_new.invokeExact(
+                    connection.handle(),
+                    Interop.allocateNativeString(objectPath)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,7 +85,8 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements org.gtk.g
     public @NotNull org.gtk.gio.DBusConnection getConnection() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_proxy_get_connection.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_proxy_get_connection.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

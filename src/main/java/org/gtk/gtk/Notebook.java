@@ -102,21 +102,34 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkNotebook";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Notebook(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Notebook */
+    /**
+     * Cast object to Notebook if its GType is a (or inherits from) "GtkNotebook".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Notebook" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkNotebook", a ClassCastException will be thrown.
+     */
     public static Notebook castFrom(org.gtk.gobject.Object gobject) {
-        return new Notebook(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkNotebook"))) {
+            return new Notebook(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkNotebook");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -146,10 +159,12 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public int appendPage(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget tabLabel) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNullElse(tabLabel, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_notebook_append_page.invokeExact(handle(), child.handle(), tabLabel.handle());
+            RESULT = (int) DowncallHandles.gtk_notebook_append_page.invokeExact(
+                    handle(),
+                    child.handle(),
+                    (Addressable) (tabLabel == null ? MemoryAddress.NULL : tabLabel.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -173,11 +188,13 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public int appendPageMenu(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget tabLabel, @Nullable org.gtk.gtk.Widget menuLabel) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNullElse(tabLabel, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(menuLabel, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_notebook_append_page_menu.invokeExact(handle(), child.handle(), tabLabel.handle(), menuLabel.handle());
+            RESULT = (int) DowncallHandles.gtk_notebook_append_page_menu.invokeExact(
+                    handle(),
+                    child.handle(),
+                    (Addressable) (tabLabel == null ? MemoryAddress.NULL : tabLabel.handle()),
+                    (Addressable) (menuLabel == null ? MemoryAddress.NULL : menuLabel.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -196,7 +213,9 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public void detachTab(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_notebook_detach_tab.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_notebook_detach_tab.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -215,7 +234,9 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(packType, "Parameter 'packType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_action_widget.invokeExact(handle(), packType.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_action_widget.invokeExact(
+                    handle(),
+                    packType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -231,7 +252,8 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getCurrentPage() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_notebook_get_current_page.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_notebook_get_current_page.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -246,11 +268,12 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable java.lang.String getGroupName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_group_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_group_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -264,7 +287,9 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_menu_label.invokeExact(handle(), child.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_menu_label.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -284,11 +309,13 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_menu_label_text.invokeExact(handle(), child.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_menu_label_text.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -298,7 +325,8 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getNPages() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_notebook_get_n_pages.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_notebook_get_n_pages.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -315,7 +343,9 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.Widget getNthPage(int pageNum) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_nth_page.invokeExact(handle(), pageNum);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_nth_page.invokeExact(
+                    handle(),
+                    pageNum);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -331,7 +361,9 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_page.invokeExact(handle(), child.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_page.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -350,7 +382,8 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @NotNull org.gtk.gio.ListModel getPages() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_pages.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_pages.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -364,7 +397,8 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getScrollable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_notebook_get_scrollable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_notebook_get_scrollable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -378,7 +412,8 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getShowBorder() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_notebook_get_show_border.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_notebook_get_show_border.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -392,7 +427,8 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getShowTabs() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_notebook_get_show_tabs.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_notebook_get_show_tabs.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -408,7 +444,9 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_notebook_get_tab_detachable.invokeExact(handle(), child.handle());
+            RESULT = (int) DowncallHandles.gtk_notebook_get_tab_detachable.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -427,7 +465,9 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_tab_label.invokeExact(handle(), child.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_tab_label.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -446,11 +486,13 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_tab_label_text.invokeExact(handle(), child.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_tab_label_text.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -460,7 +502,8 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @NotNull org.gtk.gtk.PositionType getTabPos() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_notebook_get_tab_pos.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_notebook_get_tab_pos.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -476,7 +519,9 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_notebook_get_tab_reorderable.invokeExact(handle(), child.handle());
+            RESULT = (int) DowncallHandles.gtk_notebook_get_tab_reorderable.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -495,10 +540,13 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public int insertPage(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget tabLabel, int position) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNullElse(tabLabel, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_notebook_insert_page.invokeExact(handle(), child.handle(), tabLabel.handle(), position);
+            RESULT = (int) DowncallHandles.gtk_notebook_insert_page.invokeExact(
+                    handle(),
+                    child.handle(),
+                    (Addressable) (tabLabel == null ? MemoryAddress.NULL : tabLabel.handle()),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -524,11 +572,14 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public int insertPageMenu(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget tabLabel, @Nullable org.gtk.gtk.Widget menuLabel, int position) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNullElse(tabLabel, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(menuLabel, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_notebook_insert_page_menu.invokeExact(handle(), child.handle(), tabLabel.handle(), menuLabel.handle(), position);
+            RESULT = (int) DowncallHandles.gtk_notebook_insert_page_menu.invokeExact(
+                    handle(),
+                    child.handle(),
+                    (Addressable) (tabLabel == null ? MemoryAddress.NULL : tabLabel.handle()),
+                    (Addressable) (menuLabel == null ? MemoryAddress.NULL : menuLabel.handle()),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -542,7 +593,8 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void nextPage() {
         try {
-            DowncallHandles.gtk_notebook_next_page.invokeExact(handle());
+            DowncallHandles.gtk_notebook_next_page.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -559,7 +611,9 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_notebook_page_num.invokeExact(handle(), child.handle());
+            RESULT = (int) DowncallHandles.gtk_notebook_page_num.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -571,7 +625,8 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void popupDisable() {
         try {
-            DowncallHandles.gtk_notebook_popup_disable.invokeExact(handle());
+            DowncallHandles.gtk_notebook_popup_disable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -585,7 +640,8 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void popupEnable() {
         try {
-            DowncallHandles.gtk_notebook_popup_enable.invokeExact(handle());
+            DowncallHandles.gtk_notebook_popup_enable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -601,10 +657,12 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public int prependPage(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget tabLabel) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNullElse(tabLabel, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_notebook_prepend_page.invokeExact(handle(), child.handle(), tabLabel.handle());
+            RESULT = (int) DowncallHandles.gtk_notebook_prepend_page.invokeExact(
+                    handle(),
+                    child.handle(),
+                    (Addressable) (tabLabel == null ? MemoryAddress.NULL : tabLabel.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -628,11 +686,13 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public int prependPageMenu(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget tabLabel, @Nullable org.gtk.gtk.Widget menuLabel) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNullElse(tabLabel, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(menuLabel, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_notebook_prepend_page_menu.invokeExact(handle(), child.handle(), tabLabel.handle(), menuLabel.handle());
+            RESULT = (int) DowncallHandles.gtk_notebook_prepend_page_menu.invokeExact(
+                    handle(),
+                    child.handle(),
+                    (Addressable) (tabLabel == null ? MemoryAddress.NULL : tabLabel.handle()),
+                    (Addressable) (menuLabel == null ? MemoryAddress.NULL : menuLabel.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -646,7 +706,8 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void prevPage() {
         try {
-            DowncallHandles.gtk_notebook_prev_page.invokeExact(handle());
+            DowncallHandles.gtk_notebook_prev_page.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -660,7 +721,9 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void removePage(int pageNum) {
         try {
-            DowncallHandles.gtk_notebook_remove_page.invokeExact(handle(), pageNum);
+            DowncallHandles.gtk_notebook_remove_page.invokeExact(
+                    handle(),
+                    pageNum);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -678,7 +741,10 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public void reorderChild(@NotNull org.gtk.gtk.Widget child, int position) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_notebook_reorder_child.invokeExact(handle(), child.handle(), position);
+            DowncallHandles.gtk_notebook_reorder_child.invokeExact(
+                    handle(),
+                    child.handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -697,7 +763,10 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         java.util.Objects.requireNonNull(packType, "Parameter 'packType' must not be null");
         try {
-            DowncallHandles.gtk_notebook_set_action_widget.invokeExact(handle(), widget.handle(), packType.getValue());
+            DowncallHandles.gtk_notebook_set_action_widget.invokeExact(
+                    handle(),
+                    widget.handle(),
+                    packType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -717,7 +786,9 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setCurrentPage(int pageNum) {
         try {
-            DowncallHandles.gtk_notebook_set_current_page.invokeExact(handle(), pageNum);
+            DowncallHandles.gtk_notebook_set_current_page.invokeExact(
+                    handle(),
+                    pageNum);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -733,9 +804,10 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      *   or {@code null} to unset it
      */
     public void setGroupName(@Nullable java.lang.String groupName) {
-        java.util.Objects.requireNonNullElse(groupName, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_notebook_set_group_name.invokeExact(handle(), Interop.allocateNativeString(groupName));
+            DowncallHandles.gtk_notebook_set_group_name.invokeExact(
+                    handle(),
+                    (Addressable) (groupName == null ? MemoryAddress.NULL : Interop.allocateNativeString(groupName)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -748,9 +820,11 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setMenuLabel(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget menuLabel) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNullElse(menuLabel, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_notebook_set_menu_label.invokeExact(handle(), child.handle(), menuLabel.handle());
+            DowncallHandles.gtk_notebook_set_menu_label.invokeExact(
+                    handle(),
+                    child.handle(),
+                    (Addressable) (menuLabel == null ? MemoryAddress.NULL : menuLabel.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -765,7 +839,10 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         java.util.Objects.requireNonNull(menuText, "Parameter 'menuText' must not be null");
         try {
-            DowncallHandles.gtk_notebook_set_menu_label_text.invokeExact(handle(), child.handle(), Interop.allocateNativeString(menuText));
+            DowncallHandles.gtk_notebook_set_menu_label_text.invokeExact(
+                    handle(),
+                    child.handle(),
+                    Interop.allocateNativeString(menuText));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -778,7 +855,9 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setScrollable(boolean scrollable) {
         try {
-            DowncallHandles.gtk_notebook_set_scrollable.invokeExact(handle(), scrollable ? 1 : 0);
+            DowncallHandles.gtk_notebook_set_scrollable.invokeExact(
+                    handle(),
+                    scrollable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -792,7 +871,9 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setShowBorder(boolean showBorder) {
         try {
-            DowncallHandles.gtk_notebook_set_show_border.invokeExact(handle(), showBorder ? 1 : 0);
+            DowncallHandles.gtk_notebook_set_show_border.invokeExact(
+                    handle(),
+                    showBorder ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -804,7 +885,9 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setShowTabs(boolean showTabs) {
         try {
-            DowncallHandles.gtk_notebook_set_show_tabs.invokeExact(handle(), showTabs ? 1 : 0);
+            DowncallHandles.gtk_notebook_set_show_tabs.invokeExact(
+                    handle(),
+                    showTabs ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -860,7 +943,10 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public void setTabDetachable(@NotNull org.gtk.gtk.Widget child, boolean detachable) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_notebook_set_tab_detachable.invokeExact(handle(), child.handle(), detachable ? 1 : 0);
+            DowncallHandles.gtk_notebook_set_tab_detachable.invokeExact(
+                    handle(),
+                    child.handle(),
+                    detachable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -877,9 +963,11 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setTabLabel(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget tabLabel) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNullElse(tabLabel, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_notebook_set_tab_label.invokeExact(handle(), child.handle(), tabLabel.handle());
+            DowncallHandles.gtk_notebook_set_tab_label.invokeExact(
+                    handle(),
+                    child.handle(),
+                    (Addressable) (tabLabel == null ? MemoryAddress.NULL : tabLabel.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -895,7 +983,10 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         java.util.Objects.requireNonNull(tabText, "Parameter 'tabText' must not be null");
         try {
-            DowncallHandles.gtk_notebook_set_tab_label_text.invokeExact(handle(), child.handle(), Interop.allocateNativeString(tabText));
+            DowncallHandles.gtk_notebook_set_tab_label_text.invokeExact(
+                    handle(),
+                    child.handle(),
+                    Interop.allocateNativeString(tabText));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -908,7 +999,9 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public void setTabPos(@NotNull org.gtk.gtk.PositionType pos) {
         java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
         try {
-            DowncallHandles.gtk_notebook_set_tab_pos.invokeExact(handle(), pos.getValue());
+            DowncallHandles.gtk_notebook_set_tab_pos.invokeExact(
+                    handle(),
+                    pos.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -923,7 +1016,10 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public void setTabReorderable(@NotNull org.gtk.gtk.Widget child, boolean reorderable) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_notebook_set_tab_reorderable.invokeExact(handle(), child.handle(), reorderable ? 1 : 0);
+            DowncallHandles.gtk_notebook_set_tab_reorderable.invokeExact(
+                    handle(),
+                    child.handle(),
+                    reorderable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

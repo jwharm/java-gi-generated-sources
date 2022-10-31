@@ -15,19 +15,73 @@ public class OtMathKernEntryT extends io.github.jwharm.javagi.ResourceBase {
         HarfBuzz.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "hb_ot_math_kern_entry_t";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_INT.withName("max_correction_height"),
         ValueLayout.JAVA_INT.withName("kern_value")
-    ).withName("hb_ot_math_kern_entry_t");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static OtMathKernEntryT allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        OtMathKernEntryT newInstance = new OtMathKernEntryT(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code max_correction_height}
+     * @return The value of the field {@code max_correction_height}
+     */
+    public org.harfbuzz.PositionT max_correction_height$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("max_correction_height"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.harfbuzz.PositionT(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code max_correction_height}
+     * @param max_correction_height The new value of the field {@code max_correction_height}
+     */
+    public void max_correction_height$set(org.harfbuzz.PositionT max_correction_height) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("max_correction_height"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), max_correction_height.getValue().intValue());
+    }
+    
+    /**
+     * Get the value of the field {@code kern_value}
+     * @return The value of the field {@code kern_value}
+     */
+    public org.harfbuzz.PositionT kern_value$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("kern_value"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.harfbuzz.PositionT(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code kern_value}
+     * @param kern_value The new value of the field {@code kern_value}
+     */
+    public void kern_value$set(org.harfbuzz.PositionT kern_value) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("kern_value"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), kern_value.getValue().intValue());
+    }
+    
+    @ApiStatus.Internal
     public OtMathKernEntryT(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

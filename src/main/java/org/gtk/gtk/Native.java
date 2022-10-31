@@ -25,13 +25,29 @@ import org.jetbrains.annotations.*;
 public interface Native extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to Native if its GType is a (or inherits from) "GtkNative".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Native" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkNative", a ClassCastException will be thrown.
+     */
+    public static Native castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkNative"))) {
+            return new NativeImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkNative");
+        }
+    }
+    
+    /**
      * Returns the renderer that is used for this {@code GtkNative}.
      * @return the renderer for {@code self}
      */
     default @NotNull org.gtk.gsk.Renderer getRenderer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_native_get_renderer.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_native_get_renderer.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -45,7 +61,8 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.gdk.Surface getSurface() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_native_get_surface.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_native_get_surface.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,7 +83,10 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         try {
-            DowncallHandles.gtk_native_get_surface_transform.invokeExact(handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            DowncallHandles.gtk_native_get_surface_transform.invokeExact(
+                    handle(),
+                    (Addressable) xPOINTER.address(),
+                    (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -81,7 +101,8 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
      */
     default void realize() {
         try {
-            DowncallHandles.gtk_native_realize.invokeExact(handle());
+            DowncallHandles.gtk_native_realize.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,7 +115,8 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
      */
     default void unrealize() {
         try {
-            DowncallHandles.gtk_native_unrealize.invokeExact(handle());
+            DowncallHandles.gtk_native_unrealize.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,7 +131,8 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(surface, "Parameter 'surface' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_native_get_for_surface.invokeExact(surface.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_native_get_for_surface.invokeExact(
+                    surface.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

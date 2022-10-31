@@ -22,21 +22,34 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkEventControllerMotion";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public EventControllerMotion(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to EventControllerMotion */
+    /**
+     * Cast object to EventControllerMotion if its GType is a (or inherits from) "GtkEventControllerMotion".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "EventControllerMotion" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkEventControllerMotion", a ClassCastException will be thrown.
+     */
     public static EventControllerMotion castFrom(org.gtk.gobject.Object gobject) {
-        return new EventControllerMotion(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEventControllerMotion"))) {
+            return new EventControllerMotion(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEventControllerMotion");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -63,7 +76,8 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
     public boolean containsPointer() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_event_controller_motion_contains_pointer.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_event_controller_motion_contains_pointer.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,7 +91,8 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
     public boolean isPointer() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_event_controller_motion_is_pointer.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_event_controller_motion_is_pointer.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

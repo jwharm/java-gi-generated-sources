@@ -20,26 +20,48 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTlsConnection";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.IOStream.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.TlsConnectionPrivate.getMemoryLayout().withName("priv")
-    ).withName("GTlsConnection");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gio.IOStream parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gio.IOStream(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public TlsConnection(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TlsConnection */
+    /**
+     * Cast object to TlsConnection if its GType is a (or inherits from) "GTlsConnection".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TlsConnection" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GTlsConnection", a ClassCastException will be thrown.
+     */
     public static TlsConnection castFrom(org.gtk.gobject.Object gobject) {
-        return new TlsConnection(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTlsConnection"))) {
+            return new TlsConnection(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GTlsConnection");
+        }
     }
     
     /**
@@ -55,7 +77,10 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         java.util.Objects.requireNonNull(errors, "Parameter 'errors' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tls_connection_emit_accept_certificate.invokeExact(handle(), peerCert.handle(), errors.getValue());
+            RESULT = (int) DowncallHandles.g_tls_connection_emit_accept_certificate.invokeExact(
+                    handle(),
+                    peerCert.handle(),
+                    errors.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,7 +95,8 @@ public class TlsConnection extends org.gtk.gio.IOStream {
     public @Nullable org.gtk.gio.TlsCertificate getCertificate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_connection_get_certificate.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_connection_get_certificate.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,11 +141,12 @@ public class TlsConnection extends org.gtk.gio.IOStream {
     public @Nullable java.lang.String getCiphersuiteName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_connection_get_ciphersuite_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_connection_get_ciphersuite_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -130,7 +157,8 @@ public class TlsConnection extends org.gtk.gio.IOStream {
     public @Nullable org.gtk.gio.TlsDatabase getDatabase() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_connection_get_database.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_connection_get_database.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,7 +174,8 @@ public class TlsConnection extends org.gtk.gio.IOStream {
     public @Nullable org.gtk.gio.TlsInteraction getInteraction() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_connection_get_interaction.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_connection_get_interaction.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -166,11 +195,12 @@ public class TlsConnection extends org.gtk.gio.IOStream {
     public @Nullable java.lang.String getNegotiatedProtocol() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_connection_get_negotiated_protocol.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_connection_get_negotiated_protocol.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -182,7 +212,8 @@ public class TlsConnection extends org.gtk.gio.IOStream {
     public @Nullable org.gtk.gio.TlsCertificate getPeerCertificate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_connection_get_peer_certificate.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_connection_get_peer_certificate.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -200,7 +231,8 @@ public class TlsConnection extends org.gtk.gio.IOStream {
     public @NotNull org.gtk.gio.TlsCertificateFlags getPeerCertificateErrors() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tls_connection_get_peer_certificate_errors.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_tls_connection_get_peer_certificate_errors.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -217,7 +249,8 @@ public class TlsConnection extends org.gtk.gio.IOStream {
     public @NotNull org.gtk.gio.TlsProtocolVersion getProtocolVersion() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tls_connection_get_protocol_version.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_tls_connection_get_protocol_version.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -236,7 +269,8 @@ public class TlsConnection extends org.gtk.gio.IOStream {
     public @NotNull org.gtk.gio.TlsRehandshakeMode getRehandshakeMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tls_connection_get_rehandshake_mode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_tls_connection_get_rehandshake_mode.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -253,7 +287,8 @@ public class TlsConnection extends org.gtk.gio.IOStream {
     public boolean getRequireCloseNotify() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tls_connection_get_require_close_notify.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_tls_connection_get_require_close_notify.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -270,7 +305,8 @@ public class TlsConnection extends org.gtk.gio.IOStream {
     public boolean getUseSystemCertdb() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tls_connection_get_use_system_certdb.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_tls_connection_get_use_system_certdb.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -314,11 +350,12 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean handshake(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tls_connection_handshake.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_tls_connection_handshake.invokeExact(
+                    handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -336,16 +373,17 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      * @param callback callback to call when the handshake is complete
      */
     public void handshakeAsync(int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_tls_connection_handshake_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_tls_connection_handshake_async.invokeExact(
+                    handle(),
+                    ioPriority,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -364,7 +402,9 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tls_connection_handshake_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_tls_connection_handshake_finish.invokeExact(
+                    handle(),
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -389,9 +429,10 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      *   array of ALPN protocol names (eg, "http/1.1", "h2"), or {@code null}
      */
     public void setAdvertisedProtocols(java.lang.String[] protocols) {
-        java.util.Objects.requireNonNullElse(protocols, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_tls_connection_set_advertised_protocols.invokeExact(handle(), Interop.allocateNativeArray(protocols, false));
+            DowncallHandles.g_tls_connection_set_advertised_protocols.invokeExact(
+                    handle(),
+                    (Addressable) (protocols == null ? MemoryAddress.NULL : Interop.allocateNativeArray(protocols, false)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -421,7 +462,9 @@ public class TlsConnection extends org.gtk.gio.IOStream {
     public void setCertificate(@NotNull org.gtk.gio.TlsCertificate certificate) {
         java.util.Objects.requireNonNull(certificate, "Parameter 'certificate' must not be null");
         try {
-            DowncallHandles.g_tls_connection_set_certificate.invokeExact(handle(), certificate.handle());
+            DowncallHandles.g_tls_connection_set_certificate.invokeExact(
+                    handle(),
+                    certificate.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -442,9 +485,10 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      * @param database a {@link TlsDatabase}
      */
     public void setDatabase(@Nullable org.gtk.gio.TlsDatabase database) {
-        java.util.Objects.requireNonNullElse(database, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_tls_connection_set_database.invokeExact(handle(), database.handle());
+            DowncallHandles.g_tls_connection_set_database.invokeExact(
+                    handle(),
+                    (Addressable) (database == null ? MemoryAddress.NULL : database.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -460,9 +504,10 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      * @param interaction an interaction object, or {@code null}
      */
     public void setInteraction(@Nullable org.gtk.gio.TlsInteraction interaction) {
-        java.util.Objects.requireNonNullElse(interaction, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_tls_connection_set_interaction.invokeExact(handle(), interaction.handle());
+            DowncallHandles.g_tls_connection_set_interaction.invokeExact(
+                    handle(),
+                    (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -482,7 +527,9 @@ public class TlsConnection extends org.gtk.gio.IOStream {
     public void setRehandshakeMode(@NotNull org.gtk.gio.TlsRehandshakeMode mode) {
         java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
         try {
-            DowncallHandles.g_tls_connection_set_rehandshake_mode.invokeExact(handle(), mode.getValue());
+            DowncallHandles.g_tls_connection_set_rehandshake_mode.invokeExact(
+                    handle(),
+                    mode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -520,7 +567,9 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      */
     public void setRequireCloseNotify(boolean requireCloseNotify) {
         try {
-            DowncallHandles.g_tls_connection_set_require_close_notify.invokeExact(handle(), requireCloseNotify ? 1 : 0);
+            DowncallHandles.g_tls_connection_set_require_close_notify.invokeExact(
+                    handle(),
+                    requireCloseNotify ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -540,7 +589,9 @@ public class TlsConnection extends org.gtk.gio.IOStream {
     @Deprecated
     public void setUseSystemCertdb(boolean useSystemCertdb) {
         try {
-            DowncallHandles.g_tls_connection_set_use_system_certdb.invokeExact(handle(), useSystemCertdb ? 1 : 0);
+            DowncallHandles.g_tls_connection_set_use_system_certdb.invokeExact(
+                    handle(),
+                    useSystemCertdb ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

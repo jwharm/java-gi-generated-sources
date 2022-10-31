@@ -59,29 +59,43 @@ public class PadController extends org.gtk.gtk.EventController {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkPadController";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public PadController(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to PadController */
+    /**
+     * Cast object to PadController if its GType is a (or inherits from) "GtkPadController".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "PadController" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkPadController", a ClassCastException will be thrown.
+     */
     public static PadController castFrom(org.gtk.gobject.Object gobject) {
-        return new PadController(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPadController"))) {
+            return new PadController(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkPadController");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gio.ActionGroup group, @Nullable org.gtk.gdk.Device pad) {
         java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
-        java.util.Objects.requireNonNullElse(pad, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_pad_controller_new.invokeExact(group.handle(), pad.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_pad_controller_new.invokeExact(
+                    group.handle(),
+                    (Addressable) (pad == null ? MemoryAddress.NULL : pad.handle())), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,7 +146,13 @@ public class PadController extends org.gtk.gtk.EventController {
         java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         try {
-            DowncallHandles.gtk_pad_controller_set_action.invokeExact(handle(), type.getValue(), index, mode, Interop.allocateNativeString(label), Interop.allocateNativeString(actionName));
+            DowncallHandles.gtk_pad_controller_set_action.invokeExact(
+                    handle(),
+                    type.getValue(),
+                    index,
+                    mode,
+                    Interop.allocateNativeString(label),
+                    Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,7 +169,10 @@ public class PadController extends org.gtk.gtk.EventController {
     public void setActionEntries(org.gtk.gtk.PadActionEntry[] entries, int nEntries) {
         java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
         try {
-            DowncallHandles.gtk_pad_controller_set_action_entries.invokeExact(handle(), Interop.allocateNativeArray(entries, false), nEntries);
+            DowncallHandles.gtk_pad_controller_set_action_entries.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(entries, false),
+                    nEntries);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

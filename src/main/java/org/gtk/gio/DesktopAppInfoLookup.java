@@ -12,6 +12,21 @@ import org.jetbrains.annotations.*;
 public interface DesktopAppInfoLookup extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to DesktopAppInfoLookup if its GType is a (or inherits from) "GDesktopAppInfoLookup".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DesktopAppInfoLookup" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GDesktopAppInfoLookup", a ClassCastException will be thrown.
+     */
+    public static DesktopAppInfoLookup castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDesktopAppInfoLookup"))) {
+            return new DesktopAppInfoLookupImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDesktopAppInfoLookup");
+        }
+    }
+    
+    /**
      * Gets the default application for launching applications
      * using this URI scheme for a particular {@link DesktopAppInfoLookup}
      * implementation.
@@ -31,7 +46,9 @@ public interface DesktopAppInfoLookup extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(uriScheme, "Parameter 'uriScheme' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_lookup_get_default_for_uri_scheme.invokeExact(handle(), Interop.allocateNativeString(uriScheme));
+            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_lookup_get_default_for_uri_scheme.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(uriScheme));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

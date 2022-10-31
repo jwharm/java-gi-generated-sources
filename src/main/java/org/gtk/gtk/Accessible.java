@@ -27,13 +27,29 @@ import org.jetbrains.annotations.*;
 public interface Accessible extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to Accessible if its GType is a (or inherits from) "GtkAccessible".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Accessible" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkAccessible", a ClassCastException will be thrown.
+     */
+    public static Accessible castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkAccessible"))) {
+            return new AccessibleImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkAccessible");
+        }
+    }
+    
+    /**
      * Retrieves the {@code GtkAccessibleRole} for the given {@code GtkAccessible}.
      * @return a {@code GtkAccessibleRole}
      */
     default @NotNull org.gtk.gtk.AccessibleRole getAccessibleRole() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_accessible_get_accessible_role.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_accessible_get_accessible_role.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -47,7 +63,9 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
     default void resetProperty(@NotNull org.gtk.gtk.AccessibleProperty property) {
         java.util.Objects.requireNonNull(property, "Parameter 'property' must not be null");
         try {
-            DowncallHandles.gtk_accessible_reset_property.invokeExact(handle(), property.getValue());
+            DowncallHandles.gtk_accessible_reset_property.invokeExact(
+                    handle(),
+                    property.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -60,7 +78,9 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
     default void resetRelation(@NotNull org.gtk.gtk.AccessibleRelation relation) {
         java.util.Objects.requireNonNull(relation, "Parameter 'relation' must not be null");
         try {
-            DowncallHandles.gtk_accessible_reset_relation.invokeExact(handle(), relation.getValue());
+            DowncallHandles.gtk_accessible_reset_relation.invokeExact(
+                    handle(),
+                    relation.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,7 +93,9 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
     default void resetState(@NotNull org.gtk.gtk.AccessibleState state) {
         java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
         try {
-            DowncallHandles.gtk_accessible_reset_state.invokeExact(handle(), state.getValue());
+            DowncallHandles.gtk_accessible_reset_state.invokeExact(
+                    handle(),
+                    state.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,7 +139,11 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(properties, "Parameter 'properties' must not be null");
         java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
         try {
-            DowncallHandles.gtk_accessible_update_property_value.invokeExact(handle(), nProperties, Interop.allocateNativeArray(org.gtk.gtk.AccessibleProperty.getValues(properties), false), Interop.allocateNativeArray(values, false));
+            DowncallHandles.gtk_accessible_update_property_value.invokeExact(
+                    handle(),
+                    nProperties,
+                    Interop.allocateNativeArray(org.gtk.gtk.AccessibleProperty.getValues(properties), false),
+                    Interop.allocateNativeArray(values, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,7 +186,11 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(relations, "Parameter 'relations' must not be null");
         java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
         try {
-            DowncallHandles.gtk_accessible_update_relation_value.invokeExact(handle(), nRelations, Interop.allocateNativeArray(org.gtk.gtk.AccessibleRelation.getValues(relations), false), Interop.allocateNativeArray(values, false));
+            DowncallHandles.gtk_accessible_update_relation_value.invokeExact(
+                    handle(),
+                    nRelations,
+                    Interop.allocateNativeArray(org.gtk.gtk.AccessibleRelation.getValues(relations), false),
+                    Interop.allocateNativeArray(values, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -201,7 +231,11 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(states, "Parameter 'states' must not be null");
         java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
         try {
-            DowncallHandles.gtk_accessible_update_state_value.invokeExact(handle(), nStates, Interop.allocateNativeArray(org.gtk.gtk.AccessibleState.getValues(states), false), Interop.allocateNativeArray(values, false));
+            DowncallHandles.gtk_accessible_update_state_value.invokeExact(
+                    handle(),
+                    nStates,
+                    Interop.allocateNativeArray(org.gtk.gtk.AccessibleState.getValues(states), false),
+                    Interop.allocateNativeArray(values, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

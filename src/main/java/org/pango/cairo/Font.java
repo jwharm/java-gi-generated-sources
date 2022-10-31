@@ -16,6 +16,21 @@ import org.jetbrains.annotations.*;
 public interface Font extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to Font if its GType is a (or inherits from) "PangoCairoFont".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Font" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "PangoCairoFont", a ClassCastException will be thrown.
+     */
+    public static Font castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoCairoFont"))) {
+            return new FontImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of PangoCairoFont");
+        }
+    }
+    
+    /**
      * Gets the {@code cairo_scaled_font_t} used by {@code font}.
      * The scaled font can be referenced and kept using
      * cairo_scaled_font_reference().
@@ -25,7 +40,8 @@ public interface Font extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.cairographics.ScaledFont getScaledFont() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_cairo_font_get_scaled_font.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_cairo_font_get_scaled_font.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

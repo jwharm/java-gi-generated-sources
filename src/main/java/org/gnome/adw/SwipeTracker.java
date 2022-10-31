@@ -24,28 +24,42 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwSwipeTracker";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public SwipeTracker(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to SwipeTracker */
+    /**
+     * Cast object to SwipeTracker if its GType is a (or inherits from) "AdwSwipeTracker".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "SwipeTracker" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwSwipeTracker", a ClassCastException will be thrown.
+     */
     public static SwipeTracker castFrom(org.gtk.gobject.Object gobject) {
-        return new SwipeTracker(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwSwipeTracker"))) {
+            return new SwipeTracker(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwSwipeTracker");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gnome.adw.Swipeable swipeable) {
         java.util.Objects.requireNonNull(swipeable, "Parameter 'swipeable' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_swipe_tracker_new.invokeExact(swipeable.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_swipe_tracker_new.invokeExact(
+                    swipeable.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,7 +81,8 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     public boolean getAllowLongSwipes() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_swipe_tracker_get_allow_long_swipes.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_swipe_tracker_get_allow_long_swipes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -81,7 +96,8 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     public boolean getAllowMouseDrag() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_swipe_tracker_get_allow_mouse_drag.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_swipe_tracker_get_allow_mouse_drag.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,7 +111,8 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     public boolean getEnabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_swipe_tracker_get_enabled.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_swipe_tracker_get_enabled.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,7 +126,8 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     public boolean getReversed() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_swipe_tracker_get_reversed.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_swipe_tracker_get_reversed.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,7 +141,8 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     public @NotNull org.gnome.adw.Swipeable getSwipeable() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_swipe_tracker_get_swipeable.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_swipe_tracker_get_swipeable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,11 +151,16 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     
     /**
      * Sets whether to allow swiping for more than one snap point at a time.
+     * <p>
+     * If the value is {@code FALSE}, each swipe can only move to the adjacent snap
+     * points.
      * @param allowLongSwipes whether to allow long swipes
      */
     public void setAllowLongSwipes(boolean allowLongSwipes) {
         try {
-            DowncallHandles.adw_swipe_tracker_set_allow_long_swipes.invokeExact(handle(), allowLongSwipes ? 1 : 0);
+            DowncallHandles.adw_swipe_tracker_set_allow_long_swipes.invokeExact(
+                    handle(),
+                    allowLongSwipes ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -148,7 +172,9 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
      */
     public void setAllowMouseDrag(boolean allowMouseDrag) {
         try {
-            DowncallHandles.adw_swipe_tracker_set_allow_mouse_drag.invokeExact(handle(), allowMouseDrag ? 1 : 0);
+            DowncallHandles.adw_swipe_tracker_set_allow_mouse_drag.invokeExact(
+                    handle(),
+                    allowMouseDrag ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -156,11 +182,16 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     
     /**
      * Sets whether {@code self} is enabled.
+     * <p>
+     * When it's not enabled, no events will be processed. Usually widgets will want
+     * to expose this via a property.
      * @param enabled whether {@code self} is enabled
      */
     public void setEnabled(boolean enabled) {
         try {
-            DowncallHandles.adw_swipe_tracker_set_enabled.invokeExact(handle(), enabled ? 1 : 0);
+            DowncallHandles.adw_swipe_tracker_set_enabled.invokeExact(
+                    handle(),
+                    enabled ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -168,11 +199,16 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     
     /**
      * Sets whether to reverse the swipe direction.
+     * <p>
+     * If the swipe tracker is horizontal, it can be used for supporting RTL text
+     * direction.
      * @param reversed whether to reverse the swipe direction
      */
     public void setReversed(boolean reversed) {
         try {
-            DowncallHandles.adw_swipe_tracker_set_reversed.invokeExact(handle(), reversed ? 1 : 0);
+            DowncallHandles.adw_swipe_tracker_set_reversed.invokeExact(
+                    handle(),
+                    reversed ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,7 +223,9 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
      */
     public void shiftPosition(double delta) {
         try {
-            DowncallHandles.adw_swipe_tracker_shift_position.invokeExact(handle(), delta);
+            DowncallHandles.adw_swipe_tracker_shift_position.invokeExact(
+                    handle(),
+                    delta);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -18,21 +18,33 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         Graphene.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "graphene_quaternion_t";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_FLOAT.withName("x"),
         ValueLayout.JAVA_FLOAT.withName("y"),
         ValueLayout.JAVA_FLOAT.withName("z"),
         ValueLayout.JAVA_FLOAT.withName("w")
-    ).withName("graphene_quaternion_t");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Quaternion allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Quaternion newInstance = new Quaternion(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Quaternion(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -62,16 +74,17 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * @param b a {@link Quaternion}
      * @param res the result of the operation
      */
-    public void add(@NotNull org.gtk.graphene.Quaternion b, @NotNull Out<org.gtk.graphene.Quaternion> res) {
+    public void add(@NotNull org.gtk.graphene.Quaternion b, @NotNull org.gtk.graphene.Quaternion res) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_quaternion_add.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_quaternion_add.invokeExact(
+                    handle(),
+                    b.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Quaternion(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -83,7 +96,9 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_quaternion_dot.invokeExact(handle(), b.handle());
+            RESULT = (float) DowncallHandles.graphene_quaternion_dot.invokeExact(
+                    handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +114,9 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_quaternion_equal.invokeExact(handle(), b.handle());
+            RESULT = (boolean) DowncallHandles.graphene_quaternion_equal.invokeExact(
+                    handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,7 +128,8 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_quaternion_free.invokeExact(handle());
+            DowncallHandles.graphene_quaternion_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -128,7 +146,12 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Quaternion init(float x, float y, float z, float w) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init.invokeExact(handle(), x, y, z, w);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init.invokeExact(
+                    handle(),
+                    x,
+                    y,
+                    z,
+                    w);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,7 +169,10 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(axis, "Parameter 'axis' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_from_angle_vec3.invokeExact(handle(), angle, axis.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_from_angle_vec3.invokeExact(
+                    handle(),
+                    angle,
+                    axis.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,7 +193,11 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Quaternion initFromAngles(float degX, float degY, float degZ) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_from_angles.invokeExact(handle(), degX, degY, degZ);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_from_angles.invokeExact(
+                    handle(),
+                    degX,
+                    degY,
+                    degZ);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,7 +213,9 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(e, "Parameter 'e' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_from_euler.invokeExact(handle(), e.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_from_euler.invokeExact(
+                    handle(),
+                    e.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -200,7 +232,9 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(m, "Parameter 'm' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_from_matrix.invokeExact(handle(), m.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_from_matrix.invokeExact(
+                    handle(),
+                    m.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -216,7 +250,9 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_from_quaternion.invokeExact(handle(), src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_from_quaternion.invokeExact(
+                    handle(),
+                    src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -237,7 +273,11 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Quaternion initFromRadians(float radX, float radY, float radZ) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_from_radians.invokeExact(handle(), radX, radY, radZ);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_from_radians.invokeExact(
+                    handle(),
+                    radX,
+                    radY,
+                    radZ);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -253,7 +293,9 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_from_vec4.invokeExact(handle(), src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_from_vec4.invokeExact(
+                    handle(),
+                    src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -268,7 +310,8 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Quaternion initIdentity() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_identity.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_identity.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -281,15 +324,15 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the inverted
      *   quaternion
      */
-    public void invert(@NotNull Out<org.gtk.graphene.Quaternion> res) {
+    public void invert(@NotNull org.gtk.graphene.Quaternion res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_quaternion_invert.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_quaternion_invert.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Quaternion(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -297,16 +340,17 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * @param b a {@link Quaternion}
      * @param res the result of the operation
      */
-    public void multiply(@NotNull org.gtk.graphene.Quaternion b, @NotNull Out<org.gtk.graphene.Quaternion> res) {
+    public void multiply(@NotNull org.gtk.graphene.Quaternion b, @NotNull org.gtk.graphene.Quaternion res) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_quaternion_multiply.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_quaternion_multiply.invokeExact(
+                    handle(),
+                    b.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Quaternion(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -314,15 +358,15 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the normalized
      *   quaternion
      */
-    public void normalize(@NotNull Out<org.gtk.graphene.Quaternion> res) {
+    public void normalize(@NotNull org.gtk.graphene.Quaternion res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_quaternion_normalize.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_quaternion_normalize.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Quaternion(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -331,15 +375,16 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * @param factor a scaling factor
      * @param res the result of the operation
      */
-    public void scale(float factor, @NotNull Out<org.gtk.graphene.Quaternion> res) {
+    public void scale(float factor, @NotNull org.gtk.graphene.Quaternion res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_quaternion_scale.invokeExact(handle(), factor, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_quaternion_scale.invokeExact(
+                    handle(),
+                    factor,
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Quaternion(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -351,16 +396,18 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the interpolated
      *   quaternion
      */
-    public void slerp(@NotNull org.gtk.graphene.Quaternion b, float factor, @NotNull Out<org.gtk.graphene.Quaternion> res) {
+    public void slerp(@NotNull org.gtk.graphene.Quaternion b, float factor, @NotNull org.gtk.graphene.Quaternion res) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_quaternion_slerp.invokeExact(handle(), b.handle(), factor, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_quaternion_slerp.invokeExact(
+                    handle(),
+                    b.handle(),
+                    factor,
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Quaternion(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -368,18 +415,19 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * @param angle return location for the angle, in degrees
      * @param axis return location for the rotation axis
      */
-    public void toAngleVec3(Out<Float> angle, @NotNull Out<org.gtk.graphene.Vec3> axis) {
+    public void toAngleVec3(Out<Float> angle, @NotNull org.gtk.graphene.Vec3 axis) {
         java.util.Objects.requireNonNull(angle, "Parameter 'angle' must not be null");
         java.util.Objects.requireNonNull(axis, "Parameter 'axis' must not be null");
         MemorySegment anglePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
-        MemorySegment axisPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_quaternion_to_angle_vec3.invokeExact(handle(), (Addressable) anglePOINTER.address(), (Addressable) axisPOINTER.address());
+            DowncallHandles.graphene_quaternion_to_angle_vec3.invokeExact(
+                    handle(),
+                    (Addressable) anglePOINTER.address(),
+                    axis.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         angle.set(anglePOINTER.get(ValueLayout.JAVA_FLOAT, 0));
-        axis.set(new org.gtk.graphene.Vec3(Refcounted.get(axisPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -401,7 +449,11 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment degYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
         MemorySegment degZPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
         try {
-            DowncallHandles.graphene_quaternion_to_angles.invokeExact(handle(), (Addressable) degXPOINTER.address(), (Addressable) degYPOINTER.address(), (Addressable) degZPOINTER.address());
+            DowncallHandles.graphene_quaternion_to_angles.invokeExact(
+                    handle(),
+                    (Addressable) degXPOINTER.address(),
+                    (Addressable) degYPOINTER.address(),
+                    (Addressable) degZPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -415,15 +467,15 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * the rotation defined by the {@link Quaternion}.
      * @param m a {@link Matrix}
      */
-    public void toMatrix(@NotNull Out<org.gtk.graphene.Matrix> m) {
+    public void toMatrix(@NotNull org.gtk.graphene.Matrix m) {
         java.util.Objects.requireNonNull(m, "Parameter 'm' must not be null");
-        MemorySegment mPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_quaternion_to_matrix.invokeExact(handle(), (Addressable) mPOINTER.address());
+            DowncallHandles.graphene_quaternion_to_matrix.invokeExact(
+                    handle(),
+                    m.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        m.set(new org.gtk.graphene.Matrix(Refcounted.get(mPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -445,7 +497,11 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment radYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
         MemorySegment radZPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
         try {
-            DowncallHandles.graphene_quaternion_to_radians.invokeExact(handle(), (Addressable) radXPOINTER.address(), (Addressable) radYPOINTER.address(), (Addressable) radZPOINTER.address());
+            DowncallHandles.graphene_quaternion_to_radians.invokeExact(
+                    handle(),
+                    (Addressable) radXPOINTER.address(),
+                    (Addressable) radYPOINTER.address(),
+                    (Addressable) radZPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -460,15 +516,15 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for a
      *   {@link Vec4}
      */
-    public void toVec4(@NotNull Out<org.gtk.graphene.Vec4> res) {
+    public void toVec4(@NotNull org.gtk.graphene.Vec4 res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_quaternion_to_vec4.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_quaternion_to_vec4.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     private static class DowncallHandles {

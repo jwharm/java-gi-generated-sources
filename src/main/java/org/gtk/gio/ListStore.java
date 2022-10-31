@@ -18,28 +18,42 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GListStore";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ListStore(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ListStore */
+    /**
+     * Cast object to ListStore if its GType is a (or inherits from) "GListStore".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ListStore" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GListStore", a ClassCastException will be thrown.
+     */
     public static ListStore castFrom(org.gtk.gobject.Object gobject) {
-        return new ListStore(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GListStore"))) {
+            return new ListStore(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GListStore");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.glib.Type itemType) {
         java.util.Objects.requireNonNull(itemType, "Parameter 'itemType' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_list_store_new.invokeExact(itemType.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_list_store_new.invokeExact(
+                    itemType.getValue().longValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,7 +81,9 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
     public void append(@NotNull org.gtk.gobject.Object item) {
         java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
         try {
-            DowncallHandles.g_list_store_append.invokeExact(handle(), item.handle());
+            DowncallHandles.g_list_store_append.invokeExact(
+                    handle(),
+                    item.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,7 +107,10 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
         MemorySegment positionPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_list_store_find.invokeExact(handle(), item.handle(), (Addressable) positionPOINTER.address());
+            RESULT = (int) DowncallHandles.g_list_store_find.invokeExact(
+                    handle(),
+                    item.handle(),
+                    (Addressable) positionPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,7 +148,10 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
     public void insert(int position, @NotNull org.gtk.gobject.Object item) {
         java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
         try {
-            DowncallHandles.g_list_store_insert.invokeExact(handle(), position, item.handle());
+            DowncallHandles.g_list_store_insert.invokeExact(
+                    handle(),
+                    position,
+                    item.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,13 +175,15 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
         java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_list_store_insert_sorted.invokeExact(handle(), item.handle(), 
+            RESULT = (int) DowncallHandles.g_list_store_insert_sorted.invokeExact(
+                    handle(),
+                    item.handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(compareFunc)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(compareFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -176,7 +200,9 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
      */
     public void remove(int position) {
         try {
-            DowncallHandles.g_list_store_remove.invokeExact(handle(), position);
+            DowncallHandles.g_list_store_remove.invokeExact(
+                    handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,7 +213,8 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
      */
     public void removeAll() {
         try {
-            DowncallHandles.g_list_store_remove_all.invokeExact(handle());
+            DowncallHandles.g_list_store_remove_all.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -200,13 +227,14 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
     public void sort(@NotNull org.gtk.glib.CompareDataFunc compareFunc) {
         java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
         try {
-            DowncallHandles.g_list_store_sort.invokeExact(handle(), 
+            DowncallHandles.g_list_store_sort.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(compareFunc)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(compareFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -234,7 +262,12 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
     public void splice(int position, int nRemovals, org.gtk.gobject.Object[] additions, int nAdditions) {
         java.util.Objects.requireNonNull(additions, "Parameter 'additions' must not be null");
         try {
-            DowncallHandles.g_list_store_splice.invokeExact(handle(), position, nRemovals, Interop.allocateNativeArray(additions, false), nAdditions);
+            DowncallHandles.g_list_store_splice.invokeExact(
+                    handle(),
+                    position,
+                    nRemovals,
+                    Interop.allocateNativeArray(additions, false),
+                    nAdditions);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

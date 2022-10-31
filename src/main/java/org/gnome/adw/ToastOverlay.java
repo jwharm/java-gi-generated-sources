@@ -22,7 +22,9 @@ import org.jetbrains.annotations.*;
  * toastoverlay
  * ├── [child]
  * ├── toast
- * ┊   ├── label.heading
+ * ┊   ├── widget
+ * ┊   │   ├── [label.heading]
+ *     │   ╰── [custom title]
  *     ├── [button]
  *     ╰── button.circular.flat
  * }</pre>
@@ -30,9 +32,12 @@ import org.jetbrains.annotations.*;
  * {@code AdwToastOverlay}'s CSS node is called {@code toastoverlay}. It contains the child,
  * as well as zero or more {@code toast} subnodes.
  * <p>
- * Each of the {@code toast} nodes contains a {@code label} subnode with the {@code .heading}
- * style class, optionally a {@code button} subnode, and another {@code button} subnode with
- * {@code .circular} and {@code .flat} style classes.
+ * Each of the {@code toast} nodes contains a {@code widget} subnode, optionally a {@code button}
+ * subnode, and another {@code button} subnode with {@code .circular} and {@code .flat} style
+ * classes.
+ * <p>
+ * The {@code widget} subnode contains a {@code label} subnode with the {@code .heading} style
+ * class, or a custom widget provided by the application.
  * <p>
  * <strong>Accessibility</strong><br/>
  * {@code AdwToastOverlay} uses the {@code GTK_ACCESSIBLE_ROLE_TAB_GROUP} role.
@@ -44,21 +49,34 @@ public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwToastOverlay";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ToastOverlay(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ToastOverlay */
+    /**
+     * Cast object to ToastOverlay if its GType is a (or inherits from) "AdwToastOverlay".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ToastOverlay" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwToastOverlay", a ClassCastException will be thrown.
+     */
     public static ToastOverlay castFrom(org.gtk.gobject.Object gobject) {
-        return new ToastOverlay(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwToastOverlay"))) {
+            return new ToastOverlay(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwToastOverlay");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -84,12 +102,19 @@ public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * Only one toast can be shown at a time; if a toast is already being displayed,
      * either {@code toast} or the original toast will be placed in a queue, depending on
      * the priority of {@code toast}. See {@code Toast:priority}.
+     * <p>
+     * If called on a toast that's already displayed, its timeout will be reset.
+     * <p>
+     * If called on a toast currently in the queue, the toast will be bumped
+     * forward to be shown as soon as possible.
      * @param toast a toast
      */
     public void addToast(@NotNull org.gnome.adw.Toast toast) {
         java.util.Objects.requireNonNull(toast, "Parameter 'toast' must not be null");
         try {
-            DowncallHandles.adw_toast_overlay_add_toast.invokeExact(handle(), toast.refcounted().unowned().handle());
+            DowncallHandles.adw_toast_overlay_add_toast.invokeExact(
+                    handle(),
+                    toast.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,7 +127,8 @@ public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_toast_overlay_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_toast_overlay_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,9 +140,10 @@ public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * @param child the child widget
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_toast_overlay_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.adw_toast_overlay_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

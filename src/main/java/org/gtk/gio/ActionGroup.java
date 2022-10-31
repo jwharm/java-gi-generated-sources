@@ -55,6 +55,21 @@ import org.jetbrains.annotations.*;
 public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to ActionGroup if its GType is a (or inherits from) "GActionGroup".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ActionGroup" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GActionGroup", a ClassCastException will be thrown.
+     */
+    public static ActionGroup castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GActionGroup"))) {
+            return new ActionGroupImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GActionGroup");
+        }
+    }
+    
+    /**
      * Emits the {@link ActionGroup}::action-added signal on {@code action_group}.
      * <p>
      * This function should only be called by {@link ActionGroup} implementations.
@@ -63,7 +78,9 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
     default void actionAdded(@NotNull java.lang.String actionName) {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         try {
-            DowncallHandles.g_action_group_action_added.invokeExact(handle(), Interop.allocateNativeString(actionName));
+            DowncallHandles.g_action_group_action_added.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,7 +96,10 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
     default void actionEnabledChanged(@NotNull java.lang.String actionName, boolean enabled) {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         try {
-            DowncallHandles.g_action_group_action_enabled_changed.invokeExact(handle(), Interop.allocateNativeString(actionName), enabled ? 1 : 0);
+            DowncallHandles.g_action_group_action_enabled_changed.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName),
+                    enabled ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,7 +114,9 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
     default void actionRemoved(@NotNull java.lang.String actionName) {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         try {
-            DowncallHandles.g_action_group_action_removed.invokeExact(handle(), Interop.allocateNativeString(actionName));
+            DowncallHandles.g_action_group_action_removed.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,7 +133,10 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
         try {
-            DowncallHandles.g_action_group_action_state_changed.invokeExact(handle(), Interop.allocateNativeString(actionName), state.handle());
+            DowncallHandles.g_action_group_action_state_changed.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName),
+                    state.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,9 +180,11 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      */
     default void activateAction(@NotNull java.lang.String actionName, @Nullable org.gtk.glib.Variant parameter) {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
-        java.util.Objects.requireNonNullElse(parameter, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_action_group_activate_action.invokeExact(handle(), Interop.allocateNativeString(actionName), parameter.handle());
+            DowncallHandles.g_action_group_activate_action.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName),
+                    (Addressable) (parameter == null ? MemoryAddress.NULL : parameter.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,7 +209,10 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.g_action_group_change_action_state.invokeExact(handle(), Interop.allocateNativeString(actionName), value.handle());
+            DowncallHandles.g_action_group_change_action_state.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -200,7 +230,9 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_action_group_get_action_enabled.invokeExact(handle(), Interop.allocateNativeString(actionName));
+            RESULT = (int) DowncallHandles.g_action_group_get_action_enabled.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -228,7 +260,9 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_action_group_get_action_parameter_type.invokeExact(handle(), Interop.allocateNativeString(actionName));
+            RESULT = (MemoryAddress) DowncallHandles.g_action_group_get_action_parameter_type.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -251,7 +285,9 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_action_group_get_action_state.invokeExact(handle(), Interop.allocateNativeString(actionName));
+            RESULT = (MemoryAddress) DowncallHandles.g_action_group_get_action_state.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -284,7 +320,9 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_action_group_get_action_state_hint.invokeExact(handle(), Interop.allocateNativeString(actionName));
+            RESULT = (MemoryAddress) DowncallHandles.g_action_group_get_action_state_hint.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -315,7 +353,9 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_action_group_get_action_state_type.invokeExact(handle(), Interop.allocateNativeString(actionName));
+            RESULT = (MemoryAddress) DowncallHandles.g_action_group_get_action_state_type.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -331,7 +371,9 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_action_group_has_action.invokeExact(handle(), Interop.allocateNativeString(actionName));
+            RESULT = (int) DowncallHandles.g_action_group_has_action.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -349,7 +391,8 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
     default @NotNull PointerString listActions() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_action_group_list_actions.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_action_group_list_actions.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -392,7 +435,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      * @param state the current state, or {@code null} if stateless
      * @return {@code true} if the action exists, else {@code false}
      */
-    default boolean queryAction(@NotNull java.lang.String actionName, Out<Boolean> enabled, @NotNull Out<org.gtk.glib.VariantType> parameterType, @NotNull Out<org.gtk.glib.VariantType> stateType, @NotNull Out<org.gtk.glib.Variant> stateHint, @NotNull Out<org.gtk.glib.Variant> state) {
+    default boolean queryAction(@NotNull java.lang.String actionName, Out<Boolean> enabled, @NotNull PointerProxy<org.gtk.glib.VariantType> parameterType, @NotNull PointerProxy<org.gtk.glib.VariantType> stateType, @NotNull PointerProxy<org.gtk.glib.Variant> stateHint, @NotNull PointerProxy<org.gtk.glib.Variant> state) {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         java.util.Objects.requireNonNull(enabled, "Parameter 'enabled' must not be null");
         java.util.Objects.requireNonNull(parameterType, "Parameter 'parameterType' must not be null");
@@ -400,21 +443,20 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(stateHint, "Parameter 'stateHint' must not be null");
         java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
         MemorySegment enabledPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment parameterTypePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment stateTypePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment stateHintPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment statePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_action_group_query_action.invokeExact(handle(), Interop.allocateNativeString(actionName), (Addressable) enabledPOINTER.address(), (Addressable) parameterTypePOINTER.address(), (Addressable) stateTypePOINTER.address(), (Addressable) stateHintPOINTER.address(), (Addressable) statePOINTER.address());
+            RESULT = (int) DowncallHandles.g_action_group_query_action.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName),
+                    (Addressable) enabledPOINTER.address(),
+                    parameterType.handle(),
+                    stateType.handle(),
+                    stateHint.handle(),
+                    state.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         enabled.set(enabledPOINTER.get(ValueLayout.JAVA_INT, 0) != 0);
-        parameterType.set(new org.gtk.glib.VariantType(Refcounted.get(parameterTypePOINTER.get(ValueLayout.ADDRESS, 0), true)));
-        stateType.set(new org.gtk.glib.VariantType(Refcounted.get(stateTypePOINTER.get(ValueLayout.ADDRESS, 0), true)));
-        stateHint.set(new org.gtk.glib.Variant(Refcounted.get(stateHintPOINTER.get(ValueLayout.ADDRESS, 0), true)));
-        state.set(new org.gtk.glib.Variant(Refcounted.get(statePOINTER.get(ValueLayout.ADDRESS, 0), true)));
         return RESULT != 0;
     }
     
@@ -620,25 +662,25 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
         public static void signalActionGroupActionAdded(MemoryAddress source, MemoryAddress actionName, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ActionGroup.ActionAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(Refcounted.get(source)), actionName.getUtf8String(0));
+            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(Refcounted.get(source)), Interop.getStringFrom(actionName));
         }
         
         public static void signalActionGroupActionEnabledChanged(MemoryAddress source, MemoryAddress actionName, int enabled, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ActionGroup.ActionEnabledChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(Refcounted.get(source)), actionName.getUtf8String(0), enabled != 0);
+            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(Refcounted.get(source)), Interop.getStringFrom(actionName), enabled != 0);
         }
         
         public static void signalActionGroupActionRemoved(MemoryAddress source, MemoryAddress actionName, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ActionGroup.ActionRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(Refcounted.get(source)), actionName.getUtf8String(0));
+            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(Refcounted.get(source)), Interop.getStringFrom(actionName));
         }
         
         public static void signalActionGroupActionStateChanged(MemoryAddress source, MemoryAddress actionName, MemoryAddress value, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ActionGroup.ActionStateChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(Refcounted.get(source)), actionName.getUtf8String(0), new org.gtk.glib.Variant(Refcounted.get(value, false)));
+            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(Refcounted.get(source)), Interop.getStringFrom(actionName), new org.gtk.glib.Variant(Refcounted.get(value, false)));
         }
     }
     

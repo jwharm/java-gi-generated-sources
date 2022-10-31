@@ -23,6 +23,21 @@ import org.jetbrains.annotations.*;
 public interface Buildable extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to Buildable if its GType is a (or inherits from) "GtkBuildable".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Buildable" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkBuildable", a ClassCastException will be thrown.
+     */
+    public static Buildable castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkBuildable"))) {
+            return new BuildableImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkBuildable");
+        }
+    }
+    
+    /**
      * Gets the ID of the {@code buildable} object.
      * <p>
      * {@code GtkBuilder} sets the name based on the ID attribute
@@ -32,11 +47,12 @@ public interface Buildable extends io.github.jwharm.javagi.Proxy {
     default @Nullable java.lang.String getBuildableId() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_buildable_get_buildable_id.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_buildable_get_buildable_id.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     @ApiStatus.Internal

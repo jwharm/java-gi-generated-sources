@@ -19,26 +19,48 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkIMMulticontext";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.IMContext.getMemoryLayout().withName("object"),
-        org.gtk.gtk.IMMulticontextPrivate.getMemoryLayout().withName("priv")
-    ).withName("GtkIMMulticontext");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code object}
+     * @return The value of the field {@code object}
+     */
+    public org.gtk.gtk.IMContext object$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("object"));
+        return new org.gtk.gtk.IMContext(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public IMMulticontext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to IMMulticontext */
+    /**
+     * Cast object to IMMulticontext if its GType is a (or inherits from) "GtkIMMulticontext".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "IMMulticontext" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkIMMulticontext", a ClassCastException will be thrown.
+     */
     public static IMMulticontext castFrom(org.gtk.gobject.Object gobject) {
-        return new IMMulticontext(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkIMMulticontext"))) {
+            return new IMMulticontext(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkIMMulticontext");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -65,11 +87,12 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
     public @NotNull java.lang.String getContextId() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_im_multicontext_get_context_id.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_im_multicontext_get_context_id.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -84,9 +107,10 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
      * @param contextId the id to use
      */
     public void setContextId(@Nullable java.lang.String contextId) {
-        java.util.Objects.requireNonNullElse(contextId, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_im_multicontext_set_context_id.invokeExact(handle(), Interop.allocateNativeString(contextId));
+            DowncallHandles.gtk_im_multicontext_set_context_id.invokeExact(
+                    handle(),
+                    (Addressable) (contextId == null ? MemoryAddress.NULL : Interop.allocateNativeString(contextId)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

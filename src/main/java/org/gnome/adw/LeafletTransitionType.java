@@ -13,13 +13,7 @@ import org.jetbrains.annotations.*;
  */
 public class LeafletTransitionType extends io.github.jwharm.javagi.Enumeration {
     
-    /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
-     */
-    public static MemoryLayout getMemoryLayout() {
-        return Interop.valueLayout.ADDRESS;
-    }
+    private static final java.lang.String C_TYPE_NAME = "AdwLeafletTransitionType";
     
     /**
      * Cover the old page or uncover the new page, sliding from or towards the end according to orientation, text direction and children order

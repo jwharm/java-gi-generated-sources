@@ -21,21 +21,34 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwClampScrollable";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ClampScrollable(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ClampScrollable */
+    /**
+     * Cast object to ClampScrollable if its GType is a (or inherits from) "AdwClampScrollable".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ClampScrollable" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwClampScrollable", a ClassCastException will be thrown.
+     */
     public static ClampScrollable castFrom(org.gtk.gobject.Object gobject) {
-        return new ClampScrollable(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwClampScrollable"))) {
+            return new ClampScrollable(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwClampScrollable");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -62,7 +75,8 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_clamp_scrollable_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_clamp_scrollable_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,7 +90,8 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     public int getMaximumSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_clamp_scrollable_get_maximum_size.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_clamp_scrollable_get_maximum_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +105,8 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     public int getTighteningThreshold() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_clamp_scrollable_get_tightening_threshold.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_clamp_scrollable_get_tightening_threshold.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,9 +118,10 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      * @param child the child widget
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_clamp_scrollable_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.adw_clamp_scrollable_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,11 +129,15 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     
     /**
      * Sets the maximum size allocated to the child.
+     * <p>
+     * It is the width if the clamp is horizontal, or the height if it is vertical.
      * @param maximumSize the maximum size
      */
     public void setMaximumSize(int maximumSize) {
         try {
-            DowncallHandles.adw_clamp_scrollable_set_maximum_size.invokeExact(handle(), maximumSize);
+            DowncallHandles.adw_clamp_scrollable_set_maximum_size.invokeExact(
+                    handle(),
+                    maximumSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,11 +145,26 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     
     /**
      * Sets the size above which the child is clamped.
+     * <p>
+     * Starting from this size, the clamp will tighten its grip on the child, slowly
+     * allocating less and less of the available size up to the maximum allocated
+     * size. Below that threshold and below the maximum width, the child will be
+     * allocated all the available size.
+     * <p>
+     * If the threshold is greater than the maximum size to allocate to the child,
+     * the child will be allocated all the width up to the maximum. If the threshold
+     * is lower than the minimum size to allocate to the child, that size will be
+     * used as the tightening threshold.
+     * <p>
+     * Effectively, tightening the grip on the child before it reaches its maximum
+     * size makes transitions to and from the maximum size smoother when resizing.
      * @param tighteningThreshold the tightening threshold
      */
     public void setTighteningThreshold(int tighteningThreshold) {
         try {
-            DowncallHandles.adw_clamp_scrollable_set_tightening_threshold.invokeExact(handle(), tighteningThreshold);
+            DowncallHandles.adw_clamp_scrollable_set_tightening_threshold.invokeExact(
+                    handle(),
+                    tighteningThreshold);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -78,28 +78,42 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkPaned";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Paned(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Paned */
+    /**
+     * Cast object to Paned if its GType is a (or inherits from) "GtkPaned".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Paned" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkPaned", a ClassCastException will be thrown.
+     */
     public static Paned castFrom(org.gtk.gobject.Object gobject) {
-        return new Paned(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPaned"))) {
+            return new Paned(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkPaned");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gtk.Orientation orientation) {
         java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_paned_new.invokeExact(orientation.getValue()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_paned_new.invokeExact(
+                    orientation.getValue()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,7 +135,8 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable org.gtk.gtk.Widget getEndChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_paned_get_end_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_paned_get_end_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,7 +150,8 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public int getPosition() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_paned_get_position.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_paned_get_position.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,7 +165,8 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getResizeEndChild() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_paned_get_resize_end_child.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_paned_get_resize_end_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -163,7 +180,8 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getResizeStartChild() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_paned_get_resize_start_child.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_paned_get_resize_start_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,7 +195,8 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getShrinkEndChild() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_paned_get_shrink_end_child.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_paned_get_shrink_end_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -191,7 +210,8 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getShrinkStartChild() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_paned_get_shrink_start_child.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_paned_get_shrink_start_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,7 +225,8 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable org.gtk.gtk.Widget getStartChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_paned_get_start_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_paned_get_start_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,7 +240,8 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getWideHandle() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_paned_get_wide_handle.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_paned_get_wide_handle.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -233,9 +255,10 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param child the widget to add
      */
     public void setEndChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_paned_set_end_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_paned_set_end_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -248,7 +271,9 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setPosition(int position) {
         try {
-            DowncallHandles.gtk_paned_set_position.invokeExact(handle(), position);
+            DowncallHandles.gtk_paned_set_position.invokeExact(
+                    handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -260,7 +285,9 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setResizeEndChild(boolean resize) {
         try {
-            DowncallHandles.gtk_paned_set_resize_end_child.invokeExact(handle(), resize ? 1 : 0);
+            DowncallHandles.gtk_paned_set_resize_end_child.invokeExact(
+                    handle(),
+                    resize ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -272,7 +299,9 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setResizeStartChild(boolean resize) {
         try {
-            DowncallHandles.gtk_paned_set_resize_start_child.invokeExact(handle(), resize ? 1 : 0);
+            DowncallHandles.gtk_paned_set_resize_start_child.invokeExact(
+                    handle(),
+                    resize ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -284,7 +313,9 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setShrinkEndChild(boolean resize) {
         try {
-            DowncallHandles.gtk_paned_set_shrink_end_child.invokeExact(handle(), resize ? 1 : 0);
+            DowncallHandles.gtk_paned_set_shrink_end_child.invokeExact(
+                    handle(),
+                    resize ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -296,7 +327,9 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setShrinkStartChild(boolean resize) {
         try {
-            DowncallHandles.gtk_paned_set_shrink_start_child.invokeExact(handle(), resize ? 1 : 0);
+            DowncallHandles.gtk_paned_set_shrink_start_child.invokeExact(
+                    handle(),
+                    resize ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -309,9 +342,10 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param child the widget to add
      */
     public void setStartChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_paned_set_start_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_paned_set_start_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -323,7 +357,9 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setWideHandle(boolean wide) {
         try {
-            DowncallHandles.gtk_paned_set_wide_handle.invokeExact(handle(), wide ? 1 : 0);
+            DowncallHandles.gtk_paned_set_wide_handle.invokeExact(
+                    handle(),
+                    wide ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

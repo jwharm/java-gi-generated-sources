@@ -58,25 +58,47 @@ public class Animation extends org.gtk.gobject.Object {
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwAnimation";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName("AdwAnimation");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Animation(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Animation */
+    /**
+     * Cast object to Animation if its GType is a (or inherits from) "AdwAnimation".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Animation" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwAnimation", a ClassCastException will be thrown.
+     */
     public static Animation castFrom(org.gtk.gobject.Object gobject) {
-        return new Animation(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwAnimation"))) {
+            return new Animation(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwAnimation");
+        }
     }
     
     /**
@@ -89,7 +111,8 @@ public class Animation extends org.gtk.gobject.Object {
     public @NotNull org.gnome.adw.AnimationState getState() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_animation_get_state.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_animation_get_state.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,7 +126,8 @@ public class Animation extends org.gtk.gobject.Object {
     public @NotNull org.gnome.adw.AnimationTarget getTarget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_animation_get_target.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_animation_get_target.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,7 +141,8 @@ public class Animation extends org.gtk.gobject.Object {
     public double getValue() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_animation_get_value.invokeExact(handle());
+            RESULT = (double) DowncallHandles.adw_animation_get_value.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,12 +151,20 @@ public class Animation extends org.gtk.gobject.Object {
     
     /**
      * Gets the widget {@code self} was created for.
+     * <p>
+     * It provides the frame clock for the animation. It's not strictly necessary
+     * for this widget to be same as the one being animated.
+     * <p>
+     * The widget must be mapped in order for the animation to work. If it's not
+     * mapped, or if it gets unmapped during an ongoing animation, the animation
+     * will be automatically skipped.
      * @return the animation widget
      */
     public @NotNull org.gtk.gtk.Widget getWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_animation_get_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_animation_get_widget.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -147,7 +180,8 @@ public class Animation extends org.gtk.gobject.Object {
      */
     public void pause() {
         try {
-            DowncallHandles.adw_animation_pause.invokeExact(handle());
+            DowncallHandles.adw_animation_pause.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -172,7 +206,8 @@ public class Animation extends org.gtk.gobject.Object {
      */
     public void play() {
         try {
-            DowncallHandles.adw_animation_play.invokeExact(handle());
+            DowncallHandles.adw_animation_play.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,7 +220,8 @@ public class Animation extends org.gtk.gobject.Object {
      */
     public void reset() {
         try {
-            DowncallHandles.adw_animation_reset.invokeExact(handle());
+            DowncallHandles.adw_animation_reset.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -201,7 +237,23 @@ public class Animation extends org.gtk.gobject.Object {
      */
     public void resume() {
         try {
-            DowncallHandles.adw_animation_resume.invokeExact(handle());
+            DowncallHandles.adw_animation_resume.invokeExact(
+                    handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    /**
+     * Sets the target {@code self} animates to {@code target}.
+     * @param target an animation target
+     */
+    public void setTarget(@NotNull org.gnome.adw.AnimationTarget target) {
+        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
+        try {
+            DowncallHandles.adw_animation_set_target.invokeExact(
+                    handle(),
+                    target.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +270,8 @@ public class Animation extends org.gtk.gobject.Object {
      */
     public void skip() {
         try {
-            DowncallHandles.adw_animation_skip.invokeExact(handle());
+            DowncallHandles.adw_animation_skip.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -291,6 +344,11 @@ public class Animation extends org.gtk.gobject.Object {
         private static final MethodHandle adw_animation_resume = Interop.downcallHandle(
             "adw_animation_resume",
             FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_animation_set_target = Interop.downcallHandle(
+            "adw_animation_set_target",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
         );
         
         private static final MethodHandle adw_animation_skip = Interop.downcallHandle(

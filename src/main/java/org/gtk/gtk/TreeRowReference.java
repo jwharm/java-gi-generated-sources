@@ -16,14 +16,26 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkTreeRowReference";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static TreeRowReference allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        TreeRowReference newInstance = new TreeRowReference(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public TreeRowReference(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -33,7 +45,9 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_row_reference_new.invokeExact(model.handle(), path.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_row_reference_new.invokeExact(
+                    model.handle(),
+                    path.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -60,7 +74,10 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_row_reference_new_proxy.invokeExact(proxy.handle(), model.handle(), path.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_row_reference_new_proxy.invokeExact(
+                    proxy.handle(),
+                    model.handle(),
+                    path.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,7 +125,8 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gtk.TreeRowReference copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_row_reference_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_row_reference_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,7 +138,8 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.gtk_tree_row_reference_free.invokeExact(handle());
+            DowncallHandles.gtk_tree_row_reference_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -133,7 +152,8 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gtk.TreeModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_row_reference_get_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_row_reference_get_model.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -148,7 +168,8 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.gtk.TreePath getPath() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_row_reference_get_path.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_row_reference_get_path.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -163,7 +184,8 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
     public boolean valid() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_row_reference_valid.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_row_reference_valid.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,7 +203,9 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(proxy, "Parameter 'proxy' must not be null");
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         try {
-            DowncallHandles.gtk_tree_row_reference_deleted.invokeExact(proxy.handle(), path.handle());
+            DowncallHandles.gtk_tree_row_reference_deleted.invokeExact(
+                    proxy.handle(),
+                    path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -198,7 +222,9 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(proxy, "Parameter 'proxy' must not be null");
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         try {
-            DowncallHandles.gtk_tree_row_reference_inserted.invokeExact(proxy.handle(), path.handle());
+            DowncallHandles.gtk_tree_row_reference_inserted.invokeExact(
+                    proxy.handle(),
+                    path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,7 +245,11 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(newOrder, "Parameter 'newOrder' must not be null");
         try {
-            DowncallHandles.gtk_tree_row_reference_reordered.invokeExact(proxy.handle(), path.handle(), iter.handle(), Interop.allocateNativeArray(newOrder, false));
+            DowncallHandles.gtk_tree_row_reference_reordered.invokeExact(
+                    proxy.handle(),
+                    path.handle(),
+                    iter.handle(),
+                    Interop.allocateNativeArray(newOrder, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

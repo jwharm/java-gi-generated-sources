@@ -28,21 +28,34 @@ public class CellRendererSpin extends org.gtk.gtk.CellRendererText {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkCellRendererSpin";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public CellRendererSpin(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CellRendererSpin */
+    /**
+     * Cast object to CellRendererSpin if its GType is a (or inherits from) "GtkCellRendererSpin".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CellRendererSpin" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkCellRendererSpin", a ClassCastException will be thrown.
+     */
     public static CellRendererSpin castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRendererSpin(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellRendererSpin"))) {
+            return new CellRendererSpin(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCellRendererSpin");
+        }
     }
     
     private static Refcounted constructNew() {

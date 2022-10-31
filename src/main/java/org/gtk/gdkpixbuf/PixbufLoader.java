@@ -58,26 +58,39 @@ public class PixbufLoader extends org.gtk.gobject.Object {
         GdkPixbuf.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkPixbufLoader";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName("GdkPixbufLoader");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    @ApiStatus.Internal
     public PixbufLoader(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to PixbufLoader */
+    /**
+     * Cast object to PixbufLoader if its GType is a (or inherits from) "GdkPixbufLoader".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "PixbufLoader" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkPixbufLoader", a ClassCastException will be thrown.
+     */
     public static PixbufLoader castFrom(org.gtk.gobject.Object gobject) {
-        return new PixbufLoader(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkPixbufLoader"))) {
+            return new PixbufLoader(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkPixbufLoader");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -102,7 +115,8 @@ public class PixbufLoader extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_loader_new_with_mime_type.invokeExact(Interop.allocateNativeString(mimeType), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_loader_new_with_mime_type.invokeExact(
+                    Interop.allocateNativeString(mimeType), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,7 +155,8 @@ public class PixbufLoader extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_loader_new_with_type.invokeExact(Interop.allocateNativeString(imageType), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_loader_new_with_type.invokeExact(
+                    Interop.allocateNativeString(imageType), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -198,7 +213,8 @@ public class PixbufLoader extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_loader_close.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gdk_pixbuf_loader_close.invokeExact(
+                    handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,7 +239,8 @@ public class PixbufLoader extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdkpixbuf.PixbufAnimation getAnimation() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_loader_get_animation.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_loader_get_animation.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -238,7 +255,8 @@ public class PixbufLoader extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdkpixbuf.PixbufFormat getFormat() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_loader_get_format.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_loader_get_format.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -267,7 +285,8 @@ public class PixbufLoader extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdkpixbuf.Pixbuf getPixbuf() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_loader_get_pixbuf.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_loader_get_pixbuf.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -288,7 +307,10 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      */
     public void setSize(int width, int height) {
         try {
-            DowncallHandles.gdk_pixbuf_loader_set_size.invokeExact(handle(), width, height);
+            DowncallHandles.gdk_pixbuf_loader_set_size.invokeExact(
+                    handle(),
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -307,7 +329,10 @@ public class PixbufLoader extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_loader_write.invokeExact(handle(), Interop.allocateNativeArray(buf, false), count, (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gdk_pixbuf_loader_write.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(buf, false),
+                    count, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -329,7 +354,9 @@ public class PixbufLoader extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_loader_write_bytes.invokeExact(handle(), buffer.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gdk_pixbuf_loader_write_bytes.invokeExact(
+                    handle(),
+                    buffer.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

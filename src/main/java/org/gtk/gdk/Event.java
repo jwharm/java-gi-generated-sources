@@ -19,21 +19,34 @@ public class Event extends org.gtk.gobject.Object {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkEvent";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Event(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Event */
+    /**
+     * Cast object to Event if its GType is a (or inherits from) "GdkEvent".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Event" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkEvent", a ClassCastException will be thrown.
+     */
     public static Event castFrom(org.gtk.gobject.Object gobject) {
-        return new Event(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkEvent"))) {
+            return new Event(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkEvent");
+        }
     }
     
     /**
@@ -55,7 +68,10 @@ public class Event extends org.gtk.gobject.Object {
         MemorySegment anglePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_events_get_angle.invokeExact(handle(), event2.handle(), (Addressable) anglePOINTER.address());
+            RESULT = (int) DowncallHandles.gdk_events_get_angle.invokeExact(
+                    handle(),
+                    event2.handle(),
+                    (Addressable) anglePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -81,7 +97,11 @@ public class Event extends org.gtk.gobject.Object {
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_events_get_center.invokeExact(handle(), event2.handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            RESULT = (int) DowncallHandles.gdk_events_get_center.invokeExact(
+                    handle(),
+                    event2.handle(),
+                    (Addressable) xPOINTER.address(),
+                    (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,7 +125,10 @@ public class Event extends org.gtk.gobject.Object {
         MemorySegment distancePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_events_get_distance.invokeExact(handle(), event2.handle(), (Addressable) distancePOINTER.address());
+            RESULT = (int) DowncallHandles.gdk_events_get_distance.invokeExact(
+                    handle(),
+                    event2.handle(),
+                    (Addressable) distancePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,7 +152,10 @@ public class Event extends org.gtk.gobject.Object {
         MemorySegment nAxesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_event_get_axes.invokeExact(handle(), (Addressable) axesPOINTER.address(), (Addressable) nAxesPOINTER.address());
+            RESULT = (int) DowncallHandles.gdk_event_get_axes.invokeExact(
+                    handle(),
+                    (Addressable) axesPOINTER.address(),
+                    (Addressable) nAxesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,7 +180,10 @@ public class Event extends org.gtk.gobject.Object {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_event_get_axis.invokeExact(handle(), axisUse.getValue(), (Addressable) valuePOINTER.address());
+            RESULT = (int) DowncallHandles.gdk_event_get_axis.invokeExact(
+                    handle(),
+                    axisUse.getValue(),
+                    (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,7 +198,8 @@ public class Event extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdk.Device getDevice() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_event_get_device.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_event_get_device.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -192,7 +222,8 @@ public class Event extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdk.DeviceTool getDeviceTool() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_event_get_device_tool.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_event_get_device_tool.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -206,7 +237,8 @@ public class Event extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_event_get_display.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_event_get_display.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,7 +255,8 @@ public class Event extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.EventSequence getEventSequence() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_event_get_event_sequence.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_event_get_event_sequence.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -237,7 +270,8 @@ public class Event extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.EventType getEventType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_event_get_event_type.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_event_get_event_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -263,7 +297,9 @@ public class Event extends org.gtk.gobject.Object {
         MemorySegment outNCoordsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_event_get_history.invokeExact(handle(), (Addressable) outNCoordsPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_event_get_history.invokeExact(
+                    handle(),
+                    (Addressable) outNCoordsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -284,7 +320,8 @@ public class Event extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.ModifierType getModifierState() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_event_get_modifier_state.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_event_get_modifier_state.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -300,7 +337,8 @@ public class Event extends org.gtk.gobject.Object {
     public boolean getPointerEmulated() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_event_get_pointer_emulated.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_event_get_pointer_emulated.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -319,7 +357,10 @@ public class Event extends org.gtk.gobject.Object {
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_event_get_position.invokeExact(handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            RESULT = (int) DowncallHandles.gdk_event_get_position.invokeExact(
+                    handle(),
+                    (Addressable) xPOINTER.address(),
+                    (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -335,7 +376,8 @@ public class Event extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdk.Seat getSeat() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_event_get_seat.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_event_get_seat.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -349,7 +391,8 @@ public class Event extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdk.Surface getSurface() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_event_get_surface.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_event_get_surface.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -366,7 +409,8 @@ public class Event extends org.gtk.gobject.Object {
     public int getTime() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_event_get_time.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_event_get_time.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -380,7 +424,8 @@ public class Event extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.Event ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_event_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_event_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -400,7 +445,8 @@ public class Event extends org.gtk.gobject.Object {
     public boolean triggersContextMenu() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_event_triggers_context_menu.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_event_triggers_context_menu.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -414,7 +460,8 @@ public class Event extends org.gtk.gobject.Object {
      */
     public void unref() {
         try {
-            DowncallHandles.gdk_event_unref.invokeExact(handle());
+            DowncallHandles.gdk_event_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

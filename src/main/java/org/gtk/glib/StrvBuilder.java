@@ -24,14 +24,26 @@ public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GStrvBuilder";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static StrvBuilder allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        StrvBuilder newInstance = new StrvBuilder(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public StrvBuilder(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -45,7 +57,9 @@ public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
     public void add(@NotNull java.lang.String value) {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.g_strv_builder_add.invokeExact(handle(), Interop.allocateNativeString(value));
+            DowncallHandles.g_strv_builder_add.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,7 +83,9 @@ public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
     public void addv(java.lang.String[] value) {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.g_strv_builder_addv.invokeExact(handle(), Interop.allocateNativeArray(value, false));
+            DowncallHandles.g_strv_builder_addv.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(value, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -86,7 +102,8 @@ public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull PointerString end() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_strv_builder_end.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_strv_builder_end.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -101,7 +118,8 @@ public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.StrvBuilder ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_strv_builder_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_strv_builder_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,7 +134,8 @@ public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_strv_builder_unref.invokeExact(handle());
+            DowncallHandles.g_strv_builder_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

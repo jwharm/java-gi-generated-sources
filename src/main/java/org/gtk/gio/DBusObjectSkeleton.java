@@ -19,33 +19,47 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements org.gt
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GDBusObjectSkeleton";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.DBusObjectSkeletonPrivate.getMemoryLayout().withName("priv")
-    ).withName("GDBusObjectSkeleton");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    @ApiStatus.Internal
     public DBusObjectSkeleton(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DBusObjectSkeleton */
+    /**
+     * Cast object to DBusObjectSkeleton if its GType is a (or inherits from) "GDBusObjectSkeleton".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DBusObjectSkeleton" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GDBusObjectSkeleton", a ClassCastException will be thrown.
+     */
     public static DBusObjectSkeleton castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusObjectSkeleton(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusObjectSkeleton"))) {
+            return new DBusObjectSkeleton(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDBusObjectSkeleton");
+        }
     }
     
     private static Refcounted constructNew(@NotNull java.lang.String objectPath) {
         java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_object_skeleton_new.invokeExact(Interop.allocateNativeString(objectPath)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_object_skeleton_new.invokeExact(
+                    Interop.allocateNativeString(objectPath)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,7 +87,9 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements org.gt
     public void addInterface(@NotNull org.gtk.gio.DBusInterfaceSkeleton interface_) {
         java.util.Objects.requireNonNull(interface_, "Parameter 'interface_' must not be null");
         try {
-            DowncallHandles.g_dbus_object_skeleton_add_interface.invokeExact(handle(), interface_.handle());
+            DowncallHandles.g_dbus_object_skeleton_add_interface.invokeExact(
+                    handle(),
+                    interface_.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -86,7 +102,8 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements org.gt
      */
     public void flush() {
         try {
-            DowncallHandles.g_dbus_object_skeleton_flush.invokeExact(handle());
+            DowncallHandles.g_dbus_object_skeleton_flush.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +116,9 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements org.gt
     public void removeInterface(@NotNull org.gtk.gio.DBusInterfaceSkeleton interface_) {
         java.util.Objects.requireNonNull(interface_, "Parameter 'interface_' must not be null");
         try {
-            DowncallHandles.g_dbus_object_skeleton_remove_interface.invokeExact(handle(), interface_.handle());
+            DowncallHandles.g_dbus_object_skeleton_remove_interface.invokeExact(
+                    handle(),
+                    interface_.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,7 +134,9 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements org.gt
     public void removeInterfaceByName(@NotNull java.lang.String interfaceName) {
         java.util.Objects.requireNonNull(interfaceName, "Parameter 'interfaceName' must not be null");
         try {
-            DowncallHandles.g_dbus_object_skeleton_remove_interface_by_name.invokeExact(handle(), Interop.allocateNativeString(interfaceName));
+            DowncallHandles.g_dbus_object_skeleton_remove_interface_by_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(interfaceName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -128,7 +149,9 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements org.gt
     public void setObjectPath(@NotNull java.lang.String objectPath) {
         java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
         try {
-            DowncallHandles.g_dbus_object_skeleton_set_object_path.invokeExact(handle(), Interop.allocateNativeString(objectPath));
+            DowncallHandles.g_dbus_object_skeleton_set_object_path.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(objectPath));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

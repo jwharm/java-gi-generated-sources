@@ -13,6 +13,21 @@ import org.jetbrains.annotations.*;
 public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to DtlsClientConnection if its GType is a (or inherits from) "GDtlsClientConnection".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DtlsClientConnection" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GDtlsClientConnection", a ClassCastException will be thrown.
+     */
+    public static DtlsClientConnection castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDtlsClientConnection"))) {
+            return new DtlsClientConnectionImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDtlsClientConnection");
+        }
+    }
+    
+    /**
      * Gets the list of distinguished names of the Certificate Authorities
      * that the server will accept certificates from. This will be set
      * during the TLS handshake if the server requests a certificate.
@@ -27,7 +42,8 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.glib.List getAcceptedCas() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dtls_client_connection_get_accepted_cas.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dtls_client_connection_get_accepted_cas.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -43,7 +59,8 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.gio.SocketConnectable getServerIdentity() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dtls_client_connection_get_server_identity.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dtls_client_connection_get_server_identity.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -57,7 +74,8 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.gio.TlsCertificateFlags getValidationFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dtls_client_connection_get_validation_flags.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_dtls_client_connection_get_validation_flags.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,7 +92,9 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
     default void setServerIdentity(@NotNull org.gtk.gio.SocketConnectable identity) {
         java.util.Objects.requireNonNull(identity, "Parameter 'identity' must not be null");
         try {
-            DowncallHandles.g_dtls_client_connection_set_server_identity.invokeExact(handle(), identity.handle());
+            DowncallHandles.g_dtls_client_connection_set_server_identity.invokeExact(
+                    handle(),
+                    identity.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -89,7 +109,9 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
     default void setValidationFlags(@NotNull org.gtk.gio.TlsCertificateFlags flags) {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            DowncallHandles.g_dtls_client_connection_set_validation_flags.invokeExact(handle(), flags.getValue());
+            DowncallHandles.g_dtls_client_connection_set_validation_flags.invokeExact(
+                    handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,11 +128,12 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
      */
     public static @NotNull org.gtk.gio.DtlsClientConnection new_(@NotNull org.gtk.gio.DatagramBased baseSocket, @Nullable org.gtk.gio.SocketConnectable serverIdentity) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(baseSocket, "Parameter 'baseSocket' must not be null");
-        java.util.Objects.requireNonNullElse(serverIdentity, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dtls_client_connection_new.invokeExact(baseSocket.handle(), serverIdentity.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_dtls_client_connection_new.invokeExact(
+                    baseSocket.handle(),
+                    (Addressable) (serverIdentity == null ? MemoryAddress.NULL : serverIdentity.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

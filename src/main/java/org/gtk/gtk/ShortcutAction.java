@@ -41,28 +41,42 @@ public class ShortcutAction extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkShortcutAction";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ShortcutAction(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ShortcutAction */
+    /**
+     * Cast object to ShortcutAction if its GType is a (or inherits from) "GtkShortcutAction".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ShortcutAction" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkShortcutAction", a ClassCastException will be thrown.
+     */
     public static ShortcutAction castFrom(org.gtk.gobject.Object gobject) {
-        return new ShortcutAction(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkShortcutAction"))) {
+            return new ShortcutAction(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkShortcutAction");
+        }
     }
     
     private static Refcounted constructParseString(@NotNull java.lang.String string) {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_shortcut_action_parse_string.invokeExact(Interop.allocateNativeString(string)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_shortcut_action_parse_string.invokeExact(
+                    Interop.allocateNativeString(string)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,10 +120,13 @@ public class ShortcutAction extends org.gtk.gobject.Object {
     public boolean activate(@NotNull org.gtk.gtk.ShortcutActionFlags flags, @NotNull org.gtk.gtk.Widget widget, @Nullable org.gtk.glib.Variant args) {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
-        java.util.Objects.requireNonNullElse(args, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_shortcut_action_activate.invokeExact(handle(), flags.getValue(), widget.handle(), args.handle());
+            RESULT = (int) DowncallHandles.gtk_shortcut_action_activate.invokeExact(
+                    handle(),
+                    flags.getValue(),
+                    widget.handle(),
+                    (Addressable) (args == null ? MemoryAddress.NULL : args.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -128,7 +145,9 @@ public class ShortcutAction extends org.gtk.gobject.Object {
     public void print(@NotNull org.gtk.glib.String string) {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         try {
-            DowncallHandles.gtk_shortcut_action_print.invokeExact(handle(), string.handle());
+            DowncallHandles.gtk_shortcut_action_print.invokeExact(
+                    handle(),
+                    string.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -144,11 +163,12 @@ public class ShortcutAction extends org.gtk.gobject.Object {
     public @NotNull java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_action_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_action_to_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     private static class DowncallHandles {

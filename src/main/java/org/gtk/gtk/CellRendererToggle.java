@@ -19,21 +19,34 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkCellRendererToggle";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public CellRendererToggle(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CellRendererToggle */
+    /**
+     * Cast object to CellRendererToggle if its GType is a (or inherits from) "GtkCellRendererToggle".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CellRendererToggle" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkCellRendererToggle", a ClassCastException will be thrown.
+     */
     public static CellRendererToggle castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRendererToggle(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellRendererToggle"))) {
+            return new CellRendererToggle(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCellRendererToggle");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -67,7 +80,8 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
     public boolean getActivatable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_cell_renderer_toggle_get_activatable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_cell_renderer_toggle_get_activatable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +96,8 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
     public boolean getActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_cell_renderer_toggle_get_active.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_cell_renderer_toggle_get_active.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,7 +111,8 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
     public boolean getRadio() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_cell_renderer_toggle_get_radio.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_cell_renderer_toggle_get_radio.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,7 +125,9 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
      */
     public void setActivatable(boolean setting) {
         try {
-            DowncallHandles.gtk_cell_renderer_toggle_set_activatable.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_cell_renderer_toggle_set_activatable.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,7 +139,9 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
      */
     public void setActive(boolean setting) {
         try {
-            DowncallHandles.gtk_cell_renderer_toggle_set_active.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_cell_renderer_toggle_set_active.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,7 +159,9 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
      */
     public void setRadio(boolean radio) {
         try {
-            DowncallHandles.gtk_cell_renderer_toggle_set_radio.invokeExact(handle(), radio ? 1 : 0);
+            DowncallHandles.gtk_cell_renderer_toggle_set_radio.invokeExact(
+                    handle(),
+                    radio ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +240,7 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
         public static void signalCellRendererToggleToggled(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (CellRendererToggle.Toggled) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellRendererToggle(Refcounted.get(source)), path.getUtf8String(0));
+            HANDLER.signalReceived(new CellRendererToggle(Refcounted.get(source)), Interop.getStringFrom(path));
         }
     }
 }

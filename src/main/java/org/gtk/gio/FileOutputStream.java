@@ -27,26 +27,48 @@ public class FileOutputStream extends org.gtk.gio.OutputStream implements org.gt
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GFileOutputStream";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.OutputStream.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.FileOutputStreamPrivate.getMemoryLayout().withName("priv")
-    ).withName("GFileOutputStream");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gio.OutputStream parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gio.OutputStream(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public FileOutputStream(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to FileOutputStream */
+    /**
+     * Cast object to FileOutputStream if its GType is a (or inherits from) "GFileOutputStream".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "FileOutputStream" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GFileOutputStream", a ClassCastException will be thrown.
+     */
     public static FileOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new FileOutputStream(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GFileOutputStream"))) {
+            return new FileOutputStream(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GFileOutputStream");
+        }
     }
     
     /**
@@ -58,11 +80,12 @@ public class FileOutputStream extends org.gtk.gio.OutputStream implements org.gt
     public @Nullable java.lang.String getEtag() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_output_stream_get_etag.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_output_stream_get_etag.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -90,11 +113,13 @@ public class FileOutputStream extends org.gtk.gio.OutputStream implements org.gt
      */
     public @NotNull org.gtk.gio.FileInfo queryInfo(@NotNull java.lang.String attributes, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(attributes, "Parameter 'attributes' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_output_stream_query_info.invokeExact(handle(), Interop.allocateNativeString(attributes), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_file_output_stream_query_info.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attributes),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,16 +143,18 @@ public class FileOutputStream extends org.gtk.gio.OutputStream implements org.gt
      */
     public void queryInfoAsync(@NotNull java.lang.String attributes, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(attributes, "Parameter 'attributes' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_file_output_stream_query_info_async.invokeExact(handle(), Interop.allocateNativeString(attributes), ioPriority, cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_file_output_stream_query_info_async.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attributes),
+                    ioPriority,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,7 +172,9 @@ public class FileOutputStream extends org.gtk.gio.OutputStream implements org.gt
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_output_stream_query_info_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_file_output_stream_query_info_finish.invokeExact(
+                    handle(),
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -17,21 +17,34 @@ public class CellRendererProgress extends org.gtk.gtk.CellRenderer implements or
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkCellRendererProgress";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public CellRendererProgress(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CellRendererProgress */
+    /**
+     * Cast object to CellRendererProgress if its GType is a (or inherits from) "GtkCellRendererProgress".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CellRendererProgress" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkCellRendererProgress", a ClassCastException will be thrown.
+     */
     public static CellRendererProgress castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRendererProgress(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellRendererProgress"))) {
+            return new CellRendererProgress(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCellRendererProgress");
+        }
     }
     
     private static Refcounted constructNew() {

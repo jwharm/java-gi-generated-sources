@@ -16,28 +16,42 @@ public class ShortcutLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkShortcutLabel";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ShortcutLabel(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ShortcutLabel */
+    /**
+     * Cast object to ShortcutLabel if its GType is a (or inherits from) "GtkShortcutLabel".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ShortcutLabel" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkShortcutLabel", a ClassCastException will be thrown.
+     */
     public static ShortcutLabel castFrom(org.gtk.gobject.Object gobject) {
-        return new ShortcutLabel(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkShortcutLabel"))) {
+            return new ShortcutLabel(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkShortcutLabel");
+        }
     }
     
     private static Refcounted constructNew(@NotNull java.lang.String accelerator) {
         java.util.Objects.requireNonNull(accelerator, "Parameter 'accelerator' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_shortcut_label_new.invokeExact(Interop.allocateNativeString(accelerator)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_shortcut_label_new.invokeExact(
+                    Interop.allocateNativeString(accelerator)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -59,11 +73,12 @@ public class ShortcutLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     public @Nullable java.lang.String getAccelerator() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_label_get_accelerator.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_label_get_accelerator.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -74,11 +89,12 @@ public class ShortcutLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     public @Nullable java.lang.String getDisabledText() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_label_get_disabled_text.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_label_get_disabled_text.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -88,7 +104,9 @@ public class ShortcutLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     public void setAccelerator(@NotNull java.lang.String accelerator) {
         java.util.Objects.requireNonNull(accelerator, "Parameter 'accelerator' must not be null");
         try {
-            DowncallHandles.gtk_shortcut_label_set_accelerator.invokeExact(handle(), Interop.allocateNativeString(accelerator));
+            DowncallHandles.gtk_shortcut_label_set_accelerator.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(accelerator));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -101,7 +119,9 @@ public class ShortcutLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     public void setDisabledText(@NotNull java.lang.String disabledText) {
         java.util.Objects.requireNonNull(disabledText, "Parameter 'disabledText' must not be null");
         try {
-            DowncallHandles.gtk_shortcut_label_set_disabled_text.invokeExact(handle(), Interop.allocateNativeString(disabledText));
+            DowncallHandles.gtk_shortcut_label_set_disabled_text.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(disabledText));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

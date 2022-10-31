@@ -16,14 +16,26 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GHashTable";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static HashTable allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        HashTable newInstance = new HashTable(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public HashTable(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -50,10 +62,11 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean add(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress key) {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
-        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_hash_table_add.invokeExact(hashTable.handle(), key);
+            RESULT = (int) DowncallHandles.g_hash_table_add.invokeExact(
+                    hashTable.handle(),
+                    (Addressable) (key == null ? MemoryAddress.NULL : key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -68,10 +81,11 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean contains(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress key) {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
-        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_hash_table_contains.invokeExact(hashTable.handle(), key);
+            RESULT = (int) DowncallHandles.g_hash_table_contains.invokeExact(
+                    hashTable.handle(),
+                    (Addressable) (key == null ? MemoryAddress.NULL : key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +104,8 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     public static void destroy(@NotNull org.gtk.glib.HashTable hashTable) {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
         try {
-            DowncallHandles.g_hash_table_destroy.invokeExact(hashTable.handle());
+            DowncallHandles.g_hash_table_destroy.invokeExact(
+                    hashTable.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,13 +136,14 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(predicate, "Parameter 'predicate' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hash_table_find.invokeExact(hashTable.handle(), 
+            RESULT = (MemoryAddress) DowncallHandles.g_hash_table_find.invokeExact(
+                    hashTable.handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbHRFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(predicate)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(predicate)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,13 +170,14 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.g_hash_table_foreach.invokeExact(hashTable.handle(), 
+            DowncallHandles.g_hash_table_foreach.invokeExact(
+                    hashTable.handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbHFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,13 +201,14 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_hash_table_foreach_remove.invokeExact(hashTable.handle(), 
+            RESULT = (int) DowncallHandles.g_hash_table_foreach_remove.invokeExact(
+                    hashTable.handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbHRFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -214,13 +232,14 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_hash_table_foreach_steal.invokeExact(hashTable.handle(), 
+            RESULT = (int) DowncallHandles.g_hash_table_foreach_steal.invokeExact(
+                    hashTable.handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbHRFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -244,7 +263,8 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hash_table_get_keys.invokeExact(hashTable.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_hash_table_get_keys.invokeExact(
+                    hashTable.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -280,7 +300,9 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hash_table_get_keys_as_array.invokeExact(hashTable.handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_hash_table_get_keys_as_array.invokeExact(
+                    hashTable.handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -310,7 +332,8 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hash_table_get_values.invokeExact(hashTable.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_hash_table_get_values.invokeExact(
+                    hashTable.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -337,11 +360,12 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean insert(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
-        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_hash_table_insert.invokeExact(hashTable.handle(), key, value);
+            RESULT = (int) DowncallHandles.g_hash_table_insert.invokeExact(
+                    hashTable.handle(),
+                    (Addressable) (key == null ? MemoryAddress.NULL : key),
+                    (Addressable) (value == null ? MemoryAddress.NULL : value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -359,10 +383,11 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      */
     public static @Nullable java.lang.foreign.MemoryAddress lookup(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress key) {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
-        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hash_table_lookup.invokeExact(hashTable.handle(), key);
+            RESULT = (MemoryAddress) DowncallHandles.g_hash_table_lookup.invokeExact(
+                    hashTable.handle(),
+                    (Addressable) (key == null ? MemoryAddress.NULL : key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -387,19 +412,20 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean lookupExtended(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress lookupKey, @Nullable Out<java.lang.foreign.MemoryAddress> origKey, @Nullable Out<java.lang.foreign.MemoryAddress> value) {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
-        java.util.Objects.requireNonNullElse(lookupKey, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(origKey, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         MemorySegment origKeyPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_hash_table_lookup_extended.invokeExact(hashTable.handle(), lookupKey, (Addressable) origKeyPOINTER.address(), (Addressable) valuePOINTER.address());
+            RESULT = (int) DowncallHandles.g_hash_table_lookup_extended.invokeExact(
+                    hashTable.handle(),
+                    (Addressable) (lookupKey == null ? MemoryAddress.NULL : lookupKey),
+                    (Addressable) (origKey == null ? MemoryAddress.NULL : (Addressable) origKeyPOINTER.address()),
+                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        origKey.set(origKeyPOINTER.get(ValueLayout.ADDRESS, 0));
-        value.set(valuePOINTER.get(ValueLayout.ADDRESS, 0));
+        if (origKey != null) origKey.set(origKeyPOINTER.get(ValueLayout.ADDRESS, 0));
+        if (value != null) value.set(valuePOINTER.get(ValueLayout.ADDRESS, 0));
         return RESULT != 0;
     }
     
@@ -464,7 +490,8 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(otherHashTable, "Parameter 'otherHashTable' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hash_table_new_similar.invokeExact(otherHashTable.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_hash_table_new_similar.invokeExact(
+                    otherHashTable.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -481,7 +508,8 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hash_table_ref.invokeExact(hashTable.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_hash_table_ref.invokeExact(
+                    hashTable.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -501,10 +529,11 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean remove(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress key) {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
-        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_hash_table_remove.invokeExact(hashTable.handle(), key);
+            RESULT = (int) DowncallHandles.g_hash_table_remove.invokeExact(
+                    hashTable.handle(),
+                    (Addressable) (key == null ? MemoryAddress.NULL : key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -523,7 +552,8 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     public static void removeAll(@NotNull org.gtk.glib.HashTable hashTable) {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
         try {
-            DowncallHandles.g_hash_table_remove_all.invokeExact(hashTable.handle());
+            DowncallHandles.g_hash_table_remove_all.invokeExact(
+                    hashTable.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -548,11 +578,12 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean replace(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
-        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_hash_table_replace.invokeExact(hashTable.handle(), key, value);
+            RESULT = (int) DowncallHandles.g_hash_table_replace.invokeExact(
+                    hashTable.handle(),
+                    (Addressable) (key == null ? MemoryAddress.NULL : key),
+                    (Addressable) (value == null ? MemoryAddress.NULL : value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -568,7 +599,8 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_hash_table_size.invokeExact(hashTable.handle());
+            RESULT = (int) DowncallHandles.g_hash_table_size.invokeExact(
+                    hashTable.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -584,10 +616,11 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean steal(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress key) {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
-        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_hash_table_steal.invokeExact(hashTable.handle(), key);
+            RESULT = (int) DowncallHandles.g_hash_table_steal.invokeExact(
+                    hashTable.handle(),
+                    (Addressable) (key == null ? MemoryAddress.NULL : key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -602,7 +635,8 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     public static void stealAll(@NotNull org.gtk.glib.HashTable hashTable) {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
         try {
-            DowncallHandles.g_hash_table_steal_all.invokeExact(hashTable.handle());
+            DowncallHandles.g_hash_table_steal_all.invokeExact(
+                    hashTable.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -629,19 +663,20 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean stealExtended(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress lookupKey, @Nullable Out<java.lang.foreign.MemoryAddress> stolenKey, @Nullable Out<java.lang.foreign.MemoryAddress> stolenValue) {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
-        java.util.Objects.requireNonNullElse(lookupKey, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(stolenKey, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(stolenValue, MemoryAddress.NULL);
         MemorySegment stolenKeyPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment stolenValuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_hash_table_steal_extended.invokeExact(hashTable.handle(), lookupKey, (Addressable) stolenKeyPOINTER.address(), (Addressable) stolenValuePOINTER.address());
+            RESULT = (int) DowncallHandles.g_hash_table_steal_extended.invokeExact(
+                    hashTable.handle(),
+                    (Addressable) (lookupKey == null ? MemoryAddress.NULL : lookupKey),
+                    (Addressable) (stolenKey == null ? MemoryAddress.NULL : (Addressable) stolenKeyPOINTER.address()),
+                    (Addressable) (stolenValue == null ? MemoryAddress.NULL : (Addressable) stolenValuePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        stolenKey.set(stolenKeyPOINTER.get(ValueLayout.ADDRESS, 0));
-        stolenValue.set(stolenValuePOINTER.get(ValueLayout.ADDRESS, 0));
+        if (stolenKey != null) stolenKey.set(stolenKeyPOINTER.get(ValueLayout.ADDRESS, 0));
+        if (stolenValue != null) stolenValue.set(stolenValuePOINTER.get(ValueLayout.ADDRESS, 0));
         return RESULT != 0;
     }
     
@@ -655,7 +690,8 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     public static void unref(@NotNull org.gtk.glib.HashTable hashTable) {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
         try {
-            DowncallHandles.g_hash_table_unref.invokeExact(hashTable.handle());
+            DowncallHandles.g_hash_table_unref.invokeExact(
+                    hashTable.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

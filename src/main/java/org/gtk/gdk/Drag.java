@@ -23,21 +23,34 @@ public class Drag extends org.gtk.gobject.Object {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkDrag";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Drag(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Drag */
+    /**
+     * Cast object to Drag if its GType is a (or inherits from) "GdkDrag".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Drag" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkDrag", a ClassCastException will be thrown.
+     */
     public static Drag castFrom(org.gtk.gobject.Object gobject) {
-        return new Drag(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkDrag"))) {
+            return new Drag(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkDrag");
+        }
     }
     
     /**
@@ -56,7 +69,9 @@ public class Drag extends org.gtk.gobject.Object {
      */
     public void dropDone(boolean success) {
         try {
-            DowncallHandles.gdk_drag_drop_done.invokeExact(handle(), success ? 1 : 0);
+            DowncallHandles.gdk_drag_drop_done.invokeExact(
+                    handle(),
+                    success ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,7 +84,8 @@ public class Drag extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.DragAction getActions() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_drag_get_actions.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_drag_get_actions.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,7 +99,8 @@ public class Drag extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.ContentProvider getContent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_drag_get_content.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_drag_get_content.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,7 +114,8 @@ public class Drag extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.Device getDevice() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_drag_get_device.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_drag_get_device.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,7 +129,8 @@ public class Drag extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_drag_get_display.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_drag_get_display.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -131,7 +150,8 @@ public class Drag extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdk.Surface getDragSurface() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_drag_get_drag_surface.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_drag_get_drag_surface.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,7 +165,8 @@ public class Drag extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.ContentFormats getFormats() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_drag_get_formats.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_drag_get_formats.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,7 +180,8 @@ public class Drag extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.DragAction getSelectedAction() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_drag_get_selected_action.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_drag_get_selected_action.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -173,7 +195,8 @@ public class Drag extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.Surface getSurface() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_drag_get_surface.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_drag_get_surface.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -190,7 +213,10 @@ public class Drag extends org.gtk.gobject.Object {
      */
     public void setHotspot(int hotX, int hotY) {
         try {
-            DowncallHandles.gdk_drag_set_hotspot.invokeExact(handle(), hotX, hotY);
+            DowncallHandles.gdk_drag_set_hotspot.invokeExact(
+                    handle(),
+                    hotX,
+                    hotY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -226,7 +252,13 @@ public class Drag extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_drag_begin.invokeExact(surface.handle(), device.handle(), content.handle(), actions.getValue(), dx, dy);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_drag_begin.invokeExact(
+                    surface.handle(),
+                    device.handle(),
+                    content.handle(),
+                    actions.getValue(),
+                    dx,
+                    dy);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

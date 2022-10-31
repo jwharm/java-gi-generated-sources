@@ -14,21 +14,34 @@ public class TextNode extends org.gtk.gsk.RenderNode {
         Gsk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GskTextNode";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public TextNode(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TextNode */
+    /**
+     * Cast object to TextNode if its GType is a (or inherits from) "GskTextNode".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TextNode" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GskTextNode", a ClassCastException will be thrown.
+     */
     public static TextNode castFrom(org.gtk.gobject.Object gobject) {
-        return new TextNode(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskTextNode"))) {
+            return new TextNode(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskTextNode");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.pango.Font font, @NotNull org.pango.GlyphString glyphs, @NotNull org.gtk.gdk.RGBA color, @NotNull org.gtk.graphene.Point offset) {
@@ -38,7 +51,11 @@ public class TextNode extends org.gtk.gsk.RenderNode {
         java.util.Objects.requireNonNull(offset, "Parameter 'offset' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_text_node_new.invokeExact(font.handle(), glyphs.handle(), color.handle(), offset.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_text_node_new.invokeExact(
+                    font.handle(),
+                    glyphs.handle(),
+                    color.handle(),
+                    offset.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,7 +83,8 @@ public class TextNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.gdk.RGBA getColor() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_text_node_get_color.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_text_node_get_color.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +98,8 @@ public class TextNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.pango.Font getFont() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_text_node_get_font.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_text_node_get_font.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,7 +116,9 @@ public class TextNode extends org.gtk.gsk.RenderNode {
         MemorySegment nGlyphsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_text_node_get_glyphs.invokeExact(handle(), (Addressable) nGlyphsPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_text_node_get_glyphs.invokeExact(
+                    handle(),
+                    (Addressable) nGlyphsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,7 +138,8 @@ public class TextNode extends org.gtk.gsk.RenderNode {
     public int getNumGlyphs() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_text_node_get_num_glyphs.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gsk_text_node_get_num_glyphs.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -131,7 +153,8 @@ public class TextNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.graphene.Point getOffset() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_text_node_get_offset.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_text_node_get_offset.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,7 +168,8 @@ public class TextNode extends org.gtk.gsk.RenderNode {
     public boolean hasColorGlyphs() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_text_node_has_color_glyphs.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gsk_text_node_has_color_glyphs.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

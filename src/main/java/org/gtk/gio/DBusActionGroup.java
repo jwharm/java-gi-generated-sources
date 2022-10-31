@@ -16,21 +16,34 @@ public class DBusActionGroup extends org.gtk.gobject.Object implements org.gtk.g
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GDBusActionGroup";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public DBusActionGroup(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DBusActionGroup */
+    /**
+     * Cast object to DBusActionGroup if its GType is a (or inherits from) "GDBusActionGroup".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DBusActionGroup" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GDBusActionGroup", a ClassCastException will be thrown.
+     */
     public static DBusActionGroup castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusActionGroup(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusActionGroup"))) {
+            return new DBusActionGroup(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDBusActionGroup");
+        }
     }
     
     /**
@@ -55,11 +68,13 @@ public class DBusActionGroup extends org.gtk.gobject.Object implements org.gtk.g
      */
     public static @NotNull org.gtk.gio.DBusActionGroup get(@NotNull org.gtk.gio.DBusConnection connection, @Nullable java.lang.String busName, @NotNull java.lang.String objectPath) {
         java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
-        java.util.Objects.requireNonNullElse(busName, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_action_group_get.invokeExact(connection.handle(), Interop.allocateNativeString(busName), Interop.allocateNativeString(objectPath));
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_action_group_get.invokeExact(
+                    connection.handle(),
+                    (Addressable) (busName == null ? MemoryAddress.NULL : Interop.allocateNativeString(busName)),
+                    Interop.allocateNativeString(objectPath));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

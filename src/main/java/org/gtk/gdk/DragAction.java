@@ -11,13 +11,7 @@ import org.jetbrains.annotations.*;
  */
 public class DragAction extends io.github.jwharm.javagi.Bitfield {
     
-    /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
-     */
-    public static MemoryLayout getMemoryLayout() {
-        return Interop.valueLayout.ADDRESS;
-    }
+    private static final java.lang.String C_TYPE_NAME = "GdkDragAction";
     
     /**
      * Copy the data.
@@ -59,7 +53,8 @@ public class DragAction extends io.github.jwharm.javagi.Bitfield {
         java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_drag_action_is_unique.invokeExact(action.getValue());
+            RESULT = (int) DowncallHandles.gdk_drag_action_is_unique.invokeExact(
+                    action.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

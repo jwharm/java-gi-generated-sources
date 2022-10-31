@@ -21,21 +21,34 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkDropControllerMotion";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public DropControllerMotion(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DropControllerMotion */
+    /**
+     * Cast object to DropControllerMotion if its GType is a (or inherits from) "GtkDropControllerMotion".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DropControllerMotion" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkDropControllerMotion", a ClassCastException will be thrown.
+     */
     public static DropControllerMotion castFrom(org.gtk.gobject.Object gobject) {
-        return new DropControllerMotion(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkDropControllerMotion"))) {
+            return new DropControllerMotion(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkDropControllerMotion");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -64,7 +77,8 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
     public boolean containsPointer() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_drop_controller_motion_contains_pointer.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_drop_controller_motion_contains_pointer.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +94,8 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
     public @Nullable org.gtk.gdk.Drop getDrop() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_controller_motion_get_drop.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_controller_motion_get_drop.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,7 +111,8 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
     public boolean isPointer() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_drop_controller_motion_is_pointer.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_drop_controller_motion_is_pointer.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

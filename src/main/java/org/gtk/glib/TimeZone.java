@@ -16,23 +16,35 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTimeZone";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static TimeZone allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        TimeZone newInstance = new TimeZone(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public TimeZone(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
     private static Refcounted constructNewIdentifier(@Nullable java.lang.String identifier) {
-        java.util.Objects.requireNonNullElse(identifier, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_time_zone_new_identifier.invokeExact(Interop.allocateNativeString(identifier)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_time_zone_new_identifier.invokeExact(
+                    (Addressable) (identifier == null ? MemoryAddress.NULL : Interop.allocateNativeString(identifier))), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,7 +154,8 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructNewOffset(int seconds) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_time_zone_new_offset.invokeExact(seconds), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_time_zone_new_offset.invokeExact(
+                    seconds), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -212,7 +225,10 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(time, "Parameter 'time' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_time_zone_adjust_time.invokeExact(handle(), type.getValue(), time.handle());
+            RESULT = (int) DowncallHandles.g_time_zone_adjust_time.invokeExact(
+                    handle(),
+                    type.getValue(),
+                    time.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -246,7 +262,10 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_time_zone_find_interval.invokeExact(handle(), type.getValue(), time);
+            RESULT = (int) DowncallHandles.g_time_zone_find_interval.invokeExact(
+                    handle(),
+                    type.getValue(),
+                    time);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -266,11 +285,13 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getAbbreviation(int interval) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_time_zone_get_abbreviation.invokeExact(handle(), interval);
+            RESULT = (MemoryAddress) DowncallHandles.g_time_zone_get_abbreviation.invokeExact(
+                    handle(),
+                    interval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -287,11 +308,12 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getIdentifier() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_time_zone_get_identifier.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_time_zone_get_identifier.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -308,7 +330,9 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
     public int getOffset(int interval) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_time_zone_get_offset.invokeExact(handle(), interval);
+            RESULT = (int) DowncallHandles.g_time_zone_get_offset.invokeExact(
+                    handle(),
+                    interval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -324,7 +348,9 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
     public boolean isDst(int interval) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_time_zone_is_dst.invokeExact(handle(), interval);
+            RESULT = (int) DowncallHandles.g_time_zone_is_dst.invokeExact(
+                    handle(),
+                    interval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -338,7 +364,8 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.TimeZone ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_time_zone_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_time_zone_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -350,7 +377,8 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_time_zone_unref.invokeExact(handle());
+            DowncallHandles.g_time_zone_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

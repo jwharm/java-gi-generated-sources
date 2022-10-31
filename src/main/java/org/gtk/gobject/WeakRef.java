@@ -37,14 +37,26 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GWeakRef";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static WeakRef allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        WeakRef newInstance = new WeakRef(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public WeakRef(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -58,7 +70,8 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
      */
     public void clear() {
         try {
-            DowncallHandles.g_weak_ref_clear.invokeExact(handle());
+            DowncallHandles.g_weak_ref_clear.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +93,8 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gobject.Object get() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_weak_ref_get.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_weak_ref_get.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,9 +114,10 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
      * @param object a {@link Object} or {@code null}
      */
     public void init(@Nullable org.gtk.gobject.Object object) {
-        java.util.Objects.requireNonNullElse(object, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_weak_ref_init.invokeExact(handle(), object.handle());
+            DowncallHandles.g_weak_ref_init.invokeExact(
+                    handle(),
+                    (Addressable) (object == null ? MemoryAddress.NULL : object.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,9 +132,10 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
      * @param object a {@link Object} or {@code null}
      */
     public void set(@Nullable org.gtk.gobject.Object object) {
-        java.util.Objects.requireNonNullElse(object, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_weak_ref_set.invokeExact(handle(), object.handle());
+            DowncallHandles.g_weak_ref_set.invokeExact(
+                    handle(),
+                    (Addressable) (object == null ? MemoryAddress.NULL : object.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -39,26 +39,48 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkTreeStore";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent"),
-        org.gtk.gtk.TreeStorePrivate.getMemoryLayout().withName("priv")
-    ).withName("GtkTreeStore");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent}
+     * @return The value of the field {@code parent}
+     */
+    public org.gtk.gobject.Object parent$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public TreeStore(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TreeStore */
+    /**
+     * Cast object to TreeStore if its GType is a (or inherits from) "GtkTreeStore".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TreeStore" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkTreeStore", a ClassCastException will be thrown.
+     */
     public static TreeStore castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeStore(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeStore"))) {
+            return new TreeStore(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTreeStore");
+        }
     }
     
     private static Refcounted constructNew(int nColumns) {
@@ -88,7 +110,9 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         java.util.Objects.requireNonNull(types, "Parameter 'types' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_store_newv.invokeExact(nColumns, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_store_newv.invokeExact(
+                    nColumns,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,16 +138,16 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter An unset {@code GtkTreeIter} to set to the appended row
      * @param parent A valid {@code GtkTreeIter}
      */
-    public void append(@NotNull Out<org.gtk.gtk.TreeIter> iter, @Nullable org.gtk.gtk.TreeIter parent) {
+    public void append(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_tree_store_append.invokeExact(handle(), (Addressable) iterPOINTER.address(), parent.handle());
+            DowncallHandles.gtk_tree_store_append.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -131,7 +155,8 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      */
     public void clear() {
         try {
-            DowncallHandles.gtk_tree_store_clear.invokeExact(handle());
+            DowncallHandles.gtk_tree_store_clear.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,16 +174,17 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param parent A valid {@code GtkTreeIter}
      * @param position position to insert the new row, or -1 for last
      */
-    public void insert(@NotNull Out<org.gtk.gtk.TreeIter> iter, @Nullable org.gtk.gtk.TreeIter parent, int position) {
+    public void insert(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent, int position) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_tree_store_insert.invokeExact(handle(), (Addressable) iterPOINTER.address(), parent.handle(), position);
+            DowncallHandles.gtk_tree_store_insert.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -175,17 +201,17 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param parent A valid {@code GtkTreeIter}
      * @param sibling A valid {@code GtkTreeIter}
      */
-    public void insertAfter(@NotNull Out<org.gtk.gtk.TreeIter> iter, @Nullable org.gtk.gtk.TreeIter parent, @Nullable org.gtk.gtk.TreeIter sibling) {
+    public void insertAfter(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent, @Nullable org.gtk.gtk.TreeIter sibling) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(sibling, MemoryAddress.NULL);
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_tree_store_insert_after.invokeExact(handle(), (Addressable) iterPOINTER.address(), parent.handle(), sibling.handle());
+            DowncallHandles.gtk_tree_store_insert_after.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                    (Addressable) (sibling == null ? MemoryAddress.NULL : sibling.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -202,17 +228,17 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param parent A valid {@code GtkTreeIter}
      * @param sibling A valid {@code GtkTreeIter}
      */
-    public void insertBefore(@NotNull Out<org.gtk.gtk.TreeIter> iter, @Nullable org.gtk.gtk.TreeIter parent, @Nullable org.gtk.gtk.TreeIter sibling) {
+    public void insertBefore(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent, @Nullable org.gtk.gtk.TreeIter sibling) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(sibling, MemoryAddress.NULL);
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_tree_store_insert_before.invokeExact(handle(), (Addressable) iterPOINTER.address(), parent.handle(), sibling.handle());
+            DowncallHandles.gtk_tree_store_insert_before.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                    (Addressable) (sibling == null ? MemoryAddress.NULL : sibling.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -238,7 +264,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param parent A valid {@code GtkTreeIter}
      * @param position position to insert the new row, or -1 to append after existing rows
      */
-    public void insertWithValues(@NotNull Out<org.gtk.gtk.TreeIter> iter, @Nullable org.gtk.gtk.TreeIter parent, int position) {
+    public void insertWithValues(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent, int position) {
         throw new UnsupportedOperationException("Operation not supported yet");
     }
     
@@ -253,18 +279,22 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param values an array of GValues
      * @param nValues the length of the {@code columns} and {@code values} arrays
      */
-    public void insertWithValuesv(@NotNull Out<org.gtk.gtk.TreeIter> iter, @Nullable org.gtk.gtk.TreeIter parent, int position, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
+    public void insertWithValuesv(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent, int position, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(columns, "Parameter 'columns' must not be null");
         java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_tree_store_insert_with_valuesv.invokeExact(handle(), (Addressable) iterPOINTER.address(), parent.handle(), position, Interop.allocateNativeArray(columns, false), Interop.allocateNativeArray(values, false), nValues);
+            DowncallHandles.gtk_tree_store_insert_with_valuesv.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                    position,
+                    Interop.allocateNativeArray(columns, false),
+                    Interop.allocateNativeArray(values, false),
+                    nValues);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -279,7 +309,10 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         java.util.Objects.requireNonNull(descendant, "Parameter 'descendant' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_store_is_ancestor.invokeExact(handle(), iter.handle(), descendant.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_store_is_ancestor.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    descendant.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -296,7 +329,9 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_store_iter_depth.invokeExact(handle(), iter.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_store_iter_depth.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -315,7 +350,9 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_store_iter_is_valid.invokeExact(handle(), iter.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_store_iter_is_valid.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -332,9 +369,11 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      */
     public void moveAfter(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter position) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNullElse(position, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_tree_store_move_after.invokeExact(handle(), iter.handle(), position.handle());
+            DowncallHandles.gtk_tree_store_move_after.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    (Addressable) (position == null ? MemoryAddress.NULL : position.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -350,9 +389,11 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      */
     public void moveBefore(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter position) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNullElse(position, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_tree_store_move_before.invokeExact(handle(), iter.handle(), position.handle());
+            DowncallHandles.gtk_tree_store_move_before.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    (Addressable) (position == null ? MemoryAddress.NULL : position.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -367,16 +408,16 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter An unset {@code GtkTreeIter} to set to the prepended row
      * @param parent A valid {@code GtkTreeIter}
      */
-    public void prepend(@NotNull Out<org.gtk.gtk.TreeIter> iter, @Nullable org.gtk.gtk.TreeIter parent) {
+    public void prepend(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_tree_store_prepend.invokeExact(handle(), (Addressable) iterPOINTER.address(), parent.handle());
+            DowncallHandles.gtk_tree_store_prepend.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -390,7 +431,9 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_store_remove.invokeExact(handle(), iter.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_store_remove.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -407,10 +450,12 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      *   i.e. {@code new_order}{@code [newpos] = oldpos}.
      */
     public void reorder(@Nullable org.gtk.gtk.TreeIter parent, int[] newOrder) {
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(newOrder, "Parameter 'newOrder' must not be null");
         try {
-            DowncallHandles.gtk_tree_store_reorder.invokeExact(handle(), parent.handle(), Interop.allocateNativeArray(newOrder, false));
+            DowncallHandles.gtk_tree_store_reorder.invokeExact(
+                    handle(),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                    Interop.allocateNativeArray(newOrder, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -443,7 +488,10 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
     public void setColumnTypes(int nColumns, org.gtk.glib.Type[] types) {
         java.util.Objects.requireNonNull(types, "Parameter 'types' must not be null");
         try {
-            DowncallHandles.gtk_tree_store_set_column_types.invokeExact(handle(), nColumns, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false));
+            DowncallHandles.gtk_tree_store_set_column_types.invokeExact(
+                    handle(),
+                    nColumns,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -459,7 +507,10 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
         try {
-            DowncallHandles.gtk_tree_store_set_valist.invokeExact(handle(), iter.handle(), varArgs);
+            DowncallHandles.gtk_tree_store_set_valist.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    varArgs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -477,7 +528,11 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.gtk_tree_store_set_value.invokeExact(handle(), iter.handle(), column, value.handle());
+            DowncallHandles.gtk_tree_store_set_value.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    column,
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -498,7 +553,12 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         java.util.Objects.requireNonNull(columns, "Parameter 'columns' must not be null");
         java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
         try {
-            DowncallHandles.gtk_tree_store_set_valuesv.invokeExact(handle(), iter.handle(), Interop.allocateNativeArray(columns, false), Interop.allocateNativeArray(values, false), nValues);
+            DowncallHandles.gtk_tree_store_set_valuesv.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    Interop.allocateNativeArray(columns, false),
+                    Interop.allocateNativeArray(values, false),
+                    nValues);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -514,7 +574,10 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         try {
-            DowncallHandles.gtk_tree_store_swap.invokeExact(handle(), a.handle(), b.handle());
+            DowncallHandles.gtk_tree_store_swap.invokeExact(
+                    handle(),
+                    a.handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

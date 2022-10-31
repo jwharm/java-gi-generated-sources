@@ -27,21 +27,34 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkGestureSingle";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public GestureSingle(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to GestureSingle */
+    /**
+     * Cast object to GestureSingle if its GType is a (or inherits from) "GtkGestureSingle".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "GestureSingle" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkGestureSingle", a ClassCastException will be thrown.
+     */
     public static GestureSingle castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureSingle(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGestureSingle"))) {
+            return new GestureSingle(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGestureSingle");
+        }
     }
     
     /**
@@ -53,7 +66,8 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
     public int getButton() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_single_get_button.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_gesture_single_get_button.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -68,7 +82,8 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
     public int getCurrentButton() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_single_get_current_button.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_gesture_single_get_current_button.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,7 +100,8 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
     public @Nullable org.gtk.gdk.EventSequence getCurrentSequence() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_single_get_current_sequence.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_single_get_current_sequence.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -101,7 +117,8 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
     public boolean getExclusive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_single_get_exclusive.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_gesture_single_get_exclusive.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,7 +132,8 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
     public boolean getTouchOnly() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_single_get_touch_only.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_gesture_single_get_touch_only.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,7 +150,9 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
      */
     public void setButton(int button) {
         try {
-            DowncallHandles.gtk_gesture_single_set_button.invokeExact(handle(), button);
+            DowncallHandles.gtk_gesture_single_set_button.invokeExact(
+                    handle(),
+                    button);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -148,7 +168,9 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
      */
     public void setExclusive(boolean exclusive) {
         try {
-            DowncallHandles.gtk_gesture_single_set_exclusive.invokeExact(handle(), exclusive ? 1 : 0);
+            DowncallHandles.gtk_gesture_single_set_exclusive.invokeExact(
+                    handle(),
+                    exclusive ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -164,7 +186,9 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
      */
     public void setTouchOnly(boolean touchOnly) {
         try {
-            DowncallHandles.gtk_gesture_single_set_touch_only.invokeExact(handle(), touchOnly ? 1 : 0);
+            DowncallHandles.gtk_gesture_single_set_touch_only.invokeExact(
+                    handle(),
+                    touchOnly ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

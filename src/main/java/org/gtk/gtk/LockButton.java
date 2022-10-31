@@ -50,28 +50,41 @@ public class LockButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkLockButton";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public LockButton(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to LockButton */
+    /**
+     * Cast object to LockButton if its GType is a (or inherits from) "GtkLockButton".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "LockButton" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkLockButton", a ClassCastException will be thrown.
+     */
     public static LockButton castFrom(org.gtk.gobject.Object gobject) {
-        return new LockButton(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkLockButton"))) {
+            return new LockButton(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkLockButton");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gio.Permission permission) {
-        java.util.Objects.requireNonNullElse(permission, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_lock_button_new.invokeExact(permission.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_lock_button_new.invokeExact(
+                    (Addressable) (permission == null ? MemoryAddress.NULL : permission.handle())), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,7 +106,8 @@ public class LockButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
     public @Nullable org.gtk.gio.Permission getPermission() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_lock_button_get_permission.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_lock_button_get_permission.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,9 +119,10 @@ public class LockButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
      * @param permission a {@code GPermission} object
      */
     public void setPermission(@Nullable org.gtk.gio.Permission permission) {
-        java.util.Objects.requireNonNullElse(permission, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_lock_button_set_permission.invokeExact(handle(), permission.handle());
+            DowncallHandles.gtk_lock_button_set_permission.invokeExact(
+                    handle(),
+                    (Addressable) (permission == null ? MemoryAddress.NULL : permission.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

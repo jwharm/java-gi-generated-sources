@@ -57,6 +57,21 @@ import org.jetbrains.annotations.*;
 public interface ListModel extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to ListModel if its GType is a (or inherits from) "GListModel".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ListModel" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GListModel", a ClassCastException will be thrown.
+     */
+    public static ListModel castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GListModel"))) {
+            return new ListModelImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GListModel");
+        }
+    }
+    
+    /**
      * Get the item at {@code position}.
      * <p>
      * If {@code position} is greater than the number of items in {@code list}, {@code null} is
@@ -72,7 +87,9 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
     default @Nullable java.lang.foreign.MemoryAddress getItem(int position) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_model_get_item.invokeExact(handle(), position);
+            RESULT = (MemoryAddress) DowncallHandles.g_list_model_get_item.invokeExact(
+                    handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,7 +110,8 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.glib.Type getItemType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_list_model_get_item_type.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_list_model_get_item_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,7 +129,8 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
     default int getNItems() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_list_model_get_n_items.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_list_model_get_n_items.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -137,7 +156,9 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gobject.Object getObject(int position) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_model_get_object.invokeExact(handle(), position);
+            RESULT = (MemoryAddress) DowncallHandles.g_list_model_get_object.invokeExact(
+                    handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,7 +192,11 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
      */
     default void itemsChanged(int position, int removed, int added) {
         try {
-            DowncallHandles.g_list_model_items_changed.invokeExact(handle(), position, removed, added);
+            DowncallHandles.g_list_model_items_changed.invokeExact(
+                    handle(),
+                    position,
+                    removed,
+                    added);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

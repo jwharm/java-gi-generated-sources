@@ -31,8 +31,9 @@ import org.jetbrains.annotations.*;
  * </object>
  * }</pre>
  * <p>
- * Using {@link org.gtk.gtk.Window#getTitlebar} and {@link org.gtk.gtk.Window#setTitlebar}
- * is not supported and will result in a crash.
+ * Using {@code Gtk.Window:titlebar} or {@code Gtk.Window:child}
+ * is not supported and will result in a crash. Use {@code Window:content}
+ * instead.
  * @version 1.0
  */
 public class Window extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Native, org.gtk.gtk.Root, org.gtk.gtk.ShortcutManager {
@@ -41,25 +42,47 @@ public class Window extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwWindow";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Window.getMemoryLayout().withName("parent_instance")
-    ).withName("AdwWindow");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gtk.Window parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gtk.Window(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Window(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Window */
+    /**
+     * Cast object to Window if its GType is a (or inherits from) "AdwWindow".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Window" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwWindow", a ClassCastException will be thrown.
+     */
     public static Window castFrom(org.gtk.gobject.Object gobject) {
-        return new Window(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwWindow"))) {
+            return new Window(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwWindow");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -88,7 +111,8 @@ public class Window extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
     public @Nullable org.gtk.gtk.Widget getContent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_window_get_content.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_window_get_content.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,9 +126,10 @@ public class Window extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
      * @param content the content widget
      */
     public void setContent(@Nullable org.gtk.gtk.Widget content) {
-        java.util.Objects.requireNonNullElse(content, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_window_set_content.invokeExact(handle(), content.handle());
+            DowncallHandles.adw_window_set_content.invokeExact(
+                    handle(),
+                    (Addressable) (content == null ? MemoryAddress.NULL : content.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

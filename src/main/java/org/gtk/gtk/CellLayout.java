@@ -112,6 +112,21 @@ import org.jetbrains.annotations.*;
 public interface CellLayout extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to CellLayout if its GType is a (or inherits from) "GtkCellLayout".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CellLayout" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkCellLayout", a ClassCastException will be thrown.
+     */
+    public static CellLayout castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellLayout"))) {
+            return new CellLayoutImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCellLayout");
+        }
+    }
+    
+    /**
      * Adds an attribute mapping to the list in {@code cell_layout}.
      * <p>
      * The {@code column} is the column of the model to get a value from, and the
@@ -127,7 +142,11 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(cell, "Parameter 'cell' must not be null");
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         try {
-            DowncallHandles.gtk_cell_layout_add_attribute.invokeExact(handle(), cell.handle(), Interop.allocateNativeString(attribute), column);
+            DowncallHandles.gtk_cell_layout_add_attribute.invokeExact(
+                    handle(),
+                    cell.handle(),
+                    Interop.allocateNativeString(attribute),
+                    column);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,7 +158,8 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      */
     default void clear() {
         try {
-            DowncallHandles.gtk_cell_layout_clear.invokeExact(handle());
+            DowncallHandles.gtk_cell_layout_clear.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,7 +173,9 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
     default void clearAttributes(@NotNull org.gtk.gtk.CellRenderer cell) {
         java.util.Objects.requireNonNull(cell, "Parameter 'cell' must not be null");
         try {
-            DowncallHandles.gtk_cell_layout_clear_attributes.invokeExact(handle(), cell.handle());
+            DowncallHandles.gtk_cell_layout_clear_attributes.invokeExact(
+                    handle(),
+                    cell.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -168,7 +190,8 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gtk.CellArea getArea() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_layout_get_area.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_layout_get_area.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,7 +207,8 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.glib.List getCells() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_layout_get_cells.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_layout_get_cells.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -203,7 +227,10 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
     default void packEnd(@NotNull org.gtk.gtk.CellRenderer cell, boolean expand) {
         java.util.Objects.requireNonNull(cell, "Parameter 'cell' must not be null");
         try {
-            DowncallHandles.gtk_cell_layout_pack_end.invokeExact(handle(), cell.handle(), expand ? 1 : 0);
+            DowncallHandles.gtk_cell_layout_pack_end.invokeExact(
+                    handle(),
+                    cell.handle(),
+                    expand ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -221,7 +248,10 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
     default void packStart(@NotNull org.gtk.gtk.CellRenderer cell, boolean expand) {
         java.util.Objects.requireNonNull(cell, "Parameter 'cell' must not be null");
         try {
-            DowncallHandles.gtk_cell_layout_pack_start.invokeExact(handle(), cell.handle(), expand ? 1 : 0);
+            DowncallHandles.gtk_cell_layout_pack_start.invokeExact(
+                    handle(),
+                    cell.handle(),
+                    expand ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -238,7 +268,10 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
     default void reorder(@NotNull org.gtk.gtk.CellRenderer cell, int position) {
         java.util.Objects.requireNonNull(cell, "Parameter 'cell' must not be null");
         try {
-            DowncallHandles.gtk_cell_layout_reorder.invokeExact(handle(), cell.handle(), position);
+            DowncallHandles.gtk_cell_layout_reorder.invokeExact(
+                    handle(),
+                    cell.handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -272,15 +305,16 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      */
     default void setCellDataFunc(@NotNull org.gtk.gtk.CellRenderer cell, @Nullable org.gtk.gtk.CellLayoutDataFunc func) {
         java.util.Objects.requireNonNull(cell, "Parameter 'cell' must not be null");
-        java.util.Objects.requireNonNullElse(func, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_cell_layout_set_cell_data_func.invokeExact(handle(), cell.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gtk_cell_layout_set_cell_data_func.invokeExact(
+                    handle(),
+                    cell.handle(),
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbCellLayoutDataFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)), 
+                        Interop.getScope())),
+                    (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

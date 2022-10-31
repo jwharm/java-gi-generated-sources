@@ -25,21 +25,34 @@ public class CellRendererCombo extends org.gtk.gtk.CellRendererText {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkCellRendererCombo";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public CellRendererCombo(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CellRendererCombo */
+    /**
+     * Cast object to CellRendererCombo if its GType is a (or inherits from) "GtkCellRendererCombo".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CellRendererCombo" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkCellRendererCombo", a ClassCastException will be thrown.
+     */
     public static CellRendererCombo castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRendererCombo(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellRendererCombo"))) {
+            return new CellRendererCombo(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCellRendererCombo");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -114,7 +127,7 @@ public class CellRendererCombo extends org.gtk.gtk.CellRendererText {
         public static void signalCellRendererComboChanged(MemoryAddress source, MemoryAddress pathString, MemoryAddress newIter, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (CellRendererCombo.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellRendererCombo(Refcounted.get(source)), pathString.getUtf8String(0), new org.gtk.gtk.TreeIter(Refcounted.get(newIter, false)));
+            HANDLER.signalReceived(new CellRendererCombo(Refcounted.get(source)), Interop.getStringFrom(pathString), new org.gtk.gtk.TreeIter(Refcounted.get(newIter, false)));
         }
     }
 }

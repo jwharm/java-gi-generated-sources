@@ -27,28 +27,42 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkTexture";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Texture(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Texture */
+    /**
+     * Cast object to Texture if its GType is a (or inherits from) "GdkTexture".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Texture" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkTexture", a ClassCastException will be thrown.
+     */
     public static Texture castFrom(org.gtk.gobject.Object gobject) {
-        return new Texture(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkTexture"))) {
+            return new Texture(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkTexture");
+        }
     }
     
     private static Refcounted constructNewForPixbuf(@NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf) {
         java.util.Objects.requireNonNull(pixbuf, "Parameter 'pixbuf' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_texture_new_for_pixbuf.invokeExact(pixbuf.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_texture_new_for_pixbuf.invokeExact(
+                    pixbuf.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,7 +87,8 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_texture_new_from_bytes.invokeExact(bytes.handle(), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_texture_new_from_bytes.invokeExact(
+                    bytes.handle(), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,7 +122,8 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_texture_new_from_file.invokeExact(file.handle(), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_texture_new_from_file.invokeExact(
+                    file.handle(), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,7 +157,8 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_texture_new_from_filename.invokeExact(Interop.allocateNativeString(path), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_texture_new_from_filename.invokeExact(
+                    Interop.allocateNativeString(path), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,7 +191,8 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
         java.util.Objects.requireNonNull(resourcePath, "Parameter 'resourcePath' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_texture_new_from_resource.invokeExact(Interop.allocateNativeString(resourcePath)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_texture_new_from_resource.invokeExact(
+                    Interop.allocateNativeString(resourcePath)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -229,7 +247,10 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
     public void download(byte[] data, long stride) {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         try {
-            DowncallHandles.gdk_texture_download.invokeExact(handle(), Interop.allocateNativeArray(data, false), stride);
+            DowncallHandles.gdk_texture_download.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(data, false),
+                    stride);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -242,7 +263,8 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
     public int getHeight() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_texture_get_height.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_texture_get_height.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -256,7 +278,8 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
     public int getWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_texture_get_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_texture_get_width.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -278,7 +301,9 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_texture_save_to_png.invokeExact(handle(), Interop.allocateNativeString(filename));
+            RESULT = (int) DowncallHandles.gdk_texture_save_to_png.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(filename));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -305,7 +330,8 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
     public @NotNull org.gtk.glib.Bytes saveToPngBytes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_texture_save_to_png_bytes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_texture_save_to_png_bytes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -323,7 +349,9 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_texture_save_to_tiff.invokeExact(handle(), Interop.allocateNativeString(filename));
+            RESULT = (int) DowncallHandles.gdk_texture_save_to_tiff.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(filename));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -348,7 +376,8 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
     public @NotNull org.gtk.glib.Bytes saveToTiffBytes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_texture_save_to_tiff_bytes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_texture_save_to_tiff_bytes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

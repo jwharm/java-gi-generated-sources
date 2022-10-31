@@ -30,25 +30,47 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkMediaStream";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkMediaStream");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public MediaStream(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to MediaStream */
+    /**
+     * Cast object to MediaStream if its GType is a (or inherits from) "GtkMediaStream".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "MediaStream" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkMediaStream", a ClassCastException will be thrown.
+     */
     public static MediaStream castFrom(org.gtk.gobject.Object gobject) {
-        return new MediaStream(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMediaStream"))) {
+            return new MediaStream(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkMediaStream");
+        }
     }
     
     /**
@@ -63,7 +85,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     @Deprecated
     public void ended() {
         try {
-            DowncallHandles.gtk_media_stream_ended.invokeExact(handle());
+            DowncallHandles.gtk_media_stream_ended.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,7 +120,12 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         try {
-            DowncallHandles.gtk_media_stream_error_valist.invokeExact(handle(), domain.getValue(), code, Interop.allocateNativeString(format), args);
+            DowncallHandles.gtk_media_stream_error_valist.invokeExact(
+                    handle(),
+                    domain.getValue().intValue(),
+                    code,
+                    Interop.allocateNativeString(format),
+                    args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,7 +149,9 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     public void gerror(@NotNull org.gtk.glib.Error error) {
         java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
         try {
-            DowncallHandles.gtk_media_stream_gerror.invokeExact(handle(), error.refcounted().unowned().handle());
+            DowncallHandles.gtk_media_stream_gerror.invokeExact(
+                    handle(),
+                    error.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,7 +166,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     public long getDuration() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gtk_media_stream_get_duration.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gtk_media_stream_get_duration.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -150,7 +181,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     public boolean getEnded() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_media_stream_get_ended.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_media_stream_get_ended.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,7 +210,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     public @Nullable org.gtk.glib.Error getError() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_media_stream_get_error.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_media_stream_get_error.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -194,7 +227,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     public boolean getLoop() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_media_stream_get_loop.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_media_stream_get_loop.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -210,7 +244,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     public boolean getMuted() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_media_stream_get_muted.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_media_stream_get_muted.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -224,7 +259,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     public boolean getPlaying() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_media_stream_get_playing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_media_stream_get_playing.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -238,7 +274,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     public long getTimestamp() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gtk_media_stream_get_timestamp.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gtk_media_stream_get_timestamp.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -254,7 +291,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     public double getVolume() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_media_stream_get_volume.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_media_stream_get_volume.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -268,7 +306,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     public boolean hasAudio() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_media_stream_has_audio.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_media_stream_has_audio.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -282,7 +321,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     public boolean hasVideo() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_media_stream_has_video.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_media_stream_has_video.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -298,7 +338,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     public boolean isPrepared() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_media_stream_is_prepared.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_media_stream_is_prepared.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -320,7 +361,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     public boolean isSeekable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_media_stream_is_seekable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_media_stream_is_seekable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -334,7 +376,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     public boolean isSeeking() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_media_stream_is_seeking.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_media_stream_is_seeking.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -348,7 +391,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public void pause() {
         try {
-            DowncallHandles.gtk_media_stream_pause.invokeExact(handle());
+            DowncallHandles.gtk_media_stream_pause.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -361,7 +405,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public void play() {
         try {
-            DowncallHandles.gtk_media_stream_play.invokeExact(handle());
+            DowncallHandles.gtk_media_stream_play.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -378,7 +423,12 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     @Deprecated
     public void prepared(boolean hasAudio, boolean hasVideo, boolean seekable, long duration) {
         try {
-            DowncallHandles.gtk_media_stream_prepared.invokeExact(handle(), hasAudio ? 1 : 0, hasVideo ? 1 : 0, seekable ? 1 : 0, duration);
+            DowncallHandles.gtk_media_stream_prepared.invokeExact(
+                    handle(),
+                    hasAudio ? 1 : 0,
+                    hasVideo ? 1 : 0,
+                    seekable ? 1 : 0,
+                    duration);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -406,7 +456,9 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     public void realize(@NotNull org.gtk.gdk.Surface surface) {
         java.util.Objects.requireNonNull(surface, "Parameter 'surface' must not be null");
         try {
-            DowncallHandles.gtk_media_stream_realize.invokeExact(handle(), surface.handle());
+            DowncallHandles.gtk_media_stream_realize.invokeExact(
+                    handle(),
+                    surface.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -428,7 +480,9 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public void seek(long timestamp) {
         try {
-            DowncallHandles.gtk_media_stream_seek.invokeExact(handle(), timestamp);
+            DowncallHandles.gtk_media_stream_seek.invokeExact(
+                    handle(),
+                    timestamp);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -445,7 +499,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public void seekFailed() {
         try {
-            DowncallHandles.gtk_media_stream_seek_failed.invokeExact(handle());
+            DowncallHandles.gtk_media_stream_seek_failed.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -462,7 +517,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public void seekSuccess() {
         try {
-            DowncallHandles.gtk_media_stream_seek_success.invokeExact(handle());
+            DowncallHandles.gtk_media_stream_seek_success.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -481,7 +537,9 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public void setLoop(boolean loop) {
         try {
-            DowncallHandles.gtk_media_stream_set_loop.invokeExact(handle(), loop ? 1 : 0);
+            DowncallHandles.gtk_media_stream_set_loop.invokeExact(
+                    handle(),
+                    loop ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -500,7 +558,9 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public void setMuted(boolean muted) {
         try {
-            DowncallHandles.gtk_media_stream_set_muted.invokeExact(handle(), muted ? 1 : 0);
+            DowncallHandles.gtk_media_stream_set_muted.invokeExact(
+                    handle(),
+                    muted ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -512,7 +572,9 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public void setPlaying(boolean playing) {
         try {
-            DowncallHandles.gtk_media_stream_set_playing.invokeExact(handle(), playing ? 1 : 0);
+            DowncallHandles.gtk_media_stream_set_playing.invokeExact(
+                    handle(),
+                    playing ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -534,7 +596,9 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public void setVolume(double volume) {
         try {
-            DowncallHandles.gtk_media_stream_set_volume.invokeExact(handle(), volume);
+            DowncallHandles.gtk_media_stream_set_volume.invokeExact(
+                    handle(),
+                    volume);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -550,7 +614,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public void streamEnded() {
         try {
-            DowncallHandles.gtk_media_stream_stream_ended.invokeExact(handle());
+            DowncallHandles.gtk_media_stream_stream_ended.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -574,7 +639,12 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public void streamPrepared(boolean hasAudio, boolean hasVideo, boolean seekable, long duration) {
         try {
-            DowncallHandles.gtk_media_stream_stream_prepared.invokeExact(handle(), hasAudio ? 1 : 0, hasVideo ? 1 : 0, seekable ? 1 : 0, duration);
+            DowncallHandles.gtk_media_stream_stream_prepared.invokeExact(
+                    handle(),
+                    hasAudio ? 1 : 0,
+                    hasVideo ? 1 : 0,
+                    seekable ? 1 : 0,
+                    duration);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -589,7 +659,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public void streamUnprepared() {
         try {
-            DowncallHandles.gtk_media_stream_stream_unprepared.invokeExact(handle());
+            DowncallHandles.gtk_media_stream_stream_unprepared.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -602,7 +673,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     @Deprecated
     public void unprepared() {
         try {
-            DowncallHandles.gtk_media_stream_unprepared.invokeExact(handle());
+            DowncallHandles.gtk_media_stream_unprepared.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -618,7 +690,9 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     public void unrealize(@NotNull org.gtk.gdk.Surface surface) {
         java.util.Objects.requireNonNull(surface, "Parameter 'surface' must not be null");
         try {
-            DowncallHandles.gtk_media_stream_unrealize.invokeExact(handle(), surface.handle());
+            DowncallHandles.gtk_media_stream_unrealize.invokeExact(
+                    handle(),
+                    surface.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -636,7 +710,9 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public void update(long timestamp) {
         try {
-            DowncallHandles.gtk_media_stream_update.invokeExact(handle(), timestamp);
+            DowncallHandles.gtk_media_stream_update.invokeExact(
+                    handle(),
+                    timestamp);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

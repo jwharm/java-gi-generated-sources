@@ -14,21 +14,34 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkTreeListModel";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public TreeListModel(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TreeListModel */
+    /**
+     * Cast object to TreeListModel if its GType is a (or inherits from) "GtkTreeListModel".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TreeListModel" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkTreeListModel", a ClassCastException will be thrown.
+     */
     public static TreeListModel castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeListModel(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeListModel"))) {
+            return new TreeListModel(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTreeListModel");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gio.ListModel root, boolean passthrough, boolean autoexpand, @NotNull org.gtk.gtk.TreeListModelCreateModelFunc createFunc) {
@@ -36,13 +49,16 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
         java.util.Objects.requireNonNull(createFunc, "Parameter 'createFunc' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_list_model_new.invokeExact(root.refcounted().unowned().handle(), passthrough ? 1 : 0, autoexpand ? 1 : 0, 
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_list_model_new.invokeExact(
+                    root.refcounted().unowned().handle(),
+                    passthrough ? 1 : 0,
+                    autoexpand ? 1 : 0,
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTreeListModelCreateModelFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(createFunc)), 
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(createFunc)),
                     Interop.cbDestroyNotifySymbol()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -74,7 +90,8 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
     public boolean getAutoexpand() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_list_model_get_autoexpand.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_list_model_get_autoexpand.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,7 +112,9 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
     public @Nullable org.gtk.gtk.TreeListRow getChildRow(int position) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_model_get_child_row.invokeExact(handle(), position);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_model_get_child_row.invokeExact(
+                    handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,7 +128,8 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
     public @NotNull org.gtk.gio.ListModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_model_get_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_model_get_model.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,7 +152,8 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
     public boolean getPassthrough() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_list_model_get_passthrough.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_list_model_get_passthrough.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -163,7 +184,9 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
     public @Nullable org.gtk.gtk.TreeListRow getRow(int position) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_model_get_row.invokeExact(handle(), position);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_model_get_row.invokeExact(
+                    handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,7 +203,9 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public void setAutoexpand(boolean autoexpand) {
         try {
-            DowncallHandles.gtk_tree_list_model_set_autoexpand.invokeExact(handle(), autoexpand ? 1 : 0);
+            DowncallHandles.gtk_tree_list_model_set_autoexpand.invokeExact(
+                    handle(),
+                    autoexpand ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

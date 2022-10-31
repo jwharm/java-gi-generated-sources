@@ -19,22 +19,139 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoGlyphItem";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.pango.Item.getMemoryLayout().withName("item"),
-        org.pango.GlyphString.getMemoryLayout().withName("glyphs"),
+        Interop.valueLayout.ADDRESS.withName("item"),
+        Interop.valueLayout.ADDRESS.withName("glyphs"),
         ValueLayout.JAVA_INT.withName("y_offset"),
         ValueLayout.JAVA_INT.withName("start_x_offset"),
         ValueLayout.JAVA_INT.withName("end_x_offset")
-    ).withName("PangoGlyphItem");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static GlyphItem allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        GlyphItem newInstance = new GlyphItem(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code item}
+     * @return The value of the field {@code item}
+     */
+    public org.pango.Item item$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("item"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.pango.Item(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Change the value of the field {@code item}
+     * @param item The new value of the field {@code item}
+     */
+    public void item$set(org.pango.Item item) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("item"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), item.handle());
+    }
+    
+    /**
+     * Get the value of the field {@code glyphs}
+     * @return The value of the field {@code glyphs}
+     */
+    public org.pango.GlyphString glyphs$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("glyphs"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.pango.GlyphString(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Change the value of the field {@code glyphs}
+     * @param glyphs The new value of the field {@code glyphs}
+     */
+    public void glyphs$set(org.pango.GlyphString glyphs) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("glyphs"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), glyphs.handle());
+    }
+    
+    /**
+     * Get the value of the field {@code y_offset}
+     * @return The value of the field {@code y_offset}
+     */
+    public int y_offset$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code y_offset}
+     * @param y_offset The new value of the field {@code y_offset}
+     */
+    public void y_offset$set(int y_offset) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y_offset);
+    }
+    
+    /**
+     * Get the value of the field {@code start_x_offset}
+     * @return The value of the field {@code start_x_offset}
+     */
+    public int start_x_offset$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("start_x_offset"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code start_x_offset}
+     * @param start_x_offset The new value of the field {@code start_x_offset}
+     */
+    public void start_x_offset$set(int start_x_offset) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("start_x_offset"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), start_x_offset);
+    }
+    
+    /**
+     * Get the value of the field {@code end_x_offset}
+     * @return The value of the field {@code end_x_offset}
+     */
+    public int end_x_offset$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("end_x_offset"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code end_x_offset}
+     * @param end_x_offset The new value of the field {@code end_x_offset}
+     */
+    public void end_x_offset$set(int end_x_offset) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("end_x_offset"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), end_x_offset);
+    }
+    
+    @ApiStatus.Internal
     public GlyphItem(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -69,7 +186,10 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_glyph_item_apply_attrs.invokeExact(handle(), Interop.allocateNativeString(text), list.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_glyph_item_apply_attrs.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(text),
+                    list.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,7 +203,8 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.pango.GlyphItem copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_glyph_item_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_glyph_item_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,7 +216,8 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.pango_glyph_item_free.invokeExact(handle());
+            DowncallHandles.pango_glyph_item_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,7 +242,10 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         java.util.Objects.requireNonNull(logicalWidths, "Parameter 'logicalWidths' must not be null");
         try {
-            DowncallHandles.pango_glyph_item_get_logical_widths.invokeExact(handle(), Interop.allocateNativeString(text), Interop.allocateNativeArray(logicalWidths, false));
+            DowncallHandles.pango_glyph_item_get_logical_widths.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(text),
+                    Interop.allocateNativeArray(logicalWidths, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -143,7 +268,11 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         java.util.Objects.requireNonNull(logAttrs, "Parameter 'logAttrs' must not be null");
         try {
-            DowncallHandles.pango_glyph_item_letter_space.invokeExact(handle(), Interop.allocateNativeString(text), Interop.allocateNativeArray(logAttrs, false), letterSpacing);
+            DowncallHandles.pango_glyph_item_letter_space.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(text),
+                    Interop.allocateNativeArray(logAttrs, false),
+                    letterSpacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -172,7 +301,10 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_glyph_item_split.invokeExact(handle(), Interop.allocateNativeString(text), splitIndex);
+            RESULT = (MemoryAddress) DowncallHandles.pango_glyph_item_split.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(text),
+                    splitIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

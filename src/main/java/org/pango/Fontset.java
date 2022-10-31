@@ -19,25 +19,47 @@ public class Fontset extends org.gtk.gobject.Object {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoFontset";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName("PangoFontset");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Fontset(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Fontset */
+    /**
+     * Cast object to Fontset if its GType is a (or inherits from) "PangoFontset".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Fontset" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "PangoFontset", a ClassCastException will be thrown.
+     */
     public static Fontset castFrom(org.gtk.gobject.Object gobject) {
-        return new Fontset(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoFontset"))) {
+            return new Fontset(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of PangoFontset");
+        }
     }
     
     /**
@@ -50,13 +72,14 @@ public class Fontset extends org.gtk.gobject.Object {
     public void foreach(@NotNull org.pango.FontsetForeachFunc func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.pango_fontset_foreach.invokeExact(handle(), 
+            DowncallHandles.pango_fontset_foreach.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Pango.Callbacks.class, "cbFontsetForeachFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -71,7 +94,9 @@ public class Fontset extends org.gtk.gobject.Object {
     public @NotNull org.pango.Font getFont(int wc) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_fontset_get_font.invokeExact(handle(), wc);
+            RESULT = (MemoryAddress) DowncallHandles.pango_fontset_get_font.invokeExact(
+                    handle(),
+                    wc);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,7 +110,8 @@ public class Fontset extends org.gtk.gobject.Object {
     public @NotNull org.pango.FontMetrics getMetrics() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_fontset_get_metrics.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_fontset_get_metrics.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

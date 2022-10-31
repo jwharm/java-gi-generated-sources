@@ -61,21 +61,34 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkCalendar";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Calendar(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Calendar */
+    /**
+     * Cast object to Calendar if its GType is a (or inherits from) "GtkCalendar".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Calendar" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkCalendar", a ClassCastException will be thrown.
+     */
     public static Calendar castFrom(org.gtk.gobject.Object gobject) {
-        return new Calendar(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCalendar"))) {
+            return new Calendar(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCalendar");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -100,7 +113,8 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void clearMarks() {
         try {
-            DowncallHandles.gtk_calendar_clear_marks.invokeExact(handle());
+            DowncallHandles.gtk_calendar_clear_marks.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,7 +130,8 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @NotNull org.gtk.glib.DateTime getDate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_calendar_get_date.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_calendar_get_date.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -131,7 +146,9 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getDayIsMarked(int day) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_calendar_get_day_is_marked.invokeExact(handle(), day);
+            RESULT = (int) DowncallHandles.gtk_calendar_get_day_is_marked.invokeExact(
+                    handle(),
+                    day);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,7 +166,8 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getShowDayNames() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_calendar_get_show_day_names.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_calendar_get_show_day_names.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -166,7 +184,8 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getShowHeading() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_calendar_get_show_heading.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_calendar_get_show_heading.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,7 +203,8 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getShowWeekNumbers() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_calendar_get_show_week_numbers.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_calendar_get_show_week_numbers.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -197,7 +217,9 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void markDay(int day) {
         try {
-            DowncallHandles.gtk_calendar_mark_day.invokeExact(handle(), day);
+            DowncallHandles.gtk_calendar_mark_day.invokeExact(
+                    handle(),
+                    day);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -210,7 +232,9 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public void selectDay(@NotNull org.gtk.glib.DateTime date) {
         java.util.Objects.requireNonNull(date, "Parameter 'date' must not be null");
         try {
-            DowncallHandles.gtk_calendar_select_day.invokeExact(handle(), date.handle());
+            DowncallHandles.gtk_calendar_select_day.invokeExact(
+                    handle(),
+                    date.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -222,7 +246,9 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setShowDayNames(boolean value) {
         try {
-            DowncallHandles.gtk_calendar_set_show_day_names.invokeExact(handle(), value ? 1 : 0);
+            DowncallHandles.gtk_calendar_set_show_day_names.invokeExact(
+                    handle(),
+                    value ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -237,7 +263,9 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setShowHeading(boolean value) {
         try {
-            DowncallHandles.gtk_calendar_set_show_heading.invokeExact(handle(), value ? 1 : 0);
+            DowncallHandles.gtk_calendar_set_show_heading.invokeExact(
+                    handle(),
+                    value ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -249,7 +277,9 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setShowWeekNumbers(boolean value) {
         try {
-            DowncallHandles.gtk_calendar_set_show_week_numbers.invokeExact(handle(), value ? 1 : 0);
+            DowncallHandles.gtk_calendar_set_show_week_numbers.invokeExact(
+                    handle(),
+                    value ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -261,7 +291,9 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void unmarkDay(int day) {
         try {
-            DowncallHandles.gtk_calendar_unmark_day.invokeExact(handle(), day);
+            DowncallHandles.gtk_calendar_unmark_day.invokeExact(
+                    handle(),
+                    day);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

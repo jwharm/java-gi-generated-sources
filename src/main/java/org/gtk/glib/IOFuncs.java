@@ -15,6 +15,8 @@ public class IOFuncs extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GIOFuncs";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("io_read"),
         Interop.valueLayout.ADDRESS.withName("io_write"),
@@ -24,16 +26,26 @@ public class IOFuncs extends io.github.jwharm.javagi.ResourceBase {
         Interop.valueLayout.ADDRESS.withName("io_free"),
         Interop.valueLayout.ADDRESS.withName("io_set_flags"),
         Interop.valueLayout.ADDRESS.withName("io_get_flags")
-    ).withName("GIOFuncs");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static IOFuncs allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        IOFuncs newInstance = new IOFuncs(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public IOFuncs(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

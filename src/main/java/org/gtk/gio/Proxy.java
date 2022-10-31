@@ -17,6 +17,21 @@ import org.jetbrains.annotations.*;
 public interface Proxy extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to Proxy if its GType is a (or inherits from) "GProxy".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Proxy" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GProxy", a ClassCastException will be thrown.
+     */
+    public static Proxy castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GProxy"))) {
+            return new ProxyImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GProxy");
+        }
+    }
+    
+    /**
      * Given {@code connection} to communicate with a proxy (eg, a
      * {@link SocketConnection} that is connected to the proxy server), this
      * does the necessary handshake to connect to {@code proxy_address}, and if
@@ -32,11 +47,14 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.gio.IOStream connect(@NotNull org.gtk.gio.IOStream connection, @NotNull org.gtk.gio.ProxyAddress proxyAddress, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
         java.util.Objects.requireNonNull(proxyAddress, "Parameter 'proxyAddress' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_proxy_connect.invokeExact(handle(), connection.handle(), proxyAddress.handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_proxy_connect.invokeExact(
+                    handle(),
+                    connection.handle(),
+                    proxyAddress.handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -56,16 +74,18 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
     default void connectAsync(@NotNull org.gtk.gio.IOStream connection, @NotNull org.gtk.gio.ProxyAddress proxyAddress, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
         java.util.Objects.requireNonNull(proxyAddress, "Parameter 'proxyAddress' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_proxy_connect_async.invokeExact(handle(), connection.handle(), proxyAddress.handle(), cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_proxy_connect_async.invokeExact(
+                    handle(),
+                    connection.handle(),
+                    proxyAddress.handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +102,9 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_proxy_connect_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_proxy_connect_finish.invokeExact(
+                    handle(),
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,7 +127,8 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
     default boolean supportsHostname() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_proxy_supports_hostname.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_proxy_supports_hostname.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,7 +146,8 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_proxy_get_default_for_protocol.invokeExact(Interop.allocateNativeString(protocol));
+            RESULT = (MemoryAddress) DowncallHandles.g_proxy_get_default_for_protocol.invokeExact(
+                    Interop.allocateNativeString(protocol));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

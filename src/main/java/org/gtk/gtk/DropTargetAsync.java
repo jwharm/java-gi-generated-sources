@@ -47,29 +47,43 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkDropTargetAsync";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public DropTargetAsync(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DropTargetAsync */
+    /**
+     * Cast object to DropTargetAsync if its GType is a (or inherits from) "GtkDropTargetAsync".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DropTargetAsync" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkDropTargetAsync", a ClassCastException will be thrown.
+     */
     public static DropTargetAsync castFrom(org.gtk.gobject.Object gobject) {
-        return new DropTargetAsync(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkDropTargetAsync"))) {
+            return new DropTargetAsync(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkDropTargetAsync");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gdk.ContentFormats formats, @NotNull org.gtk.gdk.DragAction actions) {
-        java.util.Objects.requireNonNullElse(formats, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_drop_target_async_new.invokeExact(formats.refcounted().unowned().handle(), actions.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_drop_target_async_new.invokeExact(
+                    (Addressable) (formats == null ? MemoryAddress.NULL : formats.refcounted().unowned().handle()),
+                    actions.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,7 +106,8 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
     public @NotNull org.gtk.gdk.DragAction getActions() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_drop_target_async_get_actions.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_drop_target_async_get_actions.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,7 +123,8 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
     public @Nullable org.gtk.gdk.ContentFormats getFormats() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_target_async_get_formats.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_target_async_get_formats.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,7 +142,9 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
     public void rejectDrop(@NotNull org.gtk.gdk.Drop drop) {
         java.util.Objects.requireNonNull(drop, "Parameter 'drop' must not be null");
         try {
-            DowncallHandles.gtk_drop_target_async_reject_drop.invokeExact(handle(), drop.handle());
+            DowncallHandles.gtk_drop_target_async_reject_drop.invokeExact(
+                    handle(),
+                    drop.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,7 +157,9 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
     public void setActions(@NotNull org.gtk.gdk.DragAction actions) {
         java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
         try {
-            DowncallHandles.gtk_drop_target_async_set_actions.invokeExact(handle(), actions.getValue());
+            DowncallHandles.gtk_drop_target_async_set_actions.invokeExact(
+                    handle(),
+                    actions.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -150,9 +170,10 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
      * @param formats the supported data formats or {@code null} for any format
      */
     public void setFormats(@Nullable org.gtk.gdk.ContentFormats formats) {
-        java.util.Objects.requireNonNullElse(formats, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_drop_target_async_set_formats.invokeExact(handle(), formats.handle());
+            DowncallHandles.gtk_drop_target_async_set_formats.invokeExact(
+                    handle(),
+                    (Addressable) (formats == null ? MemoryAddress.NULL : formats.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -32,21 +32,34 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkRevealer";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Revealer(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Revealer */
+    /**
+     * Cast object to Revealer if its GType is a (or inherits from) "GtkRevealer".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Revealer" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkRevealer", a ClassCastException will be thrown.
+     */
     public static Revealer castFrom(org.gtk.gobject.Object gobject) {
-        return new Revealer(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkRevealer"))) {
+            return new Revealer(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkRevealer");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -73,7 +86,8 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_revealer_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_revealer_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +104,8 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getChildRevealed() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_revealer_get_child_revealed.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_revealer_get_child_revealed.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,7 +124,8 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getRevealChild() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_revealer_get_reveal_child.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_revealer_get_reveal_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,7 +140,8 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getTransitionDuration() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_revealer_get_transition_duration.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_revealer_get_transition_duration.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,7 +156,8 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @NotNull org.gtk.gtk.RevealerTransitionType getTransitionType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_revealer_get_transition_type.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_revealer_get_transition_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,9 +169,10 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param child the child widget
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_revealer_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_revealer_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -168,7 +187,9 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setRevealChild(boolean revealChild) {
         try {
-            DowncallHandles.gtk_revealer_set_reveal_child.invokeExact(handle(), revealChild ? 1 : 0);
+            DowncallHandles.gtk_revealer_set_reveal_child.invokeExact(
+                    handle(),
+                    revealChild ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,7 +201,9 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setTransitionDuration(int duration) {
         try {
-            DowncallHandles.gtk_revealer_set_transition_duration.invokeExact(handle(), duration);
+            DowncallHandles.gtk_revealer_set_transition_duration.invokeExact(
+                    handle(),
+                    duration);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -196,7 +219,9 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public void setTransitionType(@NotNull org.gtk.gtk.RevealerTransitionType transition) {
         java.util.Objects.requireNonNull(transition, "Parameter 'transition' must not be null");
         try {
-            DowncallHandles.gtk_revealer_set_transition_type.invokeExact(handle(), transition.getValue());
+            DowncallHandles.gtk_revealer_set_transition_type.invokeExact(
+                    handle(),
+                    transition.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

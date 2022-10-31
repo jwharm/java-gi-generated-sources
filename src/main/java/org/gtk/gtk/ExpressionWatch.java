@@ -17,14 +17,26 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkExpressionWatch";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static ExpressionWatch allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        ExpressionWatch newInstance = new ExpressionWatch(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public ExpressionWatch(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -42,7 +54,9 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_expression_watch_evaluate.invokeExact(handle(), value.handle());
+            RESULT = (int) DowncallHandles.gtk_expression_watch_evaluate.invokeExact(
+                    handle(),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -56,7 +70,8 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gtk.ExpressionWatch ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_expression_watch_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_expression_watch_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -71,7 +86,8 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.gtk_expression_watch_unref.invokeExact(handle());
+            DowncallHandles.gtk_expression_watch_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,7 +101,8 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unwatch() {
         try {
-            DowncallHandles.gtk_expression_watch_unwatch.invokeExact(handle());
+            DowncallHandles.gtk_expression_watch_unwatch.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

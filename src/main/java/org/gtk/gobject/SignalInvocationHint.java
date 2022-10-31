@@ -15,20 +15,95 @@ public class SignalInvocationHint extends io.github.jwharm.javagi.ResourceBase {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSignalInvocationHint";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_INT.withName("signal_id"),
         ValueLayout.JAVA_INT.withName("detail"),
-        org.gtk.gobject.SignalFlags.getMemoryLayout().withName("run_type")
-    ).withName("GSignalInvocationHint");
+        Interop.valueLayout.C_INT.withName("run_type")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static SignalInvocationHint allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        SignalInvocationHint newInstance = new SignalInvocationHint(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code signal_id}
+     * @return The value of the field {@code signal_id}
+     */
+    public int signal_id$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("signal_id"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code signal_id}
+     * @param signal_id The new value of the field {@code signal_id}
+     */
+    public void signal_id$set(int signal_id) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("signal_id"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), signal_id);
+    }
+    
+    /**
+     * Get the value of the field {@code detail}
+     * @return The value of the field {@code detail}
+     */
+    public org.gtk.glib.Quark detail$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("detail"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.glib.Quark(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code detail}
+     * @param detail The new value of the field {@code detail}
+     */
+    public void detail$set(org.gtk.glib.Quark detail) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("detail"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), detail.getValue().intValue());
+    }
+    
+    /**
+     * Get the value of the field {@code run_type}
+     * @return The value of the field {@code run_type}
+     */
+    public org.gtk.gobject.SignalFlags run_type$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("run_type"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.gobject.SignalFlags(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code run_type}
+     * @param run_type The new value of the field {@code run_type}
+     */
+    public void run_type$set(org.gtk.gobject.SignalFlags run_type) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("run_type"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), run_type.getValue());
+    }
+    
+    @ApiStatus.Internal
     public SignalInvocationHint(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

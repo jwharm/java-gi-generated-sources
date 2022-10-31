@@ -43,33 +43,56 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwApplication";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Application.getMemoryLayout().withName("parent_instance")
-    ).withName("AdwApplication");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gtk.Application parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gtk.Application(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Application(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Application */
+    /**
+     * Cast object to Application if its GType is a (or inherits from) "AdwApplication".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Application" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwApplication", a ClassCastException will be thrown.
+     */
     public static Application castFrom(org.gtk.gobject.Object gobject) {
-        return new Application(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwApplication"))) {
+            return new Application(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwApplication");
+        }
     }
     
     private static Refcounted constructNew(@Nullable java.lang.String applicationId, @NotNull org.gtk.gio.ApplicationFlags flags) {
-        java.util.Objects.requireNonNullElse(applicationId, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_application_new.invokeExact(Interop.allocateNativeString(applicationId), flags.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_application_new.invokeExact(
+                    (Addressable) (applicationId == null ? MemoryAddress.NULL : Interop.allocateNativeString(applicationId)),
+                    flags.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,12 +116,16 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
     
     /**
      * Gets the style manager for {@code self}.
+     * <p>
+     * This is a convenience property allowing to access {@code AdwStyleManager} through
+     * property bindings or expressions.
      * @return the style manager
      */
     public @NotNull org.gnome.adw.StyleManager getStyleManager() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_application_get_style_manager.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_application_get_style_manager.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

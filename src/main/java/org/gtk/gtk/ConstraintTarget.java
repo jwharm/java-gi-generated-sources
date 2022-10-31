@@ -13,6 +13,21 @@ import org.jetbrains.annotations.*;
  */
 public interface ConstraintTarget extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * Cast object to ConstraintTarget if its GType is a (or inherits from) "GtkConstraintTarget".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ConstraintTarget" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkConstraintTarget", a ClassCastException will be thrown.
+     */
+    public static ConstraintTarget castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkConstraintTarget"))) {
+            return new ConstraintTargetImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkConstraintTarget");
+        }
+    }
+    
     class ConstraintTargetImpl extends org.gtk.gobject.Object implements ConstraintTarget {
         
         static {

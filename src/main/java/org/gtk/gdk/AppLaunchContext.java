@@ -31,21 +31,34 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkAppLaunchContext";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public AppLaunchContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to AppLaunchContext */
+    /**
+     * Cast object to AppLaunchContext if its GType is a (or inherits from) "GdkAppLaunchContext".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "AppLaunchContext" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkAppLaunchContext", a ClassCastException will be thrown.
+     */
     public static AppLaunchContext castFrom(org.gtk.gobject.Object gobject) {
-        return new AppLaunchContext(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkAppLaunchContext"))) {
+            return new AppLaunchContext(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkAppLaunchContext");
+        }
     }
     
     /**
@@ -55,7 +68,8 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
     public @NotNull org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_app_launch_context_get_display.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_app_launch_context_get_display.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +94,9 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      */
     public void setDesktop(int desktop) {
         try {
-            DowncallHandles.gdk_app_launch_context_set_desktop.invokeExact(handle(), desktop);
+            DowncallHandles.gdk_app_launch_context_set_desktop.invokeExact(
+                    handle(),
+                    desktop);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,9 +113,10 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * @param icon a {@code GIcon}
      */
     public void setIcon(@Nullable org.gtk.gio.Icon icon) {
-        java.util.Objects.requireNonNullElse(icon, MemoryAddress.NULL);
         try {
-            DowncallHandles.gdk_app_launch_context_set_icon.invokeExact(handle(), icon.handle());
+            DowncallHandles.gdk_app_launch_context_set_icon.invokeExact(
+                    handle(),
+                    (Addressable) (icon == null ? MemoryAddress.NULL : icon.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,9 +135,10 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * @param iconName an icon name
      */
     public void setIconName(@Nullable java.lang.String iconName) {
-        java.util.Objects.requireNonNullElse(iconName, MemoryAddress.NULL);
         try {
-            DowncallHandles.gdk_app_launch_context_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName));
+            DowncallHandles.gdk_app_launch_context_set_icon_name.invokeExact(
+                    handle(),
+                    (Addressable) (iconName == null ? MemoryAddress.NULL : Interop.allocateNativeString(iconName)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,7 +158,9 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      */
     public void setTimestamp(int timestamp) {
         try {
-            DowncallHandles.gdk_app_launch_context_set_timestamp.invokeExact(handle(), timestamp);
+            DowncallHandles.gdk_app_launch_context_set_timestamp.invokeExact(
+                    handle(),
+                    timestamp);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

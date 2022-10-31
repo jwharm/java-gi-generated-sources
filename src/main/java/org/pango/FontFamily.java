@@ -18,25 +18,47 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoFontFamily";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName("PangoFontFamily");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public FontFamily(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to FontFamily */
+    /**
+     * Cast object to FontFamily if its GType is a (or inherits from) "PangoFontFamily".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "FontFamily" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "PangoFontFamily", a ClassCastException will be thrown.
+     */
     public static FontFamily castFrom(org.gtk.gobject.Object gobject) {
-        return new FontFamily(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoFontFamily"))) {
+            return new FontFamily(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of PangoFontFamily");
+        }
     }
     
     /**
@@ -48,10 +70,11 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      *   or {@code null} if no face with the given name exists.
      */
     public @Nullable org.pango.FontFace getFace(@Nullable java.lang.String name) {
-        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_family_get_face.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_family_get_face.invokeExact(
+                    handle(),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,11 +93,12 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
     public @NotNull java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_family_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_family_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -97,7 +121,8 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
     public boolean isMonospace() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_family_is_monospace.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_font_family_is_monospace.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,7 +140,8 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
     public boolean isVariable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_family_is_variable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_font_family_is_variable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -144,7 +170,10 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
         MemorySegment facesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment nFacesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.pango_font_family_list_faces.invokeExact(handle(), (Addressable) facesPOINTER.address(), (Addressable) nFacesPOINTER.address());
+            DowncallHandles.pango_font_family_list_faces.invokeExact(
+                    handle(),
+                    (Addressable) facesPOINTER.address(),
+                    (Addressable) nFacesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

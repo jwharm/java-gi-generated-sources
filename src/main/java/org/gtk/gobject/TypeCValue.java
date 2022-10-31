@@ -11,14 +11,17 @@ public class TypeCValue extends io.github.jwharm.javagi.ResourceBase {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTypeCValue";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public TypeCValue(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

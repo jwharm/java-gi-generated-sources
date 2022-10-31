@@ -131,21 +131,34 @@ public class Expression extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkExpression";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Expression(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Expression */
+    /**
+     * Cast object to Expression if its GType is a (or inherits from) "GtkExpression".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Expression" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkExpression", a ClassCastException will be thrown.
+     */
     public static Expression castFrom(org.gtk.gobject.Object gobject) {
-        return new Expression(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkExpression"))) {
+            return new Expression(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkExpression");
+        }
     }
     
     /**
@@ -170,10 +183,13 @@ public class Expression extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.ExpressionWatch bind(@NotNull org.gtk.gobject.Object target, @NotNull java.lang.String property, @Nullable org.gtk.gobject.Object this_) {
         java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
         java.util.Objects.requireNonNull(property, "Parameter 'property' must not be null");
-        java.util.Objects.requireNonNullElse(this_, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_expression_bind.invokeExact(handle(), target.handle(), Interop.allocateNativeString(property), this_.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_expression_bind.invokeExact(
+                    handle(),
+                    target.handle(),
+                    Interop.allocateNativeString(property),
+                    (Addressable) (this_ == null ? MemoryAddress.NULL : this_.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -196,11 +212,13 @@ public class Expression extends org.gtk.gobject.Object {
      * @return {@code TRUE} if the expression could be evaluated
      */
     public boolean evaluate(@Nullable org.gtk.gobject.Object this_, @NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNullElse(this_, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_expression_evaluate.invokeExact(handle(), this_.handle(), value.handle());
+            RESULT = (int) DowncallHandles.gtk_expression_evaluate.invokeExact(
+                    handle(),
+                    (Addressable) (this_ == null ? MemoryAddress.NULL : this_.handle()),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -217,7 +235,8 @@ public class Expression extends org.gtk.gobject.Object {
     public @NotNull org.gtk.glib.Type getValueType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gtk_expression_get_value_type.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gtk_expression_get_value_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -237,7 +256,8 @@ public class Expression extends org.gtk.gobject.Object {
     public boolean isStatic() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_expression_is_static.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_expression_is_static.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -251,7 +271,8 @@ public class Expression extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.Expression ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_expression_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_expression_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -266,7 +287,8 @@ public class Expression extends org.gtk.gobject.Object {
      */
     public void unref() {
         try {
-            DowncallHandles.gtk_expression_unref.invokeExact(handle());
+            DowncallHandles.gtk_expression_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -291,17 +313,18 @@ public class Expression extends org.gtk.gobject.Object {
      *   if you want to keep the watch around.
      */
     public @NotNull org.gtk.gtk.ExpressionWatch watch(@Nullable org.gtk.gobject.Object this_, @NotNull org.gtk.gtk.ExpressionNotify notify) {
-        java.util.Objects.requireNonNullElse(this_, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(notify, "Parameter 'notify' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_expression_watch.invokeExact(handle(), this_.handle(), 
+            RESULT = (MemoryAddress) DowncallHandles.gtk_expression_watch.invokeExact(
+                    handle(),
+                    (Addressable) (this_ == null ? MemoryAddress.NULL : this_.handle()),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbExpressionNotify",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(notify)), 
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(notify)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

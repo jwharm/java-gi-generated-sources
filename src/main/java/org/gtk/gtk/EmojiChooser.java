@@ -40,21 +40,34 @@ public class EmojiChooser extends org.gtk.gtk.Popover implements org.gtk.gtk.Acc
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkEmojiChooser";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public EmojiChooser(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to EmojiChooser */
+    /**
+     * Cast object to EmojiChooser if its GType is a (or inherits from) "GtkEmojiChooser".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "EmojiChooser" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkEmojiChooser", a ClassCastException will be thrown.
+     */
     public static EmojiChooser castFrom(org.gtk.gobject.Object gobject) {
-        return new EmojiChooser(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEmojiChooser"))) {
+            return new EmojiChooser(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEmojiChooser");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -113,7 +126,7 @@ public class EmojiChooser extends org.gtk.gtk.Popover implements org.gtk.gtk.Acc
         public static void signalEmojiChooserEmojiPicked(MemoryAddress source, MemoryAddress text, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EmojiChooser.EmojiPicked) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EmojiChooser(Refcounted.get(source)), text.getUtf8String(0));
+            HANDLER.signalReceived(new EmojiChooser(Refcounted.get(source)), Interop.getStringFrom(text));
         }
     }
 }

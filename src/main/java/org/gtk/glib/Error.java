@@ -15,20 +15,95 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GError";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_INT.withName("domain"),
         ValueLayout.JAVA_INT.withName("code"),
         Interop.valueLayout.ADDRESS.withName("message")
-    ).withName("GError");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Error allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Error newInstance = new Error(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code domain}
+     * @return The value of the field {@code domain}
+     */
+    public org.gtk.glib.Quark domain$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("domain"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.glib.Quark(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code domain}
+     * @param domain The new value of the field {@code domain}
+     */
+    public void domain$set(org.gtk.glib.Quark domain) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("domain"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), domain.getValue().intValue());
+    }
+    
+    /**
+     * Get the value of the field {@code code}
+     * @return The value of the field {@code code}
+     */
+    public int code$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("code"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code code}
+     * @param code The new value of the field {@code code}
+     */
+    public void code$set(int code) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("code"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), code);
+    }
+    
+    /**
+     * Get the value of the field {@code message}
+     * @return The value of the field {@code message}
+     */
+    public java.lang.String message$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("message"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringFrom(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code message}
+     * @param message The new value of the field {@code message}
+     */
+    public void message$set(java.lang.String message) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("message"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(message));
+    }
+    
+    @ApiStatus.Internal
     public Error(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -54,7 +129,10 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_error_new_literal.invokeExact(domain.getValue(), code, Interop.allocateNativeString(message)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_error_new_literal.invokeExact(
+                    domain.getValue().intValue(),
+                    code,
+                    Interop.allocateNativeString(message)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -81,7 +159,11 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_error_new_valist.invokeExact(domain.getValue(), code, Interop.allocateNativeString(format), args), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_error_new_valist.invokeExact(
+                    domain.getValue().intValue(),
+                    code,
+                    Interop.allocateNativeString(format),
+                    args), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,7 +190,8 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Error copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_error_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_error_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,7 +203,8 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.g_error_free.invokeExact(handle());
+            DowncallHandles.g_error_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,7 +229,10 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_error_matches.invokeExact(handle(), domain.getValue(), code);
+            RESULT = (int) DowncallHandles.g_error_matches.invokeExact(
+                    handle(),
+                    domain.getValue().intValue(),
+                    code);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

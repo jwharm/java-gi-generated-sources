@@ -30,26 +30,48 @@ public class SocketConnection extends org.gtk.gio.IOStream {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSocketConnection";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.IOStream.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.SocketConnectionPrivate.getMemoryLayout().withName("priv")
-    ).withName("GSocketConnection");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gio.IOStream parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gio.IOStream(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public SocketConnection(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to SocketConnection */
+    /**
+     * Cast object to SocketConnection if its GType is a (or inherits from) "GSocketConnection".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "SocketConnection" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GSocketConnection", a ClassCastException will be thrown.
+     */
     public static SocketConnection castFrom(org.gtk.gobject.Object gobject) {
-        return new SocketConnection(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSocketConnection"))) {
+            return new SocketConnection(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSocketConnection");
+        }
     }
     
     /**
@@ -61,11 +83,13 @@ public class SocketConnection extends org.gtk.gio.IOStream {
      */
     public boolean connect(@NotNull org.gtk.gio.SocketAddress address, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_socket_connection_connect.invokeExact(handle(), address.handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_connection_connect.invokeExact(
+                    handle(),
+                    address.handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,16 +112,17 @@ public class SocketConnection extends org.gtk.gio.IOStream {
      */
     public void connectAsync(@NotNull org.gtk.gio.SocketAddress address, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_socket_connection_connect_async.invokeExact(handle(), address.handle(), cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_socket_connection_connect_async.invokeExact(
+                    handle(),
+                    address.handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,7 +139,9 @@ public class SocketConnection extends org.gtk.gio.IOStream {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_socket_connection_connect_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_connection_connect_finish.invokeExact(
+                    handle(),
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,7 +161,8 @@ public class SocketConnection extends org.gtk.gio.IOStream {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_connection_get_local_address.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_connection_get_local_address.invokeExact(
+                    handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,7 +189,8 @@ public class SocketConnection extends org.gtk.gio.IOStream {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_connection_get_remote_address.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_connection_get_remote_address.invokeExact(
+                    handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,7 +209,8 @@ public class SocketConnection extends org.gtk.gio.IOStream {
     public @NotNull org.gtk.gio.Socket getSocket() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_connection_get_socket.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_connection_get_socket.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -195,7 +225,8 @@ public class SocketConnection extends org.gtk.gio.IOStream {
     public boolean isConnected() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_socket_connection_is_connected.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_connection_is_connected.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -217,7 +248,10 @@ public class SocketConnection extends org.gtk.gio.IOStream {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_socket_connection_factory_lookup_type.invokeExact(family.getValue(), type.getValue(), protocolId);
+            RESULT = (long) DowncallHandles.g_socket_connection_factory_lookup_type.invokeExact(
+                    family.getValue(),
+                    type.getValue(),
+                    protocolId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -239,7 +273,11 @@ public class SocketConnection extends org.gtk.gio.IOStream {
         java.util.Objects.requireNonNull(family, "Parameter 'family' must not be null");
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         try {
-            DowncallHandles.g_socket_connection_factory_register_type.invokeExact(gType.getValue(), family.getValue(), type.getValue(), protocol);
+            DowncallHandles.g_socket_connection_factory_register_type.invokeExact(
+                    gType.getValue().longValue(),
+                    family.getValue(),
+                    type.getValue(),
+                    protocol);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

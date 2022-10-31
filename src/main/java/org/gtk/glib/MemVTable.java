@@ -18,6 +18,8 @@ public class MemVTable extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GMemVTable";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("malloc"),
         Interop.valueLayout.ADDRESS.withName("realloc"),
@@ -25,16 +27,26 @@ public class MemVTable extends io.github.jwharm.javagi.ResourceBase {
         Interop.valueLayout.ADDRESS.withName("calloc"),
         Interop.valueLayout.ADDRESS.withName("try_malloc"),
         Interop.valueLayout.ADDRESS.withName("try_realloc")
-    ).withName("GMemVTable");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static MemVTable allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        MemVTable newInstance = new MemVTable(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public MemVTable(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

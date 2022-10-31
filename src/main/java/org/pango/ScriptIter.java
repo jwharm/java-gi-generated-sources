@@ -15,14 +15,26 @@ public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoScriptIter";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static ScriptIter allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        ScriptIter newInstance = new ScriptIter(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public ScriptIter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -31,7 +43,9 @@ public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.pango_script_iter_new.invokeExact(Interop.allocateNativeString(text), length), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.pango_script_iter_new.invokeExact(
+                    Interop.allocateNativeString(text),
+                    length), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -57,7 +71,8 @@ public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.pango_script_iter_free.invokeExact(handle());
+            DowncallHandles.pango_script_iter_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,12 +100,16 @@ public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment endPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment scriptPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.pango_script_iter_get_range.invokeExact(handle(), (Addressable) startPOINTER.address(), (Addressable) endPOINTER.address(), (Addressable) scriptPOINTER.address());
+            DowncallHandles.pango_script_iter_get_range.invokeExact(
+                    handle(),
+                    (Addressable) startPOINTER.address(),
+                    (Addressable) endPOINTER.address(),
+                    (Addressable) scriptPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        start.set(startPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
-        end.set(endPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        start.set(Interop.getStringFrom(startPOINTER.get(ValueLayout.ADDRESS, 0)));
+        end.set(Interop.getStringFrom(endPOINTER.get(ValueLayout.ADDRESS, 0)));
         script.set(new org.pango.Script(scriptPOINTER.get(ValueLayout.JAVA_INT, 0)));
     }
     
@@ -104,7 +123,8 @@ public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean next() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_script_iter_next.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_script_iter_next.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

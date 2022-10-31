@@ -66,13 +66,29 @@ import org.jetbrains.annotations.*;
 public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to SocketConnectable if its GType is a (or inherits from) "GSocketConnectable".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "SocketConnectable" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GSocketConnectable", a ClassCastException will be thrown.
+     */
+    public static SocketConnectable castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSocketConnectable"))) {
+            return new SocketConnectableImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSocketConnectable");
+        }
+    }
+    
+    /**
      * Creates a {@link SocketAddressEnumerator} for {@code connectable}.
      * @return a new {@link SocketAddressEnumerator}.
      */
     default @NotNull org.gtk.gio.SocketAddressEnumerator enumerate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_connectable_enumerate.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_connectable_enumerate.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,7 +108,8 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.gio.SocketAddressEnumerator proxyEnumerate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_connectable_proxy_enumerate.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_connectable_proxy_enumerate.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,11 +129,12 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
     default @NotNull java.lang.String toString_() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_connectable_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_connectable_to_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     @ApiStatus.Internal

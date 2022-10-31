@@ -18,19 +18,31 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
         Graphene.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "graphene_plane_t";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.graphene.Vec3.getMemoryLayout().withName("normal"),
         ValueLayout.JAVA_FLOAT.withName("constant")
-    ).withName("graphene_plane_t");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Plane allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Plane newInstance = new Plane(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Plane(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -66,7 +78,9 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_plane_distance.invokeExact(handle(), point.handle());
+            RESULT = (float) DowncallHandles.graphene_plane_distance.invokeExact(
+                    handle(),
+                    point.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +96,9 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_plane_equal.invokeExact(handle(), b.handle());
+            RESULT = (boolean) DowncallHandles.graphene_plane_equal.invokeExact(
+                    handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,7 +110,8 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_plane_free.invokeExact(handle());
+            DowncallHandles.graphene_plane_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,7 +125,8 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
     public float getConstant() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_plane_get_constant.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_plane_get_constant.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,15 +138,15 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      * given {@link Plane}.
      * @param normal return location for the normal vector
      */
-    public void getNormal(@NotNull Out<org.gtk.graphene.Vec3> normal) {
+    public void getNormal(@NotNull org.gtk.graphene.Vec3 normal) {
         java.util.Objects.requireNonNull(normal, "Parameter 'normal' must not be null");
-        MemorySegment normalPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_plane_get_normal.invokeExact(handle(), (Addressable) normalPOINTER.address());
+            DowncallHandles.graphene_plane_get_normal.invokeExact(
+                    handle(),
+                    normal.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        normal.set(new org.gtk.graphene.Vec3(Refcounted.get(normalPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -142,10 +160,12 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      * @return the initialized plane
      */
     public @NotNull org.gtk.graphene.Plane init(@Nullable org.gtk.graphene.Vec3 normal, float constant) {
-        java.util.Objects.requireNonNullElse(normal, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_plane_init.invokeExact(handle(), normal.handle(), constant);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_plane_init.invokeExact(
+                    handle(),
+                    (Addressable) (normal == null ? MemoryAddress.NULL : normal.handle()),
+                    constant);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,7 +182,9 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_plane_init_from_plane.invokeExact(handle(), src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_plane_init_from_plane.invokeExact(
+                    handle(),
+                    src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,7 +203,10 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_plane_init_from_point.invokeExact(handle(), normal.handle(), point.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_plane_init_from_point.invokeExact(
+                    handle(),
+                    normal.handle(),
+                    point.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,7 +230,11 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(c, "Parameter 'c' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_plane_init_from_points.invokeExact(handle(), a.handle(), b.handle(), c.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_plane_init_from_points.invokeExact(
+                    handle(),
+                    a.handle(),
+                    b.handle(),
+                    c.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,7 +252,9 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_plane_init_from_vec4.invokeExact(handle(), src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_plane_init_from_vec4.invokeExact(
+                    handle(),
+                    src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -235,15 +266,15 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      * mirroring the plane across the origin.
      * @param res return location for the negated plane
      */
-    public void negate(@NotNull Out<org.gtk.graphene.Plane> res) {
+    public void negate(@NotNull org.gtk.graphene.Plane res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_plane_negate.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_plane_negate.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Plane(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -251,15 +282,15 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      * and adjusts the constant accordingly.
      * @param res return location for the normalized plane
      */
-    public void normalize(@NotNull Out<org.gtk.graphene.Plane> res) {
+    public void normalize(@NotNull org.gtk.graphene.Plane res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_plane_normalize.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_plane_normalize.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Plane(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -275,17 +306,18 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      * @param normalMatrix a {@link Matrix}
      * @param res the transformed plane
      */
-    public void transform(@NotNull org.gtk.graphene.Matrix matrix, @Nullable org.gtk.graphene.Matrix normalMatrix, @NotNull Out<org.gtk.graphene.Plane> res) {
+    public void transform(@NotNull org.gtk.graphene.Matrix matrix, @Nullable org.gtk.graphene.Matrix normalMatrix, @NotNull org.gtk.graphene.Plane res) {
         java.util.Objects.requireNonNull(matrix, "Parameter 'matrix' must not be null");
-        java.util.Objects.requireNonNullElse(normalMatrix, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_plane_transform.invokeExact(handle(), matrix.handle(), normalMatrix.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_plane_transform.invokeExact(
+                    handle(),
+                    matrix.handle(),
+                    (Addressable) (normalMatrix == null ? MemoryAddress.NULL : normalMatrix.handle()),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Plane(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     private static class DowncallHandles {

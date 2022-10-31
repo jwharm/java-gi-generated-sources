@@ -71,21 +71,34 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSubprocess";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Subprocess(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Subprocess */
+    /**
+     * Cast object to Subprocess if its GType is a (or inherits from) "GSubprocess".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Subprocess" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GSubprocess", a ClassCastException will be thrown.
+     */
     public static Subprocess castFrom(org.gtk.gobject.Object gobject) {
-        return new Subprocess(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSubprocess"))) {
+            return new Subprocess(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSubprocess");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gio.SubprocessFlags flags, @Nullable PointerProxy<org.gtk.glib.Error> error, @NotNull java.lang.String argv0) {
@@ -115,7 +128,9 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_subprocess_newv.invokeExact(Interop.allocateNativeArray(argv, false), flags.getValue(), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_subprocess_newv.invokeExact(
+                    Interop.allocateNativeArray(argv, false),
+                    flags.getValue(), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -188,25 +203,22 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @return {@code true} if successful
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean communicate(@Nullable org.gtk.glib.Bytes stdinBuf, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable Out<org.gtk.glib.Bytes> stdoutBuf, @Nullable Out<org.gtk.glib.Bytes> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(stdinBuf, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(stdoutBuf, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(stderrBuf, MemoryAddress.NULL);
+    public boolean communicate(@Nullable org.gtk.glib.Bytes stdinBuf, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable PointerProxy<org.gtk.glib.Bytes> stdoutBuf, @Nullable PointerProxy<org.gtk.glib.Bytes> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment stdoutBufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment stderrBufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_subprocess_communicate.invokeExact(handle(), stdinBuf.handle(), cancellable.handle(), (Addressable) stdoutBufPOINTER.address(), (Addressable) stderrBufPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_subprocess_communicate.invokeExact(
+                    handle(),
+                    (Addressable) (stdinBuf == null ? MemoryAddress.NULL : stdinBuf.handle()),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (stdoutBuf == null ? MemoryAddress.NULL : stdoutBuf.handle()),
+                    (Addressable) (stderrBuf == null ? MemoryAddress.NULL : stderrBuf.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        stdoutBuf.set(new org.gtk.glib.Bytes(Refcounted.get(stdoutBufPOINTER.get(ValueLayout.ADDRESS, 0), true)));
-        stderrBuf.set(new org.gtk.glib.Bytes(Refcounted.get(stderrBufPOINTER.get(ValueLayout.ADDRESS, 0), true)));
         return RESULT != 0;
     }
     
@@ -218,17 +230,17 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @param callback Callback
      */
     public void communicateAsync(@Nullable org.gtk.glib.Bytes stdinBuf, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNullElse(stdinBuf, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_subprocess_communicate_async.invokeExact(handle(), stdinBuf.handle(), cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_subprocess_communicate_async.invokeExact(
+                    handle(),
+                    (Addressable) (stdinBuf == null ? MemoryAddress.NULL : stdinBuf.handle()),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -241,24 +253,22 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @param stderrBuf Return location for stderr data
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean communicateFinish(@NotNull org.gtk.gio.AsyncResult result, @Nullable Out<org.gtk.glib.Bytes> stdoutBuf, @Nullable Out<org.gtk.glib.Bytes> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
+    public boolean communicateFinish(@NotNull org.gtk.gio.AsyncResult result, @Nullable PointerProxy<org.gtk.glib.Bytes> stdoutBuf, @Nullable PointerProxy<org.gtk.glib.Bytes> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        java.util.Objects.requireNonNullElse(stdoutBuf, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(stderrBuf, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment stdoutBufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment stderrBufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_subprocess_communicate_finish.invokeExact(handle(), result.handle(), (Addressable) stdoutBufPOINTER.address(), (Addressable) stderrBufPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_subprocess_communicate_finish.invokeExact(
+                    handle(),
+                    result.handle(),
+                    (Addressable) (stdoutBuf == null ? MemoryAddress.NULL : stdoutBuf.handle()),
+                    (Addressable) (stderrBuf == null ? MemoryAddress.NULL : stderrBuf.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        stdoutBuf.set(new org.gtk.glib.Bytes(Refcounted.get(stdoutBufPOINTER.get(ValueLayout.ADDRESS, 0), true)));
-        stderrBuf.set(new org.gtk.glib.Bytes(Refcounted.get(stderrBufPOINTER.get(ValueLayout.ADDRESS, 0), true)));
         return RESULT != 0;
     }
     
@@ -275,24 +285,25 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean communicateUtf8(@Nullable java.lang.String stdinBuf, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable Out<java.lang.String> stdoutBuf, @Nullable Out<java.lang.String> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(stdinBuf, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(stdoutBuf, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(stderrBuf, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment stdoutBufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment stderrBufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_subprocess_communicate_utf8.invokeExact(handle(), Interop.allocateNativeString(stdinBuf), cancellable.handle(), (Addressable) stdoutBufPOINTER.address(), (Addressable) stderrBufPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_subprocess_communicate_utf8.invokeExact(
+                    handle(),
+                    (Addressable) (stdinBuf == null ? MemoryAddress.NULL : Interop.allocateNativeString(stdinBuf)),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (stdoutBuf == null ? MemoryAddress.NULL : (Addressable) stdoutBufPOINTER.address()),
+                    (Addressable) (stderrBuf == null ? MemoryAddress.NULL : (Addressable) stderrBufPOINTER.address()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        stdoutBuf.set(stdoutBufPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
-        stderrBuf.set(stderrBufPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        if (stdoutBuf != null) stdoutBuf.set(Interop.getStringFrom(stdoutBufPOINTER.get(ValueLayout.ADDRESS, 0)));
+        if (stderrBuf != null) stderrBuf.set(Interop.getStringFrom(stderrBufPOINTER.get(ValueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -304,17 +315,17 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @param callback Callback
      */
     public void communicateUtf8Async(@Nullable java.lang.String stdinBuf, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNullElse(stdinBuf, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_subprocess_communicate_utf8_async.invokeExact(handle(), Interop.allocateNativeString(stdinBuf), cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_subprocess_communicate_utf8_async.invokeExact(
+                    handle(),
+                    (Addressable) (stdinBuf == null ? MemoryAddress.NULL : Interop.allocateNativeString(stdinBuf)),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -329,22 +340,24 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      */
     public boolean communicateUtf8Finish(@NotNull org.gtk.gio.AsyncResult result, @Nullable Out<java.lang.String> stdoutBuf, @Nullable Out<java.lang.String> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        java.util.Objects.requireNonNullElse(stdoutBuf, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(stderrBuf, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment stdoutBufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment stderrBufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_subprocess_communicate_utf8_finish.invokeExact(handle(), result.handle(), (Addressable) stdoutBufPOINTER.address(), (Addressable) stderrBufPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_subprocess_communicate_utf8_finish.invokeExact(
+                    handle(),
+                    result.handle(),
+                    (Addressable) (stdoutBuf == null ? MemoryAddress.NULL : (Addressable) stdoutBufPOINTER.address()),
+                    (Addressable) (stderrBuf == null ? MemoryAddress.NULL : (Addressable) stderrBufPOINTER.address()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        stdoutBuf.set(stdoutBufPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
-        stderrBuf.set(stderrBufPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        if (stdoutBuf != null) stdoutBuf.set(Interop.getStringFrom(stdoutBufPOINTER.get(ValueLayout.ADDRESS, 0)));
+        if (stderrBuf != null) stderrBuf.set(Interop.getStringFrom(stderrBufPOINTER.get(ValueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -359,7 +372,8 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      */
     public void forceExit() {
         try {
-            DowncallHandles.g_subprocess_force_exit.invokeExact(handle());
+            DowncallHandles.g_subprocess_force_exit.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -379,7 +393,8 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
     public int getExitStatus() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_subprocess_get_exit_status.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_subprocess_get_exit_status.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -396,11 +411,12 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
     public @Nullable java.lang.String getIdentifier() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_subprocess_get_identifier.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_subprocess_get_identifier.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -416,7 +432,8 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
     public boolean getIfExited() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_subprocess_get_if_exited.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_subprocess_get_if_exited.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -435,7 +452,8 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
     public boolean getIfSignaled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_subprocess_get_if_signaled.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_subprocess_get_if_signaled.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -459,7 +477,8 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
     public int getStatus() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_subprocess_get_status.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_subprocess_get_status.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -477,7 +496,8 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
     public @Nullable org.gtk.gio.InputStream getStderrPipe() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_subprocess_get_stderr_pipe.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_subprocess_get_stderr_pipe.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -495,7 +515,8 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
     public @Nullable org.gtk.gio.OutputStream getStdinPipe() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_subprocess_get_stdin_pipe.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_subprocess_get_stdin_pipe.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -513,7 +534,8 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
     public @Nullable org.gtk.gio.InputStream getStdoutPipe() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_subprocess_get_stdout_pipe.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_subprocess_get_stdout_pipe.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -532,7 +554,8 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
     public boolean getSuccessful() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_subprocess_get_successful.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_subprocess_get_successful.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -552,7 +575,8 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
     public int getTermSig() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_subprocess_get_term_sig.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_subprocess_get_term_sig.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -571,7 +595,9 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      */
     public void sendSignal(int signalNum) {
         try {
-            DowncallHandles.g_subprocess_send_signal.invokeExact(handle(), signalNum);
+            DowncallHandles.g_subprocess_send_signal.invokeExact(
+                    handle(),
+                    signalNum);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -594,11 +620,12 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean wait(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_subprocess_wait.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_subprocess_wait.invokeExact(
+                    handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -616,16 +643,16 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @param callback a {@link AsyncReadyCallback} to call when the operation is complete
      */
     public void waitAsync(@Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_subprocess_wait_async.invokeExact(handle(), cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_subprocess_wait_async.invokeExact(
+                    handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -639,11 +666,12 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean waitCheck(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_subprocess_wait_check.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_subprocess_wait_check.invokeExact(
+                    handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -661,16 +689,16 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @param callback a {@link AsyncReadyCallback} to call when the operation is complete
      */
     public void waitCheckAsync(@Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_subprocess_wait_check_async.invokeExact(handle(), cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_subprocess_wait_check_async.invokeExact(
+                    handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -688,7 +716,9 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_subprocess_wait_check_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_subprocess_wait_check_finish.invokeExact(
+                    handle(),
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -710,7 +740,9 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_subprocess_wait_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_subprocess_wait_finish.invokeExact(
+                    handle(),
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

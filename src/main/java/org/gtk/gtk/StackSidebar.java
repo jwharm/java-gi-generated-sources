@@ -27,21 +27,34 @@ public class StackSidebar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkStackSidebar";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public StackSidebar(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to StackSidebar */
+    /**
+     * Cast object to StackSidebar if its GType is a (or inherits from) "GtkStackSidebar".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "StackSidebar" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkStackSidebar", a ClassCastException will be thrown.
+     */
     public static StackSidebar castFrom(org.gtk.gobject.Object gobject) {
-        return new StackSidebar(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkStackSidebar"))) {
+            return new StackSidebar(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkStackSidebar");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -69,7 +82,8 @@ public class StackSidebar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public @Nullable org.gtk.gtk.Stack getStack() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_sidebar_get_stack.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_sidebar_get_stack.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -86,7 +100,9 @@ public class StackSidebar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public void setStack(@NotNull org.gtk.gtk.Stack stack) {
         java.util.Objects.requireNonNull(stack, "Parameter 'stack' must not be null");
         try {
-            DowncallHandles.gtk_stack_sidebar_set_stack.invokeExact(handle(), stack.handle());
+            DowncallHandles.gtk_stack_sidebar_set_stack.invokeExact(
+                    handle(),
+                    stack.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

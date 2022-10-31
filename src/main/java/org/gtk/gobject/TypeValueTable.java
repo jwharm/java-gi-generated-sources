@@ -15,6 +15,8 @@ public class TypeValueTable extends io.github.jwharm.javagi.ResourceBase {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTypeValueTable";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("value_init"),
         Interop.valueLayout.ADDRESS.withName("value_free"),
@@ -24,16 +26,68 @@ public class TypeValueTable extends io.github.jwharm.javagi.ResourceBase {
         Interop.valueLayout.ADDRESS.withName("collect_value"),
         Interop.valueLayout.ADDRESS.withName("lcopy_format"),
         Interop.valueLayout.ADDRESS.withName("lcopy_value")
-    ).withName("GTypeValueTable");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static TypeValueTable allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        TypeValueTable newInstance = new TypeValueTable(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code collect_format}
+     * @return The value of the field {@code collect_format}
+     */
+    public java.lang.String collect_format$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("collect_format"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringFrom(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code collect_format}
+     * @param collect_format The new value of the field {@code collect_format}
+     */
+    public void collect_format$set(java.lang.String collect_format) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("collect_format"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(collect_format));
+    }
+    
+    /**
+     * Get the value of the field {@code lcopy_format}
+     * @return The value of the field {@code lcopy_format}
+     */
+    public java.lang.String lcopy_format$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("lcopy_format"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringFrom(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code lcopy_format}
+     * @param lcopy_format The new value of the field {@code lcopy_format}
+     */
+    public void lcopy_format$set(java.lang.String lcopy_format) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("lcopy_format"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(lcopy_format));
+    }
+    
+    @ApiStatus.Internal
     public TypeValueTable(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -52,7 +106,8 @@ public class TypeValueTable extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_value_table_peek.invokeExact(type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_value_table_peek.invokeExact(
+                    type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

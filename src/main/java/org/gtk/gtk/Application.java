@@ -73,33 +73,56 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkApplication";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.Application.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkApplication");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gio.Application parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gio.Application(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Application(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Application */
+    /**
+     * Cast object to Application if its GType is a (or inherits from) "GtkApplication".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Application" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkApplication", a ClassCastException will be thrown.
+     */
     public static Application castFrom(org.gtk.gobject.Object gobject) {
-        return new Application(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkApplication"))) {
+            return new Application(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkApplication");
+        }
     }
     
     private static Refcounted constructNew(@Nullable java.lang.String applicationId, @NotNull org.gtk.gio.ApplicationFlags flags) {
-        java.util.Objects.requireNonNullElse(applicationId, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_application_new.invokeExact(Interop.allocateNativeString(applicationId), flags.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_application_new.invokeExact(
+                    (Addressable) (applicationId == null ? MemoryAddress.NULL : Interop.allocateNativeString(applicationId)),
+                    flags.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,7 +176,9 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     public void addWindow(@NotNull org.gtk.gtk.Window window) {
         java.util.Objects.requireNonNull(window, "Parameter 'window' must not be null");
         try {
-            DowncallHandles.gtk_application_add_window.invokeExact(handle(), window.handle());
+            DowncallHandles.gtk_application_add_window.invokeExact(
+                    handle(),
+                    window.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,7 +195,9 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
         java.util.Objects.requireNonNull(detailedActionName, "Parameter 'detailedActionName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_application_get_accels_for_action.invokeExact(handle(), Interop.allocateNativeString(detailedActionName));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_application_get_accels_for_action.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(detailedActionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,7 +229,9 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
         java.util.Objects.requireNonNull(accel, "Parameter 'accel' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_application_get_actions_for_accel.invokeExact(handle(), Interop.allocateNativeString(accel));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_application_get_actions_for_accel.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(accel));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -221,7 +250,8 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     public @Nullable org.gtk.gtk.Window getActiveWindow() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_application_get_active_window.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_application_get_active_window.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -241,7 +271,9 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
         java.util.Objects.requireNonNull(id, "Parameter 'id' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_application_get_menu_by_id.invokeExact(handle(), Interop.allocateNativeString(id));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_application_get_menu_by_id.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(id));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -256,7 +288,8 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     public @Nullable org.gtk.gio.MenuModel getMenubar() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_application_get_menubar.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_application_get_menubar.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -274,7 +307,9 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     public @Nullable org.gtk.gtk.Window getWindowById(int id) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_application_get_window_by_id.invokeExact(handle(), id);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_application_get_window_by_id.invokeExact(
+                    handle(),
+                    id);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -297,7 +332,8 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     public @NotNull org.gtk.glib.List getWindows() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_application_get_windows.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_application_get_windows.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -338,12 +374,14 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      *   inhibiting or the request failed for some reason, 0 is returned.
      */
     public int inhibit(@Nullable org.gtk.gtk.Window window, @NotNull org.gtk.gtk.ApplicationInhibitFlags flags, @Nullable java.lang.String reason) {
-        java.util.Objects.requireNonNullElse(window, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNullElse(reason, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_application_inhibit.invokeExact(handle(), window.handle(), flags.getValue(), Interop.allocateNativeString(reason));
+            RESULT = (int) DowncallHandles.gtk_application_inhibit.invokeExact(
+                    handle(),
+                    (Addressable) (window == null ? MemoryAddress.NULL : window.handle()),
+                    flags.getValue(),
+                    (Addressable) (reason == null ? MemoryAddress.NULL : Interop.allocateNativeString(reason)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -359,7 +397,8 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     public @NotNull PointerString listActionDescriptions() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_application_list_action_descriptions.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_application_list_action_descriptions.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -380,7 +419,9 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     public void removeWindow(@NotNull org.gtk.gtk.Window window) {
         java.util.Objects.requireNonNull(window, "Parameter 'window' must not be null");
         try {
-            DowncallHandles.gtk_application_remove_window.invokeExact(handle(), window.handle());
+            DowncallHandles.gtk_application_remove_window.invokeExact(
+                    handle(),
+                    window.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -407,7 +448,10 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
         java.util.Objects.requireNonNull(detailedActionName, "Parameter 'detailedActionName' must not be null");
         java.util.Objects.requireNonNull(accels, "Parameter 'accels' must not be null");
         try {
-            DowncallHandles.gtk_application_set_accels_for_action.invokeExact(handle(), Interop.allocateNativeString(detailedActionName), Interop.allocateNativeArray(accels, false));
+            DowncallHandles.gtk_application_set_accels_for_action.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(detailedActionName),
+                    Interop.allocateNativeArray(accels, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -435,9 +479,10 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * @param menubar a {@code GMenuModel}
      */
     public void setMenubar(@Nullable org.gtk.gio.MenuModel menubar) {
-        java.util.Objects.requireNonNullElse(menubar, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_application_set_menubar.invokeExact(handle(), menubar.handle());
+            DowncallHandles.gtk_application_set_menubar.invokeExact(
+                    handle(),
+                    (Addressable) (menubar == null ? MemoryAddress.NULL : menubar.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -453,7 +498,9 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      */
     public void uninhibit(int cookie) {
         try {
-            DowncallHandles.gtk_application_uninhibit.invokeExact(handle(), cookie);
+            DowncallHandles.gtk_application_uninhibit.invokeExact(
+                    handle(),
+                    cookie);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -53,25 +53,47 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkFixed";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkFixed");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gtk.Widget parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gtk.Widget(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Fixed(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Fixed */
+    /**
+     * Cast object to Fixed if its GType is a (or inherits from) "GtkFixed".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Fixed" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkFixed", a ClassCastException will be thrown.
+     */
     public static Fixed castFrom(org.gtk.gobject.Object gobject) {
-        return new Fixed(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFixed"))) {
+            return new Fixed(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkFixed");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -107,7 +129,11 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         try {
-            DowncallHandles.gtk_fixed_get_child_position.invokeExact(handle(), widget.handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            DowncallHandles.gtk_fixed_get_child_position.invokeExact(
+                    handle(),
+                    widget.handle(),
+                    (Addressable) xPOINTER.address(),
+                    (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,7 +151,9 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_fixed_get_child_transform.invokeExact(handle(), widget.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_fixed_get_child_transform.invokeExact(
+                    handle(),
+                    widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,7 +170,11 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void move(@NotNull org.gtk.gtk.Widget widget, double x, double y) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            DowncallHandles.gtk_fixed_move.invokeExact(handle(), widget.handle(), x, y);
+            DowncallHandles.gtk_fixed_move.invokeExact(
+                    handle(),
+                    widget.handle(),
+                    x,
+                    y);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -157,7 +189,11 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void put(@NotNull org.gtk.gtk.Widget widget, double x, double y) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            DowncallHandles.gtk_fixed_put.invokeExact(handle(), widget.handle(), x, y);
+            DowncallHandles.gtk_fixed_put.invokeExact(
+                    handle(),
+                    widget.handle(),
+                    x,
+                    y);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,7 +206,9 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void remove(@NotNull org.gtk.gtk.Widget widget) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            DowncallHandles.gtk_fixed_remove.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_fixed_remove.invokeExact(
+                    handle(),
+                    widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -188,9 +226,11 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setChildTransform(@NotNull org.gtk.gtk.Widget widget, @Nullable org.gtk.gsk.Transform transform) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
-        java.util.Objects.requireNonNullElse(transform, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_fixed_set_child_transform.invokeExact(handle(), widget.handle(), transform.handle());
+            DowncallHandles.gtk_fixed_set_child_transform.invokeExact(
+                    handle(),
+                    widget.handle(),
+                    (Addressable) (transform == null ? MemoryAddress.NULL : transform.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

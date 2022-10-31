@@ -122,28 +122,42 @@ public class GLShader extends org.gtk.gobject.Object {
         Gsk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GskGLShader";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public GLShader(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to GLShader */
+    /**
+     * Cast object to GLShader if its GType is a (or inherits from) "GskGLShader".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "GLShader" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GskGLShader", a ClassCastException will be thrown.
+     */
     public static GLShader castFrom(org.gtk.gobject.Object gobject) {
-        return new GLShader(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskGLShader"))) {
+            return new GLShader(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskGLShader");
+        }
     }
     
     private static Refcounted constructNewFromBytes(@NotNull org.gtk.glib.Bytes sourcecode) {
         java.util.Objects.requireNonNull(sourcecode, "Parameter 'sourcecode' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_gl_shader_new_from_bytes.invokeExact(sourcecode.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_gl_shader_new_from_bytes.invokeExact(
+                    sourcecode.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -163,7 +177,8 @@ public class GLShader extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(resourcePath, "Parameter 'resourcePath' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_gl_shader_new_from_resource.invokeExact(Interop.allocateNativeString(resourcePath)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_gl_shader_new_from_resource.invokeExact(
+                    Interop.allocateNativeString(resourcePath)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,7 +217,9 @@ public class GLShader extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_gl_shader_compile.invokeExact(handle(), renderer.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gsk_gl_shader_compile.invokeExact(
+                    handle(),
+                    renderer.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -222,7 +239,9 @@ public class GLShader extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_gl_shader_find_uniform_by_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (int) DowncallHandles.gsk_gl_shader_find_uniform_by_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -267,7 +286,9 @@ public class GLShader extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(uniforms, "Parameter 'uniforms' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_format_args_va.invokeExact(handle(), uniforms);
+            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_format_args_va.invokeExact(
+                    handle(),
+                    uniforms);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -286,7 +307,10 @@ public class GLShader extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_gl_shader_get_arg_bool.invokeExact(handle(), args.handle(), idx);
+            RESULT = (int) DowncallHandles.gsk_gl_shader_get_arg_bool.invokeExact(
+                    handle(),
+                    args.handle(),
+                    idx);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -305,7 +329,10 @@ public class GLShader extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gsk_gl_shader_get_arg_float.invokeExact(handle(), args.handle(), idx);
+            RESULT = (float) DowncallHandles.gsk_gl_shader_get_arg_float.invokeExact(
+                    handle(),
+                    args.handle(),
+                    idx);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -324,7 +351,10 @@ public class GLShader extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_gl_shader_get_arg_int.invokeExact(handle(), args.handle(), idx);
+            RESULT = (int) DowncallHandles.gsk_gl_shader_get_arg_int.invokeExact(
+                    handle(),
+                    args.handle(),
+                    idx);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -343,7 +373,10 @@ public class GLShader extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_gl_shader_get_arg_uint.invokeExact(handle(), args.handle(), idx);
+            RESULT = (int) DowncallHandles.gsk_gl_shader_get_arg_uint.invokeExact(
+                    handle(),
+                    args.handle(),
+                    idx);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -362,7 +395,11 @@ public class GLShader extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(outValue, "Parameter 'outValue' must not be null");
         try {
-            DowncallHandles.gsk_gl_shader_get_arg_vec2.invokeExact(handle(), args.handle(), idx, outValue.handle());
+            DowncallHandles.gsk_gl_shader_get_arg_vec2.invokeExact(
+                    handle(),
+                    args.handle(),
+                    idx,
+                    outValue.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -380,7 +417,11 @@ public class GLShader extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(outValue, "Parameter 'outValue' must not be null");
         try {
-            DowncallHandles.gsk_gl_shader_get_arg_vec3.invokeExact(handle(), args.handle(), idx, outValue.handle());
+            DowncallHandles.gsk_gl_shader_get_arg_vec3.invokeExact(
+                    handle(),
+                    args.handle(),
+                    idx,
+                    outValue.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -398,7 +439,11 @@ public class GLShader extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(outValue, "Parameter 'outValue' must not be null");
         try {
-            DowncallHandles.gsk_gl_shader_get_arg_vec4.invokeExact(handle(), args.handle(), idx, outValue.handle());
+            DowncallHandles.gsk_gl_shader_get_arg_vec4.invokeExact(
+                    handle(),
+                    args.handle(),
+                    idx,
+                    outValue.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -411,7 +456,8 @@ public class GLShader extends org.gtk.gobject.Object {
     public long getArgsSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gsk_gl_shader_get_args_size.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gsk_gl_shader_get_args_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -429,7 +475,8 @@ public class GLShader extends org.gtk.gobject.Object {
     public int getNTextures() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_gl_shader_get_n_textures.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gsk_gl_shader_get_n_textures.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -443,7 +490,8 @@ public class GLShader extends org.gtk.gobject.Object {
     public int getNUniforms() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_gl_shader_get_n_uniforms.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gsk_gl_shader_get_n_uniforms.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -458,11 +506,12 @@ public class GLShader extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getResource() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_get_resource.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_get_resource.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -472,7 +521,8 @@ public class GLShader extends org.gtk.gobject.Object {
     public @NotNull org.gtk.glib.Bytes getSource() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_get_source.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_get_source.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -487,11 +537,13 @@ public class GLShader extends org.gtk.gobject.Object {
     public @NotNull java.lang.String getUniformName(int idx) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_get_uniform_name.invokeExact(handle(), idx);
+            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_get_uniform_name.invokeExact(
+                    handle(),
+                    idx);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -502,7 +554,9 @@ public class GLShader extends org.gtk.gobject.Object {
     public int getUniformOffset(int idx) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_gl_shader_get_uniform_offset.invokeExact(handle(), idx);
+            RESULT = (int) DowncallHandles.gsk_gl_shader_get_uniform_offset.invokeExact(
+                    handle(),
+                    idx);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -517,7 +571,9 @@ public class GLShader extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gsk.GLUniformType getUniformType(int idx) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_gl_shader_get_uniform_type.invokeExact(handle(), idx);
+            RESULT = (int) DowncallHandles.gsk_gl_shader_get_uniform_type.invokeExact(
+                    handle(),
+                    idx);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

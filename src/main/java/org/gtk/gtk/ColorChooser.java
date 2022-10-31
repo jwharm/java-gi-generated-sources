@@ -18,6 +18,21 @@ import org.jetbrains.annotations.*;
 public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to ColorChooser if its GType is a (or inherits from) "GtkColorChooser".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ColorChooser" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkColorChooser", a ClassCastException will be thrown.
+     */
+    public static ColorChooser castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkColorChooser"))) {
+            return new ColorChooserImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkColorChooser");
+        }
+    }
+    
+    /**
      * Adds a palette to the color chooser.
      * <p>
      * If {@code orientation} is horizontal, the colors are grouped in rows,
@@ -43,9 +58,13 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
      */
     default void addPalette(@NotNull org.gtk.gtk.Orientation orientation, int colorsPerLine, int nColors, org.gtk.gdk.RGBA[] colors) {
         java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
-        java.util.Objects.requireNonNullElse(colors, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_color_chooser_add_palette.invokeExact(handle(), orientation.getValue(), colorsPerLine, nColors, Interop.allocateNativeArray(colors, false));
+            DowncallHandles.gtk_color_chooser_add_palette.invokeExact(
+                    handle(),
+                    orientation.getValue(),
+                    colorsPerLine,
+                    nColors,
+                    (Addressable) (colors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(colors, false)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -55,15 +74,15 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
      * Gets the currently-selected color.
      * @param color a {@code GdkRGBA} to fill in with the current color
      */
-    default void getRgba(@NotNull Out<org.gtk.gdk.RGBA> color) {
+    default void getRgba(@NotNull org.gtk.gdk.RGBA color) {
         java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
-        MemorySegment colorPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_color_chooser_get_rgba.invokeExact(handle(), (Addressable) colorPOINTER.address());
+            DowncallHandles.gtk_color_chooser_get_rgba.invokeExact(
+                    handle(),
+                    color.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        color.set(new org.gtk.gdk.RGBA(Refcounted.get(colorPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -74,7 +93,8 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
     default boolean getUseAlpha() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_color_chooser_get_use_alpha.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_color_chooser_get_use_alpha.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,7 +108,9 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
     default void setRgba(@NotNull org.gtk.gdk.RGBA color) {
         java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
         try {
-            DowncallHandles.gtk_color_chooser_set_rgba.invokeExact(handle(), color.handle());
+            DowncallHandles.gtk_color_chooser_set_rgba.invokeExact(
+                    handle(),
+                    color.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,7 +122,9 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
      */
     default void setUseAlpha(boolean useAlpha) {
         try {
-            DowncallHandles.gtk_color_chooser_set_use_alpha.invokeExact(handle(), useAlpha ? 1 : 0);
+            DowncallHandles.gtk_color_chooser_set_use_alpha.invokeExact(
+                    handle(),
+                    useAlpha ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

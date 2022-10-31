@@ -33,21 +33,34 @@ public class TextTagTable extends org.gtk.gobject.Object implements org.gtk.gtk.
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkTextTagTable";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public TextTagTable(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TextTagTable */
+    /**
+     * Cast object to TextTagTable if its GType is a (or inherits from) "GtkTextTagTable".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TextTagTable" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkTextTagTable", a ClassCastException will be thrown.
+     */
     public static TextTagTable castFrom(org.gtk.gobject.Object gobject) {
-        return new TextTagTable(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTextTagTable"))) {
+            return new TextTagTable(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTextTagTable");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -83,7 +96,9 @@ public class TextTagTable extends org.gtk.gobject.Object implements org.gtk.gtk.
         java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_tag_table_add.invokeExact(handle(), tag.handle());
+            RESULT = (int) DowncallHandles.gtk_text_tag_table_add.invokeExact(
+                    handle(),
+                    tag.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,13 +115,14 @@ public class TextTagTable extends org.gtk.gobject.Object implements org.gtk.gtk.
     public void foreach(@NotNull org.gtk.gtk.TextTagTableForeach func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.gtk_text_tag_table_foreach.invokeExact(handle(), 
+            DowncallHandles.gtk_text_tag_table_foreach.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTextTagTableForeach",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,7 +135,8 @@ public class TextTagTable extends org.gtk.gobject.Object implements org.gtk.gtk.
     public int getSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_tag_table_get_size.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_tag_table_get_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,7 +152,9 @@ public class TextTagTable extends org.gtk.gobject.Object implements org.gtk.gtk.
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_tag_table_lookup.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_tag_table_lookup.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,7 +173,9 @@ public class TextTagTable extends org.gtk.gobject.Object implements org.gtk.gtk.
     public void remove(@NotNull org.gtk.gtk.TextTag tag) {
         java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
         try {
-            DowncallHandles.gtk_text_tag_table_remove.invokeExact(handle(), tag.handle());
+            DowncallHandles.gtk_text_tag_table_remove.invokeExact(
+                    handle(),
+                    tag.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

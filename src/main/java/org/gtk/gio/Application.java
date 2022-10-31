@@ -132,34 +132,48 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GApplication";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.ApplicationPrivate.getMemoryLayout().withName("priv")
-    ).withName("GApplication");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    @ApiStatus.Internal
     public Application(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Application */
+    /**
+     * Cast object to Application if its GType is a (or inherits from) "GApplication".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Application" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GApplication", a ClassCastException will be thrown.
+     */
     public static Application castFrom(org.gtk.gobject.Object gobject) {
-        return new Application(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GApplication"))) {
+            return new Application(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GApplication");
+        }
     }
     
     private static Refcounted constructNew(@Nullable java.lang.String applicationId, @NotNull org.gtk.gio.ApplicationFlags flags) {
-        java.util.Objects.requireNonNullElse(applicationId, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_application_new.invokeExact(Interop.allocateNativeString(applicationId), flags.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_application_new.invokeExact(
+                    (Addressable) (applicationId == null ? MemoryAddress.NULL : Interop.allocateNativeString(applicationId)),
+                    flags.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -191,7 +205,8 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      */
     public void activate() {
         try {
-            DowncallHandles.g_application_activate.invokeExact(handle());
+            DowncallHandles.g_application_activate.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -224,9 +239,15 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         java.util.Objects.requireNonNull(arg, "Parameter 'arg' must not be null");
         java.util.Objects.requireNonNull(description, "Parameter 'description' must not be null");
-        java.util.Objects.requireNonNullElse(argDescription, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_application_add_main_option.invokeExact(handle(), Interop.allocateNativeString(longName), shortName, flags.getValue(), arg.getValue(), Interop.allocateNativeString(description), Interop.allocateNativeString(argDescription));
+            DowncallHandles.g_application_add_main_option.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(longName),
+                    shortName,
+                    flags.getValue(),
+                    arg.getValue(),
+                    Interop.allocateNativeString(description),
+                    (Addressable) (argDescription == null ? MemoryAddress.NULL : Interop.allocateNativeString(argDescription)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -295,7 +316,9 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     public void addMainOptionEntries(org.gtk.glib.OptionEntry[] entries) {
         java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
         try {
-            DowncallHandles.g_application_add_main_option_entries.invokeExact(handle(), Interop.allocateNativeArray(entries, false));
+            DowncallHandles.g_application_add_main_option_entries.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(entries, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -332,7 +355,9 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     public void addOptionGroup(@NotNull org.gtk.glib.OptionGroup group) {
         java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
         try {
-            DowncallHandles.g_application_add_option_group.invokeExact(handle(), group.refcounted().unowned().handle());
+            DowncallHandles.g_application_add_option_group.invokeExact(
+                    handle(),
+                    group.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -352,7 +377,10 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
         java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
         java.util.Objects.requireNonNull(property, "Parameter 'property' must not be null");
         try {
-            DowncallHandles.g_application_bind_busy_property.invokeExact(handle(), object.handle(), Interop.allocateNativeString(property));
+            DowncallHandles.g_application_bind_busy_property.invokeExact(
+                    handle(),
+                    object.handle(),
+                    Interop.allocateNativeString(property));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -365,11 +393,12 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     public @Nullable java.lang.String getApplicationId() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_application_get_application_id.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_application_get_application_id.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -391,7 +420,8 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     public @Nullable org.gtk.gio.DBusConnection getDbusConnection() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_application_get_dbus_connection.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_application_get_dbus_connection.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -418,11 +448,12 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     public @Nullable java.lang.String getDbusObjectPath() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_application_get_dbus_object_path.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_application_get_dbus_object_path.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -434,7 +465,8 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     public @NotNull org.gtk.gio.ApplicationFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_application_get_flags.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_application_get_flags.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -451,7 +483,8 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     public int getInactivityTimeout() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_application_get_inactivity_timeout.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_application_get_inactivity_timeout.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -466,7 +499,8 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     public boolean getIsBusy() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_application_get_is_busy.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_application_get_is_busy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -483,7 +517,8 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     public boolean getIsRegistered() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_application_get_is_registered.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_application_get_is_registered.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -506,7 +541,8 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     public boolean getIsRemote() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_application_get_is_remote.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_application_get_is_remote.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -522,11 +558,12 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     public @Nullable java.lang.String getResourceBasePath() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_application_get_resource_base_path.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_application_get_resource_base_path.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -540,7 +577,8 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      */
     public void hold() {
         try {
-            DowncallHandles.g_application_hold.invokeExact(handle());
+            DowncallHandles.g_application_hold.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -562,7 +600,8 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      */
     public void markBusy() {
         try {
-            DowncallHandles.g_application_mark_busy.invokeExact(handle());
+            DowncallHandles.g_application_mark_busy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -591,7 +630,11 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
         java.util.Objects.requireNonNull(files, "Parameter 'files' must not be null");
         java.util.Objects.requireNonNull(hint, "Parameter 'hint' must not be null");
         try {
-            DowncallHandles.g_application_open.invokeExact(handle(), Interop.allocateNativeArray(files, false), nFiles, Interop.allocateNativeString(hint));
+            DowncallHandles.g_application_open.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(files, false),
+                    nFiles,
+                    Interop.allocateNativeString(hint));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -614,7 +657,8 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      */
     public void quit() {
         try {
-            DowncallHandles.g_application_quit.invokeExact(handle());
+            DowncallHandles.g_application_quit.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -656,11 +700,12 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean register(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_application_register.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_application_register.invokeExact(
+                    handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -680,7 +725,8 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      */
     public void release() {
         try {
-            DowncallHandles.g_application_release.invokeExact(handle());
+            DowncallHandles.g_application_release.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -767,10 +813,12 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * @return the exit status
      */
     public int run(int argc, java.lang.String[] argv) {
-        java.util.Objects.requireNonNullElse(argv, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_application_run.invokeExact(handle(), argc, Interop.allocateNativeArray(argv, false));
+            RESULT = (int) DowncallHandles.g_application_run.invokeExact(
+                    handle(),
+                    argc,
+                    (Addressable) (argv == null ? MemoryAddress.NULL : Interop.allocateNativeArray(argv, false)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -808,10 +856,12 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * @param notification the {@link Notification} to send
      */
     public void sendNotification(@Nullable java.lang.String id, @NotNull org.gtk.gio.Notification notification) {
-        java.util.Objects.requireNonNullElse(id, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(notification, "Parameter 'notification' must not be null");
         try {
-            DowncallHandles.g_application_send_notification.invokeExact(handle(), Interop.allocateNativeString(id), notification.handle());
+            DowncallHandles.g_application_send_notification.invokeExact(
+                    handle(),
+                    (Addressable) (id == null ? MemoryAddress.NULL : Interop.allocateNativeString(id)),
+                    notification.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -829,9 +879,10 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      */
     @Deprecated
     public void setActionGroup(@Nullable org.gtk.gio.ActionGroup actionGroup) {
-        java.util.Objects.requireNonNullElse(actionGroup, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_application_set_action_group.invokeExact(handle(), actionGroup.handle());
+            DowncallHandles.g_application_set_action_group.invokeExact(
+                    handle(),
+                    (Addressable) (actionGroup == null ? MemoryAddress.NULL : actionGroup.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -848,9 +899,10 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * @param applicationId the identifier for {@code application}
      */
     public void setApplicationId(@Nullable java.lang.String applicationId) {
-        java.util.Objects.requireNonNullElse(applicationId, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_application_set_application_id.invokeExact(handle(), Interop.allocateNativeString(applicationId));
+            DowncallHandles.g_application_set_application_id.invokeExact(
+                    handle(),
+                    (Addressable) (applicationId == null ? MemoryAddress.NULL : Interop.allocateNativeString(applicationId)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -866,7 +918,8 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      */
     public void setDefault() {
         try {
-            DowncallHandles.g_application_set_default.invokeExact(handle());
+            DowncallHandles.g_application_set_default.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -884,7 +937,9 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     public void setFlags(@NotNull org.gtk.gio.ApplicationFlags flags) {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            DowncallHandles.g_application_set_flags.invokeExact(handle(), flags.getValue());
+            DowncallHandles.g_application_set_flags.invokeExact(
+                    handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -903,7 +958,9 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      */
     public void setInactivityTimeout(int inactivityTimeout) {
         try {
-            DowncallHandles.g_application_set_inactivity_timeout.invokeExact(handle(), inactivityTimeout);
+            DowncallHandles.g_application_set_inactivity_timeout.invokeExact(
+                    handle(),
+                    inactivityTimeout);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -917,9 +974,10 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      *  after the list of options, or {@code null}
      */
     public void setOptionContextDescription(@Nullable java.lang.String description) {
-        java.util.Objects.requireNonNullElse(description, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_application_set_option_context_description.invokeExact(handle(), Interop.allocateNativeString(description));
+            DowncallHandles.g_application_set_option_context_description.invokeExact(
+                    handle(),
+                    (Addressable) (description == null ? MemoryAddress.NULL : Interop.allocateNativeString(description)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -936,9 +994,10 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      *   in the first line of {@code --help} output, after the usage summary {@code programname [OPTION...]}.
      */
     public void setOptionContextParameterString(@Nullable java.lang.String parameterString) {
-        java.util.Objects.requireNonNullElse(parameterString, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_application_set_option_context_parameter_string.invokeExact(handle(), Interop.allocateNativeString(parameterString));
+            DowncallHandles.g_application_set_option_context_parameter_string.invokeExact(
+                    handle(),
+                    (Addressable) (parameterString == null ? MemoryAddress.NULL : Interop.allocateNativeString(parameterString)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -952,9 +1011,10 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      *  before the list of options, or {@code null}
      */
     public void setOptionContextSummary(@Nullable java.lang.String summary) {
-        java.util.Objects.requireNonNullElse(summary, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_application_set_option_context_summary.invokeExact(handle(), Interop.allocateNativeString(summary));
+            DowncallHandles.g_application_set_option_context_summary.invokeExact(
+                    handle(),
+                    (Addressable) (summary == null ? MemoryAddress.NULL : Interop.allocateNativeString(summary)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -997,9 +1057,10 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * @param resourcePath the resource path to use
      */
     public void setResourceBasePath(@Nullable java.lang.String resourcePath) {
-        java.util.Objects.requireNonNullElse(resourcePath, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_application_set_resource_base_path.invokeExact(handle(), Interop.allocateNativeString(resourcePath));
+            DowncallHandles.g_application_set_resource_base_path.invokeExact(
+                    handle(),
+                    (Addressable) (resourcePath == null ? MemoryAddress.NULL : Interop.allocateNativeString(resourcePath)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1016,7 +1077,10 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
         java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
         java.util.Objects.requireNonNull(property, "Parameter 'property' must not be null");
         try {
-            DowncallHandles.g_application_unbind_busy_property.invokeExact(handle(), object.handle(), Interop.allocateNativeString(property));
+            DowncallHandles.g_application_unbind_busy_property.invokeExact(
+                    handle(),
+                    object.handle(),
+                    Interop.allocateNativeString(property));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1033,7 +1097,8 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      */
     public void unmarkBusy() {
         try {
-            DowncallHandles.g_application_unmark_busy.invokeExact(handle());
+            DowncallHandles.g_application_unmark_busy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1058,7 +1123,9 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     public void withdrawNotification(@NotNull java.lang.String id) {
         java.util.Objects.requireNonNull(id, "Parameter 'id' must not be null");
         try {
-            DowncallHandles.g_application_withdraw_notification.invokeExact(handle(), Interop.allocateNativeString(id));
+            DowncallHandles.g_application_withdraw_notification.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(id));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1142,7 +1209,8 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
         java.util.Objects.requireNonNull(applicationId, "Parameter 'applicationId' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_application_id_is_valid.invokeExact(Interop.allocateNativeString(applicationId));
+            RESULT = (int) DowncallHandles.g_application_id_is_valid.invokeExact(
+                    Interop.allocateNativeString(applicationId));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -18,29 +18,43 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSimpleAction";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public SimpleAction(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to SimpleAction */
+    /**
+     * Cast object to SimpleAction if its GType is a (or inherits from) "GSimpleAction".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "SimpleAction" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GSimpleAction", a ClassCastException will be thrown.
+     */
     public static SimpleAction castFrom(org.gtk.gobject.Object gobject) {
-        return new SimpleAction(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSimpleAction"))) {
+            return new SimpleAction(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSimpleAction");
+        }
     }
     
     private static Refcounted constructNew(@NotNull java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNullElse(parameterType, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_simple_action_new.invokeExact(Interop.allocateNativeString(name), parameterType.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_simple_action_new.invokeExact(
+                    Interop.allocateNativeString(name),
+                    (Addressable) (parameterType == null ? MemoryAddress.NULL : parameterType.handle())), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -62,11 +76,13 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
     
     private static Refcounted constructNewStateful(@NotNull java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType, @NotNull org.gtk.glib.Variant state) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNullElse(parameterType, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_simple_action_new_stateful.invokeExact(Interop.allocateNativeString(name), parameterType.handle(), state.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_simple_action_new_stateful.invokeExact(
+                    Interop.allocateNativeString(name),
+                    (Addressable) (parameterType == null ? MemoryAddress.NULL : parameterType.handle()),
+                    state.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,7 +118,9 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
      */
     public void setEnabled(boolean enabled) {
         try {
-            DowncallHandles.g_simple_action_set_enabled.invokeExact(handle(), enabled ? 1 : 0);
+            DowncallHandles.g_simple_action_set_enabled.invokeExact(
+                    handle(),
+                    enabled ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,7 +142,9 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
     public void setState(@NotNull org.gtk.glib.Variant value) {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.g_simple_action_set_state.invokeExact(handle(), value.handle());
+            DowncallHandles.g_simple_action_set_state.invokeExact(
+                    handle(),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,9 +158,10 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
      * @param stateHint a {@link org.gtk.glib.Variant} representing the state hint
      */
     public void setStateHint(@Nullable org.gtk.glib.Variant stateHint) {
-        java.util.Objects.requireNonNullElse(stateHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_simple_action_set_state_hint.invokeExact(handle(), stateHint.handle());
+            DowncallHandles.g_simple_action_set_state_hint.invokeExact(
+                    handle(),
+                    (Addressable) (stateHint == null ? MemoryAddress.NULL : stateHint.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

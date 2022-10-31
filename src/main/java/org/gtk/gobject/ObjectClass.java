@@ -38,9 +38,11 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GObjectClass";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.TypeClass.getMemoryLayout().withName("g_type_class"),
-        org.gtk.glib.SList.getMemoryLayout().withName("construct_properties"),
+        Interop.valueLayout.ADDRESS.withName("construct_properties"),
         Interop.valueLayout.ADDRESS.withName("constructor"),
         Interop.valueLayout.ADDRESS.withName("set_property"),
         Interop.valueLayout.ADDRESS.withName("get_property"),
@@ -50,17 +52,37 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
         Interop.valueLayout.ADDRESS.withName("notify"),
         Interop.valueLayout.ADDRESS.withName("constructed"),
         ValueLayout.JAVA_LONG.withName("flags"),
+        MemoryLayout.paddingLayout(64),
         MemoryLayout.sequenceLayout(6, ValueLayout.ADDRESS).withName("pdummy")
-    ).withName("GObjectClass");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static ObjectClass allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        ObjectClass newInstance = new ObjectClass(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code g_type_class}
+     * @return The value of the field {@code g_type_class}
+     */
+    public org.gtk.gobject.TypeClass g_type_class$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_type_class"));
+        return new org.gtk.gobject.TypeClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public ObjectClass(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -75,7 +97,9 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(propertyName, "Parameter 'propertyName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_object_class_find_property.invokeExact(handle(), Interop.allocateNativeString(propertyName));
+            RESULT = (MemoryAddress) DowncallHandles.g_object_class_find_property.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(propertyName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,7 +173,10 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
     public void installProperties(int nPspecs, org.gtk.gobject.ParamSpec[] pspecs) {
         java.util.Objects.requireNonNull(pspecs, "Parameter 'pspecs' must not be null");
         try {
-            DowncallHandles.g_object_class_install_properties.invokeExact(handle(), nPspecs, Interop.allocateNativeArray(pspecs, false));
+            DowncallHandles.g_object_class_install_properties.invokeExact(
+                    handle(),
+                    nPspecs,
+                    Interop.allocateNativeArray(pspecs, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -172,7 +199,10 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
     public void installProperty(int propertyId, @NotNull org.gtk.gobject.ParamSpec pspec) {
         java.util.Objects.requireNonNull(pspec, "Parameter 'pspec' must not be null");
         try {
-            DowncallHandles.g_object_class_install_property.invokeExact(handle(), propertyId, pspec.handle());
+            DowncallHandles.g_object_class_install_property.invokeExact(
+                    handle(),
+                    propertyId,
+                    pspec.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -189,7 +219,9 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment nPropertiesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_object_class_list_properties.invokeExact(handle(), (Addressable) nPropertiesPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_object_class_list_properties.invokeExact(
+                    handle(),
+                    (Addressable) nPropertiesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -226,7 +258,10 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
     public void overrideProperty(int propertyId, @NotNull java.lang.String name) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            DowncallHandles.g_object_class_override_property.invokeExact(handle(), propertyId, Interop.allocateNativeString(name));
+            DowncallHandles.g_object_class_override_property.invokeExact(
+                    handle(),
+                    propertyId,
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -14,25 +14,47 @@ public class ListBoxRow extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkListBoxRow";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkListBoxRow");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gtk.Widget parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gtk.Widget(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public ListBoxRow(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ListBoxRow */
+    /**
+     * Cast object to ListBoxRow if its GType is a (or inherits from) "GtkListBoxRow".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ListBoxRow" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkListBoxRow", a ClassCastException will be thrown.
+     */
     public static ListBoxRow castFrom(org.gtk.gobject.Object gobject) {
-        return new ListBoxRow(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkListBoxRow"))) {
+            return new ListBoxRow(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkListBoxRow");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -74,7 +96,8 @@ public class ListBoxRow extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public void changed() {
         try {
-            DowncallHandles.gtk_list_box_row_changed.invokeExact(handle());
+            DowncallHandles.gtk_list_box_row_changed.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,7 +110,8 @@ public class ListBoxRow extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public boolean getActivatable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_box_row_get_activatable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_list_box_row_get_activatable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -101,7 +125,8 @@ public class ListBoxRow extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_row_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_row_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,7 +145,8 @@ public class ListBoxRow extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @Nullable org.gtk.gtk.Widget getHeader() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_row_get_header.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_row_get_header.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,7 +160,8 @@ public class ListBoxRow extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public int getIndex() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_box_row_get_index.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_list_box_row_get_index.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -148,7 +175,8 @@ public class ListBoxRow extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public boolean getSelectable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_box_row_get_selectable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_list_box_row_get_selectable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -163,7 +191,8 @@ public class ListBoxRow extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public boolean isSelected() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_box_row_is_selected.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_list_box_row_is_selected.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -176,7 +205,9 @@ public class ListBoxRow extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public void setActivatable(boolean activatable) {
         try {
-            DowncallHandles.gtk_list_box_row_set_activatable.invokeExact(handle(), activatable ? 1 : 0);
+            DowncallHandles.gtk_list_box_row_set_activatable.invokeExact(
+                    handle(),
+                    activatable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,9 +218,10 @@ public class ListBoxRow extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @param child the child widget
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_list_box_row_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_list_box_row_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,9 +237,10 @@ public class ListBoxRow extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @param header the header
      */
     public void setHeader(@Nullable org.gtk.gtk.Widget header) {
-        java.util.Objects.requireNonNullElse(header, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_list_box_row_set_header.invokeExact(handle(), header.handle());
+            DowncallHandles.gtk_list_box_row_set_header.invokeExact(
+                    handle(),
+                    (Addressable) (header == null ? MemoryAddress.NULL : header.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,7 +252,9 @@ public class ListBoxRow extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public void setSelectable(boolean selectable) {
         try {
-            DowncallHandles.gtk_list_box_row_set_selectable.invokeExact(handle(), selectable ? 1 : 0);
+            DowncallHandles.gtk_list_box_row_set_selectable.invokeExact(
+                    handle(),
+                    selectable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

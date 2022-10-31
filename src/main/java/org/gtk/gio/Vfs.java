@@ -14,25 +14,47 @@ public class Vfs extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GVfs";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName("GVfs");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Vfs(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Vfs */
+    /**
+     * Cast object to Vfs if its GType is a (or inherits from) "GVfs".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Vfs" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GVfs", a ClassCastException will be thrown.
+     */
     public static Vfs castFrom(org.gtk.gobject.Object gobject) {
-        return new Vfs(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GVfs"))) {
+            return new Vfs(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GVfs");
+        }
     }
     
     /**
@@ -45,7 +67,9 @@ public class Vfs extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_vfs_get_file_for_path.invokeExact(handle(), Interop.allocateNativeString(path));
+            RESULT = (MemoryAddress) DowncallHandles.g_vfs_get_file_for_path.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(path));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,7 +90,9 @@ public class Vfs extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_vfs_get_file_for_uri.invokeExact(handle(), Interop.allocateNativeString(uri));
+            RESULT = (MemoryAddress) DowncallHandles.g_vfs_get_file_for_uri.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(uri));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +108,8 @@ public class Vfs extends org.gtk.gobject.Object {
     public @NotNull PointerString getSupportedUriSchemes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_vfs_get_supported_uri_schemes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_vfs_get_supported_uri_schemes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,7 +124,8 @@ public class Vfs extends org.gtk.gobject.Object {
     public boolean isActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_vfs_is_active.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_vfs_is_active.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,7 +144,9 @@ public class Vfs extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(parseName, "Parameter 'parseName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_vfs_parse_name.invokeExact(handle(), Interop.allocateNativeString(parseName));
+            RESULT = (MemoryAddress) DowncallHandles.g_vfs_parse_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(parseName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,24 +182,24 @@ public class Vfs extends org.gtk.gobject.Object {
      */
     public boolean registerUriScheme(@NotNull java.lang.String scheme, @Nullable org.gtk.gio.VfsFileLookupFunc uriFunc, @Nullable org.gtk.gio.VfsFileLookupFunc parseNameFunc) {
         java.util.Objects.requireNonNull(scheme, "Parameter 'scheme' must not be null");
-        java.util.Objects.requireNonNullElse(uriFunc, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(parseNameFunc, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_vfs_register_uri_scheme.invokeExact(handle(), Interop.allocateNativeString(scheme), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            RESULT = (int) DowncallHandles.g_vfs_register_uri_scheme.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(scheme),
+                    (Addressable) (uriFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbVfsFileLookupFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (uriFunc == null ? MemoryAddress.NULL : Interop.registerCallback(uriFunc)), 
-                    Interop.cbDestroyNotifySymbol(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+                        Interop.getScope())),
+                    (Addressable) (uriFunc == null ? MemoryAddress.NULL : Interop.registerCallback(uriFunc)),
+                    Interop.cbDestroyNotifySymbol(),
+                    (Addressable) (parseNameFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbVfsFileLookupFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (uriFunc == null ? MemoryAddress.NULL : Interop.registerCallback(uriFunc)), 
+                        Interop.getScope())),
+                    (Addressable) (uriFunc == null ? MemoryAddress.NULL : Interop.registerCallback(uriFunc)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -188,7 +218,9 @@ public class Vfs extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(scheme, "Parameter 'scheme' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_vfs_unregister_uri_scheme.invokeExact(handle(), Interop.allocateNativeString(scheme));
+            RESULT = (int) DowncallHandles.g_vfs_unregister_uri_scheme.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(scheme));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

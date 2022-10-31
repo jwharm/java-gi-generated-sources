@@ -18,21 +18,34 @@ public class MultiSorter extends org.gtk.gtk.Sorter implements org.gtk.gio.ListM
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkMultiSorter";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public MultiSorter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to MultiSorter */
+    /**
+     * Cast object to MultiSorter if its GType is a (or inherits from) "GtkMultiSorter".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "MultiSorter" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkMultiSorter", a ClassCastException will be thrown.
+     */
     public static MultiSorter castFrom(org.gtk.gobject.Object gobject) {
-        return new MultiSorter(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMultiSorter"))) {
+            return new MultiSorter(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkMultiSorter");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -67,7 +80,9 @@ public class MultiSorter extends org.gtk.gtk.Sorter implements org.gtk.gio.ListM
     public void append(@NotNull org.gtk.gtk.Sorter sorter) {
         java.util.Objects.requireNonNull(sorter, "Parameter 'sorter' must not be null");
         try {
-            DowncallHandles.gtk_multi_sorter_append.invokeExact(handle(), sorter.refcounted().unowned().handle());
+            DowncallHandles.gtk_multi_sorter_append.invokeExact(
+                    handle(),
+                    sorter.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +97,9 @@ public class MultiSorter extends org.gtk.gtk.Sorter implements org.gtk.gio.ListM
      */
     public void remove(int position) {
         try {
-            DowncallHandles.gtk_multi_sorter_remove.invokeExact(handle(), position);
+            DowncallHandles.gtk_multi_sorter_remove.invokeExact(
+                    handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

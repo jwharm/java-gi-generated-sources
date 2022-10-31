@@ -14,6 +14,21 @@ import org.jetbrains.annotations.*;
 public interface TlsFileDatabase extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to TlsFileDatabase if its GType is a (or inherits from) "GTlsFileDatabase".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TlsFileDatabase" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GTlsFileDatabase", a ClassCastException will be thrown.
+     */
+    public static TlsFileDatabase castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTlsFileDatabase"))) {
+            return new TlsFileDatabaseImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GTlsFileDatabase");
+        }
+    }
+    
+    /**
      * Creates a new {@link TlsFileDatabase} which uses anchor certificate authorities
      * in {@code anchors} to verify certificate chains.
      * <p>
@@ -28,7 +43,8 @@ public interface TlsFileDatabase extends io.github.jwharm.javagi.Proxy {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_file_database_new.invokeExact(Interop.allocateNativeString(anchors), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_file_database_new.invokeExact(
+                    Interop.allocateNativeString(anchors), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

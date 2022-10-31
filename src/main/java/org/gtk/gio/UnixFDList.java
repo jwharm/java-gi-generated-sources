@@ -23,26 +23,48 @@ public class UnixFDList extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GUnixFDList";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.UnixFDListPrivate.getMemoryLayout().withName("priv")
-    ).withName("GUnixFDList");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public UnixFDList(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to UnixFDList */
+    /**
+     * Cast object to UnixFDList if its GType is a (or inherits from) "GUnixFDList".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "UnixFDList" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GUnixFDList", a ClassCastException will be thrown.
+     */
     public static UnixFDList castFrom(org.gtk.gobject.Object gobject) {
-        return new UnixFDList(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GUnixFDList"))) {
+            return new UnixFDList(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GUnixFDList");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -66,7 +88,9 @@ public class UnixFDList extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(fds, "Parameter 'fds' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_unix_fd_list_new_from_array.invokeExact(Interop.allocateNativeArray(fds, false), nFds), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_unix_fd_list_new_from_array.invokeExact(
+                    Interop.allocateNativeArray(fds, false),
+                    nFds), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,7 +136,9 @@ public class UnixFDList extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_fd_list_append.invokeExact(handle(), fd, (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_unix_fd_list_append.invokeExact(
+                    handle(),
+                    fd, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -143,7 +169,9 @@ public class UnixFDList extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_fd_list_get.invokeExact(handle(), index, (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_unix_fd_list_get.invokeExact(
+                    handle(),
+                    index, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,7 +189,8 @@ public class UnixFDList extends org.gtk.gobject.Object {
     public int getLength() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_fd_list_get_length.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_unix_fd_list_get_length.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -192,7 +221,9 @@ public class UnixFDList extends org.gtk.gobject.Object {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_list_peek_fds.invokeExact(handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_list_peek_fds.invokeExact(
+                    handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -229,7 +260,9 @@ public class UnixFDList extends org.gtk.gobject.Object {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_list_steal_fds.invokeExact(handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_list_steal_fds.invokeExact(
+                    handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

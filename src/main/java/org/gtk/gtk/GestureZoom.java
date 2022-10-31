@@ -18,21 +18,34 @@ public class GestureZoom extends org.gtk.gtk.Gesture {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkGestureZoom";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public GestureZoom(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to GestureZoom */
+    /**
+     * Cast object to GestureZoom if its GType is a (or inherits from) "GtkGestureZoom".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "GestureZoom" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkGestureZoom", a ClassCastException will be thrown.
+     */
     public static GestureZoom castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureZoom(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGestureZoom"))) {
+            return new GestureZoom(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGestureZoom");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -65,7 +78,8 @@ public class GestureZoom extends org.gtk.gtk.Gesture {
     public double getScaleDelta() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_gesture_zoom_get_scale_delta.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_gesture_zoom_get_scale_delta.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

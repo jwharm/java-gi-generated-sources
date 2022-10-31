@@ -15,11 +15,27 @@ import org.jetbrains.annotations.*;
 public interface CellEditable extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to CellEditable if its GType is a (or inherits from) "GtkCellEditable".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CellEditable" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkCellEditable", a ClassCastException will be thrown.
+     */
+    public static CellEditable castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellEditable"))) {
+            return new CellEditableImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCellEditable");
+        }
+    }
+    
+    /**
      * Emits the {@code GtkCellEditable::editing-done} signal.
      */
     default void editingDone() {
         try {
-            DowncallHandles.gtk_cell_editable_editing_done.invokeExact(handle());
+            DowncallHandles.gtk_cell_editable_editing_done.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -30,7 +46,8 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
      */
     default void removeWidget() {
         try {
-            DowncallHandles.gtk_cell_editable_remove_widget.invokeExact(handle());
+            DowncallHandles.gtk_cell_editable_remove_widget.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -51,9 +68,10 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
      *   {@code null} if editing was initiated programmatically
      */
     default void startEditing(@Nullable org.gtk.gdk.Event event) {
-        java.util.Objects.requireNonNullElse(event, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_cell_editable_start_editing.invokeExact(handle(), event.handle());
+            DowncallHandles.gtk_cell_editable_start_editing.invokeExact(
+                    handle(),
+                    (Addressable) (event == null ? MemoryAddress.NULL : event.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -37,21 +37,34 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkSwitch";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Switch(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Switch */
+    /**
+     * Cast object to Switch if its GType is a (or inherits from) "GtkSwitch".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Switch" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkSwitch", a ClassCastException will be thrown.
+     */
     public static Switch castFrom(org.gtk.gobject.Object gobject) {
-        return new Switch(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSwitch"))) {
+            return new Switch(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkSwitch");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -78,7 +91,8 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_switch_get_active.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_switch_get_active.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,7 +106,8 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getState() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_switch_get_state.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_switch_get_state.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,7 +120,9 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void setActive(boolean isActive) {
         try {
-            DowncallHandles.gtk_switch_set_active.invokeExact(handle(), isActive ? 1 : 0);
+            DowncallHandles.gtk_switch_set_active.invokeExact(
+                    handle(),
+                    isActive ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,7 +140,9 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void setState(boolean state) {
         try {
-            DowncallHandles.gtk_switch_set_state.invokeExact(handle(), state ? 1 : 0);
+            DowncallHandles.gtk_switch_set_state.invokeExact(
+                    handle(),
+                    state ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

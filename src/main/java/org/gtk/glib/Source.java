@@ -15,30 +15,44 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSource";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("callback_data"),
-        org.gtk.glib.SourceCallbackFuncs.getMemoryLayout().withName("callback_funcs"),
-        org.gtk.glib.SourceFuncs.getMemoryLayout().withName("source_funcs"),
+        Interop.valueLayout.ADDRESS.withName("callback_funcs"),
+        Interop.valueLayout.ADDRESS.withName("source_funcs"),
         ValueLayout.JAVA_INT.withName("ref_count"),
-        org.gtk.glib.MainContext.getMemoryLayout().withName("context"),
+        MemoryLayout.paddingLayout(32),
+        Interop.valueLayout.ADDRESS.withName("context"),
         ValueLayout.JAVA_INT.withName("priority"),
         ValueLayout.JAVA_INT.withName("flags"),
         ValueLayout.JAVA_INT.withName("source_id"),
-        org.gtk.glib.SList.getMemoryLayout().withName("poll_fds"),
-        org.gtk.glib.Source.getMemoryLayout().withName("prev"),
-        org.gtk.glib.Source.getMemoryLayout().withName("next"),
+        MemoryLayout.paddingLayout(32),
+        Interop.valueLayout.ADDRESS.withName("poll_fds"),
+        Interop.valueLayout.ADDRESS.withName("prev"),
+        Interop.valueLayout.ADDRESS.withName("next"),
         Interop.valueLayout.ADDRESS.withName("name"),
-        org.gtk.glib.SourcePrivate.getMemoryLayout().withName("priv")
-    ).withName("GSource");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Source allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Source newInstance = new Source(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Source(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -47,7 +61,9 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(sourceFuncs, "Parameter 'sourceFuncs' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_source_new.invokeExact(sourceFuncs.handle(), structSize), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_source_new.invokeExact(
+                    sourceFuncs.handle(),
+                    structSize), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,7 +110,9 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public void addChildSource(@NotNull org.gtk.glib.Source childSource) {
         java.util.Objects.requireNonNull(childSource, "Parameter 'childSource' must not be null");
         try {
-            DowncallHandles.g_source_add_child_source.invokeExact(handle(), childSource.handle());
+            DowncallHandles.g_source_add_child_source.invokeExact(
+                    handle(),
+                    childSource.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,7 +137,9 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public void addPoll(@NotNull org.gtk.glib.PollFD fd) {
         java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
         try {
-            DowncallHandles.g_source_add_poll.invokeExact(handle(), fd.handle());
+            DowncallHandles.g_source_add_poll.invokeExact(
+                    handle(),
+                    fd.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -147,7 +167,10 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(events, "Parameter 'events' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_source_add_unix_fd.invokeExact(handle(), fd, events.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_source_add_unix_fd.invokeExact(
+                    handle(),
+                    fd,
+                    events.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -165,10 +188,11 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      *   {@link MainContext}.
      */
     public int attach(@Nullable org.gtk.glib.MainContext context) {
-        java.util.Objects.requireNonNullElse(context, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_source_attach.invokeExact(handle(), context.handle());
+            RESULT = (int) DowncallHandles.g_source_attach.invokeExact(
+                    handle(),
+                    (Addressable) (context == null ? MemoryAddress.NULL : context.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -193,7 +217,8 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      */
     public void destroy() {
         try {
-            DowncallHandles.g_source_destroy.invokeExact(handle());
+            DowncallHandles.g_source_destroy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -207,7 +232,8 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public boolean getCanRecurse() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_source_get_can_recurse.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_source_get_can_recurse.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,7 +256,8 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.glib.MainContext getContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_source_get_context.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_source_get_context.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -247,7 +274,9 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public void getCurrentTime(@NotNull org.gtk.glib.TimeVal timeval) {
         java.util.Objects.requireNonNull(timeval, "Parameter 'timeval' must not be null");
         try {
-            DowncallHandles.g_source_get_current_time.invokeExact(handle(), timeval.handle());
+            DowncallHandles.g_source_get_current_time.invokeExact(
+                    handle(),
+                    timeval.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -268,7 +297,8 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public int getId() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_source_get_id.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_source_get_id.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -283,11 +313,12 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_source_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_source_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -297,7 +328,8 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public int getPriority() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_source_get_priority.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_source_get_priority.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -315,7 +347,8 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public long getReadyTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_source_get_ready_time.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_source_get_ready_time.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -335,7 +368,8 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public long getTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_source_get_time.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_source_get_time.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -424,7 +458,8 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public boolean isDestroyed() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_source_is_destroyed.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_source_is_destroyed.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -450,7 +485,10 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
         java.util.Objects.requireNonNull(newEvents, "Parameter 'newEvents' must not be null");
         try {
-            DowncallHandles.g_source_modify_unix_fd.invokeExact(handle(), tag, newEvents.getValue());
+            DowncallHandles.g_source_modify_unix_fd.invokeExact(
+                    handle(),
+                    tag,
+                    newEvents.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -474,7 +512,9 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_source_query_unix_fd.invokeExact(handle(), tag);
+            RESULT = (int) DowncallHandles.g_source_query_unix_fd.invokeExact(
+                    handle(),
+                    tag);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -488,7 +528,8 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Source ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_source_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_source_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -506,7 +547,9 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public void removeChildSource(@NotNull org.gtk.glib.Source childSource) {
         java.util.Objects.requireNonNull(childSource, "Parameter 'childSource' must not be null");
         try {
-            DowncallHandles.g_source_remove_child_source.invokeExact(handle(), childSource.handle());
+            DowncallHandles.g_source_remove_child_source.invokeExact(
+                    handle(),
+                    childSource.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -523,7 +566,9 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public void removePoll(@NotNull org.gtk.glib.PollFD fd) {
         java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
         try {
-            DowncallHandles.g_source_remove_poll.invokeExact(handle(), fd.handle());
+            DowncallHandles.g_source_remove_poll.invokeExact(
+                    handle(),
+                    fd.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -545,7 +590,9 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public void removeUnixFd(@NotNull java.lang.foreign.MemoryAddress tag) {
         java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
         try {
-            DowncallHandles.g_source_remove_unix_fd.invokeExact(handle(), tag);
+            DowncallHandles.g_source_remove_unix_fd.invokeExact(
+                    handle(),
+                    tag);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -577,13 +624,14 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public void setCallback(@NotNull org.gtk.glib.SourceFunc func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.g_source_set_callback.invokeExact(handle(), 
+            DowncallHandles.g_source_set_callback.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)), 
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -608,7 +656,10 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public void setCallbackIndirect(@Nullable java.lang.foreign.MemoryAddress callbackData, @NotNull org.gtk.glib.SourceCallbackFuncs callbackFuncs) {
         java.util.Objects.requireNonNull(callbackFuncs, "Parameter 'callbackFuncs' must not be null");
         try {
-            DowncallHandles.g_source_set_callback_indirect.invokeExact(handle(), callbackData, callbackFuncs.handle());
+            DowncallHandles.g_source_set_callback_indirect.invokeExact(
+                    handle(),
+                    callbackData,
+                    callbackFuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -623,7 +674,9 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setCanRecurse(boolean canRecurse) {
         try {
-            DowncallHandles.g_source_set_can_recurse.invokeExact(handle(), canRecurse ? 1 : 0);
+            DowncallHandles.g_source_set_can_recurse.invokeExact(
+                    handle(),
+                    canRecurse ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -660,7 +713,9 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public void setFuncs(@NotNull org.gtk.glib.SourceFuncs funcs) {
         java.util.Objects.requireNonNull(funcs, "Parameter 'funcs' must not be null");
         try {
-            DowncallHandles.g_source_set_funcs.invokeExact(handle(), funcs.handle());
+            DowncallHandles.g_source_set_funcs.invokeExact(
+                    handle(),
+                    funcs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -690,7 +745,9 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public void setName(@NotNull java.lang.String name) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            DowncallHandles.g_source_set_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.g_source_set_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -709,7 +766,9 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setPriority(int priority) {
         try {
-            DowncallHandles.g_source_set_priority.invokeExact(handle(), priority);
+            DowncallHandles.g_source_set_priority.invokeExact(
+                    handle(),
+                    priority);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -743,7 +802,9 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setReadyTime(long readyTime) {
         try {
-            DowncallHandles.g_source_set_ready_time.invokeExact(handle(), readyTime);
+            DowncallHandles.g_source_set_ready_time.invokeExact(
+                    handle(),
+                    readyTime);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -758,7 +819,9 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public void setStaticName(@NotNull java.lang.String name) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            DowncallHandles.g_source_set_static_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.g_source_set_static_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -771,7 +834,8 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_source_unref.invokeExact(handle());
+            DowncallHandles.g_source_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -803,7 +867,8 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public static boolean remove(int tag) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_source_remove.invokeExact(tag);
+            RESULT = (int) DowncallHandles.g_source_remove.invokeExact(
+                    tag);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -822,7 +887,9 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(funcs, "Parameter 'funcs' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_source_remove_by_funcs_user_data.invokeExact(funcs.handle(), userData);
+            RESULT = (int) DowncallHandles.g_source_remove_by_funcs_user_data.invokeExact(
+                    funcs.handle(),
+                    userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -839,7 +906,8 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public static boolean removeByUserData(@Nullable java.lang.foreign.MemoryAddress userData) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_source_remove_by_user_data.invokeExact(userData);
+            RESULT = (int) DowncallHandles.g_source_remove_by_user_data.invokeExact(
+                    userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -869,7 +937,9 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public static void setNameById(int tag, @NotNull java.lang.String name) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            DowncallHandles.g_source_set_name_by_id.invokeExact(tag, Interop.allocateNativeString(name));
+            DowncallHandles.g_source_set_name_by_id.invokeExact(
+                    tag,
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

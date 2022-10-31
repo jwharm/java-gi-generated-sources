@@ -16,6 +16,8 @@ public class LayoutManagerClass extends io.github.jwharm.javagi.ResourceBase {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkLayoutManagerClass";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("get_request_mode"),
@@ -25,17 +27,49 @@ public class LayoutManagerClass extends io.github.jwharm.javagi.ResourceBase {
         Interop.valueLayout.ADDRESS.withName("create_layout_child"),
         Interop.valueLayout.ADDRESS.withName("root"),
         Interop.valueLayout.ADDRESS.withName("unroot"),
+        MemoryLayout.paddingLayout(512),
         MemoryLayout.sequenceLayout(16, ValueLayout.ADDRESS).withName("_padding")
-    ).withName("GtkLayoutManagerClass");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static LayoutManagerClass allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        LayoutManagerClass newInstance = new LayoutManagerClass(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code layout_child_type}
+     * @return The value of the field {@code layout_child_type}
+     */
+    public org.gtk.glib.Type layout_child_type$get() {
+        var RESULT = (long) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("layout_child_type"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code layout_child_type}
+     * @param layout_child_type The new value of the field {@code layout_child_type}
+     */
+    public void layout_child_type$set(org.gtk.glib.Type layout_child_type) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("layout_child_type"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), layout_child_type.getValue().longValue());
+    }
+    
+    @ApiStatus.Internal
     public LayoutManagerClass(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

@@ -15,14 +15,26 @@ public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GStringChunk";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static StringChunk allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        StringChunk newInstance = new StringChunk(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public StringChunk(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -34,7 +46,8 @@ public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
      */
     public void clear() {
         try {
-            DowncallHandles.g_string_chunk_clear.invokeExact(handle());
+            DowncallHandles.g_string_chunk_clear.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -47,7 +60,8 @@ public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.g_string_chunk_free.invokeExact(handle());
+            DowncallHandles.g_string_chunk_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,11 +87,13 @@ public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_chunk_insert.invokeExact(handle(), Interop.allocateNativeString(string));
+            RESULT = (MemoryAddress) DowncallHandles.g_string_chunk_insert.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -102,11 +118,13 @@ public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_chunk_insert_const.invokeExact(handle(), Interop.allocateNativeString(string));
+            RESULT = (MemoryAddress) DowncallHandles.g_string_chunk_insert_const.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -128,11 +146,14 @@ public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_chunk_insert_len.invokeExact(handle(), Interop.allocateNativeString(string), len);
+            RESULT = (MemoryAddress) DowncallHandles.g_string_chunk_insert_len.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(string),
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -146,7 +167,8 @@ public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
     public static @NotNull org.gtk.glib.StringChunk new_(long size) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_chunk_new.invokeExact(size);
+            RESULT = (MemoryAddress) DowncallHandles.g_string_chunk_new.invokeExact(
+                    size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

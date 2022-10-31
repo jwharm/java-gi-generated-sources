@@ -22,25 +22,47 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkRange";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkRange");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gtk.Widget parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gtk.Widget(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Range(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Range */
+    /**
+     * Cast object to Range if its GType is a (or inherits from) "GtkRange".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Range" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkRange", a ClassCastException will be thrown.
+     */
     public static Range castFrom(org.gtk.gobject.Object gobject) {
-        return new Range(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkRange"))) {
+            return new Range(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkRange");
+        }
     }
     
     /**
@@ -50,7 +72,8 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @NotNull org.gtk.gtk.Adjustment getAdjustment() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_range_get_adjustment.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_range_get_adjustment.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,7 +87,8 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public double getFillLevel() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_range_get_fill_level.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_range_get_fill_level.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +104,8 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getFlippable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_range_get_flippable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_range_get_flippable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,7 +121,8 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getInverted() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_range_get_inverted.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_range_get_inverted.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,15 +136,15 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * This function is useful mainly for {@code GtkRange} subclasses.
      * @param rangeRect return location for the range rectangle
      */
-    public void getRangeRect(@NotNull Out<org.gtk.gdk.Rectangle> rangeRect) {
+    public void getRangeRect(@NotNull org.gtk.gdk.Rectangle rangeRect) {
         java.util.Objects.requireNonNull(rangeRect, "Parameter 'rangeRect' must not be null");
-        MemorySegment rangeRectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_range_get_range_rect.invokeExact(handle(), (Addressable) rangeRectPOINTER.address());
+            DowncallHandles.gtk_range_get_range_rect.invokeExact(
+                    handle(),
+                    rangeRect.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        rangeRect.set(new org.gtk.gdk.Rectangle(Refcounted.get(rangeRectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -128,7 +154,8 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getRestrictToFillLevel() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_range_get_restrict_to_fill_level.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_range_get_restrict_to_fill_level.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,7 +172,8 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public int getRoundDigits() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_range_get_round_digits.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_range_get_round_digits.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,7 +187,8 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getShowFillLevel() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_range_get_show_fill_level.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_range_get_show_fill_level.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,7 +209,10 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         MemorySegment sliderStartPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment sliderEndPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_range_get_slider_range.invokeExact(handle(), (Addressable) sliderStartPOINTER.address(), (Addressable) sliderEndPOINTER.address());
+            DowncallHandles.gtk_range_get_slider_range.invokeExact(
+                    handle(),
+                    (Addressable) sliderStartPOINTER.address(),
+                    (Addressable) sliderEndPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -197,7 +229,8 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getSliderSizeFixed() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_range_get_slider_size_fixed.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_range_get_slider_size_fixed.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -211,7 +244,8 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public double getValue() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_range_get_value.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_range_get_value.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -233,7 +267,9 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void setAdjustment(@NotNull org.gtk.gtk.Adjustment adjustment) {
         java.util.Objects.requireNonNull(adjustment, "Parameter 'adjustment' must not be null");
         try {
-            DowncallHandles.gtk_range_set_adjustment.invokeExact(handle(), adjustment.handle());
+            DowncallHandles.gtk_range_set_adjustment.invokeExact(
+                    handle(),
+                    adjustment.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -261,7 +297,9 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setFillLevel(double fillLevel) {
         try {
-            DowncallHandles.gtk_range_set_fill_level.invokeExact(handle(), fillLevel);
+            DowncallHandles.gtk_range_set_fill_level.invokeExact(
+                    handle(),
+                    fillLevel);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -278,7 +316,9 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setFlippable(boolean flippable) {
         try {
-            DowncallHandles.gtk_range_set_flippable.invokeExact(handle(), flippable ? 1 : 0);
+            DowncallHandles.gtk_range_set_flippable.invokeExact(
+                    handle(),
+                    flippable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -295,7 +335,10 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setIncrements(double step, double page) {
         try {
-            DowncallHandles.gtk_range_set_increments.invokeExact(handle(), step, page);
+            DowncallHandles.gtk_range_set_increments.invokeExact(
+                    handle(),
+                    step,
+                    page);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -312,7 +355,9 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setInverted(boolean setting) {
         try {
-            DowncallHandles.gtk_range_set_inverted.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_range_set_inverted.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -329,7 +374,10 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setRange(double min, double max) {
         try {
-            DowncallHandles.gtk_range_set_range.invokeExact(handle(), min, max);
+            DowncallHandles.gtk_range_set_range.invokeExact(
+                    handle(),
+                    min,
+                    max);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -344,7 +392,9 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setRestrictToFillLevel(boolean restrictToFillLevel) {
         try {
-            DowncallHandles.gtk_range_set_restrict_to_fill_level.invokeExact(handle(), restrictToFillLevel ? 1 : 0);
+            DowncallHandles.gtk_range_set_restrict_to_fill_level.invokeExact(
+                    handle(),
+                    restrictToFillLevel ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -359,7 +409,9 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setRoundDigits(int roundDigits) {
         try {
-            DowncallHandles.gtk_range_set_round_digits.invokeExact(handle(), roundDigits);
+            DowncallHandles.gtk_range_set_round_digits.invokeExact(
+                    handle(),
+                    roundDigits);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -374,7 +426,9 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setShowFillLevel(boolean showFillLevel) {
         try {
-            DowncallHandles.gtk_range_set_show_fill_level.invokeExact(handle(), showFillLevel ? 1 : 0);
+            DowncallHandles.gtk_range_set_show_fill_level.invokeExact(
+                    handle(),
+                    showFillLevel ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -389,7 +443,9 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setSliderSizeFixed(boolean sizeFixed) {
         try {
-            DowncallHandles.gtk_range_set_slider_size_fixed.invokeExact(handle(), sizeFixed ? 1 : 0);
+            DowncallHandles.gtk_range_set_slider_size_fixed.invokeExact(
+                    handle(),
+                    sizeFixed ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -405,7 +461,9 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setValue(double value) {
         try {
-            DowncallHandles.gtk_range_set_value.invokeExact(handle(), value);
+            DowncallHandles.gtk_range_set_value.invokeExact(
+                    handle(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

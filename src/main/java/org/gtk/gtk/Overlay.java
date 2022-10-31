@@ -43,21 +43,34 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkOverlay";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Overlay(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Overlay */
+    /**
+     * Cast object to Overlay if its GType is a (or inherits from) "GtkOverlay".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Overlay" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkOverlay", a ClassCastException will be thrown.
+     */
     public static Overlay castFrom(org.gtk.gobject.Object gobject) {
-        return new Overlay(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkOverlay"))) {
+            return new Overlay(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkOverlay");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -91,7 +104,9 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void addOverlay(@NotNull org.gtk.gtk.Widget widget) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            DowncallHandles.gtk_overlay_add_overlay.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_overlay_add_overlay.invokeExact(
+                    handle(),
+                    widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,7 +119,8 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_overlay_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_overlay_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,7 +136,9 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_overlay_get_clip_overlay.invokeExact(handle(), widget.handle());
+            RESULT = (int) DowncallHandles.gtk_overlay_get_clip_overlay.invokeExact(
+                    handle(),
+                    widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -137,7 +155,9 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_overlay_get_measure_overlay.invokeExact(handle(), widget.handle());
+            RESULT = (int) DowncallHandles.gtk_overlay_get_measure_overlay.invokeExact(
+                    handle(),
+                    widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,7 +171,9 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void removeOverlay(@NotNull org.gtk.gtk.Widget widget) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            DowncallHandles.gtk_overlay_remove_overlay.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_overlay_remove_overlay.invokeExact(
+                    handle(),
+                    widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,9 +184,10 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param child the child widget
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_overlay_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_overlay_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,7 +201,10 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void setClipOverlay(@NotNull org.gtk.gtk.Widget widget, boolean clipOverlay) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            DowncallHandles.gtk_overlay_set_clip_overlay.invokeExact(handle(), widget.handle(), clipOverlay ? 1 : 0);
+            DowncallHandles.gtk_overlay_set_clip_overlay.invokeExact(
+                    handle(),
+                    widget.handle(),
+                    clipOverlay ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -196,7 +222,10 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void setMeasureOverlay(@NotNull org.gtk.gtk.Widget widget, boolean measure) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            DowncallHandles.gtk_overlay_set_measure_overlay.invokeExact(handle(), widget.handle(), measure ? 1 : 0);
+            DowncallHandles.gtk_overlay_set_measure_overlay.invokeExact(
+                    handle(),
+                    widget.handle(),
+                    measure ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,7 +233,7 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface GetChildPosition {
-        boolean signalReceived(Overlay source, @NotNull org.gtk.gtk.Widget widget, @NotNull Out<org.gtk.gdk.Rectangle> allocation);
+        boolean signalReceived(Overlay source, @NotNull org.gtk.gtk.Widget widget, @NotNull org.gtk.gdk.Rectangle allocation);
     }
     
     /**
@@ -224,7 +253,21 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * to its contents.
      */
     public Signal<Overlay.GetChildPosition> onGetChildPosition(Overlay.GetChildPosition handler) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+        try {
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
+                handle(),
+                Interop.allocateNativeString("get-child-position"),
+                (Addressable) Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(Overlay.Callbacks.class, "signalOverlayGetChildPosition",
+                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.registerCallback(handler),
+                (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<Overlay.GetChildPosition>(handle(), RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     private static class DowncallHandles {
@@ -278,8 +321,9 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     private static class Callbacks {
         
         public static boolean signalOverlayGetChildPosition(MemoryAddress source, MemoryAddress widget, MemoryAddress allocation, MemoryAddress data) {
-        // Operation not supported yet
-    return false;
-    }
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Overlay.GetChildPosition) Interop.signalRegistry.get(HASH);
+            return HANDLER.signalReceived(new Overlay(Refcounted.get(source)), new org.gtk.gtk.Widget(Refcounted.get(widget, false)), new org.gtk.gdk.Rectangle(Refcounted.get(allocation, false)));
+        }
     }
 }

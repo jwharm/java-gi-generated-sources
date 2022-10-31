@@ -90,33 +90,56 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkScale";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Range.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkScale");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gtk.Range parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gtk.Range(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Scale(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Scale */
+    /**
+     * Cast object to Scale if its GType is a (or inherits from) "GtkScale".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Scale" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkScale", a ClassCastException will be thrown.
+     */
     public static Scale castFrom(org.gtk.gobject.Object gobject) {
-        return new Scale(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkScale"))) {
+            return new Scale(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkScale");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gtk.Orientation orientation, @Nullable org.gtk.gtk.Adjustment adjustment) {
         java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
-        java.util.Objects.requireNonNullElse(adjustment, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_scale_new.invokeExact(orientation.getValue(), adjustment.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_scale_new.invokeExact(
+                    orientation.getValue(),
+                    (Addressable) (adjustment == null ? MemoryAddress.NULL : adjustment.handle())), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -137,7 +160,11 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
         java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_scale_new_with_range.invokeExact(orientation.getValue(), min, max, step), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_scale_new_with_range.invokeExact(
+                    orientation.getValue(),
+                    min,
+                    max,
+                    step), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -186,9 +213,12 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
      */
     public void addMark(double value, @NotNull org.gtk.gtk.PositionType position, @Nullable java.lang.String markup) {
         java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
-        java.util.Objects.requireNonNullElse(markup, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_scale_add_mark.invokeExact(handle(), value, position.getValue(), Interop.allocateNativeString(markup));
+            DowncallHandles.gtk_scale_add_mark.invokeExact(
+                    handle(),
+                    value,
+                    position.getValue(),
+                    (Addressable) (markup == null ? MemoryAddress.NULL : Interop.allocateNativeString(markup)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -199,7 +229,8 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
      */
     public void clearMarks() {
         try {
-            DowncallHandles.gtk_scale_clear_marks.invokeExact(handle());
+            DowncallHandles.gtk_scale_clear_marks.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -212,7 +243,8 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
     public int getDigits() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_scale_get_digits.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scale_get_digits.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -227,7 +259,8 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
     public boolean getDrawValue() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_scale_get_draw_value.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scale_get_draw_value.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -241,7 +274,8 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
     public boolean getHasOrigin() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_scale_get_has_origin.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scale_get_has_origin.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -260,7 +294,8 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
     public @Nullable org.pango.Layout getLayout() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_scale_get_layout.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scale_get_layout.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -285,7 +320,10 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_scale_get_layout_offsets.invokeExact(handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            DowncallHandles.gtk_scale_get_layout_offsets.invokeExact(
+                    handle(),
+                    (Addressable) xPOINTER.address(),
+                    (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -300,7 +338,8 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
     public @NotNull org.gtk.gtk.PositionType getValuePos() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_scale_get_value_pos.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scale_get_value_pos.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -325,7 +364,9 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
      */
     public void setDigits(int digits) {
         try {
-            DowncallHandles.gtk_scale_set_digits.invokeExact(handle(), digits);
+            DowncallHandles.gtk_scale_set_digits.invokeExact(
+                    handle(),
+                    digits);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -338,7 +379,9 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
      */
     public void setDrawValue(boolean drawValue) {
         try {
-            DowncallHandles.gtk_scale_set_draw_value.invokeExact(handle(), drawValue ? 1 : 0);
+            DowncallHandles.gtk_scale_set_draw_value.invokeExact(
+                    handle(),
+                    drawValue ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -356,15 +399,15 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
      * @param func function that formats the value
      */
     public void setFormatValueFunc(@Nullable org.gtk.gtk.ScaleFormatValueFunc func) {
-        java.util.Objects.requireNonNullElse(func, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_scale_set_format_value_func.invokeExact(handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gtk_scale_set_format_value_func.invokeExact(
+                    handle(),
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbScaleFormatValueFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, double.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)), 
+                        Interop.getScope())),
+                    (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -381,7 +424,9 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
      */
     public void setHasOrigin(boolean hasOrigin) {
         try {
-            DowncallHandles.gtk_scale_set_has_origin.invokeExact(handle(), hasOrigin ? 1 : 0);
+            DowncallHandles.gtk_scale_set_has_origin.invokeExact(
+                    handle(),
+                    hasOrigin ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -394,7 +439,9 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
     public void setValuePos(@NotNull org.gtk.gtk.PositionType pos) {
         java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
         try {
-            DowncallHandles.gtk_scale_set_value_pos.invokeExact(handle(), pos.getValue());
+            DowncallHandles.gtk_scale_set_value_pos.invokeExact(
+                    handle(),
+                    pos.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

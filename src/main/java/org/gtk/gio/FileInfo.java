@@ -42,21 +42,34 @@ public class FileInfo extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GFileInfo";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public FileInfo(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to FileInfo */
+    /**
+     * Cast object to FileInfo if its GType is a (or inherits from) "GFileInfo".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "FileInfo" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GFileInfo", a ClassCastException will be thrown.
+     */
     public static FileInfo castFrom(org.gtk.gobject.Object gobject) {
-        return new FileInfo(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GFileInfo"))) {
+            return new FileInfo(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GFileInfo");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -81,7 +94,8 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public void clearStatus() {
         try {
-            DowncallHandles.g_file_info_clear_status.invokeExact(handle());
+            DowncallHandles.g_file_info_clear_status.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,7 +109,9 @@ public class FileInfo extends org.gtk.gobject.Object {
     public void copyInto(@NotNull org.gtk.gio.FileInfo destInfo) {
         java.util.Objects.requireNonNull(destInfo, "Parameter 'destInfo' must not be null");
         try {
-            DowncallHandles.g_file_info_copy_into.invokeExact(handle(), destInfo.handle());
+            DowncallHandles.g_file_info_copy_into.invokeExact(
+                    handle(),
+                    destInfo.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,7 +124,8 @@ public class FileInfo extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gio.FileInfo dup() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_info_dup.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_dup.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,7 +144,8 @@ public class FileInfo extends org.gtk.gobject.Object {
     public @Nullable org.gtk.glib.DateTime getAccessDateTime() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_access_date_time.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_access_date_time.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -147,11 +165,13 @@ public class FileInfo extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_attribute_as_string.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_attribute_as_string.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -164,7 +184,9 @@ public class FileInfo extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_info_get_attribute_boolean.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (int) DowncallHandles.g_file_info_get_attribute_boolean.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,11 +204,13 @@ public class FileInfo extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_attribute_byte_string.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_attribute_byte_string.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -209,7 +233,12 @@ public class FileInfo extends org.gtk.gobject.Object {
         MemorySegment statusPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_info_get_attribute_data.invokeExact(handle(), Interop.allocateNativeString(attribute), (Addressable) typePOINTER.address(), (Addressable) valuePpPOINTER.address(), (Addressable) statusPOINTER.address());
+            RESULT = (int) DowncallHandles.g_file_info_get_attribute_data.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute),
+                    (Addressable) typePOINTER.address(),
+                    (Addressable) valuePpPOINTER.address(),
+                    (Addressable) statusPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,7 +259,9 @@ public class FileInfo extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_info_get_attribute_int32.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (int) DowncallHandles.g_file_info_get_attribute_int32.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -248,7 +279,9 @@ public class FileInfo extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_file_info_get_attribute_int64.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (long) DowncallHandles.g_file_info_get_attribute_int64.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -266,7 +299,9 @@ public class FileInfo extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_attribute_object.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_attribute_object.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -283,7 +318,9 @@ public class FileInfo extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_info_get_attribute_status.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (int) DowncallHandles.g_file_info_get_attribute_status.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -301,11 +338,13 @@ public class FileInfo extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_attribute_string.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_attribute_string.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -319,7 +358,9 @@ public class FileInfo extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_attribute_stringv.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_attribute_stringv.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -336,7 +377,9 @@ public class FileInfo extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_info_get_attribute_type.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (int) DowncallHandles.g_file_info_get_attribute_type.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -354,7 +397,9 @@ public class FileInfo extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_info_get_attribute_uint32.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (int) DowncallHandles.g_file_info_get_attribute_uint32.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -372,7 +417,9 @@ public class FileInfo extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_file_info_get_attribute_uint64.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (long) DowncallHandles.g_file_info_get_attribute_uint64.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -387,11 +434,12 @@ public class FileInfo extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getContentType() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_content_type.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_content_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -406,7 +454,8 @@ public class FileInfo extends org.gtk.gobject.Object {
     public @Nullable org.gtk.glib.DateTime getCreationDateTime() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_creation_date_time.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_creation_date_time.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -422,7 +471,8 @@ public class FileInfo extends org.gtk.gobject.Object {
     public @Nullable org.gtk.glib.DateTime getDeletionDate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_deletion_date.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_deletion_date.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -436,11 +486,12 @@ public class FileInfo extends org.gtk.gobject.Object {
     public @NotNull java.lang.String getDisplayName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_display_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_display_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -450,11 +501,12 @@ public class FileInfo extends org.gtk.gobject.Object {
     public @NotNull java.lang.String getEditName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_edit_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_edit_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -465,11 +517,12 @@ public class FileInfo extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getEtag() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_etag.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_etag.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -480,7 +533,8 @@ public class FileInfo extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gio.FileType getFileType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_info_get_file_type.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_file_info_get_file_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -494,7 +548,8 @@ public class FileInfo extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gio.Icon getIcon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_icon.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_icon.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -508,7 +563,8 @@ public class FileInfo extends org.gtk.gobject.Object {
     public boolean getIsBackup() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_info_get_is_backup.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_file_info_get_is_backup.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -522,7 +578,8 @@ public class FileInfo extends org.gtk.gobject.Object {
     public boolean getIsHidden() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_info_get_is_hidden.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_file_info_get_is_hidden.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -536,7 +593,8 @@ public class FileInfo extends org.gtk.gobject.Object {
     public boolean getIsSymlink() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_info_get_is_symlink.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_file_info_get_is_symlink.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -555,7 +613,8 @@ public class FileInfo extends org.gtk.gobject.Object {
     public @Nullable org.gtk.glib.DateTime getModificationDateTime() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_modification_date_time.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_modification_date_time.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -570,15 +629,15 @@ public class FileInfo extends org.gtk.gobject.Object {
      *    {@link org.gtk.glib.TimeVal} is deprecated due to the year 2038 problem.
      */
     @Deprecated
-    public void getModificationTime(@NotNull Out<org.gtk.glib.TimeVal> result) {
+    public void getModificationTime(@NotNull org.gtk.glib.TimeVal result) {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        MemorySegment resultPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.g_file_info_get_modification_time.invokeExact(handle(), (Addressable) resultPOINTER.address());
+            DowncallHandles.g_file_info_get_modification_time.invokeExact(
+                    handle(),
+                    result.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        result.set(new org.gtk.glib.TimeVal(Refcounted.get(resultPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -588,11 +647,12 @@ public class FileInfo extends org.gtk.gobject.Object {
     public @NotNull java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -604,7 +664,8 @@ public class FileInfo extends org.gtk.gobject.Object {
     public long getSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_file_info_get_size.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_file_info_get_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -619,7 +680,8 @@ public class FileInfo extends org.gtk.gobject.Object {
     public int getSortOrder() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_info_get_sort_order.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_file_info_get_sort_order.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -633,7 +695,8 @@ public class FileInfo extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gio.Icon getSymbolicIcon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_symbolic_icon.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_symbolic_icon.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -647,11 +710,12 @@ public class FileInfo extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getSymlinkTarget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_symlink_target.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_symlink_target.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -664,7 +728,9 @@ public class FileInfo extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_info_has_attribute.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (int) DowncallHandles.g_file_info_has_attribute.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -682,7 +748,9 @@ public class FileInfo extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(nameSpace, "Parameter 'nameSpace' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_info_has_namespace.invokeExact(handle(), Interop.allocateNativeString(nameSpace));
+            RESULT = (int) DowncallHandles.g_file_info_has_namespace.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(nameSpace));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -698,10 +766,11 @@ public class FileInfo extends org.gtk.gobject.Object {
      * types for the given {@code name_space}, or {@code null} on error.
      */
     public @Nullable PointerString listAttributes(@Nullable java.lang.String nameSpace) {
-        java.util.Objects.requireNonNullElse(nameSpace, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_info_list_attributes.invokeExact(handle(), Interop.allocateNativeString(nameSpace));
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_list_attributes.invokeExact(
+                    handle(),
+                    (Addressable) (nameSpace == null ? MemoryAddress.NULL : Interop.allocateNativeString(nameSpace)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -715,7 +784,9 @@ public class FileInfo extends org.gtk.gobject.Object {
     public void removeAttribute(@NotNull java.lang.String attribute) {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         try {
-            DowncallHandles.g_file_info_remove_attribute.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            DowncallHandles.g_file_info_remove_attribute.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -730,7 +801,9 @@ public class FileInfo extends org.gtk.gobject.Object {
     public void setAccessDateTime(@NotNull org.gtk.glib.DateTime atime) {
         java.util.Objects.requireNonNull(atime, "Parameter 'atime' must not be null");
         try {
-            DowncallHandles.g_file_info_set_access_date_time.invokeExact(handle(), atime.handle());
+            DowncallHandles.g_file_info_set_access_date_time.invokeExact(
+                    handle(),
+                    atime.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -748,7 +821,11 @@ public class FileInfo extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         java.util.Objects.requireNonNull(valueP, "Parameter 'valueP' must not be null");
         try {
-            DowncallHandles.g_file_info_set_attribute.invokeExact(handle(), Interop.allocateNativeString(attribute), type.getValue(), valueP);
+            DowncallHandles.g_file_info_set_attribute.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute),
+                    type.getValue(),
+                    valueP);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -763,7 +840,10 @@ public class FileInfo extends org.gtk.gobject.Object {
     public void setAttributeBoolean(@NotNull java.lang.String attribute, boolean attrValue) {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         try {
-            DowncallHandles.g_file_info_set_attribute_boolean.invokeExact(handle(), Interop.allocateNativeString(attribute), attrValue ? 1 : 0);
+            DowncallHandles.g_file_info_set_attribute_boolean.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute),
+                    attrValue ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -779,7 +859,10 @@ public class FileInfo extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         java.util.Objects.requireNonNull(attrValue, "Parameter 'attrValue' must not be null");
         try {
-            DowncallHandles.g_file_info_set_attribute_byte_string.invokeExact(handle(), Interop.allocateNativeString(attribute), Interop.allocateNativeString(attrValue));
+            DowncallHandles.g_file_info_set_attribute_byte_string.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute),
+                    Interop.allocateNativeString(attrValue));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -794,7 +877,10 @@ public class FileInfo extends org.gtk.gobject.Object {
     public void setAttributeInt32(@NotNull java.lang.String attribute, int attrValue) {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         try {
-            DowncallHandles.g_file_info_set_attribute_int32.invokeExact(handle(), Interop.allocateNativeString(attribute), attrValue);
+            DowncallHandles.g_file_info_set_attribute_int32.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute),
+                    attrValue);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -809,7 +895,10 @@ public class FileInfo extends org.gtk.gobject.Object {
     public void setAttributeInt64(@NotNull java.lang.String attribute, long attrValue) {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         try {
-            DowncallHandles.g_file_info_set_attribute_int64.invokeExact(handle(), Interop.allocateNativeString(attribute), attrValue);
+            DowncallHandles.g_file_info_set_attribute_int64.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute),
+                    attrValue);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -822,7 +911,9 @@ public class FileInfo extends org.gtk.gobject.Object {
     public void setAttributeMask(@NotNull org.gtk.gio.FileAttributeMatcher mask) {
         java.util.Objects.requireNonNull(mask, "Parameter 'mask' must not be null");
         try {
-            DowncallHandles.g_file_info_set_attribute_mask.invokeExact(handle(), mask.handle());
+            DowncallHandles.g_file_info_set_attribute_mask.invokeExact(
+                    handle(),
+                    mask.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -838,7 +929,10 @@ public class FileInfo extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         java.util.Objects.requireNonNull(attrValue, "Parameter 'attrValue' must not be null");
         try {
-            DowncallHandles.g_file_info_set_attribute_object.invokeExact(handle(), Interop.allocateNativeString(attribute), attrValue.handle());
+            DowncallHandles.g_file_info_set_attribute_object.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute),
+                    attrValue.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -860,7 +954,10 @@ public class FileInfo extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(status, "Parameter 'status' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_info_set_attribute_status.invokeExact(handle(), Interop.allocateNativeString(attribute), status.getValue());
+            RESULT = (int) DowncallHandles.g_file_info_set_attribute_status.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute),
+                    status.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -877,7 +974,10 @@ public class FileInfo extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         java.util.Objects.requireNonNull(attrValue, "Parameter 'attrValue' must not be null");
         try {
-            DowncallHandles.g_file_info_set_attribute_string.invokeExact(handle(), Interop.allocateNativeString(attribute), Interop.allocateNativeString(attrValue));
+            DowncallHandles.g_file_info_set_attribute_string.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute),
+                    Interop.allocateNativeString(attrValue));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -896,7 +996,10 @@ public class FileInfo extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         java.util.Objects.requireNonNull(attrValue, "Parameter 'attrValue' must not be null");
         try {
-            DowncallHandles.g_file_info_set_attribute_stringv.invokeExact(handle(), Interop.allocateNativeString(attribute), Interop.allocateNativeArray(attrValue, false));
+            DowncallHandles.g_file_info_set_attribute_stringv.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute),
+                    Interop.allocateNativeArray(attrValue, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -911,7 +1014,10 @@ public class FileInfo extends org.gtk.gobject.Object {
     public void setAttributeUint32(@NotNull java.lang.String attribute, int attrValue) {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         try {
-            DowncallHandles.g_file_info_set_attribute_uint32.invokeExact(handle(), Interop.allocateNativeString(attribute), attrValue);
+            DowncallHandles.g_file_info_set_attribute_uint32.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute),
+                    attrValue);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -926,7 +1032,10 @@ public class FileInfo extends org.gtk.gobject.Object {
     public void setAttributeUint64(@NotNull java.lang.String attribute, long attrValue) {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         try {
-            DowncallHandles.g_file_info_set_attribute_uint64.invokeExact(handle(), Interop.allocateNativeString(attribute), attrValue);
+            DowncallHandles.g_file_info_set_attribute_uint64.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute),
+                    attrValue);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -940,7 +1049,9 @@ public class FileInfo extends org.gtk.gobject.Object {
     public void setContentType(@NotNull java.lang.String contentType) {
         java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
         try {
-            DowncallHandles.g_file_info_set_content_type.invokeExact(handle(), Interop.allocateNativeString(contentType));
+            DowncallHandles.g_file_info_set_content_type.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(contentType));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -955,7 +1066,9 @@ public class FileInfo extends org.gtk.gobject.Object {
     public void setCreationDateTime(@NotNull org.gtk.glib.DateTime creationTime) {
         java.util.Objects.requireNonNull(creationTime, "Parameter 'creationTime' must not be null");
         try {
-            DowncallHandles.g_file_info_set_creation_date_time.invokeExact(handle(), creationTime.handle());
+            DowncallHandles.g_file_info_set_creation_date_time.invokeExact(
+                    handle(),
+                    creationTime.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -969,7 +1082,9 @@ public class FileInfo extends org.gtk.gobject.Object {
     public void setDisplayName(@NotNull java.lang.String displayName) {
         java.util.Objects.requireNonNull(displayName, "Parameter 'displayName' must not be null");
         try {
-            DowncallHandles.g_file_info_set_display_name.invokeExact(handle(), Interop.allocateNativeString(displayName));
+            DowncallHandles.g_file_info_set_display_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(displayName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -983,7 +1098,9 @@ public class FileInfo extends org.gtk.gobject.Object {
     public void setEditName(@NotNull java.lang.String editName) {
         java.util.Objects.requireNonNull(editName, "Parameter 'editName' must not be null");
         try {
-            DowncallHandles.g_file_info_set_edit_name.invokeExact(handle(), Interop.allocateNativeString(editName));
+            DowncallHandles.g_file_info_set_edit_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(editName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -997,7 +1114,9 @@ public class FileInfo extends org.gtk.gobject.Object {
     public void setFileType(@NotNull org.gtk.gio.FileType type) {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         try {
-            DowncallHandles.g_file_info_set_file_type.invokeExact(handle(), type.getValue());
+            DowncallHandles.g_file_info_set_file_type.invokeExact(
+                    handle(),
+                    type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1011,7 +1130,9 @@ public class FileInfo extends org.gtk.gobject.Object {
     public void setIcon(@NotNull org.gtk.gio.Icon icon) {
         java.util.Objects.requireNonNull(icon, "Parameter 'icon' must not be null");
         try {
-            DowncallHandles.g_file_info_set_icon.invokeExact(handle(), icon.handle());
+            DowncallHandles.g_file_info_set_icon.invokeExact(
+                    handle(),
+                    icon.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1024,7 +1145,9 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public void setIsHidden(boolean isHidden) {
         try {
-            DowncallHandles.g_file_info_set_is_hidden.invokeExact(handle(), isHidden ? 1 : 0);
+            DowncallHandles.g_file_info_set_is_hidden.invokeExact(
+                    handle(),
+                    isHidden ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1037,7 +1160,9 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public void setIsSymlink(boolean isSymlink) {
         try {
-            DowncallHandles.g_file_info_set_is_symlink.invokeExact(handle(), isSymlink ? 1 : 0);
+            DowncallHandles.g_file_info_set_is_symlink.invokeExact(
+                    handle(),
+                    isSymlink ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1052,7 +1177,9 @@ public class FileInfo extends org.gtk.gobject.Object {
     public void setModificationDateTime(@NotNull org.gtk.glib.DateTime mtime) {
         java.util.Objects.requireNonNull(mtime, "Parameter 'mtime' must not be null");
         try {
-            DowncallHandles.g_file_info_set_modification_date_time.invokeExact(handle(), mtime.handle());
+            DowncallHandles.g_file_info_set_modification_date_time.invokeExact(
+                    handle(),
+                    mtime.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1070,7 +1197,9 @@ public class FileInfo extends org.gtk.gobject.Object {
     public void setModificationTime(@NotNull org.gtk.glib.TimeVal mtime) {
         java.util.Objects.requireNonNull(mtime, "Parameter 'mtime' must not be null");
         try {
-            DowncallHandles.g_file_info_set_modification_time.invokeExact(handle(), mtime.handle());
+            DowncallHandles.g_file_info_set_modification_time.invokeExact(
+                    handle(),
+                    mtime.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1084,7 +1213,9 @@ public class FileInfo extends org.gtk.gobject.Object {
     public void setName(@NotNull java.lang.String name) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            DowncallHandles.g_file_info_set_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.g_file_info_set_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1097,7 +1228,9 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public void setSize(long size) {
         try {
-            DowncallHandles.g_file_info_set_size.invokeExact(handle(), size);
+            DowncallHandles.g_file_info_set_size.invokeExact(
+                    handle(),
+                    size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1110,7 +1243,9 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public void setSortOrder(int sortOrder) {
         try {
-            DowncallHandles.g_file_info_set_sort_order.invokeExact(handle(), sortOrder);
+            DowncallHandles.g_file_info_set_sort_order.invokeExact(
+                    handle(),
+                    sortOrder);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1124,7 +1259,9 @@ public class FileInfo extends org.gtk.gobject.Object {
     public void setSymbolicIcon(@NotNull org.gtk.gio.Icon icon) {
         java.util.Objects.requireNonNull(icon, "Parameter 'icon' must not be null");
         try {
-            DowncallHandles.g_file_info_set_symbolic_icon.invokeExact(handle(), icon.handle());
+            DowncallHandles.g_file_info_set_symbolic_icon.invokeExact(
+                    handle(),
+                    icon.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1138,7 +1275,9 @@ public class FileInfo extends org.gtk.gobject.Object {
     public void setSymlinkTarget(@NotNull java.lang.String symlinkTarget) {
         java.util.Objects.requireNonNull(symlinkTarget, "Parameter 'symlinkTarget' must not be null");
         try {
-            DowncallHandles.g_file_info_set_symlink_target.invokeExact(handle(), Interop.allocateNativeString(symlinkTarget));
+            DowncallHandles.g_file_info_set_symlink_target.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(symlinkTarget));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1150,7 +1289,8 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public void unsetAttributeMask() {
         try {
-            DowncallHandles.g_file_info_unset_attribute_mask.invokeExact(handle());
+            DowncallHandles.g_file_info_unset_attribute_mask.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -23,21 +23,34 @@ public class WindowHandle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkWindowHandle";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public WindowHandle(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to WindowHandle */
+    /**
+     * Cast object to WindowHandle if its GType is a (or inherits from) "GtkWindowHandle".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "WindowHandle" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkWindowHandle", a ClassCastException will be thrown.
+     */
     public static WindowHandle castFrom(org.gtk.gobject.Object gobject) {
-        return new WindowHandle(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkWindowHandle"))) {
+            return new WindowHandle(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkWindowHandle");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -64,7 +77,8 @@ public class WindowHandle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_window_handle_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_window_handle_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,9 +90,10 @@ public class WindowHandle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * @param child the child widget
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_window_handle_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_window_handle_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

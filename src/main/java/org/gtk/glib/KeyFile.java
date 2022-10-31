@@ -15,14 +15,26 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GKeyFile";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static KeyFile allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        KeyFile newInstance = new KeyFile(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public KeyFile(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -54,7 +66,8 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.g_key_file_free.invokeExact(handle());
+            DowncallHandles.g_key_file_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +93,10 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_key_file_get_boolean.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_key_file_get_boolean.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,7 +130,11 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_boolean_list.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_boolean_list.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key),
+                    (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,19 +165,20 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @NotNull java.lang.String getComment(@Nullable java.lang.String groupName, @Nullable java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(groupName, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_comment.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_comment.invokeExact(
+                    handle(),
+                    (Addressable) (groupName == null ? MemoryAddress.NULL : Interop.allocateNativeString(groupName)),
+                    (Addressable) (key == null ? MemoryAddress.NULL : Interop.allocateNativeString(key)), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -180,7 +201,10 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.g_key_file_get_double.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
+            RESULT = (double) DowncallHandles.g_key_file_get_double.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -214,7 +238,11 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_double_list.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_double_list.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key),
+                    (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -238,7 +266,9 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_groups.invokeExact(handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_groups.invokeExact(
+                    handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -262,7 +292,10 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_key_file_get_int64.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_key_file_get_int64.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -293,7 +326,10 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_key_file_get_integer.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_key_file_get_integer.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -328,7 +364,11 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_integer_list.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_integer_list.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key),
+                    (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -358,7 +398,10 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_keys.invokeExact(handle(), Interop.allocateNativeString(groupName), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_keys.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -388,14 +431,17 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.String getLocaleForKey(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @Nullable java.lang.String locale) {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNullElse(locale, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_locale_for_key.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeString(locale));
+            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_locale_for_key.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key),
+                    (Addressable) (locale == null ? MemoryAddress.NULL : Interop.allocateNativeString(locale)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -421,18 +467,21 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getLocaleString(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @Nullable java.lang.String locale) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNullElse(locale, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_locale_string.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeString(locale), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_locale_string.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key),
+                    (Addressable) (locale == null ? MemoryAddress.NULL : Interop.allocateNativeString(locale)), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -462,13 +511,17 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String[] getLocaleStringList(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @Nullable java.lang.String locale, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNullElse(locale, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_locale_string_list.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeString(locale), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_locale_string_list.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key),
+                    (Addressable) (locale == null ? MemoryAddress.NULL : Interop.allocateNativeString(locale)),
+                    (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -479,7 +532,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = OBJ.getUtf8String(0);
+            resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
     }
@@ -491,11 +544,12 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.String getStartGroup() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_start_group.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_start_group.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -519,14 +573,17 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_string.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_string.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -551,7 +608,11 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_string_list.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_string_list.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key),
+                    (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -562,7 +623,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = OBJ.getUtf8String(0);
+            resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
     }
@@ -583,7 +644,10 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_key_file_get_uint64.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_key_file_get_uint64.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -613,14 +677,17 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_value.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_value.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -633,7 +700,9 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_key_file_has_group.invokeExact(handle(), Interop.allocateNativeString(groupName));
+            RESULT = (int) DowncallHandles.g_key_file_has_group.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -662,7 +731,10 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_key_file_has_key.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_key_file_has_key.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -686,7 +758,10 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_key_file_load_from_bytes.invokeExact(handle(), bytes.handle(), flags.getValue(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_key_file_load_from_bytes.invokeExact(
+                    handle(),
+                    bytes.handle(),
+                    flags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -711,7 +786,11 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_key_file_load_from_data.invokeExact(handle(), Interop.allocateNativeString(data), length, flags.getValue(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_key_file_load_from_data.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(data),
+                    length,
+                    flags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -742,14 +821,18 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment fullPathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_key_file_load_from_data_dirs.invokeExact(handle(), Interop.allocateNativeString(file), (Addressable) fullPathPOINTER.address(), flags.getValue(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_key_file_load_from_data_dirs.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(file),
+                    (Addressable) fullPathPOINTER.address(),
+                    flags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        fullPath.set(fullPathPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        fullPath.set(Interop.getStringFrom(fullPathPOINTER.get(ValueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -780,14 +863,19 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment fullPathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_key_file_load_from_dirs.invokeExact(handle(), Interop.allocateNativeString(file), Interop.allocateNativeArray(searchDirs, false), (Addressable) fullPathPOINTER.address(), flags.getValue(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_key_file_load_from_dirs.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(file),
+                    Interop.allocateNativeArray(searchDirs, false),
+                    (Addressable) fullPathPOINTER.address(),
+                    flags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        fullPath.set(fullPathPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        fullPath.set(Interop.getStringFrom(fullPathPOINTER.get(ValueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -811,7 +899,10 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_key_file_load_from_file.invokeExact(handle(), Interop.allocateNativeString(file), flags.getValue(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_key_file_load_from_file.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(file),
+                    flags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -828,7 +919,8 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.KeyFile ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_key_file_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -846,12 +938,13 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean removeComment(@Nullable java.lang.String groupName, @Nullable java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(groupName, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_key_file_remove_comment.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_key_file_remove_comment.invokeExact(
+                    handle(),
+                    (Addressable) (groupName == null ? MemoryAddress.NULL : Interop.allocateNativeString(groupName)),
+                    (Addressable) (key == null ? MemoryAddress.NULL : Interop.allocateNativeString(key)), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -873,7 +966,9 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_key_file_remove_group.invokeExact(handle(), Interop.allocateNativeString(groupName), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_key_file_remove_group.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -896,7 +991,10 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_key_file_remove_key.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_key_file_remove_key.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -923,7 +1021,9 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_key_file_save_to_file.invokeExact(handle(), Interop.allocateNativeString(filename), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_key_file_save_to_file.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(filename), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -944,7 +1044,11 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         try {
-            DowncallHandles.g_key_file_set_boolean.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), value ? 1 : 0);
+            DowncallHandles.g_key_file_set_boolean.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key),
+                    value ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -964,7 +1068,12 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         try {
-            DowncallHandles.g_key_file_set_boolean_list.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeArray(list, false), length);
+            DowncallHandles.g_key_file_set_boolean_list.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key),
+                    Interop.allocateNativeArray(list, false),
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -986,13 +1095,15 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean setComment(@Nullable java.lang.String groupName, @Nullable java.lang.String key, @NotNull java.lang.String comment) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(groupName, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(comment, "Parameter 'comment' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_key_file_set_comment.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeString(comment), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_key_file_set_comment.invokeExact(
+                    handle(),
+                    (Addressable) (groupName == null ? MemoryAddress.NULL : Interop.allocateNativeString(groupName)),
+                    (Addressable) (key == null ? MemoryAddress.NULL : Interop.allocateNativeString(key)),
+                    Interop.allocateNativeString(comment), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1013,7 +1124,11 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         try {
-            DowncallHandles.g_key_file_set_double.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), value);
+            DowncallHandles.g_key_file_set_double.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1032,7 +1147,12 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         try {
-            DowncallHandles.g_key_file_set_double_list.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeArray(list, false), length);
+            DowncallHandles.g_key_file_set_double_list.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key),
+                    Interop.allocateNativeArray(list, false),
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1049,7 +1169,11 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         try {
-            DowncallHandles.g_key_file_set_int64.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), value);
+            DowncallHandles.g_key_file_set_int64.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1066,7 +1190,11 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         try {
-            DowncallHandles.g_key_file_set_integer.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), value);
+            DowncallHandles.g_key_file_set_integer.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1085,7 +1213,12 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         try {
-            DowncallHandles.g_key_file_set_integer_list.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeArray(list, false), length);
+            DowncallHandles.g_key_file_set_integer_list.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key),
+                    Interop.allocateNativeArray(list, false),
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1099,7 +1232,9 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setListSeparator(byte separator) {
         try {
-            DowncallHandles.g_key_file_set_list_separator.invokeExact(handle(), separator);
+            DowncallHandles.g_key_file_set_list_separator.invokeExact(
+                    handle(),
+                    separator);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1119,7 +1254,12 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(locale, "Parameter 'locale' must not be null");
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         try {
-            DowncallHandles.g_key_file_set_locale_string.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeString(locale), Interop.allocateNativeString(string));
+            DowncallHandles.g_key_file_set_locale_string.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key),
+                    Interop.allocateNativeString(locale),
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1141,7 +1281,13 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(locale, "Parameter 'locale' must not be null");
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         try {
-            DowncallHandles.g_key_file_set_locale_string_list.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeString(locale), Interop.allocateNativeArray(list, true), length);
+            DowncallHandles.g_key_file_set_locale_string_list.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key),
+                    Interop.allocateNativeString(locale),
+                    Interop.allocateNativeArray(list, true),
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1162,7 +1308,11 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         try {
-            DowncallHandles.g_key_file_set_string.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeString(string));
+            DowncallHandles.g_key_file_set_string.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key),
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1182,7 +1332,12 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         try {
-            DowncallHandles.g_key_file_set_string_list.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeArray(list, true), length);
+            DowncallHandles.g_key_file_set_string_list.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key),
+                    Interop.allocateNativeArray(list, true),
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1199,7 +1354,11 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         try {
-            DowncallHandles.g_key_file_set_uint64.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), value);
+            DowncallHandles.g_key_file_set_uint64.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1221,7 +1380,11 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.g_key_file_set_value.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeString(value));
+            DowncallHandles.g_key_file_set_value.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName),
+                    Interop.allocateNativeString(key),
+                    Interop.allocateNativeString(value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1244,7 +1407,9 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_to_data.invokeExact(handle(), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_key_file_to_data.invokeExact(
+                    handle(),
+                    (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1252,7 +1417,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
             throw new GErrorException(GERROR);
         }
         length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -1261,7 +1426,8 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_key_file_unref.invokeExact(handle());
+            DowncallHandles.g_key_file_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

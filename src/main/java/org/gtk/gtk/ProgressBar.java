@@ -57,21 +57,34 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkProgressBar";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ProgressBar(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ProgressBar */
+    /**
+     * Cast object to ProgressBar if its GType is a (or inherits from) "GtkProgressBar".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ProgressBar" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkProgressBar", a ClassCastException will be thrown.
+     */
     public static ProgressBar castFrom(org.gtk.gobject.Object gobject) {
-        return new ProgressBar(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkProgressBar"))) {
+            return new ProgressBar(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkProgressBar");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -100,7 +113,8 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public @NotNull org.pango.EllipsizeMode getEllipsize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_progress_bar_get_ellipsize.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_progress_bar_get_ellipsize.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,7 +128,8 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public double getFraction() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_progress_bar_get_fraction.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_progress_bar_get_fraction.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -128,7 +143,8 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public boolean getInverted() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_progress_bar_get_inverted.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_progress_bar_get_inverted.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -144,7 +160,8 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public double getPulseStep() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_progress_bar_get_pulse_step.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_progress_bar_get_pulse_step.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,7 +177,8 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public boolean getShowText() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_progress_bar_get_show_text.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_progress_bar_get_show_text.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,11 +195,12 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public @Nullable java.lang.String getText() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_progress_bar_get_text.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_progress_bar_get_text.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -194,7 +213,8 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public void pulse() {
         try {
-            DowncallHandles.gtk_progress_bar_pulse.invokeExact(handle());
+            DowncallHandles.gtk_progress_bar_pulse.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -210,7 +230,9 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public void setEllipsize(@NotNull org.pango.EllipsizeMode mode) {
         java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
         try {
-            DowncallHandles.gtk_progress_bar_set_ellipsize.invokeExact(handle(), mode.getValue());
+            DowncallHandles.gtk_progress_bar_set_ellipsize.invokeExact(
+                    handle(),
+                    mode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -225,7 +247,9 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public void setFraction(double fraction) {
         try {
-            DowncallHandles.gtk_progress_bar_set_fraction.invokeExact(handle(), fraction);
+            DowncallHandles.gtk_progress_bar_set_fraction.invokeExact(
+                    handle(),
+                    fraction);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,7 +264,9 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public void setInverted(boolean inverted) {
         try {
-            DowncallHandles.gtk_progress_bar_set_inverted.invokeExact(handle(), inverted ? 1 : 0);
+            DowncallHandles.gtk_progress_bar_set_inverted.invokeExact(
+                    handle(),
+                    inverted ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -256,7 +282,9 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public void setPulseStep(double fraction) {
         try {
-            DowncallHandles.gtk_progress_bar_set_pulse_step.invokeExact(handle(), fraction);
+            DowncallHandles.gtk_progress_bar_set_pulse_step.invokeExact(
+                    handle(),
+                    fraction);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -276,7 +304,9 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public void setShowText(boolean showText) {
         try {
-            DowncallHandles.gtk_progress_bar_set_show_text.invokeExact(handle(), showText ? 1 : 0);
+            DowncallHandles.gtk_progress_bar_set_show_text.invokeExact(
+                    handle(),
+                    showText ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -297,9 +327,10 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @param text a UTF-8 string
      */
     public void setText(@Nullable java.lang.String text) {
-        java.util.Objects.requireNonNullElse(text, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_progress_bar_set_text.invokeExact(handle(), Interop.allocateNativeString(text));
+            DowncallHandles.gtk_progress_bar_set_text.invokeExact(
+                    handle(),
+                    (Addressable) (text == null ? MemoryAddress.NULL : Interop.allocateNativeString(text)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

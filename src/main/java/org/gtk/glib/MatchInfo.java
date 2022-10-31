@@ -15,14 +15,26 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GMatchInfo";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static MatchInfo allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        MatchInfo newInstance = new MatchInfo(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public MatchInfo(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -54,14 +66,16 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_match_info_expand_references.invokeExact(handle(), Interop.allocateNativeString(stringToExpand), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_match_info_expand_references.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(stringToExpand), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -88,11 +102,13 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.String fetch(int matchNum) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_match_info_fetch.invokeExact(handle(), matchNum);
+            RESULT = (MemoryAddress) DowncallHandles.g_match_info_fetch.invokeExact(
+                    handle(),
+                    matchNum);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -119,7 +135,8 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull PointerString fetchAll() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_match_info_fetch_all.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_match_info_fetch_all.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -143,11 +160,13 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_match_info_fetch_named.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.g_match_info_fetch_named.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -173,7 +192,11 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment endPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_match_info_fetch_named_pos.invokeExact(handle(), Interop.allocateNativeString(name), (Addressable) startPosPOINTER.address(), (Addressable) endPosPOINTER.address());
+            RESULT = (int) DowncallHandles.g_match_info_fetch_named_pos.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name),
+                    (Addressable) startPosPOINTER.address(),
+                    (Addressable) endPosPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -212,7 +235,11 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment endPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_match_info_fetch_pos.invokeExact(handle(), matchNum, (Addressable) startPosPOINTER.address(), (Addressable) endPosPOINTER.address());
+            RESULT = (int) DowncallHandles.g_match_info_fetch_pos.invokeExact(
+                    handle(),
+                    matchNum,
+                    (Addressable) startPosPOINTER.address(),
+                    (Addressable) endPosPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -227,7 +254,8 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.g_match_info_free.invokeExact(handle());
+            DowncallHandles.g_match_info_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -247,7 +275,8 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
     public int getMatchCount() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_match_info_get_match_count.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_match_info_get_match_count.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -263,7 +292,8 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Regex getRegex() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_match_info_get_regex.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_match_info_get_regex.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -279,11 +309,12 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_match_info_get_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_match_info_get_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -325,7 +356,8 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
     public boolean isPartialMatch() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_match_info_is_partial_match.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_match_info_is_partial_match.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -340,7 +372,8 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
     public boolean matches() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_match_info_matches.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_match_info_matches.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -361,7 +394,8 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_match_info_next.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_match_info_next.invokeExact(
+                    handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -378,7 +412,8 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.MatchInfo ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_match_info_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_match_info_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -391,7 +426,8 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_match_info_unref.invokeExact(handle());
+            DowncallHandles.g_match_info_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -85,28 +85,42 @@ public class TestDBus extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTestDBus";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public TestDBus(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TestDBus */
+    /**
+     * Cast object to TestDBus if its GType is a (or inherits from) "GTestDBus".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TestDBus" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GTestDBus", a ClassCastException will be thrown.
+     */
     public static TestDBus castFrom(org.gtk.gobject.Object gobject) {
-        return new TestDBus(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTestDBus"))) {
+            return new TestDBus(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GTestDBus");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gio.TestDBusFlags flags) {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_test_dbus_new.invokeExact(flags.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_test_dbus_new.invokeExact(
+                    flags.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,7 +143,9 @@ public class TestDBus extends org.gtk.gobject.Object {
     public void addServiceDir(@NotNull java.lang.String path) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         try {
-            DowncallHandles.g_test_dbus_add_service_dir.invokeExact(handle(), Interop.allocateNativeString(path));
+            DowncallHandles.g_test_dbus_add_service_dir.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(path));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -144,7 +160,8 @@ public class TestDBus extends org.gtk.gobject.Object {
      */
     public void down() {
         try {
-            DowncallHandles.g_test_dbus_down.invokeExact(handle());
+            DowncallHandles.g_test_dbus_down.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,11 +176,12 @@ public class TestDBus extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getBusAddress() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_test_dbus_get_bus_address.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_test_dbus_get_bus_address.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -173,7 +191,8 @@ public class TestDBus extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gio.TestDBusFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_test_dbus_get_flags.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_test_dbus_get_flags.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -190,7 +209,8 @@ public class TestDBus extends org.gtk.gobject.Object {
      */
     public void stop() {
         try {
-            DowncallHandles.g_test_dbus_stop.invokeExact(handle());
+            DowncallHandles.g_test_dbus_stop.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -208,7 +228,8 @@ public class TestDBus extends org.gtk.gobject.Object {
      */
     public void up() {
         try {
-            DowncallHandles.g_test_dbus_up.invokeExact(handle());
+            DowncallHandles.g_test_dbus_up.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

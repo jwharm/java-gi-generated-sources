@@ -15,26 +15,48 @@ public class TlsPassword extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTlsPassword";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.TlsPasswordPrivate.getMemoryLayout().withName("priv")
-    ).withName("GTlsPassword");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public TlsPassword(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TlsPassword */
+    /**
+     * Cast object to TlsPassword if its GType is a (or inherits from) "GTlsPassword".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TlsPassword" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GTlsPassword", a ClassCastException will be thrown.
+     */
     public static TlsPassword castFrom(org.gtk.gobject.Object gobject) {
-        return new TlsPassword(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTlsPassword"))) {
+            return new TlsPassword(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GTlsPassword");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gio.TlsPasswordFlags flags, @NotNull java.lang.String description) {
@@ -42,7 +64,9 @@ public class TlsPassword extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(description, "Parameter 'description' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_tls_password_new.invokeExact(flags.getValue(), Interop.allocateNativeString(description)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_tls_password_new.invokeExact(
+                    flags.getValue(),
+                    Interop.allocateNativeString(description)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,11 +89,12 @@ public class TlsPassword extends org.gtk.gobject.Object {
     public @NotNull java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_password_get_description.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_password_get_description.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -79,7 +104,8 @@ public class TlsPassword extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gio.TlsPasswordFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tls_password_get_flags.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_tls_password_get_flags.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,7 +126,9 @@ public class TlsPassword extends org.gtk.gobject.Object {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_password_get_value.invokeExact(handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_password_get_value.invokeExact(
+                    handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,11 +145,12 @@ public class TlsPassword extends org.gtk.gobject.Object {
     public @NotNull java.lang.String getWarning() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_password_get_warning.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_password_get_warning.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -131,7 +160,9 @@ public class TlsPassword extends org.gtk.gobject.Object {
     public void setDescription(@NotNull java.lang.String description) {
         java.util.Objects.requireNonNull(description, "Parameter 'description' must not be null");
         try {
-            DowncallHandles.g_tls_password_set_description.invokeExact(handle(), Interop.allocateNativeString(description));
+            DowncallHandles.g_tls_password_set_description.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(description));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -144,7 +175,9 @@ public class TlsPassword extends org.gtk.gobject.Object {
     public void setFlags(@NotNull org.gtk.gio.TlsPasswordFlags flags) {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            DowncallHandles.g_tls_password_set_flags.invokeExact(handle(), flags.getValue());
+            DowncallHandles.g_tls_password_set_flags.invokeExact(
+                    handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -164,7 +197,10 @@ public class TlsPassword extends org.gtk.gobject.Object {
     public void setValue(byte[] value, long length) {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.g_tls_password_set_value.invokeExact(handle(), Interop.allocateNativeArray(value, false), length);
+            DowncallHandles.g_tls_password_set_value.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(value, false),
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -197,7 +233,9 @@ public class TlsPassword extends org.gtk.gobject.Object {
     public void setWarning(@NotNull java.lang.String warning) {
         java.util.Objects.requireNonNull(warning, "Parameter 'warning' must not be null");
         try {
-            DowncallHandles.g_tls_password_set_warning.invokeExact(handle(), Interop.allocateNativeString(warning));
+            DowncallHandles.g_tls_password_set_warning.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(warning));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

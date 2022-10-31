@@ -24,28 +24,42 @@ public class Renderer extends org.gtk.gobject.Object {
         Gsk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GskRenderer";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Renderer(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Renderer */
+    /**
+     * Cast object to Renderer if its GType is a (or inherits from) "GskRenderer".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Renderer" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GskRenderer", a ClassCastException will be thrown.
+     */
     public static Renderer castFrom(org.gtk.gobject.Object gobject) {
-        return new Renderer(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskRenderer"))) {
+            return new Renderer(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskRenderer");
+        }
     }
     
     private static Refcounted constructNewForSurface(@NotNull org.gtk.gdk.Surface surface) {
         java.util.Objects.requireNonNull(surface, "Parameter 'surface' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_renderer_new_for_surface.invokeExact(surface.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_renderer_new_for_surface.invokeExact(
+                    surface.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,7 +90,8 @@ public class Renderer extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdk.Surface getSurface() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_renderer_get_surface.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_renderer_get_surface.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +105,8 @@ public class Renderer extends org.gtk.gobject.Object {
     public boolean isRealized() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_renderer_is_realized.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gsk_renderer_is_realized.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,11 +127,12 @@ public class Renderer extends org.gtk.gobject.Object {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean realize(@Nullable org.gtk.gdk.Surface surface) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(surface, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_renderer_realize.invokeExact(handle(), surface.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gsk_renderer_realize.invokeExact(
+                    handle(),
+                    (Addressable) (surface == null ? MemoryAddress.NULL : surface.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -144,9 +161,11 @@ public class Renderer extends org.gtk.gobject.Object {
      */
     public void render(@NotNull org.gtk.gsk.RenderNode root, @Nullable org.cairographics.Region region) {
         java.util.Objects.requireNonNull(root, "Parameter 'root' must not be null");
-        java.util.Objects.requireNonNullElse(region, MemoryAddress.NULL);
         try {
-            DowncallHandles.gsk_renderer_render.invokeExact(handle(), root.handle(), region.handle());
+            DowncallHandles.gsk_renderer_render.invokeExact(
+                    handle(),
+                    root.handle(),
+                    (Addressable) (region == null ? MemoryAddress.NULL : region.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,10 +186,12 @@ public class Renderer extends org.gtk.gobject.Object {
      */
     public @NotNull org.gtk.gdk.Texture renderTexture(@NotNull org.gtk.gsk.RenderNode root, @Nullable org.gtk.graphene.Rect viewport) {
         java.util.Objects.requireNonNull(root, "Parameter 'root' must not be null");
-        java.util.Objects.requireNonNullElse(viewport, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_renderer_render_texture.invokeExact(handle(), root.handle(), viewport.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_renderer_render_texture.invokeExact(
+                    handle(),
+                    root.handle(),
+                    (Addressable) (viewport == null ? MemoryAddress.NULL : viewport.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,7 +203,8 @@ public class Renderer extends org.gtk.gobject.Object {
      */
     public void unrealize() {
         try {
-            DowncallHandles.gsk_renderer_unrealize.invokeExact(handle());
+            DowncallHandles.gsk_renderer_unrealize.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

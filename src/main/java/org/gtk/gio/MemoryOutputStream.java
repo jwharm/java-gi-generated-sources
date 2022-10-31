@@ -18,39 +18,61 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GMemoryOutputStream";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.OutputStream.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.MemoryOutputStreamPrivate.getMemoryLayout().withName("priv")
-    ).withName("GMemoryOutputStream");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gio.OutputStream parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gio.OutputStream(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public MemoryOutputStream(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to MemoryOutputStream */
+    /**
+     * Cast object to MemoryOutputStream if its GType is a (or inherits from) "GMemoryOutputStream".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "MemoryOutputStream" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GMemoryOutputStream", a ClassCastException will be thrown.
+     */
     public static MemoryOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new MemoryOutputStream(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GMemoryOutputStream"))) {
+            return new MemoryOutputStream(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GMemoryOutputStream");
+        }
     }
     
     private static Refcounted constructNew(long size, @Nullable org.gtk.gio.ReallocFunc reallocFunction) {
-        java.util.Objects.requireNonNullElse(reallocFunction, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
             RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_memory_output_stream_new.invokeExact(
-                   (Addressable) (reallocFunction == null ? MemoryAddress.NULL : Interop.registerCallback(reallocFunction)), size, 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+                    (Addressable) (reallocFunction == null ? MemoryAddress.NULL : Interop.registerCallback(reallocFunction)),
+                    size,
+                    (Addressable) (reallocFunction == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbReallocFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, long.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
-                        Interop.getScope()), 
+                        Interop.getScope())),
                     Interop.cbDestroyNotifySymbol()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -136,7 +158,8 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
     public @Nullable java.lang.foreign.MemoryAddress getData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_memory_output_stream_get_data.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_memory_output_stream_get_data.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,7 +174,8 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
     public long getDataSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_memory_output_stream_get_data_size.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_memory_output_stream_get_data_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -179,7 +203,8 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
     public long getSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_memory_output_stream_get_size.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_memory_output_stream_get_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -194,7 +219,8 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
     public @NotNull org.gtk.glib.Bytes stealAsBytes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_memory_output_stream_steal_as_bytes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_memory_output_stream_steal_as_bytes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -214,7 +240,8 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
     public @Nullable java.lang.foreign.MemoryAddress stealData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_memory_output_stream_steal_data.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_memory_output_stream_steal_data.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

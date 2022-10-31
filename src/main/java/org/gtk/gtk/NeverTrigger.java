@@ -14,21 +14,34 @@ public class NeverTrigger extends org.gtk.gtk.ShortcutTrigger {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkNeverTrigger";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public NeverTrigger(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to NeverTrigger */
+    /**
+     * Cast object to NeverTrigger if its GType is a (or inherits from) "GtkNeverTrigger".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "NeverTrigger" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkNeverTrigger", a ClassCastException will be thrown.
+     */
     public static NeverTrigger castFrom(org.gtk.gobject.Object gobject) {
-        return new NeverTrigger(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkNeverTrigger"))) {
+            return new NeverTrigger(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkNeverTrigger");
+        }
     }
     
     /**

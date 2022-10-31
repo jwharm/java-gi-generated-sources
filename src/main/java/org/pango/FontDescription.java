@@ -19,14 +19,26 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoFontDescription";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static FontDescription allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        FontDescription newInstance = new FontDescription(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public FontDescription(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -65,11 +77,13 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * @return {@code true} if {@code new_match} is a better match
      */
     public boolean betterMatch(@Nullable org.pango.FontDescription oldMatch, @NotNull org.pango.FontDescription newMatch) {
-        java.util.Objects.requireNonNullElse(oldMatch, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(newMatch, "Parameter 'newMatch' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_description_better_match.invokeExact(handle(), oldMatch.handle(), newMatch.handle());
+            RESULT = (int) DowncallHandles.pango_font_description_better_match.invokeExact(
+                    handle(),
+                    (Addressable) (oldMatch == null ? MemoryAddress.NULL : oldMatch.handle()),
+                    newMatch.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,7 +99,8 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.pango.FontDescription copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,7 +122,8 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.pango.FontDescription copyStatic() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_copy_static.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_copy_static.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,7 +145,9 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(desc2, "Parameter 'desc2' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_description_equal.invokeExact(handle(), desc2.handle());
+            RESULT = (int) DowncallHandles.pango_font_description_equal.invokeExact(
+                    handle(),
+                    desc2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,7 +159,8 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.pango_font_description_free.invokeExact(handle());
+            DowncallHandles.pango_font_description_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -158,11 +177,12 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.String getFamily() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_get_family.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_get_family.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -176,7 +196,8 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.pango.Gravity getGravity() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_description_get_gravity.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_font_description_get_gravity.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -191,7 +212,8 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.pango.FontMask getSetFields() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_description_get_set_fields.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_font_description_get_set_fields.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -213,7 +235,8 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public int getSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_description_get_size.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_font_description_get_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -234,7 +257,8 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public boolean getSizeIsAbsolute() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_description_get_size_is_absolute.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_font_description_get_size_is_absolute.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -252,7 +276,8 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.pango.Stretch getStretch() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_description_get_stretch.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_font_description_get_stretch.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -270,7 +295,8 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.pango.Style getStyle() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_description_get_style.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_font_description_get_style.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -288,7 +314,8 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.pango.Variant getVariant() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_description_get_variant.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_font_description_get_variant.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -306,11 +333,12 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.String getVariations() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_get_variations.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_get_variations.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -324,7 +352,8 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.pango.Weight getWeight() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_description_get_weight.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_font_description_get_weight.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -341,7 +370,8 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public int hash() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_description_hash.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_font_description_hash.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -364,9 +394,11 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      *   are already exist.
      */
     public void merge(@Nullable org.pango.FontDescription descToMerge, boolean replaceExisting) {
-        java.util.Objects.requireNonNullElse(descToMerge, MemoryAddress.NULL);
         try {
-            DowncallHandles.pango_font_description_merge.invokeExact(handle(), descToMerge.handle(), replaceExisting ? 1 : 0);
+            DowncallHandles.pango_font_description_merge.invokeExact(
+                    handle(),
+                    (Addressable) (descToMerge == null ? MemoryAddress.NULL : descToMerge.handle()),
+                    replaceExisting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -388,7 +420,10 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public void mergeStatic(@NotNull org.pango.FontDescription descToMerge, boolean replaceExisting) {
         java.util.Objects.requireNonNull(descToMerge, "Parameter 'descToMerge' must not be null");
         try {
-            DowncallHandles.pango_font_description_merge_static.invokeExact(handle(), descToMerge.handle(), replaceExisting ? 1 : 0);
+            DowncallHandles.pango_font_description_merge_static.invokeExact(
+                    handle(),
+                    descToMerge.handle(),
+                    replaceExisting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -405,7 +440,9 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setAbsoluteSize(double size) {
         try {
-            DowncallHandles.pango_font_description_set_absolute_size.invokeExact(handle(), size);
+            DowncallHandles.pango_font_description_set_absolute_size.invokeExact(
+                    handle(),
+                    size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -424,7 +461,9 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public void setFamily(@NotNull java.lang.String family) {
         java.util.Objects.requireNonNull(family, "Parameter 'family' must not be null");
         try {
-            DowncallHandles.pango_font_description_set_family.invokeExact(handle(), Interop.allocateNativeString(family));
+            DowncallHandles.pango_font_description_set_family.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(family));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -443,7 +482,9 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public void setFamilyStatic(@NotNull java.lang.String family) {
         java.util.Objects.requireNonNull(family, "Parameter 'family' must not be null");
         try {
-            DowncallHandles.pango_font_description_set_family_static.invokeExact(handle(), Interop.allocateNativeString(family));
+            DowncallHandles.pango_font_description_set_family_static.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(family));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -464,7 +505,9 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public void setGravity(@NotNull org.pango.Gravity gravity) {
         java.util.Objects.requireNonNull(gravity, "Parameter 'gravity' must not be null");
         try {
-            DowncallHandles.pango_font_description_set_gravity.invokeExact(handle(), gravity.getValue());
+            DowncallHandles.pango_font_description_set_gravity.invokeExact(
+                    handle(),
+                    gravity.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -486,7 +529,9 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setSize(int size) {
         try {
-            DowncallHandles.pango_font_description_set_size.invokeExact(handle(), size);
+            DowncallHandles.pango_font_description_set_size.invokeExact(
+                    handle(),
+                    size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -502,7 +547,9 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public void setStretch(@NotNull org.pango.Stretch stretch) {
         java.util.Objects.requireNonNull(stretch, "Parameter 'stretch' must not be null");
         try {
-            DowncallHandles.pango_font_description_set_stretch.invokeExact(handle(), stretch.getValue());
+            DowncallHandles.pango_font_description_set_stretch.invokeExact(
+                    handle(),
+                    stretch.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -524,7 +571,9 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public void setStyle(@NotNull org.pango.Style style) {
         java.util.Objects.requireNonNull(style, "Parameter 'style' must not be null");
         try {
-            DowncallHandles.pango_font_description_set_style.invokeExact(handle(), style.getValue());
+            DowncallHandles.pango_font_description_set_style.invokeExact(
+                    handle(),
+                    style.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -540,7 +589,9 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public void setVariant(@NotNull org.pango.Variant variant) {
         java.util.Objects.requireNonNull(variant, "Parameter 'variant' must not be null");
         try {
-            DowncallHandles.pango_font_description_set_variant.invokeExact(handle(), variant.getValue());
+            DowncallHandles.pango_font_description_set_variant.invokeExact(
+                    handle(),
+                    variant.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -566,9 +617,10 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * @param variations a string representing the variations
      */
     public void setVariations(@Nullable java.lang.String variations) {
-        java.util.Objects.requireNonNullElse(variations, MemoryAddress.NULL);
         try {
-            DowncallHandles.pango_font_description_set_variations.invokeExact(handle(), Interop.allocateNativeString(variations));
+            DowncallHandles.pango_font_description_set_variations.invokeExact(
+                    handle(),
+                    (Addressable) (variations == null ? MemoryAddress.NULL : Interop.allocateNativeString(variations)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -588,7 +640,9 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public void setVariationsStatic(@NotNull java.lang.String variations) {
         java.util.Objects.requireNonNull(variations, "Parameter 'variations' must not be null");
         try {
-            DowncallHandles.pango_font_description_set_variations_static.invokeExact(handle(), Interop.allocateNativeString(variations));
+            DowncallHandles.pango_font_description_set_variations_static.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(variations));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -606,7 +660,9 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public void setWeight(@NotNull org.pango.Weight weight) {
         java.util.Objects.requireNonNull(weight, "Parameter 'weight' must not be null");
         try {
-            DowncallHandles.pango_font_description_set_weight.invokeExact(handle(), weight.getValue());
+            DowncallHandles.pango_font_description_set_weight.invokeExact(
+                    handle(),
+                    weight.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -624,11 +680,12 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String toFilename() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_to_filename.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_to_filename.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -643,11 +700,12 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_to_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -659,7 +717,9 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public void unsetFields(@NotNull org.pango.FontMask toUnset) {
         java.util.Objects.requireNonNull(toUnset, "Parameter 'toUnset' must not be null");
         try {
-            DowncallHandles.pango_font_description_unset_fields.invokeExact(handle(), toUnset.getValue());
+            DowncallHandles.pango_font_description_unset_fields.invokeExact(
+                    handle(),
+                    toUnset.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -717,7 +777,8 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_from_string.invokeExact(Interop.allocateNativeString(str));
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_from_string.invokeExact(
+                    Interop.allocateNativeString(str));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

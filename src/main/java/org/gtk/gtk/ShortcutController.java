@@ -52,21 +52,34 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkShortcutController";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ShortcutController(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ShortcutController */
+    /**
+     * Cast object to ShortcutController if its GType is a (or inherits from) "GtkShortcutController".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ShortcutController" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkShortcutController", a ClassCastException will be thrown.
+     */
     public static ShortcutController castFrom(org.gtk.gobject.Object gobject) {
-        return new ShortcutController(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkShortcutController"))) {
+            return new ShortcutController(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkShortcutController");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -90,7 +103,8 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
         java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_shortcut_controller_new_for_model.invokeExact(model.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_shortcut_controller_new_for_model.invokeExact(
+                    model.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,7 +135,9 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
     public void addShortcut(@NotNull org.gtk.gtk.Shortcut shortcut) {
         java.util.Objects.requireNonNull(shortcut, "Parameter 'shortcut' must not be null");
         try {
-            DowncallHandles.gtk_shortcut_controller_add_shortcut.invokeExact(handle(), shortcut.refcounted().unowned().handle());
+            DowncallHandles.gtk_shortcut_controller_add_shortcut.invokeExact(
+                    handle(),
+                    shortcut.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,7 +150,8 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
     public @NotNull org.gtk.gdk.ModifierType getMnemonicsModifiers() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_shortcut_controller_get_mnemonics_modifiers.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_shortcut_controller_get_mnemonics_modifiers.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -150,7 +167,8 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
     public @NotNull org.gtk.gtk.ShortcutScope getScope() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_shortcut_controller_get_scope.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_shortcut_controller_get_scope.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,7 +185,9 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
     public void removeShortcut(@NotNull org.gtk.gtk.Shortcut shortcut) {
         java.util.Objects.requireNonNull(shortcut, "Parameter 'shortcut' must not be null");
         try {
-            DowncallHandles.gtk_shortcut_controller_remove_shortcut.invokeExact(handle(), shortcut.handle());
+            DowncallHandles.gtk_shortcut_controller_remove_shortcut.invokeExact(
+                    handle(),
+                    shortcut.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -192,7 +212,9 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
     public void setMnemonicsModifiers(@NotNull org.gtk.gdk.ModifierType modifiers) {
         java.util.Objects.requireNonNull(modifiers, "Parameter 'modifiers' must not be null");
         try {
-            DowncallHandles.gtk_shortcut_controller_set_mnemonics_modifiers.invokeExact(handle(), modifiers.getValue());
+            DowncallHandles.gtk_shortcut_controller_set_mnemonics_modifiers.invokeExact(
+                    handle(),
+                    modifiers.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -213,7 +235,9 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
     public void setScope(@NotNull org.gtk.gtk.ShortcutScope scope) {
         java.util.Objects.requireNonNull(scope, "Parameter 'scope' must not be null");
         try {
-            DowncallHandles.gtk_shortcut_controller_set_scope.invokeExact(handle(), scope.getValue());
+            DowncallHandles.gtk_shortcut_controller_set_scope.invokeExact(
+                    handle(),
+                    scope.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

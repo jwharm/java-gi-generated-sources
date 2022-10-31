@@ -17,21 +17,34 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkGestureStylus";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public GestureStylus(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to GestureStylus */
+    /**
+     * Cast object to GestureStylus if its GType is a (or inherits from) "GtkGestureStylus".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "GestureStylus" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkGestureStylus", a ClassCastException will be thrown.
+     */
     public static GestureStylus castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureStylus(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGestureStylus"))) {
+            return new GestureStylus(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGestureStylus");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -83,7 +96,10 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_stylus_get_axis.invokeExact(handle(), axis.getValue(), (Addressable) valuePOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_gesture_stylus_get_axis.invokeExact(
+                    handle(),
+                    axis.getValue(),
+                    (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,7 +132,10 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
         MemorySegment nElemsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_stylus_get_backlog.invokeExact(handle(), (Addressable) backlogPOINTER.address(), (Addressable) nElemsPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_gesture_stylus_get_backlog.invokeExact(
+                    handle(),
+                    (Addressable) backlogPOINTER.address(),
+                    (Addressable) nElemsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,7 +161,8 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
     public @Nullable org.gtk.gdk.DeviceTool getDeviceTool() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_stylus_get_device_tool.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_stylus_get_device_tool.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

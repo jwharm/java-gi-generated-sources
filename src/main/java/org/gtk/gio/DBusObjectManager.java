@@ -17,6 +17,21 @@ import org.jetbrains.annotations.*;
 public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to DBusObjectManager if its GType is a (or inherits from) "GDBusObjectManager".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DBusObjectManager" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GDBusObjectManager", a ClassCastException will be thrown.
+     */
+    public static DBusObjectManager castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusObjectManager"))) {
+            return new DBusObjectManagerImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDBusObjectManager");
+        }
+    }
+    
+    /**
      * Gets the interface proxy for {@code interface_name} at {@code object_path}, if
      * any.
      * @param objectPath Object path to look up.
@@ -29,7 +44,10 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(interfaceName, "Parameter 'interfaceName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_manager_get_interface.invokeExact(handle(), Interop.allocateNativeString(objectPath), Interop.allocateNativeString(interfaceName));
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_manager_get_interface.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(objectPath),
+                    Interop.allocateNativeString(interfaceName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -46,7 +64,9 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_manager_get_object.invokeExact(handle(), Interop.allocateNativeString(objectPath));
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_manager_get_object.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(objectPath));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -60,11 +80,12 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
     default @NotNull java.lang.String getObjectPath() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_manager_get_object_path.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_manager_get_object_path.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -77,7 +98,8 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.glib.List getObjects() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_manager_get_objects.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_manager_get_objects.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

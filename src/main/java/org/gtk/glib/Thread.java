@@ -26,30 +26,42 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GThread";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Thread allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Thread newInstance = new Thread(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Thread(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
     private static Refcounted constructNew(@Nullable java.lang.String name, @NotNull org.gtk.glib.ThreadFunc func) {
-        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_thread_new.invokeExact(Interop.allocateNativeString(name), 
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_thread_new.invokeExact(
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbThreadFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func))), true);
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func))), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,18 +104,18 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
     }
     
     private static Refcounted constructTryNew(@Nullable java.lang.String name, @NotNull org.gtk.glib.ThreadFunc func) throws GErrorException {
-        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_thread_try_new.invokeExact(Interop.allocateNativeString(name), 
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_thread_try_new.invokeExact(
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbThreadFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)), (Addressable) GERROR), true);
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -150,7 +162,8 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress join() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_thread_join.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_thread_join.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -164,7 +177,8 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Thread ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_thread_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_thread_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,7 +195,8 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_thread_unref.invokeExact(handle());
+            DowncallHandles.g_thread_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -214,9 +229,9 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      * @param retval the return value of this thread
      */
     public static void exit(@Nullable java.lang.foreign.MemoryAddress retval) {
-        java.util.Objects.requireNonNullElse(retval, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_thread_exit.invokeExact(retval);
+            DowncallHandles.g_thread_exit.invokeExact(
+                    (Addressable) (retval == null ? MemoryAddress.NULL : retval));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

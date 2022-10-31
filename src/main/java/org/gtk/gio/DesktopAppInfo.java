@@ -19,28 +19,42 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GDesktopAppInfo";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public DesktopAppInfo(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DesktopAppInfo */
+    /**
+     * Cast object to DesktopAppInfo if its GType is a (or inherits from) "GDesktopAppInfo".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DesktopAppInfo" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GDesktopAppInfo", a ClassCastException will be thrown.
+     */
     public static DesktopAppInfo castFrom(org.gtk.gobject.Object gobject) {
-        return new DesktopAppInfo(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDesktopAppInfo"))) {
+            return new DesktopAppInfo(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDesktopAppInfo");
+        }
     }
     
     private static Refcounted constructNew(@NotNull java.lang.String desktopId) {
         java.util.Objects.requireNonNull(desktopId, "Parameter 'desktopId' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_desktop_app_info_new.invokeExact(Interop.allocateNativeString(desktopId)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_desktop_app_info_new.invokeExact(
+                    Interop.allocateNativeString(desktopId)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,7 +83,8 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_desktop_app_info_new_from_filename.invokeExact(Interop.allocateNativeString(filename)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_desktop_app_info_new_from_filename.invokeExact(
+                    Interop.allocateNativeString(filename)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +105,8 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         java.util.Objects.requireNonNull(keyFile, "Parameter 'keyFile' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_desktop_app_info_new_from_keyfile.invokeExact(keyFile.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_desktop_app_info_new_from_keyfile.invokeExact(
+                    keyFile.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,11 +136,13 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_action_name.invokeExact(handle(), Interop.allocateNativeString(actionName));
+            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_action_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -139,7 +157,9 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_desktop_app_info_get_boolean.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (int) DowncallHandles.g_desktop_app_info_get_boolean.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,11 +174,12 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
     public @Nullable java.lang.String getCategories() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_categories.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_categories.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -171,11 +192,12 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
     public @Nullable java.lang.String getFilename() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_filename.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_filename.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -185,11 +207,12 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
     public @Nullable java.lang.String getGenericName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_generic_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_generic_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -200,7 +223,8 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
     public boolean getIsHidden() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_desktop_app_info_get_is_hidden.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_desktop_app_info_get_is_hidden.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -214,7 +238,8 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
     public @NotNull PointerString getKeywords() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_keywords.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_keywords.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -234,11 +259,13 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_locale_string.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_locale_string.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -250,7 +277,8 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
     public boolean getNodisplay() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_desktop_app_info_get_nodisplay.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_desktop_app_info_get_nodisplay.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -275,10 +303,11 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      * otherwise.
      */
     public boolean getShowIn(@Nullable java.lang.String desktopEnv) {
-        java.util.Objects.requireNonNullElse(desktopEnv, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_desktop_app_info_get_show_in.invokeExact(handle(), Interop.allocateNativeString(desktopEnv));
+            RESULT = (int) DowncallHandles.g_desktop_app_info_get_show_in.invokeExact(
+                    handle(),
+                    (Addressable) (desktopEnv == null ? MemoryAddress.NULL : Interop.allocateNativeString(desktopEnv)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -295,11 +324,12 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
     public @Nullable java.lang.String getStartupWmClass() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_startup_wm_class.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_startup_wm_class.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -314,11 +344,13 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_string.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_string.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -336,7 +368,10 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_string_list.invokeExact(handle(), Interop.allocateNativeString(key), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_string_list.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -344,7 +379,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = OBJ.getUtf8String(0);
+            resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
     }
@@ -359,7 +394,9 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_desktop_app_info_has_key.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (int) DowncallHandles.g_desktop_app_info_has_key.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -388,9 +425,11 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      */
     public void launchAction(@NotNull java.lang.String actionName, @Nullable org.gtk.gio.AppLaunchContext launchContext) {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
-        java.util.Objects.requireNonNullElse(launchContext, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_desktop_app_info_launch_action.invokeExact(handle(), Interop.allocateNativeString(actionName), launchContext.handle());
+            DowncallHandles.g_desktop_app_info_launch_action.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName),
+                    (Addressable) (launchContext == null ? MemoryAddress.NULL : launchContext.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -423,26 +462,27 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      */
     public boolean launchUrisAsManager(@NotNull org.gtk.glib.List uris, @Nullable org.gtk.gio.AppLaunchContext launchContext, @NotNull org.gtk.glib.SpawnFlags spawnFlags, @Nullable org.gtk.glib.SpawnChildSetupFunc userSetup, @Nullable org.gtk.gio.DesktopAppLaunchCallback pidCallback) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uris, "Parameter 'uris' must not be null");
-        java.util.Objects.requireNonNullElse(launchContext, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(spawnFlags, "Parameter 'spawnFlags' must not be null");
-        java.util.Objects.requireNonNullElse(userSetup, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(pidCallback, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_desktop_app_info_launch_uris_as_manager.invokeExact(handle(), uris.handle(), launchContext.handle(), spawnFlags.getValue(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            RESULT = (int) DowncallHandles.g_desktop_app_info_launch_uris_as_manager.invokeExact(
+                    handle(),
+                    uris.handle(),
+                    (Addressable) (launchContext == null ? MemoryAddress.NULL : launchContext.handle()),
+                    spawnFlags.getValue(),
+                    (Addressable) (userSetup == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (userSetup == null ? MemoryAddress.NULL : Interop.registerCallback(userSetup)), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+                        Interop.getScope())),
+                    (Addressable) (userSetup == null ? MemoryAddress.NULL : Interop.registerCallback(userSetup)),
+                    (Addressable) (pidCallback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbDesktopAppLaunchCallback",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (userSetup == null ? MemoryAddress.NULL : Interop.registerCallback(userSetup)), (Addressable) GERROR);
+                        Interop.getScope())),
+                    (Addressable) (userSetup == null ? MemoryAddress.NULL : Interop.registerCallback(userSetup)), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -473,26 +513,30 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      */
     public boolean launchUrisAsManagerWithFds(@NotNull org.gtk.glib.List uris, @Nullable org.gtk.gio.AppLaunchContext launchContext, @NotNull org.gtk.glib.SpawnFlags spawnFlags, @Nullable org.gtk.glib.SpawnChildSetupFunc userSetup, @Nullable org.gtk.gio.DesktopAppLaunchCallback pidCallback, int stdinFd, int stdoutFd, int stderrFd) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uris, "Parameter 'uris' must not be null");
-        java.util.Objects.requireNonNullElse(launchContext, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(spawnFlags, "Parameter 'spawnFlags' must not be null");
-        java.util.Objects.requireNonNullElse(userSetup, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(pidCallback, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_desktop_app_info_launch_uris_as_manager_with_fds.invokeExact(handle(), uris.handle(), launchContext.handle(), spawnFlags.getValue(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            RESULT = (int) DowncallHandles.g_desktop_app_info_launch_uris_as_manager_with_fds.invokeExact(
+                    handle(),
+                    uris.handle(),
+                    (Addressable) (launchContext == null ? MemoryAddress.NULL : launchContext.handle()),
+                    spawnFlags.getValue(),
+                    (Addressable) (userSetup == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (userSetup == null ? MemoryAddress.NULL : Interop.registerCallback(userSetup)), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+                        Interop.getScope())),
+                    (Addressable) (userSetup == null ? MemoryAddress.NULL : Interop.registerCallback(userSetup)),
+                    (Addressable) (pidCallback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbDesktopAppLaunchCallback",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (userSetup == null ? MemoryAddress.NULL : Interop.registerCallback(userSetup)), stdinFd, stdoutFd, stderrFd, (Addressable) GERROR);
+                        Interop.getScope())),
+                    (Addressable) (userSetup == null ? MemoryAddress.NULL : Interop.registerCallback(userSetup)),
+                    stdinFd,
+                    stdoutFd,
+                    stderrFd, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -513,7 +557,8 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
     public @NotNull PointerString listActions() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_list_actions.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_list_actions.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -533,7 +578,8 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         java.util.Objects.requireNonNull(interface_, "Parameter 'interface_' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_implementations.invokeExact(Interop.allocateNativeString(interface_));
+            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_implementations.invokeExact(
+                    Interop.allocateNativeString(interface_));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -565,7 +611,8 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         java.util.Objects.requireNonNull(searchString, "Parameter 'searchString' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_search.invokeExact(Interop.allocateNativeString(searchString));
+            RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_search.invokeExact(
+                    Interop.allocateNativeString(searchString));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -588,7 +635,8 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
     public static void setDesktopEnv(@NotNull java.lang.String desktopEnv) {
         java.util.Objects.requireNonNull(desktopEnv, "Parameter 'desktopEnv' must not be null");
         try {
-            DowncallHandles.g_desktop_app_info_set_desktop_env.invokeExact(Interop.allocateNativeString(desktopEnv));
+            DowncallHandles.g_desktop_app_info_set_desktop_env.invokeExact(
+                    Interop.allocateNativeString(desktopEnv));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

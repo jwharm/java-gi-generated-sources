@@ -14,28 +14,43 @@ public class ContainerNode extends org.gtk.gsk.RenderNode {
         Gsk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GskContainerNode";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ContainerNode(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ContainerNode */
+    /**
+     * Cast object to ContainerNode if its GType is a (or inherits from) "GskContainerNode".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ContainerNode" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GskContainerNode", a ClassCastException will be thrown.
+     */
     public static ContainerNode castFrom(org.gtk.gobject.Object gobject) {
-        return new ContainerNode(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskContainerNode"))) {
+            return new ContainerNode(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskContainerNode");
+        }
     }
     
     private static Refcounted constructNew(org.gtk.gsk.RenderNode[] children, int nChildren) {
         java.util.Objects.requireNonNull(children, "Parameter 'children' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_container_node_new.invokeExact(Interop.allocateNativeArray(children, false), nChildren), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_container_node_new.invokeExact(
+                    Interop.allocateNativeArray(children, false),
+                    nChildren), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -61,7 +76,9 @@ public class ContainerNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.gsk.RenderNode getChild(int idx) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_container_node_get_child.invokeExact(handle(), idx);
+            RESULT = (MemoryAddress) DowncallHandles.gsk_container_node_get_child.invokeExact(
+                    handle(),
+                    idx);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -75,7 +92,8 @@ public class ContainerNode extends org.gtk.gsk.RenderNode {
     public int getNChildren() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_container_node_get_n_children.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gsk_container_node_get_n_children.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

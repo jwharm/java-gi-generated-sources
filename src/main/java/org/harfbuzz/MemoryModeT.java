@@ -33,13 +33,7 @@ import org.jetbrains.annotations.*;
  */
 public class MemoryModeT extends io.github.jwharm.javagi.Enumeration {
     
-    /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
-     */
-    public static MemoryLayout getMemoryLayout() {
-        return Interop.valueLayout.ADDRESS;
-    }
+    private static final java.lang.String C_TYPE_NAME = "hb_memory_mode_t";
     
     /**
      * HarfBuzz immediately makes a copy of the data.

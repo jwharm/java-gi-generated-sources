@@ -15,20 +15,32 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
         Graphene.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "graphene_triangle_t";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.graphene.Vec3.getMemoryLayout().withName("a"),
         org.gtk.graphene.Vec3.getMemoryLayout().withName("b"),
         org.gtk.graphene.Vec3.getMemoryLayout().withName("c")
-    ).withName("graphene_triangle_t");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Triangle allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Triangle newInstance = new Triangle(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Triangle(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -64,7 +76,9 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_triangle_contains_point.invokeExact(handle(), p.handle());
+            RESULT = (boolean) DowncallHandles.graphene_triangle_contains_point.invokeExact(
+                    handle(),
+                    p.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +94,9 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_triangle_equal.invokeExact(handle(), b.handle());
+            RESULT = (boolean) DowncallHandles.graphene_triangle_equal.invokeExact(
+                    handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,7 +108,8 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_triangle_free.invokeExact(handle());
+            DowncallHandles.graphene_triangle_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,7 +122,8 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
     public float getArea() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_triangle_get_area.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_triangle_get_area.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,17 +153,17 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
      *   with the barycentric coordinates
      * @return {@code true} if the barycentric coordinates are valid
      */
-    public boolean getBarycoords(@Nullable org.gtk.graphene.Point3D p, @NotNull Out<org.gtk.graphene.Vec2> res) {
-        java.util.Objects.requireNonNullElse(p, MemoryAddress.NULL);
+    public boolean getBarycoords(@Nullable org.gtk.graphene.Point3D p, @NotNull org.gtk.graphene.Vec2 res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_triangle_get_barycoords.invokeExact(handle(), p.handle(), (Addressable) resPOINTER.address());
+            RESULT = (boolean) DowncallHandles.graphene_triangle_get_barycoords.invokeExact(
+                    handle(),
+                    (Addressable) (p == null ? MemoryAddress.NULL : p.handle()),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Vec2(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT;
     }
     
@@ -153,15 +171,15 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
      * Computes the bounding box of the given {@link Triangle}.
      * @param res return location for the box
      */
-    public void getBoundingBox(@NotNull Out<org.gtk.graphene.Box> res) {
+    public void getBoundingBox(@NotNull org.gtk.graphene.Box res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_triangle_get_bounding_box.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_triangle_get_bounding_box.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Box(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -172,45 +190,45 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the coordinates of
      *   the midpoint
      */
-    public void getMidpoint(@NotNull Out<org.gtk.graphene.Point3D> res) {
+    public void getMidpoint(@NotNull org.gtk.graphene.Point3D res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_triangle_get_midpoint.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_triangle_get_midpoint.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Point3D(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
      * Computes the normal vector of the given {@link Triangle}.
      * @param res return location for the normal vector
      */
-    public void getNormal(@NotNull Out<org.gtk.graphene.Vec3> res) {
+    public void getNormal(@NotNull org.gtk.graphene.Vec3 res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_triangle_get_normal.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_triangle_get_normal.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
      * Computes the plane based on the vertices of the given {@link Triangle}.
      * @param res return location for the plane
      */
-    public void getPlane(@NotNull Out<org.gtk.graphene.Plane> res) {
+    public void getPlane(@NotNull org.gtk.graphene.Plane res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_triangle_get_plane.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_triangle_get_plane.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Plane(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -223,21 +241,19 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
      * @param c return location for the coordinates
      *   of the third vertex
      */
-    public void getPoints(@NotNull Out<org.gtk.graphene.Point3D> a, @NotNull Out<org.gtk.graphene.Point3D> b, @NotNull Out<org.gtk.graphene.Point3D> c) {
+    public void getPoints(@NotNull org.gtk.graphene.Point3D a, @NotNull org.gtk.graphene.Point3D b, @NotNull org.gtk.graphene.Point3D c) {
         java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(c, "Parameter 'c' must not be null");
-        MemorySegment aPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment bPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment cPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_triangle_get_points.invokeExact(handle(), (Addressable) aPOINTER.address(), (Addressable) bPOINTER.address(), (Addressable) cPOINTER.address());
+            DowncallHandles.graphene_triangle_get_points.invokeExact(
+                    handle(),
+                    a.handle(),
+                    b.handle(),
+                    c.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        a.set(new org.gtk.graphene.Point3D(Refcounted.get(aPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        b.set(new org.gtk.graphene.Point3D(Refcounted.get(bPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        c.set(new org.gtk.graphene.Point3D(Refcounted.get(cPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -262,20 +278,23 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
      *   of the given point {@code p}
      * @return {@code true} if the coordinates are valid
      */
-    public boolean getUv(@Nullable org.gtk.graphene.Point3D p, @NotNull org.gtk.graphene.Vec2 uvA, @NotNull org.gtk.graphene.Vec2 uvB, @NotNull org.gtk.graphene.Vec2 uvC, @NotNull Out<org.gtk.graphene.Vec2> res) {
-        java.util.Objects.requireNonNullElse(p, MemoryAddress.NULL);
+    public boolean getUv(@Nullable org.gtk.graphene.Point3D p, @NotNull org.gtk.graphene.Vec2 uvA, @NotNull org.gtk.graphene.Vec2 uvB, @NotNull org.gtk.graphene.Vec2 uvC, @NotNull org.gtk.graphene.Vec2 res) {
         java.util.Objects.requireNonNull(uvA, "Parameter 'uvA' must not be null");
         java.util.Objects.requireNonNull(uvB, "Parameter 'uvB' must not be null");
         java.util.Objects.requireNonNull(uvC, "Parameter 'uvC' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_triangle_get_uv.invokeExact(handle(), p.handle(), uvA.handle(), uvB.handle(), uvC.handle(), (Addressable) resPOINTER.address());
+            RESULT = (boolean) DowncallHandles.graphene_triangle_get_uv.invokeExact(
+                    handle(),
+                    (Addressable) (p == null ? MemoryAddress.NULL : p.handle()),
+                    uvA.handle(),
+                    uvB.handle(),
+                    uvC.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Vec2(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT;
     }
     
@@ -285,21 +304,19 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
      * @param b return location for the second vertex
      * @param c return location for the third vertex
      */
-    public void getVertices(@NotNull Out<org.gtk.graphene.Vec3> a, @NotNull Out<org.gtk.graphene.Vec3> b, @NotNull Out<org.gtk.graphene.Vec3> c) {
+    public void getVertices(@NotNull org.gtk.graphene.Vec3 a, @NotNull org.gtk.graphene.Vec3 b, @NotNull org.gtk.graphene.Vec3 c) {
         java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(c, "Parameter 'c' must not be null");
-        MemorySegment aPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment bPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment cPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_triangle_get_vertices.invokeExact(handle(), (Addressable) aPOINTER.address(), (Addressable) bPOINTER.address(), (Addressable) cPOINTER.address());
+            DowncallHandles.graphene_triangle_get_vertices.invokeExact(
+                    handle(),
+                    a.handle(),
+                    b.handle(),
+                    c.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        a.set(new org.gtk.graphene.Vec3(Refcounted.get(aPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        b.set(new org.gtk.graphene.Vec3(Refcounted.get(bPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        c.set(new org.gtk.graphene.Vec3(Refcounted.get(cPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -317,7 +334,11 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(c, "Parameter 'c' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_triangle_init_from_float.invokeExact(handle(), Interop.allocateNativeArray(a, false), Interop.allocateNativeArray(b, false), Interop.allocateNativeArray(c, false));
+            RESULT = (MemoryAddress) DowncallHandles.graphene_triangle_init_from_float.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(a, false),
+                    Interop.allocateNativeArray(b, false),
+                    Interop.allocateNativeArray(c, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -332,12 +353,13 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
      * @return the initialized {@link Triangle}
      */
     public @NotNull org.gtk.graphene.Triangle initFromPoint3d(@Nullable org.gtk.graphene.Point3D a, @Nullable org.gtk.graphene.Point3D b, @Nullable org.gtk.graphene.Point3D c) {
-        java.util.Objects.requireNonNullElse(a, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(b, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(c, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_triangle_init_from_point3d.invokeExact(handle(), a.handle(), b.handle(), c.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_triangle_init_from_point3d.invokeExact(
+                    handle(),
+                    (Addressable) (a == null ? MemoryAddress.NULL : a.handle()),
+                    (Addressable) (b == null ? MemoryAddress.NULL : b.handle()),
+                    (Addressable) (c == null ? MemoryAddress.NULL : c.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -352,12 +374,13 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
      * @return the initialized {@link Triangle}
      */
     public @NotNull org.gtk.graphene.Triangle initFromVec3(@Nullable org.gtk.graphene.Vec3 a, @Nullable org.gtk.graphene.Vec3 b, @Nullable org.gtk.graphene.Vec3 c) {
-        java.util.Objects.requireNonNullElse(a, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(b, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(c, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_triangle_init_from_vec3.invokeExact(handle(), a.handle(), b.handle(), c.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_triangle_init_from_vec3.invokeExact(
+                    handle(),
+                    (Addressable) (a == null ? MemoryAddress.NULL : a.handle()),
+                    (Addressable) (b == null ? MemoryAddress.NULL : b.handle()),
+                    (Addressable) (c == null ? MemoryAddress.NULL : c.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

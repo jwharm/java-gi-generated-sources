@@ -22,21 +22,117 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkRGBA";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_FLOAT.withName("red"),
         ValueLayout.JAVA_FLOAT.withName("green"),
         ValueLayout.JAVA_FLOAT.withName("blue"),
         ValueLayout.JAVA_FLOAT.withName("alpha")
-    ).withName("GdkRGBA");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static RGBA allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        RGBA newInstance = new RGBA(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code red}
+     * @return The value of the field {@code red}
+     */
+    public float red$get() {
+        var RESULT = (float) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("red"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code red}
+     * @param red The new value of the field {@code red}
+     */
+    public void red$set(float red) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("red"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), red);
+    }
+    
+    /**
+     * Get the value of the field {@code green}
+     * @return The value of the field {@code green}
+     */
+    public float green$get() {
+        var RESULT = (float) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("green"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code green}
+     * @param green The new value of the field {@code green}
+     */
+    public void green$set(float green) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("green"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), green);
+    }
+    
+    /**
+     * Get the value of the field {@code blue}
+     * @return The value of the field {@code blue}
+     */
+    public float blue$get() {
+        var RESULT = (float) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("blue"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code blue}
+     * @param blue The new value of the field {@code blue}
+     */
+    public void blue$set(float blue) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("blue"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), blue);
+    }
+    
+    /**
+     * Get the value of the field {@code alpha}
+     * @return The value of the field {@code alpha}
+     */
+    public float alpha$get() {
+        var RESULT = (float) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("alpha"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code alpha}
+     * @param alpha The new value of the field {@code alpha}
+     */
+    public void alpha$set(float alpha) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("alpha"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), alpha);
+    }
+    
+    @ApiStatus.Internal
     public RGBA(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -50,7 +146,8 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gdk.RGBA copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_rgba_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_rgba_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,7 +163,9 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(p2, "Parameter 'p2' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_rgba_equal.invokeExact(handle(), p2.handle());
+            RESULT = (int) DowncallHandles.gdk_rgba_equal.invokeExact(
+                    handle(),
+                    p2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -78,7 +177,8 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.gdk_rgba_free.invokeExact(handle());
+            DowncallHandles.gdk_rgba_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,7 +192,8 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
     public int hash() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_rgba_hash.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_rgba_hash.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,7 +209,8 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
     public boolean isClear() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_rgba_is_clear.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_rgba_is_clear.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,7 +227,8 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
     public boolean isOpaque() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_rgba_is_opaque.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_rgba_is_opaque.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,7 +262,9 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(spec, "Parameter 'spec' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_rgba_parse.invokeExact(handle(), Interop.allocateNativeString(spec));
+            RESULT = (int) DowncallHandles.gdk_rgba_parse.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(spec));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,11 +290,12 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_rgba_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_rgba_to_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     private static class DowncallHandles {

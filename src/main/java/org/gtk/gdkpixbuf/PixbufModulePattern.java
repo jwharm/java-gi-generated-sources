@@ -43,20 +43,95 @@ public class PixbufModulePattern extends io.github.jwharm.javagi.ResourceBase {
         GdkPixbuf.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkPixbufModulePattern";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("prefix"),
         Interop.valueLayout.ADDRESS.withName("mask"),
         ValueLayout.JAVA_INT.withName("relevance")
-    ).withName("GdkPixbufModulePattern");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static PixbufModulePattern allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        PixbufModulePattern newInstance = new PixbufModulePattern(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code prefix}
+     * @return The value of the field {@code prefix}
+     */
+    public java.lang.String prefix$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("prefix"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringFrom(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code prefix}
+     * @param prefix The new value of the field {@code prefix}
+     */
+    public void prefix$set(java.lang.String prefix) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("prefix"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(prefix));
+    }
+    
+    /**
+     * Get the value of the field {@code mask}
+     * @return The value of the field {@code mask}
+     */
+    public java.lang.String mask$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("mask"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringFrom(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code mask}
+     * @param mask The new value of the field {@code mask}
+     */
+    public void mask$set(java.lang.String mask) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("mask"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(mask));
+    }
+    
+    /**
+     * Get the value of the field {@code relevance}
+     * @return The value of the field {@code relevance}
+     */
+    public int relevance$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("relevance"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code relevance}
+     * @param relevance The new value of the field {@code relevance}
+     */
+    public void relevance$set(int relevance) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("relevance"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), relevance);
+    }
+    
+    @ApiStatus.Internal
     public PixbufModulePattern(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

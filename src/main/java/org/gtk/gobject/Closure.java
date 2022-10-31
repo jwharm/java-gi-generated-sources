@@ -60,6 +60,8 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GClosure";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_INT.withName("ref_count"),
         ValueLayout.JAVA_INT.withName("meta_marshal_nouse"),
@@ -73,17 +75,69 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         ValueLayout.JAVA_INT.withName("is_invalid"),
         Interop.valueLayout.ADDRESS.withName("marshal"),
         Interop.valueLayout.ADDRESS.withName("data"),
-        org.gtk.gobject.ClosureNotifyData.getMemoryLayout().withName("notifiers")
-    ).withName("GClosure");
+        Interop.valueLayout.ADDRESS.withName("notifiers")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Closure allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Closure newInstance = new Closure(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code in_marshal}
+     * @return The value of the field {@code in_marshal}
+     */
+    public int in_marshal$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("in_marshal"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code in_marshal}
+     * @param in_marshal The new value of the field {@code in_marshal}
+     */
+    public void in_marshal$set(int in_marshal) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("in_marshal"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), in_marshal);
+    }
+    
+    /**
+     * Get the value of the field {@code is_invalid}
+     * @return The value of the field {@code is_invalid}
+     */
+    public int is_invalid$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("is_invalid"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code is_invalid}
+     * @param is_invalid The new value of the field {@code is_invalid}
+     */
+    public void is_invalid$set(int is_invalid) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("is_invalid"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_invalid);
+    }
+    
+    @ApiStatus.Internal
     public Closure(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -92,7 +146,9 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_closure_new_object.invokeExact(sizeofClosure, object.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_closure_new_object.invokeExact(
+                    sizeofClosure,
+                    object.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,7 +173,9 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructNewSimple(int sizeofClosure, @Nullable java.lang.foreign.MemoryAddress data) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_closure_new_simple.invokeExact(sizeofClosure, data), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_closure_new_simple.invokeExact(
+                    sizeofClosure,
+                    data), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,15 +239,15 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * @param notifyFunc the callback function to register
      */
     public void addFinalizeNotifier(@Nullable org.gtk.gobject.ClosureNotify notifyFunc) {
-        java.util.Objects.requireNonNullElse(notifyFunc, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_closure_add_finalize_notifier.invokeExact(handle(), 
-                   (Addressable) (notifyFunc == null ? MemoryAddress.NULL : Interop.registerCallback(notifyFunc)), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_closure_add_finalize_notifier.invokeExact(
+                    handle(),
+                    (Addressable) (notifyFunc == null ? MemoryAddress.NULL : Interop.registerCallback(notifyFunc)),
+                    (Addressable) (notifyFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()));
+                        Interop.getScope())));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,15 +262,15 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * @param notifyFunc the callback function to register
      */
     public void addInvalidateNotifier(@Nullable org.gtk.gobject.ClosureNotify notifyFunc) {
-        java.util.Objects.requireNonNullElse(notifyFunc, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_closure_add_invalidate_notifier.invokeExact(handle(), 
-                   (Addressable) (notifyFunc == null ? MemoryAddress.NULL : Interop.registerCallback(notifyFunc)), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_closure_add_invalidate_notifier.invokeExact(
+                    handle(),
+                    (Addressable) (notifyFunc == null ? MemoryAddress.NULL : Interop.registerCallback(notifyFunc)),
+                    (Addressable) (notifyFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()));
+                        Interop.getScope())));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -229,22 +287,21 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * @param postMarshalNotify a function to call after the closure callback
      */
     public void addMarshalGuards(@Nullable org.gtk.gobject.ClosureNotify preMarshalNotify, @Nullable org.gtk.gobject.ClosureNotify postMarshalNotify) {
-        java.util.Objects.requireNonNullElse(preMarshalNotify, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(postMarshalNotify, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_closure_add_marshal_guards.invokeExact(handle(), 
-                   (Addressable) (preMarshalNotify == null ? MemoryAddress.NULL : Interop.registerCallback(preMarshalNotify)), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_closure_add_marshal_guards.invokeExact(
+                    handle(),
+                    (Addressable) (preMarshalNotify == null ? MemoryAddress.NULL : Interop.registerCallback(preMarshalNotify)),
+                    (Addressable) (preMarshalNotify == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (preMarshalNotify == null ? MemoryAddress.NULL : Interop.registerCallback(preMarshalNotify)), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+                        Interop.getScope())),
+                    (Addressable) (preMarshalNotify == null ? MemoryAddress.NULL : Interop.registerCallback(preMarshalNotify)),
+                    (Addressable) (postMarshalNotify == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()));
+                        Interop.getScope())));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -269,7 +326,8 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      */
     public void invalidate() {
         try {
-            DowncallHandles.g_closure_invalidate.invokeExact(handle());
+            DowncallHandles.g_closure_invalidate.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -286,17 +344,19 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      *                invoke the callback of {@code closure}
      * @param invocationHint a context-dependent invocation hint
      */
-    public void invoke(@NotNull Out<org.gtk.gobject.Value> returnValue, int nParamValues, org.gtk.gobject.Value[] paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
+    public void invoke(@NotNull org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value[] paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
-        MemorySegment returnValuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.g_closure_invoke.invokeExact(handle(), (Addressable) returnValuePOINTER.address(), nParamValues, Interop.allocateNativeArray(paramValues, false), invocationHint);
+            DowncallHandles.g_closure_invoke.invokeExact(
+                    handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    Interop.allocateNativeArray(paramValues, false),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        returnValue.set(new org.gtk.gobject.Value(Refcounted.get(returnValuePOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -307,7 +367,8 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gobject.Closure ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_closure_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_closure_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -323,8 +384,9 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
     public void removeFinalizeNotifier(@NotNull org.gtk.gobject.ClosureNotify notifyFunc) {
         java.util.Objects.requireNonNull(notifyFunc, "Parameter 'notifyFunc' must not be null");
         try {
-            DowncallHandles.g_closure_remove_finalize_notifier.invokeExact(handle(), 
-                   (Addressable) (Interop.registerCallback(notifyFunc)), 
+            DowncallHandles.g_closure_remove_finalize_notifier.invokeExact(
+                    handle(),
+                    (Addressable) (Interop.registerCallback(notifyFunc)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -344,8 +406,9 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
     public void removeInvalidateNotifier(@NotNull org.gtk.gobject.ClosureNotify notifyFunc) {
         java.util.Objects.requireNonNull(notifyFunc, "Parameter 'notifyFunc' must not be null");
         try {
-            DowncallHandles.g_closure_remove_invalidate_notifier.invokeExact(handle(), 
-                   (Addressable) (Interop.registerCallback(notifyFunc)), 
+            DowncallHandles.g_closure_remove_invalidate_notifier.invokeExact(
+                    handle(),
+                    (Addressable) (Interop.registerCallback(notifyFunc)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -394,15 +457,15 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * @param metaMarshal a {@link ClosureMarshal} function
      */
     public void setMetaMarshal(@Nullable org.gtk.gobject.ClosureMarshal metaMarshal) {
-        java.util.Objects.requireNonNullElse(metaMarshal, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_closure_set_meta_marshal.invokeExact(handle(), 
-                   (Addressable) (metaMarshal == null ? MemoryAddress.NULL : Interop.registerCallback(metaMarshal)), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_closure_set_meta_marshal.invokeExact(
+                    handle(),
+                    (Addressable) (metaMarshal == null ? MemoryAddress.NULL : Interop.registerCallback(metaMarshal)),
+                    (Addressable) (metaMarshal == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureMarshal",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()));
+                        Interop.getScope())));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -456,7 +519,8 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      */
     public void sink() {
         try {
-            DowncallHandles.g_closure_sink.invokeExact(handle());
+            DowncallHandles.g_closure_sink.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -471,7 +535,8 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_closure_unref.invokeExact(handle());
+            DowncallHandles.g_closure_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -46,33 +46,56 @@ public class TextMark extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkTextMark";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("segment")
-    ).withName("GtkTextMark");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public TextMark(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TextMark */
+    /**
+     * Cast object to TextMark if its GType is a (or inherits from) "GtkTextMark".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TextMark" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkTextMark", a ClassCastException will be thrown.
+     */
     public static TextMark castFrom(org.gtk.gobject.Object gobject) {
-        return new TextMark(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTextMark"))) {
+            return new TextMark(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTextMark");
+        }
     }
     
     private static Refcounted constructNew(@Nullable java.lang.String name, boolean leftGravity) {
-        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_text_mark_new.invokeExact(Interop.allocateNativeString(name), leftGravity ? 1 : 0), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_text_mark_new.invokeExact(
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
+                    leftGravity ? 1 : 0), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,7 +130,8 @@ public class TextMark extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gtk.TextBuffer getBuffer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_mark_get_buffer.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_mark_get_buffer.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,7 +148,8 @@ public class TextMark extends org.gtk.gobject.Object {
     public boolean getDeleted() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_mark_get_deleted.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_mark_get_deleted.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,7 +163,8 @@ public class TextMark extends org.gtk.gobject.Object {
     public boolean getLeftGravity() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_mark_get_left_gravity.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_mark_get_left_gravity.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,11 +180,12 @@ public class TextMark extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_mark_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_mark_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -170,7 +197,8 @@ public class TextMark extends org.gtk.gobject.Object {
     public boolean getVisible() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_mark_get_visible.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_mark_get_visible.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -179,7 +207,9 @@ public class TextMark extends org.gtk.gobject.Object {
     
     public void setVisible(boolean setting) {
         try {
-            DowncallHandles.gtk_text_mark_set_visible.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_text_mark_set_visible.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

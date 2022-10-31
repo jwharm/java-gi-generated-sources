@@ -27,21 +27,34 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkVideo";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Video(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Video */
+    /**
+     * Cast object to Video if its GType is a (or inherits from) "GtkVideo".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Video" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkVideo", a ClassCastException will be thrown.
+     */
     public static Video castFrom(org.gtk.gobject.Object gobject) {
-        return new Video(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkVideo"))) {
+            return new Video(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkVideo");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -62,10 +75,10 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     }
     
     private static Refcounted constructNewForFile(@Nullable org.gtk.gio.File file) {
-        java.util.Objects.requireNonNullElse(file, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_video_new_for_file.invokeExact(file.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_video_new_for_file.invokeExact(
+                    (Addressable) (file == null ? MemoryAddress.NULL : file.handle())), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,10 +95,10 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     }
     
     private static Refcounted constructNewForFilename(@Nullable java.lang.String filename) {
-        java.util.Objects.requireNonNullElse(filename, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_video_new_for_filename.invokeExact(Interop.allocateNativeString(filename)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_video_new_for_filename.invokeExact(
+                    (Addressable) (filename == null ? MemoryAddress.NULL : Interop.allocateNativeString(filename))), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,10 +118,10 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     }
     
     private static Refcounted constructNewForMediaStream(@Nullable org.gtk.gtk.MediaStream stream) {
-        java.util.Objects.requireNonNullElse(stream, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_video_new_for_media_stream.invokeExact(stream.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_video_new_for_media_stream.invokeExact(
+                    (Addressable) (stream == null ? MemoryAddress.NULL : stream.handle())), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,10 +138,10 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     }
     
     private static Refcounted constructNewForResource(@Nullable java.lang.String resourcePath) {
-        java.util.Objects.requireNonNullElse(resourcePath, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_video_new_for_resource.invokeExact(Interop.allocateNativeString(resourcePath)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_video_new_for_resource.invokeExact(
+                    (Addressable) (resourcePath == null ? MemoryAddress.NULL : Interop.allocateNativeString(resourcePath))), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,7 +167,8 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getAutoplay() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_video_get_autoplay.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_video_get_autoplay.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,7 +183,8 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable org.gtk.gio.File getFile() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_video_get_file.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_video_get_file.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,7 +198,8 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getLoop() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_video_get_loop.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_video_get_loop.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -197,7 +213,8 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable org.gtk.gtk.MediaStream getMediaStream() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_video_get_media_stream.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_video_get_media_stream.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -211,7 +228,9 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setAutoplay(boolean autoplay) {
         try {
-            DowncallHandles.gtk_video_set_autoplay.invokeExact(handle(), autoplay ? 1 : 0);
+            DowncallHandles.gtk_video_set_autoplay.invokeExact(
+                    handle(),
+                    autoplay ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -222,9 +241,10 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param file the file to play
      */
     public void setFile(@Nullable org.gtk.gio.File file) {
-        java.util.Objects.requireNonNullElse(file, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_video_set_file.invokeExact(handle(), file.handle());
+            DowncallHandles.gtk_video_set_file.invokeExact(
+                    handle(),
+                    (Addressable) (file == null ? MemoryAddress.NULL : file.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -237,9 +257,10 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param filename the filename to play
      */
     public void setFilename(@Nullable java.lang.String filename) {
-        java.util.Objects.requireNonNullElse(filename, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_video_set_filename.invokeExact(handle(), Interop.allocateNativeString(filename));
+            DowncallHandles.gtk_video_set_filename.invokeExact(
+                    handle(),
+                    (Addressable) (filename == null ? MemoryAddress.NULL : Interop.allocateNativeString(filename)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -251,7 +272,9 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setLoop(boolean loop) {
         try {
-            DowncallHandles.gtk_video_set_loop.invokeExact(handle(), loop ? 1 : 0);
+            DowncallHandles.gtk_video_set_loop.invokeExact(
+                    handle(),
+                    loop ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -269,9 +292,10 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param stream The media stream to play or {@code null} to unset
      */
     public void setMediaStream(@Nullable org.gtk.gtk.MediaStream stream) {
-        java.util.Objects.requireNonNullElse(stream, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_video_set_media_stream.invokeExact(handle(), stream.handle());
+            DowncallHandles.gtk_video_set_media_stream.invokeExact(
+                    handle(),
+                    (Addressable) (stream == null ? MemoryAddress.NULL : stream.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -284,9 +308,10 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param resourcePath the resource to set
      */
     public void setResource(@Nullable java.lang.String resourcePath) {
-        java.util.Objects.requireNonNullElse(resourcePath, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_video_set_resource.invokeExact(handle(), Interop.allocateNativeString(resourcePath));
+            DowncallHandles.gtk_video_set_resource.invokeExact(
+                    handle(),
+                    (Addressable) (resourcePath == null ? MemoryAddress.NULL : Interop.allocateNativeString(resourcePath)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

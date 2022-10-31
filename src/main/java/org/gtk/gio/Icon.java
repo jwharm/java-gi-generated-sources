@@ -38,15 +38,31 @@ import org.jetbrains.annotations.*;
 public interface Icon extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to Icon if its GType is a (or inherits from) "GIcon".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Icon" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GIcon", a ClassCastException will be thrown.
+     */
+    public static Icon castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GIcon"))) {
+            return new IconImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GIcon");
+        }
+    }
+    
+    /**
      * Checks if two icons are equal.
      * @param icon2 pointer to the second {@link Icon}.
      * @return {@code true} if {@code icon1} is equal to {@code icon2}. {@code false} otherwise.
      */
     default boolean equal(@Nullable org.gtk.gio.Icon icon2) {
-        java.util.Objects.requireNonNullElse(icon2, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_icon_equal.invokeExact(handle(), icon2.handle());
+            RESULT = (int) DowncallHandles.g_icon_equal.invokeExact(
+                    handle(),
+                    (Addressable) (icon2 == null ? MemoryAddress.NULL : icon2.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,7 +80,8 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.glib.Variant serialize() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_icon_serialize.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_icon_serialize.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,11 +113,12 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
     default @Nullable java.lang.String toString_() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_icon_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_icon_to_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -112,7 +130,8 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_icon_deserialize.invokeExact(value.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_icon_deserialize.invokeExact(
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,7 +148,8 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(icon, "Parameter 'icon' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_icon_hash.invokeExact(icon);
+            RESULT = (int) DowncallHandles.g_icon_hash.invokeExact(
+                    icon);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,7 +173,8 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_icon_new_for_string.invokeExact(Interop.allocateNativeString(str), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_icon_new_for_string.invokeExact(
+                    Interop.allocateNativeString(str), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

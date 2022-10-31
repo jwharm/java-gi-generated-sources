@@ -24,13 +24,29 @@ import org.jetbrains.annotations.*;
 public interface Seekable extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to Seekable if its GType is a (or inherits from) "GSeekable".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Seekable" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GSeekable", a ClassCastException will be thrown.
+     */
+    public static Seekable castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSeekable"))) {
+            return new SeekableImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSeekable");
+        }
+    }
+    
+    /**
      * Tests if the stream supports the {@link SeekableIface}.
      * @return {@code true} if {@code seekable} can be seeked. {@code false} otherwise.
      */
     default boolean canSeek() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_seekable_can_seek.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_seekable_can_seek.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -45,7 +61,8 @@ public interface Seekable extends io.github.jwharm.javagi.Proxy {
     default boolean canTruncate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_seekable_can_truncate.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_seekable_can_truncate.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,11 +94,14 @@ public interface Seekable extends io.github.jwharm.javagi.Proxy {
      */
     default boolean seek(long offset, @NotNull org.gtk.glib.SeekType type, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_seekable_seek.invokeExact(handle(), offset, type.getValue(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_seekable_seek.invokeExact(
+                    handle(),
+                    offset,
+                    type.getValue(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +119,8 @@ public interface Seekable extends io.github.jwharm.javagi.Proxy {
     default long tell() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_seekable_tell.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_seekable_tell.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,11 +145,13 @@ public interface Seekable extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean truncate(long offset, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_seekable_truncate.invokeExact(handle(), offset, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_seekable_truncate.invokeExact(
+                    handle(),
+                    offset,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

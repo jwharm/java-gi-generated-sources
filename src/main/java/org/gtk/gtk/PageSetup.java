@@ -53,21 +53,34 @@ public class PageSetup extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkPageSetup";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public PageSetup(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to PageSetup */
+    /**
+     * Cast object to PageSetup if its GType is a (or inherits from) "GtkPageSetup".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "PageSetup" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkPageSetup", a ClassCastException will be thrown.
+     */
     public static PageSetup castFrom(org.gtk.gobject.Object gobject) {
-        return new PageSetup(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPageSetup"))) {
+            return new PageSetup(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkPageSetup");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -92,7 +105,8 @@ public class PageSetup extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_page_setup_new_from_file.invokeExact(Interop.allocateNativeString(fileName), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_page_setup_new_from_file.invokeExact(
+                    Interop.allocateNativeString(fileName), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,7 +134,8 @@ public class PageSetup extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(variant, "Parameter 'variant' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_page_setup_new_from_gvariant.invokeExact(variant.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_page_setup_new_from_gvariant.invokeExact(
+                    variant.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,11 +156,12 @@ public class PageSetup extends org.gtk.gobject.Object {
     
     private static Refcounted constructNewFromKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) throws GErrorException {
         java.util.Objects.requireNonNull(keyFile, "Parameter 'keyFile' must not be null");
-        java.util.Objects.requireNonNullElse(groupName, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_page_setup_new_from_key_file.invokeExact(keyFile.handle(), Interop.allocateNativeString(groupName), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_page_setup_new_from_key_file.invokeExact(
+                    keyFile.handle(),
+                    (Addressable) (groupName == null ? MemoryAddress.NULL : Interop.allocateNativeString(groupName)), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,7 +194,8 @@ public class PageSetup extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.PageSetup copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_page_setup_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_page_setup_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -194,7 +211,9 @@ public class PageSetup extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_page_setup_get_bottom_margin.invokeExact(handle(), unit.getValue());
+            RESULT = (double) DowncallHandles.gtk_page_setup_get_bottom_margin.invokeExact(
+                    handle(),
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -210,7 +229,9 @@ public class PageSetup extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_page_setup_get_left_margin.invokeExact(handle(), unit.getValue());
+            RESULT = (double) DowncallHandles.gtk_page_setup_get_left_margin.invokeExact(
+                    handle(),
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -224,7 +245,8 @@ public class PageSetup extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.PageOrientation getOrientation() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_page_setup_get_orientation.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_page_setup_get_orientation.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -244,7 +266,9 @@ public class PageSetup extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_page_setup_get_page_height.invokeExact(handle(), unit.getValue());
+            RESULT = (double) DowncallHandles.gtk_page_setup_get_page_height.invokeExact(
+                    handle(),
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -264,7 +288,9 @@ public class PageSetup extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_page_setup_get_page_width.invokeExact(handle(), unit.getValue());
+            RESULT = (double) DowncallHandles.gtk_page_setup_get_page_width.invokeExact(
+                    handle(),
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -284,7 +310,9 @@ public class PageSetup extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_page_setup_get_paper_height.invokeExact(handle(), unit.getValue());
+            RESULT = (double) DowncallHandles.gtk_page_setup_get_paper_height.invokeExact(
+                    handle(),
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -298,7 +326,8 @@ public class PageSetup extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.PaperSize getPaperSize() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_page_setup_get_paper_size.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_page_setup_get_paper_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -318,7 +347,9 @@ public class PageSetup extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_page_setup_get_paper_width.invokeExact(handle(), unit.getValue());
+            RESULT = (double) DowncallHandles.gtk_page_setup_get_paper_width.invokeExact(
+                    handle(),
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -334,7 +365,9 @@ public class PageSetup extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_page_setup_get_right_margin.invokeExact(handle(), unit.getValue());
+            RESULT = (double) DowncallHandles.gtk_page_setup_get_right_margin.invokeExact(
+                    handle(),
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -350,7 +383,9 @@ public class PageSetup extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_page_setup_get_top_margin.invokeExact(handle(), unit.getValue());
+            RESULT = (double) DowncallHandles.gtk_page_setup_get_top_margin.invokeExact(
+                    handle(),
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -370,7 +405,9 @@ public class PageSetup extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_page_setup_load_file.invokeExact(handle(), Interop.allocateNativeString(fileName), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_page_setup_load_file.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(fileName), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -391,11 +428,13 @@ public class PageSetup extends org.gtk.gobject.Object {
      */
     public boolean loadKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(keyFile, "Parameter 'keyFile' must not be null");
-        java.util.Objects.requireNonNullElse(groupName, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_page_setup_load_key_file.invokeExact(handle(), keyFile.handle(), Interop.allocateNativeString(groupName), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_page_setup_load_key_file.invokeExact(
+                    handle(),
+                    keyFile.handle(),
+                    (Addressable) (groupName == null ? MemoryAddress.NULL : Interop.allocateNativeString(groupName)), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -413,7 +452,10 @@ public class PageSetup extends org.gtk.gobject.Object {
     public void setBottomMargin(double margin, @NotNull org.gtk.gtk.Unit unit) {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         try {
-            DowncallHandles.gtk_page_setup_set_bottom_margin.invokeExact(handle(), margin, unit.getValue());
+            DowncallHandles.gtk_page_setup_set_bottom_margin.invokeExact(
+                    handle(),
+                    margin,
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -427,7 +469,10 @@ public class PageSetup extends org.gtk.gobject.Object {
     public void setLeftMargin(double margin, @NotNull org.gtk.gtk.Unit unit) {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         try {
-            DowncallHandles.gtk_page_setup_set_left_margin.invokeExact(handle(), margin, unit.getValue());
+            DowncallHandles.gtk_page_setup_set_left_margin.invokeExact(
+                    handle(),
+                    margin,
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -440,7 +485,9 @@ public class PageSetup extends org.gtk.gobject.Object {
     public void setOrientation(@NotNull org.gtk.gtk.PageOrientation orientation) {
         java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
         try {
-            DowncallHandles.gtk_page_setup_set_orientation.invokeExact(handle(), orientation.getValue());
+            DowncallHandles.gtk_page_setup_set_orientation.invokeExact(
+                    handle(),
+                    orientation.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -456,7 +503,9 @@ public class PageSetup extends org.gtk.gobject.Object {
     public void setPaperSize(@NotNull org.gtk.gtk.PaperSize size) {
         java.util.Objects.requireNonNull(size, "Parameter 'size' must not be null");
         try {
-            DowncallHandles.gtk_page_setup_set_paper_size.invokeExact(handle(), size.handle());
+            DowncallHandles.gtk_page_setup_set_paper_size.invokeExact(
+                    handle(),
+                    size.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -470,7 +519,9 @@ public class PageSetup extends org.gtk.gobject.Object {
     public void setPaperSizeAndDefaultMargins(@NotNull org.gtk.gtk.PaperSize size) {
         java.util.Objects.requireNonNull(size, "Parameter 'size' must not be null");
         try {
-            DowncallHandles.gtk_page_setup_set_paper_size_and_default_margins.invokeExact(handle(), size.handle());
+            DowncallHandles.gtk_page_setup_set_paper_size_and_default_margins.invokeExact(
+                    handle(),
+                    size.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -484,7 +535,10 @@ public class PageSetup extends org.gtk.gobject.Object {
     public void setRightMargin(double margin, @NotNull org.gtk.gtk.Unit unit) {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         try {
-            DowncallHandles.gtk_page_setup_set_right_margin.invokeExact(handle(), margin, unit.getValue());
+            DowncallHandles.gtk_page_setup_set_right_margin.invokeExact(
+                    handle(),
+                    margin,
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -498,7 +552,10 @@ public class PageSetup extends org.gtk.gobject.Object {
     public void setTopMargin(double margin, @NotNull org.gtk.gtk.Unit unit) {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         try {
-            DowncallHandles.gtk_page_setup_set_top_margin.invokeExact(handle(), margin, unit.getValue());
+            DowncallHandles.gtk_page_setup_set_top_margin.invokeExact(
+                    handle(),
+                    margin,
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -515,7 +572,9 @@ public class PageSetup extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_page_setup_to_file.invokeExact(handle(), Interop.allocateNativeString(fileName), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_page_setup_to_file.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(fileName), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -532,7 +591,8 @@ public class PageSetup extends org.gtk.gobject.Object {
     public @NotNull org.gtk.glib.Variant toGvariant() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_page_setup_to_gvariant.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_page_setup_to_gvariant.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -547,9 +607,11 @@ public class PageSetup extends org.gtk.gobject.Object {
      */
     public void toKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) {
         java.util.Objects.requireNonNull(keyFile, "Parameter 'keyFile' must not be null");
-        java.util.Objects.requireNonNullElse(groupName, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_page_setup_to_key_file.invokeExact(handle(), keyFile.handle(), Interop.allocateNativeString(groupName));
+            DowncallHandles.gtk_page_setup_to_key_file.invokeExact(
+                    handle(),
+                    keyFile.handle(),
+                    (Addressable) (groupName == null ? MemoryAddress.NULL : Interop.allocateNativeString(groupName)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

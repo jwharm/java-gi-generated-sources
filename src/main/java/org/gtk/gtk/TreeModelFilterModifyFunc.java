@@ -15,5 +15,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface TreeModelFilterModifyFunc {
-        void onTreeModelFilterModifyFunc(@NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreeIter iter, @NotNull Out<org.gtk.gobject.Value> value, int column);
+        void onTreeModelFilterModifyFunc(@NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreeIter iter, @NotNull org.gtk.gobject.Value value, int column);
 }

@@ -296,33 +296,56 @@ public class Settings extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSettings";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.SettingsPrivate.getMemoryLayout().withName("priv")
-    ).withName("GSettings");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Settings(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Settings */
+    /**
+     * Cast object to Settings if its GType is a (or inherits from) "GSettings".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Settings" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GSettings", a ClassCastException will be thrown.
+     */
     public static Settings castFrom(org.gtk.gobject.Object gobject) {
-        return new Settings(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSettings"))) {
+            return new Settings(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSettings");
+        }
     }
     
     private static Refcounted constructNew(@NotNull java.lang.String schemaId) {
         java.util.Objects.requireNonNull(schemaId, "Parameter 'schemaId' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_settings_new.invokeExact(Interop.allocateNativeString(schemaId)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_settings_new.invokeExact(
+                    Interop.allocateNativeString(schemaId)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -351,11 +374,12 @@ public class Settings extends org.gtk.gobject.Object {
     
     private static Refcounted constructNewFull(@NotNull org.gtk.gio.SettingsSchema schema, @Nullable org.gtk.gio.SettingsBackend backend, @Nullable java.lang.String path) {
         java.util.Objects.requireNonNull(schema, "Parameter 'schema' must not be null");
-        java.util.Objects.requireNonNullElse(backend, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(path, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_settings_new_full.invokeExact(schema.handle(), backend.handle(), Interop.allocateNativeString(path)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_settings_new_full.invokeExact(
+                    schema.handle(),
+                    (Addressable) (backend == null ? MemoryAddress.NULL : backend.handle()),
+                    (Addressable) (path == null ? MemoryAddress.NULL : Interop.allocateNativeString(path))), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -400,7 +424,9 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(backend, "Parameter 'backend' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_settings_new_with_backend.invokeExact(Interop.allocateNativeString(schemaId), backend.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_settings_new_with_backend.invokeExact(
+                    Interop.allocateNativeString(schemaId),
+                    backend.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -430,7 +456,10 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_settings_new_with_backend_and_path.invokeExact(Interop.allocateNativeString(schemaId), backend.handle(), Interop.allocateNativeString(path)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_settings_new_with_backend_and_path.invokeExact(
+                    Interop.allocateNativeString(schemaId),
+                    backend.handle(),
+                    Interop.allocateNativeString(path)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -457,7 +486,9 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_settings_new_with_path.invokeExact(Interop.allocateNativeString(schemaId), Interop.allocateNativeString(path)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_settings_new_with_path.invokeExact(
+                    Interop.allocateNativeString(schemaId),
+                    Interop.allocateNativeString(path)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -494,7 +525,8 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public void apply() {
         try {
-            DowncallHandles.g_settings_apply.invokeExact(handle());
+            DowncallHandles.g_settings_apply.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -532,7 +564,12 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(property, "Parameter 'property' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            DowncallHandles.g_settings_bind.invokeExact(handle(), Interop.allocateNativeString(key), object.handle(), Interop.allocateNativeString(property), flags.getValue());
+            DowncallHandles.g_settings_bind.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    object.handle(),
+                    Interop.allocateNativeString(property),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -566,18 +603,23 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(getMapping, "Parameter 'getMapping' must not be null");
         java.util.Objects.requireNonNull(setMapping, "Parameter 'setMapping' must not be null");
         try {
-            DowncallHandles.g_settings_bind_with_mapping.invokeExact(handle(), Interop.allocateNativeString(key), object.handle(), Interop.allocateNativeString(property), flags.getValue(), 
+            DowncallHandles.g_settings_bind_with_mapping.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    object.handle(),
+                    Interop.allocateNativeString(property),
+                    flags.getValue(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbSettingsBindGetMapping",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
+                        Interop.getScope()),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbSettingsBindSetMapping",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(getMapping)), 
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(getMapping)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -612,7 +654,12 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
         java.util.Objects.requireNonNull(property, "Parameter 'property' must not be null");
         try {
-            DowncallHandles.g_settings_bind_writable.invokeExact(handle(), Interop.allocateNativeString(key), object.handle(), Interop.allocateNativeString(property), inverted ? 1 : 0);
+            DowncallHandles.g_settings_bind_writable.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    object.handle(),
+                    Interop.allocateNativeString(property),
+                    inverted ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -640,7 +687,9 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_create_action.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_create_action.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -654,7 +703,8 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public void delay() {
         try {
-            DowncallHandles.g_settings_delay.invokeExact(handle());
+            DowncallHandles.g_settings_delay.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -690,7 +740,9 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_settings_get_boolean.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (int) DowncallHandles.g_settings_get_boolean.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -714,7 +766,9 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_child.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_child.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -750,7 +804,9 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_default_value.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_default_value.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -771,7 +827,9 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.g_settings_get_double.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (double) DowncallHandles.g_settings_get_double.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -798,7 +856,9 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_settings_get_enum.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (int) DowncallHandles.g_settings_get_enum.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -825,7 +885,9 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_settings_get_flags.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (int) DowncallHandles.g_settings_get_flags.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -840,7 +902,8 @@ public class Settings extends org.gtk.gobject.Object {
     public boolean getHasUnapplied() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_settings_get_has_unapplied.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_settings_get_has_unapplied.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -861,7 +924,9 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_settings_get_int.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (int) DowncallHandles.g_settings_get_int.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -882,7 +947,9 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_settings_get_int64.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (long) DowncallHandles.g_settings_get_int64.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -927,13 +994,15 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(mapping, "Parameter 'mapping' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_mapped.invokeExact(handle(), Interop.allocateNativeString(key), 
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_mapped.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbSettingsGetMapping",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(mapping)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(mapping)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -950,7 +1019,9 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_range.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_range.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -971,11 +1042,13 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_string.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_string.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -992,7 +1065,9 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_strv.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_strv.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1014,7 +1089,9 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_settings_get_uint.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (int) DowncallHandles.g_settings_get_uint.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1036,7 +1113,9 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_settings_get_uint64.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (long) DowncallHandles.g_settings_get_uint64.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1069,7 +1148,9 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_user_value.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_user_value.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1088,7 +1169,9 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_value.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_value.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1104,7 +1187,9 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_settings_is_writable.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (int) DowncallHandles.g_settings_is_writable.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1129,7 +1214,8 @@ public class Settings extends org.gtk.gobject.Object {
     public @NotNull PointerString listChildren() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_list_children.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_list_children.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1153,7 +1239,8 @@ public class Settings extends org.gtk.gobject.Object {
     public @NotNull PointerString listKeys() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_list_keys.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_list_keys.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1174,7 +1261,10 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_settings_range_check.invokeExact(handle(), Interop.allocateNativeString(key), value.handle());
+            RESULT = (int) DowncallHandles.g_settings_range_check.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1192,7 +1282,9 @@ public class Settings extends org.gtk.gobject.Object {
     public void reset(@NotNull java.lang.String key) {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         try {
-            DowncallHandles.g_settings_reset.invokeExact(handle(), Interop.allocateNativeString(key));
+            DowncallHandles.g_settings_reset.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1208,7 +1300,8 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public void revert() {
         try {
-            DowncallHandles.g_settings_revert.invokeExact(handle());
+            DowncallHandles.g_settings_revert.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1248,7 +1341,10 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_settings_set_boolean.invokeExact(handle(), Interop.allocateNativeString(key), value ? 1 : 0);
+            RESULT = (int) DowncallHandles.g_settings_set_boolean.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    value ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1271,7 +1367,10 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_settings_set_double.invokeExact(handle(), Interop.allocateNativeString(key), value);
+            RESULT = (int) DowncallHandles.g_settings_set_double.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1297,7 +1396,10 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_settings_set_enum.invokeExact(handle(), Interop.allocateNativeString(key), value);
+            RESULT = (int) DowncallHandles.g_settings_set_enum.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1324,7 +1426,10 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_settings_set_flags.invokeExact(handle(), Interop.allocateNativeString(key), value);
+            RESULT = (int) DowncallHandles.g_settings_set_flags.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1347,7 +1452,10 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_settings_set_int.invokeExact(handle(), Interop.allocateNativeString(key), value);
+            RESULT = (int) DowncallHandles.g_settings_set_int.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1370,7 +1478,10 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_settings_set_int64.invokeExact(handle(), Interop.allocateNativeString(key), value);
+            RESULT = (int) DowncallHandles.g_settings_set_int64.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1394,7 +1505,10 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_settings_set_string.invokeExact(handle(), Interop.allocateNativeString(key), Interop.allocateNativeString(value));
+            RESULT = (int) DowncallHandles.g_settings_set_string.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    Interop.allocateNativeString(value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1416,10 +1530,12 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public boolean setStrv(@NotNull java.lang.String key, java.lang.String[] value) {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_settings_set_strv.invokeExact(handle(), Interop.allocateNativeString(key), Interop.allocateNativeArray(value, false));
+            RESULT = (int) DowncallHandles.g_settings_set_strv.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    (Addressable) (value == null ? MemoryAddress.NULL : Interop.allocateNativeArray(value, false)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1443,7 +1559,10 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_settings_set_uint.invokeExact(handle(), Interop.allocateNativeString(key), value);
+            RESULT = (int) DowncallHandles.g_settings_set_uint.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1467,7 +1586,10 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_settings_set_uint64.invokeExact(handle(), Interop.allocateNativeString(key), value);
+            RESULT = (int) DowncallHandles.g_settings_set_uint64.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1492,7 +1614,10 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_settings_set_value.invokeExact(handle(), Interop.allocateNativeString(key), value.handle());
+            RESULT = (int) DowncallHandles.g_settings_set_value.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1571,7 +1696,9 @@ public class Settings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
         java.util.Objects.requireNonNull(property, "Parameter 'property' must not be null");
         try {
-            DowncallHandles.g_settings_unbind.invokeExact(object.handle(), Interop.allocateNativeString(property));
+            DowncallHandles.g_settings_unbind.invokeExact(
+                    object.handle(),
+                    Interop.allocateNativeString(property));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1981,7 +2108,7 @@ public class Settings extends org.gtk.gobject.Object {
         public static void signalSettingsChanged(MemoryAddress source, MemoryAddress key, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Settings.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Settings(Refcounted.get(source)), key.getUtf8String(0));
+            HANDLER.signalReceived(new Settings(Refcounted.get(source)), Interop.getStringFrom(key));
         }
         
         public static boolean signalSettingsWritableChangeEvent(MemoryAddress source, int key, MemoryAddress data) {
@@ -1993,7 +2120,7 @@ public class Settings extends org.gtk.gobject.Object {
         public static void signalSettingsWritableChanged(MemoryAddress source, MemoryAddress key, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Settings.WritableChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Settings(Refcounted.get(source)), key.getUtf8String(0));
+            HANDLER.signalReceived(new Settings(Refcounted.get(source)), Interop.getStringFrom(key));
         }
     }
 }

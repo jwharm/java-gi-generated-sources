@@ -19,6 +19,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkTextIter";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("dummy1"),
         Interop.valueLayout.ADDRESS.withName("dummy2"),
@@ -33,17 +35,28 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
         ValueLayout.JAVA_INT.withName("dummy11"),
         ValueLayout.JAVA_INT.withName("dummy12"),
         ValueLayout.JAVA_INT.withName("dummy13"),
+        MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("dummy14")
-    ).withName("GtkTextIter");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static TextIter allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        TextIter newInstance = new TextIter(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public TextIter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -60,7 +73,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public void assign(@NotNull org.gtk.gtk.TextIter other) {
         java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         try {
-            DowncallHandles.gtk_text_iter_assign.invokeExact(handle(), other.handle());
+            DowncallHandles.gtk_text_iter_assign.invokeExact(
+                    handle(),
+                    other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,7 +92,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean backwardChar() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_backward_char.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_backward_char.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,7 +116,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean backwardChars(int count) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_backward_chars.invokeExact(handle(), count);
+            RESULT = (int) DowncallHandles.gtk_text_iter_backward_chars.invokeExact(
+                    handle(),
+                    count);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,7 +132,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean backwardCursorPosition() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_backward_cursor_position.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_backward_cursor_position.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -131,7 +150,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean backwardCursorPositions(int count) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_backward_cursor_positions.invokeExact(handle(), count);
+            RESULT = (int) DowncallHandles.gtk_text_iter_backward_cursor_positions.invokeExact(
+                    handle(),
+                    count);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -147,16 +168,17 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean backwardFindChar(@NotNull org.gtk.gtk.TextCharPredicate pred, @Nullable org.gtk.gtk.TextIter limit) {
         java.util.Objects.requireNonNull(pred, "Parameter 'pred' must not be null");
-        java.util.Objects.requireNonNullElse(limit, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_backward_find_char.invokeExact(handle(), 
+            RESULT = (int) DowncallHandles.gtk_text_iter_backward_find_char.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTextCharPredicate",
                             MethodType.methodType(int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(pred)), limit.handle());
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(pred)),
+                    (Addressable) (limit == null ? MemoryAddress.NULL : limit.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,7 +200,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean backwardLine() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_backward_line.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_backward_line.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,7 +225,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean backwardLines(int count) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_backward_lines.invokeExact(handle(), count);
+            RESULT = (int) DowncallHandles.gtk_text_iter_backward_lines.invokeExact(
+                    handle(),
+                    count);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -221,22 +246,23 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * @param limit location of last possible {@code match_start}, or {@code null} for start of buffer
      * @return whether a match was found
      */
-    public boolean backwardSearch(@NotNull java.lang.String str, @NotNull org.gtk.gtk.TextSearchFlags flags, @NotNull Out<org.gtk.gtk.TextIter> matchStart, @NotNull Out<org.gtk.gtk.TextIter> matchEnd, @Nullable org.gtk.gtk.TextIter limit) {
+    public boolean backwardSearch(@NotNull java.lang.String str, @NotNull org.gtk.gtk.TextSearchFlags flags, @NotNull org.gtk.gtk.TextIter matchStart, @NotNull org.gtk.gtk.TextIter matchEnd, @Nullable org.gtk.gtk.TextIter limit) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         java.util.Objects.requireNonNull(matchStart, "Parameter 'matchStart' must not be null");
         java.util.Objects.requireNonNull(matchEnd, "Parameter 'matchEnd' must not be null");
-        java.util.Objects.requireNonNullElse(limit, MemoryAddress.NULL);
-        MemorySegment matchStartPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment matchEndPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_backward_search.invokeExact(handle(), Interop.allocateNativeString(str), flags.getValue(), (Addressable) matchStartPOINTER.address(), (Addressable) matchEndPOINTER.address(), limit.handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_backward_search.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(str),
+                    flags.getValue(),
+                    matchStart.handle(),
+                    matchEnd.handle(),
+                    (Addressable) (limit == null ? MemoryAddress.NULL : limit.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        matchStart.set(new org.gtk.gtk.TextIter(Refcounted.get(matchStartPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        matchEnd.set(new org.gtk.gtk.TextIter(Refcounted.get(matchEndPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -253,7 +279,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean backwardSentenceStart() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_backward_sentence_start.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_backward_sentence_start.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -270,7 +297,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean backwardSentenceStarts(int count) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_backward_sentence_starts.invokeExact(handle(), count);
+            RESULT = (int) DowncallHandles.gtk_text_iter_backward_sentence_starts.invokeExact(
+                    handle(),
+                    count);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -291,10 +320,11 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * @return whether we found a tag toggle before {@code iter}
      */
     public boolean backwardToTagToggle(@Nullable org.gtk.gtk.TextTag tag) {
-        java.util.Objects.requireNonNullElse(tag, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_backward_to_tag_toggle.invokeExact(handle(), tag.handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_backward_to_tag_toggle.invokeExact(
+                    handle(),
+                    (Addressable) (tag == null ? MemoryAddress.NULL : tag.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -310,7 +340,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean backwardVisibleCursorPosition() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_backward_visible_cursor_position.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_backward_visible_cursor_position.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -327,7 +358,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean backwardVisibleCursorPositions(int count) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_backward_visible_cursor_positions.invokeExact(handle(), count);
+            RESULT = (int) DowncallHandles.gtk_text_iter_backward_visible_cursor_positions.invokeExact(
+                    handle(),
+                    count);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -349,7 +382,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean backwardVisibleLine() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_backward_visible_line.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_backward_visible_line.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -373,7 +407,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean backwardVisibleLines(int count) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_backward_visible_lines.invokeExact(handle(), count);
+            RESULT = (int) DowncallHandles.gtk_text_iter_backward_visible_lines.invokeExact(
+                    handle(),
+                    count);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -393,7 +429,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean backwardVisibleWordStart() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_backward_visible_word_start.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_backward_visible_word_start.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -408,7 +445,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean backwardVisibleWordStarts(int count) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_backward_visible_word_starts.invokeExact(handle(), count);
+            RESULT = (int) DowncallHandles.gtk_text_iter_backward_visible_word_starts.invokeExact(
+                    handle(),
+                    count);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -428,7 +467,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean backwardWordStart() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_backward_word_start.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_backward_word_start.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -443,7 +483,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean backwardWordStarts(int count) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_backward_word_starts.invokeExact(handle(), count);
+            RESULT = (int) DowncallHandles.gtk_text_iter_backward_word_starts.invokeExact(
+                    handle(),
+                    count);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -465,7 +507,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean canInsert(boolean defaultEditability) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_can_insert.invokeExact(handle(), defaultEditability ? 1 : 0);
+            RESULT = (int) DowncallHandles.gtk_text_iter_can_insert.invokeExact(
+                    handle(),
+                    defaultEditability ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -485,7 +529,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(rhs, "Parameter 'rhs' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_compare.invokeExact(handle(), rhs.handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_compare.invokeExact(
+                    handle(),
+                    rhs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -505,7 +551,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gtk.TextIter copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -532,7 +579,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean editable(boolean defaultSetting) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_editable.invokeExact(handle(), defaultSetting ? 1 : 0);
+            RESULT = (int) DowncallHandles.gtk_text_iter_editable.invokeExact(
+                    handle(),
+                    defaultSetting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -556,7 +605,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean endsLine() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_ends_line.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_ends_line.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -573,7 +623,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean endsSentence() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_ends_sentence.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_ends_sentence.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -595,10 +646,11 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * @return whether {@code iter} is the end of a range tagged with {@code tag}
      */
     public boolean endsTag(@Nullable org.gtk.gtk.TextTag tag) {
-        java.util.Objects.requireNonNullElse(tag, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_ends_tag.invokeExact(handle(), tag.handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_ends_tag.invokeExact(
+                    handle(),
+                    (Addressable) (tag == null ? MemoryAddress.NULL : tag.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -615,7 +667,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean endsWord() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_ends_word.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_ends_word.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -637,7 +690,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(rhs, "Parameter 'rhs' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_equal.invokeExact(handle(), rhs.handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_equal.invokeExact(
+                    handle(),
+                    rhs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -657,7 +712,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean forwardChar() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_forward_char.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_forward_char.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -680,7 +736,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean forwardChars(int count) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_forward_chars.invokeExact(handle(), count);
+            RESULT = (int) DowncallHandles.gtk_text_iter_forward_chars.invokeExact(
+                    handle(),
+                    count);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -708,7 +766,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean forwardCursorPosition() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_forward_cursor_position.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_forward_cursor_position.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -725,7 +784,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean forwardCursorPositions(int count) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_forward_cursor_positions.invokeExact(handle(), count);
+            RESULT = (int) DowncallHandles.gtk_text_iter_forward_cursor_positions.invokeExact(
+                    handle(),
+                    count);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -744,16 +805,17 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean forwardFindChar(@NotNull org.gtk.gtk.TextCharPredicate pred, @Nullable org.gtk.gtk.TextIter limit) {
         java.util.Objects.requireNonNull(pred, "Parameter 'pred' must not be null");
-        java.util.Objects.requireNonNullElse(limit, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_forward_find_char.invokeExact(handle(), 
+            RESULT = (int) DowncallHandles.gtk_text_iter_forward_find_char.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTextCharPredicate",
                             MethodType.methodType(int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(pred)), limit.handle());
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(pred)),
+                    (Addressable) (limit == null ? MemoryAddress.NULL : limit.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -772,7 +834,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean forwardLine() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_forward_line.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_forward_line.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -796,7 +859,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean forwardLines(int count) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_forward_lines.invokeExact(handle(), count);
+            RESULT = (int) DowncallHandles.gtk_text_iter_forward_lines.invokeExact(
+                    handle(),
+                    count);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -821,22 +886,23 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * @param limit location of last possible {@code match_end}, or {@code null} for the end of the buffer
      * @return whether a match was found
      */
-    public boolean forwardSearch(@NotNull java.lang.String str, @NotNull org.gtk.gtk.TextSearchFlags flags, @NotNull Out<org.gtk.gtk.TextIter> matchStart, @NotNull Out<org.gtk.gtk.TextIter> matchEnd, @Nullable org.gtk.gtk.TextIter limit) {
+    public boolean forwardSearch(@NotNull java.lang.String str, @NotNull org.gtk.gtk.TextSearchFlags flags, @NotNull org.gtk.gtk.TextIter matchStart, @NotNull org.gtk.gtk.TextIter matchEnd, @Nullable org.gtk.gtk.TextIter limit) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         java.util.Objects.requireNonNull(matchStart, "Parameter 'matchStart' must not be null");
         java.util.Objects.requireNonNull(matchEnd, "Parameter 'matchEnd' must not be null");
-        java.util.Objects.requireNonNullElse(limit, MemoryAddress.NULL);
-        MemorySegment matchStartPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment matchEndPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_forward_search.invokeExact(handle(), Interop.allocateNativeString(str), flags.getValue(), (Addressable) matchStartPOINTER.address(), (Addressable) matchEndPOINTER.address(), limit.handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_forward_search.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(str),
+                    flags.getValue(),
+                    matchStart.handle(),
+                    matchEnd.handle(),
+                    (Addressable) (limit == null ? MemoryAddress.NULL : limit.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        matchStart.set(new org.gtk.gtk.TextIter(Refcounted.get(matchStartPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        matchEnd.set(new org.gtk.gtk.TextIter(Refcounted.get(matchEndPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -853,7 +919,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean forwardSentenceEnd() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_forward_sentence_end.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_forward_sentence_end.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -870,7 +937,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean forwardSentenceEnds(int count) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_forward_sentence_ends.invokeExact(handle(), count);
+            RESULT = (int) DowncallHandles.gtk_text_iter_forward_sentence_ends.invokeExact(
+                    handle(),
+                    count);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -886,7 +955,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public void forwardToEnd() {
         try {
-            DowncallHandles.gtk_text_iter_forward_to_end.invokeExact(handle());
+            DowncallHandles.gtk_text_iter_forward_to_end.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -909,7 +979,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean forwardToLineEnd() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_forward_to_line_end.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_forward_to_line_end.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -930,10 +1001,11 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * @return whether we found a tag toggle after {@code iter}
      */
     public boolean forwardToTagToggle(@Nullable org.gtk.gtk.TextTag tag) {
-        java.util.Objects.requireNonNullElse(tag, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_forward_to_tag_toggle.invokeExact(handle(), tag.handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_forward_to_tag_toggle.invokeExact(
+                    handle(),
+                    (Addressable) (tag == null ? MemoryAddress.NULL : tag.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -949,7 +1021,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean forwardVisibleCursorPosition() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_forward_visible_cursor_position.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_forward_visible_cursor_position.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -966,7 +1039,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean forwardVisibleCursorPositions(int count) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_forward_visible_cursor_positions.invokeExact(handle(), count);
+            RESULT = (int) DowncallHandles.gtk_text_iter_forward_visible_cursor_positions.invokeExact(
+                    handle(),
+                    count);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -985,7 +1060,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean forwardVisibleLine() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_forward_visible_line.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_forward_visible_line.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1009,7 +1085,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean forwardVisibleLines(int count) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_forward_visible_lines.invokeExact(handle(), count);
+            RESULT = (int) DowncallHandles.gtk_text_iter_forward_visible_lines.invokeExact(
+                    handle(),
+                    count);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1029,7 +1107,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean forwardVisibleWordEnd() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_forward_visible_word_end.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_forward_visible_word_end.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1044,7 +1123,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean forwardVisibleWordEnds(int count) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_forward_visible_word_ends.invokeExact(handle(), count);
+            RESULT = (int) DowncallHandles.gtk_text_iter_forward_visible_word_ends.invokeExact(
+                    handle(),
+                    count);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1064,7 +1145,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean forwardWordEnd() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_forward_word_end.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_forward_word_end.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1079,7 +1161,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean forwardWordEnds(int count) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_forward_word_ends.invokeExact(handle(), count);
+            RESULT = (int) DowncallHandles.gtk_text_iter_forward_word_ends.invokeExact(
+                    handle(),
+                    count);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1095,7 +1179,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.gtk_text_iter_free.invokeExact(handle());
+            DowncallHandles.gtk_text_iter_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1108,7 +1193,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gtk.TextBuffer getBuffer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_buffer.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_buffer.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1123,7 +1209,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public int getBytesInLine() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_get_bytes_in_line.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_get_bytes_in_line.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1145,7 +1232,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public int getChar() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_get_char.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_get_char.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1160,7 +1248,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public int getCharsInLine() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_get_chars_in_line.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_get_chars_in_line.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1177,7 +1266,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.gtk.TextChildAnchor getChildAnchor() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_child_anchor.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_child_anchor.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1194,7 +1284,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.pango.Language getLanguage() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_language.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_language.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1211,7 +1302,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public int getLine() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_get_line.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_get_line.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1230,7 +1322,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public int getLineIndex() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_get_line_index.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_get_line_index.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1247,7 +1340,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public int getLineOffset() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_get_line_offset.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_get_line_offset.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1267,7 +1361,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.SList getMarks() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_marks.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_marks.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1286,7 +1381,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public int getOffset() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_get_offset.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_get_offset.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1302,7 +1398,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.gdk.Paintable getPaintable() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_paintable.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_paintable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1327,11 +1424,13 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_slice.invokeExact(handle(), end.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_slice.invokeExact(
+                    handle(),
+                    end.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -1348,7 +1447,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.SList getTags() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_tags.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_tags.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1370,11 +1470,13 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_text.invokeExact(handle(), end.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_text.invokeExact(
+                    handle(),
+                    end.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -1393,7 +1495,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.SList getToggledTags(boolean toggledOn) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_toggled_tags.invokeExact(handle(), toggledOn ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_toggled_tags.invokeExact(
+                    handle(),
+                    toggledOn ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1410,7 +1514,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public int getVisibleLineIndex() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_get_visible_line_index.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_get_visible_line_index.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1427,7 +1532,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public int getVisibleLineOffset() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_get_visible_line_offset.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_get_visible_line_offset.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1448,11 +1554,13 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_visible_slice.invokeExact(handle(), end.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_visible_slice.invokeExact(
+                    handle(),
+                    end.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -1470,11 +1578,13 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_visible_text.invokeExact(handle(), end.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_visible_text.invokeExact(
+                    handle(),
+                    end.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -1490,7 +1600,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_has_tag.invokeExact(handle(), tag.handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_has_tag.invokeExact(
+                    handle(),
+                    tag.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1510,7 +1622,10 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_in_range.invokeExact(handle(), start.handle(), end.handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_in_range.invokeExact(
+                    handle(),
+                    start.handle(),
+                    end.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1529,7 +1644,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean insideSentence() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_inside_sentence.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_inside_sentence.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1551,7 +1667,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean insideWord() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_inside_word.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_inside_word.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1569,7 +1686,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean isCursorPosition() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_is_cursor_position.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_is_cursor_position.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1587,7 +1705,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean isEnd() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_is_end.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_is_end.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1601,7 +1720,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean isStart() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_is_start.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_is_start.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1623,7 +1743,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public void order(@NotNull org.gtk.gtk.TextIter second) {
         java.util.Objects.requireNonNull(second, "Parameter 'second' must not be null");
         try {
-            DowncallHandles.gtk_text_iter_order.invokeExact(handle(), second.handle());
+            DowncallHandles.gtk_text_iter_order.invokeExact(
+                    handle(),
+                    second.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1638,7 +1760,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setLine(int lineNumber) {
         try {
-            DowncallHandles.gtk_text_iter_set_line.invokeExact(handle(), lineNumber);
+            DowncallHandles.gtk_text_iter_set_line.invokeExact(
+                    handle(),
+                    lineNumber);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1653,7 +1777,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setLineIndex(int byteOnLine) {
         try {
-            DowncallHandles.gtk_text_iter_set_line_index.invokeExact(handle(), byteOnLine);
+            DowncallHandles.gtk_text_iter_set_line_index.invokeExact(
+                    handle(),
+                    byteOnLine);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1670,7 +1796,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setLineOffset(int charOnLine) {
         try {
-            DowncallHandles.gtk_text_iter_set_line_offset.invokeExact(handle(), charOnLine);
+            DowncallHandles.gtk_text_iter_set_line_offset.invokeExact(
+                    handle(),
+                    charOnLine);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1685,7 +1813,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setOffset(int charOffset) {
         try {
-            DowncallHandles.gtk_text_iter_set_offset.invokeExact(handle(), charOffset);
+            DowncallHandles.gtk_text_iter_set_offset.invokeExact(
+                    handle(),
+                    charOffset);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1699,7 +1829,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setVisibleLineIndex(int byteOnLine) {
         try {
-            DowncallHandles.gtk_text_iter_set_visible_line_index.invokeExact(handle(), byteOnLine);
+            DowncallHandles.gtk_text_iter_set_visible_line_index.invokeExact(
+                    handle(),
+                    byteOnLine);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1713,7 +1845,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setVisibleLineOffset(int charOnLine) {
         try {
-            DowncallHandles.gtk_text_iter_set_visible_line_offset.invokeExact(handle(), charOnLine);
+            DowncallHandles.gtk_text_iter_set_visible_line_offset.invokeExact(
+                    handle(),
+                    charOnLine);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1732,7 +1866,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean startsLine() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_starts_line.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_starts_line.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1749,7 +1884,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean startsSentence() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_starts_sentence.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_starts_sentence.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1771,10 +1907,11 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * @return whether {@code iter} is the start of a range tagged with {@code tag}
      */
     public boolean startsTag(@Nullable org.gtk.gtk.TextTag tag) {
-        java.util.Objects.requireNonNullElse(tag, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_starts_tag.invokeExact(handle(), tag.handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_starts_tag.invokeExact(
+                    handle(),
+                    (Addressable) (tag == null ? MemoryAddress.NULL : tag.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1791,7 +1928,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean startsWord() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_starts_word.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_starts_word.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1808,10 +1946,11 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * @return whether {@code tag} is toggled on or off at {@code iter}
      */
     public boolean togglesTag(@Nullable org.gtk.gtk.TextTag tag) {
-        java.util.Objects.requireNonNullElse(tag, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_iter_toggles_tag.invokeExact(handle(), tag.handle());
+            RESULT = (int) DowncallHandles.gtk_text_iter_toggles_tag.invokeExact(
+                    handle(),
+                    (Addressable) (tag == null ? MemoryAddress.NULL : tag.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

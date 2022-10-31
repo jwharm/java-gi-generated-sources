@@ -17,13 +17,7 @@ import org.jetbrains.annotations.*;
  */
 public class BaselinePosition extends io.github.jwharm.javagi.Enumeration {
     
-    /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
-     */
-    public static MemoryLayout getMemoryLayout() {
-        return Interop.valueLayout.ADDRESS;
-    }
+    private static final java.lang.String C_TYPE_NAME = "GtkBaselinePosition";
     
     /**
      * Align the baseline at the top

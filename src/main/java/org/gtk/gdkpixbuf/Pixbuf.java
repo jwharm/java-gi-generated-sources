@@ -141,28 +141,46 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         GdkPixbuf.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkPixbuf";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Pixbuf(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Pixbuf */
+    /**
+     * Cast object to Pixbuf if its GType is a (or inherits from) "GdkPixbuf".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Pixbuf" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkPixbuf", a ClassCastException will be thrown.
+     */
     public static Pixbuf castFrom(org.gtk.gobject.Object gobject) {
-        return new Pixbuf(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkPixbuf"))) {
+            return new Pixbuf(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkPixbuf");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gdkpixbuf.Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height) {
         java.util.Objects.requireNonNull(colorspace, "Parameter 'colorspace' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new.invokeExact(colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new.invokeExact(
+                    colorspace.getValue(),
+                    hasAlpha ? 1 : 0,
+                    bitsPerSample,
+                    width,
+                    height), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -191,7 +209,14 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         java.util.Objects.requireNonNull(colorspace, "Parameter 'colorspace' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_bytes.invokeExact(data.handle(), colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height, rowstride), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_bytes.invokeExact(
+                    data.handle(),
+                    colorspace.getValue(),
+                    hasAlpha ? 1 : 0,
+                    bitsPerSample,
+                    width,
+                    height,
+                    rowstride), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -221,16 +246,22 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     private static Refcounted constructNewFromData(byte[] data, @NotNull org.gtk.gdkpixbuf.Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height, int rowstride, @Nullable org.gtk.gdkpixbuf.PixbufDestroyNotify destroyFn) {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         java.util.Objects.requireNonNull(colorspace, "Parameter 'colorspace' must not be null");
-        java.util.Objects.requireNonNullElse(destroyFn, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_data.invokeExact(Interop.allocateNativeArray(data, false), colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height, rowstride, 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_data.invokeExact(
+                    Interop.allocateNativeArray(data, false),
+                    colorspace.getValue(),
+                    hasAlpha ? 1 : 0,
+                    bitsPerSample,
+                    width,
+                    height,
+                    rowstride,
+                    (Addressable) (destroyFn == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GdkPixbuf.Callbacks.class, "cbPixbufDestroyNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (destroyFn == null ? MemoryAddress.NULL : Interop.registerCallback(destroyFn))), true);
+                        Interop.getScope())),
+                    (Addressable) (destroyFn == null ? MemoryAddress.NULL : Interop.registerCallback(destroyFn))), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -269,7 +300,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_file.invokeExact(Interop.allocateNativeString(filename), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_file.invokeExact(
+                    Interop.allocateNativeString(filename), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -307,7 +339,11 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_file_at_scale.invokeExact(Interop.allocateNativeString(filename), width, height, preserveAspectRatio ? 1 : 0, (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_file_at_scale.invokeExact(
+                    Interop.allocateNativeString(filename),
+                    width,
+                    height,
+                    preserveAspectRatio ? 1 : 0, (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -358,7 +394,10 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_file_at_size.invokeExact(Interop.allocateNativeString(filename), width, height, (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_file_at_size.invokeExact(
+                    Interop.allocateNativeString(filename),
+                    width,
+                    height, (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -404,7 +443,10 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_inline.invokeExact(dataLength, Interop.allocateNativeArray(data, false), copyPixels ? 1 : 0, (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_inline.invokeExact(
+                    dataLength,
+                    Interop.allocateNativeArray(data, false),
+                    copyPixels ? 1 : 0, (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -466,7 +508,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_resource.invokeExact(Interop.allocateNativeString(resourcePath), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_resource.invokeExact(
+                    Interop.allocateNativeString(resourcePath), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -494,7 +537,11 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_resource_at_scale.invokeExact(Interop.allocateNativeString(resourcePath), width, height, preserveAspectRatio ? 1 : 0, (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_resource_at_scale.invokeExact(
+                    Interop.allocateNativeString(resourcePath),
+                    width,
+                    height,
+                    preserveAspectRatio ? 1 : 0, (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -531,11 +578,12 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     
     private static Refcounted constructNewFromStream(@NotNull org.gtk.gio.InputStream stream, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_stream.invokeExact(stream.handle(), cancellable.handle(), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_stream.invokeExact(
+                    stream.handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -569,11 +617,15 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     
     private static Refcounted constructNewFromStreamAtScale(@NotNull org.gtk.gio.InputStream stream, int width, int height, boolean preserveAspectRatio, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_stream_at_scale.invokeExact(stream.handle(), width, height, preserveAspectRatio ? 1 : 0, cancellable.handle(), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_stream_at_scale.invokeExact(
+                    stream.handle(),
+                    width,
+                    height,
+                    preserveAspectRatio ? 1 : 0,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -622,7 +674,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_stream_finish.invokeExact(asyncResult.handle(), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_stream_finish.invokeExact(
+                    asyncResult.handle(), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -647,7 +700,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_xpm_data.invokeExact(Interop.allocateNativeArray(data, false)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_xpm_data.invokeExact(
+                    Interop.allocateNativeArray(data, false)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -689,7 +743,12 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public @NotNull org.gtk.gdkpixbuf.Pixbuf addAlpha(boolean substituteColor, byte r, byte g, byte b) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_add_alpha.invokeExact(handle(), substituteColor ? 1 : 0, r, g, b);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_add_alpha.invokeExact(
+                    handle(),
+                    substituteColor ? 1 : 0,
+                    r,
+                    g,
+                    b);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -712,7 +771,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public @Nullable org.gtk.gdkpixbuf.Pixbuf applyEmbeddedOrientation() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_apply_embedded_orientation.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_apply_embedded_orientation.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -749,7 +809,19 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
         java.util.Objects.requireNonNull(interpType, "Parameter 'interpType' must not be null");
         try {
-            DowncallHandles.gdk_pixbuf_composite.invokeExact(handle(), dest.handle(), destX, destY, destWidth, destHeight, offsetX, offsetY, scaleX, scaleY, interpType.getValue(), overallAlpha);
+            DowncallHandles.gdk_pixbuf_composite.invokeExact(
+                    handle(),
+                    dest.handle(),
+                    destX,
+                    destY,
+                    destWidth,
+                    destHeight,
+                    offsetX,
+                    offsetY,
+                    scaleX,
+                    scaleY,
+                    interpType.getValue(),
+                    overallAlpha);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -789,7 +861,24 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
         java.util.Objects.requireNonNull(interpType, "Parameter 'interpType' must not be null");
         try {
-            DowncallHandles.gdk_pixbuf_composite_color.invokeExact(handle(), dest.handle(), destX, destY, destWidth, destHeight, offsetX, offsetY, scaleX, scaleY, interpType.getValue(), overallAlpha, checkX, checkY, checkSize, color1, color2);
+            DowncallHandles.gdk_pixbuf_composite_color.invokeExact(
+                    handle(),
+                    dest.handle(),
+                    destX,
+                    destY,
+                    destWidth,
+                    destHeight,
+                    offsetX,
+                    offsetY,
+                    scaleX,
+                    scaleY,
+                    interpType.getValue(),
+                    overallAlpha,
+                    checkX,
+                    checkY,
+                    checkSize,
+                    color1,
+                    color2);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -812,7 +901,15 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         java.util.Objects.requireNonNull(interpType, "Parameter 'interpType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_composite_color_simple.invokeExact(handle(), destWidth, destHeight, interpType.getValue(), overallAlpha, checkSize, color1, color2);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_composite_color_simple.invokeExact(
+                    handle(),
+                    destWidth,
+                    destHeight,
+                    interpType.getValue(),
+                    overallAlpha,
+                    checkSize,
+                    color1,
+                    color2);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -830,7 +927,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public @Nullable org.gtk.gdkpixbuf.Pixbuf copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -856,7 +954,15 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public void copyArea(int srcX, int srcY, int width, int height, @NotNull org.gtk.gdkpixbuf.Pixbuf destPixbuf, int destX, int destY) {
         java.util.Objects.requireNonNull(destPixbuf, "Parameter 'destPixbuf' must not be null");
         try {
-            DowncallHandles.gdk_pixbuf_copy_area.invokeExact(handle(), srcX, srcY, width, height, destPixbuf.handle(), destX, destY);
+            DowncallHandles.gdk_pixbuf_copy_area.invokeExact(
+                    handle(),
+                    srcX,
+                    srcY,
+                    width,
+                    height,
+                    destPixbuf.handle(),
+                    destX,
+                    destY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -876,7 +982,9 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         java.util.Objects.requireNonNull(destPixbuf, "Parameter 'destPixbuf' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_copy_options.invokeExact(handle(), destPixbuf.handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_copy_options.invokeExact(
+                    handle(),
+                    destPixbuf.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -894,7 +1002,9 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public void fill(int pixel) {
         try {
-            DowncallHandles.gdk_pixbuf_fill.invokeExact(handle(), pixel);
+            DowncallHandles.gdk_pixbuf_fill.invokeExact(
+                    handle(),
+                    pixel);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -909,7 +1019,9 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public @Nullable org.gtk.gdkpixbuf.Pixbuf flip(boolean horizontal) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_flip.invokeExact(handle(), horizontal ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_flip.invokeExact(
+                    handle(),
+                    horizontal ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -923,7 +1035,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public int getBitsPerSample() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_get_bits_per_sample.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_get_bits_per_sample.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -937,7 +1050,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public long getByteLength() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gdk_pixbuf_get_byte_length.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gdk_pixbuf_get_byte_length.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -951,7 +1065,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public @NotNull org.gtk.gdkpixbuf.Colorspace getColorspace() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_get_colorspace.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_get_colorspace.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -965,7 +1080,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public boolean getHasAlpha() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_get_has_alpha.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_get_has_alpha.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -979,7 +1095,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public int getHeight() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_get_height.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_get_height.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -993,7 +1110,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public int getNChannels() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_get_n_channels.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_get_n_channels.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1023,11 +1141,13 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_get_option.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_get_option.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -1040,7 +1160,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public @NotNull org.gtk.glib.HashTable getOptions() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_get_options.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_get_options.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1060,7 +1181,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public @NotNull PointerByte getPixels() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_get_pixels.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_get_pixels.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1084,7 +1206,9 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_get_pixels_with_length.invokeExact(handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_get_pixels_with_length.invokeExact(
+                    handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1100,7 +1224,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public int getRowstride() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_get_rowstride.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_get_rowstride.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1114,7 +1239,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public int getWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_get_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_get_width.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1140,7 +1266,12 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public @NotNull org.gtk.gdkpixbuf.Pixbuf newSubpixbuf(int srcX, int srcY, int width, int height) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_new_subpixbuf.invokeExact(handle(), srcX, srcY, width, height);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_new_subpixbuf.invokeExact(
+                    handle(),
+                    srcX,
+                    srcY,
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1161,7 +1292,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public @NotNull org.gtk.glib.Bytes readPixelBytes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_read_pixel_bytes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_read_pixel_bytes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1178,7 +1310,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public PointerByte readPixels() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_read_pixels.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_read_pixels.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1194,7 +1327,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public @NotNull org.gtk.gdkpixbuf.Pixbuf ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1210,7 +1344,9 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_remove_option.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (int) DowncallHandles.gdk_pixbuf_remove_option.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1229,7 +1365,9 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         java.util.Objects.requireNonNull(angle, "Parameter 'angle' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_rotate_simple.invokeExact(handle(), angle.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_rotate_simple.invokeExact(
+                    handle(),
+                    angle.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1258,7 +1396,11 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public void saturateAndPixelate(@NotNull org.gtk.gdkpixbuf.Pixbuf dest, float saturation, boolean pixelate) {
         java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
         try {
-            DowncallHandles.gdk_pixbuf_saturate_and_pixelate.invokeExact(handle(), dest.handle(), saturation, pixelate ? 1 : 0);
+            DowncallHandles.gdk_pixbuf_saturate_and_pixelate.invokeExact(
+                    handle(),
+                    dest.handle(),
+                    saturation,
+                    pixelate ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1387,14 +1529,18 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(bufferSize, "Parameter 'bufferSize' must not be null");
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNullElse(optionKeys, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(optionValues, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment bufferPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment bufferSizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_save_to_bufferv.invokeExact(handle(), (Addressable) bufferPOINTER.address(), (Addressable) bufferSizePOINTER.address(), Interop.allocateNativeString(type), Interop.allocateNativeArray(optionKeys, false), Interop.allocateNativeArray(optionValues, false), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gdk_pixbuf_save_to_bufferv.invokeExact(
+                    handle(),
+                    (Addressable) bufferPOINTER.address(),
+                    (Addressable) bufferSizePOINTER.address(),
+                    Interop.allocateNativeString(type),
+                    (Addressable) (optionKeys == null ? MemoryAddress.NULL : Interop.allocateNativeArray(optionKeys, false)),
+                    (Addressable) (optionValues == null ? MemoryAddress.NULL : Interop.allocateNativeArray(optionValues, false)), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1448,18 +1594,20 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public boolean saveToCallbackv(@NotNull org.gtk.gdkpixbuf.PixbufSaveFunc saveFunc, @NotNull java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(saveFunc, "Parameter 'saveFunc' must not be null");
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNullElse(optionKeys, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(optionValues, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_save_to_callbackv.invokeExact(handle(), 
+            RESULT = (int) DowncallHandles.gdk_pixbuf_save_to_callbackv.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GdkPixbuf.Callbacks.class, "cbPixbufSaveFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, long.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(saveFunc)), Interop.allocateNativeString(type), Interop.allocateNativeArray(optionKeys, false), Interop.allocateNativeArray(optionValues, false), (Addressable) GERROR);
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(saveFunc)),
+                    Interop.allocateNativeString(type),
+                    (Addressable) (optionKeys == null ? MemoryAddress.NULL : Interop.allocateNativeArray(optionKeys, false)),
+                    (Addressable) (optionValues == null ? MemoryAddress.NULL : Interop.allocateNativeArray(optionValues, false)), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1530,13 +1678,16 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public boolean saveToStreamv(@NotNull org.gtk.gio.OutputStream stream, @NotNull java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNullElse(optionKeys, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(optionValues, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_save_to_streamv.invokeExact(handle(), stream.handle(), Interop.allocateNativeString(type), Interop.allocateNativeArray(optionKeys, false), Interop.allocateNativeArray(optionValues, false), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gdk_pixbuf_save_to_streamv.invokeExact(
+                    handle(),
+                    stream.handle(),
+                    Interop.allocateNativeString(type),
+                    (Addressable) (optionKeys == null ? MemoryAddress.NULL : Interop.allocateNativeArray(optionKeys, false)),
+                    (Addressable) (optionValues == null ? MemoryAddress.NULL : Interop.allocateNativeArray(optionValues, false)),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1566,18 +1717,20 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public void saveToStreamvAsync(@NotNull org.gtk.gio.OutputStream stream, @NotNull java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNullElse(optionKeys, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(optionValues, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.gdk_pixbuf_save_to_streamv_async.invokeExact(handle(), stream.handle(), Interop.allocateNativeString(type), Interop.allocateNativeArray(optionKeys, false), Interop.allocateNativeArray(optionValues, false), cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gdk_pixbuf_save_to_streamv_async.invokeExact(
+                    handle(),
+                    stream.handle(),
+                    Interop.allocateNativeString(type),
+                    (Addressable) (optionKeys == null ? MemoryAddress.NULL : Interop.allocateNativeArray(optionKeys, false)),
+                    (Addressable) (optionValues == null ? MemoryAddress.NULL : Interop.allocateNativeArray(optionValues, false)),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GdkPixbuf.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1601,12 +1754,15 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public boolean savev(@NotNull java.lang.String filename, @NotNull java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNullElse(optionKeys, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(optionValues, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_savev.invokeExact(handle(), Interop.allocateNativeString(filename), Interop.allocateNativeString(type), Interop.allocateNativeArray(optionKeys, false), Interop.allocateNativeArray(optionValues, false), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gdk_pixbuf_savev.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(filename),
+                    Interop.allocateNativeString(type),
+                    (Addressable) (optionKeys == null ? MemoryAddress.NULL : Interop.allocateNativeArray(optionKeys, false)),
+                    (Addressable) (optionValues == null ? MemoryAddress.NULL : Interop.allocateNativeArray(optionValues, false)), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1645,7 +1801,18 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
         java.util.Objects.requireNonNull(interpType, "Parameter 'interpType' must not be null");
         try {
-            DowncallHandles.gdk_pixbuf_scale.invokeExact(handle(), dest.handle(), destX, destY, destWidth, destHeight, offsetX, offsetY, scaleX, scaleY, interpType.getValue());
+            DowncallHandles.gdk_pixbuf_scale.invokeExact(
+                    handle(),
+                    dest.handle(),
+                    destX,
+                    destY,
+                    destWidth,
+                    destHeight,
+                    offsetX,
+                    offsetY,
+                    scaleX,
+                    scaleY,
+                    interpType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1679,7 +1846,11 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         java.util.Objects.requireNonNull(interpType, "Parameter 'interpType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_scale_simple.invokeExact(handle(), destWidth, destHeight, interpType.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_scale_simple.invokeExact(
+                    handle(),
+                    destWidth,
+                    destHeight,
+                    interpType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1700,7 +1871,10 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_set_option.invokeExact(handle(), Interop.allocateNativeString(key), Interop.allocateNativeString(value));
+            RESULT = (int) DowncallHandles.gdk_pixbuf_set_option.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    Interop.allocateNativeString(value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1714,7 +1888,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     @Deprecated
     public void unref() {
         try {
-            DowncallHandles.gdk_pixbuf_unref.invokeExact(handle());
+            DowncallHandles.gdk_pixbuf_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1737,7 +1912,12 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         java.util.Objects.requireNonNull(colorspace, "Parameter 'colorspace' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_calculate_rowstride.invokeExact(colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height);
+            RESULT = (int) DowncallHandles.gdk_pixbuf_calculate_rowstride.invokeExact(
+                    colorspace.getValue(),
+                    hasAlpha ? 1 : 0,
+                    bitsPerSample,
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1760,7 +1940,10 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_get_file_info.invokeExact(Interop.allocateNativeString(filename), (Addressable) widthPOINTER.address(), (Addressable) heightPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_get_file_info.invokeExact(
+                    Interop.allocateNativeString(filename),
+                    (Addressable) widthPOINTER.address(),
+                    (Addressable) heightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1785,16 +1968,16 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public static void getFileInfoAsync(@NotNull java.lang.String filename, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.gdk_pixbuf_get_file_info_async.invokeExact(Interop.allocateNativeString(filename), cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gdk_pixbuf_get_file_info_async.invokeExact(
+                    Interop.allocateNativeString(filename),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GdkPixbuf.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1819,7 +2002,10 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_get_file_info_finish.invokeExact(asyncResult.handle(), (Addressable) widthPOINTER.address(), (Addressable) heightPOINTER.address(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_get_file_info_finish.invokeExact(
+                    asyncResult.handle(),
+                    (Addressable) widthPOINTER.address(),
+                    (Addressable) heightPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1869,7 +2055,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_init_modules.invokeExact(Interop.allocateNativeString(path), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gdk_pixbuf_init_modules.invokeExact(
+                    Interop.allocateNativeString(path), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1894,16 +2081,16 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public static void newFromStreamAsync(@NotNull org.gtk.gio.InputStream stream, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.gdk_pixbuf_new_from_stream_async.invokeExact(stream.handle(), cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gdk_pixbuf_new_from_stream_async.invokeExact(
+                    stream.handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GdkPixbuf.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1926,16 +2113,19 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public static void newFromStreamAtScaleAsync(@NotNull org.gtk.gio.InputStream stream, int width, int height, boolean preserveAspectRatio, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.gdk_pixbuf_new_from_stream_at_scale_async.invokeExact(stream.handle(), width, height, preserveAspectRatio ? 1 : 0, cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gdk_pixbuf_new_from_stream_at_scale_async.invokeExact(
+                    stream.handle(),
+                    width,
+                    height,
+                    preserveAspectRatio ? 1 : 0,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GdkPixbuf.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1953,7 +2143,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_save_to_stream_finish.invokeExact(asyncResult.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gdk_pixbuf_save_to_stream_finish.invokeExact(
+                    asyncResult.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

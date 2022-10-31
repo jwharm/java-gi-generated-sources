@@ -97,25 +97,38 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkEntry";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkEntry");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    @ApiStatus.Internal
     public Entry(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Entry */
+    /**
+     * Cast object to Entry if its GType is a (or inherits from) "GtkEntry".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Entry" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkEntry", a ClassCastException will be thrown.
+     */
     public static Entry castFrom(org.gtk.gobject.Object gobject) {
-        return new Entry(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEntry"))) {
+            return new Entry(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEntry");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -139,7 +152,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_entry_new_with_buffer.invokeExact(buffer.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_entry_new_with_buffer.invokeExact(
+                    buffer.handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,7 +176,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getActivatesDefault() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_get_activates_default.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_entry_get_activates_default.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,7 +193,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public float getAlignment() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gtk_entry_get_alignment.invokeExact(handle());
+            RESULT = (float) DowncallHandles.gtk_entry_get_alignment.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -194,7 +210,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable org.pango.AttrList getAttributes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_attributes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_attributes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -209,7 +226,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @NotNull org.gtk.gtk.EntryBuffer getBuffer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_buffer.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_buffer.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -225,7 +243,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable org.gtk.gtk.EntryCompletion getCompletion() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_completion.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_completion.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -241,7 +260,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public int getCurrentIconDragSource() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_get_current_icon_drag_source.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_entry_get_current_icon_drag_source.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -255,7 +275,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable org.gtk.gio.MenuModel getExtraMenu() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_extra_menu.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_extra_menu.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -269,7 +290,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getHasFrame() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_get_has_frame.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_entry_get_has_frame.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -285,7 +307,9 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_get_icon_activatable.invokeExact(handle(), iconPos.getValue());
+            RESULT = (int) DowncallHandles.gtk_entry_get_icon_activatable.invokeExact(
+                    handle(),
+                    iconPos.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -305,16 +329,17 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param iconPos Icon position
      * @param iconArea Return location for the icon’s area
      */
-    public void getIconArea(@NotNull org.gtk.gtk.EntryIconPosition iconPos, @NotNull Out<org.gtk.gdk.Rectangle> iconArea) {
+    public void getIconArea(@NotNull org.gtk.gtk.EntryIconPosition iconPos, @NotNull org.gtk.gdk.Rectangle iconArea) {
         java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
         java.util.Objects.requireNonNull(iconArea, "Parameter 'iconArea' must not be null");
-        MemorySegment iconAreaPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_entry_get_icon_area.invokeExact(handle(), iconPos.getValue(), (Addressable) iconAreaPOINTER.address());
+            DowncallHandles.gtk_entry_get_icon_area.invokeExact(
+                    handle(),
+                    iconPos.getValue(),
+                    iconArea.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iconArea.set(new org.gtk.gdk.Rectangle(Refcounted.get(iconAreaPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -331,7 +356,10 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public int getIconAtPos(int x, int y) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_get_icon_at_pos.invokeExact(handle(), x, y);
+            RESULT = (int) DowncallHandles.gtk_entry_get_icon_at_pos.invokeExact(
+                    handle(),
+                    x,
+                    y);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -350,7 +378,9 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_icon_gicon.invokeExact(handle(), iconPos.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_icon_gicon.invokeExact(
+                    handle(),
+                    iconPos.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -369,11 +399,13 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_icon_name.invokeExact(handle(), iconPos.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_icon_name.invokeExact(
+                    handle(),
+                    iconPos.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -389,7 +421,9 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_icon_paintable.invokeExact(handle(), iconPos.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_icon_paintable.invokeExact(
+                    handle(),
+                    iconPos.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -405,7 +439,9 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_get_icon_sensitive.invokeExact(handle(), iconPos.getValue());
+            RESULT = (int) DowncallHandles.gtk_entry_get_icon_sensitive.invokeExact(
+                    handle(),
+                    iconPos.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -425,7 +461,9 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_get_icon_storage_type.invokeExact(handle(), iconPos.getValue());
+            RESULT = (int) DowncallHandles.gtk_entry_get_icon_storage_type.invokeExact(
+                    handle(),
+                    iconPos.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -442,11 +480,13 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_icon_tooltip_markup.invokeExact(handle(), iconPos.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_icon_tooltip_markup.invokeExact(
+                    handle(),
+                    iconPos.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -459,11 +499,13 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_icon_tooltip_text.invokeExact(handle(), iconPos.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_icon_tooltip_text.invokeExact(
+                    handle(),
+                    iconPos.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -473,7 +515,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @NotNull org.gtk.gtk.InputHints getInputHints() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_get_input_hints.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_entry_get_input_hints.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -487,7 +530,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @NotNull org.gtk.gtk.InputPurpose getInputPurpose() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_get_input_purpose.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_entry_get_input_purpose.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -503,7 +547,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public int getInvisibleChar() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_get_invisible_char.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_entry_get_invisible_char.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -520,7 +565,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public int getMaxLength() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_get_max_length.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_entry_get_max_length.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -534,7 +580,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getOverwriteMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_get_overwrite_mode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_entry_get_overwrite_mode.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -553,11 +600,12 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable java.lang.String getPlaceholderText() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_placeholder_text.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_placeholder_text.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -569,7 +617,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public double getProgressFraction() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_entry_get_progress_fraction.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_entry_get_progress_fraction.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -584,7 +633,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public double getProgressPulseStep() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_entry_get_progress_pulse_step.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_entry_get_progress_pulse_step.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -600,7 +650,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable org.pango.TabArray getTabs() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_tabs.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_tabs.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -618,7 +669,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public short getTextLength() {
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.gtk_entry_get_text_length.invokeExact(handle());
+            RESULT = (short) DowncallHandles.gtk_entry_get_text_length.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -634,7 +686,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getVisibility() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_get_visibility.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_entry_get_visibility.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -653,7 +706,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean grabFocusWithoutSelecting() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_grab_focus_without_selecting.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_entry_grab_focus_without_selecting.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -672,7 +726,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void progressPulse() {
         try {
-            DowncallHandles.gtk_entry_progress_pulse.invokeExact(handle());
+            DowncallHandles.gtk_entry_progress_pulse.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -686,7 +741,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void resetImContext() {
         try {
-            DowncallHandles.gtk_entry_reset_im_context.invokeExact(handle());
+            DowncallHandles.gtk_entry_reset_im_context.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -702,7 +758,9 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setActivatesDefault(boolean setting) {
         try {
-            DowncallHandles.gtk_entry_set_activates_default.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_entry_set_activates_default.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -720,7 +778,9 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setAlignment(float xalign) {
         try {
-            DowncallHandles.gtk_entry_set_alignment.invokeExact(handle(), xalign);
+            DowncallHandles.gtk_entry_set_alignment.invokeExact(
+                    handle(),
+                    xalign);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -739,7 +799,9 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void setAttributes(@NotNull org.pango.AttrList attrs) {
         java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
         try {
-            DowncallHandles.gtk_entry_set_attributes.invokeExact(handle(), attrs.handle());
+            DowncallHandles.gtk_entry_set_attributes.invokeExact(
+                    handle(),
+                    attrs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -753,7 +815,9 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void setBuffer(@NotNull org.gtk.gtk.EntryBuffer buffer) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         try {
-            DowncallHandles.gtk_entry_set_buffer.invokeExact(handle(), buffer.handle());
+            DowncallHandles.gtk_entry_set_buffer.invokeExact(
+                    handle(),
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -769,9 +833,10 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param completion The {@code GtkEntryCompletion}
      */
     public void setCompletion(@Nullable org.gtk.gtk.EntryCompletion completion) {
-        java.util.Objects.requireNonNullElse(completion, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_entry_set_completion.invokeExact(handle(), completion.handle());
+            DowncallHandles.gtk_entry_set_completion.invokeExact(
+                    handle(),
+                    (Addressable) (completion == null ? MemoryAddress.NULL : completion.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -783,9 +848,10 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param model a {@code GMenuModel}
      */
     public void setExtraMenu(@Nullable org.gtk.gio.MenuModel model) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_entry_set_extra_menu.invokeExact(handle(), model.handle());
+            DowncallHandles.gtk_entry_set_extra_menu.invokeExact(
+                    handle(),
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -797,7 +863,9 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setHasFrame(boolean setting) {
         try {
-            DowncallHandles.gtk_entry_set_has_frame.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_entry_set_has_frame.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -811,7 +879,10 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void setIconActivatable(@NotNull org.gtk.gtk.EntryIconPosition iconPos, boolean activatable) {
         java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
         try {
-            DowncallHandles.gtk_entry_set_icon_activatable.invokeExact(handle(), iconPos.getValue(), activatable ? 1 : 0);
+            DowncallHandles.gtk_entry_set_icon_activatable.invokeExact(
+                    handle(),
+                    iconPos.getValue(),
+                    activatable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -831,7 +902,11 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         java.util.Objects.requireNonNull(provider, "Parameter 'provider' must not be null");
         java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
         try {
-            DowncallHandles.gtk_entry_set_icon_drag_source.invokeExact(handle(), iconPos.getValue(), provider.handle(), actions.getValue());
+            DowncallHandles.gtk_entry_set_icon_drag_source.invokeExact(
+                    handle(),
+                    iconPos.getValue(),
+                    provider.handle(),
+                    actions.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -851,9 +926,11 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setIconFromGicon(@NotNull org.gtk.gtk.EntryIconPosition iconPos, @Nullable org.gtk.gio.Icon icon) {
         java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
-        java.util.Objects.requireNonNullElse(icon, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_entry_set_icon_from_gicon.invokeExact(handle(), iconPos.getValue(), icon.handle());
+            DowncallHandles.gtk_entry_set_icon_from_gicon.invokeExact(
+                    handle(),
+                    iconPos.getValue(),
+                    (Addressable) (icon == null ? MemoryAddress.NULL : icon.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -873,9 +950,11 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setIconFromIconName(@NotNull org.gtk.gtk.EntryIconPosition iconPos, @Nullable java.lang.String iconName) {
         java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
-        java.util.Objects.requireNonNullElse(iconName, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_entry_set_icon_from_icon_name.invokeExact(handle(), iconPos.getValue(), Interop.allocateNativeString(iconName));
+            DowncallHandles.gtk_entry_set_icon_from_icon_name.invokeExact(
+                    handle(),
+                    iconPos.getValue(),
+                    (Addressable) (iconName == null ? MemoryAddress.NULL : Interop.allocateNativeString(iconName)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -890,9 +969,11 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setIconFromPaintable(@NotNull org.gtk.gtk.EntryIconPosition iconPos, @Nullable org.gtk.gdk.Paintable paintable) {
         java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
-        java.util.Objects.requireNonNullElse(paintable, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_entry_set_icon_from_paintable.invokeExact(handle(), iconPos.getValue(), paintable.handle());
+            DowncallHandles.gtk_entry_set_icon_from_paintable.invokeExact(
+                    handle(),
+                    iconPos.getValue(),
+                    (Addressable) (paintable == null ? MemoryAddress.NULL : paintable.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -907,7 +988,10 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void setIconSensitive(@NotNull org.gtk.gtk.EntryIconPosition iconPos, boolean sensitive) {
         java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
         try {
-            DowncallHandles.gtk_entry_set_icon_sensitive.invokeExact(handle(), iconPos.getValue(), sensitive ? 1 : 0);
+            DowncallHandles.gtk_entry_set_icon_sensitive.invokeExact(
+                    handle(),
+                    iconPos.getValue(),
+                    sensitive ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -928,9 +1012,11 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setIconTooltipMarkup(@NotNull org.gtk.gtk.EntryIconPosition iconPos, @Nullable java.lang.String tooltip) {
         java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
-        java.util.Objects.requireNonNullElse(tooltip, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_entry_set_icon_tooltip_markup.invokeExact(handle(), iconPos.getValue(), Interop.allocateNativeString(tooltip));
+            DowncallHandles.gtk_entry_set_icon_tooltip_markup.invokeExact(
+                    handle(),
+                    iconPos.getValue(),
+                    (Addressable) (tooltip == null ? MemoryAddress.NULL : Interop.allocateNativeString(tooltip)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -959,9 +1045,11 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setIconTooltipText(@NotNull org.gtk.gtk.EntryIconPosition iconPos, @Nullable java.lang.String tooltip) {
         java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
-        java.util.Objects.requireNonNullElse(tooltip, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_entry_set_icon_tooltip_text.invokeExact(handle(), iconPos.getValue(), Interop.allocateNativeString(tooltip));
+            DowncallHandles.gtk_entry_set_icon_tooltip_text.invokeExact(
+                    handle(),
+                    iconPos.getValue(),
+                    (Addressable) (tooltip == null ? MemoryAddress.NULL : Interop.allocateNativeString(tooltip)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -975,7 +1063,9 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void setInputHints(@NotNull org.gtk.gtk.InputHints hints) {
         java.util.Objects.requireNonNull(hints, "Parameter 'hints' must not be null");
         try {
-            DowncallHandles.gtk_entry_set_input_hints.invokeExact(handle(), hints.getValue());
+            DowncallHandles.gtk_entry_set_input_hints.invokeExact(
+                    handle(),
+                    hints.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -989,7 +1079,9 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void setInputPurpose(@NotNull org.gtk.gtk.InputPurpose purpose) {
         java.util.Objects.requireNonNull(purpose, "Parameter 'purpose' must not be null");
         try {
-            DowncallHandles.gtk_entry_set_input_purpose.invokeExact(handle(), purpose.getValue());
+            DowncallHandles.gtk_entry_set_input_purpose.invokeExact(
+                    handle(),
+                    purpose.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1010,7 +1102,9 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setInvisibleChar(int ch) {
         try {
-            DowncallHandles.gtk_entry_set_invisible_char.invokeExact(handle(), ch);
+            DowncallHandles.gtk_entry_set_invisible_char.invokeExact(
+                    handle(),
+                    ch);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1030,7 +1124,9 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setMaxLength(int max) {
         try {
-            DowncallHandles.gtk_entry_set_max_length.invokeExact(handle(), max);
+            DowncallHandles.gtk_entry_set_max_length.invokeExact(
+                    handle(),
+                    max);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1042,7 +1138,9 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setOverwriteMode(boolean overwrite) {
         try {
-            DowncallHandles.gtk_entry_set_overwrite_mode.invokeExact(handle(), overwrite ? 1 : 0);
+            DowncallHandles.gtk_entry_set_overwrite_mode.invokeExact(
+                    handle(),
+                    overwrite ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1056,9 +1154,10 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param text a string to be displayed when {@code entry} is empty and unfocused
      */
     public void setPlaceholderText(@Nullable java.lang.String text) {
-        java.util.Objects.requireNonNullElse(text, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_entry_set_placeholder_text.invokeExact(handle(), Interop.allocateNativeString(text));
+            DowncallHandles.gtk_entry_set_placeholder_text.invokeExact(
+                    handle(),
+                    (Addressable) (text == null ? MemoryAddress.NULL : Interop.allocateNativeString(text)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1073,7 +1172,9 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setProgressFraction(double fraction) {
         try {
-            DowncallHandles.gtk_entry_set_progress_fraction.invokeExact(handle(), fraction);
+            DowncallHandles.gtk_entry_set_progress_fraction.invokeExact(
+                    handle(),
+                    fraction);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1089,7 +1190,9 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setProgressPulseStep(double fraction) {
         try {
-            DowncallHandles.gtk_entry_set_progress_pulse_step.invokeExact(handle(), fraction);
+            DowncallHandles.gtk_entry_set_progress_pulse_step.invokeExact(
+                    handle(),
+                    fraction);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1102,9 +1205,10 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param tabs a {@code PangoTabArray}
      */
     public void setTabs(@Nullable org.pango.TabArray tabs) {
-        java.util.Objects.requireNonNullElse(tabs, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_entry_set_tabs.invokeExact(handle(), tabs.handle());
+            DowncallHandles.gtk_entry_set_tabs.invokeExact(
+                    handle(),
+                    (Addressable) (tabs == null ? MemoryAddress.NULL : tabs.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1129,7 +1233,9 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setVisibility(boolean visible) {
         try {
-            DowncallHandles.gtk_entry_set_visibility.invokeExact(handle(), visible ? 1 : 0);
+            DowncallHandles.gtk_entry_set_visibility.invokeExact(
+                    handle(),
+                    visible ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1141,7 +1247,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void unsetInvisibleChar() {
         try {
-            DowncallHandles.gtk_entry_unset_invisible_char.invokeExact(handle());
+            DowncallHandles.gtk_entry_unset_invisible_char.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

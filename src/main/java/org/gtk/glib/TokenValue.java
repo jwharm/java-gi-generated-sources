@@ -14,6 +14,8 @@ public class TokenValue extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTokenValue";
+    
     private static GroupLayout memoryLayout = MemoryLayout.unionLayout(
         Interop.valueLayout.ADDRESS.withName("v_symbol"),
         Interop.valueLayout.ADDRESS.withName("v_identifier"),
@@ -26,17 +28,19 @@ public class TokenValue extends io.github.jwharm.javagi.ResourceBase {
         Interop.valueLayout.ADDRESS.withName("v_string"),
         Interop.valueLayout.ADDRESS.withName("v_comment"),
         ValueLayout.JAVA_BYTE.withName("v_char"),
+        MemoryLayout.paddingLayout(24),
         ValueLayout.JAVA_INT.withName("v_error")
-    ).withName("GTokenValue");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    @ApiStatus.Internal
     public TokenValue(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

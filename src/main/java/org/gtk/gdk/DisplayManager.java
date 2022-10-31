@@ -53,21 +53,34 @@ public class DisplayManager extends org.gtk.gobject.Object {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkDisplayManager";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public DisplayManager(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DisplayManager */
+    /**
+     * Cast object to DisplayManager if its GType is a (or inherits from) "GdkDisplayManager".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DisplayManager" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkDisplayManager", a ClassCastException will be thrown.
+     */
     public static DisplayManager castFrom(org.gtk.gobject.Object gobject) {
-        return new DisplayManager(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkDisplayManager"))) {
+            return new DisplayManager(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkDisplayManager");
+        }
     }
     
     /**
@@ -77,7 +90,8 @@ public class DisplayManager extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdk.Display getDefaultDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_display_manager_get_default_display.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_display_manager_get_default_display.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,7 +106,8 @@ public class DisplayManager extends org.gtk.gobject.Object {
     public @NotNull org.gtk.glib.SList listDisplays() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_display_manager_list_displays.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_display_manager_list_displays.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,7 +124,9 @@ public class DisplayManager extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_display_manager_open_display.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.gdk_display_manager_open_display.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,7 +140,9 @@ public class DisplayManager extends org.gtk.gobject.Object {
     public void setDefaultDisplay(@NotNull org.gtk.gdk.Display display) {
         java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
         try {
-            DowncallHandles.gdk_display_manager_set_default_display.invokeExact(handle(), display.handle());
+            DowncallHandles.gdk_display_manager_set_default_display.invokeExact(
+                    handle(),
+                    display.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

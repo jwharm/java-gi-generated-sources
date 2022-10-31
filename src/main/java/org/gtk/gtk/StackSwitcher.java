@@ -43,21 +43,34 @@ public class StackSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkStackSwitcher";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public StackSwitcher(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to StackSwitcher */
+    /**
+     * Cast object to StackSwitcher if its GType is a (or inherits from) "GtkStackSwitcher".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "StackSwitcher" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkStackSwitcher", a ClassCastException will be thrown.
+     */
     public static StackSwitcher castFrom(org.gtk.gobject.Object gobject) {
-        return new StackSwitcher(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkStackSwitcher"))) {
+            return new StackSwitcher(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkStackSwitcher");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -84,7 +97,8 @@ public class StackSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     public @Nullable org.gtk.gtk.Stack getStack() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_switcher_get_stack.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_switcher_get_stack.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,9 +110,10 @@ public class StackSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * @param stack a {@code GtkStack}
      */
     public void setStack(@Nullable org.gtk.gtk.Stack stack) {
-        java.util.Objects.requireNonNullElse(stack, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_stack_switcher_set_stack.invokeExact(handle(), stack.handle());
+            DowncallHandles.gtk_stack_switcher_set_stack.invokeExact(
+                    handle(),
+                    (Addressable) (stack == null ? MemoryAddress.NULL : stack.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

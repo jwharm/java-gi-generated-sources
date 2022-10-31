@@ -37,27 +37,12 @@ public final class Pango {
     public static final int ATTR_INDEX_FROM_TEXT_BEGINNING = 0;
     
     /**
-     * Value for {@code end_index} in {@code PangoAttribute} that indicates
-     * the end of the text.
-     */
-    
-    /**
      * A {@code PangoGlyph} value that indicates a zero-width empty glpyh.
      * <p>
      * This is useful for example in shaper modules, to use as the glyph for
      * various zero-width Unicode characters (those passing {@link Pango#isZeroWidth}).
      */
     public static final org.pango.Glyph GLYPH_EMPTY = new org.pango.Glyph(268435455);
-    
-    /**
-     * A {@code PangoGlyph} value for invalid input.
-     * <p>
-     * {@code PangoLayout} produces one such glyph per invalid input UTF-8 byte and such
-     * a glyph is rendered as a crossed box.
-     * <p>
-     * Note that this value is defined such that it has the {@code PANGO_GLYPH_UNKNOWN_FLAG}
-     * set.
-     */
     
     /**
      * Flag used in {@code PangoGlyph} to turn a {@code gunichar} value of a valid Unicode
@@ -112,7 +97,8 @@ public final class Pango {
     public static @NotNull org.pango.Attribute attrAllowBreaksNew(boolean allowBreaks) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_allow_breaks_new.invokeExact(allowBreaks ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_allow_breaks_new.invokeExact(
+                    allowBreaks ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,7 +115,8 @@ public final class Pango {
     public static @NotNull org.pango.Attribute attrBackgroundAlphaNew(short alpha) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_background_alpha_new.invokeExact(alpha);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_background_alpha_new.invokeExact(
+                    alpha);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -148,7 +135,10 @@ public final class Pango {
     public static @NotNull org.pango.Attribute attrBackgroundNew(short red, short green, short blue) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_background_new.invokeExact(red, green, blue);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_background_new.invokeExact(
+                    red,
+                    green,
+                    blue);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,7 +165,8 @@ public final class Pango {
     public static @NotNull org.pango.Attribute attrBaselineShiftNew(int shift) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_baseline_shift_new.invokeExact(shift);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_baseline_shift_new.invokeExact(
+                    shift);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -200,7 +191,13 @@ public final class Pango {
         java.util.Objects.requireNonNull(attrList, "Parameter 'attrList' must not be null");
         java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
         try {
-            DowncallHandles.pango_attr_break.invokeExact(Interop.allocateNativeString(text), length, attrList.handle(), offset, Interop.allocateNativeArray(attrs, false), attrsLen);
+            DowncallHandles.pango_attr_break.invokeExact(
+                    Interop.allocateNativeString(text),
+                    length,
+                    attrList.handle(),
+                    offset,
+                    Interop.allocateNativeArray(attrs, false),
+                    attrsLen);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -222,7 +219,8 @@ public final class Pango {
     public static @NotNull org.pango.Attribute attrFallbackNew(boolean enableFallback) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_fallback_new.invokeExact(enableFallback ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_fallback_new.invokeExact(
+                    enableFallback ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,7 +238,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(family, "Parameter 'family' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_family_new.invokeExact(Interop.allocateNativeString(family));
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_family_new.invokeExact(
+                    Interop.allocateNativeString(family));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -261,7 +260,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(desc, "Parameter 'desc' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_font_desc_new.invokeExact(desc.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_font_desc_new.invokeExact(
+                    desc.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -283,7 +283,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(features, "Parameter 'features' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_font_features_new.invokeExact(Interop.allocateNativeString(features));
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_font_features_new.invokeExact(
+                    Interop.allocateNativeString(features));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -305,7 +306,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(scale, "Parameter 'scale' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_font_scale_new.invokeExact(scale.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_font_scale_new.invokeExact(
+                    scale.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -322,7 +324,8 @@ public final class Pango {
     public static @NotNull org.pango.Attribute attrForegroundAlphaNew(short alpha) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_foreground_alpha_new.invokeExact(alpha);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_foreground_alpha_new.invokeExact(
+                    alpha);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -341,7 +344,10 @@ public final class Pango {
     public static @NotNull org.pango.Attribute attrForegroundNew(short red, short green, short blue) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_foreground_new.invokeExact(red, green, blue);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_foreground_new.invokeExact(
+                    red,
+                    green,
+                    blue);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -359,7 +365,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(hint, "Parameter 'hint' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_gravity_hint_new.invokeExact(hint.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_gravity_hint_new.invokeExact(
+                    hint.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -377,7 +384,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(gravity, "Parameter 'gravity' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_gravity_new.invokeExact(gravity.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_gravity_new.invokeExact(
+                    gravity.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -398,7 +406,8 @@ public final class Pango {
     public static @NotNull org.pango.Attribute attrInsertHyphensNew(boolean insertHyphens) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_insert_hyphens_new.invokeExact(insertHyphens ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_insert_hyphens_new.invokeExact(
+                    insertHyphens ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -416,7 +425,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_language_new.invokeExact(language.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_language_new.invokeExact(
+                    language.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -434,7 +444,8 @@ public final class Pango {
     public static @NotNull org.pango.Attribute attrLetterSpacingNew(int letterSpacing) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_letter_spacing_new.invokeExact(letterSpacing);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_letter_spacing_new.invokeExact(
+                    letterSpacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -453,7 +464,8 @@ public final class Pango {
     public static @NotNull org.pango.Attribute attrLineHeightNew(double factor) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_line_height_new.invokeExact(factor);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_line_height_new.invokeExact(
+                    factor);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -472,7 +484,8 @@ public final class Pango {
     public static @NotNull org.pango.Attribute attrLineHeightNewAbsolute(int height) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_line_height_new_absolute.invokeExact(height);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_line_height_new_absolute.invokeExact(
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -491,7 +504,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_from_string.invokeExact(Interop.allocateNativeString(text));
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_from_string.invokeExact(
+                    Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -513,7 +527,10 @@ public final class Pango {
     public static @NotNull org.pango.Attribute attrOverlineColorNew(short red, short green, short blue) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_overline_color_new.invokeExact(red, green, blue);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_overline_color_new.invokeExact(
+                    red,
+                    green,
+                    blue);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -531,7 +548,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(overline, "Parameter 'overline' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_overline_new.invokeExact(overline.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_overline_new.invokeExact(
+                    overline.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -549,7 +567,8 @@ public final class Pango {
     public static @NotNull org.pango.Attribute attrRiseNew(int rise) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_rise_new.invokeExact(rise);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_rise_new.invokeExact(
+                    rise);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -569,7 +588,8 @@ public final class Pango {
     public static @NotNull org.pango.Attribute attrScaleNew(double scaleFactor) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_scale_new.invokeExact(scaleFactor);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_scale_new.invokeExact(
+                    scaleFactor);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -613,7 +633,9 @@ public final class Pango {
         java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_shape_new.invokeExact(inkRect.handle(), logicalRect.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_shape_new.invokeExact(
+                    inkRect.handle(),
+                    logicalRect.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -638,16 +660,17 @@ public final class Pango {
     public static @NotNull org.pango.Attribute attrShapeNewWithData(@NotNull org.pango.Rectangle inkRect, @NotNull org.pango.Rectangle logicalRect, @Nullable org.pango.AttrDataCopyFunc copyFunc) {
         java.util.Objects.requireNonNull(inkRect, "Parameter 'inkRect' must not be null");
         java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
-        java.util.Objects.requireNonNullElse(copyFunc, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_shape_new_with_data.invokeExact(inkRect.handle(), logicalRect.handle(), 
-                   (Addressable) (copyFunc == null ? MemoryAddress.NULL : Interop.registerCallback(copyFunc)), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_shape_new_with_data.invokeExact(
+                    inkRect.handle(),
+                    logicalRect.handle(),
+                    (Addressable) (copyFunc == null ? MemoryAddress.NULL : Interop.registerCallback(copyFunc)),
+                    (Addressable) (copyFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Pango.Callbacks.class, "cbAttrDataCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
+                        Interop.getScope())),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -667,7 +690,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_show_new.invokeExact(flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_show_new.invokeExact(
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -684,7 +708,8 @@ public final class Pango {
     public static @NotNull org.pango.Attribute attrSizeNew(int size) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_size_new.invokeExact(size);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_size_new.invokeExact(
+                    size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -701,7 +726,8 @@ public final class Pango {
     public static @NotNull org.pango.Attribute attrSizeNewAbsolute(int size) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_size_new_absolute.invokeExact(size);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_size_new_absolute.invokeExact(
+                    size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -719,7 +745,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(stretch, "Parameter 'stretch' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_stretch_new.invokeExact(stretch.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_stretch_new.invokeExact(
+                    stretch.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -741,7 +768,10 @@ public final class Pango {
     public static @NotNull org.pango.Attribute attrStrikethroughColorNew(short red, short green, short blue) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_strikethrough_color_new.invokeExact(red, green, blue);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_strikethrough_color_new.invokeExact(
+                    red,
+                    green,
+                    blue);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -758,7 +788,8 @@ public final class Pango {
     public static @NotNull org.pango.Attribute attrStrikethroughNew(boolean strikethrough) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_strikethrough_new.invokeExact(strikethrough ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_strikethrough_new.invokeExact(
+                    strikethrough ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -776,7 +807,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(style, "Parameter 'style' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_style_new.invokeExact(style.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_style_new.invokeExact(
+                    style.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -795,7 +827,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(transform, "Parameter 'transform' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_text_transform_new.invokeExact(transform.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_text_transform_new.invokeExact(
+                    transform.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -821,11 +854,12 @@ public final class Pango {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_type_get_name.invokeExact(type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_type_get_name.invokeExact(
+                    type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -840,7 +874,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_attr_type_register.invokeExact(Interop.allocateNativeString(name));
+            RESULT = (int) DowncallHandles.pango_attr_type_register.invokeExact(
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -862,7 +897,10 @@ public final class Pango {
     public static @NotNull org.pango.Attribute attrUnderlineColorNew(short red, short green, short blue) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_underline_color_new.invokeExact(red, green, blue);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_underline_color_new.invokeExact(
+                    red,
+                    green,
+                    blue);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -880,7 +918,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(underline, "Parameter 'underline' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_underline_new.invokeExact(underline.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_underline_new.invokeExact(
+                    underline.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -897,7 +936,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(variant, "Parameter 'variant' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_variant_new.invokeExact(variant.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_variant_new.invokeExact(
+                    variant.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -915,7 +955,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(weight, "Parameter 'weight' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_weight_new.invokeExact(weight.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_weight_new.invokeExact(
+                    weight.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -954,7 +995,8 @@ public final class Pango {
     public static @NotNull org.pango.BidiType bidiTypeForUnichar(int ch) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_bidi_type_for_unichar.invokeExact(ch);
+            RESULT = (int) DowncallHandles.pango_bidi_type_for_unichar.invokeExact(
+                    ch);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -980,7 +1022,12 @@ public final class Pango {
         java.util.Objects.requireNonNull(analysis, "Parameter 'analysis' must not be null");
         java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
         try {
-            DowncallHandles.pango_break.invokeExact(Interop.allocateNativeString(text), length, analysis.handle(), Interop.allocateNativeArray(attrs, false), attrsLen);
+            DowncallHandles.pango_break.invokeExact(
+                    Interop.allocateNativeString(text),
+                    length,
+                    analysis.handle(),
+                    Interop.allocateNativeArray(attrs, false),
+                    attrsLen);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1004,10 +1051,14 @@ public final class Pango {
      */
     public static void defaultBreak(@NotNull java.lang.String text, int length, @Nullable org.pango.Analysis analysis, @NotNull org.pango.LogAttr attrs, int attrsLen) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        java.util.Objects.requireNonNullElse(analysis, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
         try {
-            DowncallHandles.pango_default_break.invokeExact(Interop.allocateNativeString(text), length, analysis.handle(), attrs.handle(), attrsLen);
+            DowncallHandles.pango_default_break.invokeExact(
+                    Interop.allocateNativeString(text),
+                    length,
+                    (Addressable) (analysis == null ? MemoryAddress.NULL : analysis.handle()),
+                    attrs.handle(),
+                    attrsLen);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1035,10 +1086,10 @@ public final class Pango {
      * @param nearest rectangle to round to nearest pixels
      */
     public static void extentsToPixels(@Nullable org.pango.Rectangle inclusive, @Nullable org.pango.Rectangle nearest) {
-        java.util.Objects.requireNonNullElse(inclusive, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(nearest, MemoryAddress.NULL);
         try {
-            DowncallHandles.pango_extents_to_pixels.invokeExact(inclusive.handle(), nearest.handle());
+            DowncallHandles.pango_extents_to_pixels.invokeExact(
+                    (Addressable) (inclusive == null ? MemoryAddress.NULL : inclusive.handle()),
+                    (Addressable) (nearest == null ? MemoryAddress.NULL : nearest.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1056,7 +1107,9 @@ public final class Pango {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_find_base_dir.invokeExact(Interop.allocateNativeString(text), length);
+            RESULT = (int) DowncallHandles.pango_find_base_dir.invokeExact(
+                    Interop.allocateNativeString(text),
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1092,7 +1145,11 @@ public final class Pango {
         MemorySegment paragraphDelimiterIndexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment nextParagraphStartPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.pango_find_paragraph_boundary.invokeExact(Interop.allocateNativeString(text), length, (Addressable) paragraphDelimiterIndexPOINTER.address(), (Addressable) nextParagraphStartPOINTER.address());
+            DowncallHandles.pango_find_paragraph_boundary.invokeExact(
+                    Interop.allocateNativeString(text),
+                    length,
+                    (Addressable) paragraphDelimiterIndexPOINTER.address(),
+                    (Addressable) nextParagraphStartPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1152,7 +1209,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_from_string.invokeExact(Interop.allocateNativeString(str));
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_from_string.invokeExact(
+                    Interop.allocateNativeString(str));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1182,7 +1240,13 @@ public final class Pango {
         java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
         java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
         try {
-            DowncallHandles.pango_get_log_attrs.invokeExact(Interop.allocateNativeString(text), length, level, language.handle(), Interop.allocateNativeArray(attrs, false), attrsLen);
+            DowncallHandles.pango_get_log_attrs.invokeExact(
+                    Interop.allocateNativeString(text),
+                    length,
+                    level,
+                    language.handle(),
+                    Interop.allocateNativeArray(attrs, false),
+                    attrsLen);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1204,7 +1268,9 @@ public final class Pango {
         java.util.Objects.requireNonNull(mirroredCh, "Parameter 'mirroredCh' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_get_mirror_char.invokeExact(ch, mirroredCh.handle());
+            RESULT = (int) DowncallHandles.pango_get_mirror_char.invokeExact(
+                    ch,
+                    mirroredCh.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1219,10 +1285,10 @@ public final class Pango {
      * {@link Gravity#AUTO}, or {@link Gravity#SOUTH} if {@code matrix} is {@code null}
      */
     public static @NotNull org.pango.Gravity gravityGetForMatrix(@Nullable org.pango.Matrix matrix) {
-        java.util.Objects.requireNonNullElse(matrix, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_gravity_get_for_matrix.invokeExact(matrix.handle());
+            RESULT = (int) DowncallHandles.pango_gravity_get_for_matrix.invokeExact(
+                    (Addressable) (matrix == null ? MemoryAddress.NULL : matrix.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1249,7 +1315,10 @@ public final class Pango {
         java.util.Objects.requireNonNull(hint, "Parameter 'hint' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_gravity_get_for_script.invokeExact(script.getValue(), baseGravity.getValue(), hint.getValue());
+            RESULT = (int) DowncallHandles.pango_gravity_get_for_script.invokeExact(
+                    script.getValue(),
+                    baseGravity.getValue(),
+                    hint.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1285,7 +1354,11 @@ public final class Pango {
         java.util.Objects.requireNonNull(hint, "Parameter 'hint' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_gravity_get_for_script_and_width.invokeExact(script.getValue(), wide ? 1 : 0, baseGravity.getValue(), hint.getValue());
+            RESULT = (int) DowncallHandles.pango_gravity_get_for_script_and_width.invokeExact(
+                    script.getValue(),
+                    wide ? 1 : 0,
+                    baseGravity.getValue(),
+                    hint.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1305,7 +1378,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(gravity, "Parameter 'gravity' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.pango_gravity_to_rotation.invokeExact(gravity.getValue());
+            RESULT = (double) DowncallHandles.pango_gravity_to_rotation.invokeExact(
+                    gravity.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1325,7 +1399,8 @@ public final class Pango {
     public static boolean isZeroWidth(int ch) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_is_zero_width.invokeExact(ch);
+            RESULT = (int) DowncallHandles.pango_is_zero_width.invokeExact(
+                    ch);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1361,10 +1436,15 @@ public final class Pango {
         java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
-        java.util.Objects.requireNonNullElse(cachedIter, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_itemize.invokeExact(context.handle(), Interop.allocateNativeString(text), startIndex, length, attrs.handle(), cachedIter.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_itemize.invokeExact(
+                    context.handle(),
+                    Interop.allocateNativeString(text),
+                    startIndex,
+                    length,
+                    attrs.handle(),
+                    (Addressable) (cachedIter == null ? MemoryAddress.NULL : cachedIter.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1395,10 +1475,16 @@ public final class Pango {
         java.util.Objects.requireNonNull(baseDir, "Parameter 'baseDir' must not be null");
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
-        java.util.Objects.requireNonNullElse(cachedIter, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_itemize_with_base_dir.invokeExact(context.handle(), baseDir.getValue(), Interop.allocateNativeString(text), startIndex, length, attrs.handle(), cachedIter.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_itemize_with_base_dir.invokeExact(
+                    context.handle(),
+                    baseDir.getValue(),
+                    Interop.allocateNativeString(text),
+                    startIndex,
+                    length,
+                    attrs.handle(),
+                    (Addressable) (cachedIter == null ? MemoryAddress.NULL : cachedIter.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1422,10 +1508,10 @@ public final class Pango {
      * @return a {@code PangoLanguage}
      */
     public static @Nullable org.pango.Language languageFromString(@Nullable java.lang.String language) {
-        java.util.Objects.requireNonNullElse(language, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_language_from_string.invokeExact(Interop.allocateNativeString(language));
+            RESULT = (MemoryAddress) DowncallHandles.pango_language_from_string.invokeExact(
+                    (Addressable) (language == null ? MemoryAddress.NULL : Interop.allocateNativeString(language)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1531,7 +1617,10 @@ public final class Pango {
         java.util.Objects.requireNonNull(pbaseDir, "Parameter 'pbaseDir' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_log2vis_get_embedding_levels.invokeExact(Interop.allocateNativeString(text), length, new PointerInteger(pbaseDir.getValue()).handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_log2vis_get_embedding_levels.invokeExact(
+                    Interop.allocateNativeString(text),
+                    length,
+                    new PointerInteger(pbaseDir.getValue()).handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1552,26 +1641,28 @@ public final class Pango {
      * @return {@code false} if {@code error} is set, otherwise {@code true}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean markupParserFinish(@NotNull org.gtk.glib.MarkupParseContext context, @NotNull Out<org.pango.AttrList> attrList, @NotNull Out<java.lang.String> text, Out<Integer> accelChar) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean markupParserFinish(@NotNull org.gtk.glib.MarkupParseContext context, @NotNull PointerProxy<org.pango.AttrList> attrList, @NotNull Out<java.lang.String> text, Out<Integer> accelChar) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
         java.util.Objects.requireNonNull(attrList, "Parameter 'attrList' must not be null");
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         java.util.Objects.requireNonNull(accelChar, "Parameter 'accelChar' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment attrListPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment textPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment accelCharPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_markup_parser_finish.invokeExact(context.handle(), (Addressable) attrListPOINTER.address(), (Addressable) textPOINTER.address(), (Addressable) accelCharPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.pango_markup_parser_finish.invokeExact(
+                    context.handle(),
+                    attrList.handle(),
+                    (Addressable) textPOINTER.address(),
+                    (Addressable) accelCharPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        attrList.set(new org.pango.AttrList(Refcounted.get(attrListPOINTER.get(ValueLayout.ADDRESS, 0), true)));
-        text.set(textPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        text.set(Interop.getStringFrom(textPOINTER.get(ValueLayout.ADDRESS, 0)));
         accelChar.set(accelCharPOINTER.get(ValueLayout.JAVA_INT, 0));
         return RESULT != 0;
     }
@@ -1606,7 +1697,8 @@ public final class Pango {
     public static @NotNull org.gtk.glib.MarkupParseContext markupParserNew(int accelMarker) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_markup_parser_new.invokeExact(accelMarker);
+            RESULT = (MemoryAddress) DowncallHandles.pango_markup_parser_new.invokeExact(
+                    accelMarker);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1635,19 +1727,23 @@ public final class Pango {
     @Deprecated
     public static boolean parseEnum(@NotNull org.gtk.glib.Type type, @Nullable java.lang.String str, Out<Integer> value, boolean warn, @NotNull Out<java.lang.String> possibleValues) {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNullElse(str, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         java.util.Objects.requireNonNull(possibleValues, "Parameter 'possibleValues' must not be null");
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment possibleValuesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_parse_enum.invokeExact(type.getValue(), Interop.allocateNativeString(str), (Addressable) valuePOINTER.address(), warn ? 1 : 0, (Addressable) possibleValuesPOINTER.address());
+            RESULT = (int) DowncallHandles.pango_parse_enum.invokeExact(
+                    type.getValue().longValue(),
+                    (Addressable) (str == null ? MemoryAddress.NULL : Interop.allocateNativeString(str)),
+                    (Addressable) valuePOINTER.address(),
+                    warn ? 1 : 0,
+                    (Addressable) possibleValuesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(ValueLayout.JAVA_INT, 0));
-        possibleValues.set(possibleValuesPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        possibleValues.set(Interop.getStringFrom(possibleValuesPOINTER.get(ValueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -1678,26 +1774,30 @@ public final class Pango {
      * @return {@code false} if {@code error} is set, otherwise {@code true}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean parseMarkup(@NotNull java.lang.String markupText, int length, int accelMarker, @NotNull Out<org.pango.AttrList> attrList, @NotNull Out<java.lang.String> text, Out<Integer> accelChar) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean parseMarkup(@NotNull java.lang.String markupText, int length, int accelMarker, @NotNull PointerProxy<org.pango.AttrList> attrList, @NotNull Out<java.lang.String> text, Out<Integer> accelChar) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(markupText, "Parameter 'markupText' must not be null");
         java.util.Objects.requireNonNull(attrList, "Parameter 'attrList' must not be null");
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         java.util.Objects.requireNonNull(accelChar, "Parameter 'accelChar' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment attrListPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment textPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment accelCharPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_parse_markup.invokeExact(Interop.allocateNativeString(markupText), length, accelMarker, (Addressable) attrListPOINTER.address(), (Addressable) textPOINTER.address(), (Addressable) accelCharPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.pango_parse_markup.invokeExact(
+                    Interop.allocateNativeString(markupText),
+                    length,
+                    accelMarker,
+                    attrList.handle(),
+                    (Addressable) textPOINTER.address(),
+                    (Addressable) accelCharPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        attrList.set(new org.pango.AttrList(Refcounted.get(attrListPOINTER.get(ValueLayout.ADDRESS, 0), true)));
-        text.set(textPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        text.set(Interop.getStringFrom(textPOINTER.get(ValueLayout.ADDRESS, 0)));
         accelChar.set(accelCharPOINTER.get(ValueLayout.JAVA_INT, 0));
         return RESULT != 0;
     }
@@ -1721,7 +1821,10 @@ public final class Pango {
         MemorySegment stretchPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_parse_stretch.invokeExact(Interop.allocateNativeString(str), (Addressable) stretchPOINTER.address(), warn ? 1 : 0);
+            RESULT = (int) DowncallHandles.pango_parse_stretch.invokeExact(
+                    Interop.allocateNativeString(str),
+                    (Addressable) stretchPOINTER.address(),
+                    warn ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1746,7 +1849,10 @@ public final class Pango {
         MemorySegment stylePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_parse_style.invokeExact(Interop.allocateNativeString(str), (Addressable) stylePOINTER.address(), warn ? 1 : 0);
+            RESULT = (int) DowncallHandles.pango_parse_style.invokeExact(
+                    Interop.allocateNativeString(str),
+                    (Addressable) stylePOINTER.address(),
+                    warn ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1771,7 +1877,10 @@ public final class Pango {
         MemorySegment variantPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_parse_variant.invokeExact(Interop.allocateNativeString(str), (Addressable) variantPOINTER.address(), warn ? 1 : 0);
+            RESULT = (int) DowncallHandles.pango_parse_variant.invokeExact(
+                    Interop.allocateNativeString(str),
+                    (Addressable) variantPOINTER.address(),
+                    warn ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1796,7 +1905,10 @@ public final class Pango {
         MemorySegment weightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_parse_weight.invokeExact(Interop.allocateNativeString(str), (Addressable) weightPOINTER.address(), warn ? 1 : 0);
+            RESULT = (int) DowncallHandles.pango_parse_weight.invokeExact(
+                    Interop.allocateNativeString(str),
+                    (Addressable) weightPOINTER.address(),
+                    warn ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1822,7 +1934,9 @@ public final class Pango {
         MemorySegment thicknessPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment positionPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.pango_quantize_line_geometry.invokeExact((Addressable) thicknessPOINTER.address(), (Addressable) positionPOINTER.address());
+            DowncallHandles.pango_quantize_line_geometry.invokeExact(
+                    (Addressable) thicknessPOINTER.address(),
+                    (Addressable) positionPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1847,11 +1961,12 @@ public final class Pango {
      */
     @Deprecated
     public static int readLine(@Nullable java.lang.foreign.MemoryAddress stream, @NotNull org.gtk.glib.String str) {
-        java.util.Objects.requireNonNullElse(stream, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_read_line.invokeExact(stream, str.handle());
+            RESULT = (int) DowncallHandles.pango_read_line.invokeExact(
+                    (Addressable) (stream == null ? MemoryAddress.NULL : stream),
+                    str.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1876,7 +1991,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(items, "Parameter 'items' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_reorder_items.invokeExact(items.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_reorder_items.invokeExact(
+                    items.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1899,11 +2015,13 @@ public final class Pango {
         MemorySegment outPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_scan_int.invokeExact((Addressable) posPOINTER.address(), (Addressable) outPOINTER.address());
+            RESULT = (int) DowncallHandles.pango_scan_int.invokeExact(
+                    (Addressable) posPOINTER.address(),
+                    (Addressable) outPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        pos.set(posPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        pos.set(Interop.getStringFrom(posPOINTER.get(ValueLayout.ADDRESS, 0)));
         out.set(outPOINTER.get(ValueLayout.JAVA_INT, 0));
         return RESULT != 0;
     }
@@ -1925,11 +2043,13 @@ public final class Pango {
         MemorySegment posPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_scan_string.invokeExact((Addressable) posPOINTER.address(), out.handle());
+            RESULT = (int) DowncallHandles.pango_scan_string.invokeExact(
+                    (Addressable) posPOINTER.address(),
+                    out.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        pos.set(posPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        pos.set(Interop.getStringFrom(posPOINTER.get(ValueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -1949,11 +2069,13 @@ public final class Pango {
         MemorySegment posPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_scan_word.invokeExact((Addressable) posPOINTER.address(), out.handle());
+            RESULT = (int) DowncallHandles.pango_scan_word.invokeExact(
+                    (Addressable) posPOINTER.address(),
+                    out.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        pos.set(posPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        pos.set(Interop.getStringFrom(posPOINTER.get(ValueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -1978,7 +2100,8 @@ public final class Pango {
     public static @NotNull org.pango.Script scriptForUnichar(int ch) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_script_for_unichar.invokeExact(ch);
+            RESULT = (int) DowncallHandles.pango_script_for_unichar.invokeExact(
+                    ch);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2023,7 +2146,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_script_get_sample_language.invokeExact(script.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_script_get_sample_language.invokeExact(
+                    script.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2055,7 +2179,11 @@ public final class Pango {
         java.util.Objects.requireNonNull(analysis, "Parameter 'analysis' must not be null");
         java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
         try {
-            DowncallHandles.pango_shape.invokeExact(Interop.allocateNativeString(text), length, analysis.handle(), glyphs.handle());
+            DowncallHandles.pango_shape.invokeExact(
+                    Interop.allocateNativeString(text),
+                    length,
+                    analysis.handle(),
+                    glyphs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2088,11 +2216,16 @@ public final class Pango {
      */
     public static void shapeFull(@NotNull java.lang.String itemText, int itemLength, @Nullable java.lang.String paragraphText, int paragraphLength, @NotNull org.pango.Analysis analysis, @NotNull org.pango.GlyphString glyphs) {
         java.util.Objects.requireNonNull(itemText, "Parameter 'itemText' must not be null");
-        java.util.Objects.requireNonNullElse(paragraphText, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(analysis, "Parameter 'analysis' must not be null");
         java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
         try {
-            DowncallHandles.pango_shape_full.invokeExact(Interop.allocateNativeString(itemText), itemLength, Interop.allocateNativeString(paragraphText), paragraphLength, analysis.handle(), glyphs.handle());
+            DowncallHandles.pango_shape_full.invokeExact(
+                    Interop.allocateNativeString(itemText),
+                    itemLength,
+                    (Addressable) (paragraphText == null ? MemoryAddress.NULL : Interop.allocateNativeString(paragraphText)),
+                    paragraphLength,
+                    analysis.handle(),
+                    glyphs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2121,12 +2254,16 @@ public final class Pango {
      */
     public static void shapeItem(@NotNull org.pango.Item item, @Nullable java.lang.String paragraphText, int paragraphLength, @Nullable org.pango.LogAttr logAttrs, @NotNull org.pango.GlyphString glyphs, @NotNull org.pango.ShapeFlags flags) {
         java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
-        java.util.Objects.requireNonNullElse(paragraphText, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(logAttrs, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            DowncallHandles.pango_shape_item.invokeExact(item.handle(), Interop.allocateNativeString(paragraphText), paragraphLength, logAttrs.handle(), glyphs.handle(), flags.getValue());
+            DowncallHandles.pango_shape_item.invokeExact(
+                    item.handle(),
+                    (Addressable) (paragraphText == null ? MemoryAddress.NULL : Interop.allocateNativeString(paragraphText)),
+                    paragraphLength,
+                    (Addressable) (logAttrs == null ? MemoryAddress.NULL : logAttrs.handle()),
+                    glyphs.handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2159,12 +2296,18 @@ public final class Pango {
      */
     public static void shapeWithFlags(@NotNull java.lang.String itemText, int itemLength, @Nullable java.lang.String paragraphText, int paragraphLength, @NotNull org.pango.Analysis analysis, @NotNull org.pango.GlyphString glyphs, @NotNull org.pango.ShapeFlags flags) {
         java.util.Objects.requireNonNull(itemText, "Parameter 'itemText' must not be null");
-        java.util.Objects.requireNonNullElse(paragraphText, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(analysis, "Parameter 'analysis' must not be null");
         java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            DowncallHandles.pango_shape_with_flags.invokeExact(Interop.allocateNativeString(itemText), itemLength, Interop.allocateNativeString(paragraphText), paragraphLength, analysis.handle(), glyphs.handle(), flags.getValue());
+            DowncallHandles.pango_shape_with_flags.invokeExact(
+                    Interop.allocateNativeString(itemText),
+                    itemLength,
+                    (Addressable) (paragraphText == null ? MemoryAddress.NULL : Interop.allocateNativeString(paragraphText)),
+                    paragraphLength,
+                    analysis.handle(),
+                    glyphs.handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2182,11 +2325,12 @@ public final class Pango {
         MemorySegment posPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_skip_space.invokeExact((Addressable) posPOINTER.address());
+            RESULT = (int) DowncallHandles.pango_skip_space.invokeExact(
+                    (Addressable) posPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        pos.set(posPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        pos.set(Interop.getStringFrom(posPOINTER.get(ValueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -2202,7 +2346,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_split_file_list.invokeExact(Interop.allocateNativeString(str));
+            RESULT = (MemoryAddress) DowncallHandles.pango_split_file_list.invokeExact(
+                    Interop.allocateNativeString(str));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2221,7 +2366,8 @@ public final class Pango {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_tab_array_from_string.invokeExact(Interop.allocateNativeString(text));
+            RESULT = (MemoryAddress) DowncallHandles.pango_tab_array_from_string.invokeExact(
+                    Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2252,7 +2398,13 @@ public final class Pango {
         java.util.Objects.requireNonNull(analysis, "Parameter 'analysis' must not be null");
         java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
         try {
-            DowncallHandles.pango_tailor_break.invokeExact(Interop.allocateNativeString(text), length, analysis.handle(), offset, Interop.allocateNativeArray(attrs, false), attrsLen);
+            DowncallHandles.pango_tailor_break.invokeExact(
+                    Interop.allocateNativeString(text),
+                    length,
+                    analysis.handle(),
+                    offset,
+                    Interop.allocateNativeArray(attrs, false),
+                    attrsLen);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2268,11 +2420,12 @@ public final class Pango {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_trim_string.invokeExact(Interop.allocateNativeString(str));
+            RESULT = (MemoryAddress) DowncallHandles.pango_trim_string.invokeExact(
+                    Interop.allocateNativeString(str));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -2291,7 +2444,8 @@ public final class Pango {
     public static @NotNull org.pango.Direction unicharDirection(int ch) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_unichar_direction.invokeExact(ch);
+            RESULT = (int) DowncallHandles.pango_unichar_direction.invokeExact(
+                    ch);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2309,7 +2463,8 @@ public final class Pango {
     public static int unitsFromDouble(double d) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_units_from_double.invokeExact(d);
+            RESULT = (int) DowncallHandles.pango_units_from_double.invokeExact(
+                    d);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2326,7 +2481,8 @@ public final class Pango {
     public static double unitsToDouble(int i) {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.pango_units_to_double.invokeExact(i);
+            RESULT = (double) DowncallHandles.pango_units_to_double.invokeExact(
+                    i);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2380,11 +2536,14 @@ public final class Pango {
     public static @Nullable java.lang.String versionCheck(int requiredMajor, int requiredMinor, int requiredMicro) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_version_check.invokeExact(requiredMajor, requiredMinor, requiredMicro);
+            RESULT = (MemoryAddress) DowncallHandles.pango_version_check.invokeExact(
+                    requiredMajor,
+                    requiredMinor,
+                    requiredMicro);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -2403,7 +2562,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     private static class DowncallHandles {

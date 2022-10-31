@@ -14,22 +14,139 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GNode";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("data"),
-        org.gtk.glib.Node.getMemoryLayout().withName("next"),
-        org.gtk.glib.Node.getMemoryLayout().withName("prev"),
-        org.gtk.glib.Node.getMemoryLayout().withName("parent"),
-        org.gtk.glib.Node.getMemoryLayout().withName("children")
-    ).withName("GNode");
+        Interop.valueLayout.ADDRESS.withName("next"),
+        Interop.valueLayout.ADDRESS.withName("prev"),
+        Interop.valueLayout.ADDRESS.withName("parent"),
+        Interop.valueLayout.ADDRESS.withName("children")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Node allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Node newInstance = new Node(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code data}
+     * @return The value of the field {@code data}
+     */
+    public java.lang.foreign.MemoryAddress data$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code data}
+     * @param data The new value of the field {@code data}
+     */
+    public void data$set(java.lang.foreign.MemoryAddress data) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), data);
+    }
+    
+    /**
+     * Get the value of the field {@code next}
+     * @return The value of the field {@code next}
+     */
+    public org.gtk.glib.Node next$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("next"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.glib.Node(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Change the value of the field {@code next}
+     * @param next The new value of the field {@code next}
+     */
+    public void next$set(org.gtk.glib.Node next) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("next"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), next.handle());
+    }
+    
+    /**
+     * Get the value of the field {@code prev}
+     * @return The value of the field {@code prev}
+     */
+    public org.gtk.glib.Node prev$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("prev"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.glib.Node(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Change the value of the field {@code prev}
+     * @param prev The new value of the field {@code prev}
+     */
+    public void prev$set(org.gtk.glib.Node prev) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("prev"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), prev.handle());
+    }
+    
+    /**
+     * Get the value of the field {@code parent}
+     * @return The value of the field {@code parent}
+     */
+    public org.gtk.glib.Node parent$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.glib.Node(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Change the value of the field {@code parent}
+     * @param parent The new value of the field {@code parent}
+     */
+    public void parent$set(org.gtk.glib.Node parent) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), parent.handle());
+    }
+    
+    /**
+     * Get the value of the field {@code children}
+     * @return The value of the field {@code children}
+     */
+    public org.gtk.glib.Node children$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("children"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.glib.Node(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Change the value of the field {@code children}
+     * @param children The new value of the field {@code children}
+     */
+    public void children$set(org.gtk.glib.Node children) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("children"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), children.handle());
+    }
+    
+    @ApiStatus.Internal
     public Node(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -44,7 +161,9 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     public int childIndex(@Nullable java.lang.foreign.MemoryAddress data) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_node_child_index.invokeExact(handle(), data);
+            RESULT = (int) DowncallHandles.g_node_child_index.invokeExact(
+                    handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -62,7 +181,9 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_node_child_position.invokeExact(handle(), child.handle());
+            RESULT = (int) DowncallHandles.g_node_child_position.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -81,13 +202,15 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.g_node_children_foreach.invokeExact(handle(), flags.getValue(), 
+            DowncallHandles.g_node_children_foreach.invokeExact(
+                    handle(),
+                    flags.getValue(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbNodeForeachFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -101,7 +224,8 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Node copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_node_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_node_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,13 +242,14 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(copyFunc, "Parameter 'copyFunc' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_node_copy_deep.invokeExact(handle(), 
+            RESULT = (MemoryAddress) DowncallHandles.g_node_copy_deep.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(copyFunc)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(copyFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,7 +266,8 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     public int depth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_node_depth.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_node_depth.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,7 +280,8 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      */
     public void destroy() {
         try {
-            DowncallHandles.g_node_destroy.invokeExact(handle());
+            DowncallHandles.g_node_destroy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,7 +301,11 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_node_find.invokeExact(handle(), order.getValue(), flags.getValue(), data);
+            RESULT = (MemoryAddress) DowncallHandles.g_node_find.invokeExact(
+                    handle(),
+                    order.getValue(),
+                    flags.getValue(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -192,7 +323,10 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_node_find_child.invokeExact(handle(), flags.getValue(), data);
+            RESULT = (MemoryAddress) DowncallHandles.g_node_find_child.invokeExact(
+                    handle(),
+                    flags.getValue(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -207,7 +341,8 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Node firstSibling() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_node_first_sibling.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_node_first_sibling.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -221,7 +356,8 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Node getRoot() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_node_get_root.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_node_get_root.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -239,7 +375,10 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(node, "Parameter 'node' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_node_insert.invokeExact(handle(), position, node.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_node_insert.invokeExact(
+                    handle(),
+                    position,
+                    node.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -258,7 +397,10 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(node, "Parameter 'node' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_node_insert_after.invokeExact(handle(), sibling.handle(), node.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_node_insert_after.invokeExact(
+                    handle(),
+                    sibling.handle(),
+                    node.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -277,7 +419,10 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(node, "Parameter 'node' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_node_insert_before.invokeExact(handle(), sibling.handle(), node.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_node_insert_before.invokeExact(
+                    handle(),
+                    sibling.handle(),
+                    node.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -295,7 +440,9 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(descendant, "Parameter 'descendant' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_node_is_ancestor.invokeExact(handle(), descendant.handle());
+            RESULT = (int) DowncallHandles.g_node_is_ancestor.invokeExact(
+                    handle(),
+                    descendant.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -309,7 +456,8 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Node lastChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_node_last_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_node_last_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -324,7 +472,8 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Node lastSibling() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_node_last_sibling.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_node_last_sibling.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -342,7 +491,8 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     public int maxHeight() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_node_max_height.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_node_max_height.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -356,7 +506,8 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     public int nChildren() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_node_n_children.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_node_n_children.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -373,7 +524,9 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_node_n_nodes.invokeExact(handle(), flags.getValue());
+            RESULT = (int) DowncallHandles.g_node_n_nodes.invokeExact(
+                    handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -390,7 +543,9 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Node nthChild(int n) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_node_nth_child.invokeExact(handle(), n);
+            RESULT = (MemoryAddress) DowncallHandles.g_node_nth_child.invokeExact(
+                    handle(),
+                    n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -406,7 +561,9 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(node, "Parameter 'node' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_node_prepend.invokeExact(handle(), node.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_node_prepend.invokeExact(
+                    handle(),
+                    node.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -419,7 +576,8 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      */
     public void reverseChildren() {
         try {
-            DowncallHandles.g_node_reverse_children.invokeExact(handle());
+            DowncallHandles.g_node_reverse_children.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -445,13 +603,17 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.g_node_traverse.invokeExact(handle(), order.getValue(), flags.getValue(), maxDepth, 
+            DowncallHandles.g_node_traverse.invokeExact(
+                    handle(),
+                    order.getValue(),
+                    flags.getValue(),
+                    maxDepth,
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbNodeTraverseFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -462,7 +624,8 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unlink() {
         try {
-            DowncallHandles.g_node_unlink.invokeExact(handle());
+            DowncallHandles.g_node_unlink.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -477,7 +640,8 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     public static @NotNull org.gtk.glib.Node new_(@Nullable java.lang.foreign.MemoryAddress data) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_node_new.invokeExact(data);
+            RESULT = (MemoryAddress) DowncallHandles.g_node_new.invokeExact(
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

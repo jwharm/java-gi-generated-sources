@@ -15,13 +15,7 @@ import org.jetbrains.annotations.*;
  */
 public class BidiType extends io.github.jwharm.javagi.Enumeration {
     
-    /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
-     */
-    public static MemoryLayout getMemoryLayout() {
-        return Interop.valueLayout.ADDRESS;
-    }
+    private static final java.lang.String C_TYPE_NAME = "PangoBidiType";
     
     /**
      * Left-to-Right
@@ -155,7 +149,8 @@ public class BidiType extends io.github.jwharm.javagi.Enumeration {
     public static @NotNull org.pango.BidiType forUnichar(int ch) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_bidi_type_for_unichar.invokeExact(ch);
+            RESULT = (int) DowncallHandles.pango_bidi_type_for_unichar.invokeExact(
+                    ch);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

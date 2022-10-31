@@ -7,13 +7,7 @@ import org.jetbrains.annotations.*;
 
 public class SurfaceType extends io.github.jwharm.javagi.Enumeration {
     
-    /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
-     */
-    public static MemoryLayout getMemoryLayout() {
-        return Interop.valueLayout.ADDRESS;
-    }
+    private static final java.lang.String C_TYPE_NAME = "cairo_surface_type_t";
     
     public static final SurfaceType IMAGE = new SurfaceType(0);
     

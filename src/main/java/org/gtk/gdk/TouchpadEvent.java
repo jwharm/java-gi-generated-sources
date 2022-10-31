@@ -19,21 +19,34 @@ public class TouchpadEvent extends org.gtk.gdk.Event {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkTouchpadEvent";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public TouchpadEvent(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TouchpadEvent */
+    /**
+     * Cast object to TouchpadEvent if its GType is a (or inherits from) "GdkTouchpadEvent".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TouchpadEvent" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkTouchpadEvent", a ClassCastException will be thrown.
+     */
     public static TouchpadEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new TouchpadEvent(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkTouchpadEvent"))) {
+            return new TouchpadEvent(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkTouchpadEvent");
+        }
     }
     
     /**
@@ -47,7 +60,10 @@ public class TouchpadEvent extends org.gtk.gdk.Event {
         MemorySegment dxPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         MemorySegment dyPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         try {
-            DowncallHandles.gdk_touchpad_event_get_deltas.invokeExact(handle(), (Addressable) dxPOINTER.address(), (Addressable) dyPOINTER.address());
+            DowncallHandles.gdk_touchpad_event_get_deltas.invokeExact(
+                    handle(),
+                    (Addressable) dxPOINTER.address(),
+                    (Addressable) dyPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -62,7 +78,8 @@ public class TouchpadEvent extends org.gtk.gdk.Event {
     public @NotNull org.gtk.gdk.TouchpadGesturePhase getGesturePhase() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_touchpad_event_get_gesture_phase.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_touchpad_event_get_gesture_phase.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,7 +93,8 @@ public class TouchpadEvent extends org.gtk.gdk.Event {
     public int getNFingers() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_touchpad_event_get_n_fingers.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_touchpad_event_get_n_fingers.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +108,8 @@ public class TouchpadEvent extends org.gtk.gdk.Event {
     public double getPinchAngleDelta() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gdk_touchpad_event_get_pinch_angle_delta.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gdk_touchpad_event_get_pinch_angle_delta.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,7 +123,8 @@ public class TouchpadEvent extends org.gtk.gdk.Event {
     public double getPinchScale() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gdk_touchpad_event_get_pinch_scale.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gdk_touchpad_event_get_pinch_scale.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

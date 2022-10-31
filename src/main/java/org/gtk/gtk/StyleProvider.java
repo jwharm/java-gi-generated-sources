@@ -18,6 +18,21 @@ import org.jetbrains.annotations.*;
  */
 public interface StyleProvider extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * Cast object to StyleProvider if its GType is a (or inherits from) "GtkStyleProvider".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "StyleProvider" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkStyleProvider", a ClassCastException will be thrown.
+     */
+    public static StyleProvider castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkStyleProvider"))) {
+            return new StyleProviderImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkStyleProvider");
+        }
+    }
+    
     @FunctionalInterface
     public interface GtkPrivateChanged {
         void signalReceived(StyleProvider source);

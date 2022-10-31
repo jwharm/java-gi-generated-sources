@@ -14,29 +14,47 @@ public class GLTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Painta
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkGLTexture";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public GLTexture(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to GLTexture */
+    /**
+     * Cast object to GLTexture if its GType is a (or inherits from) "GdkGLTexture".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "GLTexture" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkGLTexture", a ClassCastException will be thrown.
+     */
     public static GLTexture castFrom(org.gtk.gobject.Object gobject) {
-        return new GLTexture(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkGLTexture"))) {
+            return new GLTexture(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkGLTexture");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gdk.GLContext context, int id, int width, int height, @NotNull org.gtk.glib.DestroyNotify destroy, @Nullable java.lang.foreign.MemoryAddress data) {
         java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_gl_texture_new.invokeExact(context.handle(), id, width, height, 
-                    Interop.cbDestroyNotifySymbol(), data), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_gl_texture_new.invokeExact(
+                    context.handle(),
+                    id,
+                    width,
+                    height,
+                    Interop.cbDestroyNotifySymbol(),
+                    data), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,7 +88,8 @@ public class GLTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Painta
      */
     public void release() {
         try {
-            DowncallHandles.gdk_gl_texture_release.invokeExact(handle());
+            DowncallHandles.gdk_gl_texture_release.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

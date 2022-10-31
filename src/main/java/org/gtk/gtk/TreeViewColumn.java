@@ -23,21 +23,34 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkTreeViewColumn";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public TreeViewColumn(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TreeViewColumn */
+    /**
+     * Cast object to TreeViewColumn if its GType is a (or inherits from) "GtkTreeViewColumn".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TreeViewColumn" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkTreeViewColumn", a ClassCastException will be thrown.
+     */
     public static TreeViewColumn castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeViewColumn(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeViewColumn"))) {
+            return new TreeViewColumn(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTreeViewColumn");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -61,7 +74,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         java.util.Objects.requireNonNull(area, "Parameter 'area' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_view_column_new_with_area.invokeExact(area.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_view_column_new_with_area.invokeExact(
+                    area.handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,7 +141,11 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         java.util.Objects.requireNonNull(cellRenderer, "Parameter 'cellRenderer' must not be null");
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         try {
-            DowncallHandles.gtk_tree_view_column_add_attribute.invokeExact(handle(), cellRenderer.handle(), Interop.allocateNativeString(attribute), column);
+            DowncallHandles.gtk_tree_view_column_add_attribute.invokeExact(
+                    handle(),
+                    cellRenderer.handle(),
+                    Interop.allocateNativeString(attribute),
+                    column);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,7 +170,11 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_column_cell_get_position.invokeExact(handle(), cellRenderer.handle(), (Addressable) xOffsetPOINTER.address(), (Addressable) widthPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_tree_view_column_cell_get_position.invokeExact(
+                    handle(),
+                    cellRenderer.handle(),
+                    (Addressable) xOffsetPOINTER.address(),
+                    (Addressable) widthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -179,7 +201,12 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_tree_view_column_cell_get_size.invokeExact(handle(), (Addressable) xOffsetPOINTER.address(), (Addressable) yOffsetPOINTER.address(), (Addressable) widthPOINTER.address(), (Addressable) heightPOINTER.address());
+            DowncallHandles.gtk_tree_view_column_cell_get_size.invokeExact(
+                    handle(),
+                    (Addressable) xOffsetPOINTER.address(),
+                    (Addressable) yOffsetPOINTER.address(),
+                    (Addressable) widthPOINTER.address(),
+                    (Addressable) heightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -198,7 +225,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public boolean cellIsVisible() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_column_cell_is_visible.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_column_cell_is_visible.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,7 +247,12 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         java.util.Objects.requireNonNull(treeModel, "Parameter 'treeModel' must not be null");
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         try {
-            DowncallHandles.gtk_tree_view_column_cell_set_cell_data.invokeExact(handle(), treeModel.handle(), iter.handle(), isExpander ? 1 : 0, isExpanded ? 1 : 0);
+            DowncallHandles.gtk_tree_view_column_cell_set_cell_data.invokeExact(
+                    handle(),
+                    treeModel.handle(),
+                    iter.handle(),
+                    isExpander ? 1 : 0,
+                    isExpanded ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,7 +263,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public void clear() {
         try {
-            DowncallHandles.gtk_tree_view_column_clear.invokeExact(handle());
+            DowncallHandles.gtk_tree_view_column_clear.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -244,7 +278,9 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public void clearAttributes(@NotNull org.gtk.gtk.CellRenderer cellRenderer) {
         java.util.Objects.requireNonNull(cellRenderer, "Parameter 'cellRenderer' must not be null");
         try {
-            DowncallHandles.gtk_tree_view_column_clear_attributes.invokeExact(handle(), cellRenderer.handle());
+            DowncallHandles.gtk_tree_view_column_clear_attributes.invokeExact(
+                    handle(),
+                    cellRenderer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -256,7 +292,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public void clicked() {
         try {
-            DowncallHandles.gtk_tree_view_column_clicked.invokeExact(handle());
+            DowncallHandles.gtk_tree_view_column_clicked.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -270,7 +307,9 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public void focusCell(@NotNull org.gtk.gtk.CellRenderer cell) {
         java.util.Objects.requireNonNull(cell, "Parameter 'cell' must not be null");
         try {
-            DowncallHandles.gtk_tree_view_column_focus_cell.invokeExact(handle(), cell.handle());
+            DowncallHandles.gtk_tree_view_column_focus_cell.invokeExact(
+                    handle(),
+                    cell.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -284,7 +323,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public float getAlignment() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gtk_tree_view_column_get_alignment.invokeExact(handle());
+            RESULT = (float) DowncallHandles.gtk_tree_view_column_get_alignment.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -298,7 +338,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public @NotNull org.gtk.gtk.Widget getButton() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_column_get_button.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_column_get_button.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -312,7 +353,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public boolean getClickable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_clickable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_clickable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -326,7 +368,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public boolean getExpand() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_expand.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_expand.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -341,7 +384,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public int getFixedWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_fixed_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_fixed_width.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -356,7 +400,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public int getMaxWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_max_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_max_width.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -371,7 +416,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public int getMinWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_min_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_min_width.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -385,7 +431,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public boolean getReorderable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_reorderable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_reorderable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -399,7 +446,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public boolean getResizable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_resizable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_resizable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -413,7 +461,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public @NotNull org.gtk.gtk.TreeViewColumnSizing getSizing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_sizing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_sizing.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -431,7 +480,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public int getSortColumnId() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_sort_column_id.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_sort_column_id.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -445,7 +495,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public boolean getSortIndicator() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_sort_indicator.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_sort_indicator.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -459,7 +510,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public @NotNull org.gtk.gtk.SortType getSortOrder() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_sort_order.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_sort_order.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -473,7 +525,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public int getSpacing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_spacing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_spacing.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -488,11 +541,12 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public @NotNull java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_column_get_title.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_column_get_title.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -505,7 +559,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public @Nullable org.gtk.gtk.Widget getTreeView() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_column_get_tree_view.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_column_get_tree_view.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -520,7 +575,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public boolean getVisible() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_visible.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_visible.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -536,7 +592,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public @Nullable org.gtk.gtk.Widget getWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_column_get_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_column_get_widget.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -550,7 +607,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public int getWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_width.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -564,7 +622,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public int getXOffset() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_x_offset.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_column_get_x_offset.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -581,7 +640,10 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public void packEnd(@NotNull org.gtk.gtk.CellRenderer cell, boolean expand) {
         java.util.Objects.requireNonNull(cell, "Parameter 'cell' must not be null");
         try {
-            DowncallHandles.gtk_tree_view_column_pack_end.invokeExact(handle(), cell.handle(), expand ? 1 : 0);
+            DowncallHandles.gtk_tree_view_column_pack_end.invokeExact(
+                    handle(),
+                    cell.handle(),
+                    expand ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -597,7 +659,10 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public void packStart(@NotNull org.gtk.gtk.CellRenderer cell, boolean expand) {
         java.util.Objects.requireNonNull(cell, "Parameter 'cell' must not be null");
         try {
-            DowncallHandles.gtk_tree_view_column_pack_start.invokeExact(handle(), cell.handle(), expand ? 1 : 0);
+            DowncallHandles.gtk_tree_view_column_pack_start.invokeExact(
+                    handle(),
+                    cell.handle(),
+                    expand ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -609,7 +674,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public void queueResize() {
         try {
-            DowncallHandles.gtk_tree_view_column_queue_resize.invokeExact(handle());
+            DowncallHandles.gtk_tree_view_column_queue_resize.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -623,7 +689,9 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public void setAlignment(float xalign) {
         try {
-            DowncallHandles.gtk_tree_view_column_set_alignment.invokeExact(handle(), xalign);
+            DowncallHandles.gtk_tree_view_column_set_alignment.invokeExact(
+                    handle(),
+                    xalign);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -654,15 +722,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public void setCellDataFunc(@NotNull org.gtk.gtk.CellRenderer cellRenderer, @Nullable org.gtk.gtk.TreeCellDataFunc func) {
         java.util.Objects.requireNonNull(cellRenderer, "Parameter 'cellRenderer' must not be null");
-        java.util.Objects.requireNonNullElse(func, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_tree_view_column_set_cell_data_func.invokeExact(handle(), cellRenderer.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gtk_tree_view_column_set_cell_data_func.invokeExact(
+                    handle(),
+                    cellRenderer.handle(),
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTreeCellDataFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)), 
+                        Interop.getScope())),
+                    (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -676,7 +745,9 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public void setClickable(boolean clickable) {
         try {
-            DowncallHandles.gtk_tree_view_column_set_clickable.invokeExact(handle(), clickable ? 1 : 0);
+            DowncallHandles.gtk_tree_view_column_set_clickable.invokeExact(
+                    handle(),
+                    clickable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -694,7 +765,9 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public void setExpand(boolean expand) {
         try {
-            DowncallHandles.gtk_tree_view_column_set_expand.invokeExact(handle(), expand ? 1 : 0);
+            DowncallHandles.gtk_tree_view_column_set_expand.invokeExact(
+                    handle(),
+                    expand ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -716,7 +789,9 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public void setFixedWidth(int fixedWidth) {
         try {
-            DowncallHandles.gtk_tree_view_column_set_fixed_width.invokeExact(handle(), fixedWidth);
+            DowncallHandles.gtk_tree_view_column_set_fixed_width.invokeExact(
+                    handle(),
+                    fixedWidth);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -731,7 +806,9 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public void setMaxWidth(int maxWidth) {
         try {
-            DowncallHandles.gtk_tree_view_column_set_max_width.invokeExact(handle(), maxWidth);
+            DowncallHandles.gtk_tree_view_column_set_max_width.invokeExact(
+                    handle(),
+                    maxWidth);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -744,7 +821,9 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public void setMinWidth(int minWidth) {
         try {
-            DowncallHandles.gtk_tree_view_column_set_min_width.invokeExact(handle(), minWidth);
+            DowncallHandles.gtk_tree_view_column_set_min_width.invokeExact(
+                    handle(),
+                    minWidth);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -757,7 +836,9 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public void setReorderable(boolean reorderable) {
         try {
-            DowncallHandles.gtk_tree_view_column_set_reorderable.invokeExact(handle(), reorderable ? 1 : 0);
+            DowncallHandles.gtk_tree_view_column_set_reorderable.invokeExact(
+                    handle(),
+                    reorderable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -774,7 +855,9 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public void setResizable(boolean resizable) {
         try {
-            DowncallHandles.gtk_tree_view_column_set_resizable.invokeExact(handle(), resizable ? 1 : 0);
+            DowncallHandles.gtk_tree_view_column_set_resizable.invokeExact(
+                    handle(),
+                    resizable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -787,7 +870,9 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public void setSizing(@NotNull org.gtk.gtk.TreeViewColumnSizing type) {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         try {
-            DowncallHandles.gtk_tree_view_column_set_sizing.invokeExact(handle(), type.getValue());
+            DowncallHandles.gtk_tree_view_column_set_sizing.invokeExact(
+                    handle(),
+                    type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -800,7 +885,9 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public void setSortColumnId(int sortColumnId) {
         try {
-            DowncallHandles.gtk_tree_view_column_set_sort_column_id.invokeExact(handle(), sortColumnId);
+            DowncallHandles.gtk_tree_view_column_set_sort_column_id.invokeExact(
+                    handle(),
+                    sortColumnId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -815,7 +902,9 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public void setSortIndicator(boolean setting) {
         try {
-            DowncallHandles.gtk_tree_view_column_set_sort_indicator.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_tree_view_column_set_sort_indicator.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -838,7 +927,9 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public void setSortOrder(@NotNull org.gtk.gtk.SortType order) {
         java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
         try {
-            DowncallHandles.gtk_tree_view_column_set_sort_order.invokeExact(handle(), order.getValue());
+            DowncallHandles.gtk_tree_view_column_set_sort_order.invokeExact(
+                    handle(),
+                    order.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -851,7 +942,9 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public void setSpacing(int spacing) {
         try {
-            DowncallHandles.gtk_tree_view_column_set_spacing.invokeExact(handle(), spacing);
+            DowncallHandles.gtk_tree_view_column_set_spacing.invokeExact(
+                    handle(),
+                    spacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -865,7 +958,9 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public void setTitle(@NotNull java.lang.String title) {
         java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
         try {
-            DowncallHandles.gtk_tree_view_column_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
+            DowncallHandles.gtk_tree_view_column_set_title.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -877,7 +972,9 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public void setVisible(boolean visible) {
         try {
-            DowncallHandles.gtk_tree_view_column_set_visible.invokeExact(handle(), visible ? 1 : 0);
+            DowncallHandles.gtk_tree_view_column_set_visible.invokeExact(
+                    handle(),
+                    visible ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -889,9 +986,10 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * @param widget A child {@code GtkWidget}
      */
     public void setWidget(@Nullable org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNullElse(widget, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_tree_view_column_set_widget.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_tree_view_column_set_widget.invokeExact(
+                    handle(),
+                    (Addressable) (widget == null ? MemoryAddress.NULL : widget.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

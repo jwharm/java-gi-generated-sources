@@ -18,25 +18,47 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoFontMap";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName("PangoFontMap");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public FontMap(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to FontMap */
+    /**
+     * Cast object to FontMap if its GType is a (or inherits from) "PangoFontMap".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "FontMap" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "PangoFontMap", a ClassCastException will be thrown.
+     */
     public static FontMap castFrom(org.gtk.gobject.Object gobject) {
-        return new FontMap(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoFontMap"))) {
+            return new FontMap(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of PangoFontMap");
+        }
     }
     
     /**
@@ -50,7 +72,8 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      */
     public void changed() {
         try {
-            DowncallHandles.pango_font_map_changed.invokeExact(handle());
+            DowncallHandles.pango_font_map_changed.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -72,7 +95,8 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
     public @NotNull org.pango.Context createContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_map_create_context.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_map_create_context.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,7 +112,9 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_map_get_family.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_map_get_family.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -113,7 +139,8 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
     public int getSerial() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_map_get_serial.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_font_map_get_serial.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,7 +165,10 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
         MemorySegment familiesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment nFamiliesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.pango_font_map_list_families.invokeExact(handle(), (Addressable) familiesPOINTER.address(), (Addressable) nFamiliesPOINTER.address());
+            DowncallHandles.pango_font_map_list_families.invokeExact(
+                    handle(),
+                    (Addressable) familiesPOINTER.address(),
+                    (Addressable) nFamiliesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -163,7 +193,10 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
         java.util.Objects.requireNonNull(desc, "Parameter 'desc' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_map_load_font.invokeExact(handle(), context.handle(), desc.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_map_load_font.invokeExact(
+                    handle(),
+                    context.handle(),
+                    desc.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,7 +218,11 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
         java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_map_load_fontset.invokeExact(handle(), context.handle(), desc.handle(), language.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_map_load_fontset.invokeExact(
+                    handle(),
+                    context.handle(),
+                    desc.handle(),
+                    language.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -20,28 +20,42 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GThemedIcon";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ThemedIcon(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ThemedIcon */
+    /**
+     * Cast object to ThemedIcon if its GType is a (or inherits from) "GThemedIcon".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ThemedIcon" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GThemedIcon", a ClassCastException will be thrown.
+     */
     public static ThemedIcon castFrom(org.gtk.gobject.Object gobject) {
-        return new ThemedIcon(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GThemedIcon"))) {
+            return new ThemedIcon(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GThemedIcon");
+        }
     }
     
     private static Refcounted constructNew(@NotNull java.lang.String iconname) {
         java.util.Objects.requireNonNull(iconname, "Parameter 'iconname' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_themed_icon_new.invokeExact(Interop.allocateNativeString(iconname)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_themed_icon_new.invokeExact(
+                    Interop.allocateNativeString(iconname)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -60,7 +74,9 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
         java.util.Objects.requireNonNull(iconnames, "Parameter 'iconnames' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_themed_icon_new_from_names.invokeExact(Interop.allocateNativeArray(iconnames, false), len), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_themed_icon_new_from_names.invokeExact(
+                    Interop.allocateNativeArray(iconnames, false),
+                    len), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +98,8 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
         java.util.Objects.requireNonNull(iconname, "Parameter 'iconname' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_themed_icon_new_with_default_fallbacks.invokeExact(Interop.allocateNativeString(iconname)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_themed_icon_new_with_default_fallbacks.invokeExact(
+                    Interop.allocateNativeString(iconname)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -122,7 +139,9 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
     public void appendName(@NotNull java.lang.String iconname) {
         java.util.Objects.requireNonNull(iconname, "Parameter 'iconname' must not be null");
         try {
-            DowncallHandles.g_themed_icon_append_name.invokeExact(handle(), Interop.allocateNativeString(iconname));
+            DowncallHandles.g_themed_icon_append_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(iconname));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,7 +154,8 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
     public @NotNull PointerString getNames() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_themed_icon_get_names.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_themed_icon_get_names.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,7 +172,9 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
     public void prependName(@NotNull java.lang.String iconname) {
         java.util.Objects.requireNonNull(iconname, "Parameter 'iconname' must not be null");
         try {
-            DowncallHandles.g_themed_icon_prepend_name.invokeExact(handle(), Interop.allocateNativeString(iconname));
+            DowncallHandles.g_themed_icon_prepend_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(iconname));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

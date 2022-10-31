@@ -14,14 +14,26 @@ public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase 
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkBuildableParseContext";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static BuildableParseContext allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        BuildableParseContext newInstance = new BuildableParseContext(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public BuildableParseContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -37,11 +49,12 @@ public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase 
     public @Nullable java.lang.String getElement() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_buildable_parse_context_get_element.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_buildable_parse_context_get_element.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -61,7 +74,8 @@ public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase 
     public @NotNull PointerString getElementStack() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_buildable_parse_context_get_element_stack.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_buildable_parse_context_get_element_stack.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +96,10 @@ public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase 
         MemorySegment lineNumberPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment charNumberPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_buildable_parse_context_get_position.invokeExact(handle(), (Addressable) lineNumberPOINTER.address(), (Addressable) charNumberPOINTER.address());
+            DowncallHandles.gtk_buildable_parse_context_get_position.invokeExact(
+                    handle(),
+                    (Addressable) lineNumberPOINTER.address(),
+                    (Addressable) charNumberPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,7 +126,8 @@ public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase 
     public @Nullable java.lang.foreign.MemoryAddress pop() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_buildable_parse_context_pop.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_buildable_parse_context_pop.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,7 +170,10 @@ public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase 
     public void push(@NotNull org.gtk.gtk.BuildableParser parser, @Nullable java.lang.foreign.MemoryAddress userData) {
         java.util.Objects.requireNonNull(parser, "Parameter 'parser' must not be null");
         try {
-            DowncallHandles.gtk_buildable_parse_context_push.invokeExact(handle(), parser.handle(), userData);
+            DowncallHandles.gtk_buildable_parse_context_push.invokeExact(
+                    handle(),
+                    parser.handle(),
+                    userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

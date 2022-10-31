@@ -20,28 +20,41 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkSingleSelection";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public SingleSelection(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to SingleSelection */
+    /**
+     * Cast object to SingleSelection if its GType is a (or inherits from) "GtkSingleSelection".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "SingleSelection" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkSingleSelection", a ClassCastException will be thrown.
+     */
     public static SingleSelection castFrom(org.gtk.gobject.Object gobject) {
-        return new SingleSelection(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSingleSelection"))) {
+            return new SingleSelection(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkSingleSelection");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gio.ListModel model) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_single_selection_new.invokeExact(model.refcounted().unowned().handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_single_selection_new.invokeExact(
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.refcounted().unowned().handle())), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,7 +77,8 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     public boolean getAutoselect() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_single_selection_get_autoselect.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_single_selection_get_autoselect.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,7 +93,8 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     public boolean getCanUnselect() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_single_selection_get_can_unselect.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_single_selection_get_can_unselect.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,7 +108,8 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     public @Nullable org.gtk.gio.ListModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_single_selection_get_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_single_selection_get_model.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,7 +125,8 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     public int getSelected() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_single_selection_get_selected.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_single_selection_get_selected.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,7 +142,8 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     public @Nullable org.gtk.gobject.Object getSelectedItem() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_single_selection_get_selected_item.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_single_selection_get_selected_item.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,7 +160,9 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      */
     public void setAutoselect(boolean autoselect) {
         try {
-            DowncallHandles.gtk_single_selection_set_autoselect.invokeExact(handle(), autoselect ? 1 : 0);
+            DowncallHandles.gtk_single_selection_set_autoselect.invokeExact(
+                    handle(),
+                    autoselect ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,7 +179,9 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      */
     public void setCanUnselect(boolean canUnselect) {
         try {
-            DowncallHandles.gtk_single_selection_set_can_unselect.invokeExact(handle(), canUnselect ? 1 : 0);
+            DowncallHandles.gtk_single_selection_set_can_unselect.invokeExact(
+                    handle(),
+                    canUnselect ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -172,9 +194,10 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * @param model A {@code GListModel} to wrap
      */
     public void setModel(@Nullable org.gtk.gio.ListModel model) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_single_selection_set_model.invokeExact(handle(), model.handle());
+            DowncallHandles.gtk_single_selection_set_model.invokeExact(
+                    handle(),
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -193,7 +216,9 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      */
     public void setSelected(int position) {
         try {
-            DowncallHandles.gtk_single_selection_set_selected.invokeExact(handle(), position);
+            DowncallHandles.gtk_single_selection_set_selected.invokeExact(
+                    handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

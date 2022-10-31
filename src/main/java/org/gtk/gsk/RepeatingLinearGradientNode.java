@@ -14,21 +14,34 @@ public class RepeatingLinearGradientNode extends org.gtk.gsk.RenderNode {
         Gsk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GskRepeatingLinearGradientNode";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public RepeatingLinearGradientNode(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to RepeatingLinearGradientNode */
+    /**
+     * Cast object to RepeatingLinearGradientNode if its GType is a (or inherits from) "GskRepeatingLinearGradientNode".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "RepeatingLinearGradientNode" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GskRepeatingLinearGradientNode", a ClassCastException will be thrown.
+     */
     public static RepeatingLinearGradientNode castFrom(org.gtk.gobject.Object gobject) {
-        return new RepeatingLinearGradientNode(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskRepeatingLinearGradientNode"))) {
+            return new RepeatingLinearGradientNode(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskRepeatingLinearGradientNode");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point start, @NotNull org.gtk.graphene.Point end, org.gtk.gsk.ColorStop[] colorStops, long nColorStops) {
@@ -38,7 +51,12 @@ public class RepeatingLinearGradientNode extends org.gtk.gsk.RenderNode {
         java.util.Objects.requireNonNull(colorStops, "Parameter 'colorStops' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_repeating_linear_gradient_node_new.invokeExact(bounds.handle(), start.handle(), end.handle(), Interop.allocateNativeArray(colorStops, false), nColorStops), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_repeating_linear_gradient_node_new.invokeExact(
+                    bounds.handle(),
+                    start.handle(),
+                    end.handle(),
+                    Interop.allocateNativeArray(colorStops, false),
+                    nColorStops), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

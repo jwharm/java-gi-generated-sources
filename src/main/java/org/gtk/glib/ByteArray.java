@@ -14,19 +14,73 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GByteArray";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_BYTE.withName("data"),
+        Interop.valueLayout.ADDRESS.withName("data"),
         ValueLayout.JAVA_INT.withName("len")
-    ).withName("GByteArray");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static ByteArray allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        ByteArray newInstance = new ByteArray(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code data}
+     * @return The value of the field {@code data}
+     */
+    public PointerByte data$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerByte(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code data}
+     * @param data The new value of the field {@code data}
+     */
+    public void data$set(PointerByte data) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), data.handle());
+    }
+    
+    /**
+     * Get the value of the field {@code len}
+     * @return The value of the field {@code len}
+     */
+    public int len$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("len"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code len}
+     * @param len The new value of the field {@code len}
+     */
+    public void len$set(int len) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("len"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
+    }
+    
+    @ApiStatus.Internal
     public ByteArray(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -44,7 +98,10 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_append.invokeExact(Interop.allocateNativeArray(array, false), data.handle(), len);
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_append.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    data.handle(),
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,7 +122,9 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_free.invokeExact(Interop.allocateNativeArray(array, false), freeSegment ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_free.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    freeSegment ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -89,7 +148,8 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_free_to_bytes.invokeExact(Interop.allocateNativeArray(array, false));
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_free_to_bytes.invokeExact(
+                    Interop.allocateNativeArray(array, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,7 +185,9 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_new_take.invokeExact(Interop.allocateNativeArray(data, false), len);
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_new_take.invokeExact(
+                    Interop.allocateNativeArray(data, false),
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,7 +207,10 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_prepend.invokeExact(Interop.allocateNativeArray(array, false), data.handle(), len);
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_prepend.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    data.handle(),
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,7 +227,8 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_ref.invokeExact(Interop.allocateNativeArray(array, false));
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_ref.invokeExact(
+                    Interop.allocateNativeArray(array, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,7 +246,9 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_remove_index.invokeExact(Interop.allocateNativeArray(array, false), index);
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_remove_index.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -200,7 +268,9 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_remove_index_fast.invokeExact(Interop.allocateNativeArray(array, false), index);
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_remove_index_fast.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,7 +289,10 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_remove_range.invokeExact(Interop.allocateNativeArray(array, false), index, length);
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_remove_range.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    index,
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -236,7 +309,9 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_set_size.invokeExact(Interop.allocateNativeArray(array, false), length);
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_set_size.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -254,7 +329,8 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
     public static @NotNull PointerByte sizedNew(int reservedSize) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_sized_new.invokeExact(reservedSize);
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_sized_new.invokeExact(
+                    reservedSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -289,13 +365,14 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
         try {
-            DowncallHandles.g_byte_array_sort_with_data.invokeExact(Interop.allocateNativeArray(array, false), 
+            DowncallHandles.g_byte_array_sort_with_data.invokeExact(
+                    Interop.allocateNativeArray(array, false),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(compareFunc)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(compareFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -317,7 +394,9 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_steal.invokeExact(Interop.allocateNativeArray(array, false), (Addressable) lenPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_steal.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    (Addressable) lenPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -335,7 +414,8 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
     public static void unref(byte[] array) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         try {
-            DowncallHandles.g_byte_array_unref.invokeExact(Interop.allocateNativeArray(array, false));
+            DowncallHandles.g_byte_array_unref.invokeExact(
+                    Interop.allocateNativeArray(array, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

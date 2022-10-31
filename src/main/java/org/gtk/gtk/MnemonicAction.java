@@ -14,21 +14,34 @@ public class MnemonicAction extends org.gtk.gtk.ShortcutAction {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkMnemonicAction";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public MnemonicAction(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to MnemonicAction */
+    /**
+     * Cast object to MnemonicAction if its GType is a (or inherits from) "GtkMnemonicAction".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "MnemonicAction" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkMnemonicAction", a ClassCastException will be thrown.
+     */
     public static MnemonicAction castFrom(org.gtk.gobject.Object gobject) {
-        return new MnemonicAction(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMnemonicAction"))) {
+            return new MnemonicAction(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkMnemonicAction");
+        }
     }
     
     /**

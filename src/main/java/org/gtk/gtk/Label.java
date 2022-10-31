@@ -180,28 +180,41 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkLabel";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Label(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Label */
+    /**
+     * Cast object to Label if its GType is a (or inherits from) "GtkLabel".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Label" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkLabel", a ClassCastException will be thrown.
+     */
     public static Label castFrom(org.gtk.gobject.Object gobject) {
-        return new Label(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkLabel"))) {
+            return new Label(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkLabel");
+        }
     }
     
     private static Refcounted constructNew(@Nullable java.lang.String str) {
-        java.util.Objects.requireNonNullElse(str, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_label_new.invokeExact(Interop.allocateNativeString(str)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_label_new.invokeExact(
+                    (Addressable) (str == null ? MemoryAddress.NULL : Interop.allocateNativeString(str))), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,10 +232,10 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     }
     
     private static Refcounted constructNewWithMnemonic(@Nullable java.lang.String str) {
-        java.util.Objects.requireNonNullElse(str, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_label_new_with_mnemonic.invokeExact(Interop.allocateNativeString(str)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_label_new_with_mnemonic.invokeExact(
+                    (Addressable) (str == null ? MemoryAddress.NULL : Interop.allocateNativeString(str))), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -266,7 +279,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable org.pango.AttrList getAttributes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_label_get_attributes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_label_get_attributes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -287,11 +301,12 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable java.lang.String getCurrentUri() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_label_get_current_uri.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_label_get_current_uri.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -303,7 +318,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @NotNull org.pango.EllipsizeMode getEllipsize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_label_get_ellipsize.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_label_get_ellipsize.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -319,7 +335,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable org.gtk.gio.MenuModel getExtraMenu() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_label_get_extra_menu.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_label_get_extra_menu.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -335,7 +352,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @NotNull org.gtk.gtk.Justification getJustify() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_label_get_justify.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_label_get_justify.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -353,11 +371,12 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @NotNull java.lang.String getLabel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_label_get_label.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_label_get_label.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -373,7 +392,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @NotNull org.pango.Layout getLayout() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_label_get_layout.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_label_get_layout.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -397,7 +417,10 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_label_get_layout_offsets.invokeExact(handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            DowncallHandles.gtk_label_get_layout_offsets.invokeExact(
+                    handle(),
+                    (Addressable) xPOINTER.address(),
+                    (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -415,7 +438,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public int getLines() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_label_get_lines.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_label_get_lines.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -431,7 +455,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public int getMaxWidthChars() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_label_get_max_width_chars.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_label_get_max_width_chars.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -449,7 +474,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public int getMnemonicKeyval() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_label_get_mnemonic_keyval.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_label_get_mnemonic_keyval.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -467,7 +493,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable org.gtk.gtk.Widget getMnemonicWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_label_get_mnemonic_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_label_get_mnemonic_widget.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -483,7 +510,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @NotNull org.gtk.gtk.NaturalWrapMode getNaturalWrapMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_label_get_natural_wrap_mode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_label_get_natural_wrap_mode.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -497,7 +525,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getSelectable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_label_get_selectable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_label_get_selectable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -517,7 +546,10 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         MemorySegment endPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_label_get_selection_bounds.invokeExact(handle(), (Addressable) startPOINTER.address(), (Addressable) endPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_label_get_selection_bounds.invokeExact(
+                    handle(),
+                    (Addressable) startPOINTER.address(),
+                    (Addressable) endPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -533,7 +565,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getSingleLineMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_label_get_single_line_mode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_label_get_single_line_mode.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -552,11 +585,12 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @NotNull java.lang.String getText() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_label_get_text.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_label_get_text.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -568,7 +602,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getUseMarkup() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_label_get_use_markup.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_label_get_use_markup.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -585,7 +620,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getUseUnderline() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_label_get_use_underline.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_label_get_use_underline.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -601,7 +637,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public int getWidthChars() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_label_get_width_chars.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_label_get_width_chars.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -617,7 +654,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getWrap() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_label_get_wrap.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_label_get_wrap.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -633,7 +671,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @NotNull org.pango.WrapMode getWrapMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_label_get_wrap_mode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_label_get_wrap_mode.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -649,7 +688,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public float getXalign() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gtk_label_get_xalign.invokeExact(handle());
+            RESULT = (float) DowncallHandles.gtk_label_get_xalign.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -665,7 +705,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public float getYalign() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gtk_label_get_yalign.invokeExact(handle());
+            RESULT = (float) DowncallHandles.gtk_label_get_yalign.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -683,7 +724,10 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void selectRegion(int startOffset, int endOffset) {
         try {
-            DowncallHandles.gtk_label_select_region.invokeExact(handle(), startOffset, endOffset);
+            DowncallHandles.gtk_label_select_region.invokeExact(
+                    handle(),
+                    startOffset,
+                    endOffset);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -701,9 +745,10 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param attrs a {@code Pango.AttrList}
      */
     public void setAttributes(@Nullable org.pango.AttrList attrs) {
-        java.util.Objects.requireNonNullElse(attrs, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_label_set_attributes.invokeExact(handle(), attrs.handle());
+            DowncallHandles.gtk_label_set_attributes.invokeExact(
+                    handle(),
+                    (Addressable) (attrs == null ? MemoryAddress.NULL : attrs.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -719,7 +764,9 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void setEllipsize(@NotNull org.pango.EllipsizeMode mode) {
         java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
         try {
-            DowncallHandles.gtk_label_set_ellipsize.invokeExact(handle(), mode.getValue());
+            DowncallHandles.gtk_label_set_ellipsize.invokeExact(
+                    handle(),
+                    mode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -731,9 +778,10 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param model a {@code GMenuModel}
      */
     public void setExtraMenu(@Nullable org.gtk.gio.MenuModel model) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_label_set_extra_menu.invokeExact(handle(), model.handle());
+            DowncallHandles.gtk_label_set_extra_menu.invokeExact(
+                    handle(),
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -753,7 +801,9 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void setJustify(@NotNull org.gtk.gtk.Justification jtype) {
         java.util.Objects.requireNonNull(jtype, "Parameter 'jtype' must not be null");
         try {
-            DowncallHandles.gtk_label_set_justify.invokeExact(handle(), jtype.getValue());
+            DowncallHandles.gtk_label_set_justify.invokeExact(
+                    handle(),
+                    jtype.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -770,7 +820,9 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void setLabel(@NotNull java.lang.String str) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         try {
-            DowncallHandles.gtk_label_set_label.invokeExact(handle(), Interop.allocateNativeString(str));
+            DowncallHandles.gtk_label_set_label.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(str));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -786,7 +838,9 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setLines(int lines) {
         try {
-            DowncallHandles.gtk_label_set_lines.invokeExact(handle(), lines);
+            DowncallHandles.gtk_label_set_lines.invokeExact(
+                    handle(),
+                    lines);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -824,7 +878,9 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void setMarkup(@NotNull java.lang.String str) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         try {
-            DowncallHandles.gtk_label_set_markup.invokeExact(handle(), Interop.allocateNativeString(str));
+            DowncallHandles.gtk_label_set_markup.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(str));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -845,7 +901,9 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void setMarkupWithMnemonic(@NotNull java.lang.String str) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         try {
-            DowncallHandles.gtk_label_set_markup_with_mnemonic.invokeExact(handle(), Interop.allocateNativeString(str));
+            DowncallHandles.gtk_label_set_markup_with_mnemonic.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(str));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -857,7 +915,9 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setMaxWidthChars(int nChars) {
         try {
-            DowncallHandles.gtk_label_set_max_width_chars.invokeExact(handle(), nChars);
+            DowncallHandles.gtk_label_set_max_width_chars.invokeExact(
+                    handle(),
+                    nChars);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -884,9 +944,10 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param widget the target {@code GtkWidget}, or {@code null} to unset
      */
     public void setMnemonicWidget(@Nullable org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNullElse(widget, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_label_set_mnemonic_widget.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_label_set_mnemonic_widget.invokeExact(
+                    handle(),
+                    (Addressable) (widget == null ? MemoryAddress.NULL : widget.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -902,7 +963,9 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void setNaturalWrapMode(@NotNull org.gtk.gtk.NaturalWrapMode wrapMode) {
         java.util.Objects.requireNonNull(wrapMode, "Parameter 'wrapMode' must not be null");
         try {
-            DowncallHandles.gtk_label_set_natural_wrap_mode.invokeExact(handle(), wrapMode.getValue());
+            DowncallHandles.gtk_label_set_natural_wrap_mode.invokeExact(
+                    handle(),
+                    wrapMode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -917,7 +980,9 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setSelectable(boolean setting) {
         try {
-            DowncallHandles.gtk_label_set_selectable.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_label_set_selectable.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -929,7 +994,9 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setSingleLineMode(boolean singleLineMode) {
         try {
-            DowncallHandles.gtk_label_set_single_line_mode.invokeExact(handle(), singleLineMode ? 1 : 0);
+            DowncallHandles.gtk_label_set_single_line_mode.invokeExact(
+                    handle(),
+                    singleLineMode ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -953,7 +1020,9 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void setText(@NotNull java.lang.String str) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         try {
-            DowncallHandles.gtk_label_set_text.invokeExact(handle(), Interop.allocateNativeString(str));
+            DowncallHandles.gtk_label_set_text.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(str));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -971,7 +1040,9 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void setTextWithMnemonic(@NotNull java.lang.String str) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         try {
-            DowncallHandles.gtk_label_set_text_with_mnemonic.invokeExact(handle(), Interop.allocateNativeString(str));
+            DowncallHandles.gtk_label_set_text_with_mnemonic.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(str));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -985,7 +1056,9 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setUseMarkup(boolean setting) {
         try {
-            DowncallHandles.gtk_label_set_use_markup.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_label_set_use_markup.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -997,7 +1070,9 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setUseUnderline(boolean setting) {
         try {
-            DowncallHandles.gtk_label_set_use_underline.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_label_set_use_underline.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1009,7 +1084,9 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setWidthChars(int nChars) {
         try {
-            DowncallHandles.gtk_label_set_width_chars.invokeExact(handle(), nChars);
+            DowncallHandles.gtk_label_set_width_chars.invokeExact(
+                    handle(),
+                    nChars);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1031,7 +1108,9 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setWrap(boolean wrap) {
         try {
-            DowncallHandles.gtk_label_set_wrap.invokeExact(handle(), wrap ? 1 : 0);
+            DowncallHandles.gtk_label_set_wrap.invokeExact(
+                    handle(),
+                    wrap ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1051,7 +1130,9 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void setWrapMode(@NotNull org.pango.WrapMode wrapMode) {
         java.util.Objects.requireNonNull(wrapMode, "Parameter 'wrapMode' must not be null");
         try {
-            DowncallHandles.gtk_label_set_wrap_mode.invokeExact(handle(), wrapMode.getValue());
+            DowncallHandles.gtk_label_set_wrap_mode.invokeExact(
+                    handle(),
+                    wrapMode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1065,7 +1146,9 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setXalign(float xalign) {
         try {
-            DowncallHandles.gtk_label_set_xalign.invokeExact(handle(), xalign);
+            DowncallHandles.gtk_label_set_xalign.invokeExact(
+                    handle(),
+                    xalign);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1079,7 +1162,9 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setYalign(float yalign) {
         try {
-            DowncallHandles.gtk_label_set_yalign.invokeExact(handle(), yalign);
+            DowncallHandles.gtk_label_set_yalign.invokeExact(
+                    handle(),
+                    yalign);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1480,7 +1565,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         public static boolean signalLabelActivateLink(MemoryAddress source, MemoryAddress uri, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Label.ActivateLink) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Label(Refcounted.get(source)), uri.getUtf8String(0));
+            return HANDLER.signalReceived(new Label(Refcounted.get(source)), Interop.getStringFrom(uri));
         }
         
         public static void signalLabelCopyClipboard(MemoryAddress source, MemoryAddress data) {

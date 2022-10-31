@@ -26,25 +26,47 @@ public class Bin extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwBin";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName("AdwBin");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gtk.Widget parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gtk.Widget(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Bin(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Bin */
+    /**
+     * Cast object to Bin if its GType is a (or inherits from) "AdwBin".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Bin" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwBin", a ClassCastException will be thrown.
+     */
     public static Bin castFrom(org.gtk.gobject.Object gobject) {
-        return new Bin(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwBin"))) {
+            return new Bin(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwBin");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -71,7 +93,8 @@ public class Bin extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_bin_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_bin_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,9 +106,10 @@ public class Bin extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
      * @param child the child widget
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_bin_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.adw_bin_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

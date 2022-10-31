@@ -73,21 +73,34 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkMenuButton";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public MenuButton(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to MenuButton */
+    /**
+     * Cast object to MenuButton if its GType is a (or inherits from) "GtkMenuButton".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "MenuButton" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkMenuButton", a ClassCastException will be thrown.
+     */
     public static MenuButton castFrom(org.gtk.gobject.Object gobject) {
-        return new MenuButton(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMenuButton"))) {
+            return new MenuButton(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkMenuButton");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -118,7 +131,8 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public boolean getAlwaysShowArrow() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_menu_button_get_always_show_arrow.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_menu_button_get_always_show_arrow.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,7 +146,8 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_menu_button_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_menu_button_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,7 +161,8 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @NotNull org.gtk.gtk.ArrowType getArrowDirection() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_menu_button_get_direction.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_menu_button_get_direction.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,7 +176,8 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public boolean getHasFrame() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_menu_button_get_has_frame.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_menu_button_get_has_frame.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,11 +191,12 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_menu_button_get_icon_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_menu_button_get_icon_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -188,11 +206,12 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @Nullable java.lang.String getLabel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_menu_button_get_label.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_menu_button_get_label.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -202,7 +221,8 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @Nullable org.gtk.gio.MenuModel getMenuModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_menu_button_get_menu_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_menu_button_get_menu_model.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,7 +239,8 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @Nullable org.gtk.gtk.Popover getPopover() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_menu_button_get_popover.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_menu_button_get_popover.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -233,7 +254,8 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public boolean getPrimary() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_menu_button_get_primary.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_menu_button_get_primary.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -249,7 +271,8 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public boolean getUseUnderline() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_menu_button_get_use_underline.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_menu_button_get_use_underline.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -261,7 +284,8 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public void popdown() {
         try {
-            DowncallHandles.gtk_menu_button_popdown.invokeExact(handle());
+            DowncallHandles.gtk_menu_button_popdown.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -272,7 +296,8 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public void popup() {
         try {
-            DowncallHandles.gtk_menu_button_popup.invokeExact(handle());
+            DowncallHandles.gtk_menu_button_popup.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -285,7 +310,9 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public void setAlwaysShowArrow(boolean alwaysShowArrow) {
         try {
-            DowncallHandles.gtk_menu_button_set_always_show_arrow.invokeExact(handle(), alwaysShowArrow ? 1 : 0);
+            DowncallHandles.gtk_menu_button_set_always_show_arrow.invokeExact(
+                    handle(),
+                    alwaysShowArrow ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -303,9 +330,10 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @param child the child widget
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_menu_button_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_menu_button_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -330,15 +358,15 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      *   to reset to default behavior.
      */
     public void setCreatePopupFunc(@Nullable org.gtk.gtk.MenuButtonCreatePopupFunc func) {
-        java.util.Objects.requireNonNullElse(func, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_menu_button_set_create_popup_func.invokeExact(handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gtk_menu_button_set_create_popup_func.invokeExact(
+                    handle(),
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbMenuButtonCreatePopupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)), 
+                        Interop.getScope())),
+                    (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -361,7 +389,9 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public void setDirection(@NotNull org.gtk.gtk.ArrowType direction) {
         java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
         try {
-            DowncallHandles.gtk_menu_button_set_direction.invokeExact(handle(), direction.getValue());
+            DowncallHandles.gtk_menu_button_set_direction.invokeExact(
+                    handle(),
+                    direction.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -373,7 +403,9 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public void setHasFrame(boolean hasFrame) {
         try {
-            DowncallHandles.gtk_menu_button_set_has_frame.invokeExact(handle(), hasFrame ? 1 : 0);
+            DowncallHandles.gtk_menu_button_set_has_frame.invokeExact(
+                    handle(),
+                    hasFrame ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -393,7 +425,9 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public void setIconName(@NotNull java.lang.String iconName) {
         java.util.Objects.requireNonNull(iconName, "Parameter 'iconName' must not be null");
         try {
-            DowncallHandles.gtk_menu_button_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName));
+            DowncallHandles.gtk_menu_button_set_icon_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(iconName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -412,7 +446,9 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public void setLabel(@NotNull java.lang.String label) {
         java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
         try {
-            DowncallHandles.gtk_menu_button_set_label.invokeExact(handle(), Interop.allocateNativeString(label));
+            DowncallHandles.gtk_menu_button_set_label.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(label));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -433,9 +469,10 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      *   button
      */
     public void setMenuModel(@Nullable org.gtk.gio.MenuModel menuModel) {
-        java.util.Objects.requireNonNullElse(menuModel, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_menu_button_set_menu_model.invokeExact(handle(), menuModel.handle());
+            DowncallHandles.gtk_menu_button_set_menu_model.invokeExact(
+                    handle(),
+                    (Addressable) (menuModel == null ? MemoryAddress.NULL : menuModel.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -451,9 +488,10 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @param popover a {@code GtkPopover}, or {@code null} to unset and disable the button
      */
     public void setPopover(@Nullable org.gtk.gtk.Widget popover) {
-        java.util.Objects.requireNonNullElse(popover, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_menu_button_set_popover.invokeExact(handle(), popover.handle());
+            DowncallHandles.gtk_menu_button_set_popover.invokeExact(
+                    handle(),
+                    (Addressable) (popover == null ? MemoryAddress.NULL : popover.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -467,7 +505,9 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public void setPrimary(boolean primary) {
         try {
-            DowncallHandles.gtk_menu_button_set_primary.invokeExact(handle(), primary ? 1 : 0);
+            DowncallHandles.gtk_menu_button_set_primary.invokeExact(
+                    handle(),
+                    primary ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -479,7 +519,9 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public void setUseUnderline(boolean useUnderline) {
         try {
-            DowncallHandles.gtk_menu_button_set_use_underline.invokeExact(handle(), useUnderline ? 1 : 0);
+            DowncallHandles.gtk_menu_button_set_use_underline.invokeExact(
+                    handle(),
+                    useUnderline ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

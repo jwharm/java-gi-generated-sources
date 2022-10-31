@@ -46,21 +46,34 @@ public class FrameClock extends org.gtk.gobject.Object {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkFrameClock";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public FrameClock(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to FrameClock */
+    /**
+     * Cast object to FrameClock if its GType is a (or inherits from) "GdkFrameClock".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "FrameClock" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkFrameClock", a ClassCastException will be thrown.
+     */
     public static FrameClock castFrom(org.gtk.gobject.Object gobject) {
-        return new FrameClock(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkFrameClock"))) {
+            return new FrameClock(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkFrameClock");
+        }
     }
     
     /**
@@ -74,7 +87,8 @@ public class FrameClock extends org.gtk.gobject.Object {
      */
     public void beginUpdating() {
         try {
-            DowncallHandles.gdk_frame_clock_begin_updating.invokeExact(handle());
+            DowncallHandles.gdk_frame_clock_begin_updating.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,7 +101,8 @@ public class FrameClock extends org.gtk.gobject.Object {
      */
     public void endUpdating() {
         try {
-            DowncallHandles.gdk_frame_clock_end_updating.invokeExact(handle());
+            DowncallHandles.gdk_frame_clock_end_updating.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,7 +118,8 @@ public class FrameClock extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdk.FrameTimings getCurrentTimings() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_frame_clock_get_current_timings.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_frame_clock_get_current_timings.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,7 +134,8 @@ public class FrameClock extends org.gtk.gobject.Object {
     public double getFps() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gdk_frame_clock_get_fps.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gdk_frame_clock_get_fps.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,7 +152,8 @@ public class FrameClock extends org.gtk.gobject.Object {
     public long getFrameCounter() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gdk_frame_clock_get_frame_counter.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gdk_frame_clock_get_frame_counter.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -156,7 +174,8 @@ public class FrameClock extends org.gtk.gobject.Object {
     public long getFrameTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gdk_frame_clock_get_frame_time.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gdk_frame_clock_get_frame_time.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -179,7 +198,8 @@ public class FrameClock extends org.gtk.gobject.Object {
     public long getHistoryStart() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gdk_frame_clock_get_history_start.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gdk_frame_clock_get_history_start.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -208,7 +228,11 @@ public class FrameClock extends org.gtk.gobject.Object {
         MemorySegment refreshIntervalReturnPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemorySegment presentationTimeReturnPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         try {
-            DowncallHandles.gdk_frame_clock_get_refresh_info.invokeExact(handle(), baseTime, (Addressable) refreshIntervalReturnPOINTER.address(), (Addressable) presentationTimeReturnPOINTER.address());
+            DowncallHandles.gdk_frame_clock_get_refresh_info.invokeExact(
+                    handle(),
+                    baseTime,
+                    (Addressable) refreshIntervalReturnPOINTER.address(),
+                    (Addressable) presentationTimeReturnPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -231,7 +255,9 @@ public class FrameClock extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdk.FrameTimings getTimings(long frameCounter) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_frame_clock_get_timings.invokeExact(handle(), frameCounter);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_frame_clock_get_timings.invokeExact(
+                    handle(),
+                    frameCounter);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -255,7 +281,9 @@ public class FrameClock extends org.gtk.gobject.Object {
     public void requestPhase(@NotNull org.gtk.gdk.FrameClockPhase phase) {
         java.util.Objects.requireNonNull(phase, "Parameter 'phase' must not be null");
         try {
-            DowncallHandles.gdk_frame_clock_request_phase.invokeExact(handle(), phase.getValue());
+            DowncallHandles.gdk_frame_clock_request_phase.invokeExact(
+                    handle(),
+                    phase.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

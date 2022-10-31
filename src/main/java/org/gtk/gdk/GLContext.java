@@ -59,21 +59,34 @@ public class GLContext extends org.gtk.gdk.DrawContext {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkGLContext";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public GLContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to GLContext */
+    /**
+     * Cast object to GLContext if its GType is a (or inherits from) "GdkGLContext".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "GLContext" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkGLContext", a ClassCastException will be thrown.
+     */
     public static GLContext castFrom(org.gtk.gobject.Object gobject) {
-        return new GLContext(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkGLContext"))) {
+            return new GLContext(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkGLContext");
+        }
     }
     
     /**
@@ -83,7 +96,8 @@ public class GLContext extends org.gtk.gdk.DrawContext {
     public @NotNull org.gtk.gdk.GLAPI getAllowedApis() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_gl_context_get_allowed_apis.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_gl_context_get_allowed_apis.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +113,8 @@ public class GLContext extends org.gtk.gdk.DrawContext {
     public @NotNull org.gtk.gdk.GLAPI getApi() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_gl_context_get_api.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_gl_context_get_api.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,7 +130,8 @@ public class GLContext extends org.gtk.gdk.DrawContext {
     public boolean getDebugEnabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_gl_context_get_debug_enabled.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_gl_context_get_debug_enabled.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,7 +145,8 @@ public class GLContext extends org.gtk.gdk.DrawContext {
     public @Nullable org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_gl_context_get_display.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_gl_context_get_display.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,7 +162,8 @@ public class GLContext extends org.gtk.gdk.DrawContext {
     public boolean getForwardCompatible() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_gl_context_get_forward_compatible.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_gl_context_get_forward_compatible.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,17 +178,18 @@ public class GLContext extends org.gtk.gdk.DrawContext {
      * @param minor return location for the minor version to request
      */
     public void getRequiredVersion(Out<Integer> major, Out<Integer> minor) {
-        java.util.Objects.requireNonNullElse(major, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(minor, MemoryAddress.NULL);
         MemorySegment majorPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment minorPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gdk_gl_context_get_required_version.invokeExact(handle(), (Addressable) majorPOINTER.address(), (Addressable) minorPOINTER.address());
+            DowncallHandles.gdk_gl_context_get_required_version.invokeExact(
+                    handle(),
+                    (Addressable) (major == null ? MemoryAddress.NULL : (Addressable) majorPOINTER.address()),
+                    (Addressable) (minor == null ? MemoryAddress.NULL : (Addressable) minorPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        major.set(majorPOINTER.get(ValueLayout.JAVA_INT, 0));
-        minor.set(minorPOINTER.get(ValueLayout.JAVA_INT, 0));
+        if (major != null) major.set(majorPOINTER.get(ValueLayout.JAVA_INT, 0));
+        if (minor != null) minor.set(minorPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
     /**
@@ -186,7 +205,8 @@ public class GLContext extends org.gtk.gdk.DrawContext {
     public @Nullable org.gtk.gdk.GLContext getSharedContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_gl_context_get_shared_context.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_gl_context_get_shared_context.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -200,7 +220,8 @@ public class GLContext extends org.gtk.gdk.DrawContext {
     public @Nullable org.gtk.gdk.Surface getSurface() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_gl_context_get_surface.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_gl_context_get_surface.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -214,7 +235,8 @@ public class GLContext extends org.gtk.gdk.DrawContext {
     public boolean getUseEs() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_gl_context_get_use_es.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_gl_context_get_use_es.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -234,7 +256,10 @@ public class GLContext extends org.gtk.gdk.DrawContext {
         MemorySegment majorPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment minorPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gdk_gl_context_get_version.invokeExact(handle(), (Addressable) majorPOINTER.address(), (Addressable) minorPOINTER.address());
+            DowncallHandles.gdk_gl_context_get_version.invokeExact(
+                    handle(),
+                    (Addressable) majorPOINTER.address(),
+                    (Addressable) minorPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -264,7 +289,8 @@ public class GLContext extends org.gtk.gdk.DrawContext {
     public boolean isLegacy() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_gl_context_is_legacy.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_gl_context_is_legacy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -291,7 +317,9 @@ public class GLContext extends org.gtk.gdk.DrawContext {
         java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_gl_context_is_shared.invokeExact(handle(), other.handle());
+            RESULT = (int) DowncallHandles.gdk_gl_context_is_shared.invokeExact(
+                    handle(),
+                    other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -303,7 +331,8 @@ public class GLContext extends org.gtk.gdk.DrawContext {
      */
     public void makeCurrent() {
         try {
-            DowncallHandles.gdk_gl_context_make_current.invokeExact(handle());
+            DowncallHandles.gdk_gl_context_make_current.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -320,7 +349,8 @@ public class GLContext extends org.gtk.gdk.DrawContext {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_gl_context_realize.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gdk_gl_context_realize.invokeExact(
+                    handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -343,7 +373,9 @@ public class GLContext extends org.gtk.gdk.DrawContext {
     public void setAllowedApis(@NotNull org.gtk.gdk.GLAPI apis) {
         java.util.Objects.requireNonNull(apis, "Parameter 'apis' must not be null");
         try {
-            DowncallHandles.gdk_gl_context_set_allowed_apis.invokeExact(handle(), apis.getValue());
+            DowncallHandles.gdk_gl_context_set_allowed_apis.invokeExact(
+                    handle(),
+                    apis.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -361,7 +393,9 @@ public class GLContext extends org.gtk.gdk.DrawContext {
      */
     public void setDebugEnabled(boolean enabled) {
         try {
-            DowncallHandles.gdk_gl_context_set_debug_enabled.invokeExact(handle(), enabled ? 1 : 0);
+            DowncallHandles.gdk_gl_context_set_debug_enabled.invokeExact(
+                    handle(),
+                    enabled ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -381,7 +415,9 @@ public class GLContext extends org.gtk.gdk.DrawContext {
      */
     public void setForwardCompatible(boolean compatible) {
         try {
-            DowncallHandles.gdk_gl_context_set_forward_compatible.invokeExact(handle(), compatible ? 1 : 0);
+            DowncallHandles.gdk_gl_context_set_forward_compatible.invokeExact(
+                    handle(),
+                    compatible ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -399,7 +435,10 @@ public class GLContext extends org.gtk.gdk.DrawContext {
      */
     public void setRequiredVersion(int major, int minor) {
         try {
-            DowncallHandles.gdk_gl_context_set_required_version.invokeExact(handle(), major, minor);
+            DowncallHandles.gdk_gl_context_set_required_version.invokeExact(
+                    handle(),
+                    major,
+                    minor);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -424,7 +463,9 @@ public class GLContext extends org.gtk.gdk.DrawContext {
      */
     public void setUseEs(int useEs) {
         try {
-            DowncallHandles.gdk_gl_context_set_use_es.invokeExact(handle(), useEs);
+            DowncallHandles.gdk_gl_context_set_use_es.invokeExact(
+                    handle(),
+                    useEs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

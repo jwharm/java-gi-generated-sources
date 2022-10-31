@@ -11,13 +11,7 @@ import org.jetbrains.annotations.*;
  */
 public class DBusError extends io.github.jwharm.javagi.Enumeration {
     
-    /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
-     */
-    public static MemoryLayout getMemoryLayout() {
-        return Interop.valueLayout.ADDRESS;
-    }
+    private static final java.lang.String C_TYPE_NAME = "GDBusError";
     
     /**
      * A generic error; "something went wrong" - see the error message for
@@ -278,11 +272,12 @@ public class DBusError extends io.github.jwharm.javagi.Enumeration {
         java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_error_encode_gerror.invokeExact(error.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_error_encode_gerror.invokeExact(
+                    error.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -300,11 +295,12 @@ public class DBusError extends io.github.jwharm.javagi.Enumeration {
         java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_error_get_remote_error.invokeExact(error.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_error_get_remote_error.invokeExact(
+                    error.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -318,7 +314,8 @@ public class DBusError extends io.github.jwharm.javagi.Enumeration {
         java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_error_is_remote_error.invokeExact(error.handle());
+            RESULT = (int) DowncallHandles.g_dbus_error_is_remote_error.invokeExact(
+                    error.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -361,7 +358,9 @@ public class DBusError extends io.github.jwharm.javagi.Enumeration {
         java.util.Objects.requireNonNull(dbusErrorMessage, "Parameter 'dbusErrorMessage' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_error_new_for_dbus_error.invokeExact(Interop.allocateNativeString(dbusErrorName), Interop.allocateNativeString(dbusErrorMessage));
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_error_new_for_dbus_error.invokeExact(
+                    Interop.allocateNativeString(dbusErrorName),
+                    Interop.allocateNativeString(dbusErrorMessage));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -395,7 +394,10 @@ public class DBusError extends io.github.jwharm.javagi.Enumeration {
         java.util.Objects.requireNonNull(dbusErrorName, "Parameter 'dbusErrorName' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_error_register_error.invokeExact(errorDomain.getValue(), errorCode, Interop.allocateNativeString(dbusErrorName));
+            RESULT = (int) DowncallHandles.g_dbus_error_register_error.invokeExact(
+                    errorDomain.getValue().intValue(),
+                    errorCode,
+                    Interop.allocateNativeString(dbusErrorName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -417,7 +419,11 @@ public class DBusError extends io.github.jwharm.javagi.Enumeration {
         java.util.Objects.requireNonNull(quarkVolatile, "Parameter 'quarkVolatile' must not be null");
         java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
         try {
-            DowncallHandles.g_dbus_error_register_error_domain.invokeExact(Interop.allocateNativeString(errorDomainQuarkName), quarkVolatile.handle(), Interop.allocateNativeArray(entries, false), numEntries);
+            DowncallHandles.g_dbus_error_register_error_domain.invokeExact(
+                    Interop.allocateNativeString(errorDomainQuarkName),
+                    quarkVolatile.handle(),
+                    Interop.allocateNativeArray(entries, false),
+                    numEntries);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -447,10 +453,14 @@ public class DBusError extends io.github.jwharm.javagi.Enumeration {
     public static void setDbusErrorValist(@NotNull PointerProxy<org.gtk.glib.Error> error, @NotNull java.lang.String dbusErrorName, @NotNull java.lang.String dbusErrorMessage, @Nullable java.lang.String format, @NotNull VaList varArgs) {
         java.util.Objects.requireNonNull(dbusErrorName, "Parameter 'dbusErrorName' must not be null");
         java.util.Objects.requireNonNull(dbusErrorMessage, "Parameter 'dbusErrorMessage' must not be null");
-        java.util.Objects.requireNonNullElse(format, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
         try {
-            DowncallHandles.g_dbus_error_set_dbus_error_valist.invokeExact(error.handle(), Interop.allocateNativeString(dbusErrorName), Interop.allocateNativeString(dbusErrorMessage), Interop.allocateNativeString(format), varArgs);
+            DowncallHandles.g_dbus_error_set_dbus_error_valist.invokeExact(
+                    error.handle(),
+                    Interop.allocateNativeString(dbusErrorName),
+                    Interop.allocateNativeString(dbusErrorMessage),
+                    (Addressable) (format == null ? MemoryAddress.NULL : Interop.allocateNativeString(format)),
+                    varArgs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -470,7 +480,8 @@ public class DBusError extends io.github.jwharm.javagi.Enumeration {
         java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_error_strip_remote_error.invokeExact(error.handle());
+            RESULT = (int) DowncallHandles.g_dbus_error_strip_remote_error.invokeExact(
+                    error.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -489,7 +500,10 @@ public class DBusError extends io.github.jwharm.javagi.Enumeration {
         java.util.Objects.requireNonNull(dbusErrorName, "Parameter 'dbusErrorName' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_error_unregister_error.invokeExact(errorDomain.getValue(), errorCode, Interop.allocateNativeString(dbusErrorName));
+            RESULT = (int) DowncallHandles.g_dbus_error_unregister_error.invokeExact(
+                    errorDomain.getValue().intValue(),
+                    errorCode,
+                    Interop.allocateNativeString(dbusErrorName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

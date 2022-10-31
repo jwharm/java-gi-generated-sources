@@ -67,26 +67,39 @@ public class RecentManager extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkRecentManager";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gtk.RecentManagerPrivate.getMemoryLayout().withName("priv")
-    ).withName("GtkRecentManager");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    @ApiStatus.Internal
     public RecentManager(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to RecentManager */
+    /**
+     * Cast object to RecentManager if its GType is a (or inherits from) "GtkRecentManager".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "RecentManager" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkRecentManager", a ClassCastException will be thrown.
+     */
     public static RecentManager castFrom(org.gtk.gobject.Object gobject) {
-        return new RecentManager(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkRecentManager"))) {
+            return new RecentManager(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkRecentManager");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -145,7 +158,10 @@ public class RecentManager extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(recentData, "Parameter 'recentData' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_recent_manager_add_full.invokeExact(handle(), Interop.allocateNativeString(uri), recentData.handle());
+            RESULT = (int) DowncallHandles.gtk_recent_manager_add_full.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(uri),
+                    recentData.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,7 +186,9 @@ public class RecentManager extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_recent_manager_add_item.invokeExact(handle(), Interop.allocateNativeString(uri));
+            RESULT = (int) DowncallHandles.gtk_recent_manager_add_item.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(uri));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,7 +205,8 @@ public class RecentManager extends org.gtk.gobject.Object {
     public @NotNull org.gtk.glib.List getItems() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_manager_get_items.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_manager_get_items.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,7 +223,9 @@ public class RecentManager extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_recent_manager_has_item.invokeExact(handle(), Interop.allocateNativeString(uri));
+            RESULT = (int) DowncallHandles.gtk_recent_manager_has_item.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(uri));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -227,7 +248,9 @@ public class RecentManager extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_manager_lookup_item.invokeExact(handle(), Interop.allocateNativeString(uri), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_manager_lookup_item.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(uri), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -250,11 +273,13 @@ public class RecentManager extends org.gtk.gobject.Object {
      */
     public boolean moveItem(@NotNull java.lang.String uri, @Nullable java.lang.String newUri) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNullElse(newUri, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_recent_manager_move_item.invokeExact(handle(), Interop.allocateNativeString(uri), Interop.allocateNativeString(newUri), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_recent_manager_move_item.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(uri),
+                    (Addressable) (newUri == null ? MemoryAddress.NULL : Interop.allocateNativeString(newUri)), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -274,7 +299,8 @@ public class RecentManager extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_recent_manager_purge_items.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_recent_manager_purge_items.invokeExact(
+                    handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -297,7 +323,9 @@ public class RecentManager extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_recent_manager_remove_item.invokeExact(handle(), Interop.allocateNativeString(uri), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_recent_manager_remove_item.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(uri), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

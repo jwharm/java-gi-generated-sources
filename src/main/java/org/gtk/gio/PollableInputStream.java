@@ -15,6 +15,21 @@ import org.jetbrains.annotations.*;
 public interface PollableInputStream extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to PollableInputStream if its GType is a (or inherits from) "GPollableInputStream".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "PollableInputStream" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GPollableInputStream", a ClassCastException will be thrown.
+     */
+    public static PollableInputStream castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GPollableInputStream"))) {
+            return new PollableInputStreamImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GPollableInputStream");
+        }
+    }
+    
+    /**
      * Checks if {@code stream} is actually pollable. Some classes may implement
      * {@link PollableInputStream} but have only certain instances of that class
      * be pollable. If this method returns {@code false}, then the behavior of
@@ -27,7 +42,8 @@ public interface PollableInputStream extends io.github.jwharm.javagi.Proxy {
     default boolean canPoll() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_pollable_input_stream_can_poll.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_pollable_input_stream_can_poll.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -47,10 +63,11 @@ public interface PollableInputStream extends io.github.jwharm.javagi.Proxy {
      * @return a new {@link org.gtk.glib.Source}
      */
     default @NotNull org.gtk.glib.Source createSource(@Nullable org.gtk.gio.Cancellable cancellable) {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_pollable_input_stream_create_source.invokeExact(handle(), cancellable.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_pollable_input_stream_create_source.invokeExact(
+                    handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,7 +91,8 @@ public interface PollableInputStream extends io.github.jwharm.javagi.Proxy {
     default boolean isReadable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_pollable_input_stream_is_readable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_pollable_input_stream_is_readable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,12 +121,15 @@ public interface PollableInputStream extends io.github.jwharm.javagi.Proxy {
      */
     default long readNonblocking(Out<byte[]> buffer, long count, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment bufferPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_pollable_input_stream_read_nonblocking.invokeExact(handle(), (Addressable) bufferPOINTER.address(), count, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_pollable_input_stream_read_nonblocking.invokeExact(
+                    handle(),
+                    (Addressable) bufferPOINTER.address(),
+                    count,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

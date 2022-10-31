@@ -18,26 +18,48 @@ public class ConverterInputStream extends org.gtk.gio.FilterInputStream implemen
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GConverterInputStream";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.FilterInputStream.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.ConverterInputStreamPrivate.getMemoryLayout().withName("priv")
-    ).withName("GConverterInputStream");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gio.FilterInputStream parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gio.FilterInputStream(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public ConverterInputStream(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ConverterInputStream */
+    /**
+     * Cast object to ConverterInputStream if its GType is a (or inherits from) "GConverterInputStream".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ConverterInputStream" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GConverterInputStream", a ClassCastException will be thrown.
+     */
     public static ConverterInputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new ConverterInputStream(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GConverterInputStream"))) {
+            return new ConverterInputStream(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GConverterInputStream");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gio.InputStream baseStream, @NotNull org.gtk.gio.Converter converter) {
@@ -45,7 +67,9 @@ public class ConverterInputStream extends org.gtk.gio.FilterInputStream implemen
         java.util.Objects.requireNonNull(converter, "Parameter 'converter' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_converter_input_stream_new.invokeExact(baseStream.handle(), converter.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_converter_input_stream_new.invokeExact(
+                    baseStream.handle(),
+                    converter.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -68,7 +92,8 @@ public class ConverterInputStream extends org.gtk.gio.FilterInputStream implemen
     public @NotNull org.gtk.gio.Converter getConverter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_converter_input_stream_get_converter.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_converter_input_stream_get_converter.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

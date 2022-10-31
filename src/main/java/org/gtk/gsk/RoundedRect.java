@@ -26,19 +26,41 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
         Gsk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GskRoundedRect";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.graphene.Rect.getMemoryLayout().withName("bounds"),
+        MemoryLayout.paddingLayout(192),
         MemoryLayout.sequenceLayout(4, ValueLayout.ADDRESS).withName("corner")
-    ).withName("GskRoundedRect");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static RoundedRect allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        RoundedRect newInstance = new RoundedRect(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code bounds}
+     * @return The value of the field {@code bounds}
+     */
+    public org.gtk.graphene.Rect bounds$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("bounds"));
+        return new org.gtk.graphene.Rect(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public RoundedRect(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -52,7 +74,9 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_rounded_rect_contains_point.invokeExact(handle(), point.handle());
+            RESULT = (int) DowncallHandles.gsk_rounded_rect_contains_point.invokeExact(
+                    handle(),
+                    point.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -68,7 +92,9 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(rect, "Parameter 'rect' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_rounded_rect_contains_rect.invokeExact(handle(), rect.handle());
+            RESULT = (int) DowncallHandles.gsk_rounded_rect_contains_rect.invokeExact(
+                    handle(),
+                    rect.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,7 +121,13 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(bottomLeft, "Parameter 'bottomLeft' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_rect_init.invokeExact(handle(), bounds.handle(), topLeft.handle(), topRight.handle(), bottomRight.handle(), bottomLeft.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_rect_init.invokeExact(
+                    handle(),
+                    bounds.handle(),
+                    topLeft.handle(),
+                    topRight.handle(),
+                    bottomRight.handle(),
+                    bottomLeft.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,7 +146,9 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_rect_init_copy.invokeExact(handle(), src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_rect_init_copy.invokeExact(
+                    handle(),
+                    src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,7 +166,10 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_rect_init_from_rect.invokeExact(handle(), bounds.handle(), radius);
+            RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_rect_init_from_rect.invokeExact(
+                    handle(),
+                    bounds.handle(),
+                    radius);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -148,7 +185,9 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(rect, "Parameter 'rect' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_rounded_rect_intersects_rect.invokeExact(handle(), rect.handle());
+            RESULT = (int) DowncallHandles.gsk_rounded_rect_intersects_rect.invokeExact(
+                    handle(),
+                    rect.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -166,7 +205,8 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     public boolean isRectilinear() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_rounded_rect_is_rectilinear.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gsk_rounded_rect_is_rectilinear.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,7 +224,8 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gsk.RoundedRect normalize() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_rect_normalize.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_rect_normalize.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,7 +243,10 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gsk.RoundedRect offset(float dx, float dy) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_rect_offset.invokeExact(handle(), dx, dy);
+            RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_rect_offset.invokeExact(
+                    handle(),
+                    dx,
+                    dy);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -227,7 +271,12 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gsk.RoundedRect shrink(float top, float right, float bottom, float left) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_rect_shrink.invokeExact(handle(), top, right, bottom, left);
+            RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_rect_shrink.invokeExact(
+                    handle(),
+                    top,
+                    right,
+                    bottom,
+                    left);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

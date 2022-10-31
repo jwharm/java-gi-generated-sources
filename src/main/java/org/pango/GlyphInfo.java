@@ -15,20 +15,72 @@ public class GlyphInfo extends io.github.jwharm.javagi.ResourceBase {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoGlyphInfo";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_INT.withName("glyph"),
+        MemoryLayout.paddingLayout(32),
         org.pango.GlyphGeometry.getMemoryLayout().withName("geometry"),
         org.pango.GlyphVisAttr.getMemoryLayout().withName("attr")
-    ).withName("PangoGlyphInfo");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static GlyphInfo allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        GlyphInfo newInstance = new GlyphInfo(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code glyph}
+     * @return The value of the field {@code glyph}
+     */
+    public org.pango.Glyph glyph$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.pango.Glyph(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code glyph}
+     * @param glyph The new value of the field {@code glyph}
+     */
+    public void glyph$set(org.pango.Glyph glyph) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), glyph.getValue().intValue());
+    }
+    
+    /**
+     * Get the value of the field {@code geometry}
+     * @return The value of the field {@code geometry}
+     */
+    public org.pango.GlyphGeometry geometry$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("geometry"));
+        return new org.pango.GlyphGeometry(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    /**
+     * Get the value of the field {@code attr}
+     * @return The value of the field {@code attr}
+     */
+    public org.pango.GlyphVisAttr attr$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("attr"));
+        return new org.pango.GlyphVisAttr(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public GlyphInfo(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

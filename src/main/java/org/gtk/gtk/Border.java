@@ -16,21 +16,117 @@ public class Border extends io.github.jwharm.javagi.ResourceBase {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkBorder";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_SHORT.withName("left"),
         ValueLayout.JAVA_SHORT.withName("right"),
         ValueLayout.JAVA_SHORT.withName("top"),
         ValueLayout.JAVA_SHORT.withName("bottom")
-    ).withName("GtkBorder");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Border allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Border newInstance = new Border(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code left}
+     * @return The value of the field {@code left}
+     */
+    public short left$get() {
+        var RESULT = (short) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("left"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code left}
+     * @param left The new value of the field {@code left}
+     */
+    public void left$set(short left) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("left"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), left);
+    }
+    
+    /**
+     * Get the value of the field {@code right}
+     * @return The value of the field {@code right}
+     */
+    public short right$get() {
+        var RESULT = (short) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("right"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code right}
+     * @param right The new value of the field {@code right}
+     */
+    public void right$set(short right) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("right"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), right);
+    }
+    
+    /**
+     * Get the value of the field {@code top}
+     * @return The value of the field {@code top}
+     */
+    public short top$get() {
+        var RESULT = (short) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("top"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code top}
+     * @param top The new value of the field {@code top}
+     */
+    public void top$set(short top) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("top"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), top);
+    }
+    
+    /**
+     * Get the value of the field {@code bottom}
+     * @return The value of the field {@code bottom}
+     */
+    public short bottom$get() {
+        var RESULT = (short) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("bottom"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code bottom}
+     * @param bottom The new value of the field {@code bottom}
+     */
+    public void bottom$set(short bottom) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("bottom"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bottom);
+    }
+    
+    @ApiStatus.Internal
     public Border(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -59,7 +155,8 @@ public class Border extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gtk.Border copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_border_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_border_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -71,7 +168,8 @@ public class Border extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.gtk_border_free.invokeExact(handle());
+            DowncallHandles.gtk_border_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

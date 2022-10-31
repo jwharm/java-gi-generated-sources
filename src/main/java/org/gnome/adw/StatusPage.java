@@ -30,21 +30,34 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwStatusPage";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public StatusPage(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to StatusPage */
+    /**
+     * Cast object to StatusPage if its GType is a (or inherits from) "AdwStatusPage".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "StatusPage" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwStatusPage", a ClassCastException will be thrown.
+     */
     public static StatusPage castFrom(org.gtk.gobject.Object gobject) {
-        return new StatusPage(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwStatusPage"))) {
+            return new StatusPage(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwStatusPage");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -71,7 +84,8 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_status_page_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_status_page_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,11 +99,12 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @Nullable java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_status_page_get_description.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_status_page_get_description.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -99,11 +114,12 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_status_page_get_icon_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_status_page_get_icon_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -113,7 +129,8 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @Nullable org.gtk.gdk.Paintable getPaintable() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_status_page_get_paintable.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_status_page_get_paintable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,11 +144,12 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @NotNull java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_status_page_get_title.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_status_page_get_title.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -139,9 +157,10 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @param child the child widget
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_status_page_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.adw_status_page_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,12 +168,15 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     /**
      * Sets the description for {@code self}.
+     * <p>
+     * The description is displayed below the title.
      * @param description the description
      */
     public void setDescription(@Nullable java.lang.String description) {
-        java.util.Objects.requireNonNullElse(description, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_status_page_set_description.invokeExact(handle(), Interop.allocateNativeString(description));
+            DowncallHandles.adw_status_page_set_description.invokeExact(
+                    handle(),
+                    (Addressable) (description == null ? MemoryAddress.NULL : Interop.allocateNativeString(description)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,12 +184,15 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     /**
      * Sets the icon name for {@code self}.
+     * <p>
+     * Changing this will set {@code StatusPage:paintable} to {@code NULL}.
      * @param iconName the icon name
      */
     public void setIconName(@Nullable java.lang.String iconName) {
-        java.util.Objects.requireNonNullElse(iconName, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_status_page_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName));
+            DowncallHandles.adw_status_page_set_icon_name.invokeExact(
+                    handle(),
+                    (Addressable) (iconName == null ? MemoryAddress.NULL : Interop.allocateNativeString(iconName)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,12 +200,15 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     /**
      * Sets the paintable for {@code self}.
+     * <p>
+     * Changing this will set {@code StatusPage:icon-name} to {@code NULL}.
      * @param paintable the paintable
      */
     public void setPaintable(@Nullable org.gtk.gdk.Paintable paintable) {
-        java.util.Objects.requireNonNullElse(paintable, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_status_page_set_paintable.invokeExact(handle(), paintable.handle());
+            DowncallHandles.adw_status_page_set_paintable.invokeExact(
+                    handle(),
+                    (Addressable) (paintable == null ? MemoryAddress.NULL : paintable.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -188,12 +216,16 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     /**
      * Sets the title for {@code self}.
+     * <p>
+     * The title is displayed below the icon.
      * @param title the title
      */
     public void setTitle(@NotNull java.lang.String title) {
         java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
         try {
-            DowncallHandles.adw_status_page_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
+            DowncallHandles.adw_status_page_set_title.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

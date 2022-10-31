@@ -23,13 +23,29 @@ import org.jetbrains.annotations.*;
 public interface Root extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to Root if its GType is a (or inherits from) "GtkRoot".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Root" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkRoot", a ClassCastException will be thrown.
+     */
+    public static Root castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkRoot"))) {
+            return new RootImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkRoot");
+        }
+    }
+    
+    /**
      * Returns the display that this {@code GtkRoot} is on.
      * @return the display of {@code root}
      */
     default @NotNull org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_root_get_display.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_root_get_display.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -48,7 +64,8 @@ public interface Root extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gtk.Widget getFocus() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_root_get_focus.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_root_get_focus.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -68,9 +85,10 @@ public interface Root extends io.github.jwharm.javagi.Proxy {
      *    to unset the focus widget
      */
     default void setFocus(@Nullable org.gtk.gtk.Widget focus) {
-        java.util.Objects.requireNonNullElse(focus, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_root_set_focus.invokeExact(handle(), focus.handle());
+            DowncallHandles.gtk_root_set_focus.invokeExact(
+                    handle(),
+                    (Addressable) (focus == null ? MemoryAddress.NULL : focus.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

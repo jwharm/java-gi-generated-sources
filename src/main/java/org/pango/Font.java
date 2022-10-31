@@ -15,25 +15,47 @@ public class Font extends org.gtk.gobject.Object {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoFont";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName("PangoFont");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Font(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Font */
+    /**
+     * Cast object to Font if its GType is a (or inherits from) "PangoFont".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Font" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "PangoFont", a ClassCastException will be thrown.
+     */
     public static Font castFrom(org.gtk.gobject.Object gobject) {
-        return new Font(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoFont"))) {
+            return new Font(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of PangoFont");
+        }
     }
     
     /**
@@ -46,7 +68,8 @@ public class Font extends org.gtk.gobject.Object {
     public @NotNull org.pango.FontDescription describe() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_describe.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_describe.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -63,7 +86,8 @@ public class Font extends org.gtk.gobject.Object {
     public @NotNull org.pango.FontDescription describeWithAbsoluteSize() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_describe_with_absolute_size.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_describe_with_absolute_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +104,9 @@ public class Font extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_get_coverage.invokeExact(handle(), language.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_get_coverage.invokeExact(
+                    handle(),
+                    language.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,7 +120,8 @@ public class Font extends org.gtk.gobject.Object {
     public @NotNull org.pango.FontFace getFace() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_get_face.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_get_face.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,7 +147,11 @@ public class Font extends org.gtk.gobject.Object {
         MemorySegment lenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment numFeaturesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.pango_font_get_features.invokeExact(handle(), (Addressable) featuresPOINTER.address(), (Addressable) lenPOINTER.address(), (Addressable) numFeaturesPOINTER.address());
+            DowncallHandles.pango_font_get_features.invokeExact(
+                    handle(),
+                    (Addressable) featuresPOINTER.address(),
+                    (Addressable) lenPOINTER.address(),
+                    (Addressable) numFeaturesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,7 +183,8 @@ public class Font extends org.gtk.gobject.Object {
     public @Nullable org.pango.FontMap getFontMap() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_get_font_map.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_get_font_map.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,19 +207,19 @@ public class Font extends org.gtk.gobject.Object {
      * @param inkRect rectangle used to store the extents of the glyph as drawn
      * @param logicalRect rectangle used to store the logical extents of the glyph
      */
-    public void getGlyphExtents(@NotNull org.pango.Glyph glyph, @NotNull Out<org.pango.Rectangle> inkRect, @NotNull Out<org.pango.Rectangle> logicalRect) {
+    public void getGlyphExtents(@NotNull org.pango.Glyph glyph, @NotNull org.pango.Rectangle inkRect, @NotNull org.pango.Rectangle logicalRect) {
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         java.util.Objects.requireNonNull(inkRect, "Parameter 'inkRect' must not be null");
         java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
-        MemorySegment inkRectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment logicalRectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.pango_font_get_glyph_extents.invokeExact(handle(), glyph.getValue(), (Addressable) inkRectPOINTER.address(), (Addressable) logicalRectPOINTER.address());
+            DowncallHandles.pango_font_get_glyph_extents.invokeExact(
+                    handle(),
+                    glyph.getValue().intValue(),
+                    inkRect.handle(),
+                    logicalRect.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        inkRect.set(new org.pango.Rectangle(Refcounted.get(inkRectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        logicalRect.set(new org.pango.Rectangle(Refcounted.get(logicalRectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -202,7 +234,8 @@ public class Font extends org.gtk.gobject.Object {
     public @Nullable org.harfbuzz.FontT getHbFont() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_get_hb_font.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_get_hb_font.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,7 +256,8 @@ public class Font extends org.gtk.gobject.Object {
     public @Nullable PointerProxy<org.pango.Language> getLanguages() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_get_languages.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_get_languages.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -246,10 +280,11 @@ public class Font extends org.gtk.gobject.Object {
      *   {@link FontMetrics#unref} when finished using the object.
      */
     public @NotNull org.pango.FontMetrics getMetrics(@Nullable org.pango.Language language) {
-        java.util.Objects.requireNonNullElse(language, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_get_metrics.invokeExact(handle(), language.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_get_metrics.invokeExact(
+                    handle(),
+                    (Addressable) (language == null ? MemoryAddress.NULL : language.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -264,7 +299,9 @@ public class Font extends org.gtk.gobject.Object {
     public boolean hasChar(int wc) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_has_char.invokeExact(handle(), wc);
+            RESULT = (int) DowncallHandles.pango_font_has_char.invokeExact(
+                    handle(),
+                    wc);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -286,7 +323,8 @@ public class Font extends org.gtk.gobject.Object {
     public @NotNull org.gtk.glib.Bytes serialize() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_serialize.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_serialize.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -300,9 +338,10 @@ public class Font extends org.gtk.gobject.Object {
      * @param nDescs number of font descriptions in {@code descs}
      */
     public static void descriptionsFree(org.pango.FontDescription[] descs, int nDescs) {
-        java.util.Objects.requireNonNullElse(descs, MemoryAddress.NULL);
         try {
-            DowncallHandles.pango_font_descriptions_free.invokeExact(Interop.allocateNativeArray(descs, false), nDescs);
+            DowncallHandles.pango_font_descriptions_free.invokeExact(
+                    (Addressable) (descs == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descs, false)),
+                    nDescs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -327,7 +366,9 @@ public class Font extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_deserialize.invokeExact(context.handle(), bytes.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_deserialize.invokeExact(
+                    context.handle(),
+                    bytes.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

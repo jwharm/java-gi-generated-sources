@@ -15,25 +15,47 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
         GdkPixbuf.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkPixbufAnimationIter";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName("GdkPixbufAnimationIter");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public PixbufAnimationIter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to PixbufAnimationIter */
+    /**
+     * Cast object to PixbufAnimationIter if its GType is a (or inherits from) "GdkPixbufAnimationIter".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "PixbufAnimationIter" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkPixbufAnimationIter", a ClassCastException will be thrown.
+     */
     public static PixbufAnimationIter castFrom(org.gtk.gobject.Object gobject) {
-        return new PixbufAnimationIter(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkPixbufAnimationIter"))) {
+            return new PixbufAnimationIter(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkPixbufAnimationIter");
+        }
     }
     
     /**
@@ -62,10 +84,11 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      * @return {@code TRUE} if the image may need updating
      */
     public boolean advance(@Nullable org.gtk.glib.TimeVal currentTime) {
-        java.util.Objects.requireNonNullElse(currentTime, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_animation_iter_advance.invokeExact(handle(), currentTime.handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_animation_iter_advance.invokeExact(
+                    handle(),
+                    (Addressable) (currentTime == null ? MemoryAddress.NULL : currentTime.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,7 +110,8 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
     public int getDelayTime() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_animation_iter_get_delay_time.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_animation_iter_get_delay_time.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,7 +139,8 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdkpixbuf.Pixbuf getPixbuf() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_animation_iter_get_pixbuf.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_animation_iter_get_pixbuf.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,7 +159,8 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
     public boolean onCurrentlyLoadingFrame() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_animation_iter_on_currently_loading_frame.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_animation_iter_on_currently_loading_frame.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

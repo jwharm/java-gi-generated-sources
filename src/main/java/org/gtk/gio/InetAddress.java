@@ -23,33 +23,56 @@ public class InetAddress extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GInetAddress";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.InetAddressPrivate.getMemoryLayout().withName("priv")
-    ).withName("GInetAddress");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public InetAddress(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to InetAddress */
+    /**
+     * Cast object to InetAddress if its GType is a (or inherits from) "GInetAddress".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "InetAddress" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GInetAddress", a ClassCastException will be thrown.
+     */
     public static InetAddress castFrom(org.gtk.gobject.Object gobject) {
-        return new InetAddress(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GInetAddress"))) {
+            return new InetAddress(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GInetAddress");
+        }
     }
     
     private static Refcounted constructNewAny(@NotNull org.gtk.gio.SocketFamily family) {
         java.util.Objects.requireNonNull(family, "Parameter 'family' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_inet_address_new_any.invokeExact(family.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_inet_address_new_any.invokeExact(
+                    family.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,7 +96,9 @@ public class InetAddress extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(family, "Parameter 'family' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_inet_address_new_from_bytes.invokeExact(Interop.allocateNativeArray(bytes, false), family.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_inet_address_new_from_bytes.invokeExact(
+                    Interop.allocateNativeArray(bytes, false),
+                    family.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,7 +122,8 @@ public class InetAddress extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_inet_address_new_from_string.invokeExact(Interop.allocateNativeString(string)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_inet_address_new_from_string.invokeExact(
+                    Interop.allocateNativeString(string)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,7 +145,8 @@ public class InetAddress extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(family, "Parameter 'family' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_inet_address_new_loopback.invokeExact(family.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_inet_address_new_loopback.invokeExact(
+                    family.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,7 +173,9 @@ public class InetAddress extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(otherAddress, "Parameter 'otherAddress' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_inet_address_equal.invokeExact(handle(), otherAddress.handle());
+            RESULT = (int) DowncallHandles.g_inet_address_equal.invokeExact(
+                    handle(),
+                    otherAddress.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,7 +189,8 @@ public class InetAddress extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gio.SocketFamily getFamily() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_inet_address_get_family.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_inet_address_get_family.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,7 +204,8 @@ public class InetAddress extends org.gtk.gobject.Object {
     public boolean getIsAny() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_inet_address_get_is_any.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_inet_address_get_is_any.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -190,7 +221,8 @@ public class InetAddress extends org.gtk.gobject.Object {
     public boolean getIsLinkLocal() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_inet_address_get_is_link_local.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_inet_address_get_is_link_local.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,7 +236,8 @@ public class InetAddress extends org.gtk.gobject.Object {
     public boolean getIsLoopback() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_inet_address_get_is_loopback.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_inet_address_get_is_loopback.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +251,8 @@ public class InetAddress extends org.gtk.gobject.Object {
     public boolean getIsMcGlobal() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_inet_address_get_is_mc_global.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_inet_address_get_is_mc_global.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -232,7 +266,8 @@ public class InetAddress extends org.gtk.gobject.Object {
     public boolean getIsMcLinkLocal() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_inet_address_get_is_mc_link_local.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_inet_address_get_is_mc_link_local.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -246,7 +281,8 @@ public class InetAddress extends org.gtk.gobject.Object {
     public boolean getIsMcNodeLocal() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_inet_address_get_is_mc_node_local.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_inet_address_get_is_mc_node_local.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -260,7 +296,8 @@ public class InetAddress extends org.gtk.gobject.Object {
     public boolean getIsMcOrgLocal() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_inet_address_get_is_mc_org_local.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_inet_address_get_is_mc_org_local.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -274,7 +311,8 @@ public class InetAddress extends org.gtk.gobject.Object {
     public boolean getIsMcSiteLocal() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_inet_address_get_is_mc_site_local.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_inet_address_get_is_mc_site_local.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -288,7 +326,8 @@ public class InetAddress extends org.gtk.gobject.Object {
     public boolean getIsMulticast() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_inet_address_get_is_multicast.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_inet_address_get_is_multicast.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -305,7 +344,8 @@ public class InetAddress extends org.gtk.gobject.Object {
     public boolean getIsSiteLocal() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_inet_address_get_is_site_local.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_inet_address_get_is_site_local.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -320,7 +360,8 @@ public class InetAddress extends org.gtk.gobject.Object {
     public long getNativeSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_inet_address_get_native_size.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_inet_address_get_native_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -336,7 +377,8 @@ public class InetAddress extends org.gtk.gobject.Object {
     public PointerByte toBytes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_inet_address_to_bytes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_inet_address_to_bytes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -351,11 +393,12 @@ public class InetAddress extends org.gtk.gobject.Object {
     public @NotNull java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_inet_address_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_inet_address_to_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     private static class DowncallHandles {

@@ -102,14 +102,26 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSettingsSchema";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static SettingsSchema allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        SettingsSchema newInstance = new SettingsSchema(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public SettingsSchema(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -121,11 +133,12 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getId() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_get_id.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_get_id.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -140,7 +153,9 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_get_key.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_get_key.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,11 +177,12 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.String getPath() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_get_path.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_get_path.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -178,7 +194,9 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_settings_schema_has_key.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (int) DowncallHandles.g_settings_schema_has_key.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -196,7 +214,8 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull PointerString listChildren() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_list_children.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_list_children.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -215,7 +234,8 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull PointerString listKeys() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_list_keys.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_list_keys.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -229,7 +249,8 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gio.SettingsSchema ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -241,7 +262,8 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_settings_schema_unref.invokeExact(handle());
+            DowncallHandles.g_settings_schema_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

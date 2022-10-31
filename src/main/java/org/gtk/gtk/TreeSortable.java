@@ -15,6 +15,21 @@ import org.jetbrains.annotations.*;
 public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to TreeSortable if its GType is a (or inherits from) "GtkTreeSortable".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TreeSortable" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkTreeSortable", a ClassCastException will be thrown.
+     */
+    public static TreeSortable castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeSortable"))) {
+            return new TreeSortableImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTreeSortable");
+        }
+    }
+    
+    /**
      * Fills in {@code sort_column_id} and {@code order} with the current sort column and the
      * order. It returns {@code true} unless the {@code sort_column_id} is
      * {@code GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID} or
@@ -31,7 +46,10 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
         MemorySegment orderPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_sortable_get_sort_column_id.invokeExact(handle(), (Addressable) sortColumnIdPOINTER.address(), (Addressable) orderPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_tree_sortable_get_sort_column_id.invokeExact(
+                    handle(),
+                    (Addressable) sortColumnIdPOINTER.address(),
+                    (Addressable) orderPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -49,7 +67,8 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
     default boolean hasDefaultSortFunc() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_sortable_has_default_sort_func.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_sortable_has_default_sort_func.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -71,13 +90,14 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
     default void setDefaultSortFunc(@NotNull org.gtk.gtk.TreeIterCompareFunc sortFunc) {
         java.util.Objects.requireNonNull(sortFunc, "Parameter 'sortFunc' must not be null");
         try {
-            DowncallHandles.gtk_tree_sortable_set_default_sort_func.invokeExact(handle(), 
+            DowncallHandles.gtk_tree_sortable_set_default_sort_func.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTreeIterCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(sortFunc)), 
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(sortFunc)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -102,7 +122,10 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
     default void setSortColumnId(int sortColumnId, @NotNull org.gtk.gtk.SortType order) {
         java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
         try {
-            DowncallHandles.gtk_tree_sortable_set_sort_column_id.invokeExact(handle(), sortColumnId, order.getValue());
+            DowncallHandles.gtk_tree_sortable_set_sort_column_id.invokeExact(
+                    handle(),
+                    sortColumnId,
+                    order.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,13 +141,15 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
     default void setSortFunc(int sortColumnId, @NotNull org.gtk.gtk.TreeIterCompareFunc sortFunc) {
         java.util.Objects.requireNonNull(sortFunc, "Parameter 'sortFunc' must not be null");
         try {
-            DowncallHandles.gtk_tree_sortable_set_sort_func.invokeExact(handle(), sortColumnId, 
+            DowncallHandles.gtk_tree_sortable_set_sort_func.invokeExact(
+                    handle(),
+                    sortColumnId,
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTreeIterCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(sortFunc)), 
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(sortFunc)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -136,7 +161,8 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
      */
     default void sortColumnChanged() {
         try {
-            DowncallHandles.gtk_tree_sortable_sort_column_changed.invokeExact(handle());
+            DowncallHandles.gtk_tree_sortable_sort_column_changed.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

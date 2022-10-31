@@ -16,21 +16,34 @@ public class DBusMessage extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GDBusMessage";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public DBusMessage(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DBusMessage */
+    /**
+     * Cast object to DBusMessage if its GType is a (or inherits from) "GDBusMessage".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DBusMessage" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GDBusMessage", a ClassCastException will be thrown.
+     */
     public static DBusMessage castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusMessage(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusMessage"))) {
+            return new DBusMessage(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDBusMessage");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -56,7 +69,10 @@ public class DBusMessage extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_message_new_from_blob.invokeExact(Interop.allocateNativeArray(blob, false), blobLen, capabilities.getValue(), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_message_new_from_blob.invokeExact(
+                    Interop.allocateNativeArray(blob, false),
+                    blobLen,
+                    capabilities.getValue(), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,13 +101,15 @@ public class DBusMessage extends org.gtk.gobject.Object {
     }
     
     private static Refcounted constructNewMethodCall(@Nullable java.lang.String name, @NotNull java.lang.String path, @Nullable java.lang.String interface_, @NotNull java.lang.String method) {
-        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        java.util.Objects.requireNonNullElse(interface_, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_message_new_method_call.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(path), Interop.allocateNativeString(interface_), Interop.allocateNativeString(method)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_message_new_method_call.invokeExact(
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
+                    Interop.allocateNativeString(path),
+                    (Addressable) (interface_ == null ? MemoryAddress.NULL : Interop.allocateNativeString(interface_)),
+                    Interop.allocateNativeString(method)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,7 +134,10 @@ public class DBusMessage extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(signal, "Parameter 'signal' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_message_new_signal.invokeExact(Interop.allocateNativeString(path), Interop.allocateNativeString(interface_), Interop.allocateNativeString(signal)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_message_new_signal.invokeExact(
+                    Interop.allocateNativeString(path),
+                    Interop.allocateNativeString(interface_),
+                    Interop.allocateNativeString(signal)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,7 +170,8 @@ public class DBusMessage extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_copy.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_copy.invokeExact(
+                    handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,11 +189,12 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getArg0() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_arg0.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_arg0.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -182,7 +205,8 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public @Nullable org.gtk.glib.Variant getBody() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_body.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_body.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -196,7 +220,8 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gio.DBusMessageByteOrder getByteOrder() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_message_get_byte_order.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_dbus_message_get_byte_order.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -210,11 +235,12 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getDestination() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_destination.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_destination.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -224,11 +250,12 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getErrorName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_error_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_error_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -238,7 +265,8 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gio.DBusMessageFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_message_get_flags.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_dbus_message_get_flags.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -258,7 +286,9 @@ public class DBusMessage extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(headerField, "Parameter 'headerField' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_header.invokeExact(handle(), headerField.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_header.invokeExact(
+                    handle(),
+                    headerField.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -274,7 +304,8 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public @NotNull PointerByte getHeaderFields() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_header_fields.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_header_fields.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -288,11 +319,12 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getInterface() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_interface.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_interface.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -304,7 +336,8 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public boolean getLocked() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_message_get_locked.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_dbus_message_get_locked.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -318,11 +351,12 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getMember() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_member.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_member.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -332,7 +366,8 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gio.DBusMessageType getMessageType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_message_get_message_type.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_dbus_message_get_message_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -346,7 +381,8 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public int getNumUnixFds() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_message_get_num_unix_fds.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_dbus_message_get_num_unix_fds.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -360,11 +396,12 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getPath() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_path.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_path.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -374,7 +411,8 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public int getReplySerial() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_message_get_reply_serial.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_dbus_message_get_reply_serial.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -388,11 +426,12 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getSender() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_sender.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_sender.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -402,7 +441,8 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public int getSerial() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_message_get_serial.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_dbus_message_get_serial.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -418,11 +458,12 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public @NotNull java.lang.String getSignature() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_signature.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_signature.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -441,7 +482,8 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gio.UnixFDList getUnixFdList() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_unix_fd_list.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_get_unix_fd_list.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -453,7 +495,8 @@ public class DBusMessage extends org.gtk.gobject.Object {
      */
     public void lock() {
         try {
-            DowncallHandles.g_dbus_message_lock.invokeExact(handle());
+            DowncallHandles.g_dbus_message_lock.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -480,7 +523,10 @@ public class DBusMessage extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(errorMessage, "Parameter 'errorMessage' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_new_method_error_literal.invokeExact(handle(), Interop.allocateNativeString(errorName), Interop.allocateNativeString(errorMessage));
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_new_method_error_literal.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(errorName),
+                    Interop.allocateNativeString(errorMessage));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -500,7 +546,11 @@ public class DBusMessage extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_new_method_error_valist.invokeExact(handle(), Interop.allocateNativeString(errorName), Interop.allocateNativeString(errorMessageFormat), varArgs);
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_new_method_error_valist.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(errorName),
+                    Interop.allocateNativeString(errorMessageFormat),
+                    varArgs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -514,7 +564,8 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gio.DBusMessage newMethodReply() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_new_method_reply.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_new_method_reply.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -560,11 +611,13 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public @NotNull java.lang.String print(int indent) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_print.invokeExact(handle(), indent);
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_print.invokeExact(
+                    handle(),
+                    indent);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -578,7 +631,9 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public void setBody(@NotNull org.gtk.glib.Variant body) {
         java.util.Objects.requireNonNull(body, "Parameter 'body' must not be null");
         try {
-            DowncallHandles.g_dbus_message_set_body.invokeExact(handle(), body.handle());
+            DowncallHandles.g_dbus_message_set_body.invokeExact(
+                    handle(),
+                    body.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -591,7 +646,9 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public void setByteOrder(@NotNull org.gtk.gio.DBusMessageByteOrder byteOrder) {
         java.util.Objects.requireNonNull(byteOrder, "Parameter 'byteOrder' must not be null");
         try {
-            DowncallHandles.g_dbus_message_set_byte_order.invokeExact(handle(), byteOrder.getValue());
+            DowncallHandles.g_dbus_message_set_byte_order.invokeExact(
+                    handle(),
+                    byteOrder.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -602,9 +659,10 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * @param value The value to set.
      */
     public void setDestination(@Nullable java.lang.String value) {
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_dbus_message_set_destination.invokeExact(handle(), Interop.allocateNativeString(value));
+            DowncallHandles.g_dbus_message_set_destination.invokeExact(
+                    handle(),
+                    (Addressable) (value == null ? MemoryAddress.NULL : Interop.allocateNativeString(value)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -617,7 +675,9 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public void setErrorName(@NotNull java.lang.String value) {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.g_dbus_message_set_error_name.invokeExact(handle(), Interop.allocateNativeString(value));
+            DowncallHandles.g_dbus_message_set_error_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -631,7 +691,9 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public void setFlags(@NotNull org.gtk.gio.DBusMessageFlags flags) {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            DowncallHandles.g_dbus_message_set_flags.invokeExact(handle(), flags.getValue());
+            DowncallHandles.g_dbus_message_set_flags.invokeExact(
+                    handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -646,9 +708,11 @@ public class DBusMessage extends org.gtk.gobject.Object {
      */
     public void setHeader(@NotNull org.gtk.gio.DBusMessageHeaderField headerField, @Nullable org.gtk.glib.Variant value) {
         java.util.Objects.requireNonNull(headerField, "Parameter 'headerField' must not be null");
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_dbus_message_set_header.invokeExact(handle(), headerField.getValue(), value.handle());
+            DowncallHandles.g_dbus_message_set_header.invokeExact(
+                    handle(),
+                    headerField.getValue(),
+                    (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -659,9 +723,10 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * @param value The value to set.
      */
     public void setInterface(@Nullable java.lang.String value) {
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_dbus_message_set_interface.invokeExact(handle(), Interop.allocateNativeString(value));
+            DowncallHandles.g_dbus_message_set_interface.invokeExact(
+                    handle(),
+                    (Addressable) (value == null ? MemoryAddress.NULL : Interop.allocateNativeString(value)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -672,9 +737,10 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * @param value The value to set.
      */
     public void setMember(@Nullable java.lang.String value) {
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_dbus_message_set_member.invokeExact(handle(), Interop.allocateNativeString(value));
+            DowncallHandles.g_dbus_message_set_member.invokeExact(
+                    handle(),
+                    (Addressable) (value == null ? MemoryAddress.NULL : Interop.allocateNativeString(value)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -687,7 +753,9 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public void setMessageType(@NotNull org.gtk.gio.DBusMessageType type) {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         try {
-            DowncallHandles.g_dbus_message_set_message_type.invokeExact(handle(), type.getValue());
+            DowncallHandles.g_dbus_message_set_message_type.invokeExact(
+                    handle(),
+                    type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -699,7 +767,9 @@ public class DBusMessage extends org.gtk.gobject.Object {
      */
     public void setNumUnixFds(int value) {
         try {
-            DowncallHandles.g_dbus_message_set_num_unix_fds.invokeExact(handle(), value);
+            DowncallHandles.g_dbus_message_set_num_unix_fds.invokeExact(
+                    handle(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -710,9 +780,10 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * @param value The value to set.
      */
     public void setPath(@Nullable java.lang.String value) {
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_dbus_message_set_path.invokeExact(handle(), Interop.allocateNativeString(value));
+            DowncallHandles.g_dbus_message_set_path.invokeExact(
+                    handle(),
+                    (Addressable) (value == null ? MemoryAddress.NULL : Interop.allocateNativeString(value)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -724,7 +795,9 @@ public class DBusMessage extends org.gtk.gobject.Object {
      */
     public void setReplySerial(int value) {
         try {
-            DowncallHandles.g_dbus_message_set_reply_serial.invokeExact(handle(), value);
+            DowncallHandles.g_dbus_message_set_reply_serial.invokeExact(
+                    handle(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -735,9 +808,10 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * @param value The value to set.
      */
     public void setSender(@Nullable java.lang.String value) {
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_dbus_message_set_sender.invokeExact(handle(), Interop.allocateNativeString(value));
+            DowncallHandles.g_dbus_message_set_sender.invokeExact(
+                    handle(),
+                    (Addressable) (value == null ? MemoryAddress.NULL : Interop.allocateNativeString(value)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -749,7 +823,9 @@ public class DBusMessage extends org.gtk.gobject.Object {
      */
     public void setSerial(int serial) {
         try {
-            DowncallHandles.g_dbus_message_set_serial.invokeExact(handle(), serial);
+            DowncallHandles.g_dbus_message_set_serial.invokeExact(
+                    handle(),
+                    serial);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -760,9 +836,10 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * @param value The value to set.
      */
     public void setSignature(@Nullable java.lang.String value) {
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_dbus_message_set_signature.invokeExact(handle(), Interop.allocateNativeString(value));
+            DowncallHandles.g_dbus_message_set_signature.invokeExact(
+                    handle(),
+                    (Addressable) (value == null ? MemoryAddress.NULL : Interop.allocateNativeString(value)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -783,9 +860,10 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * @param fdList A {@link UnixFDList} or {@code null}.
      */
     public void setUnixFdList(@Nullable org.gtk.gio.UnixFDList fdList) {
-        java.util.Objects.requireNonNullElse(fdList, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_dbus_message_set_unix_fd_list.invokeExact(handle(), fdList.handle());
+            DowncallHandles.g_dbus_message_set_unix_fd_list.invokeExact(
+                    handle(),
+                    (Addressable) (fdList == null ? MemoryAddress.NULL : fdList.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -808,7 +886,10 @@ public class DBusMessage extends org.gtk.gobject.Object {
         MemorySegment outSizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_to_blob.invokeExact(handle(), (Addressable) outSizePOINTER.address(), capabilities.getValue(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_message_to_blob.invokeExact(
+                    handle(),
+                    (Addressable) outSizePOINTER.address(),
+                    capabilities.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -834,7 +915,8 @@ public class DBusMessage extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_message_to_gerror.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_dbus_message_to_gerror.invokeExact(
+                    handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -859,7 +941,9 @@ public class DBusMessage extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_dbus_message_bytes_needed.invokeExact(Interop.allocateNativeArray(blob, false), blobLen, (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_dbus_message_bytes_needed.invokeExact(
+                    Interop.allocateNativeArray(blob, false),
+                    blobLen, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

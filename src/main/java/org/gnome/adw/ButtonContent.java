@@ -57,21 +57,34 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwButtonContent";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ButtonContent(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ButtonContent */
+    /**
+     * Cast object to ButtonContent if its GType is a (or inherits from) "AdwButtonContent".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ButtonContent" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwButtonContent", a ClassCastException will be thrown.
+     */
     public static ButtonContent castFrom(org.gtk.gobject.Object gobject) {
-        return new ButtonContent(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwButtonContent"))) {
+            return new ButtonContent(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwButtonContent");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -98,11 +111,12 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     public @NotNull java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_button_content_get_icon_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_button_content_get_icon_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -112,11 +126,12 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     public @NotNull java.lang.String getLabel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_button_content_get_label.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_button_content_get_label.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -126,7 +141,8 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     public boolean getUseUnderline() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_button_content_get_use_underline.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_button_content_get_use_underline.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,12 +151,16 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     
     /**
      * Sets the name of the displayed icon.
+     * <p>
+     * If empty, the icon is not shown.
      * @param iconName the new icon name
      */
     public void setIconName(@NotNull java.lang.String iconName) {
         java.util.Objects.requireNonNull(iconName, "Parameter 'iconName' must not be null");
         try {
-            DowncallHandles.adw_button_content_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName));
+            DowncallHandles.adw_button_content_set_icon_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(iconName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,7 +173,9 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     public void setLabel(@NotNull java.lang.String label) {
         java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
         try {
-            DowncallHandles.adw_button_content_set_label.invokeExact(handle(), Interop.allocateNativeString(label));
+            DowncallHandles.adw_button_content_set_label.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(label));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,11 +183,17 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     
     /**
      * Sets whether an underline in the text indicates a mnemonic.
+     * <p>
+     * The mnemonic can be used to activate the parent button.
+     * <p>
+     * See {@code ButtonContent:label}.
      * @param useUnderline whether an underline in the text indicates a mnemonic
      */
     public void setUseUnderline(boolean useUnderline) {
         try {
-            DowncallHandles.adw_button_content_set_use_underline.invokeExact(handle(), useUnderline ? 1 : 0);
+            DowncallHandles.adw_button_content_set_use_underline.invokeExact(
+                    handle(),
+                    useUnderline ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

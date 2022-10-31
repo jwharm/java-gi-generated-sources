@@ -86,25 +86,47 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkPopover";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent")
-    ).withName("GtkPopover");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent}
+     * @return The value of the field {@code parent}
+     */
+    public org.gtk.gtk.Widget parent$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
+        return new org.gtk.gtk.Widget(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Popover(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Popover */
+    /**
+     * Cast object to Popover if its GType is a (or inherits from) "GtkPopover".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Popover" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkPopover", a ClassCastException will be thrown.
+     */
     public static Popover castFrom(org.gtk.gobject.Object gobject) {
-        return new Popover(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPopover"))) {
+            return new Popover(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkPopover");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -134,7 +156,8 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public boolean getAutohide() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_popover_get_autohide.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_popover_get_autohide.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -148,7 +171,8 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public boolean getCascadePopdown() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_popover_get_cascade_popdown.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_popover_get_cascade_popdown.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,7 +186,8 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_popover_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_popover_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,7 +202,8 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public boolean getHasArrow() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_popover_get_has_arrow.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_popover_get_has_arrow.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -192,7 +218,8 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public boolean getMnemonicsVisible() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_popover_get_mnemonics_visible.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_popover_get_mnemonics_visible.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,17 +232,18 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param yOffset a location for the y_offset
      */
     public void getOffset(Out<Integer> xOffset, Out<Integer> yOffset) {
-        java.util.Objects.requireNonNullElse(xOffset, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(yOffset, MemoryAddress.NULL);
         MemorySegment xOffsetPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment yOffsetPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_popover_get_offset.invokeExact(handle(), (Addressable) xOffsetPOINTER.address(), (Addressable) yOffsetPOINTER.address());
+            DowncallHandles.gtk_popover_get_offset.invokeExact(
+                    handle(),
+                    (Addressable) (xOffset == null ? MemoryAddress.NULL : (Addressable) xOffsetPOINTER.address()),
+                    (Addressable) (yOffset == null ? MemoryAddress.NULL : (Addressable) yOffsetPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        xOffset.set(xOffsetPOINTER.get(ValueLayout.JAVA_INT, 0));
-        yOffset.set(yOffsetPOINTER.get(ValueLayout.JAVA_INT, 0));
+        if (xOffset != null) xOffset.set(xOffsetPOINTER.get(ValueLayout.JAVA_INT, 0));
+        if (yOffset != null) yOffset.set(yOffsetPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
     /**
@@ -228,16 +256,16 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param rect location to store the rectangle
      * @return {@code true} if a rectangle to point to was set.
      */
-    public boolean getPointingTo(@NotNull Out<org.gtk.gdk.Rectangle> rect) {
+    public boolean getPointingTo(@NotNull org.gtk.gdk.Rectangle rect) {
         java.util.Objects.requireNonNull(rect, "Parameter 'rect' must not be null");
-        MemorySegment rectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_popover_get_pointing_to.invokeExact(handle(), (Addressable) rectPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_popover_get_pointing_to.invokeExact(
+                    handle(),
+                    rect.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        rect.set(new org.gtk.gdk.Rectangle(Refcounted.get(rectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -248,7 +276,8 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public @NotNull org.gtk.gtk.PositionType getPosition() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_popover_get_position.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_popover_get_position.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -263,7 +292,8 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void popdown() {
         try {
-            DowncallHandles.gtk_popover_popdown.invokeExact(handle());
+            DowncallHandles.gtk_popover_popdown.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -274,7 +304,8 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void popup() {
         try {
-            DowncallHandles.gtk_popover_popup.invokeExact(handle());
+            DowncallHandles.gtk_popover_popup.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -285,7 +316,8 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void present() {
         try {
-            DowncallHandles.gtk_popover_present.invokeExact(handle());
+            DowncallHandles.gtk_popover_present.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -305,7 +337,9 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void setAutohide(boolean autohide) {
         try {
-            DowncallHandles.gtk_popover_set_autohide.invokeExact(handle(), autohide ? 1 : 0);
+            DowncallHandles.gtk_popover_set_autohide.invokeExact(
+                    handle(),
+                    autohide ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -320,7 +354,9 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void setCascadePopdown(boolean cascadePopdown) {
         try {
-            DowncallHandles.gtk_popover_set_cascade_popdown.invokeExact(handle(), cascadePopdown ? 1 : 0);
+            DowncallHandles.gtk_popover_set_cascade_popdown.invokeExact(
+                    handle(),
+                    cascadePopdown ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -331,9 +367,10 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param child the child widget
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_popover_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_popover_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -349,9 +386,10 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      *   the default, or {@code null} to unset the default widget for the popover
      */
     public void setDefaultWidget(@Nullable org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNullElse(widget, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_popover_set_default_widget.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_popover_set_default_widget.invokeExact(
+                    handle(),
+                    (Addressable) (widget == null ? MemoryAddress.NULL : widget.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -364,7 +402,9 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void setHasArrow(boolean hasArrow) {
         try {
-            DowncallHandles.gtk_popover_set_has_arrow.invokeExact(handle(), hasArrow ? 1 : 0);
+            DowncallHandles.gtk_popover_set_has_arrow.invokeExact(
+                    handle(),
+                    hasArrow ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -376,7 +416,9 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void setMnemonicsVisible(boolean mnemonicsVisible) {
         try {
-            DowncallHandles.gtk_popover_set_mnemonics_visible.invokeExact(handle(), mnemonicsVisible ? 1 : 0);
+            DowncallHandles.gtk_popover_set_mnemonics_visible.invokeExact(
+                    handle(),
+                    mnemonicsVisible ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -393,7 +435,10 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void setOffset(int xOffset, int yOffset) {
         try {
-            DowncallHandles.gtk_popover_set_offset.invokeExact(handle(), xOffset, yOffset);
+            DowncallHandles.gtk_popover_set_offset.invokeExact(
+                    handle(),
+                    xOffset,
+                    yOffset);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -406,9 +451,10 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param rect rectangle to point to
      */
     public void setPointingTo(@Nullable org.gtk.gdk.Rectangle rect) {
-        java.util.Objects.requireNonNullElse(rect, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_popover_set_pointing_to.invokeExact(handle(), rect.handle());
+            DowncallHandles.gtk_popover_set_pointing_to.invokeExact(
+                    handle(),
+                    (Addressable) (rect == null ? MemoryAddress.NULL : rect.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -428,7 +474,9 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void setPosition(@NotNull org.gtk.gtk.PositionType position) {
         java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
         try {
-            DowncallHandles.gtk_popover_set_position.invokeExact(handle(), position.getValue());
+            DowncallHandles.gtk_popover_set_position.invokeExact(
+                    handle(),
+                    position.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

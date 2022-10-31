@@ -16,26 +16,48 @@ public class TcpConnection extends org.gtk.gio.SocketConnection {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTcpConnection";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.SocketConnection.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.TcpConnectionPrivate.getMemoryLayout().withName("priv")
-    ).withName("GTcpConnection");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gio.SocketConnection parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gio.SocketConnection(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public TcpConnection(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TcpConnection */
+    /**
+     * Cast object to TcpConnection if its GType is a (or inherits from) "GTcpConnection".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TcpConnection" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GTcpConnection", a ClassCastException will be thrown.
+     */
     public static TcpConnection castFrom(org.gtk.gobject.Object gobject) {
-        return new TcpConnection(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTcpConnection"))) {
+            return new TcpConnection(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GTcpConnection");
+        }
     }
     
     /**
@@ -46,7 +68,8 @@ public class TcpConnection extends org.gtk.gio.SocketConnection {
     public boolean getGracefulDisconnect() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tcp_connection_get_graceful_disconnect.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_tcp_connection_get_graceful_disconnect.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,7 +90,9 @@ public class TcpConnection extends org.gtk.gio.SocketConnection {
      */
     public void setGracefulDisconnect(boolean gracefulDisconnect) {
         try {
-            DowncallHandles.g_tcp_connection_set_graceful_disconnect.invokeExact(handle(), gracefulDisconnect ? 1 : 0);
+            DowncallHandles.g_tcp_connection_set_graceful_disconnect.invokeExact(
+                    handle(),
+                    gracefulDisconnect ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

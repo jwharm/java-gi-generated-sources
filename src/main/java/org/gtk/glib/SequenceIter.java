@@ -15,14 +15,26 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSequenceIter";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static SequenceIter allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        SequenceIter newInstance = new SequenceIter(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public SequenceIter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -40,7 +52,9 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_sequence_iter_compare.invokeExact(handle(), b.handle());
+            RESULT = (int) DowncallHandles.g_sequence_iter_compare.invokeExact(
+                    handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -54,7 +68,8 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
     public int getPosition() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_sequence_iter_get_position.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_sequence_iter_get_position.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -68,7 +83,8 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Sequence getSequence() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_iter_get_sequence.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_iter_get_sequence.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +98,8 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean isBegin() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_sequence_iter_is_begin.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_sequence_iter_is_begin.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,7 +113,8 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean isEnd() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_sequence_iter_is_end.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_sequence_iter_is_end.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,7 +133,9 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.SequenceIter move(int delta) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_iter_move.invokeExact(handle(), delta);
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_iter_move.invokeExact(
+                    handle(),
+                    delta);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -130,7 +150,8 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.SequenceIter next() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_iter_next.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_iter_next.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,7 +167,8 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.SequenceIter prev() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_iter_prev.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_iter_prev.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

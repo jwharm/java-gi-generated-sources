@@ -27,29 +27,42 @@ public class Viewport extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkViewport";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Viewport(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Viewport */
+    /**
+     * Cast object to Viewport if its GType is a (or inherits from) "GtkViewport".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Viewport" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkViewport", a ClassCastException will be thrown.
+     */
     public static Viewport castFrom(org.gtk.gobject.Object gobject) {
-        return new Viewport(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkViewport"))) {
+            return new Viewport(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkViewport");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gtk.Adjustment hadjustment, @Nullable org.gtk.gtk.Adjustment vadjustment) {
-        java.util.Objects.requireNonNullElse(hadjustment, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(vadjustment, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_viewport_new.invokeExact(hadjustment.handle(), vadjustment.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_viewport_new.invokeExact(
+                    (Addressable) (hadjustment == null ? MemoryAddress.NULL : hadjustment.handle()),
+                    (Addressable) (vadjustment == null ? MemoryAddress.NULL : vadjustment.handle())), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -75,7 +88,8 @@ public class Viewport extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_viewport_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_viewport_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +104,8 @@ public class Viewport extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getScrollToFocus() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_viewport_get_scroll_to_focus.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_viewport_get_scroll_to_focus.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,9 +117,10 @@ public class Viewport extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param child the child widget
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_viewport_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_viewport_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,7 +133,9 @@ public class Viewport extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setScrollToFocus(boolean scrollToFocus) {
         try {
-            DowncallHandles.gtk_viewport_set_scroll_to_focus.invokeExact(handle(), scrollToFocus ? 1 : 0);
+            DowncallHandles.gtk_viewport_set_scroll_to_focus.invokeExact(
+                    handle(),
+                    scrollToFocus ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

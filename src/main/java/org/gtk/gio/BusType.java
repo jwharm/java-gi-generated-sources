@@ -11,13 +11,7 @@ import org.jetbrains.annotations.*;
  */
 public class BusType extends io.github.jwharm.javagi.Enumeration {
     
-    /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
-     */
-    public static MemoryLayout getMemoryLayout() {
-        return Interop.valueLayout.ADDRESS;
-    }
+    private static final java.lang.String C_TYPE_NAME = "GBusType";
     
     /**
      * An alias for the message bus that activated the process, if any.

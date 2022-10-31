@@ -14,19 +14,73 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GPtrArray";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("pdata"),
         ValueLayout.JAVA_INT.withName("len")
-    ).withName("GPtrArray");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static PtrArray allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        PtrArray newInstance = new PtrArray(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code pdata}
+     * @return The value of the field {@code pdata}
+     */
+    public java.lang.foreign.MemoryAddress pdata$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("pdata"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code pdata}
+     * @param pdata The new value of the field {@code pdata}
+     */
+    public void pdata$set(java.lang.foreign.MemoryAddress pdata) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("pdata"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), pdata);
+    }
+    
+    /**
+     * Get the value of the field {@code len}
+     * @return The value of the field {@code len}
+     */
+    public int len$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("len"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code len}
+     * @param len The new value of the field {@code len}
+     */
+    public void len$set(int len) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("len"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
+    }
+    
+    @ApiStatus.Internal
     public PtrArray(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -40,7 +94,9 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
     public static void add(java.lang.foreign.MemoryAddress[] array, @Nullable java.lang.foreign.MemoryAddress data) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         try {
-            DowncallHandles.g_ptr_array_add.invokeExact(Interop.allocateNativeArray(array, false), data);
+            DowncallHandles.g_ptr_array_add.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,16 +122,16 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      */
     public static @NotNull PointerAddress copy(java.lang.foreign.MemoryAddress[] array, @Nullable org.gtk.glib.CopyFunc func) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
-        java.util.Objects.requireNonNullElse(func, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_copy.invokeExact(Interop.allocateNativeArray(array, false), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_copy.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)));
+                        Interop.getScope())),
+                    (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,15 +158,16 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
     public static void extend(java.lang.foreign.MemoryAddress[] arrayToExtend, java.lang.foreign.MemoryAddress[] array, @Nullable org.gtk.glib.CopyFunc func) {
         java.util.Objects.requireNonNull(arrayToExtend, "Parameter 'arrayToExtend' must not be null");
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
-        java.util.Objects.requireNonNullElse(func, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_ptr_array_extend.invokeExact(Interop.allocateNativeArray(arrayToExtend, false), Interop.allocateNativeArray(array, false), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_ptr_array_extend.invokeExact(
+                    Interop.allocateNativeArray(arrayToExtend, false),
+                    Interop.allocateNativeArray(array, false),
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)));
+                        Interop.getScope())),
+                    (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,7 +189,9 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(arrayToExtend, "Parameter 'arrayToExtend' must not be null");
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         try {
-            DowncallHandles.g_ptr_array_extend_and_steal.invokeExact(Interop.allocateNativeArray(arrayToExtend, false), Interop.allocateNativeArray(array, false));
+            DowncallHandles.g_ptr_array_extend_and_steal.invokeExact(
+                    Interop.allocateNativeArray(arrayToExtend, false),
+                    Interop.allocateNativeArray(array, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,12 +213,14 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean find(java.lang.foreign.MemoryAddress[] haystack, @Nullable java.lang.foreign.MemoryAddress needle, Out<Integer> index) {
         java.util.Objects.requireNonNull(haystack, "Parameter 'haystack' must not be null");
-        java.util.Objects.requireNonNullElse(needle, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(index, "Parameter 'index' must not be null");
         MemorySegment indexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_ptr_array_find.invokeExact(Interop.allocateNativeArray(haystack, false), needle, (Addressable) indexPOINTER.address());
+            RESULT = (int) DowncallHandles.g_ptr_array_find.invokeExact(
+                    Interop.allocateNativeArray(haystack, false),
+                    (Addressable) (needle == null ? MemoryAddress.NULL : needle),
+                    (Addressable) indexPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -200,13 +261,14 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.g_ptr_array_foreach.invokeExact(Interop.allocateNativeArray(array, false), 
+            DowncallHandles.g_ptr_array_foreach.invokeExact(
+                    Interop.allocateNativeArray(array, false),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -236,7 +298,9 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_free.invokeExact(Interop.allocateNativeArray(array, false), freeSeg ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_free.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    freeSeg ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -253,7 +317,10 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
     public static void insert(java.lang.foreign.MemoryAddress[] array, int index, @Nullable java.lang.foreign.MemoryAddress data) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         try {
-            DowncallHandles.g_ptr_array_insert.invokeExact(Interop.allocateNativeArray(array, false), index, data);
+            DowncallHandles.g_ptr_array_insert.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    index,
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -313,7 +380,8 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_ref.invokeExact(Interop.allocateNativeArray(array, false));
+            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_ref.invokeExact(
+                    Interop.allocateNativeArray(array, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -337,7 +405,9 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_ptr_array_remove.invokeExact(Interop.allocateNativeArray(array, false), data);
+            RESULT = (int) DowncallHandles.g_ptr_array_remove.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -361,7 +431,9 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_ptr_array_remove_fast.invokeExact(Interop.allocateNativeArray(array, false), data);
+            RESULT = (int) DowncallHandles.g_ptr_array_remove_fast.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -382,7 +454,9 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_remove_index.invokeExact(Interop.allocateNativeArray(array, false), index);
+            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_remove_index.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -405,7 +479,9 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_remove_index_fast.invokeExact(Interop.allocateNativeArray(array, false), index);
+            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_remove_index_fast.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -426,7 +502,10 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_remove_range.invokeExact(Interop.allocateNativeArray(array, false), index, length);
+            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_remove_range.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    index,
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -456,7 +535,9 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
     public static void setSize(java.lang.foreign.MemoryAddress[] array, int length) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         try {
-            DowncallHandles.g_ptr_array_set_size.invokeExact(Interop.allocateNativeArray(array, false), length);
+            DowncallHandles.g_ptr_array_set_size.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -473,7 +554,8 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
     public static @NotNull PointerAddress sizedNew(int reservedSize) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_sized_new.invokeExact(reservedSize);
+            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_sized_new.invokeExact(
+                    reservedSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -582,13 +664,14 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
         try {
-            DowncallHandles.g_ptr_array_sort_with_data.invokeExact(Interop.allocateNativeArray(array, false), 
+            DowncallHandles.g_ptr_array_sort_with_data.invokeExact(
+                    Interop.allocateNativeArray(array, false),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(compareFunc)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(compareFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -647,7 +730,9 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_steal.invokeExact(Interop.allocateNativeArray(array, false), (Addressable) lenPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_steal.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    (Addressable) lenPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -668,7 +753,9 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_steal_index.invokeExact(Interop.allocateNativeArray(array, false), index);
+            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_steal_index.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -690,7 +777,9 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_steal_index_fast.invokeExact(Interop.allocateNativeArray(array, false), index);
+            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_steal_index_fast.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -707,7 +796,8 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
     public static void unref(java.lang.foreign.MemoryAddress[] array) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         try {
-            DowncallHandles.g_ptr_array_unref.invokeExact(Interop.allocateNativeArray(array, false));
+            DowncallHandles.g_ptr_array_unref.invokeExact(
+                    Interop.allocateNativeArray(array, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

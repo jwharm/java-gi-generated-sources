@@ -15,14 +15,26 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GPatternSpec";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static PatternSpec allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        PatternSpec newInstance = new PatternSpec(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public PatternSpec(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -31,7 +43,8 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(pattern, "Parameter 'pattern' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_pattern_spec_new.invokeExact(Interop.allocateNativeString(pattern)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_pattern_spec_new.invokeExact(
+                    Interop.allocateNativeString(pattern)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -53,7 +66,8 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.PatternSpec copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_pattern_spec_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_pattern_spec_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,7 +84,9 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(pspec2, "Parameter 'pspec2' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_pattern_spec_equal.invokeExact(handle(), pspec2.handle());
+            RESULT = (int) DowncallHandles.g_pattern_spec_equal.invokeExact(
+                    handle(),
+                    pspec2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +98,8 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.g_pattern_spec_free.invokeExact(handle());
+            DowncallHandles.g_pattern_spec_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,10 +131,13 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean match(long stringLength, @NotNull java.lang.String string, @Nullable java.lang.String stringReversed) {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNullElse(stringReversed, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_pattern_spec_match.invokeExact(handle(), stringLength, Interop.allocateNativeString(string), Interop.allocateNativeString(stringReversed));
+            RESULT = (int) DowncallHandles.g_pattern_spec_match.invokeExact(
+                    handle(),
+                    stringLength,
+                    Interop.allocateNativeString(string),
+                    (Addressable) (stringReversed == null ? MemoryAddress.NULL : Interop.allocateNativeString(stringReversed)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,7 +155,9 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_pattern_spec_match_string.invokeExact(handle(), Interop.allocateNativeString(string));
+            RESULT = (int) DowncallHandles.g_pattern_spec_match_string.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

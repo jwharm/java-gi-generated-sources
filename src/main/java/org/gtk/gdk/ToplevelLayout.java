@@ -22,14 +22,26 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkToplevelLayout";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static ToplevelLayout allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        ToplevelLayout newInstance = new ToplevelLayout(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public ToplevelLayout(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -64,7 +76,8 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gdk.ToplevelLayout copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_toplevel_layout_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_toplevel_layout_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -81,7 +94,9 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_toplevel_layout_equal.invokeExact(handle(), other.handle());
+            RESULT = (int) DowncallHandles.gdk_toplevel_layout_equal.invokeExact(
+                    handle(),
+                    other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,7 +115,9 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment fullscreenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_toplevel_layout_get_fullscreen.invokeExact(handle(), (Addressable) fullscreenPOINTER.address());
+            RESULT = (int) DowncallHandles.gdk_toplevel_layout_get_fullscreen.invokeExact(
+                    handle(),
+                    (Addressable) fullscreenPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,7 +133,8 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.gdk.Monitor getFullscreenMonitor() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_toplevel_layout_get_fullscreen_monitor.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_toplevel_layout_get_fullscreen_monitor.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,7 +153,9 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment maximizedPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_toplevel_layout_get_maximized.invokeExact(handle(), (Addressable) maximizedPOINTER.address());
+            RESULT = (int) DowncallHandles.gdk_toplevel_layout_get_maximized.invokeExact(
+                    handle(),
+                    (Addressable) maximizedPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,7 +171,8 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
     public boolean getResizable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_toplevel_layout_get_resizable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_toplevel_layout_get_resizable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -165,7 +186,8 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gdk.ToplevelLayout ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_toplevel_layout_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_toplevel_layout_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -179,9 +201,11 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
      * @param monitor the monitor to fullscreen on
      */
     public void setFullscreen(boolean fullscreen, @Nullable org.gtk.gdk.Monitor monitor) {
-        java.util.Objects.requireNonNullElse(monitor, MemoryAddress.NULL);
         try {
-            DowncallHandles.gdk_toplevel_layout_set_fullscreen.invokeExact(handle(), fullscreen ? 1 : 0, monitor.handle());
+            DowncallHandles.gdk_toplevel_layout_set_fullscreen.invokeExact(
+                    handle(),
+                    fullscreen ? 1 : 0,
+                    (Addressable) (monitor == null ? MemoryAddress.NULL : monitor.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -194,7 +218,9 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setMaximized(boolean maximized) {
         try {
-            DowncallHandles.gdk_toplevel_layout_set_maximized.invokeExact(handle(), maximized ? 1 : 0);
+            DowncallHandles.gdk_toplevel_layout_set_maximized.invokeExact(
+                    handle(),
+                    maximized ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -207,7 +233,9 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setResizable(boolean resizable) {
         try {
-            DowncallHandles.gdk_toplevel_layout_set_resizable.invokeExact(handle(), resizable ? 1 : 0);
+            DowncallHandles.gdk_toplevel_layout_set_resizable.invokeExact(
+                    handle(),
+                    resizable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +246,8 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.gdk_toplevel_layout_unref.invokeExact(handle());
+            DowncallHandles.gdk_toplevel_layout_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

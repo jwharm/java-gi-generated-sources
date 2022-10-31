@@ -31,21 +31,34 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkCellView";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public CellView(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CellView */
+    /**
+     * Cast object to CellView if its GType is a (or inherits from) "GtkCellView".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CellView" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkCellView", a ClassCastException will be thrown.
+     */
     public static CellView castFrom(org.gtk.gobject.Object gobject) {
-        return new CellView(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellView"))) {
+            return new CellView(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCellView");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -70,7 +83,9 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_view_new_with_context.invokeExact(area.handle(), context.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_view_new_with_context.invokeExact(
+                    area.handle(),
+                    context.handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,7 +112,8 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(markup, "Parameter 'markup' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_view_new_with_markup.invokeExact(Interop.allocateNativeString(markup)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_view_new_with_markup.invokeExact(
+                    Interop.allocateNativeString(markup)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,7 +135,8 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_view_new_with_text.invokeExact(Interop.allocateNativeString(text)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_view_new_with_text.invokeExact(
+                    Interop.allocateNativeString(text)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,7 +157,8 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(texture, "Parameter 'texture' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_view_new_with_texture.invokeExact(texture.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_view_new_with_texture.invokeExact(
+                    texture.handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -166,7 +184,8 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.TreePath getDisplayedRow() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_view_get_displayed_row.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_view_get_displayed_row.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,7 +201,8 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getDrawSensitive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_cell_view_get_draw_sensitive.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_cell_view_get_draw_sensitive.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -198,7 +218,8 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getFitModel() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_cell_view_get_fit_model.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_cell_view_get_fit_model.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -213,7 +234,8 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.TreeModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_view_get_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_view_get_model.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,9 +252,10 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param path a {@code GtkTreePath} or {@code null} to unset.
      */
     public void setDisplayedRow(@Nullable org.gtk.gtk.TreePath path) {
-        java.util.Objects.requireNonNullElse(path, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_cell_view_set_displayed_row.invokeExact(handle(), path.handle());
+            DowncallHandles.gtk_cell_view_set_displayed_row.invokeExact(
+                    handle(),
+                    (Addressable) (path == null ? MemoryAddress.NULL : path.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -247,7 +270,9 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setDrawSensitive(boolean drawSensitive) {
         try {
-            DowncallHandles.gtk_cell_view_set_draw_sensitive.invokeExact(handle(), drawSensitive ? 1 : 0);
+            DowncallHandles.gtk_cell_view_set_draw_sensitive.invokeExact(
+                    handle(),
+                    drawSensitive ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -263,7 +288,9 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setFitModel(boolean fitModel) {
         try {
-            DowncallHandles.gtk_cell_view_set_fit_model.invokeExact(handle(), fitModel ? 1 : 0);
+            DowncallHandles.gtk_cell_view_set_fit_model.invokeExact(
+                    handle(),
+                    fitModel ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -276,9 +303,10 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param model a {@code GtkTreeModel}
      */
     public void setModel(@Nullable org.gtk.gtk.TreeModel model) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_cell_view_set_model.invokeExact(handle(), model.handle());
+            DowncallHandles.gtk_cell_view_set_model.invokeExact(
+                    handle(),
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

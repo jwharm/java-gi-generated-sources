@@ -14,21 +14,34 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkOverlayLayoutChild";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public OverlayLayoutChild(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to OverlayLayoutChild */
+    /**
+     * Cast object to OverlayLayoutChild if its GType is a (or inherits from) "GtkOverlayLayoutChild".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "OverlayLayoutChild" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkOverlayLayoutChild", a ClassCastException will be thrown.
+     */
     public static OverlayLayoutChild castFrom(org.gtk.gobject.Object gobject) {
-        return new OverlayLayoutChild(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkOverlayLayoutChild"))) {
+            return new OverlayLayoutChild(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkOverlayLayoutChild");
+        }
     }
     
     /**
@@ -38,7 +51,8 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
     public boolean getClipOverlay() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_overlay_layout_child_get_clip_overlay.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_overlay_layout_child_get_clip_overlay.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -52,7 +66,8 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
     public boolean getMeasure() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_overlay_layout_child_get_measure.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_overlay_layout_child_get_measure.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,7 +80,9 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
      */
     public void setClipOverlay(boolean clipOverlay) {
         try {
-            DowncallHandles.gtk_overlay_layout_child_set_clip_overlay.invokeExact(handle(), clipOverlay ? 1 : 0);
+            DowncallHandles.gtk_overlay_layout_child_set_clip_overlay.invokeExact(
+                    handle(),
+                    clipOverlay ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,7 +94,9 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
      */
     public void setMeasure(boolean measure) {
         try {
-            DowncallHandles.gtk_overlay_layout_child_set_measure.invokeExact(handle(), measure ? 1 : 0);
+            DowncallHandles.gtk_overlay_layout_child_set_measure.invokeExact(
+                    handle(),
+                    measure ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

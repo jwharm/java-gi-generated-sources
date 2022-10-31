@@ -16,26 +16,48 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GMenuAttributeIter";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.MenuAttributeIterPrivate.getMemoryLayout().withName("priv")
-    ).withName("GMenuAttributeIter");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public MenuAttributeIter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to MenuAttributeIter */
+    /**
+     * Cast object to MenuAttributeIter if its GType is a (or inherits from) "GMenuAttributeIter".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "MenuAttributeIter" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GMenuAttributeIter", a ClassCastException will be thrown.
+     */
     public static MenuAttributeIter castFrom(org.gtk.gobject.Object gobject) {
-        return new MenuAttributeIter(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GMenuAttributeIter"))) {
+            return new MenuAttributeIter(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GMenuAttributeIter");
+        }
     }
     
     /**
@@ -48,11 +70,12 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
     public @NotNull java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_menu_attribute_iter_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_menu_attribute_iter_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -76,19 +99,20 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * @return {@code true} on success, or {@code false} if there is no additional
      *     attribute
      */
-    public boolean getNext(@NotNull Out<java.lang.String> outName, @NotNull Out<org.gtk.glib.Variant> value) {
+    public boolean getNext(@NotNull Out<java.lang.String> outName, @NotNull PointerProxy<org.gtk.glib.Variant> value) {
         java.util.Objects.requireNonNull(outName, "Parameter 'outName' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         MemorySegment outNamePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_menu_attribute_iter_get_next.invokeExact(handle(), (Addressable) outNamePOINTER.address(), (Addressable) valuePOINTER.address());
+            RESULT = (int) DowncallHandles.g_menu_attribute_iter_get_next.invokeExact(
+                    handle(),
+                    (Addressable) outNamePOINTER.address(),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        outName.set(outNamePOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
-        value.set(new org.gtk.glib.Variant(Refcounted.get(valuePOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        outName.set(Interop.getStringFrom(outNamePOINTER.get(ValueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -101,7 +125,8 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
     public @NotNull org.gtk.glib.Variant getValue() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_menu_attribute_iter_get_value.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_menu_attribute_iter_get_value.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,7 +148,8 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
     public boolean next() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_menu_attribute_iter_next.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_menu_attribute_iter_next.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

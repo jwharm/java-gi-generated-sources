@@ -14,25 +14,197 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GHook";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("data"),
-        org.gtk.glib.Hook.getMemoryLayout().withName("next"),
-        org.gtk.glib.Hook.getMemoryLayout().withName("prev"),
+        Interop.valueLayout.ADDRESS.withName("next"),
+        Interop.valueLayout.ADDRESS.withName("prev"),
         ValueLayout.JAVA_INT.withName("ref_count"),
+        MemoryLayout.paddingLayout(32),
         ValueLayout.JAVA_LONG.withName("hook_id"),
         ValueLayout.JAVA_INT.withName("flags"),
+        MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("func"),
         Interop.valueLayout.ADDRESS.withName("destroy")
-    ).withName("GHook");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Hook allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Hook newInstance = new Hook(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code data}
+     * @return The value of the field {@code data}
+     */
+    public java.lang.foreign.MemoryAddress data$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code data}
+     * @param data The new value of the field {@code data}
+     */
+    public void data$set(java.lang.foreign.MemoryAddress data) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), data);
+    }
+    
+    /**
+     * Get the value of the field {@code next}
+     * @return The value of the field {@code next}
+     */
+    public org.gtk.glib.Hook next$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("next"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.glib.Hook(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Change the value of the field {@code next}
+     * @param next The new value of the field {@code next}
+     */
+    public void next$set(org.gtk.glib.Hook next) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("next"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), next.handle());
+    }
+    
+    /**
+     * Get the value of the field {@code prev}
+     * @return The value of the field {@code prev}
+     */
+    public org.gtk.glib.Hook prev$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("prev"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.glib.Hook(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Change the value of the field {@code prev}
+     * @param prev The new value of the field {@code prev}
+     */
+    public void prev$set(org.gtk.glib.Hook prev) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("prev"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), prev.handle());
+    }
+    
+    /**
+     * Get the value of the field {@code ref_count}
+     * @return The value of the field {@code ref_count}
+     */
+    public int ref_count$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code ref_count}
+     * @param ref_count The new value of the field {@code ref_count}
+     */
+    public void ref_count$set(int ref_count) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+    }
+    
+    /**
+     * Get the value of the field {@code hook_id}
+     * @return The value of the field {@code hook_id}
+     */
+    public long hook_id$get() {
+        var RESULT = (long) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("hook_id"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code hook_id}
+     * @param hook_id The new value of the field {@code hook_id}
+     */
+    public void hook_id$set(long hook_id) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("hook_id"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), hook_id);
+    }
+    
+    /**
+     * Get the value of the field {@code flags}
+     * @return The value of the field {@code flags}
+     */
+    public int flags$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code flags}
+     * @param flags The new value of the field {@code flags}
+     */
+    public void flags$set(int flags) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
+    }
+    
+    /**
+     * Get the value of the field {@code func}
+     * @return The value of the field {@code func}
+     */
+    public java.lang.foreign.MemoryAddress func$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("func"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code func}
+     * @param func The new value of the field {@code func}
+     */
+    public void func$set(java.lang.foreign.MemoryAddress func) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("func"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), func);
+    }
+    
+    /**
+     * Get the value of the field {@code destroy}
+     * @return The value of the field {@code destroy}
+     */
+    public org.gtk.glib.DestroyNotify destroy$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("destroy"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    @ApiStatus.Internal
     public Hook(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -47,7 +219,9 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(sibling, "Parameter 'sibling' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_hook_compare_ids.invokeExact(handle(), sibling.handle());
+            RESULT = (int) DowncallHandles.g_hook_compare_ids.invokeExact(
+                    handle(),
+                    sibling.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -63,7 +237,8 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hook_alloc.invokeExact(hookList.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_hook_alloc.invokeExact(
+                    hookList.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +255,9 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_hook_destroy.invokeExact(hookList.handle(), hookId);
+            RESULT = (int) DowncallHandles.g_hook_destroy.invokeExact(
+                    hookList.handle(),
+                    hookId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,7 +274,9 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
         java.util.Objects.requireNonNull(hook, "Parameter 'hook' must not be null");
         try {
-            DowncallHandles.g_hook_destroy_link.invokeExact(hookList.handle(), hook.handle());
+            DowncallHandles.g_hook_destroy_link.invokeExact(
+                    hookList.handle(),
+                    hook.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,13 +297,15 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hook_find.invokeExact(hookList.handle(), needValids ? 1 : 0, 
+            RESULT = (MemoryAddress) DowncallHandles.g_hook_find.invokeExact(
+                    hookList.handle(),
+                    needValids ? 1 : 0,
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbHookFindFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -144,7 +325,10 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hook_find_data.invokeExact(hookList.handle(), needValids ? 1 : 0, data);
+            RESULT = (MemoryAddress) DowncallHandles.g_hook_find_data.invokeExact(
+                    hookList.handle(),
+                    needValids ? 1 : 0,
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,10 +346,12 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
      */
     public static @NotNull org.gtk.glib.Hook findFunc(@NotNull org.gtk.glib.HookList hookList, boolean needValids, @Nullable java.lang.foreign.MemoryAddress func) {
         java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
-        java.util.Objects.requireNonNullElse(func, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hook_find_func.invokeExact(hookList.handle(), needValids ? 1 : 0, func);
+            RESULT = (MemoryAddress) DowncallHandles.g_hook_find_func.invokeExact(
+                    hookList.handle(),
+                    needValids ? 1 : 0,
+                    (Addressable) (func == null ? MemoryAddress.NULL : func));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,7 +373,11 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hook_find_func_data.invokeExact(hookList.handle(), needValids ? 1 : 0, func, data);
+            RESULT = (MemoryAddress) DowncallHandles.g_hook_find_func_data.invokeExact(
+                    hookList.handle(),
+                    needValids ? 1 : 0,
+                    func,
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -209,7 +399,9 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hook_first_valid.invokeExact(hookList.handle(), mayBeInCall ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.g_hook_first_valid.invokeExact(
+                    hookList.handle(),
+                    mayBeInCall ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -226,7 +418,9 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
         java.util.Objects.requireNonNull(hook, "Parameter 'hook' must not be null");
         try {
-            DowncallHandles.g_hook_free.invokeExact(hookList.handle(), hook.handle());
+            DowncallHandles.g_hook_free.invokeExact(
+                    hookList.handle(),
+                    hook.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -242,7 +436,9 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hook_get.invokeExact(hookList.handle(), hookId);
+            RESULT = (MemoryAddress) DowncallHandles.g_hook_get.invokeExact(
+                    hookList.handle(),
+                    hookId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -257,10 +453,12 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void insertBefore(@NotNull org.gtk.glib.HookList hookList, @Nullable org.gtk.glib.Hook sibling, @NotNull org.gtk.glib.Hook hook) {
         java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
-        java.util.Objects.requireNonNullElse(sibling, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(hook, "Parameter 'hook' must not be null");
         try {
-            DowncallHandles.g_hook_insert_before.invokeExact(hookList.handle(), sibling.handle(), hook.handle());
+            DowncallHandles.g_hook_insert_before.invokeExact(
+                    hookList.handle(),
+                    (Addressable) (sibling == null ? MemoryAddress.NULL : sibling.handle()),
+                    hook.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -293,7 +491,10 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(hook, "Parameter 'hook' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hook_next_valid.invokeExact(hookList.handle(), hook.handle(), mayBeInCall ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.g_hook_next_valid.invokeExact(
+                    hookList.handle(),
+                    hook.handle(),
+                    mayBeInCall ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -309,7 +510,9 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
         java.util.Objects.requireNonNull(hook, "Parameter 'hook' must not be null");
         try {
-            DowncallHandles.g_hook_prepend.invokeExact(hookList.handle(), hook.handle());
+            DowncallHandles.g_hook_prepend.invokeExact(
+                    hookList.handle(),
+                    hook.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -326,7 +529,9 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(hook, "Parameter 'hook' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hook_ref.invokeExact(hookList.handle(), hook.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_hook_ref.invokeExact(
+                    hookList.handle(),
+                    hook.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -344,7 +549,9 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
         java.util.Objects.requireNonNull(hook, "Parameter 'hook' must not be null");
         try {
-            DowncallHandles.g_hook_unref.invokeExact(hookList.handle(), hook.handle());
+            DowncallHandles.g_hook_unref.invokeExact(
+                    hookList.handle(),
+                    hook.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

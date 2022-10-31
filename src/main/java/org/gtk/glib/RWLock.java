@@ -77,19 +77,31 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GRWLock";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("p"),
         MemoryLayout.sequenceLayout(2, ValueLayout.JAVA_INT).withName("i")
-    ).withName("GRWLock");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static RWLock allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        RWLock newInstance = new RWLock(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public RWLock(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -107,7 +119,8 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      */
     public void clear() {
         try {
-            DowncallHandles.g_rw_lock_clear.invokeExact(handle());
+            DowncallHandles.g_rw_lock_clear.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,7 +153,8 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      */
     public void init() {
         try {
-            DowncallHandles.g_rw_lock_init.invokeExact(handle());
+            DowncallHandles.g_rw_lock_init.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -165,7 +179,8 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      */
     public void readerLock() {
         try {
-            DowncallHandles.g_rw_lock_reader_lock.invokeExact(handle());
+            DowncallHandles.g_rw_lock_reader_lock.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,7 +195,8 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
     public boolean readerTrylock() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_rw_lock_reader_trylock.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_rw_lock_reader_trylock.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -195,7 +211,8 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      */
     public void readerUnlock() {
         try {
-            DowncallHandles.g_rw_lock_reader_unlock.invokeExact(handle());
+            DowncallHandles.g_rw_lock_reader_unlock.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -211,7 +228,8 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      */
     public void writerLock() {
         try {
-            DowncallHandles.g_rw_lock_writer_lock.invokeExact(handle());
+            DowncallHandles.g_rw_lock_writer_lock.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -227,7 +245,8 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
     public boolean writerTrylock() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_rw_lock_writer_trylock.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_rw_lock_writer_trylock.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -242,7 +261,8 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      */
     public void writerUnlock() {
         try {
-            DowncallHandles.g_rw_lock_writer_unlock.invokeExact(handle());
+            DowncallHandles.g_rw_lock_writer_unlock.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

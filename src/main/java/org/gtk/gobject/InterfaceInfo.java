@@ -15,20 +15,75 @@ public class InterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GInterfaceInfo";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("interface_init"),
         Interop.valueLayout.ADDRESS.withName("interface_finalize"),
         Interop.valueLayout.ADDRESS.withName("interface_data")
-    ).withName("GInterfaceInfo");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static InterfaceInfo allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        InterfaceInfo newInstance = new InterfaceInfo(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code interface_init}
+     * @return The value of the field {@code interface_init}
+     */
+    public org.gtk.gobject.InterfaceInitFunc interface_init$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("interface_init"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    /**
+     * Get the value of the field {@code interface_finalize}
+     * @return The value of the field {@code interface_finalize}
+     */
+    public org.gtk.gobject.InterfaceFinalizeFunc interface_finalize$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("interface_finalize"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    /**
+     * Get the value of the field {@code interface_data}
+     * @return The value of the field {@code interface_data}
+     */
+    public java.lang.foreign.MemoryAddress interface_data$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("interface_data"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code interface_data}
+     * @param interface_data The new value of the field {@code interface_data}
+     */
+    public void interface_data$set(java.lang.foreign.MemoryAddress interface_data) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("interface_data"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), interface_data);
+    }
+    
+    @ApiStatus.Internal
     public InterfaceInfo(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

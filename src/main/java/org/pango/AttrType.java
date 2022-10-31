@@ -15,13 +15,7 @@ import org.jetbrains.annotations.*;
  */
 public class AttrType extends io.github.jwharm.javagi.Enumeration {
     
-    /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
-     */
-    public static MemoryLayout getMemoryLayout() {
-        return Interop.valueLayout.ADDRESS;
-    }
+    private static final java.lang.String C_TYPE_NAME = "PangoAttrType";
     
     /**
      * does not happen
@@ -233,11 +227,12 @@ public class AttrType extends io.github.jwharm.javagi.Enumeration {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_type_get_name.invokeExact(type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_type_get_name.invokeExact(
+                    type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -252,7 +247,8 @@ public class AttrType extends io.github.jwharm.javagi.Enumeration {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_attr_type_register.invokeExact(Interop.allocateNativeString(name));
+            RESULT = (int) DowncallHandles.pango_attr_type_register.invokeExact(
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

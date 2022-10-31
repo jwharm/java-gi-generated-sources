@@ -47,21 +47,34 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkAssistant";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Assistant(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Assistant */
+    /**
+     * Cast object to Assistant if its GType is a (or inherits from) "GtkAssistant".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Assistant" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkAssistant", a ClassCastException will be thrown.
+     */
     public static Assistant castFrom(org.gtk.gobject.Object gobject) {
-        return new Assistant(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkAssistant"))) {
+            return new Assistant(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkAssistant");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -88,7 +101,9 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     public void addActionWidget(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_assistant_add_action_widget.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_assistant_add_action_widget.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,7 +118,9 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
         java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_assistant_append_page.invokeExact(handle(), page.handle());
+            RESULT = (int) DowncallHandles.gtk_assistant_append_page.invokeExact(
+                    handle(),
+                    page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,7 +141,8 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      */
     public void commit() {
         try {
-            DowncallHandles.gtk_assistant_commit.invokeExact(handle());
+            DowncallHandles.gtk_assistant_commit.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,7 +157,8 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     public int getCurrentPage() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_assistant_get_current_page.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_assistant_get_current_page.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,7 +172,8 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     public int getNPages() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_assistant_get_n_pages.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_assistant_get_n_pages.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,7 +190,9 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     public @Nullable org.gtk.gtk.Widget getNthPage(int pageNum) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_assistant_get_nth_page.invokeExact(handle(), pageNum);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_assistant_get_nth_page.invokeExact(
+                    handle(),
+                    pageNum);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -186,7 +208,9 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_assistant_get_page.invokeExact(handle(), child.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_assistant_get_page.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,7 +226,9 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
         java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_assistant_get_page_complete.invokeExact(handle(), page.handle());
+            RESULT = (int) DowncallHandles.gtk_assistant_get_page_complete.invokeExact(
+                    handle(),
+                    page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,11 +244,13 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
         java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_assistant_get_page_title.invokeExact(handle(), page.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_assistant_get_page_title.invokeExact(
+                    handle(),
+                    page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -234,7 +262,9 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
         java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_assistant_get_page_type.invokeExact(handle(), page.handle());
+            RESULT = (int) DowncallHandles.gtk_assistant_get_page_type.invokeExact(
+                    handle(),
+                    page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -248,7 +278,8 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     public @NotNull org.gtk.gio.ListModel getPages() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_assistant_get_pages.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_assistant_get_pages.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -266,7 +297,10 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
         java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_assistant_insert_page.invokeExact(handle(), page.handle(), position);
+            RESULT = (int) DowncallHandles.gtk_assistant_insert_page.invokeExact(
+                    handle(),
+                    page.handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -284,7 +318,8 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      */
     public void nextPage() {
         try {
-            DowncallHandles.gtk_assistant_next_page.invokeExact(handle());
+            DowncallHandles.gtk_assistant_next_page.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -299,7 +334,9 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
         java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_assistant_prepend_page.invokeExact(handle(), page.handle());
+            RESULT = (int) DowncallHandles.gtk_assistant_prepend_page.invokeExact(
+                    handle(),
+                    page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -317,7 +354,8 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      */
     public void previousPage() {
         try {
-            DowncallHandles.gtk_assistant_previous_page.invokeExact(handle());
+            DowncallHandles.gtk_assistant_previous_page.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -330,7 +368,9 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     public void removeActionWidget(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_assistant_remove_action_widget.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_assistant_remove_action_widget.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -343,7 +383,9 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      */
     public void removePage(int pageNum) {
         try {
-            DowncallHandles.gtk_assistant_remove_page.invokeExact(handle(), pageNum);
+            DowncallHandles.gtk_assistant_remove_page.invokeExact(
+                    handle(),
+                    pageNum);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -362,7 +404,9 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      */
     public void setCurrentPage(int pageNum) {
         try {
-            DowncallHandles.gtk_assistant_set_current_page.invokeExact(handle(), pageNum);
+            DowncallHandles.gtk_assistant_set_current_page.invokeExact(
+                    handle(),
+                    pageNum);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -380,15 +424,15 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      *   to use the default one
      */
     public void setForwardPageFunc(@Nullable org.gtk.gtk.AssistantPageFunc pageFunc) {
-        java.util.Objects.requireNonNullElse(pageFunc, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_assistant_set_forward_page_func.invokeExact(handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gtk_assistant_set_forward_page_func.invokeExact(
+                    handle(),
+                    (Addressable) (pageFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbAssistantPageFunc",
                             MethodType.methodType(int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (pageFunc == null ? MemoryAddress.NULL : Interop.registerCallback(pageFunc)), 
+                        Interop.getScope())),
+                    (Addressable) (pageFunc == null ? MemoryAddress.NULL : Interop.registerCallback(pageFunc)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -406,7 +450,10 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     public void setPageComplete(@NotNull org.gtk.gtk.Widget page, boolean complete) {
         java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         try {
-            DowncallHandles.gtk_assistant_set_page_complete.invokeExact(handle(), page.handle(), complete ? 1 : 0);
+            DowncallHandles.gtk_assistant_set_page_complete.invokeExact(
+                    handle(),
+                    page.handle(),
+                    complete ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -424,7 +471,10 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
         java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
         try {
-            DowncallHandles.gtk_assistant_set_page_title.invokeExact(handle(), page.handle(), Interop.allocateNativeString(title));
+            DowncallHandles.gtk_assistant_set_page_title.invokeExact(
+                    handle(),
+                    page.handle(),
+                    Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -441,7 +491,10 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
         java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         try {
-            DowncallHandles.gtk_assistant_set_page_type.invokeExact(handle(), page.handle(), type.getValue());
+            DowncallHandles.gtk_assistant_set_page_type.invokeExact(
+                    handle(),
+                    page.handle(),
+                    type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -460,7 +513,8 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      */
     public void updateButtonsState() {
         try {
-            DowncallHandles.gtk_assistant_update_buttons_state.invokeExact(handle());
+            DowncallHandles.gtk_assistant_update_buttons_state.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

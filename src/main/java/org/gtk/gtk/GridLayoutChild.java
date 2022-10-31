@@ -14,21 +14,34 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkGridLayoutChild";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public GridLayoutChild(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to GridLayoutChild */
+    /**
+     * Cast object to GridLayoutChild if its GType is a (or inherits from) "GtkGridLayoutChild".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "GridLayoutChild" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkGridLayoutChild", a ClassCastException will be thrown.
+     */
     public static GridLayoutChild castFrom(org.gtk.gobject.Object gobject) {
-        return new GridLayoutChild(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGridLayoutChild"))) {
+            return new GridLayoutChild(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGridLayoutChild");
+        }
     }
     
     /**
@@ -38,7 +51,8 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
     public int getColumn() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_grid_layout_child_get_column.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_grid_layout_child_get_column.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -52,7 +66,8 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
     public int getColumnSpan() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_grid_layout_child_get_column_span.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_grid_layout_child_get_column_span.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,7 +81,8 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
     public int getRow() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_grid_layout_child_get_row.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_grid_layout_child_get_row.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +96,8 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
     public int getRowSpan() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_grid_layout_child_get_row_span.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_grid_layout_child_get_row_span.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,7 +110,9 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
      */
     public void setColumn(int column) {
         try {
-            DowncallHandles.gtk_grid_layout_child_set_column.invokeExact(handle(), column);
+            DowncallHandles.gtk_grid_layout_child_set_column.invokeExact(
+                    handle(),
+                    column);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,7 +124,9 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
      */
     public void setColumnSpan(int span) {
         try {
-            DowncallHandles.gtk_grid_layout_child_set_column_span.invokeExact(handle(), span);
+            DowncallHandles.gtk_grid_layout_child_set_column_span.invokeExact(
+                    handle(),
+                    span);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,7 +138,9 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
      */
     public void setRow(int row) {
         try {
-            DowncallHandles.gtk_grid_layout_child_set_row.invokeExact(handle(), row);
+            DowncallHandles.gtk_grid_layout_child_set_row.invokeExact(
+                    handle(),
+                    row);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,7 +152,9 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
      */
     public void setRowSpan(int span) {
         try {
-            DowncallHandles.gtk_grid_layout_child_set_row_span.invokeExact(handle(), span);
+            DowncallHandles.gtk_grid_layout_child_set_row_span.invokeExact(
+                    handle(),
+                    span);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

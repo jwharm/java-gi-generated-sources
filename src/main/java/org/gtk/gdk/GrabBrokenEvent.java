@@ -14,21 +14,34 @@ public class GrabBrokenEvent extends org.gtk.gdk.Event {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkGrabBrokenEvent";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public GrabBrokenEvent(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to GrabBrokenEvent */
+    /**
+     * Cast object to GrabBrokenEvent if its GType is a (or inherits from) "GdkGrabBrokenEvent".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "GrabBrokenEvent" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkGrabBrokenEvent", a ClassCastException will be thrown.
+     */
     public static GrabBrokenEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new GrabBrokenEvent(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkGrabBrokenEvent"))) {
+            return new GrabBrokenEvent(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkGrabBrokenEvent");
+        }
     }
     
     /**
@@ -38,7 +51,8 @@ public class GrabBrokenEvent extends org.gtk.gdk.Event {
     public @NotNull org.gtk.gdk.Surface getGrabSurface() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_grab_broken_event_get_grab_surface.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_grab_broken_event_get_grab_surface.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -52,7 +66,8 @@ public class GrabBrokenEvent extends org.gtk.gdk.Event {
     public boolean getImplicit() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_grab_broken_event_get_implicit.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_grab_broken_event_get_implicit.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

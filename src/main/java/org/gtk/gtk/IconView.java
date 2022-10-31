@@ -35,21 +35,34 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkIconView";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public IconView(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to IconView */
+    /**
+     * Cast object to IconView if its GType is a (or inherits from) "GtkIconView".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "IconView" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkIconView", a ClassCastException will be thrown.
+     */
     public static IconView castFrom(org.gtk.gobject.Object gobject) {
-        return new IconView(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkIconView"))) {
+            return new IconView(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkIconView");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -73,7 +86,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(area, "Parameter 'area' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_icon_view_new_with_area.invokeExact(area.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_icon_view_new_with_area.invokeExact(
+                    area.handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,7 +108,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_icon_view_new_with_model.invokeExact(model.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_icon_view_new_with_model.invokeExact(
+                    model.handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,7 +135,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_view_create_drag_icon.invokeExact(handle(), path.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_view_create_drag_icon.invokeExact(
+                    handle(),
+                    path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,7 +155,10 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(formats, "Parameter 'formats' must not be null");
         java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
         try {
-            DowncallHandles.gtk_icon_view_enable_model_drag_dest.invokeExact(handle(), formats.handle(), actions.getValue());
+            DowncallHandles.gtk_icon_view_enable_model_drag_dest.invokeExact(
+                    handle(),
+                    formats.handle(),
+                    actions.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -157,7 +177,11 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(formats, "Parameter 'formats' must not be null");
         java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
         try {
-            DowncallHandles.gtk_icon_view_enable_model_drag_source.invokeExact(handle(), startButtonMask.getValue(), formats.handle(), actions.getValue());
+            DowncallHandles.gtk_icon_view_enable_model_drag_source.invokeExact(
+                    handle(),
+                    startButtonMask.getValue(),
+                    formats.handle(),
+                    actions.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,7 +194,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getActivateOnSingleClick() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_activate_on_single_click.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_activate_on_single_click.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,18 +212,19 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param rect rectangle to fill with cell rect
      * @return {@code false} if there is no such item, {@code true} otherwise
      */
-    public boolean getCellRect(@NotNull org.gtk.gtk.TreePath path, @Nullable org.gtk.gtk.CellRenderer cell, @NotNull Out<org.gtk.gdk.Rectangle> rect) {
+    public boolean getCellRect(@NotNull org.gtk.gtk.TreePath path, @Nullable org.gtk.gtk.CellRenderer cell, @NotNull org.gtk.gdk.Rectangle rect) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        java.util.Objects.requireNonNullElse(cell, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(rect, "Parameter 'rect' must not be null");
-        MemorySegment rectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_cell_rect.invokeExact(handle(), path.handle(), cell.handle(), (Addressable) rectPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_cell_rect.invokeExact(
+                    handle(),
+                    path.handle(),
+                    (Addressable) (cell == null ? MemoryAddress.NULL : cell.handle()),
+                    rect.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        rect.set(new org.gtk.gdk.Rectangle(Refcounted.get(rectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -209,7 +235,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getColumnSpacing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_column_spacing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_column_spacing.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,7 +250,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getColumns() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_columns.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_columns.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -242,19 +270,18 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      *   focus cell
      * @return {@code true} if the cursor is set.
      */
-    public boolean getCursor(@NotNull Out<org.gtk.gtk.TreePath> path, @NotNull Out<org.gtk.gtk.CellRenderer> cell) {
+    public boolean getCursor(@NotNull PointerProxy<org.gtk.gtk.TreePath> path, @NotNull PointerProxy<org.gtk.gtk.CellRenderer> cell) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         java.util.Objects.requireNonNull(cell, "Parameter 'cell' must not be null");
-        MemorySegment pathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment cellPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_cursor.invokeExact(handle(), (Addressable) pathPOINTER.address(), (Addressable) cellPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_cursor.invokeExact(
+                    handle(),
+                    path.handle(),
+                    cell.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        path.set(new org.gtk.gtk.TreePath(Refcounted.get(pathPOINTER.get(ValueLayout.ADDRESS, 0), true)));
-        cell.set(new org.gtk.gtk.CellRenderer(Refcounted.get(cellPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -266,18 +293,21 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param pos Return location for the drop position
      * @return whether there is an item at the given position.
      */
-    public boolean getDestItemAtPos(int dragX, int dragY, @NotNull Out<org.gtk.gtk.TreePath> path, @NotNull Out<org.gtk.gtk.IconViewDropPosition> pos) {
+    public boolean getDestItemAtPos(int dragX, int dragY, @NotNull PointerProxy<org.gtk.gtk.TreePath> path, @NotNull Out<org.gtk.gtk.IconViewDropPosition> pos) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
-        MemorySegment pathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment posPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_dest_item_at_pos.invokeExact(handle(), dragX, dragY, (Addressable) pathPOINTER.address(), (Addressable) posPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_dest_item_at_pos.invokeExact(
+                    handle(),
+                    dragX,
+                    dragY,
+                    path.handle(),
+                    (Addressable) posPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        path.set(new org.gtk.gtk.TreePath(Refcounted.get(pathPOINTER.get(ValueLayout.ADDRESS, 0), true)));
         pos.set(new org.gtk.gtk.IconViewDropPosition(posPOINTER.get(ValueLayout.JAVA_INT, 0)));
         return RESULT != 0;
     }
@@ -288,17 +318,17 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      *   the highlighted item
      * @param pos Return location for the drop position
      */
-    public void getDragDestItem(@Nullable Out<org.gtk.gtk.TreePath> path, @NotNull Out<org.gtk.gtk.IconViewDropPosition> pos) {
-        java.util.Objects.requireNonNullElse(path, MemoryAddress.NULL);
+    public void getDragDestItem(@Nullable PointerProxy<org.gtk.gtk.TreePath> path, @NotNull Out<org.gtk.gtk.IconViewDropPosition> pos) {
         java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
-        MemorySegment pathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment posPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_icon_view_get_drag_dest_item.invokeExact(handle(), (Addressable) pathPOINTER.address(), (Addressable) posPOINTER.address());
+            DowncallHandles.gtk_icon_view_get_drag_dest_item.invokeExact(
+                    handle(),
+                    (Addressable) (path == null ? MemoryAddress.NULL : path.handle()),
+                    (Addressable) posPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        path.set(new org.gtk.gtk.TreePath(Refcounted.get(pathPOINTER.get(ValueLayout.ADDRESS, 0), true)));
         pos.set(new org.gtk.gtk.IconViewDropPosition(posPOINTER.get(ValueLayout.JAVA_INT, 0)));
     }
     
@@ -311,19 +341,20 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      *   responsible for the cell at ({@code x}, {@code y})
      * @return {@code true} if an item exists at the specified position
      */
-    public boolean getItemAtPos(int x, int y, @NotNull Out<org.gtk.gtk.TreePath> path, @NotNull Out<org.gtk.gtk.CellRenderer> cell) {
+    public boolean getItemAtPos(int x, int y, @NotNull PointerProxy<org.gtk.gtk.TreePath> path, @NotNull PointerProxy<org.gtk.gtk.CellRenderer> cell) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         java.util.Objects.requireNonNull(cell, "Parameter 'cell' must not be null");
-        MemorySegment pathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment cellPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_item_at_pos.invokeExact(handle(), x, y, (Addressable) pathPOINTER.address(), (Addressable) cellPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_item_at_pos.invokeExact(
+                    handle(),
+                    x,
+                    y,
+                    path.handle(),
+                    cell.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        path.set(new org.gtk.gtk.TreePath(Refcounted.get(pathPOINTER.get(ValueLayout.ADDRESS, 0), true)));
-        cell.set(new org.gtk.gtk.CellRenderer(Refcounted.get(cellPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -337,7 +368,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_item_column.invokeExact(handle(), path.handle());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_item_column.invokeExact(
+                    handle(),
+                    path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -352,7 +385,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @NotNull org.gtk.gtk.Orientation getItemOrientation() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_item_orientation.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_item_orientation.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -366,7 +400,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getItemPadding() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_item_padding.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_item_padding.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -383,7 +418,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_item_row.invokeExact(handle(), path.handle());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_item_row.invokeExact(
+                    handle(),
+                    path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -397,7 +434,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getItemWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_item_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_item_width.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -411,7 +449,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getMargin() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_margin.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_margin.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -425,7 +464,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getMarkupColumn() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_markup_column.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_markup_column.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -440,7 +480,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.TreeModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_view_get_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_view_get_model.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -457,7 +498,10 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.TreePath getPathAtPos(int x, int y) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_view_get_path_at_pos.invokeExact(handle(), x, y);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_view_get_path_at_pos.invokeExact(
+                    handle(),
+                    x,
+                    y);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -471,7 +515,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getPixbufColumn() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_pixbuf_column.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_pixbuf_column.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -486,7 +531,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getReorderable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_reorderable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_reorderable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -500,7 +546,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getRowSpacing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_row_spacing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_row_spacing.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -529,7 +576,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @NotNull org.gtk.glib.List getSelectedItems() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_view_get_selected_items.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_view_get_selected_items.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -543,7 +591,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @NotNull org.gtk.gtk.SelectionMode getSelectionMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_selection_mode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_selection_mode.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -557,7 +606,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getSpacing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_spacing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_spacing.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -571,7 +621,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getTextColumn() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_text_column.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_text_column.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -587,7 +638,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getTooltipColumn() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_tooltip_column.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_tooltip_column.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -613,22 +665,23 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param iter a pointer to receive a {@code GtkTreeIter}
      * @return whether or not the given tooltip context points to an item
      */
-    public boolean getTooltipContext(int x, int y, boolean keyboardTip, @NotNull Out<org.gtk.gtk.TreeModel> model, @NotNull Out<org.gtk.gtk.TreePath> path, @NotNull Out<org.gtk.gtk.TreeIter> iter) {
+    public boolean getTooltipContext(int x, int y, boolean keyboardTip, @NotNull PointerProxy<org.gtk.gtk.TreeModel> model, @NotNull PointerProxy<org.gtk.gtk.TreePath> path, @NotNull org.gtk.gtk.TreeIter iter) {
         java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        MemorySegment modelPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment pathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_tooltip_context.invokeExact(handle(), x, y, keyboardTip ? 1 : 0, (Addressable) modelPOINTER.address(), (Addressable) pathPOINTER.address(), (Addressable) iterPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_tooltip_context.invokeExact(
+                    handle(),
+                    x,
+                    y,
+                    keyboardTip ? 1 : 0,
+                    model.handle(),
+                    path.handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        model.set(new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(modelPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        path.set(new org.gtk.gtk.TreePath(Refcounted.get(pathPOINTER.get(ValueLayout.ADDRESS, 0), true)));
-        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -641,19 +694,18 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param endPath Return location for end of region
      * @return {@code true}, if valid paths were placed in {@code start_path} and {@code end_path}
      */
-    public boolean getVisibleRange(@NotNull Out<org.gtk.gtk.TreePath> startPath, @NotNull Out<org.gtk.gtk.TreePath> endPath) {
+    public boolean getVisibleRange(@NotNull PointerProxy<org.gtk.gtk.TreePath> startPath, @NotNull PointerProxy<org.gtk.gtk.TreePath> endPath) {
         java.util.Objects.requireNonNull(startPath, "Parameter 'startPath' must not be null");
         java.util.Objects.requireNonNull(endPath, "Parameter 'endPath' must not be null");
-        MemorySegment startPathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment endPathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_get_visible_range.invokeExact(handle(), (Addressable) startPathPOINTER.address(), (Addressable) endPathPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_icon_view_get_visible_range.invokeExact(
+                    handle(),
+                    startPath.handle(),
+                    endPath.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        startPath.set(new org.gtk.gtk.TreePath(Refcounted.get(startPathPOINTER.get(ValueLayout.ADDRESS, 0), true)));
-        endPath.set(new org.gtk.gtk.TreePath(Refcounted.get(endPathPOINTER.get(ValueLayout.ADDRESS, 0), true)));
         return RESULT != 0;
     }
     
@@ -664,7 +716,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public void itemActivated(@NotNull org.gtk.gtk.TreePath path) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         try {
-            DowncallHandles.gtk_icon_view_item_activated.invokeExact(handle(), path.handle());
+            DowncallHandles.gtk_icon_view_item_activated.invokeExact(
+                    handle(),
+                    path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -680,7 +734,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_view_path_is_selected.invokeExact(handle(), path.handle());
+            RESULT = (int) DowncallHandles.gtk_icon_view_path_is_selected.invokeExact(
+                    handle(),
+                    path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -710,7 +766,12 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public void scrollToPath(@NotNull org.gtk.gtk.TreePath path, boolean useAlign, float rowAlign, float colAlign) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         try {
-            DowncallHandles.gtk_icon_view_scroll_to_path.invokeExact(handle(), path.handle(), useAlign ? 1 : 0, rowAlign, colAlign);
+            DowncallHandles.gtk_icon_view_scroll_to_path.invokeExact(
+                    handle(),
+                    path.handle(),
+                    useAlign ? 1 : 0,
+                    rowAlign,
+                    colAlign);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -722,7 +783,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void selectAll() {
         try {
-            DowncallHandles.gtk_icon_view_select_all.invokeExact(handle());
+            DowncallHandles.gtk_icon_view_select_all.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -735,7 +797,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public void selectPath(@NotNull org.gtk.gtk.TreePath path) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         try {
-            DowncallHandles.gtk_icon_view_select_path.invokeExact(handle(), path.handle());
+            DowncallHandles.gtk_icon_view_select_path.invokeExact(
+                    handle(),
+                    path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -749,13 +813,14 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public void selectedForeach(@NotNull org.gtk.gtk.IconViewForeachFunc func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.gtk_icon_view_selected_foreach.invokeExact(handle(), 
+            DowncallHandles.gtk_icon_view_selected_foreach.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbIconViewForeachFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -768,7 +833,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setActivateOnSingleClick(boolean single) {
         try {
-            DowncallHandles.gtk_icon_view_set_activate_on_single_click.invokeExact(handle(), single ? 1 : 0);
+            DowncallHandles.gtk_icon_view_set_activate_on_single_click.invokeExact(
+                    handle(),
+                    single ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -781,7 +848,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setColumnSpacing(int columnSpacing) {
         try {
-            DowncallHandles.gtk_icon_view_set_column_spacing.invokeExact(handle(), columnSpacing);
+            DowncallHandles.gtk_icon_view_set_column_spacing.invokeExact(
+                    handle(),
+                    columnSpacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -796,7 +865,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setColumns(int columns) {
         try {
-            DowncallHandles.gtk_icon_view_set_columns.invokeExact(handle(), columns);
+            DowncallHandles.gtk_icon_view_set_columns.invokeExact(
+                    handle(),
+                    columns);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -818,9 +889,12 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setCursor(@NotNull org.gtk.gtk.TreePath path, @Nullable org.gtk.gtk.CellRenderer cell, boolean startEditing) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        java.util.Objects.requireNonNullElse(cell, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_icon_view_set_cursor.invokeExact(handle(), path.handle(), cell.handle(), startEditing ? 1 : 0);
+            DowncallHandles.gtk_icon_view_set_cursor.invokeExact(
+                    handle(),
+                    path.handle(),
+                    (Addressable) (cell == null ? MemoryAddress.NULL : cell.handle()),
+                    startEditing ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -832,10 +906,12 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param pos Specifies where to drop, relative to the item
      */
     public void setDragDestItem(@Nullable org.gtk.gtk.TreePath path, @NotNull org.gtk.gtk.IconViewDropPosition pos) {
-        java.util.Objects.requireNonNullElse(path, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
         try {
-            DowncallHandles.gtk_icon_view_set_drag_dest_item.invokeExact(handle(), path.handle(), pos.getValue());
+            DowncallHandles.gtk_icon_view_set_drag_dest_item.invokeExact(
+                    handle(),
+                    (Addressable) (path == null ? MemoryAddress.NULL : path.handle()),
+                    pos.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -849,7 +925,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public void setItemOrientation(@NotNull org.gtk.gtk.Orientation orientation) {
         java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
         try {
-            DowncallHandles.gtk_icon_view_set_item_orientation.invokeExact(handle(), orientation.getValue());
+            DowncallHandles.gtk_icon_view_set_item_orientation.invokeExact(
+                    handle(),
+                    orientation.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -862,7 +940,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setItemPadding(int itemPadding) {
         try {
-            DowncallHandles.gtk_icon_view_set_item_padding.invokeExact(handle(), itemPadding);
+            DowncallHandles.gtk_icon_view_set_item_padding.invokeExact(
+                    handle(),
+                    itemPadding);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -876,7 +956,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setItemWidth(int itemWidth) {
         try {
-            DowncallHandles.gtk_icon_view_set_item_width.invokeExact(handle(), itemWidth);
+            DowncallHandles.gtk_icon_view_set_item_width.invokeExact(
+                    handle(),
+                    itemWidth);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -890,7 +972,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setMargin(int margin) {
         try {
-            DowncallHandles.gtk_icon_view_set_margin.invokeExact(handle(), margin);
+            DowncallHandles.gtk_icon_view_set_margin.invokeExact(
+                    handle(),
+                    margin);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -905,7 +989,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setMarkupColumn(int column) {
         try {
-            DowncallHandles.gtk_icon_view_set_markup_column.invokeExact(handle(), column);
+            DowncallHandles.gtk_icon_view_set_markup_column.invokeExact(
+                    handle(),
+                    column);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -919,9 +1005,10 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param model The model.
      */
     public void setModel(@Nullable org.gtk.gtk.TreeModel model) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_icon_view_set_model.invokeExact(handle(), model.handle());
+            DowncallHandles.gtk_icon_view_set_model.invokeExact(
+                    handle(),
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -934,7 +1021,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setPixbufColumn(int column) {
         try {
-            DowncallHandles.gtk_icon_view_set_pixbuf_column.invokeExact(handle(), column);
+            DowncallHandles.gtk_icon_view_set_pixbuf_column.invokeExact(
+                    handle(),
+                    column);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -957,7 +1046,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setReorderable(boolean reorderable) {
         try {
-            DowncallHandles.gtk_icon_view_set_reorderable.invokeExact(handle(), reorderable ? 1 : 0);
+            DowncallHandles.gtk_icon_view_set_reorderable.invokeExact(
+                    handle(),
+                    reorderable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -970,7 +1061,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setRowSpacing(int rowSpacing) {
         try {
-            DowncallHandles.gtk_icon_view_set_row_spacing.invokeExact(handle(), rowSpacing);
+            DowncallHandles.gtk_icon_view_set_row_spacing.invokeExact(
+                    handle(),
+                    rowSpacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -983,7 +1076,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public void setSelectionMode(@NotNull org.gtk.gtk.SelectionMode mode) {
         java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
         try {
-            DowncallHandles.gtk_icon_view_set_selection_mode.invokeExact(handle(), mode.getValue());
+            DowncallHandles.gtk_icon_view_set_selection_mode.invokeExact(
+                    handle(),
+                    mode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -997,7 +1092,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setSpacing(int spacing) {
         try {
-            DowncallHandles.gtk_icon_view_set_spacing.invokeExact(handle(), spacing);
+            DowncallHandles.gtk_icon_view_set_spacing.invokeExact(
+                    handle(),
+                    spacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1010,7 +1107,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setTextColumn(int column) {
         try {
-            DowncallHandles.gtk_icon_view_set_text_column.invokeExact(handle(), column);
+            DowncallHandles.gtk_icon_view_set_text_column.invokeExact(
+                    handle(),
+                    column);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1028,9 +1127,12 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public void setTooltipCell(@NotNull org.gtk.gtk.Tooltip tooltip, @NotNull org.gtk.gtk.TreePath path, @Nullable org.gtk.gtk.CellRenderer cell) {
         java.util.Objects.requireNonNull(tooltip, "Parameter 'tooltip' must not be null");
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        java.util.Objects.requireNonNullElse(cell, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_icon_view_set_tooltip_cell.invokeExact(handle(), tooltip.handle(), path.handle(), cell.handle());
+            DowncallHandles.gtk_icon_view_set_tooltip_cell.invokeExact(
+                    handle(),
+                    tooltip.handle(),
+                    path.handle(),
+                    (Addressable) (cell == null ? MemoryAddress.NULL : cell.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1051,7 +1153,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setTooltipColumn(int column) {
         try {
-            DowncallHandles.gtk_icon_view_set_tooltip_column.invokeExact(handle(), column);
+            DowncallHandles.gtk_icon_view_set_tooltip_column.invokeExact(
+                    handle(),
+                    column);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1068,7 +1172,10 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(tooltip, "Parameter 'tooltip' must not be null");
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         try {
-            DowncallHandles.gtk_icon_view_set_tooltip_item.invokeExact(handle(), tooltip.handle(), path.handle());
+            DowncallHandles.gtk_icon_view_set_tooltip_item.invokeExact(
+                    handle(),
+                    tooltip.handle(),
+                    path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1079,7 +1186,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void unselectAll() {
         try {
-            DowncallHandles.gtk_icon_view_unselect_all.invokeExact(handle());
+            DowncallHandles.gtk_icon_view_unselect_all.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1092,7 +1200,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public void unselectPath(@NotNull org.gtk.gtk.TreePath path) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         try {
-            DowncallHandles.gtk_icon_view_unselect_path.invokeExact(handle(), path.handle());
+            DowncallHandles.gtk_icon_view_unselect_path.invokeExact(
+                    handle(),
+                    path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1104,7 +1214,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void unsetModelDragDest() {
         try {
-            DowncallHandles.gtk_icon_view_unset_model_drag_dest.invokeExact(handle());
+            DowncallHandles.gtk_icon_view_unset_model_drag_dest.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1116,7 +1227,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void unsetModelDragSource() {
         try {
-            DowncallHandles.gtk_icon_view_unset_model_drag_source.invokeExact(handle());
+            DowncallHandles.gtk_icon_view_unset_model_drag_source.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

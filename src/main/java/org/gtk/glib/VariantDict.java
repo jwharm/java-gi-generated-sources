@@ -101,23 +101,35 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GVariantDict";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static VariantDict allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        VariantDict newInstance = new VariantDict(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public VariantDict(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.glib.Variant fromAsv) {
-        java.util.Objects.requireNonNullElse(fromAsv, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_dict_new.invokeExact(fromAsv.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_dict_new.invokeExact(
+                    (Addressable) (fromAsv == null ? MemoryAddress.NULL : fromAsv.handle())), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,7 +172,8 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      */
     public void clear() {
         try {
-            DowncallHandles.g_variant_dict_clear.invokeExact(handle());
+            DowncallHandles.g_variant_dict_clear.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,7 +188,9 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_dict_contains.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (int) DowncallHandles.g_variant_dict_contains.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -195,7 +210,8 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Variant end() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_dict_end.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_dict_end.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -222,9 +238,10 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      * @param fromAsv the initial value for {@code dict}
      */
     public void init(@Nullable org.gtk.glib.Variant fromAsv) {
-        java.util.Objects.requireNonNullElse(fromAsv, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_variant_dict_init.invokeExact(handle(), fromAsv.handle());
+            DowncallHandles.g_variant_dict_init.invokeExact(
+                    handle(),
+                    (Addressable) (fromAsv == null ? MemoryAddress.NULL : fromAsv.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -253,7 +270,10 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.g_variant_dict_insert_value.invokeExact(handle(), Interop.allocateNativeString(key), value.handle());
+            DowncallHandles.g_variant_dict_insert_value.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -296,10 +316,12 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      */
     public @NotNull org.gtk.glib.Variant lookupValue(@NotNull java.lang.String key, @Nullable org.gtk.glib.VariantType expectedType) {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNullElse(expectedType, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_dict_lookup_value.invokeExact(handle(), Interop.allocateNativeString(key), expectedType.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_dict_lookup_value.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    (Addressable) (expectedType == null ? MemoryAddress.NULL : expectedType.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -316,7 +338,8 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.VariantDict ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_dict_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_dict_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -332,7 +355,9 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_dict_remove.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (int) DowncallHandles.g_variant_dict_remove.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -350,7 +375,8 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_variant_dict_unref.invokeExact(handle());
+            DowncallHandles.g_variant_dict_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

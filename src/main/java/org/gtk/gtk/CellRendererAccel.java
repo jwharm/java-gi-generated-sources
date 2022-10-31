@@ -18,21 +18,34 @@ public class CellRendererAccel extends org.gtk.gtk.CellRendererText {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkCellRendererAccel";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public CellRendererAccel(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CellRendererAccel */
+    /**
+     * Cast object to CellRendererAccel if its GType is a (or inherits from) "GtkCellRendererAccel".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CellRendererAccel" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkCellRendererAccel", a ClassCastException will be thrown.
+     */
     public static CellRendererAccel castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRendererAccel(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellRendererAccel"))) {
+            return new CellRendererAccel(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCellRendererAccel");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -117,13 +130,13 @@ public class CellRendererAccel extends org.gtk.gtk.CellRendererText {
         public static void signalCellRendererAccelAccelCleared(MemoryAddress source, MemoryAddress pathString, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (CellRendererAccel.AccelCleared) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellRendererAccel(Refcounted.get(source)), pathString.getUtf8String(0));
+            HANDLER.signalReceived(new CellRendererAccel(Refcounted.get(source)), Interop.getStringFrom(pathString));
         }
         
         public static void signalCellRendererAccelAccelEdited(MemoryAddress source, MemoryAddress pathString, int accelKey, int accelMods, int hardwareKeycode, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (CellRendererAccel.AccelEdited) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellRendererAccel(Refcounted.get(source)), pathString.getUtf8String(0), accelKey, new org.gtk.gdk.ModifierType(accelMods), hardwareKeycode);
+            HANDLER.signalReceived(new CellRendererAccel(Refcounted.get(source)), Interop.getStringFrom(pathString), accelKey, new org.gtk.gdk.ModifierType(accelMods), hardwareKeycode);
         }
     }
 }

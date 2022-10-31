@@ -28,29 +28,42 @@ public class Shortcut extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkShortcut";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Shortcut(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Shortcut */
+    /**
+     * Cast object to Shortcut if its GType is a (or inherits from) "GtkShortcut".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Shortcut" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkShortcut", a ClassCastException will be thrown.
+     */
     public static Shortcut castFrom(org.gtk.gobject.Object gobject) {
-        return new Shortcut(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkShortcut"))) {
+            return new Shortcut(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkShortcut");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gtk.ShortcutTrigger trigger, @Nullable org.gtk.gtk.ShortcutAction action) {
-        java.util.Objects.requireNonNullElse(trigger, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(action, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_shortcut_new.invokeExact(trigger.refcounted().unowned().handle(), action.refcounted().unowned().handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_shortcut_new.invokeExact(
+                    (Addressable) (trigger == null ? MemoryAddress.NULL : trigger.refcounted().unowned().handle()),
+                    (Addressable) (action == null ? MemoryAddress.NULL : action.refcounted().unowned().handle())), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,7 +106,8 @@ public class Shortcut extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gtk.ShortcutAction getAction() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_get_action.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_get_action.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,7 +121,8 @@ public class Shortcut extends org.gtk.gobject.Object {
     public @Nullable org.gtk.glib.Variant getArguments() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_get_arguments.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_get_arguments.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,7 +136,8 @@ public class Shortcut extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gtk.ShortcutTrigger getTrigger() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_get_trigger.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_get_trigger.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,9 +150,10 @@ public class Shortcut extends org.gtk.gobject.Object {
      *   If the {@code action} is {@code null}, the nothing action will be used.
      */
     public void setAction(@Nullable org.gtk.gtk.ShortcutAction action) {
-        java.util.Objects.requireNonNullElse(action, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_shortcut_set_action.invokeExact(handle(), action.refcounted().unowned().handle());
+            DowncallHandles.gtk_shortcut_set_action.invokeExact(
+                    handle(),
+                    (Addressable) (action == null ? MemoryAddress.NULL : action.refcounted().unowned().handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -147,9 +164,10 @@ public class Shortcut extends org.gtk.gobject.Object {
      * @param args arguments to pass when activating {@code self}
      */
     public void setArguments(@Nullable org.gtk.glib.Variant args) {
-        java.util.Objects.requireNonNullElse(args, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_shortcut_set_arguments.invokeExact(handle(), args.handle());
+            DowncallHandles.gtk_shortcut_set_arguments.invokeExact(
+                    handle(),
+                    (Addressable) (args == null ? MemoryAddress.NULL : args.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,9 +179,10 @@ public class Shortcut extends org.gtk.gobject.Object {
      *   If the {@code trigger} is {@code null}, the never trigger will be used.
      */
     public void setTrigger(@Nullable org.gtk.gtk.ShortcutTrigger trigger) {
-        java.util.Objects.requireNonNullElse(trigger, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_shortcut_set_trigger.invokeExact(handle(), trigger.refcounted().unowned().handle());
+            DowncallHandles.gtk_shortcut_set_trigger.invokeExact(
+                    handle(),
+                    (Addressable) (trigger == null ? MemoryAddress.NULL : trigger.refcounted().unowned().handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

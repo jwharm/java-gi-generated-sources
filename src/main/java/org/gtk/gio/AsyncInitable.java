@@ -109,6 +109,21 @@ import org.jetbrains.annotations.*;
 public interface AsyncInitable extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to AsyncInitable if its GType is a (or inherits from) "GAsyncInitable".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "AsyncInitable" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GAsyncInitable", a ClassCastException will be thrown.
+     */
+    public static AsyncInitable castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GAsyncInitable"))) {
+            return new AsyncInitableImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GAsyncInitable");
+        }
+    }
+    
+    /**
      * Starts asynchronous initialization of the object implementing the
      * interface. This must be done before any real use of the object after
      * initial construction. If the object also implements {@link Initable} you can
@@ -150,16 +165,17 @@ public interface AsyncInitable extends io.github.jwharm.javagi.Proxy {
      * @param callback a {@link AsyncReadyCallback} to call when the request is satisfied
      */
     default void initAsync(int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_async_initable_init_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_async_initable_init_async.invokeExact(
+                    handle(),
+                    ioPriority,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,7 +194,9 @@ public interface AsyncInitable extends io.github.jwharm.javagi.Proxy {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_async_initable_init_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_async_initable_init_finish.invokeExact(
+                    handle(),
+                    res.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -228,16 +246,19 @@ public interface AsyncInitable extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(objectType, "Parameter 'objectType' must not be null");
         java.util.Objects.requireNonNull(firstPropertyName, "Parameter 'firstPropertyName' must not be null");
         java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_async_initable_new_valist_async.invokeExact(objectType.getValue(), Interop.allocateNativeString(firstPropertyName), varArgs, ioPriority, cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_async_initable_new_valist_async.invokeExact(
+                    objectType.getValue().longValue(),
+                    Interop.allocateNativeString(firstPropertyName),
+                    varArgs,
+                    ioPriority,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -264,16 +285,19 @@ public interface AsyncInitable extends io.github.jwharm.javagi.Proxy {
     public static void newvAsync(@NotNull org.gtk.glib.Type objectType, int nParameters, @NotNull org.gtk.gobject.Parameter parameters, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(objectType, "Parameter 'objectType' must not be null");
         java.util.Objects.requireNonNull(parameters, "Parameter 'parameters' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_async_initable_newv_async.invokeExact(objectType.getValue(), nParameters, parameters.handle(), ioPriority, cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_async_initable_newv_async.invokeExact(
+                    objectType.getValue().longValue(),
+                    nParameters,
+                    parameters.handle(),
+                    ioPriority,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

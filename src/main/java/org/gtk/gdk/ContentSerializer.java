@@ -25,21 +25,34 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkContentSerializer";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ContentSerializer(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ContentSerializer */
+    /**
+     * Cast object to ContentSerializer if its GType is a (or inherits from) "GdkContentSerializer".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ContentSerializer" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkContentSerializer", a ClassCastException will be thrown.
+     */
     public static ContentSerializer castFrom(org.gtk.gobject.Object gobject) {
-        return new ContentSerializer(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkContentSerializer"))) {
+            return new ContentSerializer(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkContentSerializer");
+        }
     }
     
     /**
@@ -51,7 +64,8 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
     public @Nullable org.gtk.gio.Cancellable getCancellable() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_serializer_get_cancellable.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_serializer_get_cancellable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,7 +79,8 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
     public @NotNull org.gtk.glib.Type getGtype() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gdk_content_serializer_get_gtype.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gdk_content_serializer_get_gtype.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,11 +94,12 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
     public @NotNull java.lang.String getMimeType() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_serializer_get_mime_type.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_serializer_get_mime_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -95,7 +111,8 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
     public @NotNull org.gtk.gio.OutputStream getOutputStream() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_serializer_get_output_stream.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_serializer_get_output_stream.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,7 +128,8 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
     public int getPriority() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_content_serializer_get_priority.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_content_serializer_get_priority.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,7 +145,8 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
     public @Nullable java.lang.foreign.MemoryAddress getTaskData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_serializer_get_task_data.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_serializer_get_task_data.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,7 +160,8 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
     public @Nullable java.lang.foreign.MemoryAddress getUserData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_serializer_get_user_data.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_serializer_get_user_data.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,7 +175,8 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
     public @NotNull org.gtk.gobject.Value getValue() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_serializer_get_value.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_serializer_get_value.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,7 +192,9 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
     public void returnError(@NotNull org.gtk.glib.Error error) {
         java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
         try {
-            DowncallHandles.gdk_content_serializer_return_error.invokeExact(handle(), error.refcounted().unowned().handle());
+            DowncallHandles.gdk_content_serializer_return_error.invokeExact(
+                    handle(),
+                    error.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,7 +205,8 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      */
     public void returnSuccess() {
         try {
-            DowncallHandles.gdk_content_serializer_return_success.invokeExact(handle());
+            DowncallHandles.gdk_content_serializer_return_success.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -195,7 +219,9 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      */
     public void setTaskData(@Nullable java.lang.foreign.MemoryAddress data, @NotNull org.gtk.glib.DestroyNotify notify) {
         try {
-            DowncallHandles.gdk_content_serializer_set_task_data.invokeExact(handle(), data, 
+            DowncallHandles.gdk_content_serializer_set_task_data.invokeExact(
+                    handle(),
+                    data,
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

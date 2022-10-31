@@ -39,28 +39,42 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkAppChooserButton";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public AppChooserButton(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to AppChooserButton */
+    /**
+     * Cast object to AppChooserButton if its GType is a (or inherits from) "GtkAppChooserButton".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "AppChooserButton" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkAppChooserButton", a ClassCastException will be thrown.
+     */
     public static AppChooserButton castFrom(org.gtk.gobject.Object gobject) {
-        return new AppChooserButton(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkAppChooserButton"))) {
+            return new AppChooserButton(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkAppChooserButton");
+        }
     }
     
     private static Refcounted constructNew(@NotNull java.lang.String contentType) {
         java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_app_chooser_button_new.invokeExact(Interop.allocateNativeString(contentType)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_app_chooser_button_new.invokeExact(
+                    Interop.allocateNativeString(contentType)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,7 +109,11 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
         java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
         java.util.Objects.requireNonNull(icon, "Parameter 'icon' must not be null");
         try {
-            DowncallHandles.gtk_app_chooser_button_append_custom_item.invokeExact(handle(), Interop.allocateNativeString(name), Interop.allocateNativeString(label), icon.handle());
+            DowncallHandles.gtk_app_chooser_button_append_custom_item.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(label),
+                    icon.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,7 +125,8 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
      */
     public void appendSeparator() {
         try {
-            DowncallHandles.gtk_app_chooser_button_append_separator.invokeExact(handle());
+            DowncallHandles.gtk_app_chooser_button_append_separator.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,11 +140,12 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public @Nullable java.lang.String getHeading() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_button_get_heading.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_button_get_heading.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -135,7 +155,8 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public boolean getModal() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_app_chooser_button_get_modal.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_app_chooser_button_get_modal.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -150,7 +171,8 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public boolean getShowDefaultItem() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_app_chooser_button_get_show_default_item.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_app_chooser_button_get_show_default_item.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -165,7 +187,8 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public boolean getShowDialogItem() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_app_chooser_button_get_show_dialog_item.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_app_chooser_button_get_show_dialog_item.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,7 +207,9 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public void setActiveCustomItem(@NotNull java.lang.String name) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            DowncallHandles.gtk_app_chooser_button_set_active_custom_item.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.gtk_app_chooser_button_set_active_custom_item.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -199,7 +224,9 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public void setHeading(@NotNull java.lang.String heading) {
         java.util.Objects.requireNonNull(heading, "Parameter 'heading' must not be null");
         try {
-            DowncallHandles.gtk_app_chooser_button_set_heading.invokeExact(handle(), Interop.allocateNativeString(heading));
+            DowncallHandles.gtk_app_chooser_button_set_heading.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(heading));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -211,7 +238,9 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
      */
     public void setModal(boolean modal) {
         try {
-            DowncallHandles.gtk_app_chooser_button_set_modal.invokeExact(handle(), modal ? 1 : 0);
+            DowncallHandles.gtk_app_chooser_button_set_modal.invokeExact(
+                    handle(),
+                    modal ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -224,7 +253,9 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
      */
     public void setShowDefaultItem(boolean setting) {
         try {
-            DowncallHandles.gtk_app_chooser_button_set_show_default_item.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_app_chooser_button_set_show_default_item.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -237,7 +268,9 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
      */
     public void setShowDialogItem(boolean setting) {
         try {
-            DowncallHandles.gtk_app_chooser_button_set_show_dialog_item.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_app_chooser_button_set_show_dialog_item.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -407,7 +440,7 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
         public static void signalAppChooserButtonCustomItemActivated(MemoryAddress source, MemoryAddress itemName, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (AppChooserButton.CustomItemActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppChooserButton(Refcounted.get(source)), itemName.getUtf8String(0));
+            HANDLER.signalReceived(new AppChooserButton(Refcounted.get(source)), Interop.getStringFrom(itemName));
         }
     }
 }

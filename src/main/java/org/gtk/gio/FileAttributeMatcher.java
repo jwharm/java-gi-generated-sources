@@ -14,14 +14,26 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GFileAttributeMatcher";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static FileAttributeMatcher allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        FileAttributeMatcher newInstance = new FileAttributeMatcher(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public FileAttributeMatcher(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -30,7 +42,8 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(attributes, "Parameter 'attributes' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_file_attribute_matcher_new.invokeExact(Interop.allocateNativeString(attributes)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_file_attribute_matcher_new.invokeExact(
+                    Interop.allocateNativeString(attributes)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,7 +92,9 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(ns, "Parameter 'ns' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_attribute_matcher_enumerate_namespace.invokeExact(handle(), Interop.allocateNativeString(ns));
+            RESULT = (int) DowncallHandles.g_file_attribute_matcher_enumerate_namespace.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(ns));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,11 +109,12 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.String enumerateNext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_matcher_enumerate_next.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_matcher_enumerate_next.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -112,7 +128,9 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_attribute_matcher_matches.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (int) DowncallHandles.g_file_attribute_matcher_matches.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,7 +147,9 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_attribute_matcher_matches_only.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (int) DowncallHandles.g_file_attribute_matcher_matches_only.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -143,7 +163,8 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gio.FileAttributeMatcher ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_matcher_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_matcher_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -164,10 +185,11 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
      *     {@code matcher} that are not matched by {@code subtract}
      */
     public @Nullable org.gtk.gio.FileAttributeMatcher subtract(@Nullable org.gtk.gio.FileAttributeMatcher subtract) {
-        java.util.Objects.requireNonNullElse(subtract, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_matcher_subtract.invokeExact(handle(), subtract.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_matcher_subtract.invokeExact(
+                    handle(),
+                    (Addressable) (subtract == null ? MemoryAddress.NULL : subtract.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,11 +207,12 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_matcher_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_matcher_to_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -198,7 +221,8 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_file_attribute_matcher_unref.invokeExact(handle());
+            DowncallHandles.g_file_attribute_matcher_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

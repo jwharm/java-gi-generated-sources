@@ -22,33 +22,55 @@ public class TextBuffer extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkTextBuffer";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gtk.TextBufferPrivate.getMemoryLayout().withName("priv")
-    ).withName("GtkTextBuffer");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public TextBuffer(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TextBuffer */
+    /**
+     * Cast object to TextBuffer if its GType is a (or inherits from) "GtkTextBuffer".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TextBuffer" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkTextBuffer", a ClassCastException will be thrown.
+     */
     public static TextBuffer castFrom(org.gtk.gobject.Object gobject) {
-        return new TextBuffer(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTextBuffer"))) {
+            return new TextBuffer(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTextBuffer");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gtk.TextTagTable table) {
-        java.util.Objects.requireNonNullElse(table, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_text_buffer_new.invokeExact(table.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_text_buffer_new.invokeExact(
+                    (Addressable) (table == null ? MemoryAddress.NULL : table.handle())), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,7 +101,10 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(mark, "Parameter 'mark' must not be null");
         java.util.Objects.requireNonNull(where, "Parameter 'where' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_add_mark.invokeExact(handle(), mark.handle(), where.handle());
+            DowncallHandles.gtk_text_buffer_add_mark.invokeExact(
+                    handle(),
+                    mark.handle(),
+                    where.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,7 +121,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public void addSelectionClipboard(@NotNull org.gtk.gdk.Clipboard clipboard) {
         java.util.Objects.requireNonNull(clipboard, "Parameter 'clipboard' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_add_selection_clipboard.invokeExact(handle(), clipboard.handle());
+            DowncallHandles.gtk_text_buffer_add_selection_clipboard.invokeExact(
+                    handle(),
+                    clipboard.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,7 +144,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_apply_tag.invokeExact(handle(), tag.handle(), start.handle(), end.handle());
+            DowncallHandles.gtk_text_buffer_apply_tag.invokeExact(
+                    handle(),
+                    tag.handle(),
+                    start.handle(),
+                    end.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,7 +169,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_apply_tag_by_name.invokeExact(handle(), Interop.allocateNativeString(name), start.handle(), end.handle());
+            DowncallHandles.gtk_text_buffer_apply_tag_by_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name),
+                    start.handle(),
+                    end.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -165,7 +200,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_buffer_backspace.invokeExact(handle(), iter.handle(), interactive ? 1 : 0, defaultEditable ? 1 : 0);
+            RESULT = (int) DowncallHandles.gtk_text_buffer_backspace.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    interactive ? 1 : 0,
+                    defaultEditable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,7 +226,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public void beginIrreversibleAction() {
         try {
-            DowncallHandles.gtk_text_buffer_begin_irreversible_action.invokeExact(handle());
+            DowncallHandles.gtk_text_buffer_begin_irreversible_action.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -215,7 +255,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public void beginUserAction() {
         try {
-            DowncallHandles.gtk_text_buffer_begin_user_action.invokeExact(handle());
+            DowncallHandles.gtk_text_buffer_begin_user_action.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -228,7 +269,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public void copyClipboard(@NotNull org.gtk.gdk.Clipboard clipboard) {
         java.util.Objects.requireNonNull(clipboard, "Parameter 'clipboard' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_copy_clipboard.invokeExact(handle(), clipboard.handle());
+            DowncallHandles.gtk_text_buffer_copy_clipboard.invokeExact(
+                    handle(),
+                    clipboard.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -250,7 +293,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_create_child_anchor.invokeExact(handle(), iter.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_create_child_anchor.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -283,11 +328,14 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @return the new {@code GtkTextMark} object
      */
     public @NotNull org.gtk.gtk.TextMark createMark(@Nullable java.lang.String markName, @NotNull org.gtk.gtk.TextIter where, boolean leftGravity) {
-        java.util.Objects.requireNonNullElse(markName, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(where, "Parameter 'where' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_create_mark.invokeExact(handle(), Interop.allocateNativeString(markName), where.handle(), leftGravity ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_create_mark.invokeExact(
+                    handle(),
+                    (Addressable) (markName == null ? MemoryAddress.NULL : Interop.allocateNativeString(markName)),
+                    where.handle(),
+                    leftGravity ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -325,7 +373,10 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public void cutClipboard(@NotNull org.gtk.gdk.Clipboard clipboard, boolean defaultEditable) {
         java.util.Objects.requireNonNull(clipboard, "Parameter 'clipboard' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_cut_clipboard.invokeExact(handle(), clipboard.handle(), defaultEditable ? 1 : 0);
+            DowncallHandles.gtk_text_buffer_cut_clipboard.invokeExact(
+                    handle(),
+                    clipboard.handle(),
+                    defaultEditable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -349,7 +400,10 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_delete.invokeExact(handle(), start.handle(), end.handle());
+            DowncallHandles.gtk_text_buffer_delete.invokeExact(
+                    handle(),
+                    start.handle(),
+                    end.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -372,7 +426,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(endIter, "Parameter 'endIter' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_buffer_delete_interactive.invokeExact(handle(), startIter.handle(), endIter.handle(), defaultEditable ? 1 : 0);
+            RESULT = (int) DowncallHandles.gtk_text_buffer_delete_interactive.invokeExact(
+                    handle(),
+                    startIter.handle(),
+                    endIter.handle(),
+                    defaultEditable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -397,7 +455,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public void deleteMark(@NotNull org.gtk.gtk.TextMark mark) {
         java.util.Objects.requireNonNull(mark, "Parameter 'mark' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_delete_mark.invokeExact(handle(), mark.handle());
+            DowncallHandles.gtk_text_buffer_delete_mark.invokeExact(
+                    handle(),
+                    mark.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -412,7 +472,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public void deleteMarkByName(@NotNull java.lang.String name) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_delete_mark_by_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.gtk_text_buffer_delete_mark_by_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -431,7 +493,10 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public boolean deleteSelection(boolean interactive, boolean defaultEditable) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_buffer_delete_selection.invokeExact(handle(), interactive ? 1 : 0, defaultEditable ? 1 : 0);
+            RESULT = (int) DowncallHandles.gtk_text_buffer_delete_selection.invokeExact(
+                    handle(),
+                    interactive ? 1 : 0,
+                    defaultEditable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -453,7 +518,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public void endIrreversibleAction() {
         try {
-            DowncallHandles.gtk_text_buffer_end_irreversible_action.invokeExact(handle());
+            DowncallHandles.gtk_text_buffer_end_irreversible_action.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -468,7 +534,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public void endUserAction() {
         try {
-            DowncallHandles.gtk_text_buffer_end_user_action.invokeExact(handle());
+            DowncallHandles.gtk_text_buffer_end_user_action.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -480,18 +547,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param start iterator to initialize with first position in the buffer
      * @param end iterator to initialize with the end iterator
      */
-    public void getBounds(@NotNull Out<org.gtk.gtk.TextIter> start, @NotNull Out<org.gtk.gtk.TextIter> end) {
+    public void getBounds(@NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end) {
         java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
-        MemorySegment startPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment endPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_text_buffer_get_bounds.invokeExact(handle(), (Addressable) startPOINTER.address(), (Addressable) endPOINTER.address());
+            DowncallHandles.gtk_text_buffer_get_bounds.invokeExact(
+                    handle(),
+                    start.handle(),
+                    end.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        start.set(new org.gtk.gtk.TextIter(Refcounted.get(startPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        end.set(new org.gtk.gtk.TextIter(Refcounted.get(endPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -501,7 +567,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public boolean getCanRedo() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_buffer_get_can_redo.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_buffer_get_can_redo.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -515,7 +582,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public boolean getCanUndo() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_buffer_get_can_undo.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_buffer_get_can_undo.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -535,7 +603,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public int getCharCount() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_buffer_get_char_count.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_buffer_get_char_count.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -553,7 +622,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public boolean getEnableUndo() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_buffer_get_enable_undo.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_buffer_get_enable_undo.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -571,15 +641,15 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * character position 0) to the end iterator.
      * @param iter iterator to initialize
      */
-    public void getEndIter(@NotNull Out<org.gtk.gtk.TextIter> iter) {
+    public void getEndIter(@NotNull org.gtk.gtk.TextIter iter) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_text_buffer_get_end_iter.invokeExact(handle(), (Addressable) iterPOINTER.address());
+            DowncallHandles.gtk_text_buffer_get_end_iter.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TextIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -589,7 +659,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public boolean getHasSelection() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_buffer_get_has_selection.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_buffer_get_has_selection.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -607,7 +678,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.TextMark getInsert() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_get_insert.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_get_insert.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -619,16 +691,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param iter an iterator to be initialized
      * @param anchor a child anchor that appears in {@code buffer}
      */
-    public void getIterAtChildAnchor(@NotNull Out<org.gtk.gtk.TextIter> iter, @NotNull org.gtk.gtk.TextChildAnchor anchor) {
+    public void getIterAtChildAnchor(@NotNull org.gtk.gtk.TextIter iter, @NotNull org.gtk.gtk.TextChildAnchor anchor) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(anchor, "Parameter 'anchor' must not be null");
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_text_buffer_get_iter_at_child_anchor.invokeExact(handle(), (Addressable) iterPOINTER.address(), anchor.handle());
+            DowncallHandles.gtk_text_buffer_get_iter_at_child_anchor.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    anchor.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TextIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -640,16 +713,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param lineNumber line number counting from 0
      * @return whether the exact position has been found
      */
-    public boolean getIterAtLine(@NotNull Out<org.gtk.gtk.TextIter> iter, int lineNumber) {
+    public boolean getIterAtLine(@NotNull org.gtk.gtk.TextIter iter, int lineNumber) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_buffer_get_iter_at_line.invokeExact(handle(), (Addressable) iterPOINTER.address(), lineNumber);
+            RESULT = (int) DowncallHandles.gtk_text_buffer_get_iter_at_line.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    lineNumber);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TextIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -667,16 +741,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param byteIndex byte index from start of line
      * @return whether the exact position has been found
      */
-    public boolean getIterAtLineIndex(@NotNull Out<org.gtk.gtk.TextIter> iter, int lineNumber, int byteIndex) {
+    public boolean getIterAtLineIndex(@NotNull org.gtk.gtk.TextIter iter, int lineNumber, int byteIndex) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_buffer_get_iter_at_line_index.invokeExact(handle(), (Addressable) iterPOINTER.address(), lineNumber, byteIndex);
+            RESULT = (int) DowncallHandles.gtk_text_buffer_get_iter_at_line_index.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    lineNumber,
+                    byteIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TextIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -694,16 +770,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param charOffset char offset from start of line
      * @return whether the exact position has been found
      */
-    public boolean getIterAtLineOffset(@NotNull Out<org.gtk.gtk.TextIter> iter, int lineNumber, int charOffset) {
+    public boolean getIterAtLineOffset(@NotNull org.gtk.gtk.TextIter iter, int lineNumber, int charOffset) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_buffer_get_iter_at_line_offset.invokeExact(handle(), (Addressable) iterPOINTER.address(), lineNumber, charOffset);
+            RESULT = (int) DowncallHandles.gtk_text_buffer_get_iter_at_line_offset.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    lineNumber,
+                    charOffset);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TextIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -712,16 +790,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param iter iterator to initialize
      * @param mark a {@code GtkTextMark} in {@code buffer}
      */
-    public void getIterAtMark(@NotNull Out<org.gtk.gtk.TextIter> iter, @NotNull org.gtk.gtk.TextMark mark) {
+    public void getIterAtMark(@NotNull org.gtk.gtk.TextIter iter, @NotNull org.gtk.gtk.TextMark mark) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(mark, "Parameter 'mark' must not be null");
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_text_buffer_get_iter_at_mark.invokeExact(handle(), (Addressable) iterPOINTER.address(), mark.handle());
+            DowncallHandles.gtk_text_buffer_get_iter_at_mark.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    mark.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TextIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -734,15 +813,16 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param iter iterator to initialize
      * @param charOffset char offset from start of buffer, counting from 0, or -1
      */
-    public void getIterAtOffset(@NotNull Out<org.gtk.gtk.TextIter> iter, int charOffset) {
+    public void getIterAtOffset(@NotNull org.gtk.gtk.TextIter iter, int charOffset) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_text_buffer_get_iter_at_offset.invokeExact(handle(), (Addressable) iterPOINTER.address(), charOffset);
+            DowncallHandles.gtk_text_buffer_get_iter_at_offset.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    charOffset);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TextIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -754,7 +834,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public int getLineCount() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_buffer_get_line_count.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_buffer_get_line_count.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -771,7 +852,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_get_mark.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_get_mark.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -788,7 +871,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public int getMaxUndoLevels() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_buffer_get_max_undo_levels.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_buffer_get_max_undo_levels.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -806,7 +890,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public boolean getModified() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_buffer_get_modified.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_buffer_get_modified.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -831,7 +916,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.TextMark getSelectionBound() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_get_selection_bound.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_get_selection_bound.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -850,19 +936,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param end iterator to initialize with selection end
      * @return whether the selection has nonzero length
      */
-    public boolean getSelectionBounds(@NotNull Out<org.gtk.gtk.TextIter> start, @NotNull Out<org.gtk.gtk.TextIter> end) {
+    public boolean getSelectionBounds(@NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end) {
         java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
-        MemorySegment startPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment endPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_buffer_get_selection_bounds.invokeExact(handle(), (Addressable) startPOINTER.address(), (Addressable) endPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_text_buffer_get_selection_bounds.invokeExact(
+                    handle(),
+                    start.handle(),
+                    end.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        start.set(new org.gtk.gtk.TextIter(Refcounted.get(startPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        end.set(new org.gtk.gtk.TextIter(Refcounted.get(endPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -876,7 +961,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.ContentProvider getSelectionContent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_get_selection_content.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_get_selection_content.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -904,11 +990,15 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_get_slice.invokeExact(handle(), start.handle(), end.handle(), includeHiddenChars ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_get_slice.invokeExact(
+                    handle(),
+                    start.handle(),
+                    end.handle(),
+                    includeHiddenChars ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -918,15 +1008,15 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * to get the iter at character offset 0.
      * @param iter iterator to initialize
      */
-    public void getStartIter(@NotNull Out<org.gtk.gtk.TextIter> iter) {
+    public void getStartIter(@NotNull org.gtk.gtk.TextIter iter) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_text_buffer_get_start_iter.invokeExact(handle(), (Addressable) iterPOINTER.address());
+            DowncallHandles.gtk_text_buffer_get_start_iter.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TextIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -936,7 +1026,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.TextTagTable getTagTable() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_get_tag_table.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_get_tag_table.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -962,11 +1053,15 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_get_text.invokeExact(handle(), start.handle(), end.handle(), includeHiddenChars ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_get_text.invokeExact(
+                    handle(),
+                    start.handle(),
+                    end.handle(),
+                    includeHiddenChars ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -986,7 +1081,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_insert.invokeExact(handle(), iter.handle(), Interop.allocateNativeString(text), len);
+            DowncallHandles.gtk_text_buffer_insert.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    Interop.allocateNativeString(text),
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1003,7 +1102,10 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public void insertAtCursor(@NotNull java.lang.String text, int len) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_insert_at_cursor.invokeExact(handle(), Interop.allocateNativeString(text), len);
+            DowncallHandles.gtk_text_buffer_insert_at_cursor.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(text),
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1030,7 +1132,10 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(anchor, "Parameter 'anchor' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_insert_child_anchor.invokeExact(handle(), iter.handle(), anchor.handle());
+            DowncallHandles.gtk_text_buffer_insert_child_anchor.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    anchor.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1058,7 +1163,12 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_buffer_insert_interactive.invokeExact(handle(), iter.handle(), Interop.allocateNativeString(text), len, defaultEditable ? 1 : 0);
+            RESULT = (int) DowncallHandles.gtk_text_buffer_insert_interactive.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    Interop.allocateNativeString(text),
+                    len,
+                    defaultEditable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1083,7 +1193,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_buffer_insert_interactive_at_cursor.invokeExact(handle(), Interop.allocateNativeString(text), len, defaultEditable ? 1 : 0);
+            RESULT = (int) DowncallHandles.gtk_text_buffer_insert_interactive_at_cursor.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(text),
+                    len,
+                    defaultEditable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1105,7 +1219,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(markup, "Parameter 'markup' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_insert_markup.invokeExact(handle(), iter.handle(), Interop.allocateNativeString(markup), len);
+            DowncallHandles.gtk_text_buffer_insert_markup.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    Interop.allocateNativeString(markup),
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1128,7 +1246,10 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(paintable, "Parameter 'paintable' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_insert_paintable.invokeExact(handle(), iter.handle(), paintable.handle());
+            DowncallHandles.gtk_text_buffer_insert_paintable.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    paintable.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1155,7 +1276,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_insert_range.invokeExact(handle(), iter.handle(), start.handle(), end.handle());
+            DowncallHandles.gtk_text_buffer_insert_range.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    start.handle(),
+                    end.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1182,7 +1307,12 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_buffer_insert_range_interactive.invokeExact(handle(), iter.handle(), start.handle(), end.handle(), defaultEditable ? 1 : 0);
+            RESULT = (int) DowncallHandles.gtk_text_buffer_insert_range_interactive.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    start.handle(),
+                    end.handle(),
+                    defaultEditable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1233,7 +1363,10 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(mark, "Parameter 'mark' must not be null");
         java.util.Objects.requireNonNull(where, "Parameter 'where' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_move_mark.invokeExact(handle(), mark.handle(), where.handle());
+            DowncallHandles.gtk_text_buffer_move_mark.invokeExact(
+                    handle(),
+                    mark.handle(),
+                    where.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1250,7 +1383,10 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(where, "Parameter 'where' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_move_mark_by_name.invokeExact(handle(), Interop.allocateNativeString(name), where.handle());
+            DowncallHandles.gtk_text_buffer_move_mark_by_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name),
+                    where.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1272,9 +1408,12 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public void pasteClipboard(@NotNull org.gtk.gdk.Clipboard clipboard, @Nullable org.gtk.gtk.TextIter overrideLocation, boolean defaultEditable) {
         java.util.Objects.requireNonNull(clipboard, "Parameter 'clipboard' must not be null");
-        java.util.Objects.requireNonNullElse(overrideLocation, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_text_buffer_paste_clipboard.invokeExact(handle(), clipboard.handle(), overrideLocation.handle(), defaultEditable ? 1 : 0);
+            DowncallHandles.gtk_text_buffer_paste_clipboard.invokeExact(
+                    handle(),
+                    clipboard.handle(),
+                    (Addressable) (overrideLocation == null ? MemoryAddress.NULL : overrideLocation.handle()),
+                    defaultEditable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1295,7 +1434,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public void placeCursor(@NotNull org.gtk.gtk.TextIter where) {
         java.util.Objects.requireNonNull(where, "Parameter 'where' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_place_cursor.invokeExact(handle(), where.handle());
+            DowncallHandles.gtk_text_buffer_place_cursor.invokeExact(
+                    handle(),
+                    where.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1306,7 +1447,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public void redo() {
         try {
-            DowncallHandles.gtk_text_buffer_redo.invokeExact(handle());
+            DowncallHandles.gtk_text_buffer_redo.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1326,7 +1468,10 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_remove_all_tags.invokeExact(handle(), start.handle(), end.handle());
+            DowncallHandles.gtk_text_buffer_remove_all_tags.invokeExact(
+                    handle(),
+                    start.handle(),
+                    end.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1341,7 +1486,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public void removeSelectionClipboard(@NotNull org.gtk.gdk.Clipboard clipboard) {
         java.util.Objects.requireNonNull(clipboard, "Parameter 'clipboard' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_remove_selection_clipboard.invokeExact(handle(), clipboard.handle());
+            DowncallHandles.gtk_text_buffer_remove_selection_clipboard.invokeExact(
+                    handle(),
+                    clipboard.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1362,7 +1509,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_remove_tag.invokeExact(handle(), tag.handle(), start.handle(), end.handle());
+            DowncallHandles.gtk_text_buffer_remove_tag.invokeExact(
+                    handle(),
+                    tag.handle(),
+                    start.handle(),
+                    end.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1383,7 +1534,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_remove_tag_by_name.invokeExact(handle(), Interop.allocateNativeString(name), start.handle(), end.handle());
+            DowncallHandles.gtk_text_buffer_remove_tag_by_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name),
+                    start.handle(),
+                    end.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1406,7 +1561,10 @@ public class TextBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(ins, "Parameter 'ins' must not be null");
         java.util.Objects.requireNonNull(bound, "Parameter 'bound' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_select_range.invokeExact(handle(), ins.handle(), bound.handle());
+            DowncallHandles.gtk_text_buffer_select_range.invokeExact(
+                    handle(),
+                    ins.handle(),
+                    bound.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1428,7 +1586,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public void setEnableUndo(boolean enableUndo) {
         try {
-            DowncallHandles.gtk_text_buffer_set_enable_undo.invokeExact(handle(), enableUndo ? 1 : 0);
+            DowncallHandles.gtk_text_buffer_set_enable_undo.invokeExact(
+                    handle(),
+                    enableUndo ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1444,7 +1604,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public void setMaxUndoLevels(int maxUndoLevels) {
         try {
-            DowncallHandles.gtk_text_buffer_set_max_undo_levels.invokeExact(handle(), maxUndoLevels);
+            DowncallHandles.gtk_text_buffer_set_max_undo_levels.invokeExact(
+                    handle(),
+                    maxUndoLevels);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1464,7 +1626,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public void setModified(boolean setting) {
         try {
-            DowncallHandles.gtk_text_buffer_set_modified.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_text_buffer_set_modified.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1481,7 +1645,10 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public void setText(@NotNull java.lang.String text, int len) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            DowncallHandles.gtk_text_buffer_set_text.invokeExact(handle(), Interop.allocateNativeString(text), len);
+            DowncallHandles.gtk_text_buffer_set_text.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(text),
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1492,7 +1659,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public void undo() {
         try {
-            DowncallHandles.gtk_text_buffer_undo.invokeExact(handle());
+            DowncallHandles.gtk_text_buffer_undo.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2385,7 +2553,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         public static void signalTextBufferInsertText(MemoryAddress source, MemoryAddress location, MemoryAddress text, int len, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TextBuffer.InsertText) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(Refcounted.get(source)), new org.gtk.gtk.TextIter(Refcounted.get(location, false)), text.getUtf8String(0), len);
+            HANDLER.signalReceived(new TextBuffer(Refcounted.get(source)), new org.gtk.gtk.TextIter(Refcounted.get(location, false)), Interop.getStringFrom(text), len);
         }
         
         public static void signalTextBufferMarkDeleted(MemoryAddress source, MemoryAddress mark, MemoryAddress data) {

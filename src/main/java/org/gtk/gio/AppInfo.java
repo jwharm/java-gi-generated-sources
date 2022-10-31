@@ -57,6 +57,21 @@ import org.jetbrains.annotations.*;
 public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to AppInfo if its GType is a (or inherits from) "GAppInfo".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "AppInfo" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GAppInfo", a ClassCastException will be thrown.
+     */
+    public static AppInfo castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GAppInfo"))) {
+            return new AppInfoImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GAppInfo");
+        }
+    }
+    
+    /**
      * Adds a content type to the application information to indicate the
      * application is capable of opening files with the given content type.
      * @param contentType a string.
@@ -68,7 +83,9 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_app_info_add_supports_type.invokeExact(handle(), Interop.allocateNativeString(contentType), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_app_info_add_supports_type.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(contentType), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -86,7 +103,8 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     default boolean canDelete() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_app_info_can_delete.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_app_info_can_delete.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -101,7 +119,8 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     default boolean canRemoveSupportsType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_app_info_can_remove_supports_type.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_app_info_can_remove_supports_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,7 +138,8 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     default boolean delete() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_app_info_delete.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_app_info_delete.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -133,7 +153,8 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.gio.AppInfo dup() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_info_dup.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_dup.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,7 +174,9 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(appinfo2, "Parameter 'appinfo2' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_app_info_equal.invokeExact(handle(), appinfo2.handle());
+            RESULT = (int) DowncallHandles.g_app_info_equal.invokeExact(
+                    handle(),
+                    appinfo2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,11 +192,12 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     default @Nullable java.lang.String getCommandline() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_commandline.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_commandline.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -184,11 +208,12 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     default @Nullable java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_description.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_description.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -200,11 +225,12 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     default @NotNull java.lang.String getDisplayName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_display_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_display_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -215,11 +241,12 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     default @NotNull java.lang.String getExecutable() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_executable.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_executable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -230,7 +257,8 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gio.Icon getIcon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_icon.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_icon.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -250,11 +278,12 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     default @Nullable java.lang.String getId() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_id.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_id.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -264,11 +293,12 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     default @NotNull java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -283,7 +313,8 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     default @NotNull PointerString getSupportedTypes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_supported_types.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_supported_types.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -324,12 +355,13 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean launch(@Nullable org.gtk.glib.List files, @Nullable org.gtk.gio.AppLaunchContext context) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(files, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(context, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_app_info_launch.invokeExact(handle(), files.handle(), context.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_app_info_launch.invokeExact(
+                    handle(),
+                    (Addressable) (files == null ? MemoryAddress.NULL : files.handle()),
+                    (Addressable) (context == null ? MemoryAddress.NULL : context.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -356,12 +388,13 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean launchUris(@Nullable org.gtk.glib.List uris, @Nullable org.gtk.gio.AppLaunchContext context) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(uris, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(context, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_app_info_launch_uris.invokeExact(handle(), uris.handle(), context.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_app_info_launch_uris.invokeExact(
+                    handle(),
+                    (Addressable) (uris == null ? MemoryAddress.NULL : uris.handle()),
+                    (Addressable) (context == null ? MemoryAddress.NULL : context.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -384,18 +417,18 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      * @param callback a {@link AsyncReadyCallback} to call when the request is done
      */
     default void launchUrisAsync(@Nullable org.gtk.glib.List uris, @Nullable org.gtk.gio.AppLaunchContext context, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNullElse(uris, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(context, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_app_info_launch_uris_async.invokeExact(handle(), uris.handle(), context.handle(), cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_app_info_launch_uris_async.invokeExact(
+                    handle(),
+                    (Addressable) (uris == null ? MemoryAddress.NULL : uris.handle()),
+                    (Addressable) (context == null ? MemoryAddress.NULL : context.handle()),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -412,7 +445,9 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_app_info_launch_uris_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_app_info_launch_uris_finish.invokeExact(
+                    handle(),
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -433,7 +468,9 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_app_info_remove_supports_type.invokeExact(handle(), Interop.allocateNativeString(contentType), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_app_info_remove_supports_type.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(contentType), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -455,7 +492,9 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_app_info_set_as_default_for_extension.invokeExact(handle(), Interop.allocateNativeString(extension), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_app_info_set_as_default_for_extension.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(extension), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -476,7 +515,9 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_app_info_set_as_default_for_type.invokeExact(handle(), Interop.allocateNativeString(contentType), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_app_info_set_as_default_for_type.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(contentType), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -500,7 +541,9 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_app_info_set_as_last_used_for_type.invokeExact(handle(), Interop.allocateNativeString(contentType), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_app_info_set_as_last_used_for_type.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(contentType), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -518,7 +561,8 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     default boolean shouldShow() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_app_info_should_show.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_app_info_should_show.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -532,7 +576,8 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     default boolean supportsFiles() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_app_info_supports_files.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_app_info_supports_files.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -546,7 +591,8 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     default boolean supportsUris() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_app_info_supports_uris.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_app_info_supports_uris.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -569,12 +615,14 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      */
     public static @NotNull org.gtk.gio.AppInfo createFromCommandline(@NotNull java.lang.String commandline, @Nullable java.lang.String applicationName, @NotNull org.gtk.gio.AppInfoCreateFlags flags) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(commandline, "Parameter 'commandline' must not be null");
-        java.util.Objects.requireNonNullElse(applicationName, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_info_create_from_commandline.invokeExact(Interop.allocateNativeString(commandline), Interop.allocateNativeString(applicationName), flags.getValue(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_create_from_commandline.invokeExact(
+                    Interop.allocateNativeString(commandline),
+                    (Addressable) (applicationName == null ? MemoryAddress.NULL : Interop.allocateNativeString(applicationName)),
+                    flags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -618,7 +666,8 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_all_for_type.invokeExact(Interop.allocateNativeString(contentType));
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_all_for_type.invokeExact(
+                    Interop.allocateNativeString(contentType));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -637,7 +686,9 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_default_for_type.invokeExact(Interop.allocateNativeString(contentType), mustSupportUris ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_default_for_type.invokeExact(
+                    Interop.allocateNativeString(contentType),
+                    mustSupportUris ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -657,7 +708,8 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(uriScheme, "Parameter 'uriScheme' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_default_for_uri_scheme.invokeExact(Interop.allocateNativeString(uriScheme));
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_default_for_uri_scheme.invokeExact(
+                    Interop.allocateNativeString(uriScheme));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -676,7 +728,8 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_fallback_for_type.invokeExact(Interop.allocateNativeString(contentType));
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_fallback_for_type.invokeExact(
+                    Interop.allocateNativeString(contentType));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -698,7 +751,8 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_recommended_for_type.invokeExact(Interop.allocateNativeString(contentType));
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_recommended_for_type.invokeExact(
+                    Interop.allocateNativeString(contentType));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -721,11 +775,12 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      */
     public static boolean launchDefaultForUri(@NotNull java.lang.String uri, @Nullable org.gtk.gio.AppLaunchContext context) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNullElse(context, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_app_info_launch_default_for_uri.invokeExact(Interop.allocateNativeString(uri), context.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_app_info_launch_default_for_uri.invokeExact(
+                    Interop.allocateNativeString(uri),
+                    (Addressable) (context == null ? MemoryAddress.NULL : context.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -753,17 +808,17 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      */
     public static void launchDefaultForUriAsync(@NotNull java.lang.String uri, @Nullable org.gtk.gio.AppLaunchContext context, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNullElse(context, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_app_info_launch_default_for_uri_async.invokeExact(Interop.allocateNativeString(uri), context.handle(), cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_app_info_launch_default_for_uri_async.invokeExact(
+                    Interop.allocateNativeString(uri),
+                    (Addressable) (context == null ? MemoryAddress.NULL : context.handle()),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -780,7 +835,8 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_app_info_launch_default_for_uri_finish.invokeExact(result.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_app_info_launch_default_for_uri_finish.invokeExact(
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -801,7 +857,8 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     public static void resetTypeAssociations(@NotNull java.lang.String contentType) {
         java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
         try {
-            DowncallHandles.g_app_info_reset_type_associations.invokeExact(Interop.allocateNativeString(contentType));
+            DowncallHandles.g_app_info_reset_type_associations.invokeExact(
+                    Interop.allocateNativeString(contentType));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -147,26 +147,48 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkListStore";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent"),
-        org.gtk.gtk.ListStorePrivate.getMemoryLayout().withName("priv")
-    ).withName("GtkListStore");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent}
+     * @return The value of the field {@code parent}
+     */
+    public org.gtk.gobject.Object parent$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public ListStore(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ListStore */
+    /**
+     * Cast object to ListStore if its GType is a (or inherits from) "GtkListStore".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ListStore" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkListStore", a ClassCastException will be thrown.
+     */
     public static ListStore castFrom(org.gtk.gobject.Object gobject) {
-        return new ListStore(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkListStore"))) {
+            return new ListStore(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkListStore");
+        }
     }
     
     private static Refcounted constructNew(int nColumns) {
@@ -192,7 +214,9 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         java.util.Objects.requireNonNull(types, "Parameter 'types' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_list_store_newv.invokeExact(nColumns, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_list_store_newv.invokeExact(
+                    nColumns,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -215,15 +239,15 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * values, you need to call gtk_list_store_set() or gtk_list_store_set_value().
      * @param iter An unset {@code GtkTreeIter} to set to the appended row
      */
-    public void append(@NotNull Out<org.gtk.gtk.TreeIter> iter) {
+    public void append(@NotNull org.gtk.gtk.TreeIter iter) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_list_store_append.invokeExact(handle(), (Addressable) iterPOINTER.address());
+            DowncallHandles.gtk_list_store_append.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -231,7 +255,8 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      */
     public void clear() {
         try {
-            DowncallHandles.gtk_list_store_clear.invokeExact(handle());
+            DowncallHandles.gtk_list_store_clear.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -246,15 +271,16 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter An unset {@code GtkTreeIter} to set to the new row
      * @param position position to insert the new row, or -1 for last
      */
-    public void insert(@NotNull Out<org.gtk.gtk.TreeIter> iter, int position) {
+    public void insert(@NotNull org.gtk.gtk.TreeIter iter, int position) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_list_store_insert.invokeExact(handle(), (Addressable) iterPOINTER.address(), position);
+            DowncallHandles.gtk_list_store_insert.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -265,16 +291,16 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter An unset {@code GtkTreeIter} to set to the new row
      * @param sibling A valid {@code GtkTreeIter}
      */
-    public void insertAfter(@NotNull Out<org.gtk.gtk.TreeIter> iter, @Nullable org.gtk.gtk.TreeIter sibling) {
+    public void insertAfter(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter sibling) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNullElse(sibling, MemoryAddress.NULL);
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_list_store_insert_after.invokeExact(handle(), (Addressable) iterPOINTER.address(), sibling.handle());
+            DowncallHandles.gtk_list_store_insert_after.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    (Addressable) (sibling == null ? MemoryAddress.NULL : sibling.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -285,16 +311,16 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter An unset {@code GtkTreeIter} to set to the new row
      * @param sibling A valid {@code GtkTreeIter}
      */
-    public void insertBefore(@NotNull Out<org.gtk.gtk.TreeIter> iter, @Nullable org.gtk.gtk.TreeIter sibling) {
+    public void insertBefore(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter sibling) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNullElse(sibling, MemoryAddress.NULL);
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_list_store_insert_before.invokeExact(handle(), (Addressable) iterPOINTER.address(), sibling.handle());
+            DowncallHandles.gtk_list_store_insert_before.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    (Addressable) (sibling == null ? MemoryAddress.NULL : sibling.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -332,7 +358,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param position position to insert the new row, or -1 to append after existing
      *    rows
      */
-    public void insertWithValues(@NotNull Out<org.gtk.gtk.TreeIter> iter, int position) {
+    public void insertWithValues(@NotNull org.gtk.gtk.TreeIter iter, int position) {
         throw new UnsupportedOperationException("Operation not supported yet");
     }
     
@@ -348,17 +374,21 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param values an array of GValues
      * @param nValues the length of the {@code columns} and {@code values} arrays
      */
-    public void insertWithValuesv(@NotNull Out<org.gtk.gtk.TreeIter> iter, int position, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
+    public void insertWithValuesv(@NotNull org.gtk.gtk.TreeIter iter, int position, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(columns, "Parameter 'columns' must not be null");
         java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_list_store_insert_with_valuesv.invokeExact(handle(), (Addressable) iterPOINTER.address(), position, Interop.allocateNativeArray(columns, false), Interop.allocateNativeArray(values, false), nValues);
+            DowncallHandles.gtk_list_store_insert_with_valuesv.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    position,
+                    Interop.allocateNativeArray(columns, false),
+                    Interop.allocateNativeArray(values, false),
+                    nValues);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -373,7 +403,9 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_store_iter_is_valid.invokeExact(handle(), iter.handle());
+            RESULT = (int) DowncallHandles.gtk_list_store_iter_is_valid.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -389,9 +421,11 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      */
     public void moveAfter(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter position) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNullElse(position, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_list_store_move_after.invokeExact(handle(), iter.handle(), position.handle());
+            DowncallHandles.gtk_list_store_move_after.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    (Addressable) (position == null ? MemoryAddress.NULL : position.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -406,9 +440,11 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      */
     public void moveBefore(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter position) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNullElse(position, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_list_store_move_before.invokeExact(handle(), iter.handle(), position.handle());
+            DowncallHandles.gtk_list_store_move_before.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    (Addressable) (position == null ? MemoryAddress.NULL : position.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -420,15 +456,15 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * values, you need to call gtk_list_store_set() or gtk_list_store_set_value().
      * @param iter An unset {@code GtkTreeIter} to set to the prepend row
      */
-    public void prepend(@NotNull Out<org.gtk.gtk.TreeIter> iter) {
+    public void prepend(@NotNull org.gtk.gtk.TreeIter iter) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_list_store_prepend.invokeExact(handle(), (Addressable) iterPOINTER.address());
+            DowncallHandles.gtk_list_store_prepend.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -442,7 +478,9 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_store_remove.invokeExact(handle(), iter.handle());
+            RESULT = (int) DowncallHandles.gtk_list_store_remove.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -460,7 +498,9 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
     public void reorder(int[] newOrder) {
         java.util.Objects.requireNonNull(newOrder, "Parameter 'newOrder' must not be null");
         try {
-            DowncallHandles.gtk_list_store_reorder.invokeExact(handle(), Interop.allocateNativeArray(newOrder, false));
+            DowncallHandles.gtk_list_store_reorder.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(newOrder, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -493,7 +533,10 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
     public void setColumnTypes(int nColumns, org.gtk.glib.Type[] types) {
         java.util.Objects.requireNonNull(types, "Parameter 'types' must not be null");
         try {
-            DowncallHandles.gtk_list_store_set_column_types.invokeExact(handle(), nColumns, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false));
+            DowncallHandles.gtk_list_store_set_column_types.invokeExact(
+                    handle(),
+                    nColumns,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -509,7 +552,10 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
         try {
-            DowncallHandles.gtk_list_store_set_valist.invokeExact(handle(), iter.handle(), varArgs);
+            DowncallHandles.gtk_list_store_set_valist.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    varArgs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -527,7 +573,11 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.gtk_list_store_set_value.invokeExact(handle(), iter.handle(), column, value.handle());
+            DowncallHandles.gtk_list_store_set_value.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    column,
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -549,7 +599,12 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         java.util.Objects.requireNonNull(columns, "Parameter 'columns' must not be null");
         java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
         try {
-            DowncallHandles.gtk_list_store_set_valuesv.invokeExact(handle(), iter.handle(), Interop.allocateNativeArray(columns, false), Interop.allocateNativeArray(values, false), nValues);
+            DowncallHandles.gtk_list_store_set_valuesv.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    Interop.allocateNativeArray(columns, false),
+                    Interop.allocateNativeArray(values, false),
+                    nValues);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -565,7 +620,10 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         try {
-            DowncallHandles.gtk_list_store_swap.invokeExact(handle(), a.handle(), b.handle());
+            DowncallHandles.gtk_list_store_swap.invokeExact(
+                    handle(),
+                    a.handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

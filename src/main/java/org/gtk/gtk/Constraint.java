@@ -27,32 +27,51 @@ public class Constraint extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkConstraint";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Constraint(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Constraint */
+    /**
+     * Cast object to Constraint if its GType is a (or inherits from) "GtkConstraint".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Constraint" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkConstraint", a ClassCastException will be thrown.
+     */
     public static Constraint castFrom(org.gtk.gobject.Object gobject) {
-        return new Constraint(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkConstraint"))) {
+            return new Constraint(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkConstraint");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gtk.ConstraintTarget target, @NotNull org.gtk.gtk.ConstraintAttribute targetAttribute, @NotNull org.gtk.gtk.ConstraintRelation relation, @Nullable org.gtk.gtk.ConstraintTarget source, @NotNull org.gtk.gtk.ConstraintAttribute sourceAttribute, double multiplier, double constant, int strength) {
-        java.util.Objects.requireNonNullElse(target, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(targetAttribute, "Parameter 'targetAttribute' must not be null");
         java.util.Objects.requireNonNull(relation, "Parameter 'relation' must not be null");
-        java.util.Objects.requireNonNullElse(source, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(sourceAttribute, "Parameter 'sourceAttribute' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_constraint_new.invokeExact(target.handle(), targetAttribute.getValue(), relation.getValue(), source.handle(), sourceAttribute.getValue(), multiplier, constant, strength), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_constraint_new.invokeExact(
+                    (Addressable) (target == null ? MemoryAddress.NULL : target.handle()),
+                    targetAttribute.getValue(),
+                    relation.getValue(),
+                    (Addressable) (source == null ? MemoryAddress.NULL : source.handle()),
+                    sourceAttribute.getValue(),
+                    multiplier,
+                    constant,
+                    strength), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,12 +95,16 @@ public class Constraint extends org.gtk.gobject.Object {
     }
     
     private static Refcounted constructNewConstant(@Nullable org.gtk.gtk.ConstraintTarget target, @NotNull org.gtk.gtk.ConstraintAttribute targetAttribute, @NotNull org.gtk.gtk.ConstraintRelation relation, double constant, int strength) {
-        java.util.Objects.requireNonNullElse(target, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(targetAttribute, "Parameter 'targetAttribute' must not be null");
         java.util.Objects.requireNonNull(relation, "Parameter 'relation' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_constraint_new_constant.invokeExact(target.handle(), targetAttribute.getValue(), relation.getValue(), constant, strength), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_constraint_new_constant.invokeExact(
+                    (Addressable) (target == null ? MemoryAddress.NULL : target.handle()),
+                    targetAttribute.getValue(),
+                    relation.getValue(),
+                    constant,
+                    strength), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,7 +132,8 @@ public class Constraint extends org.gtk.gobject.Object {
     public double getConstant() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_constraint_get_constant.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_constraint_get_constant.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,7 +148,8 @@ public class Constraint extends org.gtk.gobject.Object {
     public double getMultiplier() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_constraint_get_multiplier.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_constraint_get_multiplier.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,7 +163,8 @@ public class Constraint extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.ConstraintRelation getRelation() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_constraint_get_relation.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_constraint_get_relation.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -156,7 +182,8 @@ public class Constraint extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gtk.ConstraintTarget getSource() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_get_source.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_get_source.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,7 +197,8 @@ public class Constraint extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.ConstraintAttribute getSourceAttribute() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_constraint_get_source_attribute.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_constraint_get_source_attribute.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,7 +212,8 @@ public class Constraint extends org.gtk.gobject.Object {
     public int getStrength() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_constraint_get_strength.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_constraint_get_strength.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,7 +231,8 @@ public class Constraint extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gtk.ConstraintTarget getTarget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_get_target.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_get_target.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -216,7 +246,8 @@ public class Constraint extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.ConstraintAttribute getTargetAttribute() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_constraint_get_target_attribute.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_constraint_get_target_attribute.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -231,7 +262,8 @@ public class Constraint extends org.gtk.gobject.Object {
     public boolean isAttached() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_constraint_is_attached.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_constraint_is_attached.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -246,7 +278,8 @@ public class Constraint extends org.gtk.gobject.Object {
     public boolean isConstant() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_constraint_is_constant.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_constraint_is_constant.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -261,7 +294,8 @@ public class Constraint extends org.gtk.gobject.Object {
     public boolean isRequired() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_constraint_is_required.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_constraint_is_required.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

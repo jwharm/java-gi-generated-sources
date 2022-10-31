@@ -40,25 +40,47 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwExpanderRow";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gnome.adw.PreferencesRow.getMemoryLayout().withName("parent_instance")
-    ).withName("AdwExpanderRow");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gnome.adw.PreferencesRow parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gnome.adw.PreferencesRow(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public ExpanderRow(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ExpanderRow */
+    /**
+     * Cast object to ExpanderRow if its GType is a (or inherits from) "AdwExpanderRow".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ExpanderRow" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwExpanderRow", a ClassCastException will be thrown.
+     */
     public static ExpanderRow castFrom(org.gtk.gobject.Object gobject) {
-        return new ExpanderRow(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwExpanderRow"))) {
+            return new ExpanderRow(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwExpanderRow");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -85,7 +107,9 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
     public void addAction(@NotNull org.gtk.gtk.Widget widget) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            DowncallHandles.adw_expander_row_add_action.invokeExact(handle(), widget.handle());
+            DowncallHandles.adw_expander_row_add_action.invokeExact(
+                    handle(),
+                    widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -98,7 +122,9 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
     public void addPrefix(@NotNull org.gtk.gtk.Widget widget) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            DowncallHandles.adw_expander_row_add_prefix.invokeExact(handle(), widget.handle());
+            DowncallHandles.adw_expander_row_add_prefix.invokeExact(
+                    handle(),
+                    widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -113,7 +139,9 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
     public void addRow(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.adw_expander_row_add_row.invokeExact(handle(), child.handle());
+            DowncallHandles.adw_expander_row_add_row.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,7 +154,8 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
     public boolean getEnableExpansion() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_expander_row_get_enable_expansion.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_expander_row_get_enable_expansion.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,7 +169,8 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
     public boolean getExpanded() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_expander_row_get_expanded.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_expander_row_get_expanded.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,11 +184,12 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_expander_row_get_icon_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_expander_row_get_icon_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -168,7 +199,8 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
     public boolean getShowEnableSwitch() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_expander_row_get_show_enable_switch.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_expander_row_get_show_enable_switch.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,17 +214,20 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
     public @NotNull java.lang.String getSubtitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_expander_row_get_subtitle.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_expander_row_get_subtitle.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     public void remove(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.adw_expander_row_remove.invokeExact(handle(), child.handle());
+            DowncallHandles.adw_expander_row_remove.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,7 +239,9 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
      */
     public void setEnableExpansion(boolean enableExpansion) {
         try {
-            DowncallHandles.adw_expander_row_set_enable_expansion.invokeExact(handle(), enableExpansion ? 1 : 0);
+            DowncallHandles.adw_expander_row_set_enable_expansion.invokeExact(
+                    handle(),
+                    enableExpansion ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -216,7 +253,9 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
      */
     public void setExpanded(boolean expanded) {
         try {
-            DowncallHandles.adw_expander_row_set_expanded.invokeExact(handle(), expanded ? 1 : 0);
+            DowncallHandles.adw_expander_row_set_expanded.invokeExact(
+                    handle(),
+                    expanded ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -227,9 +266,10 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
      * @param iconName the icon name
      */
     public void setIconName(@Nullable java.lang.String iconName) {
-        java.util.Objects.requireNonNullElse(iconName, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_expander_row_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName));
+            DowncallHandles.adw_expander_row_set_icon_name.invokeExact(
+                    handle(),
+                    (Addressable) (iconName == null ? MemoryAddress.NULL : Interop.allocateNativeString(iconName)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -241,7 +281,9 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
      */
     public void setShowEnableSwitch(boolean showEnableSwitch) {
         try {
-            DowncallHandles.adw_expander_row_set_show_enable_switch.invokeExact(handle(), showEnableSwitch ? 1 : 0);
+            DowncallHandles.adw_expander_row_set_show_enable_switch.invokeExact(
+                    handle(),
+                    showEnableSwitch ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -249,12 +291,17 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
     
     /**
      * Sets the subtitle for {@code self}.
+     * <p>
+     * The subtitle is interpreted as Pango markup unless
+     * {@code PreferencesRow:use-markup} is set to {@code FALSE}.
      * @param subtitle the subtitle
      */
     public void setSubtitle(@NotNull java.lang.String subtitle) {
         java.util.Objects.requireNonNull(subtitle, "Parameter 'subtitle' must not be null");
         try {
-            DowncallHandles.adw_expander_row_set_subtitle.invokeExact(handle(), Interop.allocateNativeString(subtitle));
+            DowncallHandles.adw_expander_row_set_subtitle.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(subtitle));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

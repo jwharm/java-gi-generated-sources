@@ -23,13 +23,7 @@ import org.jetbrains.annotations.*;
  */
 public class Gravity extends io.github.jwharm.javagi.Enumeration {
     
-    /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
-     */
-    public static MemoryLayout getMemoryLayout() {
-        return Interop.valueLayout.ADDRESS;
-    }
+    private static final java.lang.String C_TYPE_NAME = "PangoGravity";
     
     /**
      * Glyphs stand upright (default) &lt;img align="right" valign="center" src="m-south.png"&gt;
@@ -68,10 +62,10 @@ public class Gravity extends io.github.jwharm.javagi.Enumeration {
      * {@link Gravity#AUTO}, or {@link Gravity#SOUTH} if {@code matrix} is {@code null}
      */
     public static @NotNull org.pango.Gravity getForMatrix(@Nullable org.pango.Matrix matrix) {
-        java.util.Objects.requireNonNullElse(matrix, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_gravity_get_for_matrix.invokeExact(matrix.handle());
+            RESULT = (int) DowncallHandles.pango_gravity_get_for_matrix.invokeExact(
+                    (Addressable) (matrix == null ? MemoryAddress.NULL : matrix.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -98,7 +92,10 @@ public class Gravity extends io.github.jwharm.javagi.Enumeration {
         java.util.Objects.requireNonNull(hint, "Parameter 'hint' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_gravity_get_for_script.invokeExact(script.getValue(), baseGravity.getValue(), hint.getValue());
+            RESULT = (int) DowncallHandles.pango_gravity_get_for_script.invokeExact(
+                    script.getValue(),
+                    baseGravity.getValue(),
+                    hint.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,7 +131,11 @@ public class Gravity extends io.github.jwharm.javagi.Enumeration {
         java.util.Objects.requireNonNull(hint, "Parameter 'hint' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_gravity_get_for_script_and_width.invokeExact(script.getValue(), wide ? 1 : 0, baseGravity.getValue(), hint.getValue());
+            RESULT = (int) DowncallHandles.pango_gravity_get_for_script_and_width.invokeExact(
+                    script.getValue(),
+                    wide ? 1 : 0,
+                    baseGravity.getValue(),
+                    hint.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,7 +155,8 @@ public class Gravity extends io.github.jwharm.javagi.Enumeration {
         java.util.Objects.requireNonNull(gravity, "Parameter 'gravity' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.pango_gravity_to_rotation.invokeExact(gravity.getValue());
+            RESULT = (double) DowncallHandles.pango_gravity_to_rotation.invokeExact(
+                    gravity.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

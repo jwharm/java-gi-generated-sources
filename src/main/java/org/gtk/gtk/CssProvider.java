@@ -42,25 +42,47 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkCssProvider";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkCssProvider");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public CssProvider(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CssProvider */
+    /**
+     * Cast object to CssProvider if its GType is a (or inherits from) "GtkCssProvider".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CssProvider" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkCssProvider", a ClassCastException will be thrown.
+     */
     public static CssProvider castFrom(org.gtk.gobject.Object gobject) {
-        return new CssProvider(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCssProvider"))) {
+            return new CssProvider(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCssProvider");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -92,7 +114,10 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
     public void loadFromData(byte[] data, long length) {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         try {
-            DowncallHandles.gtk_css_provider_load_from_data.invokeExact(handle(), Interop.allocateNativeArray(data, false), length);
+            DowncallHandles.gtk_css_provider_load_from_data.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(data, false),
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,7 +132,9 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
     public void loadFromFile(@NotNull org.gtk.gio.File file) {
         java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
         try {
-            DowncallHandles.gtk_css_provider_load_from_file.invokeExact(handle(), file.handle());
+            DowncallHandles.gtk_css_provider_load_from_file.invokeExact(
+                    handle(),
+                    file.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -122,7 +149,9 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
     public void loadFromPath(@NotNull java.lang.String path) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         try {
-            DowncallHandles.gtk_css_provider_load_from_path.invokeExact(handle(), Interop.allocateNativeString(path));
+            DowncallHandles.gtk_css_provider_load_from_path.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(path));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,7 +167,9 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
     public void loadFromResource(@NotNull java.lang.String resourcePath) {
         java.util.Objects.requireNonNull(resourcePath, "Parameter 'resourcePath' must not be null");
         try {
-            DowncallHandles.gtk_css_provider_load_from_resource.invokeExact(handle(), Interop.allocateNativeString(resourcePath));
+            DowncallHandles.gtk_css_provider_load_from_resource.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(resourcePath));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -156,9 +187,11 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
      */
     public void loadNamed(@NotNull java.lang.String name, @Nullable java.lang.String variant) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNullElse(variant, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_css_provider_load_named.invokeExact(handle(), Interop.allocateNativeString(name), Interop.allocateNativeString(variant));
+            DowncallHandles.gtk_css_provider_load_named.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name),
+                    (Addressable) (variant == null ? MemoryAddress.NULL : Interop.allocateNativeString(variant)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,11 +210,12 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
     public @NotNull java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_css_provider_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_css_provider_to_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     @FunctionalInterface

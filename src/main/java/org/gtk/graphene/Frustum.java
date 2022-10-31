@@ -18,18 +18,30 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
         Graphene.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "graphene_frustum_t";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         MemoryLayout.sequenceLayout(6, ValueLayout.ADDRESS).withName("planes")
-    ).withName("graphene_frustum_t");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Frustum allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Frustum newInstance = new Frustum(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Frustum(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -66,7 +78,9 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_frustum_contains_point.invokeExact(handle(), point.handle());
+            RESULT = (boolean) DowncallHandles.graphene_frustum_contains_point.invokeExact(
+                    handle(),
+                    point.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +96,9 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_frustum_equal.invokeExact(handle(), b.handle());
+            RESULT = (boolean) DowncallHandles.graphene_frustum_equal.invokeExact(
+                    handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,7 +110,8 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_frustum_free.invokeExact(handle());
+            DowncallHandles.graphene_frustum_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,7 +126,9 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(planes, "Parameter 'planes' must not be null");
         MemorySegment planesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_frustum_get_planes.invokeExact(handle(), (Addressable) planesPOINTER.address());
+            DowncallHandles.graphene_frustum_get_planes.invokeExact(
+                    handle(),
+                    (Addressable) planesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,7 +160,14 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(p5, "Parameter 'p5' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_frustum_init.invokeExact(handle(), p0.handle(), p1.handle(), p2.handle(), p3.handle(), p4.handle(), p5.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_frustum_init.invokeExact(
+                    handle(),
+                    p0.handle(),
+                    p1.handle(),
+                    p2.handle(),
+                    p3.handle(),
+                    p4.handle(),
+                    p5.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -158,7 +184,9 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_frustum_init_from_frustum.invokeExact(handle(), src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_frustum_init_from_frustum.invokeExact(
+                    handle(),
+                    src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,7 +202,9 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(matrix, "Parameter 'matrix' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_frustum_init_from_matrix.invokeExact(handle(), matrix.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_frustum_init_from_matrix.invokeExact(
+                    handle(),
+                    matrix.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -191,7 +221,9 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(box, "Parameter 'box' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_frustum_intersects_box.invokeExact(handle(), box.handle());
+            RESULT = (boolean) DowncallHandles.graphene_frustum_intersects_box.invokeExact(
+                    handle(),
+                    box.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -208,7 +240,9 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(sphere, "Parameter 'sphere' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_frustum_intersects_sphere.invokeExact(handle(), sphere.handle());
+            RESULT = (boolean) DowncallHandles.graphene_frustum_intersects_sphere.invokeExact(
+                    handle(),
+                    sphere.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -16,6 +16,8 @@ public class ParamSpecClass extends io.github.jwharm.javagi.ResourceBase {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GParamSpecClass";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.TypeClass.getMemoryLayout().withName("g_type_class"),
         ValueLayout.JAVA_LONG.withName("value_type"),
@@ -23,17 +25,58 @@ public class ParamSpecClass extends io.github.jwharm.javagi.ResourceBase {
         Interop.valueLayout.ADDRESS.withName("value_set_default"),
         Interop.valueLayout.ADDRESS.withName("value_validate"),
         Interop.valueLayout.ADDRESS.withName("values_cmp"),
+        MemoryLayout.paddingLayout(128),
         MemoryLayout.sequenceLayout(4, ValueLayout.ADDRESS).withName("dummy")
-    ).withName("GParamSpecClass");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static ParamSpecClass allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        ParamSpecClass newInstance = new ParamSpecClass(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code g_type_class}
+     * @return The value of the field {@code g_type_class}
+     */
+    public org.gtk.gobject.TypeClass g_type_class$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_type_class"));
+        return new org.gtk.gobject.TypeClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    /**
+     * Get the value of the field {@code value_type}
+     * @return The value of the field {@code value_type}
+     */
+    public org.gtk.glib.Type value_type$get() {
+        var RESULT = (long) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("value_type"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code value_type}
+     * @param value_type The new value of the field {@code value_type}
+     */
+    public void value_type$set(org.gtk.glib.Type value_type) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("value_type"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value_type.getValue().longValue());
+    }
+    
+    @ApiStatus.Internal
     public ParamSpecClass(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

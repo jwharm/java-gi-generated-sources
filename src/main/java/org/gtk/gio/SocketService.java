@@ -40,26 +40,48 @@ public class SocketService extends org.gtk.gio.SocketListener {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSocketService";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.SocketListener.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.SocketServicePrivate.getMemoryLayout().withName("priv")
-    ).withName("GSocketService");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gio.SocketListener parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gio.SocketListener(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public SocketService(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to SocketService */
+    /**
+     * Cast object to SocketService if its GType is a (or inherits from) "GSocketService".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "SocketService" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GSocketService", a ClassCastException will be thrown.
+     */
     public static SocketService castFrom(org.gtk.gobject.Object gobject) {
-        return new SocketService(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSocketService"))) {
+            return new SocketService(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSocketService");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -95,7 +117,8 @@ public class SocketService extends org.gtk.gio.SocketListener {
     public boolean isActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_socket_service_is_active.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_service_is_active.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -113,7 +136,8 @@ public class SocketService extends org.gtk.gio.SocketListener {
      */
     public void start() {
         try {
-            DowncallHandles.g_socket_service_start.invokeExact(handle());
+            DowncallHandles.g_socket_service_start.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,7 +162,8 @@ public class SocketService extends org.gtk.gio.SocketListener {
      */
     public void stop() {
         try {
-            DowncallHandles.g_socket_service_stop.invokeExact(handle());
+            DowncallHandles.g_socket_service_stop.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

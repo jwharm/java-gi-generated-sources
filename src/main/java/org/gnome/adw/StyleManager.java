@@ -22,21 +22,34 @@ public class StyleManager extends org.gtk.gobject.Object {
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwStyleManager";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public StyleManager(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to StyleManager */
+    /**
+     * Cast object to StyleManager if its GType is a (or inherits from) "AdwStyleManager".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "StyleManager" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwStyleManager", a ClassCastException will be thrown.
+     */
     public static StyleManager castFrom(org.gtk.gobject.Object gobject) {
-        return new StyleManager(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwStyleManager"))) {
+            return new StyleManager(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwStyleManager");
+        }
     }
     
     /**
@@ -46,7 +59,8 @@ public class StyleManager extends org.gtk.gobject.Object {
     public @NotNull org.gnome.adw.ColorScheme getColorScheme() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_style_manager_get_color_scheme.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_style_manager_get_color_scheme.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -55,12 +69,16 @@ public class StyleManager extends org.gtk.gobject.Object {
     
     /**
      * Gets whether the application is using dark appearance.
+     * <p>
+     * This can be used to query the current appearance, as requested via
+     * {@code StyleManager:color-scheme}.
      * @return whether the application is using dark appearance
      */
     public boolean getDark() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_style_manager_get_dark.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_style_manager_get_dark.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,7 +95,8 @@ public class StyleManager extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_style_manager_get_display.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_style_manager_get_display.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -86,12 +105,15 @@ public class StyleManager extends org.gtk.gobject.Object {
     
     /**
      * Gets whether the application is using high contrast appearance.
+     * <p>
+     * This cannot be overridden by applications.
      * @return whether the application is using high contrast appearance
      */
     public boolean getHighContrast() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_style_manager_get_high_contrast.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_style_manager_get_high_contrast.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,12 +122,17 @@ public class StyleManager extends org.gtk.gobject.Object {
     
     /**
      * Gets whether the system supports color schemes.
+     * <p>
+     * This can be used to check if the current environment provides a color scheme
+     * preference. For example, applications might want to show a separate
+     * appearance switcher if it's set to {@code FALSE}.
      * @return whether the system supports color schemes
      */
     public boolean getSystemSupportsColorSchemes() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_style_manager_get_system_supports_color_schemes.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_style_manager_get_system_supports_color_schemes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,12 +146,39 @@ public class StyleManager extends org.gtk.gobject.Object {
      * scheme and the system preferred color scheme. The
      * {@code StyleManager:dark} property can be used to query the current
      * effective appearance.
+     * <p>
+     * The {@code ADW_COLOR_SCHEME_PREFER_LIGHT} color scheme results in the application
+     * using light appearance unless the system prefers dark colors. This is the
+     * default value.
+     * <p>
+     * The {@code ADW_COLOR_SCHEME_PREFER_DARK} color scheme results in the application
+     * using dark appearance, but can still switch to the light appearance if the
+     * system can prefers it, for example, when the high contrast preference is
+     * enabled.
+     * <p>
+     * The {@code ADW_COLOR_SCHEME_FORCE_LIGHT} and {@code ADW_COLOR_SCHEME_FORCE_DARK} values
+     * ignore the system preference entirely. They are useful if the application
+     * wants to match its UI to its content or to provide a separate color scheme
+     * switcher.
+     * <p>
+     * If a per-{@link org.gtk.gdk.Display} style manager has its color scheme set to
+     * {@code ADW_COLOR_SCHEME_DEFAULT}, it will inherit the color scheme from the
+     * default style manager.
+     * <p>
+     * For the default style manager, {@code ADW_COLOR_SCHEME_DEFAULT} is equivalent to
+     * {@code ADW_COLOR_SCHEME_PREFER_LIGHT}.
+     * <p>
+     * The {@code StyleManager:system-supports-color-schemes} property can be
+     * used to check if the current environment provides a color scheme
+     * preference.
      * @param colorScheme the color scheme
      */
     public void setColorScheme(@NotNull org.gnome.adw.ColorScheme colorScheme) {
         java.util.Objects.requireNonNull(colorScheme, "Parameter 'colorScheme' must not be null");
         try {
-            DowncallHandles.adw_style_manager_set_color_scheme.invokeExact(handle(), colorScheme.getValue());
+            DowncallHandles.adw_style_manager_set_color_scheme.invokeExact(
+                    handle(),
+                    colorScheme.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -163,7 +217,8 @@ public class StyleManager extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_style_manager_get_for_display.invokeExact(display.handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_style_manager_get_for_display.invokeExact(
+                    display.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -31,15 +31,16 @@ public final class GModule {
      *     prefix and suffix. This should be freed when no longer needed
      */
     public static @NotNull java.lang.String moduleBuildPath(@Nullable java.lang.String directory, @NotNull java.lang.String moduleName) {
-        java.util.Objects.requireNonNullElse(directory, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(moduleName, "Parameter 'moduleName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_module_build_path.invokeExact(Interop.allocateNativeString(directory), Interop.allocateNativeString(moduleName));
+            RESULT = (MemoryAddress) DowncallHandles.g_module_build_path.invokeExact(
+                    (Addressable) (directory == null ? MemoryAddress.NULL : Interop.allocateNativeString(directory)),
+                    Interop.allocateNativeString(moduleName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -53,7 +54,7 @@ public final class GModule {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     public static @NotNull org.gtk.glib.Quark moduleErrorQuark() {

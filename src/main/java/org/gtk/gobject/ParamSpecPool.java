@@ -18,14 +18,26 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GParamSpecPool";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static ParamSpecPool allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        ParamSpecPool newInstance = new ParamSpecPool(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public ParamSpecPool(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -39,7 +51,10 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(pspec, "Parameter 'pspec' must not be null");
         java.util.Objects.requireNonNull(ownerType, "Parameter 'ownerType' must not be null");
         try {
-            DowncallHandles.g_param_spec_pool_insert.invokeExact(handle(), pspec.handle(), ownerType.getValue());
+            DowncallHandles.g_param_spec_pool_insert.invokeExact(
+                    handle(),
+                    pspec.handle(),
+                    ownerType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -60,7 +75,10 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment nPspecsPPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_pool_list.invokeExact(handle(), ownerType.getValue(), (Addressable) nPspecsPPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_pool_list.invokeExact(
+                    handle(),
+                    ownerType.getValue().longValue(),
+                    (Addressable) nPspecsPPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,7 +103,9 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(ownerType, "Parameter 'ownerType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_pool_list_owned.invokeExact(handle(), ownerType.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_pool_list_owned.invokeExact(
+                    handle(),
+                    ownerType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,7 +126,11 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(ownerType, "Parameter 'ownerType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_pool_lookup.invokeExact(handle(), Interop.allocateNativeString(paramName), ownerType.getValue(), walkAncestors ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_pool_lookup.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(paramName),
+                    ownerType.getValue().longValue(),
+                    walkAncestors ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,7 +144,9 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
     public void remove(@NotNull org.gtk.gobject.ParamSpec pspec) {
         java.util.Objects.requireNonNull(pspec, "Parameter 'pspec' must not be null");
         try {
-            DowncallHandles.g_param_spec_pool_remove.invokeExact(handle(), pspec.handle());
+            DowncallHandles.g_param_spec_pool_remove.invokeExact(
+                    handle(),
+                    pspec.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,7 +165,8 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
     public static @NotNull org.gtk.gobject.ParamSpecPool new_(boolean typePrefixing) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_pool_new.invokeExact(typePrefixing ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_pool_new.invokeExact(
+                    typePrefixing ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

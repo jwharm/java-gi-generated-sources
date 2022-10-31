@@ -31,25 +31,47 @@ public class Filter extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkFilter";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkFilter");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Filter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Filter */
+    /**
+     * Cast object to Filter if its GType is a (or inherits from) "GtkFilter".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Filter" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkFilter", a ClassCastException will be thrown.
+     */
     public static Filter castFrom(org.gtk.gobject.Object gobject) {
-        return new Filter(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFilter"))) {
+            return new Filter(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkFilter");
+        }
     }
     
     /**
@@ -70,7 +92,9 @@ public class Filter extends org.gtk.gobject.Object {
     public void changed(@NotNull org.gtk.gtk.FilterChange change) {
         java.util.Objects.requireNonNull(change, "Parameter 'change' must not be null");
         try {
-            DowncallHandles.gtk_filter_changed.invokeExact(handle(), change.getValue());
+            DowncallHandles.gtk_filter_changed.invokeExact(
+                    handle(),
+                    change.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,7 +115,8 @@ public class Filter extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.FilterMatch getStrictness() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_filter_get_strictness.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_filter_get_strictness.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,7 +133,9 @@ public class Filter extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_filter_match.invokeExact(handle(), item.handle());
+            RESULT = (int) DowncallHandles.gtk_filter_match.invokeExact(
+                    handle(),
+                    item.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

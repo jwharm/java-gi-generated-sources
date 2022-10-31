@@ -98,28 +98,41 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkExpander";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Expander(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Expander */
+    /**
+     * Cast object to Expander if its GType is a (or inherits from) "GtkExpander".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Expander" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkExpander", a ClassCastException will be thrown.
+     */
     public static Expander castFrom(org.gtk.gobject.Object gobject) {
-        return new Expander(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkExpander"))) {
+            return new Expander(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkExpander");
+        }
     }
     
     private static Refcounted constructNew(@Nullable java.lang.String label) {
-        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_expander_new.invokeExact(Interop.allocateNativeString(label)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_expander_new.invokeExact(
+                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label))), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,10 +148,10 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     }
     
     private static Refcounted constructNewWithMnemonic(@Nullable java.lang.String label) {
-        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_expander_new_with_mnemonic.invokeExact(Interop.allocateNativeString(label)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_expander_new_with_mnemonic.invokeExact(
+                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label))), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,7 +182,8 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_expander_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_expander_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,7 +199,8 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getExpanded() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_expander_get_expanded.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_expander_get_expanded.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -206,11 +221,12 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable java.lang.String getLabel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_expander_get_label.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_expander_get_label.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -220,7 +236,8 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.Widget getLabelWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_expander_get_label_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_expander_get_label_widget.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -235,7 +252,8 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getResizeToplevel() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_expander_get_resize_toplevel.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_expander_get_resize_toplevel.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -249,7 +267,8 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getUseMarkup() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_expander_get_use_markup.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_expander_get_use_markup.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -264,7 +283,8 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getUseUnderline() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_expander_get_use_underline.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_expander_get_use_underline.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -276,9 +296,10 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param child the child widget
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_expander_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_expander_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -293,7 +314,9 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setExpanded(boolean expanded) {
         try {
-            DowncallHandles.gtk_expander_set_expanded.invokeExact(handle(), expanded ? 1 : 0);
+            DowncallHandles.gtk_expander_set_expanded.invokeExact(
+                    handle(),
+                    expanded ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -306,9 +329,10 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param label a string
      */
     public void setLabel(@Nullable java.lang.String label) {
-        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_expander_set_label.invokeExact(handle(), Interop.allocateNativeString(label));
+            DowncallHandles.gtk_expander_set_label.invokeExact(
+                    handle(),
+                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -322,9 +346,10 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param labelWidget the new label widget
      */
     public void setLabelWidget(@Nullable org.gtk.gtk.Widget labelWidget) {
-        java.util.Objects.requireNonNullElse(labelWidget, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_expander_set_label_widget.invokeExact(handle(), labelWidget.handle());
+            DowncallHandles.gtk_expander_set_label_widget.invokeExact(
+                    handle(),
+                    (Addressable) (labelWidget == null ? MemoryAddress.NULL : labelWidget.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -337,7 +362,9 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setResizeToplevel(boolean resizeToplevel) {
         try {
-            DowncallHandles.gtk_expander_set_resize_toplevel.invokeExact(handle(), resizeToplevel ? 1 : 0);
+            DowncallHandles.gtk_expander_set_resize_toplevel.invokeExact(
+                    handle(),
+                    resizeToplevel ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -349,7 +376,9 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setUseMarkup(boolean useMarkup) {
         try {
-            DowncallHandles.gtk_expander_set_use_markup.invokeExact(handle(), useMarkup ? 1 : 0);
+            DowncallHandles.gtk_expander_set_use_markup.invokeExact(
+                    handle(),
+                    useMarkup ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -361,7 +390,9 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setUseUnderline(boolean useUnderline) {
         try {
-            DowncallHandles.gtk_expander_set_use_underline.invokeExact(handle(), useUnderline ? 1 : 0);
+            DowncallHandles.gtk_expander_set_use_underline.invokeExact(
+                    handle(),
+                    useUnderline ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

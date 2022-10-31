@@ -29,25 +29,47 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwPreferencesPage";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName("AdwPreferencesPage");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gtk.Widget parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gtk.Widget(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public PreferencesPage(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to PreferencesPage */
+    /**
+     * Cast object to PreferencesPage if its GType is a (or inherits from) "AdwPreferencesPage".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "PreferencesPage" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwPreferencesPage", a ClassCastException will be thrown.
+     */
     public static PreferencesPage castFrom(org.gtk.gobject.Object gobject) {
-        return new PreferencesPage(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwPreferencesPage"))) {
+            return new PreferencesPage(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwPreferencesPage");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -74,7 +96,9 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     public void add(@NotNull org.gnome.adw.PreferencesGroup group) {
         java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
         try {
-            DowncallHandles.adw_preferences_page_add.invokeExact(handle(), group.handle());
+            DowncallHandles.adw_preferences_page_add.invokeExact(
+                    handle(),
+                    group.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,11 +111,12 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_page_get_icon_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_page_get_icon_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -101,11 +126,12 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     public @Nullable java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_page_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_page_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -115,11 +141,12 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     public @NotNull java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_page_get_title.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_page_get_title.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -129,7 +156,8 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     public boolean getUseUnderline() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_preferences_page_get_use_underline.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_preferences_page_get_use_underline.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -143,7 +171,9 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     public void remove(@NotNull org.gnome.adw.PreferencesGroup group) {
         java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
         try {
-            DowncallHandles.adw_preferences_page_remove.invokeExact(handle(), group.handle());
+            DowncallHandles.adw_preferences_page_remove.invokeExact(
+                    handle(),
+                    group.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,9 +184,10 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      * @param iconName the icon name
      */
     public void setIconName(@Nullable java.lang.String iconName) {
-        java.util.Objects.requireNonNullElse(iconName, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_preferences_page_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName));
+            DowncallHandles.adw_preferences_page_set_icon_name.invokeExact(
+                    handle(),
+                    (Addressable) (iconName == null ? MemoryAddress.NULL : Interop.allocateNativeString(iconName)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,9 +198,10 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      * @param name the name
      */
     public void setName(@Nullable java.lang.String name) {
-        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_preferences_page_set_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.adw_preferences_page_set_name.invokeExact(
+                    handle(),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,7 +214,9 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     public void setTitle(@NotNull java.lang.String title) {
         java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
         try {
-            DowncallHandles.adw_preferences_page_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
+            DowncallHandles.adw_preferences_page_set_title.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -194,7 +228,9 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      */
     public void setUseUnderline(boolean useUnderline) {
         try {
-            DowncallHandles.adw_preferences_page_set_use_underline.invokeExact(handle(), useUnderline ? 1 : 0);
+            DowncallHandles.adw_preferences_page_set_use_underline.invokeExact(
+                    handle(),
+                    useUnderline ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

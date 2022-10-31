@@ -17,14 +17,26 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GHmac";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Hmac allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Hmac newInstance = new Hmac(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Hmac(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -39,7 +51,8 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Hmac copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hmac_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_hmac_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -61,7 +74,10 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(digestLen, "Parameter 'digestLen' must not be null");
         MemorySegment digestLenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         try {
-            DowncallHandles.g_hmac_get_digest.invokeExact(handle(), Interop.allocateNativeArray(buffer, false), (Addressable) digestLenPOINTER.address());
+            DowncallHandles.g_hmac_get_digest.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(buffer, false),
+                    (Addressable) digestLenPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,11 +98,12 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hmac_get_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_hmac_get_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -98,7 +115,8 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Hmac ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hmac_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_hmac_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,7 +133,8 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_hmac_unref.invokeExact(handle());
+            DowncallHandles.g_hmac_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,7 +151,10 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
     public void update(byte[] data, long length) {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         try {
-            DowncallHandles.g_hmac_update.invokeExact(handle(), Interop.allocateNativeArray(data, false), length);
+            DowncallHandles.g_hmac_update.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(data, false),
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -166,7 +188,10 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hmac_new.invokeExact(digestType.getValue(), Interop.allocateNativeArray(key, false), keyLen);
+            RESULT = (MemoryAddress) DowncallHandles.g_hmac_new.invokeExact(
+                    digestType.getValue(),
+                    Interop.allocateNativeArray(key, false),
+                    keyLen);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

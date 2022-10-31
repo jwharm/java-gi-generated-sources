@@ -27,33 +27,56 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GBufferedOutputStream";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.FilterOutputStream.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.BufferedOutputStreamPrivate.getMemoryLayout().withName("priv")
-    ).withName("GBufferedOutputStream");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gio.FilterOutputStream parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gio.FilterOutputStream(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public BufferedOutputStream(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to BufferedOutputStream */
+    /**
+     * Cast object to BufferedOutputStream if its GType is a (or inherits from) "GBufferedOutputStream".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "BufferedOutputStream" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GBufferedOutputStream", a ClassCastException will be thrown.
+     */
     public static BufferedOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new BufferedOutputStream(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GBufferedOutputStream"))) {
+            return new BufferedOutputStream(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GBufferedOutputStream");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gio.OutputStream baseStream) {
         java.util.Objects.requireNonNull(baseStream, "Parameter 'baseStream' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_buffered_output_stream_new.invokeExact(baseStream.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_buffered_output_stream_new.invokeExact(
+                    baseStream.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -72,7 +95,9 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
         java.util.Objects.requireNonNull(baseStream, "Parameter 'baseStream' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_buffered_output_stream_new_sized.invokeExact(baseStream.handle(), size), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_buffered_output_stream_new_sized.invokeExact(
+                    baseStream.handle(),
+                    size), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,7 +122,8 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
     public boolean getAutoGrow() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_buffered_output_stream_get_auto_grow.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_buffered_output_stream_get_auto_grow.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,7 +137,8 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
     public long getBufferSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_buffered_output_stream_get_buffer_size.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_buffered_output_stream_get_buffer_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,7 +154,9 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
      */
     public void setAutoGrow(boolean autoGrow) {
         try {
-            DowncallHandles.g_buffered_output_stream_set_auto_grow.invokeExact(handle(), autoGrow ? 1 : 0);
+            DowncallHandles.g_buffered_output_stream_set_auto_grow.invokeExact(
+                    handle(),
+                    autoGrow ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,7 +168,9 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
      */
     public void setBufferSize(long size) {
         try {
-            DowncallHandles.g_buffered_output_stream_set_buffer_size.invokeExact(handle(), size);
+            DowncallHandles.g_buffered_output_stream_set_buffer_size.invokeExact(
+                    handle(),
+                    size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

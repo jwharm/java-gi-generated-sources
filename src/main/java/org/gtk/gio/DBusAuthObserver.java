@@ -72,21 +72,34 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GDBusAuthObserver";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public DBusAuthObserver(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DBusAuthObserver */
+    /**
+     * Cast object to DBusAuthObserver if its GType is a (or inherits from) "GDBusAuthObserver".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DBusAuthObserver" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GDBusAuthObserver", a ClassCastException will be thrown.
+     */
     public static DBusAuthObserver castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusAuthObserver(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusAuthObserver"))) {
+            return new DBusAuthObserver(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDBusAuthObserver");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -115,7 +128,9 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(mechanism, "Parameter 'mechanism' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_auth_observer_allow_mechanism.invokeExact(handle(), Interop.allocateNativeString(mechanism));
+            RESULT = (int) DowncallHandles.g_dbus_auth_observer_allow_mechanism.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(mechanism));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -130,10 +145,12 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
      */
     public boolean authorizeAuthenticatedPeer(@NotNull org.gtk.gio.IOStream stream, @Nullable org.gtk.gio.Credentials credentials) {
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
-        java.util.Objects.requireNonNullElse(credentials, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_auth_observer_authorize_authenticated_peer.invokeExact(handle(), stream.handle(), credentials.handle());
+            RESULT = (int) DowncallHandles.g_dbus_auth_observer_authorize_authenticated_peer.invokeExact(
+                    handle(),
+                    stream.handle(),
+                    (Addressable) (credentials == null ? MemoryAddress.NULL : credentials.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -216,7 +233,7 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
         public static boolean signalDBusAuthObserverAllowMechanism(MemoryAddress source, MemoryAddress mechanism, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusAuthObserver.AllowMechanism) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new DBusAuthObserver(Refcounted.get(source)), mechanism.getUtf8String(0));
+            return HANDLER.signalReceived(new DBusAuthObserver(Refcounted.get(source)), Interop.getStringFrom(mechanism));
         }
         
         public static boolean signalDBusAuthObserverAuthorizeAuthenticatedPeer(MemoryAddress source, MemoryAddress stream, MemoryAddress credentials, MemoryAddress data) {

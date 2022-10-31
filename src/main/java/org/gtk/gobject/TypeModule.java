@@ -43,29 +43,136 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTypeModule";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         ValueLayout.JAVA_INT.withName("use_count"),
-        org.gtk.glib.SList.getMemoryLayout().withName("type_infos"),
-        org.gtk.glib.SList.getMemoryLayout().withName("interface_infos"),
+        MemoryLayout.paddingLayout(32),
+        Interop.valueLayout.ADDRESS.withName("type_infos"),
+        Interop.valueLayout.ADDRESS.withName("interface_infos"),
         Interop.valueLayout.ADDRESS.withName("name")
-    ).withName("GTypeModule");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    /**
+     * Get the value of the field {@code use_count}
+     * @return The value of the field {@code use_count}
+     */
+    public int use_count$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("use_count"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code use_count}
+     * @param use_count The new value of the field {@code use_count}
+     */
+    public void use_count$set(int use_count) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("use_count"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), use_count);
+    }
+    
+    /**
+     * Get the value of the field {@code type_infos}
+     * @return The value of the field {@code type_infos}
+     */
+    public org.gtk.glib.SList type_infos$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("type_infos"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Change the value of the field {@code type_infos}
+     * @param type_infos The new value of the field {@code type_infos}
+     */
+    public void type_infos$set(org.gtk.glib.SList type_infos) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("type_infos"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type_infos.handle());
+    }
+    
+    /**
+     * Get the value of the field {@code interface_infos}
+     * @return The value of the field {@code interface_infos}
+     */
+    public org.gtk.glib.SList interface_infos$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("interface_infos"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Change the value of the field {@code interface_infos}
+     * @param interface_infos The new value of the field {@code interface_infos}
+     */
+    public void interface_infos$set(org.gtk.glib.SList interface_infos) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("interface_infos"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), interface_infos.handle());
+    }
+    
+    /**
+     * Get the value of the field {@code name}
+     * @return The value of the field {@code name}
+     */
+    public java.lang.String name$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("name"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringFrom(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code name}
+     * @param name The new value of the field {@code name}
+     */
+    public void name$set(java.lang.String name) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("name"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(name));
+    }
+    
+    @ApiStatus.Internal
     public TypeModule(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TypeModule */
+    /**
+     * Cast object to TypeModule if its GType is a (or inherits from) "GTypeModule".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TypeModule" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GTypeModule", a ClassCastException will be thrown.
+     */
     public static TypeModule castFrom(org.gtk.gobject.Object gobject) {
-        return new TypeModule(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTypeModule"))) {
+            return new TypeModule(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GTypeModule");
+        }
     }
     
     /**
@@ -87,7 +194,11 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
         java.util.Objects.requireNonNull(interfaceType, "Parameter 'interfaceType' must not be null");
         java.util.Objects.requireNonNull(interfaceInfo, "Parameter 'interfaceInfo' must not be null");
         try {
-            DowncallHandles.g_type_module_add_interface.invokeExact(handle(), instanceType.getValue(), interfaceType.getValue(), interfaceInfo.handle());
+            DowncallHandles.g_type_module_add_interface.invokeExact(
+                    handle(),
+                    instanceType.getValue().longValue(),
+                    interfaceType.getValue().longValue(),
+                    interfaceInfo.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,7 +227,10 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
         java.util.Objects.requireNonNull(constStaticValues, "Parameter 'constStaticValues' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_type_module_register_enum.invokeExact(handle(), Interop.allocateNativeString(name), constStaticValues.handle());
+            RESULT = (long) DowncallHandles.g_type_module_register_enum.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name),
+                    constStaticValues.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,7 +260,10 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
         java.util.Objects.requireNonNull(constStaticValues, "Parameter 'constStaticValues' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_type_module_register_flags.invokeExact(handle(), Interop.allocateNativeString(name), constStaticValues.handle());
+            RESULT = (long) DowncallHandles.g_type_module_register_flags.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name),
+                    constStaticValues.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,7 +298,12 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_type_module_register_type.invokeExact(handle(), parentType.getValue(), Interop.allocateNativeString(typeName), typeInfo.handle(), flags.getValue());
+            RESULT = (long) DowncallHandles.g_type_module_register_type.invokeExact(
+                    handle(),
+                    parentType.getValue().longValue(),
+                    Interop.allocateNativeString(typeName),
+                    typeInfo.handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -195,7 +317,9 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
     public void setName(@NotNull java.lang.String name) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            DowncallHandles.g_type_module_set_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.g_type_module_set_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -210,7 +334,8 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
      */
     public void unuse() {
         try {
-            DowncallHandles.g_type_module_unuse.invokeExact(handle());
+            DowncallHandles.g_type_module_unuse.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -227,7 +352,8 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
     public boolean useTypeModule() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_type_module_use.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_type_module_use.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

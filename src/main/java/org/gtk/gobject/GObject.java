@@ -111,7 +111,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(srcBoxed, "Parameter 'srcBoxed' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_boxed_copy.invokeExact(boxedType.getValue(), srcBoxed);
+            RESULT = (MemoryAddress) DowncallHandles.g_boxed_copy.invokeExact(
+                    boxedType.getValue().longValue(),
+                    srcBoxed);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,7 +129,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(boxedType, "Parameter 'boxedType' must not be null");
         java.util.Objects.requireNonNull(boxed, "Parameter 'boxed' must not be null");
         try {
-            DowncallHandles.g_boxed_free.invokeExact(boxedType.getValue(), boxed);
+            DowncallHandles.g_boxed_free.invokeExact(
+                    boxedType.getValue().longValue(),
+                    boxed);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -173,9 +177,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_BOOLEAN__BOXED_BOXED.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_BOOLEAN__BOXED_BOXED.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -197,9 +206,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_BOOLEAN__FLAGS.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_BOOLEAN__FLAGS.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -220,9 +234,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_STRING__OBJECT_POINTER.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_STRING__OBJECT_POINTER.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -243,9 +262,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__BOOLEAN.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__BOOLEAN.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -266,9 +290,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__BOXED.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__BOXED.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -289,9 +318,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__CHAR.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__CHAR.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -312,9 +346,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__DOUBLE.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__DOUBLE.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -335,9 +374,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__ENUM.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__ENUM.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -358,9 +402,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__FLAGS.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__FLAGS.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -381,9 +430,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__FLOAT.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__FLOAT.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -404,9 +458,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__INT.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__INT.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -427,9 +486,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__LONG.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__LONG.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -450,9 +514,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__OBJECT.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__OBJECT.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -473,9 +542,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__PARAM.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__PARAM.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -496,9 +570,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__POINTER.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__POINTER.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -519,9 +598,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__STRING.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__STRING.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -542,9 +626,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__UCHAR.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__UCHAR.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -565,9 +654,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__UINT.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__UINT.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -588,9 +682,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__UINT_POINTER.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__UINT_POINTER.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -611,9 +710,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__ULONG.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__ULONG.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -634,9 +738,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__VARIANT.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__VARIANT.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -657,9 +766,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__VOID.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__VOID.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -687,9 +801,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnGvalue, "Parameter 'returnGvalue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_generic.invokeExact(closure.handle(), returnGvalue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_generic.invokeExact(
+                    closure.handle(),
+                    returnGvalue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -705,17 +824,16 @@ public final class GObject {
      * @return a floating reference to a new {@link CClosure}
      */
     public static @NotNull org.gtk.gobject.Closure cclosureNew(@Nullable org.gtk.gobject.Callback callbackFunc, @NotNull org.gtk.gobject.ClosureNotify destroyData) {
-        java.util.Objects.requireNonNullElse(callbackFunc, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(destroyData, "Parameter 'destroyData' must not be null");
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_cclosure_new.invokeExact(
-                    (Addressable) Linker.nativeLinker().upcallStub(
+                    (Addressable) (callbackFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
-                        Interop.getScope()), 
-                   (Addressable) (callbackFunc == null ? MemoryAddress.NULL : Interop.registerCallback(callbackFunc)), 
+                        Interop.getScope())),
+                    (Addressable) (callbackFunc == null ? MemoryAddress.NULL : Interop.registerCallback(callbackFunc)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class)),
@@ -765,17 +883,16 @@ public final class GObject {
      * @return a floating reference to a new {@link CClosure}
      */
     public static @NotNull org.gtk.gobject.Closure cclosureNewSwap(@Nullable org.gtk.gobject.Callback callbackFunc, @NotNull org.gtk.gobject.ClosureNotify destroyData) {
-        java.util.Objects.requireNonNullElse(callbackFunc, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(destroyData, "Parameter 'destroyData' must not be null");
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_cclosure_new_swap.invokeExact(
-                    (Addressable) Linker.nativeLinker().upcallStub(
+                    (Addressable) (callbackFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
-                        Interop.getScope()), 
-                   (Addressable) (callbackFunc == null ? MemoryAddress.NULL : Interop.registerCallback(callbackFunc)), 
+                        Interop.getScope())),
+                    (Addressable) (callbackFunc == null ? MemoryAddress.NULL : Interop.registerCallback(callbackFunc)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class)),
@@ -803,7 +920,8 @@ public final class GObject {
     public static void clearObject(@NotNull PointerProxy<org.gtk.gobject.Object> objectPtr) {
         java.util.Objects.requireNonNull(objectPtr, "Parameter 'objectPtr' must not be null");
         try {
-            DowncallHandles.g_clear_object.invokeExact(objectPtr.handle());
+            DowncallHandles.g_clear_object.invokeExact(
+                    objectPtr.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -826,7 +944,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(handlerIdPtr, "Parameter 'handlerIdPtr' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         try {
-            DowncallHandles.g_clear_signal_handler.invokeExact(handlerIdPtr.handle(), instance.handle());
+            DowncallHandles.g_clear_signal_handler.invokeExact(
+                    handlerIdPtr.handle(),
+                    instance.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -858,17 +978,18 @@ public final class GObject {
      *  enumeration values. The array is terminated by a struct with all
      *  members being 0.
      */
-    public static void enumCompleteTypeInfo(@NotNull org.gtk.glib.Type gEnumType, @NotNull Out<org.gtk.gobject.TypeInfo> info, @NotNull org.gtk.gobject.EnumValue constValues) {
+    public static void enumCompleteTypeInfo(@NotNull org.gtk.glib.Type gEnumType, @NotNull org.gtk.gobject.TypeInfo info, @NotNull org.gtk.gobject.EnumValue constValues) {
         java.util.Objects.requireNonNull(gEnumType, "Parameter 'gEnumType' must not be null");
         java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
         java.util.Objects.requireNonNull(constValues, "Parameter 'constValues' must not be null");
-        MemorySegment infoPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.g_enum_complete_type_info.invokeExact(gEnumType.getValue(), (Addressable) infoPOINTER.address(), constValues.handle());
+            DowncallHandles.g_enum_complete_type_info.invokeExact(
+                    gEnumType.getValue().longValue(),
+                    info.refcounted().unowned().handle(),
+                    constValues.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        info.set(new org.gtk.gobject.TypeInfo(Refcounted.get(infoPOINTER.get(ValueLayout.ADDRESS, 0), true)));
     }
     
     /**
@@ -882,7 +1003,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(enumClass, "Parameter 'enumClass' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_enum_get_value.invokeExact(enumClass.handle(), value);
+            RESULT = (MemoryAddress) DowncallHandles.g_enum_get_value.invokeExact(
+                    enumClass.handle(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -902,7 +1025,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_enum_get_value_by_name.invokeExact(enumClass.handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.g_enum_get_value_by_name.invokeExact(
+                    enumClass.handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -922,7 +1047,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(nick, "Parameter 'nick' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_enum_get_value_by_nick.invokeExact(enumClass.handle(), Interop.allocateNativeString(nick));
+            RESULT = (MemoryAddress) DowncallHandles.g_enum_get_value_by_nick.invokeExact(
+                    enumClass.handle(),
+                    Interop.allocateNativeString(nick));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -947,7 +1074,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(constStaticValues, "Parameter 'constStaticValues' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_enum_register_static.invokeExact(Interop.allocateNativeString(name), constStaticValues.handle());
+            RESULT = (long) DowncallHandles.g_enum_register_static.invokeExact(
+                    Interop.allocateNativeString(name),
+                    constStaticValues.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -967,11 +1096,13 @@ public final class GObject {
         java.util.Objects.requireNonNull(gEnumType, "Parameter 'gEnumType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_enum_to_string.invokeExact(gEnumType.getValue(), value);
+            RESULT = (MemoryAddress) DowncallHandles.g_enum_to_string.invokeExact(
+                    gEnumType.getValue().longValue(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -984,17 +1115,18 @@ public final class GObject {
      *  enumeration values. The array is terminated by a struct with all
      *  members being 0.
      */
-    public static void flagsCompleteTypeInfo(@NotNull org.gtk.glib.Type gFlagsType, @NotNull Out<org.gtk.gobject.TypeInfo> info, @NotNull org.gtk.gobject.FlagsValue constValues) {
+    public static void flagsCompleteTypeInfo(@NotNull org.gtk.glib.Type gFlagsType, @NotNull org.gtk.gobject.TypeInfo info, @NotNull org.gtk.gobject.FlagsValue constValues) {
         java.util.Objects.requireNonNull(gFlagsType, "Parameter 'gFlagsType' must not be null");
         java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
         java.util.Objects.requireNonNull(constValues, "Parameter 'constValues' must not be null");
-        MemorySegment infoPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.g_flags_complete_type_info.invokeExact(gFlagsType.getValue(), (Addressable) infoPOINTER.address(), constValues.handle());
+            DowncallHandles.g_flags_complete_type_info.invokeExact(
+                    gFlagsType.getValue().longValue(),
+                    info.refcounted().unowned().handle(),
+                    constValues.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        info.set(new org.gtk.gobject.TypeInfo(Refcounted.get(infoPOINTER.get(ValueLayout.ADDRESS, 0), true)));
     }
     
     /**
@@ -1008,7 +1140,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(flagsClass, "Parameter 'flagsClass' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_flags_get_first_value.invokeExact(flagsClass.handle(), value);
+            RESULT = (MemoryAddress) DowncallHandles.g_flags_get_first_value.invokeExact(
+                    flagsClass.handle(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1027,7 +1161,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_flags_get_value_by_name.invokeExact(flagsClass.handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.g_flags_get_value_by_name.invokeExact(
+                    flagsClass.handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1046,7 +1182,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(nick, "Parameter 'nick' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_flags_get_value_by_nick.invokeExact(flagsClass.handle(), Interop.allocateNativeString(nick));
+            RESULT = (MemoryAddress) DowncallHandles.g_flags_get_value_by_nick.invokeExact(
+                    flagsClass.handle(),
+                    Interop.allocateNativeString(nick));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1070,7 +1208,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(constStaticValues, "Parameter 'constStaticValues' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_flags_register_static.invokeExact(Interop.allocateNativeString(name), constStaticValues.handle());
+            RESULT = (long) DowncallHandles.g_flags_register_static.invokeExact(
+                    Interop.allocateNativeString(name),
+                    constStaticValues.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1091,11 +1231,13 @@ public final class GObject {
         java.util.Objects.requireNonNull(flagsType, "Parameter 'flagsType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_flags_to_string.invokeExact(flagsType.getValue(), value);
+            RESULT = (MemoryAddress) DowncallHandles.g_flags_to_string.invokeExact(
+                    flagsType.getValue().longValue(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     public static @NotNull org.gtk.glib.Type gtypeGetType() {
@@ -1130,7 +1272,12 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_boolean.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), defaultValue ? 1 : 0, flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_boolean.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    defaultValue ? 1 : 0,
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1157,7 +1304,12 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_boxed.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), boxedType.getValue(), flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_boxed.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    boxedType.getValue().longValue(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1182,7 +1334,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_char.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), minimum, maximum, defaultValue, flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_char.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    minimum,
+                    maximum,
+                    defaultValue,
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1210,7 +1369,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_double.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), minimum, maximum, defaultValue, flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_double.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    minimum,
+                    maximum,
+                    defaultValue,
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1238,7 +1404,13 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_enum.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), enumType.getValue(), defaultValue, flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_enum.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    enumType.getValue().longValue(),
+                    defaultValue,
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1266,7 +1438,13 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_flags.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), flagsType.getValue(), defaultValue, flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_flags.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    flagsType.getValue().longValue(),
+                    defaultValue,
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1293,7 +1471,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_float.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), minimum, maximum, defaultValue, flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_float.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    minimum,
+                    maximum,
+                    defaultValue,
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1321,7 +1506,12 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_gtype.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), isAType.getValue(), flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_gtype.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    isAType.getValue().longValue(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1348,7 +1538,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_int.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), minimum, maximum, defaultValue, flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_int.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    minimum,
+                    maximum,
+                    defaultValue,
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1375,7 +1572,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_int64.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), minimum, maximum, defaultValue, flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_int64.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    minimum,
+                    maximum,
+                    defaultValue,
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1402,7 +1606,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_long.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), minimum, maximum, defaultValue, flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_long.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    minimum,
+                    maximum,
+                    defaultValue,
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1429,7 +1640,12 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_object.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), objectType.getValue(), flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_object.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    objectType.getValue().longValue(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1449,7 +1665,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(overridden, "Parameter 'overridden' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_override.invokeExact(Interop.allocateNativeString(name), overridden.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_override.invokeExact(
+                    Interop.allocateNativeString(name),
+                    overridden.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1476,7 +1694,12 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_param.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), paramType.getValue(), flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_param.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    paramType.getValue().longValue(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1502,7 +1725,11 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_pointer.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_pointer.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1524,11 +1751,15 @@ public final class GObject {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(nick, "Parameter 'nick' must not be null");
         java.util.Objects.requireNonNull(blurb, "Parameter 'blurb' must not be null");
-        java.util.Objects.requireNonNullElse(defaultValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_string.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), Interop.allocateNativeString(defaultValue), flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_string.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    (Addressable) (defaultValue == null ? MemoryAddress.NULL : Interop.allocateNativeString(defaultValue)),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1553,7 +1784,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_uchar.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), minimum, maximum, defaultValue, flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_uchar.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    minimum,
+                    maximum,
+                    defaultValue,
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1580,7 +1818,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_uint.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), minimum, maximum, defaultValue, flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_uint.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    minimum,
+                    maximum,
+                    defaultValue,
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1608,7 +1853,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_uint64.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), minimum, maximum, defaultValue, flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_uint64.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    minimum,
+                    maximum,
+                    defaultValue,
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1636,7 +1888,14 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_ulong.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), minimum, maximum, defaultValue, flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_ulong.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    minimum,
+                    maximum,
+                    defaultValue,
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1663,7 +1922,12 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_unichar.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), defaultValue, flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_unichar.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    defaultValue,
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1693,7 +1957,12 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_value_array.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), elementSpec.handle(), flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_value_array.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    elementSpec.handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1721,11 +1990,16 @@ public final class GObject {
         java.util.Objects.requireNonNull(nick, "Parameter 'nick' must not be null");
         java.util.Objects.requireNonNull(blurb, "Parameter 'blurb' must not be null");
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNullElse(defaultValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_variant.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), type.handle(), defaultValue.refcounted().unowned().handle(), flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_variant.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    type.handle(),
+                    (Addressable) (defaultValue == null ? MemoryAddress.NULL : defaultValue.refcounted().unowned().handle()),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1748,7 +2022,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(pspecInfo, "Parameter 'pspecInfo' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_param_type_register_static.invokeExact(Interop.allocateNativeString(name), pspecInfo.handle());
+            RESULT = (long) DowncallHandles.g_param_type_register_static.invokeExact(
+                    Interop.allocateNativeString(name),
+                    pspecInfo.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1777,7 +2053,11 @@ public final class GObject {
         java.util.Objects.requireNonNull(destValue, "Parameter 'destValue' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_param_value_convert.invokeExact(pspec.handle(), srcValue.handle(), destValue.handle(), strictValidation ? 1 : 0);
+            RESULT = (int) DowncallHandles.g_param_value_convert.invokeExact(
+                    pspec.handle(),
+                    srcValue.handle(),
+                    destValue.handle(),
+                    strictValidation ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1795,7 +2075,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_param_value_defaults.invokeExact(pspec.handle(), value.handle());
+            RESULT = (int) DowncallHandles.g_param_value_defaults.invokeExact(
+                    pspec.handle(),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1812,7 +2094,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(pspec, "Parameter 'pspec' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.g_param_value_set_default.invokeExact(pspec.handle(), value.handle());
+            DowncallHandles.g_param_value_set_default.invokeExact(
+                    pspec.handle(),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1834,7 +2118,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_param_value_validate.invokeExact(pspec.handle(), value.handle());
+            RESULT = (int) DowncallHandles.g_param_value_validate.invokeExact(
+                    pspec.handle(),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1856,7 +2142,10 @@ public final class GObject {
         java.util.Objects.requireNonNull(value2, "Parameter 'value2' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_param_values_cmp.invokeExact(pspec.handle(), value1.handle(), value2.handle());
+            RESULT = (int) DowncallHandles.g_param_values_cmp.invokeExact(
+                    pspec.handle(),
+                    value1.handle(),
+                    value2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1873,7 +2162,8 @@ public final class GObject {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_pointer_type_register_static.invokeExact(Interop.allocateNativeString(name));
+            RESULT = (long) DowncallHandles.g_pointer_type_register_static.invokeExact(
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1901,10 +2191,13 @@ public final class GObject {
         java.util.Objects.requireNonNull(ihint, "Parameter 'ihint' must not be null");
         java.util.Objects.requireNonNull(returnAccu, "Parameter 'returnAccu' must not be null");
         java.util.Objects.requireNonNull(handlerReturn, "Parameter 'handlerReturn' must not be null");
-        java.util.Objects.requireNonNullElse(dummy, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_signal_accumulator_first_wins.invokeExact(ihint.handle(), returnAccu.handle(), handlerReturn.handle(), dummy);
+            RESULT = (int) DowncallHandles.g_signal_accumulator_first_wins.invokeExact(
+                    ihint.handle(),
+                    returnAccu.handle(),
+                    handlerReturn.handle(),
+                    (Addressable) (dummy == null ? MemoryAddress.NULL : dummy));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1929,10 +2222,13 @@ public final class GObject {
         java.util.Objects.requireNonNull(ihint, "Parameter 'ihint' must not be null");
         java.util.Objects.requireNonNull(returnAccu, "Parameter 'returnAccu' must not be null");
         java.util.Objects.requireNonNull(handlerReturn, "Parameter 'handlerReturn' must not be null");
-        java.util.Objects.requireNonNullElse(dummy, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_signal_accumulator_true_handled.invokeExact(ihint.handle(), returnAccu.handle(), handlerReturn.handle(), dummy);
+            RESULT = (int) DowncallHandles.g_signal_accumulator_true_handled.invokeExact(
+                    ihint.handle(),
+                    returnAccu.handle(),
+                    handlerReturn.handle(),
+                    (Addressable) (dummy == null ? MemoryAddress.NULL : dummy));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1953,13 +2249,15 @@ public final class GObject {
         java.util.Objects.requireNonNull(hookFunc, "Parameter 'hookFunc' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_signal_add_emission_hook.invokeExact(signalId, detail.getValue(), 
+            RESULT = (long) DowncallHandles.g_signal_add_emission_hook.invokeExact(
+                    signalId,
+                    detail.getValue().intValue(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbSignalEmissionHook",
                             MethodType.methodType(int.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(hookFunc)), 
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(hookFunc)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1981,7 +2279,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(instanceAndParams, "Parameter 'instanceAndParams' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         try {
-            DowncallHandles.g_signal_chain_from_overridden.invokeExact(Interop.allocateNativeArray(instanceAndParams, false), returnValue.handle());
+            DowncallHandles.g_signal_chain_from_overridden.invokeExact(
+                    Interop.allocateNativeArray(instanceAndParams, false),
+                    returnValue.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2014,7 +2314,11 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_signal_connect_closure.invokeExact(instance.handle(), Interop.allocateNativeString(detailedSignal), closure.handle(), after ? 1 : 0);
+            RESULT = (long) DowncallHandles.g_signal_connect_closure.invokeExact(
+                    instance.handle(),
+                    Interop.allocateNativeString(detailedSignal),
+                    closure.handle(),
+                    after ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2037,7 +2341,12 @@ public final class GObject {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_signal_connect_closure_by_id.invokeExact(instance.handle(), signalId, detail.getValue(), closure.handle(), after ? 1 : 0);
+            RESULT = (long) DowncallHandles.g_signal_connect_closure_by_id.invokeExact(
+                    instance.handle(),
+                    signalId,
+                    detail.getValue().intValue(),
+                    closure.handle(),
+                    after ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2061,22 +2370,24 @@ public final class GObject {
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(detailedSignal, "Parameter 'detailedSignal' must not be null");
         java.util.Objects.requireNonNull(cHandler, "Parameter 'cHandler' must not be null");
-        java.util.Objects.requireNonNullElse(destroyData, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(connectFlags, "Parameter 'connectFlags' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_signal_connect_data.invokeExact(instance.handle(), Interop.allocateNativeString(detailedSignal), 
+            RESULT = (long) DowncallHandles.g_signal_connect_data.invokeExact(
+                    instance.handle(),
+                    Interop.allocateNativeString(detailedSignal),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(cHandler)), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(cHandler)),
+                    (Addressable) (destroyData == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
-                        Interop.getScope()), connectFlags.getValue());
+                        Interop.getScope())),
+                    connectFlags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2150,7 +2461,11 @@ public final class GObject {
         java.util.Objects.requireNonNull(detail, "Parameter 'detail' must not be null");
         java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
         try {
-            DowncallHandles.g_signal_emit_valist.invokeExact(instance.handle(), signalId, detail.getValue(), varArgs);
+            DowncallHandles.g_signal_emit_valist.invokeExact(
+                    instance.handle(),
+                    signalId,
+                    detail.getValue().intValue(),
+                    varArgs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2171,17 +2486,19 @@ public final class GObject {
      * store the return value of the signal emission. This must be provided if the
      * specified signal returns a value, but may be ignored otherwise.
      */
-    public static void signalEmitv(org.gtk.gobject.Value[] instanceAndParams, int signalId, @NotNull org.gtk.glib.Quark detail, @NotNull Out<org.gtk.gobject.Value> returnValue) {
+    public static void signalEmitv(org.gtk.gobject.Value[] instanceAndParams, int signalId, @NotNull org.gtk.glib.Quark detail, @NotNull org.gtk.gobject.Value returnValue) {
         java.util.Objects.requireNonNull(instanceAndParams, "Parameter 'instanceAndParams' must not be null");
         java.util.Objects.requireNonNull(detail, "Parameter 'detail' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        MemorySegment returnValuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.g_signal_emitv.invokeExact(Interop.allocateNativeArray(instanceAndParams, false), signalId, detail.getValue(), (Addressable) returnValuePOINTER.address());
+            DowncallHandles.g_signal_emitv.invokeExact(
+                    Interop.allocateNativeArray(instanceAndParams, false),
+                    signalId,
+                    detail.getValue().intValue(),
+                    returnValue.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        returnValue.set(new org.gtk.gobject.Value(Refcounted.get(returnValuePOINTER.get(ValueLayout.ADDRESS, 0), true)));
     }
     
     /**
@@ -2194,7 +2511,8 @@ public final class GObject {
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_signal_get_invocation_hint.invokeExact(instance.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_signal_get_invocation_hint.invokeExact(
+                    instance.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2216,7 +2534,9 @@ public final class GObject {
     public static void signalHandlerBlock(@NotNull org.gtk.gobject.Object instance, long handlerId) {
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         try {
-            DowncallHandles.g_signal_handler_block.invokeExact(instance.handle(), handlerId);
+            DowncallHandles.g_signal_handler_block.invokeExact(
+                    instance.handle(),
+                    handlerId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2235,7 +2555,9 @@ public final class GObject {
     public static void signalHandlerDisconnect(@NotNull org.gtk.gobject.Object instance, long handlerId) {
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         try {
-            DowncallHandles.g_signal_handler_disconnect.invokeExact(instance.handle(), handlerId);
+            DowncallHandles.g_signal_handler_disconnect.invokeExact(
+                    instance.handle(),
+                    handlerId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2261,11 +2583,16 @@ public final class GObject {
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(mask, "Parameter 'mask' must not be null");
         java.util.Objects.requireNonNull(detail, "Parameter 'detail' must not be null");
-        java.util.Objects.requireNonNullElse(closure, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(func, MemoryAddress.NULL);
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_signal_handler_find.invokeExact(instance.handle(), mask.getValue(), signalId, detail.getValue(), closure.handle(), func, data);
+            RESULT = (long) DowncallHandles.g_signal_handler_find.invokeExact(
+                    instance.handle(),
+                    mask.getValue(),
+                    signalId,
+                    detail.getValue().intValue(),
+                    (Addressable) (closure == null ? MemoryAddress.NULL : closure.handle()),
+                    (Addressable) (func == null ? MemoryAddress.NULL : func),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2282,7 +2609,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_signal_handler_is_connected.invokeExact(instance.handle(), handlerId);
+            RESULT = (int) DowncallHandles.g_signal_handler_is_connected.invokeExact(
+                    instance.handle(),
+                    handlerId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2309,7 +2638,9 @@ public final class GObject {
     public static void signalHandlerUnblock(@NotNull org.gtk.gobject.Object instance, long handlerId) {
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         try {
-            DowncallHandles.g_signal_handler_unblock.invokeExact(instance.handle(), handlerId);
+            DowncallHandles.g_signal_handler_unblock.invokeExact(
+                    instance.handle(),
+                    handlerId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2337,11 +2668,16 @@ public final class GObject {
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(mask, "Parameter 'mask' must not be null");
         java.util.Objects.requireNonNull(detail, "Parameter 'detail' must not be null");
-        java.util.Objects.requireNonNullElse(closure, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(func, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_signal_handlers_block_matched.invokeExact(instance.handle(), mask.getValue(), signalId, detail.getValue(), closure.handle(), func, data);
+            RESULT = (int) DowncallHandles.g_signal_handlers_block_matched.invokeExact(
+                    instance.handle(),
+                    mask.getValue(),
+                    signalId,
+                    detail.getValue().intValue(),
+                    (Addressable) (closure == null ? MemoryAddress.NULL : closure.handle()),
+                    (Addressable) (func == null ? MemoryAddress.NULL : func),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2357,7 +2693,8 @@ public final class GObject {
     public static void signalHandlersDestroy(@NotNull org.gtk.gobject.Object instance) {
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         try {
-            DowncallHandles.g_signal_handlers_destroy.invokeExact(instance.handle());
+            DowncallHandles.g_signal_handlers_destroy.invokeExact(
+                    instance.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2386,11 +2723,16 @@ public final class GObject {
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(mask, "Parameter 'mask' must not be null");
         java.util.Objects.requireNonNull(detail, "Parameter 'detail' must not be null");
-        java.util.Objects.requireNonNullElse(closure, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(func, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_signal_handlers_disconnect_matched.invokeExact(instance.handle(), mask.getValue(), signalId, detail.getValue(), closure.handle(), func, data);
+            RESULT = (int) DowncallHandles.g_signal_handlers_disconnect_matched.invokeExact(
+                    instance.handle(),
+                    mask.getValue(),
+                    signalId,
+                    detail.getValue().intValue(),
+                    (Addressable) (closure == null ? MemoryAddress.NULL : closure.handle()),
+                    (Addressable) (func == null ? MemoryAddress.NULL : func),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2420,11 +2762,16 @@ public final class GObject {
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(mask, "Parameter 'mask' must not be null");
         java.util.Objects.requireNonNull(detail, "Parameter 'detail' must not be null");
-        java.util.Objects.requireNonNullElse(closure, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(func, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_signal_handlers_unblock_matched.invokeExact(instance.handle(), mask.getValue(), signalId, detail.getValue(), closure.handle(), func, data);
+            RESULT = (int) DowncallHandles.g_signal_handlers_unblock_matched.invokeExact(
+                    instance.handle(),
+                    mask.getValue(),
+                    signalId,
+                    detail.getValue().intValue(),
+                    (Addressable) (closure == null ? MemoryAddress.NULL : closure.handle()),
+                    (Addressable) (func == null ? MemoryAddress.NULL : func),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2460,7 +2807,11 @@ public final class GObject {
         java.util.Objects.requireNonNull(detail, "Parameter 'detail' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_signal_has_handler_pending.invokeExact(instance.handle(), signalId, detail.getValue(), mayBeBlocked ? 1 : 0);
+            RESULT = (int) DowncallHandles.g_signal_has_handler_pending.invokeExact(
+                    instance.handle(),
+                    signalId,
+                    detail.getValue().intValue(),
+                    mayBeBlocked ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2481,7 +2832,8 @@ public final class GObject {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_signal_is_valid_name.invokeExact(Interop.allocateNativeString(name));
+            RESULT = (int) DowncallHandles.g_signal_is_valid_name.invokeExact(
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2502,7 +2854,9 @@ public final class GObject {
         MemorySegment nIdsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_signal_list_ids.invokeExact(itype.getValue(), (Addressable) nIdsPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_signal_list_ids.invokeExact(
+                    itype.getValue().longValue(),
+                    (Addressable) nIdsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2531,7 +2885,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(itype, "Parameter 'itype' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_signal_lookup.invokeExact(Interop.allocateNativeString(name), itype.getValue());
+            RESULT = (int) DowncallHandles.g_signal_lookup.invokeExact(
+                    Interop.allocateNativeString(name),
+                    itype.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2548,11 +2904,12 @@ public final class GObject {
     public static @Nullable java.lang.String signalName(int signalId) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_signal_name.invokeExact(signalId);
+            RESULT = (MemoryAddress) DowncallHandles.g_signal_name.invokeExact(
+                    signalId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -2656,7 +3013,10 @@ public final class GObject {
         java.util.Objects.requireNonNull(instanceType, "Parameter 'instanceType' must not be null");
         java.util.Objects.requireNonNull(classClosure, "Parameter 'classClosure' must not be null");
         try {
-            DowncallHandles.g_signal_override_class_closure.invokeExact(signalId, instanceType.getValue(), classClosure.handle());
+            DowncallHandles.g_signal_override_class_closure.invokeExact(
+                    signalId,
+                    instanceType.getValue().longValue(),
+                    classClosure.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2699,7 +3059,12 @@ public final class GObject {
         MemorySegment detailPPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_signal_parse_name.invokeExact(Interop.allocateNativeString(detailedSignal), itype.getValue(), (Addressable) signalIdPPOINTER.address(), (Addressable) detailPPOINTER.address(), forceDetailQuark ? 1 : 0);
+            RESULT = (int) DowncallHandles.g_signal_parse_name.invokeExact(
+                    Interop.allocateNativeString(detailedSignal),
+                    itype.getValue().longValue(),
+                    (Addressable) signalIdPPOINTER.address(),
+                    (Addressable) detailPPOINTER.address(),
+                    forceDetailQuark ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2719,15 +3084,15 @@ public final class GObject {
      * @param query A user provided structure that is
      *  filled in with constant values upon success.
      */
-    public static void signalQuery(int signalId, @NotNull Out<org.gtk.gobject.SignalQuery> query) {
+    public static void signalQuery(int signalId, @NotNull org.gtk.gobject.SignalQuery query) {
         java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
-        MemorySegment queryPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.g_signal_query.invokeExact(signalId, (Addressable) queryPOINTER.address());
+            DowncallHandles.g_signal_query.invokeExact(
+                    signalId,
+                    query.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        query.set(new org.gtk.gobject.SignalQuery(Refcounted.get(queryPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -2738,7 +3103,9 @@ public final class GObject {
      */
     public static void signalRemoveEmissionHook(int signalId, long hookId) {
         try {
-            DowncallHandles.g_signal_remove_emission_hook.invokeExact(signalId, hookId);
+            DowncallHandles.g_signal_remove_emission_hook.invokeExact(
+                    signalId,
+                    hookId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2760,7 +3127,10 @@ public final class GObject {
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(detail, "Parameter 'detail' must not be null");
         try {
-            DowncallHandles.g_signal_stop_emission.invokeExact(instance.handle(), signalId, detail.getValue());
+            DowncallHandles.g_signal_stop_emission.invokeExact(
+                    instance.handle(),
+                    signalId,
+                    detail.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2778,7 +3148,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(detailedSignal, "Parameter 'detailedSignal' must not be null");
         try {
-            DowncallHandles.g_signal_stop_emission_by_name.invokeExact(instance.handle(), Interop.allocateNativeString(detailedSignal));
+            DowncallHandles.g_signal_stop_emission_by_name.invokeExact(
+                    instance.handle(),
+                    Interop.allocateNativeString(detailedSignal));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2797,7 +3169,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(itype, "Parameter 'itype' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_signal_type_cclosure_new.invokeExact(itype.getValue(), structOffset);
+            RESULT = (MemoryAddress) DowncallHandles.g_signal_type_cclosure_new.invokeExact(
+                    itype.getValue().longValue(),
+                    structOffset);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2817,7 +3191,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(source, "Parameter 'source' must not be null");
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         try {
-            DowncallHandles.g_source_set_closure.invokeExact(source.handle(), closure.handle());
+            DowncallHandles.g_source_set_closure.invokeExact(
+                    source.handle(),
+                    closure.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2839,7 +3215,8 @@ public final class GObject {
     public static void sourceSetDummyCallback(@NotNull org.gtk.glib.Source source) {
         java.util.Objects.requireNonNull(source, "Parameter 'source' must not be null");
         try {
-            DowncallHandles.g_source_set_dummy_callback.invokeExact(source.handle());
+            DowncallHandles.g_source_set_dummy_callback.invokeExact(
+                    source.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2857,11 +3234,12 @@ public final class GObject {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_strdup_value_contents.invokeExact(value.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_strdup_value_contents.invokeExact(
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -2878,7 +3256,7 @@ public final class GObject {
         java.util.Objects.requireNonNull(cacheFunc, "Parameter 'cacheFunc' must not be null");
         try {
             DowncallHandles.g_type_add_class_cache_func.invokeExact(
-                   (Addressable) (Interop.registerCallback(cacheFunc)), 
+                    (Addressable) (Interop.registerCallback(cacheFunc)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbTypeClassCacheFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
@@ -2906,7 +3284,9 @@ public final class GObject {
     public static void typeAddClassPrivate(@NotNull org.gtk.glib.Type classType, long privateSize) {
         java.util.Objects.requireNonNull(classType, "Parameter 'classType' must not be null");
         try {
-            DowncallHandles.g_type_add_class_private.invokeExact(classType.getValue(), privateSize);
+            DowncallHandles.g_type_add_class_private.invokeExact(
+                    classType.getValue().longValue(),
+                    privateSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2916,7 +3296,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(classType, "Parameter 'classType' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_type_add_instance_private.invokeExact(classType.getValue(), privateSize);
+            RESULT = (int) DowncallHandles.g_type_add_instance_private.invokeExact(
+                    classType.getValue().longValue(),
+                    privateSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2940,7 +3322,7 @@ public final class GObject {
         java.util.Objects.requireNonNull(checkFunc, "Parameter 'checkFunc' must not be null");
         try {
             DowncallHandles.g_type_add_interface_check.invokeExact(
-                   (Addressable) (Interop.registerCallback(checkFunc)), 
+                    (Addressable) (Interop.registerCallback(checkFunc)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbTypeInterfaceCheckFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -2964,7 +3346,10 @@ public final class GObject {
         java.util.Objects.requireNonNull(interfaceType, "Parameter 'interfaceType' must not be null");
         java.util.Objects.requireNonNull(plugin, "Parameter 'plugin' must not be null");
         try {
-            DowncallHandles.g_type_add_interface_dynamic.invokeExact(instanceType.getValue(), interfaceType.getValue(), plugin.handle());
+            DowncallHandles.g_type_add_interface_dynamic.invokeExact(
+                    instanceType.getValue().longValue(),
+                    interfaceType.getValue().longValue(),
+                    plugin.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2984,7 +3369,10 @@ public final class GObject {
         java.util.Objects.requireNonNull(interfaceType, "Parameter 'interfaceType' must not be null");
         java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
         try {
-            DowncallHandles.g_type_add_interface_static.invokeExact(instanceType.getValue(), interfaceType.getValue(), info.handle());
+            DowncallHandles.g_type_add_interface_static.invokeExact(
+                    instanceType.getValue().longValue(),
+                    interfaceType.getValue().longValue(),
+                    info.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2995,7 +3383,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(isAType, "Parameter 'isAType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_check_class_cast.invokeExact(gClass.handle(), isAType.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_check_class_cast.invokeExact(
+                    gClass.handle(),
+                    isAType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3007,7 +3397,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(isAType, "Parameter 'isAType' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_type_check_class_is_a.invokeExact(gClass.handle(), isAType.getValue());
+            RESULT = (int) DowncallHandles.g_type_check_class_is_a.invokeExact(
+                    gClass.handle(),
+                    isAType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3024,7 +3416,8 @@ public final class GObject {
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_type_check_instance.invokeExact(instance.handle());
+            RESULT = (int) DowncallHandles.g_type_check_instance.invokeExact(
+                    instance.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3036,7 +3429,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(ifaceType, "Parameter 'ifaceType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_check_instance_cast.invokeExact(instance.handle(), ifaceType.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_check_instance_cast.invokeExact(
+                    instance.handle(),
+                    ifaceType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3048,7 +3443,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(ifaceType, "Parameter 'ifaceType' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_type_check_instance_is_a.invokeExact(instance.handle(), ifaceType.getValue());
+            RESULT = (int) DowncallHandles.g_type_check_instance_is_a.invokeExact(
+                    instance.handle(),
+                    ifaceType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3060,7 +3457,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(fundamentalType, "Parameter 'fundamentalType' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_type_check_instance_is_fundamentally_a.invokeExact(instance.handle(), fundamentalType.getValue());
+            RESULT = (int) DowncallHandles.g_type_check_instance_is_fundamentally_a.invokeExact(
+                    instance.handle(),
+                    fundamentalType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3071,7 +3470,8 @@ public final class GObject {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_type_check_is_value_type.invokeExact(type.getValue());
+            RESULT = (int) DowncallHandles.g_type_check_is_value_type.invokeExact(
+                    type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3082,7 +3482,8 @@ public final class GObject {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_type_check_value.invokeExact(value.handle());
+            RESULT = (int) DowncallHandles.g_type_check_value.invokeExact(
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3094,7 +3495,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_type_check_value_holds.invokeExact(value.handle(), type.getValue());
+            RESULT = (int) DowncallHandles.g_type_check_value_holds.invokeExact(
+                    value.handle(),
+                    type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3116,7 +3519,9 @@ public final class GObject {
         MemorySegment nChildrenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_children.invokeExact(type.getValue(), (Addressable) nChildrenPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_children.invokeExact(
+                    type.getValue().longValue(),
+                    (Addressable) nChildrenPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3130,10 +3535,11 @@ public final class GObject {
     }
     
     public static void typeClassAdjustPrivateOffset(@Nullable java.lang.foreign.MemoryAddress gClass, PointerInteger privateSizeOrOffset) {
-        java.util.Objects.requireNonNullElse(gClass, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(privateSizeOrOffset, "Parameter 'privateSizeOrOffset' must not be null");
         try {
-            DowncallHandles.g_type_class_adjust_private_offset.invokeExact(gClass, privateSizeOrOffset.handle());
+            DowncallHandles.g_type_class_adjust_private_offset.invokeExact(
+                    (Addressable) (gClass == null ? MemoryAddress.NULL : gClass),
+                    privateSizeOrOffset.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3154,7 +3560,8 @@ public final class GObject {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_class_peek.invokeExact(type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_class_peek.invokeExact(
+                    type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3173,7 +3580,8 @@ public final class GObject {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_class_peek_static.invokeExact(type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_class_peek_static.invokeExact(
+                    type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3192,7 +3600,8 @@ public final class GObject {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_class_ref.invokeExact(type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_class_ref.invokeExact(
+                    type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3224,7 +3633,8 @@ public final class GObject {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_create_instance.invokeExact(type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_create_instance.invokeExact(
+                    type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3243,7 +3653,8 @@ public final class GObject {
         java.util.Objects.requireNonNull(gType, "Parameter 'gType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_default_interface_peek.invokeExact(gType.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_default_interface_peek.invokeExact(
+                    gType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3270,7 +3681,8 @@ public final class GObject {
         java.util.Objects.requireNonNull(gType, "Parameter 'gType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_default_interface_ref.invokeExact(gType.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_default_interface_ref.invokeExact(
+                    gType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3289,7 +3701,8 @@ public final class GObject {
     public static void typeDefaultInterfaceUnref(@NotNull org.gtk.gobject.TypeInterface gIface) {
         java.util.Objects.requireNonNull(gIface, "Parameter 'gIface' must not be null");
         try {
-            DowncallHandles.g_type_default_interface_unref.invokeExact(gIface.handle());
+            DowncallHandles.g_type_default_interface_unref.invokeExact(
+                    gIface.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3305,7 +3718,8 @@ public final class GObject {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_type_depth.invokeExact(type.getValue());
+            RESULT = (int) DowncallHandles.g_type_depth.invokeExact(
+                    type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3330,7 +3744,8 @@ public final class GObject {
     public static void typeEnsure(@NotNull org.gtk.glib.Type type) {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         try {
-            DowncallHandles.g_type_ensure.invokeExact(type.getValue());
+            DowncallHandles.g_type_ensure.invokeExact(
+                    type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3347,7 +3762,8 @@ public final class GObject {
     public static void typeFreeInstance(@NotNull org.gtk.gobject.TypeInstance instance) {
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         try {
-            DowncallHandles.g_type_free_instance.invokeExact(instance.handle());
+            DowncallHandles.g_type_free_instance.invokeExact(
+                    instance.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3365,7 +3781,8 @@ public final class GObject {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_type_from_name.invokeExact(Interop.allocateNativeString(name));
+            RESULT = (long) DowncallHandles.g_type_from_name.invokeExact(
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3382,7 +3799,8 @@ public final class GObject {
         java.util.Objects.requireNonNull(typeId, "Parameter 'typeId' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_type_fundamental.invokeExact(typeId.getValue());
+            RESULT = (long) DowncallHandles.g_type_fundamental.invokeExact(
+                    typeId.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3420,7 +3838,8 @@ public final class GObject {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_type_get_instance_count.invokeExact(type.getValue());
+            RESULT = (int) DowncallHandles.g_type_get_instance_count.invokeExact(
+                    type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3437,7 +3856,8 @@ public final class GObject {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_get_plugin.invokeExact(type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_get_plugin.invokeExact(
+                    type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3460,7 +3880,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(quark, "Parameter 'quark' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_get_qdata.invokeExact(type.getValue(), quark.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_get_qdata.invokeExact(
+                    type.getValue().longValue(),
+                    quark.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3515,7 +3937,8 @@ public final class GObject {
     public static void typeInitWithDebugFlags(@NotNull org.gtk.gobject.TypeDebugFlags debugFlags) {
         java.util.Objects.requireNonNull(debugFlags, "Parameter 'debugFlags' must not be null");
         try {
-            DowncallHandles.g_type_init_with_debug_flags.invokeExact(debugFlags.getValue());
+            DowncallHandles.g_type_init_with_debug_flags.invokeExact(
+                    debugFlags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3534,7 +3957,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(interfaceType, "Parameter 'interfaceType' must not be null");
         java.util.Objects.requireNonNull(prerequisiteType, "Parameter 'prerequisiteType' must not be null");
         try {
-            DowncallHandles.g_type_interface_add_prerequisite.invokeExact(interfaceType.getValue(), prerequisiteType.getValue());
+            DowncallHandles.g_type_interface_add_prerequisite.invokeExact(
+                    interfaceType.getValue().longValue(),
+                    prerequisiteType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3555,7 +3980,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(interfaceType, "Parameter 'interfaceType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_interface_get_plugin.invokeExact(instanceType.getValue(), interfaceType.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_interface_get_plugin.invokeExact(
+                    instanceType.getValue().longValue(),
+                    interfaceType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3576,7 +4003,8 @@ public final class GObject {
         java.util.Objects.requireNonNull(interfaceType, "Parameter 'interfaceType' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_type_interface_instantiatable_prerequisite.invokeExact(interfaceType.getValue());
+            RESULT = (long) DowncallHandles.g_type_interface_instantiatable_prerequisite.invokeExact(
+                    interfaceType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3597,7 +4025,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(ifaceType, "Parameter 'ifaceType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_interface_peek.invokeExact(instanceClass.handle(), ifaceType.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_interface_peek.invokeExact(
+                    instanceClass.handle(),
+                    ifaceType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3619,7 +4049,9 @@ public final class GObject {
         MemorySegment nPrerequisitesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_interface_prerequisites.invokeExact(interfaceType.getValue(), (Addressable) nPrerequisitesPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_interface_prerequisites.invokeExact(
+                    interfaceType.getValue().longValue(),
+                    (Addressable) nPrerequisitesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3647,7 +4079,9 @@ public final class GObject {
         MemorySegment nInterfacesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_interfaces.invokeExact(type.getValue(), (Addressable) nInterfacesPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_interfaces.invokeExact(
+                    type.getValue().longValue(),
+                    (Addressable) nInterfacesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3674,7 +4108,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(isAType, "Parameter 'isAType' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_type_is_a.invokeExact(type.getValue(), isAType.getValue());
+            RESULT = (int) DowncallHandles.g_type_is_a.invokeExact(
+                    type.getValue().longValue(),
+                    isAType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3694,33 +4130,36 @@ public final class GObject {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_name.invokeExact(type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_name.invokeExact(
+                    type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     public static @NotNull java.lang.String typeNameFromClass(@NotNull org.gtk.gobject.TypeClass gClass) {
         java.util.Objects.requireNonNull(gClass, "Parameter 'gClass' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_name_from_class.invokeExact(gClass.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_name_from_class.invokeExact(
+                    gClass.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     public static @NotNull java.lang.String typeNameFromInstance(@NotNull org.gtk.gobject.TypeInstance instance) {
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_name_from_instance.invokeExact(instance.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_name_from_instance.invokeExact(
+                    instance.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -3740,7 +4179,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(rootType, "Parameter 'rootType' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_type_next_base.invokeExact(leafType.getValue(), rootType.getValue());
+            RESULT = (long) DowncallHandles.g_type_next_base.invokeExact(
+                    leafType.getValue().longValue(),
+                    rootType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3757,7 +4198,8 @@ public final class GObject {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_type_parent.invokeExact(type.getValue());
+            RESULT = (long) DowncallHandles.g_type_parent.invokeExact(
+                    type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3773,7 +4215,8 @@ public final class GObject {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_type_qname.invokeExact(type.getValue());
+            RESULT = (int) DowncallHandles.g_type_qname.invokeExact(
+                    type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3791,16 +4234,16 @@ public final class GObject {
      * @param query a user provided structure that is
      *     filled in with constant values upon success
      */
-    public static void typeQuery(@NotNull org.gtk.glib.Type type, @NotNull Out<org.gtk.gobject.TypeQuery> query) {
+    public static void typeQuery(@NotNull org.gtk.glib.Type type, @NotNull org.gtk.gobject.TypeQuery query) {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
-        MemorySegment queryPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.g_type_query.invokeExact(type.getValue(), (Addressable) queryPOINTER.address());
+            DowncallHandles.g_type_query.invokeExact(
+                    type.getValue().longValue(),
+                    query.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        query.set(new org.gtk.gobject.TypeQuery(Refcounted.get(queryPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -3822,7 +4265,11 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_type_register_dynamic.invokeExact(parentType.getValue(), Interop.allocateNativeString(typeName), plugin.handle(), flags.getValue());
+            RESULT = (long) DowncallHandles.g_type_register_dynamic.invokeExact(
+                    parentType.getValue().longValue(),
+                    Interop.allocateNativeString(typeName),
+                    plugin.handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3852,7 +4299,12 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_type_register_fundamental.invokeExact(typeId.getValue(), Interop.allocateNativeString(typeName), info.handle(), finfo.handle(), flags.getValue());
+            RESULT = (long) DowncallHandles.g_type_register_fundamental.invokeExact(
+                    typeId.getValue().longValue(),
+                    Interop.allocateNativeString(typeName),
+                    info.handle(),
+                    finfo.handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3878,7 +4330,11 @@ public final class GObject {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_type_register_static.invokeExact(parentType.getValue(), Interop.allocateNativeString(typeName), info.handle(), flags.getValue());
+            RESULT = (long) DowncallHandles.g_type_register_static.invokeExact(
+                    parentType.getValue().longValue(),
+                    Interop.allocateNativeString(typeName),
+                    info.handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3913,7 +4369,7 @@ public final class GObject {
         java.util.Objects.requireNonNull(cacheFunc, "Parameter 'cacheFunc' must not be null");
         try {
             DowncallHandles.g_type_remove_class_cache_func.invokeExact(
-                   (Addressable) (Interop.registerCallback(cacheFunc)), 
+                    (Addressable) (Interop.registerCallback(cacheFunc)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbTypeClassCacheFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
@@ -3933,7 +4389,7 @@ public final class GObject {
         java.util.Objects.requireNonNull(checkFunc, "Parameter 'checkFunc' must not be null");
         try {
             DowncallHandles.g_type_remove_interface_check.invokeExact(
-                   (Addressable) (Interop.registerCallback(checkFunc)), 
+                    (Addressable) (Interop.registerCallback(checkFunc)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbTypeInterfaceCheckFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -3954,7 +4410,10 @@ public final class GObject {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         java.util.Objects.requireNonNull(quark, "Parameter 'quark' must not be null");
         try {
-            DowncallHandles.g_type_set_qdata.invokeExact(type.getValue(), quark.getValue(), data);
+            DowncallHandles.g_type_set_qdata.invokeExact(
+                    type.getValue().longValue(),
+                    quark.getValue().intValue(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3964,7 +4423,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_type_test_flags.invokeExact(type.getValue(), flags);
+            RESULT = (int) DowncallHandles.g_type_test_flags.invokeExact(
+                    type.getValue().longValue(),
+                    flags);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3985,7 +4446,8 @@ public final class GObject {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_value_table_peek.invokeExact(type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_value_table_peek.invokeExact(
+                    type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4017,7 +4479,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(destType, "Parameter 'destType' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_value_type_compatible.invokeExact(srcType.getValue(), destType.getValue());
+            RESULT = (int) DowncallHandles.g_value_type_compatible.invokeExact(
+                    srcType.getValue().longValue(),
+                    destType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4038,7 +4502,9 @@ public final class GObject {
         java.util.Objects.requireNonNull(destType, "Parameter 'destType' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_value_type_transformable.invokeExact(srcType.getValue(), destType.getValue());
+            RESULT = (int) DowncallHandles.g_value_type_transformable.invokeExact(
+                    srcType.getValue().longValue(),
+                    destType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

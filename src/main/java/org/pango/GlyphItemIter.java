@@ -53,8 +53,10 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoGlyphItemIter";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.pango.GlyphItem.getMemoryLayout().withName("glyph_item"),
+        Interop.valueLayout.ADDRESS.withName("glyph_item"),
         Interop.valueLayout.ADDRESS.withName("text"),
         ValueLayout.JAVA_INT.withName("start_glyph"),
         ValueLayout.JAVA_INT.withName("start_index"),
@@ -62,16 +64,194 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
         ValueLayout.JAVA_INT.withName("end_glyph"),
         ValueLayout.JAVA_INT.withName("end_index"),
         ValueLayout.JAVA_INT.withName("end_char")
-    ).withName("PangoGlyphItemIter");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static GlyphItemIter allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        GlyphItemIter newInstance = new GlyphItemIter(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code glyph_item}
+     * @return The value of the field {@code glyph_item}
+     */
+    public org.pango.GlyphItem glyph_item$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("glyph_item"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.pango.GlyphItem(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Change the value of the field {@code glyph_item}
+     * @param glyph_item The new value of the field {@code glyph_item}
+     */
+    public void glyph_item$set(org.pango.GlyphItem glyph_item) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("glyph_item"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), glyph_item.handle());
+    }
+    
+    /**
+     * Get the value of the field {@code text}
+     * @return The value of the field {@code text}
+     */
+    public java.lang.String text$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("text"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringFrom(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code text}
+     * @param text The new value of the field {@code text}
+     */
+    public void text$set(java.lang.String text) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("text"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(text));
+    }
+    
+    /**
+     * Get the value of the field {@code start_glyph}
+     * @return The value of the field {@code start_glyph}
+     */
+    public int start_glyph$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("start_glyph"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code start_glyph}
+     * @param start_glyph The new value of the field {@code start_glyph}
+     */
+    public void start_glyph$set(int start_glyph) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("start_glyph"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), start_glyph);
+    }
+    
+    /**
+     * Get the value of the field {@code start_index}
+     * @return The value of the field {@code start_index}
+     */
+    public int start_index$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code start_index}
+     * @param start_index The new value of the field {@code start_index}
+     */
+    public void start_index$set(int start_index) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), start_index);
+    }
+    
+    /**
+     * Get the value of the field {@code start_char}
+     * @return The value of the field {@code start_char}
+     */
+    public int start_char$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("start_char"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code start_char}
+     * @param start_char The new value of the field {@code start_char}
+     */
+    public void start_char$set(int start_char) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("start_char"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), start_char);
+    }
+    
+    /**
+     * Get the value of the field {@code end_glyph}
+     * @return The value of the field {@code end_glyph}
+     */
+    public int end_glyph$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("end_glyph"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code end_glyph}
+     * @param end_glyph The new value of the field {@code end_glyph}
+     */
+    public void end_glyph$set(int end_glyph) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("end_glyph"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), end_glyph);
+    }
+    
+    /**
+     * Get the value of the field {@code end_index}
+     * @return The value of the field {@code end_index}
+     */
+    public int end_index$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("end_index"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code end_index}
+     * @param end_index The new value of the field {@code end_index}
+     */
+    public void end_index$set(int end_index) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("end_index"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), end_index);
+    }
+    
+    /**
+     * Get the value of the field {@code end_char}
+     * @return The value of the field {@code end_char}
+     */
+    public int end_char$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("end_char"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code end_char}
+     * @param end_char The new value of the field {@code end_char}
+     */
+    public void end_char$set(int end_char) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("end_char"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), end_char);
+    }
+    
+    @ApiStatus.Internal
     public GlyphItemIter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -83,7 +263,8 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.pango.GlyphItemIter copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_glyph_item_iter_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_glyph_item_iter_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,7 +276,8 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.pango_glyph_item_iter_free.invokeExact(handle());
+            DowncallHandles.pango_glyph_item_iter_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,7 +297,10 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_glyph_item_iter_init_end.invokeExact(handle(), glyphItem.handle(), Interop.allocateNativeString(text));
+            RESULT = (int) DowncallHandles.pango_glyph_item_iter_init_end.invokeExact(
+                    handle(),
+                    glyphItem.handle(),
+                    Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,7 +321,10 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_glyph_item_iter_init_start.invokeExact(handle(), glyphItem.handle(), Interop.allocateNativeString(text));
+            RESULT = (int) DowncallHandles.pango_glyph_item_iter_init_start.invokeExact(
+                    handle(),
+                    glyphItem.handle(),
+                    Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,7 +341,8 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean nextCluster() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_glyph_item_iter_next_cluster.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_glyph_item_iter_next_cluster.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,7 +358,8 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean prevCluster() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_glyph_item_iter_prev_cluster.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_glyph_item_iter_prev_cluster.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

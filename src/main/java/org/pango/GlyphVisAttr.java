@@ -23,19 +23,73 @@ public class GlyphVisAttr extends io.github.jwharm.javagi.ResourceBase {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoGlyphVisAttr";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_INT.withName("is_cluster_start"),
         ValueLayout.JAVA_INT.withName("is_color")
-    ).withName("PangoGlyphVisAttr");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static GlyphVisAttr allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        GlyphVisAttr newInstance = new GlyphVisAttr(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code is_cluster_start}
+     * @return The value of the field {@code is_cluster_start}
+     */
+    public int is_cluster_start$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("is_cluster_start"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code is_cluster_start}
+     * @param is_cluster_start The new value of the field {@code is_cluster_start}
+     */
+    public void is_cluster_start$set(int is_cluster_start) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("is_cluster_start"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_cluster_start);
+    }
+    
+    /**
+     * Get the value of the field {@code is_color}
+     * @return The value of the field {@code is_color}
+     */
+    public int is_color$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("is_color"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code is_color}
+     * @param is_color The new value of the field {@code is_color}
+     */
+    public void is_color$set(int is_color) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("is_color"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_color);
+    }
+    
+    @ApiStatus.Internal
     public GlyphVisAttr(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

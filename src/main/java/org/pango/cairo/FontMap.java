@@ -16,6 +16,21 @@ import org.jetbrains.annotations.*;
 public interface FontMap extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to FontMap if its GType is a (or inherits from) "PangoCairoFontMap".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "FontMap" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "PangoCairoFontMap", a ClassCastException will be thrown.
+     */
+    public static FontMap castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoCairoFontMap"))) {
+            return new FontMapImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of PangoCairoFontMap");
+        }
+    }
+    
+    /**
      * Create a {@code PangoContext} for the given fontmap.
      * @return the newly created context; free with g_object_unref().
      * @deprecated Use pango_font_map_create_context() instead.
@@ -24,7 +39,8 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.pango.Context createContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_cairo_font_map_create_context.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_cairo_font_map_create_context.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -38,7 +54,8 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.cairographics.FontType getFontType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_cairo_font_map_get_font_type.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_cairo_font_map_get_font_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -54,7 +71,8 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
     default double getResolution() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.pango_cairo_font_map_get_resolution.invokeExact(handle());
+            RESULT = (double) DowncallHandles.pango_cairo_font_map_get_resolution.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +98,8 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
      */
     default void setDefault() {
         try {
-            DowncallHandles.pango_cairo_font_map_set_default.invokeExact(handle());
+            DowncallHandles.pango_cairo_font_map_set_default.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -98,7 +117,9 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
      */
     default void setResolution(double dpi) {
         try {
-            DowncallHandles.pango_cairo_font_map_set_resolution.invokeExact(handle(), dpi);
+            DowncallHandles.pango_cairo_font_map_set_resolution.invokeExact(
+                    handle(),
+                    dpi);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,7 +203,8 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(fonttype, "Parameter 'fonttype' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_cairo_font_map_new_for_font_type.invokeExact(fonttype.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_cairo_font_map_new_for_font_type.invokeExact(
+                    fonttype.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

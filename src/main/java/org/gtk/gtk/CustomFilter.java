@@ -14,34 +14,46 @@ public class CustomFilter extends org.gtk.gtk.Filter {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkCustomFilter";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public CustomFilter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CustomFilter */
+    /**
+     * Cast object to CustomFilter if its GType is a (or inherits from) "GtkCustomFilter".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CustomFilter" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkCustomFilter", a ClassCastException will be thrown.
+     */
     public static CustomFilter castFrom(org.gtk.gobject.Object gobject) {
-        return new CustomFilter(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCustomFilter"))) {
+            return new CustomFilter(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCustomFilter");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gtk.CustomFilterFunc matchFunc) {
-        java.util.Objects.requireNonNullElse(matchFunc, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
             RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_custom_filter_new.invokeExact(
-                    (Addressable) Linker.nativeLinker().upcallStub(
+                    (Addressable) (matchFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbCustomFilterFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (matchFunc == null ? MemoryAddress.NULL : Interop.registerCallback(matchFunc)), 
+                        Interop.getScope())),
+                    (Addressable) (matchFunc == null ? MemoryAddress.NULL : Interop.registerCallback(matchFunc)),
                     Interop.cbDestroyNotifySymbol()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -76,15 +88,15 @@ public class CustomFilter extends org.gtk.gtk.Filter {
      * @param matchFunc function to filter items
      */
     public void setFilterFunc(@Nullable org.gtk.gtk.CustomFilterFunc matchFunc) {
-        java.util.Objects.requireNonNullElse(matchFunc, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_custom_filter_set_filter_func.invokeExact(handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gtk_custom_filter_set_filter_func.invokeExact(
+                    handle(),
+                    (Addressable) (matchFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbCustomFilterFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (matchFunc == null ? MemoryAddress.NULL : Interop.registerCallback(matchFunc)), 
+                        Interop.getScope())),
+                    (Addressable) (matchFunc == null ? MemoryAddress.NULL : Interop.registerCallback(matchFunc)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

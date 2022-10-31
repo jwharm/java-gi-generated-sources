@@ -44,14 +44,26 @@ public class SpringParams extends io.github.jwharm.javagi.ResourceBase {
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwSpringParams";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static SpringParams allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        SpringParams newInstance = new SpringParams(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public SpringParams(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -59,7 +71,10 @@ public class SpringParams extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructNew(double dampingRatio, double mass, double stiffness) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_spring_params_new.invokeExact(dampingRatio, mass, stiffness), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_spring_params_new.invokeExact(
+                    dampingRatio,
+                    mass,
+                    stiffness), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,7 +108,10 @@ public class SpringParams extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructNewFull(double damping, double mass, double stiffness) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_spring_params_new_full.invokeExact(damping, mass, stiffness), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_spring_params_new_full.invokeExact(
+                    damping,
+                    mass,
+                    stiffness), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,7 +139,8 @@ public class SpringParams extends io.github.jwharm.javagi.ResourceBase {
     public double getDamping() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_spring_params_get_damping.invokeExact(handle());
+            RESULT = (double) DowncallHandles.adw_spring_params_get_damping.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,7 +154,8 @@ public class SpringParams extends io.github.jwharm.javagi.ResourceBase {
     public double getDampingRatio() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_spring_params_get_damping_ratio.invokeExact(handle());
+            RESULT = (double) DowncallHandles.adw_spring_params_get_damping_ratio.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,7 +169,8 @@ public class SpringParams extends io.github.jwharm.javagi.ResourceBase {
     public double getMass() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_spring_params_get_mass.invokeExact(handle());
+            RESULT = (double) DowncallHandles.adw_spring_params_get_mass.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -163,7 +184,8 @@ public class SpringParams extends io.github.jwharm.javagi.ResourceBase {
     public double getStiffness() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_spring_params_get_stiffness.invokeExact(handle());
+            RESULT = (double) DowncallHandles.adw_spring_params_get_stiffness.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,7 +199,8 @@ public class SpringParams extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gnome.adw.SpringParams ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_spring_params_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_spring_params_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -191,7 +214,8 @@ public class SpringParams extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.adw_spring_params_unref.invokeExact(handle());
+            DowncallHandles.adw_spring_params_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

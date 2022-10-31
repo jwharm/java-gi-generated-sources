@@ -16,19 +16,61 @@ public class AttrFontFeatures extends io.github.jwharm.javagi.ResourceBase {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoAttrFontFeatures";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.pango.Attribute.getMemoryLayout().withName("attr"),
         Interop.valueLayout.ADDRESS.withName("features")
-    ).withName("PangoAttrFontFeatures");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static AttrFontFeatures allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        AttrFontFeatures newInstance = new AttrFontFeatures(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code attr}
+     * @return The value of the field {@code attr}
+     */
+    public org.pango.Attribute attr$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("attr"));
+        return new org.pango.Attribute(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    /**
+     * Get the value of the field {@code features}
+     * @return The value of the field {@code features}
+     */
+    public java.lang.String features$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("features"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringFrom(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code features}
+     * @param features The new value of the field {@code features}
+     */
+    public void features$set(java.lang.String features) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("features"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(features));
+    }
+    
+    @ApiStatus.Internal
     public AttrFontFeatures(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -48,7 +90,8 @@ public class AttrFontFeatures extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(features, "Parameter 'features' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_font_features_new.invokeExact(Interop.allocateNativeString(features));
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_font_features_new.invokeExact(
+                    Interop.allocateNativeString(features));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

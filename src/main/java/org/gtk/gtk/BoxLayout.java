@@ -27,28 +27,42 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkBoxLayout";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public BoxLayout(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to BoxLayout */
+    /**
+     * Cast object to BoxLayout if its GType is a (or inherits from) "GtkBoxLayout".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "BoxLayout" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkBoxLayout", a ClassCastException will be thrown.
+     */
     public static BoxLayout castFrom(org.gtk.gobject.Object gobject) {
-        return new BoxLayout(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkBoxLayout"))) {
+            return new BoxLayout(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkBoxLayout");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gtk.Orientation orientation) {
         java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_box_layout_new.invokeExact(orientation.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_box_layout_new.invokeExact(
+                    orientation.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,7 +84,8 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
     public @NotNull org.gtk.gtk.BaselinePosition getBaselinePosition() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_box_layout_get_baseline_position.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_box_layout_get_baseline_position.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,7 +99,8 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
     public boolean getHomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_box_layout_get_homogeneous.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_box_layout_get_homogeneous.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -98,7 +114,8 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
     public int getSpacing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_box_layout_get_spacing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_box_layout_get_spacing.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,7 +135,9 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
     public void setBaselinePosition(@NotNull org.gtk.gtk.BaselinePosition position) {
         java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
         try {
-            DowncallHandles.gtk_box_layout_set_baseline_position.invokeExact(handle(), position.getValue());
+            DowncallHandles.gtk_box_layout_set_baseline_position.invokeExact(
+                    handle(),
+                    position.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -131,7 +150,9 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
      */
     public void setHomogeneous(boolean homogeneous) {
         try {
-            DowncallHandles.gtk_box_layout_set_homogeneous.invokeExact(handle(), homogeneous ? 1 : 0);
+            DowncallHandles.gtk_box_layout_set_homogeneous.invokeExact(
+                    handle(),
+                    homogeneous ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -143,7 +164,9 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
      */
     public void setSpacing(int spacing) {
         try {
-            DowncallHandles.gtk_box_layout_set_spacing.invokeExact(handle(), spacing);
+            DowncallHandles.gtk_box_layout_set_spacing.invokeExact(
+                    handle(),
+                    spacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

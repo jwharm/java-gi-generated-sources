@@ -22,6 +22,8 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoMatrix";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_DOUBLE.withName("xx"),
         ValueLayout.JAVA_DOUBLE.withName("xy"),
@@ -29,16 +31,152 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         ValueLayout.JAVA_DOUBLE.withName("yy"),
         ValueLayout.JAVA_DOUBLE.withName("x0"),
         ValueLayout.JAVA_DOUBLE.withName("y0")
-    ).withName("PangoMatrix");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Matrix allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Matrix newInstance = new Matrix(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code xx}
+     * @return The value of the field {@code xx}
+     */
+    public double xx$get() {
+        var RESULT = (double) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("xx"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code xx}
+     * @param xx The new value of the field {@code xx}
+     */
+    public void xx$set(double xx) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("xx"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), xx);
+    }
+    
+    /**
+     * Get the value of the field {@code xy}
+     * @return The value of the field {@code xy}
+     */
+    public double xy$get() {
+        var RESULT = (double) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("xy"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code xy}
+     * @param xy The new value of the field {@code xy}
+     */
+    public void xy$set(double xy) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("xy"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), xy);
+    }
+    
+    /**
+     * Get the value of the field {@code yx}
+     * @return The value of the field {@code yx}
+     */
+    public double yx$get() {
+        var RESULT = (double) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("yx"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code yx}
+     * @param yx The new value of the field {@code yx}
+     */
+    public void yx$set(double yx) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("yx"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), yx);
+    }
+    
+    /**
+     * Get the value of the field {@code yy}
+     * @return The value of the field {@code yy}
+     */
+    public double yy$get() {
+        var RESULT = (double) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("yy"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code yy}
+     * @param yy The new value of the field {@code yy}
+     */
+    public void yy$set(double yy) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("yy"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), yy);
+    }
+    
+    /**
+     * Get the value of the field {@code x0}
+     * @return The value of the field {@code x0}
+     */
+    public double x0$get() {
+        var RESULT = (double) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("x0"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code x0}
+     * @param x0 The new value of the field {@code x0}
+     */
+    public void x0$set(double x0) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("x0"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), x0);
+    }
+    
+    /**
+     * Get the value of the field {@code y0}
+     * @return The value of the field {@code y0}
+     */
+    public double y0$get() {
+        var RESULT = (double) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("y0"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code y0}
+     * @param y0 The new value of the field {@code y0}
+     */
+    public void y0$set(double y0) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("y0"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y0);
+    }
+    
+    @ApiStatus.Internal
     public Matrix(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -52,7 +190,9 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public void concat(@NotNull org.pango.Matrix newMatrix) {
         java.util.Objects.requireNonNull(newMatrix, "Parameter 'newMatrix' must not be null");
         try {
-            DowncallHandles.pango_matrix_concat.invokeExact(handle(), newMatrix.handle());
+            DowncallHandles.pango_matrix_concat.invokeExact(
+                    handle(),
+                    newMatrix.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,7 +205,8 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.pango.Matrix copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_matrix_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_matrix_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,7 +218,8 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.pango_matrix_free.invokeExact(handle());
+            DowncallHandles.pango_matrix_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,7 +237,8 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public double getFontScaleFactor() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.pango_matrix_get_font_scale_factor.invokeExact(handle());
+            RESULT = (double) DowncallHandles.pango_matrix_get_font_scale_factor.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,7 +262,10 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment xscalePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         MemorySegment yscalePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         try {
-            DowncallHandles.pango_matrix_get_font_scale_factors.invokeExact(handle(), (Addressable) xscalePOINTER.address(), (Addressable) yscalePOINTER.address());
+            DowncallHandles.pango_matrix_get_font_scale_factors.invokeExact(
+                    handle(),
+                    (Addressable) xscalePOINTER.address(),
+                    (Addressable) yscalePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,7 +287,8 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public double getSlantRatio() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.pango_matrix_get_slant_ratio.invokeExact(handle());
+            RESULT = (double) DowncallHandles.pango_matrix_get_slant_ratio.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -156,7 +303,9 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public void rotate(double degrees) {
         try {
-            DowncallHandles.pango_matrix_rotate.invokeExact(handle(), degrees);
+            DowncallHandles.pango_matrix_rotate.invokeExact(
+                    handle(),
+                    degrees);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -172,7 +321,10 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public void scale(double scaleX, double scaleY) {
         try {
-            DowncallHandles.pango_matrix_scale.invokeExact(handle(), scaleX, scaleY);
+            DowncallHandles.pango_matrix_scale.invokeExact(
+                    handle(),
+                    scaleX,
+                    scaleY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,7 +354,10 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment dxPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         MemorySegment dyPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         try {
-            DowncallHandles.pango_matrix_transform_distance.invokeExact(handle(), (Addressable) dxPOINTER.address(), (Addressable) dyPOINTER.address());
+            DowncallHandles.pango_matrix_transform_distance.invokeExact(
+                    handle(),
+                    (Addressable) dxPOINTER.address(),
+                    (Addressable) dyPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,15 +378,15 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * using {@link Pango#extentsToPixels}'s first argument.
      * @param rect in/out bounding box in device units
      */
-    public void transformPixelRectangle(@NotNull Out<org.pango.Rectangle> rect) {
+    public void transformPixelRectangle(@NotNull org.pango.Rectangle rect) {
         java.util.Objects.requireNonNull(rect, "Parameter 'rect' must not be null");
-        MemorySegment rectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.pango_matrix_transform_pixel_rectangle.invokeExact(handle(), (Addressable) rectPOINTER.address());
+            DowncallHandles.pango_matrix_transform_pixel_rectangle.invokeExact(
+                    handle(),
+                    rect.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        rect.set(new org.pango.Rectangle(Refcounted.get(rectPOINTER.get(ValueLayout.ADDRESS, 0), true)));
     }
     
     /**
@@ -245,7 +400,10 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         try {
-            DowncallHandles.pango_matrix_transform_point.invokeExact(handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            DowncallHandles.pango_matrix_transform_point.invokeExact(
+                    handle(),
+                    (Addressable) xPOINTER.address(),
+                    (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -274,15 +432,15 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * example).
      * @param rect in/out bounding box in Pango units
      */
-    public void transformRectangle(@NotNull Out<org.pango.Rectangle> rect) {
+    public void transformRectangle(@NotNull org.pango.Rectangle rect) {
         java.util.Objects.requireNonNull(rect, "Parameter 'rect' must not be null");
-        MemorySegment rectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.pango_matrix_transform_rectangle.invokeExact(handle(), (Addressable) rectPOINTER.address());
+            DowncallHandles.pango_matrix_transform_rectangle.invokeExact(
+                    handle(),
+                    rect.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        rect.set(new org.pango.Rectangle(Refcounted.get(rectPOINTER.get(ValueLayout.ADDRESS, 0), true)));
     }
     
     /**
@@ -294,7 +452,10 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public void translate(double tx, double ty) {
         try {
-            DowncallHandles.pango_matrix_translate.invokeExact(handle(), tx, ty);
+            DowncallHandles.pango_matrix_translate.invokeExact(
+                    handle(),
+                    tx,
+                    ty);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

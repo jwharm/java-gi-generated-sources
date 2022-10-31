@@ -14,12 +14,6 @@ public final class Adw {
     @ApiStatus.Internal static void javagi$ensureInitialized() {}
     
     /**
-     * Indicates an {@link Animation} with an infinite duration.
-     * <p>
-     * This value is mostly used internally.
-     */
-    
-    /**
      * Adwaita major version component (e.g. 1 if the version is 1.2.3).
      */
     public static final int MAJOR_VERSION = 1;
@@ -27,18 +21,18 @@ public final class Adw {
     /**
      * Adwaita micro version component (e.g. 3 if the version is 1.2.3).
      */
-    public static final int MICRO_VERSION = 4;
+    public static final int MICRO_VERSION = 0;
     
     /**
      * Adwaita minor version component (e.g. 2 if the version is 1.2.3).
      */
-    public static final int MINOR_VERSION = 1;
+    public static final int MINOR_VERSION = 2;
     
     /**
      * Adwaita version, encoded as a string, useful for printing and
      * concatenation.
      */
-    public static final java.lang.String VERSION_S = "1.1.4";
+    public static final java.lang.String VERSION_S = "1.2.0";
     
     /**
      * Computes easing with {@code easing} for {@code value}.
@@ -52,7 +46,9 @@ public final class Adw {
         java.util.Objects.requireNonNull(self, "Parameter 'self' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_easing_ease.invokeExact(self.getValue(), value);
+            RESULT = (double) DowncallHandles.adw_easing_ease.invokeExact(
+                    self.getValue(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -71,7 +67,8 @@ public final class Adw {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_get_enable_animations.invokeExact(widget.handle());
+            RESULT = (int) DowncallHandles.adw_get_enable_animations.invokeExact(
+                    widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,11 +184,23 @@ public final class Adw {
     public static double lerp(double a, double b, double t) {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_lerp.invokeExact(a, b, t);
+            RESULT = (double) DowncallHandles.adw_lerp.invokeExact(
+                    a,
+                    b,
+                    t);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
+    }
+    
+    /**
+     * A convenience function for showing an application’s about window.
+     * @param parent the parent top-level window
+     * @param firstPropertyName the name of the first property
+     */
+    public static void showAboutWindow(@Nullable org.gtk.gtk.Window parent, @NotNull java.lang.String firstPropertyName) {
+        throw new UnsupportedOperationException("Operation not supported yet");
     }
     
     private static class DowncallHandles {
@@ -234,6 +243,11 @@ public final class Adw {
         private static final MethodHandle adw_lerp = Interop.downcallHandle(
             "adw_lerp",
             FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+        );
+        
+        private static final MethodHandle adw_show_about_window = Interop.downcallHandle(
+            "adw_show_about_window",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
         );
     }
     

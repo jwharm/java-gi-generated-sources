@@ -25,21 +25,34 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "null";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Snapshot(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Snapshot */
+    /**
+     * Cast object to Snapshot if its GType is a (or inherits from) "null".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Snapshot" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "null", a ClassCastException will be thrown.
+     */
     public static Snapshot castFrom(org.gtk.gobject.Object gobject) {
-        return new Snapshot(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("null"))) {
+            return new Snapshot(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of null");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -74,7 +87,11 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         java.util.Objects.requireNonNull(borderWidth, "Parameter 'borderWidth' must not be null");
         java.util.Objects.requireNonNull(borderColor, "Parameter 'borderColor' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_append_border.invokeExact(handle(), outline.handle(), Interop.allocateNativeArray(borderWidth, false), Interop.allocateNativeArray(borderColor, false));
+            DowncallHandles.gtk_snapshot_append_border.invokeExact(
+                    handle(),
+                    outline.handle(),
+                    Interop.allocateNativeArray(borderWidth, false),
+                    Interop.allocateNativeArray(borderColor, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,7 +108,9 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_snapshot_append_cairo.invokeExact(handle(), bounds.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_snapshot_append_cairo.invokeExact(
+                    handle(),
+                    bounds.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,7 +131,10 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
         java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_append_color.invokeExact(handle(), color.handle(), bounds.handle());
+            DowncallHandles.gtk_snapshot_append_color.invokeExact(
+                    handle(),
+                    color.handle(),
+                    bounds.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,7 +154,13 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         java.util.Objects.requireNonNull(center, "Parameter 'center' must not be null");
         java.util.Objects.requireNonNull(stops, "Parameter 'stops' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_append_conic_gradient.invokeExact(handle(), bounds.handle(), center.handle(), rotation, Interop.allocateNativeArray(stops, false), nStops);
+            DowncallHandles.gtk_snapshot_append_conic_gradient.invokeExact(
+                    handle(),
+                    bounds.handle(),
+                    center.handle(),
+                    rotation,
+                    Interop.allocateNativeArray(stops, false),
+                    nStops);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,7 +179,14 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         java.util.Objects.requireNonNull(outline, "Parameter 'outline' must not be null");
         java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_append_inset_shadow.invokeExact(handle(), outline.handle(), color.handle(), dx, dy, spread, blurRadius);
+            DowncallHandles.gtk_snapshot_append_inset_shadow.invokeExact(
+                    handle(),
+                    outline.handle(),
+                    color.handle(),
+                    dx,
+                    dy,
+                    spread,
+                    blurRadius);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,7 +196,10 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         java.util.Objects.requireNonNull(layout, "Parameter 'layout' must not be null");
         java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_append_layout.invokeExact(handle(), layout.handle(), color.handle());
+            DowncallHandles.gtk_snapshot_append_layout.invokeExact(
+                    handle(),
+                    layout.handle(),
+                    color.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,7 +219,13 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         java.util.Objects.requireNonNull(endPoint, "Parameter 'endPoint' must not be null");
         java.util.Objects.requireNonNull(stops, "Parameter 'stops' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_append_linear_gradient.invokeExact(handle(), bounds.handle(), startPoint.handle(), endPoint.handle(), Interop.allocateNativeArray(stops, false), nStops);
+            DowncallHandles.gtk_snapshot_append_linear_gradient.invokeExact(
+                    handle(),
+                    bounds.handle(),
+                    startPoint.handle(),
+                    endPoint.handle(),
+                    Interop.allocateNativeArray(stops, false),
+                    nStops);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -198,7 +242,9 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     public void appendNode(@NotNull org.gtk.gsk.RenderNode node) {
         java.util.Objects.requireNonNull(node, "Parameter 'node' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_append_node.invokeExact(handle(), node.handle());
+            DowncallHandles.gtk_snapshot_append_node.invokeExact(
+                    handle(),
+                    node.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -217,7 +263,14 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         java.util.Objects.requireNonNull(outline, "Parameter 'outline' must not be null");
         java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_append_outset_shadow.invokeExact(handle(), outline.handle(), color.handle(), dx, dy, spread, blurRadius);
+            DowncallHandles.gtk_snapshot_append_outset_shadow.invokeExact(
+                    handle(),
+                    outline.handle(),
+                    color.handle(),
+                    dx,
+                    dy,
+                    spread,
+                    blurRadius);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -239,7 +292,16 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         java.util.Objects.requireNonNull(center, "Parameter 'center' must not be null");
         java.util.Objects.requireNonNull(stops, "Parameter 'stops' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_append_radial_gradient.invokeExact(handle(), bounds.handle(), center.handle(), hradius, vradius, start, end, Interop.allocateNativeArray(stops, false), nStops);
+            DowncallHandles.gtk_snapshot_append_radial_gradient.invokeExact(
+                    handle(),
+                    bounds.handle(),
+                    center.handle(),
+                    hradius,
+                    vradius,
+                    start,
+                    end,
+                    Interop.allocateNativeArray(stops, false),
+                    nStops);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -259,7 +321,13 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         java.util.Objects.requireNonNull(endPoint, "Parameter 'endPoint' must not be null");
         java.util.Objects.requireNonNull(stops, "Parameter 'stops' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_append_repeating_linear_gradient.invokeExact(handle(), bounds.handle(), startPoint.handle(), endPoint.handle(), Interop.allocateNativeArray(stops, false), nStops);
+            DowncallHandles.gtk_snapshot_append_repeating_linear_gradient.invokeExact(
+                    handle(),
+                    bounds.handle(),
+                    startPoint.handle(),
+                    endPoint.handle(),
+                    Interop.allocateNativeArray(stops, false),
+                    nStops);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -281,7 +349,16 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         java.util.Objects.requireNonNull(center, "Parameter 'center' must not be null");
         java.util.Objects.requireNonNull(stops, "Parameter 'stops' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_append_repeating_radial_gradient.invokeExact(handle(), bounds.handle(), center.handle(), hradius, vradius, start, end, Interop.allocateNativeArray(stops, false), nStops);
+            DowncallHandles.gtk_snapshot_append_repeating_radial_gradient.invokeExact(
+                    handle(),
+                    bounds.handle(),
+                    center.handle(),
+                    hradius,
+                    vradius,
+                    start,
+                    end,
+                    Interop.allocateNativeArray(stops, false),
+                    nStops);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -298,7 +375,10 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         java.util.Objects.requireNonNull(texture, "Parameter 'texture' must not be null");
         java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_append_texture.invokeExact(handle(), texture.handle(), bounds.handle());
+            DowncallHandles.gtk_snapshot_append_texture.invokeExact(
+                    handle(),
+                    texture.handle(),
+                    bounds.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -312,7 +392,8 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     public @Nullable org.gtk.gsk.RenderNode freeToNode() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_snapshot_free_to_node.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_snapshot_free_to_node.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -327,10 +408,11 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @return a newly-created {@code Gdk.Paintable}
      */
     public @Nullable org.gtk.gdk.Paintable freeToPaintable(@Nullable org.gtk.graphene.Size size) {
-        java.util.Objects.requireNonNullElse(size, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_snapshot_free_to_paintable.invokeExact(handle(), size.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_snapshot_free_to_paintable.invokeExact(
+                    handle(),
+                    (Addressable) (size == null ? MemoryAddress.NULL : size.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -347,7 +429,8 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public void glShaderPopTexture() {
         try {
-            DowncallHandles.gtk_snapshot_gl_shader_pop_texture.invokeExact(handle());
+            DowncallHandles.gtk_snapshot_gl_shader_pop_texture.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -361,7 +444,9 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public void perspective(float depth) {
         try {
-            DowncallHandles.gtk_snapshot_perspective.invokeExact(handle(), depth);
+            DowncallHandles.gtk_snapshot_perspective.invokeExact(
+                    handle(),
+                    depth);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -373,7 +458,8 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public void pop() {
         try {
-            DowncallHandles.gtk_snapshot_pop.invokeExact(handle());
+            DowncallHandles.gtk_snapshot_pop.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -394,7 +480,9 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     public void pushBlend(@NotNull org.gtk.gsk.BlendMode blendMode) {
         java.util.Objects.requireNonNull(blendMode, "Parameter 'blendMode' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_push_blend.invokeExact(handle(), blendMode.getValue());
+            DowncallHandles.gtk_snapshot_push_blend.invokeExact(
+                    handle(),
+                    blendMode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -408,7 +496,9 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public void pushBlur(double radius) {
         try {
-            DowncallHandles.gtk_snapshot_push_blur.invokeExact(handle(), radius);
+            DowncallHandles.gtk_snapshot_push_blur.invokeExact(
+                    handle(),
+                    radius);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -423,7 +513,9 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     public void pushClip(@NotNull org.gtk.graphene.Rect bounds) {
         java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_push_clip.invokeExact(handle(), bounds.handle());
+            DowncallHandles.gtk_snapshot_push_clip.invokeExact(
+                    handle(),
+                    bounds.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -441,7 +533,10 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         java.util.Objects.requireNonNull(colorMatrix, "Parameter 'colorMatrix' must not be null");
         java.util.Objects.requireNonNull(colorOffset, "Parameter 'colorOffset' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_push_color_matrix.invokeExact(handle(), colorMatrix.handle(), colorOffset.handle());
+            DowncallHandles.gtk_snapshot_push_color_matrix.invokeExact(
+                    handle(),
+                    colorMatrix.handle(),
+                    colorOffset.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -461,7 +556,9 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public void pushCrossFade(double progress) {
         try {
-            DowncallHandles.gtk_snapshot_push_cross_fade.invokeExact(handle(), progress);
+            DowncallHandles.gtk_snapshot_push_cross_fade.invokeExact(
+                    handle(),
+                    progress);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -523,7 +620,11 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
         java.util.Objects.requireNonNull(takeArgs, "Parameter 'takeArgs' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_push_gl_shader.invokeExact(handle(), shader.handle(), bounds.handle(), takeArgs.refcounted().unowned().handle());
+            DowncallHandles.gtk_snapshot_push_gl_shader.invokeExact(
+                    handle(),
+                    shader.handle(),
+                    bounds.handle(),
+                    takeArgs.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -537,7 +638,9 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public void pushOpacity(double opacity) {
         try {
-            DowncallHandles.gtk_snapshot_push_opacity.invokeExact(handle(), opacity);
+            DowncallHandles.gtk_snapshot_push_opacity.invokeExact(
+                    handle(),
+                    opacity);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -553,9 +656,11 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public void pushRepeat(@NotNull org.gtk.graphene.Rect bounds, @Nullable org.gtk.graphene.Rect childBounds) {
         java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
-        java.util.Objects.requireNonNullElse(childBounds, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_snapshot_push_repeat.invokeExact(handle(), bounds.handle(), childBounds.handle());
+            DowncallHandles.gtk_snapshot_push_repeat.invokeExact(
+                    handle(),
+                    bounds.handle(),
+                    (Addressable) (childBounds == null ? MemoryAddress.NULL : childBounds.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -570,7 +675,9 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     public void pushRoundedClip(@NotNull org.gtk.gsk.RoundedRect bounds) {
         java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_push_rounded_clip.invokeExact(handle(), bounds.handle());
+            DowncallHandles.gtk_snapshot_push_rounded_clip.invokeExact(
+                    handle(),
+                    bounds.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -586,7 +693,10 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     public void pushShadow(org.gtk.gsk.Shadow[] shadow, long nShadows) {
         java.util.Objects.requireNonNull(shadow, "Parameter 'shadow' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_push_shadow.invokeExact(handle(), Interop.allocateNativeArray(shadow, false), nShadows);
+            DowncallHandles.gtk_snapshot_push_shadow.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(shadow, false),
+                    nShadows);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -605,7 +715,13 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     public void renderBackground(@NotNull org.gtk.gtk.StyleContext context, double x, double y, double width, double height) {
         java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_render_background.invokeExact(handle(), context.handle(), x, y, width, height);
+            DowncallHandles.gtk_snapshot_render_background.invokeExact(
+                    handle(),
+                    context.handle(),
+                    x,
+                    y,
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -624,7 +740,13 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     public void renderFocus(@NotNull org.gtk.gtk.StyleContext context, double x, double y, double width, double height) {
         java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_render_focus.invokeExact(handle(), context.handle(), x, y, width, height);
+            DowncallHandles.gtk_snapshot_render_focus.invokeExact(
+                    handle(),
+                    context.handle(),
+                    x,
+                    y,
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -643,7 +765,13 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     public void renderFrame(@NotNull org.gtk.gtk.StyleContext context, double x, double y, double width, double height) {
         java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_render_frame.invokeExact(handle(), context.handle(), x, y, width, height);
+            DowncallHandles.gtk_snapshot_render_frame.invokeExact(
+                    handle(),
+                    context.handle(),
+                    x,
+                    y,
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -663,7 +791,14 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         java.util.Objects.requireNonNull(layout, "Parameter 'layout' must not be null");
         java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_render_insertion_cursor.invokeExact(handle(), context.handle(), x, y, layout.handle(), index, direction.getValue());
+            DowncallHandles.gtk_snapshot_render_insertion_cursor.invokeExact(
+                    handle(),
+                    context.handle(),
+                    x,
+                    y,
+                    layout.handle(),
+                    index,
+                    direction.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -682,7 +817,12 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
         java.util.Objects.requireNonNull(layout, "Parameter 'layout' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_render_layout.invokeExact(handle(), context.handle(), x, y, layout.handle());
+            DowncallHandles.gtk_snapshot_render_layout.invokeExact(
+                    handle(),
+                    context.handle(),
+                    x,
+                    y,
+                    layout.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -695,7 +835,8 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public void restore() {
         try {
-            DowncallHandles.gtk_snapshot_restore.invokeExact(handle());
+            DowncallHandles.gtk_snapshot_restore.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -710,7 +851,9 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public void rotate(float angle) {
         try {
-            DowncallHandles.gtk_snapshot_rotate.invokeExact(handle(), angle);
+            DowncallHandles.gtk_snapshot_rotate.invokeExact(
+                    handle(),
+                    angle);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -726,7 +869,10 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     public void rotate3d(float angle, @NotNull org.gtk.graphene.Vec3 axis) {
         java.util.Objects.requireNonNull(axis, "Parameter 'axis' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_rotate_3d.invokeExact(handle(), angle, axis.handle());
+            DowncallHandles.gtk_snapshot_rotate_3d.invokeExact(
+                    handle(),
+                    angle,
+                    axis.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -747,7 +893,8 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public void save() {
         try {
-            DowncallHandles.gtk_snapshot_save.invokeExact(handle());
+            DowncallHandles.gtk_snapshot_save.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -763,7 +910,10 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public void scale(float factorX, float factorY) {
         try {
-            DowncallHandles.gtk_snapshot_scale.invokeExact(handle(), factorX, factorY);
+            DowncallHandles.gtk_snapshot_scale.invokeExact(
+                    handle(),
+                    factorX,
+                    factorY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -777,7 +927,11 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public void scale3d(float factorX, float factorY, float factorZ) {
         try {
-            DowncallHandles.gtk_snapshot_scale_3d.invokeExact(handle(), factorX, factorY, factorZ);
+            DowncallHandles.gtk_snapshot_scale_3d.invokeExact(
+                    handle(),
+                    factorX,
+                    factorY,
+                    factorZ);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -795,7 +949,8 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     public @Nullable org.gtk.gsk.RenderNode toNode() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_snapshot_to_node.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_snapshot_to_node.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -814,10 +969,11 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @return a new {@code GdkPaintable}
      */
     public @Nullable org.gtk.gdk.Paintable toPaintable(@Nullable org.gtk.graphene.Size size) {
-        java.util.Objects.requireNonNullElse(size, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_snapshot_to_paintable.invokeExact(handle(), size.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_snapshot_to_paintable.invokeExact(
+                    handle(),
+                    (Addressable) (size == null ? MemoryAddress.NULL : size.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -829,9 +985,10 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param transform the transform to apply
      */
     public void transform(@Nullable org.gtk.gsk.Transform transform) {
-        java.util.Objects.requireNonNullElse(transform, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_snapshot_transform.invokeExact(handle(), transform.handle());
+            DowncallHandles.gtk_snapshot_transform.invokeExact(
+                    handle(),
+                    (Addressable) (transform == null ? MemoryAddress.NULL : transform.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -844,7 +1001,9 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     public void transformMatrix(@NotNull org.gtk.graphene.Matrix matrix) {
         java.util.Objects.requireNonNull(matrix, "Parameter 'matrix' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_transform_matrix.invokeExact(handle(), matrix.handle());
+            DowncallHandles.gtk_snapshot_transform_matrix.invokeExact(
+                    handle(),
+                    matrix.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -857,7 +1016,9 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     public void translate(@NotNull org.gtk.graphene.Point point) {
         java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_translate.invokeExact(handle(), point.handle());
+            DowncallHandles.gtk_snapshot_translate.invokeExact(
+                    handle(),
+                    point.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -870,7 +1031,9 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     public void translate3d(@NotNull org.gtk.graphene.Point3D point) {
         java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
         try {
-            DowncallHandles.gtk_snapshot_translate_3d.invokeExact(handle(), point.handle());
+            DowncallHandles.gtk_snapshot_translate_3d.invokeExact(
+                    handle(),
+                    point.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -81,21 +81,34 @@ public class PrintContext extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkPrintContext";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public PrintContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to PrintContext */
+    /**
+     * Cast object to PrintContext if its GType is a (or inherits from) "GtkPrintContext".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "PrintContext" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkPrintContext", a ClassCastException will be thrown.
+     */
     public static PrintContext castFrom(org.gtk.gobject.Object gobject) {
-        return new PrintContext(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPrintContext"))) {
+            return new PrintContext(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkPrintContext");
+        }
     }
     
     /**
@@ -106,7 +119,8 @@ public class PrintContext extends org.gtk.gobject.Object {
     public @NotNull org.pango.Context createPangoContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_create_pango_context.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_create_pango_context.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,7 +135,8 @@ public class PrintContext extends org.gtk.gobject.Object {
     public @NotNull org.pango.Layout createPangoLayout() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_create_pango_layout.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_create_pango_layout.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,7 +151,8 @@ public class PrintContext extends org.gtk.gobject.Object {
     public @NotNull org.cairographics.Context getCairoContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_get_cairo_context.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_get_cairo_context.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,7 +167,8 @@ public class PrintContext extends org.gtk.gobject.Object {
     public double getDpiX() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_print_context_get_dpi_x.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_print_context_get_dpi_x.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -166,7 +183,8 @@ public class PrintContext extends org.gtk.gobject.Object {
     public double getDpiY() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_print_context_get_dpi_y.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_print_context_get_dpi_y.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -193,7 +211,12 @@ public class PrintContext extends org.gtk.gobject.Object {
         MemorySegment rightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_context_get_hard_margins.invokeExact(handle(), (Addressable) topPOINTER.address(), (Addressable) bottomPOINTER.address(), (Addressable) leftPOINTER.address(), (Addressable) rightPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_print_context_get_hard_margins.invokeExact(
+                    handle(),
+                    (Addressable) topPOINTER.address(),
+                    (Addressable) bottomPOINTER.address(),
+                    (Addressable) leftPOINTER.address(),
+                    (Addressable) rightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -211,7 +234,8 @@ public class PrintContext extends org.gtk.gobject.Object {
     public double getHeight() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_print_context_get_height.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_print_context_get_height.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -226,7 +250,8 @@ public class PrintContext extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.PageSetup getPageSetup() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_get_page_setup.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_get_page_setup.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -241,7 +266,8 @@ public class PrintContext extends org.gtk.gobject.Object {
     public @NotNull org.pango.FontMap getPangoFontmap() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_get_pango_fontmap.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_get_pango_fontmap.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -255,7 +281,8 @@ public class PrintContext extends org.gtk.gobject.Object {
     public double getWidth() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_print_context_get_width.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_print_context_get_width.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -276,7 +303,11 @@ public class PrintContext extends org.gtk.gobject.Object {
     public void setCairoContext(@NotNull org.cairographics.Context cr, double dpiX, double dpiY) {
         java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
         try {
-            DowncallHandles.gtk_print_context_set_cairo_context.invokeExact(handle(), cr.handle(), dpiX, dpiY);
+            DowncallHandles.gtk_print_context_set_cairo_context.invokeExact(
+                    handle(),
+                    cr.handle(),
+                    dpiX,
+                    dpiY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

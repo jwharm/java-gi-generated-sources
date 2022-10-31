@@ -37,28 +37,42 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkLinkButton";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public LinkButton(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to LinkButton */
+    /**
+     * Cast object to LinkButton if its GType is a (or inherits from) "GtkLinkButton".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "LinkButton" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkLinkButton", a ClassCastException will be thrown.
+     */
     public static LinkButton castFrom(org.gtk.gobject.Object gobject) {
-        return new LinkButton(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkLinkButton"))) {
+            return new LinkButton(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkLinkButton");
+        }
     }
     
     private static Refcounted constructNew(@NotNull java.lang.String uri) {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_link_button_new.invokeExact(Interop.allocateNativeString(uri)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_link_button_new.invokeExact(
+                    Interop.allocateNativeString(uri)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -75,10 +89,11 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
     
     private static Refcounted constructNewWithLabel(@NotNull java.lang.String uri, @Nullable java.lang.String label) {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_link_button_new_with_label.invokeExact(Interop.allocateNativeString(uri), Interop.allocateNativeString(label)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_link_button_new_with_label.invokeExact(
+                    Interop.allocateNativeString(uri),
+                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label))), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,11 +118,12 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
     public @NotNull java.lang.String getUri() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_link_button_get_uri.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_link_button_get_uri.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -122,7 +138,8 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
     public boolean getVisited() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_link_button_get_visited.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_link_button_get_visited.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,7 +155,9 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
     public void setUri(@NotNull java.lang.String uri) {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         try {
-            DowncallHandles.gtk_link_button_set_uri.invokeExact(handle(), Interop.allocateNativeString(uri));
+            DowncallHandles.gtk_link_button_set_uri.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(uri));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,7 +171,9 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
      */
     public void setVisited(boolean visited) {
         try {
-            DowncallHandles.gtk_link_button_set_visited.invokeExact(handle(), visited ? 1 : 0);
+            DowncallHandles.gtk_link_button_set_visited.invokeExact(
+                    handle(),
+                    visited ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

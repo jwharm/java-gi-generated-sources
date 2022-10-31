@@ -14,28 +14,43 @@ public class BlurNode extends org.gtk.gsk.RenderNode {
         Gsk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GskBlurNode";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public BlurNode(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to BlurNode */
+    /**
+     * Cast object to BlurNode if its GType is a (or inherits from) "GskBlurNode".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "BlurNode" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GskBlurNode", a ClassCastException will be thrown.
+     */
     public static BlurNode castFrom(org.gtk.gobject.Object gobject) {
-        return new BlurNode(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskBlurNode"))) {
+            return new BlurNode(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskBlurNode");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gsk.RenderNode child, float radius) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_blur_node_new.invokeExact(child.handle(), radius), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_blur_node_new.invokeExact(
+                    child.handle(),
+                    radius), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -58,7 +73,8 @@ public class BlurNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.gsk.RenderNode getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_blur_node_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_blur_node_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -72,7 +88,8 @@ public class BlurNode extends org.gtk.gsk.RenderNode {
     public float getRadius() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gsk_blur_node_get_radius.invokeExact(handle());
+            RESULT = (float) DowncallHandles.gsk_blur_node_get_radius.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

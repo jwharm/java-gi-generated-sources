@@ -15,28 +15,41 @@ public class MultiSelection extends org.gtk.gobject.Object implements org.gtk.gi
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkMultiSelection";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public MultiSelection(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to MultiSelection */
+    /**
+     * Cast object to MultiSelection if its GType is a (or inherits from) "GtkMultiSelection".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "MultiSelection" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkMultiSelection", a ClassCastException will be thrown.
+     */
     public static MultiSelection castFrom(org.gtk.gobject.Object gobject) {
-        return new MultiSelection(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMultiSelection"))) {
+            return new MultiSelection(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkMultiSelection");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gio.ListModel model) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_multi_selection_new.invokeExact(model.refcounted().unowned().handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_multi_selection_new.invokeExact(
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.refcounted().unowned().handle())), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -58,7 +71,8 @@ public class MultiSelection extends org.gtk.gobject.Object implements org.gtk.gi
     public @Nullable org.gtk.gio.ListModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_multi_selection_get_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_multi_selection_get_model.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -72,9 +86,10 @@ public class MultiSelection extends org.gtk.gobject.Object implements org.gtk.gi
      * @param model A {@code GListModel} to wrap
      */
     public void setModel(@Nullable org.gtk.gio.ListModel model) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_multi_selection_set_model.invokeExact(handle(), model.handle());
+            DowncallHandles.gtk_multi_selection_set_model.invokeExact(
+                    handle(),
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

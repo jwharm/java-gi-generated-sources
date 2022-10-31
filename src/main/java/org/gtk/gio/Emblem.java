@@ -19,28 +19,42 @@ public class Emblem extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GEmblem";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Emblem(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Emblem */
+    /**
+     * Cast object to Emblem if its GType is a (or inherits from) "GEmblem".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Emblem" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GEmblem", a ClassCastException will be thrown.
+     */
     public static Emblem castFrom(org.gtk.gobject.Object gobject) {
-        return new Emblem(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GEmblem"))) {
+            return new Emblem(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GEmblem");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gio.Icon icon) {
         java.util.Objects.requireNonNull(icon, "Parameter 'icon' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_emblem_new.invokeExact(icon.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_emblem_new.invokeExact(
+                    icon.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -60,7 +74,9 @@ public class Emblem extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
         java.util.Objects.requireNonNull(origin, "Parameter 'origin' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_emblem_new_with_origin.invokeExact(icon.handle(), origin.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_emblem_new_with_origin.invokeExact(
+                    icon.handle(),
+                    origin.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,7 +101,8 @@ public class Emblem extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
     public @NotNull org.gtk.gio.Icon getIcon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_emblem_get_icon.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_emblem_get_icon.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +116,8 @@ public class Emblem extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
     public @NotNull org.gtk.gio.EmblemOrigin getOrigin() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_emblem_get_origin.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_emblem_get_origin.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

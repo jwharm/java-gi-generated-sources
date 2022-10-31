@@ -32,10 +32,6 @@ public final class HarfBuzz {
     public static final int FEATURE_GLOBAL_START = 0;
     
     /**
-     * Unset {@link MapT} value.
-     */
-    
-    /**
      * Special value for language index indicating default or unsupported language.
      */
     public static final int OT_LAYOUT_DEFAULT_LANGUAGE_INDEX = 65535;
@@ -51,10 +47,6 @@ public final class HarfBuzz {
     public static final int OT_LAYOUT_NO_SCRIPT_INDEX = 65535;
     
     /**
-     * Special value for variations index indicating unsupported variation.
-     */
-    
-    /**
      * Maximum number of OpenType tags that can correspond to a give {@link LanguageT}.
      */
     public static final int OT_MAX_TAGS_PER_LANGUAGE = 3;
@@ -63,14 +55,6 @@ public final class HarfBuzz {
      * Maximum number of OpenType tags that can correspond to a give {@link ScriptT}.
      */
     public static final int OT_MAX_TAGS_PER_SCRIPT = 3;
-    
-    /**
-     * Do not use.
-     */
-    
-    /**
-     * Unset {@link SetT} value.
-     */
     
     /**
      * Maximum valid Unicode code point.
@@ -113,7 +97,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(featureType, "Parameter 'featureType' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_aat_layout_feature_type_get_name_id.invokeExact(face.handle(), featureType.getValue());
+            RESULT = (int) DowncallHandles.hb_aat_layout_feature_type_get_name_id.invokeExact(
+                    face.handle(),
+                    featureType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,7 +132,13 @@ public final class HarfBuzz {
         MemorySegment defaultIndexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_aat_layout_feature_type_get_selector_infos.invokeExact(face.handle(), featureType.getValue(), startOffset, (Addressable) selectorCountPOINTER.address(), (Addressable) selectorsPOINTER.address(), (Addressable) defaultIndexPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_aat_layout_feature_type_get_selector_infos.invokeExact(
+                    face.handle(),
+                    featureType.getValue(),
+                    startOffset,
+                    (Addressable) selectorCountPOINTER.address(),
+                    (Addressable) selectorsPOINTER.address(),
+                    (Addressable) defaultIndexPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,7 +170,11 @@ public final class HarfBuzz {
         MemorySegment featuresPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_aat_layout_get_feature_types.invokeExact(face.handle(), startOffset, (Addressable) featureCountPOINTER.address(), (Addressable) featuresPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_aat_layout_get_feature_types.invokeExact(
+                    face.handle(),
+                    startOffset,
+                    (Addressable) featureCountPOINTER.address(),
+                    (Addressable) featuresPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,7 +200,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_aat_layout_has_positioning.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_aat_layout_has_positioning.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,7 +220,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_aat_layout_has_substitution.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_aat_layout_has_substitution.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,7 +238,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_aat_layout_has_tracking.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_aat_layout_has_tracking.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -256,7 +255,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_blob_copy_writable_or_fail.invokeExact(blob.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_blob_copy_writable_or_fail.invokeExact(
+                    blob.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -289,7 +289,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(fileName, "Parameter 'fileName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_blob_create_from_file.invokeExact(Interop.allocateNativeString(fileName));
+            RESULT = (MemoryAddress) DowncallHandles.hb_blob_create_from_file.invokeExact(
+                    Interop.allocateNativeString(fileName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -307,7 +308,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(fileName, "Parameter 'fileName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_blob_create_from_file_or_fail.invokeExact(Interop.allocateNativeString(fileName));
+            RESULT = (MemoryAddress) DowncallHandles.hb_blob_create_from_file_or_fail.invokeExact(
+                    Interop.allocateNativeString(fileName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -351,7 +353,10 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(parent, "Parameter 'parent' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_blob_create_sub_blob.invokeExact(parent.handle(), offset, length);
+            RESULT = (MemoryAddress) DowncallHandles.hb_blob_create_sub_blob.invokeExact(
+                    parent.handle(),
+                    offset,
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -369,7 +374,8 @@ public final class HarfBuzz {
     public static void blobDestroy(@NotNull org.harfbuzz.BlobT blob) {
         java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
         try {
-            DowncallHandles.hb_blob_destroy.invokeExact(blob.handle());
+            DowncallHandles.hb_blob_destroy.invokeExact(
+                    blob.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -387,7 +393,9 @@ public final class HarfBuzz {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_blob_get_data.invokeExact(blob.handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.hb_blob_get_data.invokeExact(
+                    blob.handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -395,7 +403,7 @@ public final class HarfBuzz {
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = OBJ.getUtf8String(0);
+            resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
     }
@@ -417,7 +425,9 @@ public final class HarfBuzz {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_blob_get_data_writable.invokeExact(blob.handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.hb_blob_get_data_writable.invokeExact(
+                    blob.handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -425,7 +435,7 @@ public final class HarfBuzz {
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = OBJ.getUtf8String(0);
+            resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
     }
@@ -455,7 +465,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_blob_get_length.invokeExact(blob.handle());
+            RESULT = (int) DowncallHandles.hb_blob_get_length.invokeExact(
+                    blob.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -474,7 +485,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_blob_get_user_data.invokeExact(blob.handle(), key.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_blob_get_user_data.invokeExact(
+                    blob.handle(),
+                    key.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -490,7 +503,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_blob_is_immutable.invokeExact(blob.handle());
+            RESULT = (int) DowncallHandles.hb_blob_is_immutable.invokeExact(
+                    blob.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -504,7 +518,8 @@ public final class HarfBuzz {
     public static void blobMakeImmutable(@NotNull org.harfbuzz.BlobT blob) {
         java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
         try {
-            DowncallHandles.hb_blob_make_immutable.invokeExact(blob.handle());
+            DowncallHandles.hb_blob_make_immutable.invokeExact(
+                    blob.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -521,7 +536,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_blob_reference.invokeExact(blob.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_blob_reference.invokeExact(
+                    blob.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -558,7 +574,10 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(codepoint, "Parameter 'codepoint' must not be null");
         try {
-            DowncallHandles.hb_buffer_add.invokeExact(buffer.handle(), codepoint.getValue(), cluster);
+            DowncallHandles.hb_buffer_add.invokeExact(
+                    buffer.handle(),
+                    codepoint.getValue().intValue(),
+                    cluster);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -588,7 +607,12 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            DowncallHandles.hb_buffer_add_codepoints.invokeExact(buffer.handle(), Interop.allocateNativeArray(org.harfbuzz.CodepointT.getIntegerValues(text), false), textLength, itemOffset, itemLength);
+            DowncallHandles.hb_buffer_add_codepoints.invokeExact(
+                    buffer.handle(),
+                    Interop.allocateNativeArray(org.harfbuzz.CodepointT.getIntegerValues(text), false),
+                    textLength,
+                    itemOffset,
+                    itemLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -611,7 +635,12 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            DowncallHandles.hb_buffer_add_latin1.invokeExact(buffer.handle(), Interop.allocateNativeArray(text, false), textLength, itemOffset, itemLength);
+            DowncallHandles.hb_buffer_add_latin1.invokeExact(
+                    buffer.handle(),
+                    Interop.allocateNativeArray(text, false),
+                    textLength,
+                    itemOffset,
+                    itemLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -633,7 +662,12 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            DowncallHandles.hb_buffer_add_utf16.invokeExact(buffer.handle(), Interop.allocateNativeArray(text, false), textLength, itemOffset, itemLength);
+            DowncallHandles.hb_buffer_add_utf16.invokeExact(
+                    buffer.handle(),
+                    Interop.allocateNativeArray(text, false),
+                    textLength,
+                    itemOffset,
+                    itemLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -655,7 +689,12 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            DowncallHandles.hb_buffer_add_utf32.invokeExact(buffer.handle(), Interop.allocateNativeArray(text, false), textLength, itemOffset, itemLength);
+            DowncallHandles.hb_buffer_add_utf32.invokeExact(
+                    buffer.handle(),
+                    Interop.allocateNativeArray(text, false),
+                    textLength,
+                    itemOffset,
+                    itemLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -678,7 +717,12 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            DowncallHandles.hb_buffer_add_utf8.invokeExact(buffer.handle(), Interop.allocateNativeArray(text, false), textLength, itemOffset, itemLength);
+            DowncallHandles.hb_buffer_add_utf8.invokeExact(
+                    buffer.handle(),
+                    Interop.allocateNativeArray(text, false),
+                    textLength,
+                    itemOffset,
+                    itemLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -693,7 +737,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_buffer_allocation_successful.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_allocation_successful.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -711,7 +756,11 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(source, "Parameter 'source' must not be null");
         try {
-            DowncallHandles.hb_buffer_append.invokeExact(buffer.handle(), source.handle(), start, end);
+            DowncallHandles.hb_buffer_append.invokeExact(
+                    buffer.handle(),
+                    source.handle(),
+                    start,
+                    end);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -725,7 +774,8 @@ public final class HarfBuzz {
     public static void bufferClearContents(@NotNull org.harfbuzz.BufferT buffer) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         try {
-            DowncallHandles.hb_buffer_clear_contents.invokeExact(buffer.handle());
+            DowncallHandles.hb_buffer_clear_contents.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -759,7 +809,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_create_similar.invokeExact(src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_create_similar.invokeExact(
+                    src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -782,16 +833,21 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
         java.util.Objects.requireNonNull(endPtr, "Parameter 'endPtr' must not be null");
-        java.util.Objects.requireNonNullElse(font, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         MemorySegment endPtrPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_buffer_deserialize_glyphs.invokeExact(buffer.handle(), Interop.allocateNativeArray(buf, false), bufLen, (Addressable) endPtrPOINTER.address(), font.handle(), format.getValue());
+            RESULT = (int) DowncallHandles.hb_buffer_deserialize_glyphs.invokeExact(
+                    buffer.handle(),
+                    Interop.allocateNativeArray(buf, false),
+                    bufLen,
+                    (Addressable) endPtrPOINTER.address(),
+                    (Addressable) (font == null ? MemoryAddress.NULL : font.handle()),
+                    format.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        endPtr.set(endPtrPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        endPtr.set(Interop.getStringFrom(endPtrPOINTER.get(ValueLayout.ADDRESS, 0)));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -814,11 +870,16 @@ public final class HarfBuzz {
         MemorySegment endPtrPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_buffer_deserialize_unicode.invokeExact(buffer.handle(), Interop.allocateNativeArray(buf, false), bufLen, (Addressable) endPtrPOINTER.address(), format.getValue());
+            RESULT = (int) DowncallHandles.hb_buffer_deserialize_unicode.invokeExact(
+                    buffer.handle(),
+                    Interop.allocateNativeArray(buf, false),
+                    bufLen,
+                    (Addressable) endPtrPOINTER.address(),
+                    format.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        endPtr.set(endPtrPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        endPtr.set(Interop.getStringFrom(endPtrPOINTER.get(ValueLayout.ADDRESS, 0)));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -831,7 +892,8 @@ public final class HarfBuzz {
     public static void bufferDestroy(@NotNull org.harfbuzz.BufferT buffer) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         try {
-            DowncallHandles.hb_buffer_destroy.invokeExact(buffer.handle());
+            DowncallHandles.hb_buffer_destroy.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -852,7 +914,11 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(dottedcircleGlyph, "Parameter 'dottedcircleGlyph' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_buffer_diff.invokeExact(buffer.handle(), reference.handle(), dottedcircleGlyph.getValue(), positionFuzz);
+            RESULT = (int) DowncallHandles.hb_buffer_diff.invokeExact(
+                    buffer.handle(),
+                    reference.handle(),
+                    dottedcircleGlyph.getValue().intValue(),
+                    positionFuzz);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -870,7 +936,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_buffer_get_cluster_level.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_get_cluster_level.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -887,7 +954,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_buffer_get_content_type.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_get_content_type.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -903,7 +971,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_buffer_get_direction.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_get_direction.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -933,7 +1002,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_buffer_get_flags.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_get_flags.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -954,7 +1024,9 @@ public final class HarfBuzz {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_get_glyph_infos.invokeExact(buffer.handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_get_glyph_infos.invokeExact(
+                    buffer.handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -986,7 +1058,9 @@ public final class HarfBuzz {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_get_glyph_positions.invokeExact(buffer.handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_get_glyph_positions.invokeExact(
+                    buffer.handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1008,7 +1082,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_buffer_get_invisible_glyph.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_get_invisible_glyph.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1024,7 +1099,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_get_language.invokeExact(buffer.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_get_language.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1041,7 +1117,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_buffer_get_length.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_get_length.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1057,7 +1134,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_buffer_get_not_found_glyph.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_get_not_found_glyph.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1074,7 +1152,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_buffer_get_replacement_codepoint.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_get_replacement_codepoint.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1090,7 +1169,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_buffer_get_script.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_get_script.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1102,16 +1182,16 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @param props The output {@link SegmentPropertiesT}
      */
-    public static void bufferGetSegmentProperties(@NotNull org.harfbuzz.BufferT buffer, @NotNull Out<org.harfbuzz.SegmentPropertiesT> props) {
+    public static void bufferGetSegmentProperties(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.SegmentPropertiesT props) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(props, "Parameter 'props' must not be null");
-        MemorySegment propsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.hb_buffer_get_segment_properties.invokeExact(buffer.handle(), (Addressable) propsPOINTER.address());
+            DowncallHandles.hb_buffer_get_segment_properties.invokeExact(
+                    buffer.handle(),
+                    props.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        props.set(new org.harfbuzz.SegmentPropertiesT(Refcounted.get(propsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -1123,7 +1203,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_get_unicode_funcs.invokeExact(buffer.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_get_unicode_funcs.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1142,7 +1223,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_get_user_data.invokeExact(buffer.handle(), key.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_get_user_data.invokeExact(
+                    buffer.handle(),
+                    key.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1176,7 +1259,8 @@ public final class HarfBuzz {
     public static void bufferGuessSegmentProperties(@NotNull org.harfbuzz.BufferT buffer) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         try {
-            DowncallHandles.hb_buffer_guess_segment_properties.invokeExact(buffer.handle());
+            DowncallHandles.hb_buffer_guess_segment_properties.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1193,7 +1277,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_buffer_has_positions.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_has_positions.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1210,7 +1295,8 @@ public final class HarfBuzz {
     public static void bufferNormalizeGlyphs(@NotNull org.harfbuzz.BufferT buffer) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         try {
-            DowncallHandles.hb_buffer_normalize_glyphs.invokeExact(buffer.handle());
+            DowncallHandles.hb_buffer_normalize_glyphs.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1226,7 +1312,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_buffer_pre_allocate.invokeExact(buffer.handle(), size);
+            RESULT = (int) DowncallHandles.hb_buffer_pre_allocate.invokeExact(
+                    buffer.handle(),
+                    size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1243,7 +1331,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_reference.invokeExact(buffer.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_reference.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1258,7 +1347,8 @@ public final class HarfBuzz {
     public static void bufferReset(@NotNull org.harfbuzz.BufferT buffer) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         try {
-            DowncallHandles.hb_buffer_reset.invokeExact(buffer.handle());
+            DowncallHandles.hb_buffer_reset.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1271,7 +1361,8 @@ public final class HarfBuzz {
     public static void bufferReverse(@NotNull org.harfbuzz.BufferT buffer) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         try {
-            DowncallHandles.hb_buffer_reverse.invokeExact(buffer.handle());
+            DowncallHandles.hb_buffer_reverse.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1286,7 +1377,8 @@ public final class HarfBuzz {
     public static void bufferReverseClusters(@NotNull org.harfbuzz.BufferT buffer) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         try {
-            DowncallHandles.hb_buffer_reverse_clusters.invokeExact(buffer.handle());
+            DowncallHandles.hb_buffer_reverse_clusters.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1301,7 +1393,10 @@ public final class HarfBuzz {
     public static void bufferReverseRange(@NotNull org.harfbuzz.BufferT buffer, int start, int end) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         try {
-            DowncallHandles.hb_buffer_reverse_range.invokeExact(buffer.handle(), start, end);
+            DowncallHandles.hb_buffer_reverse_range.invokeExact(
+                    buffer.handle(),
+                    start,
+                    end);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1331,7 +1426,6 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
         java.util.Objects.requireNonNull(bufConsumed, "Parameter 'bufConsumed' must not be null");
-        java.util.Objects.requireNonNullElse(font, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -1339,7 +1433,16 @@ public final class HarfBuzz {
         MemorySegment bufConsumedPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_buffer_serialize.invokeExact(buffer.handle(), start, end, (Addressable) bufPOINTER.address(), (Addressable) bufSizePOINTER.address(), (Addressable) bufConsumedPOINTER.address(), font.handle(), format.getValue(), flags.getValue());
+            RESULT = (int) DowncallHandles.hb_buffer_serialize.invokeExact(
+                    buffer.handle(),
+                    start,
+                    end,
+                    (Addressable) bufPOINTER.address(),
+                    (Addressable) bufSizePOINTER.address(),
+                    (Addressable) bufConsumedPOINTER.address(),
+                    (Addressable) (font == null ? MemoryAddress.NULL : font.handle()),
+                    format.getValue(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1361,7 +1464,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_buffer_serialize_format_from_string.invokeExact(Interop.allocateNativeArray(str, false), len);
+            RESULT = (int) DowncallHandles.hb_buffer_serialize_format_from_string.invokeExact(
+                    Interop.allocateNativeArray(str, false),
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1378,11 +1483,12 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_serialize_format_to_string.invokeExact(format.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_serialize_format_to_string.invokeExact(
+                    format.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -1447,7 +1553,6 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
         java.util.Objects.requireNonNull(bufConsumed, "Parameter 'bufConsumed' must not be null");
-        java.util.Objects.requireNonNullElse(font, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -1455,7 +1560,16 @@ public final class HarfBuzz {
         MemorySegment bufConsumedPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_buffer_serialize_glyphs.invokeExact(buffer.handle(), start, end, (Addressable) bufPOINTER.address(), (Addressable) bufSizePOINTER.address(), (Addressable) bufConsumedPOINTER.address(), font.handle(), format.getValue(), flags.getValue());
+            RESULT = (int) DowncallHandles.hb_buffer_serialize_glyphs.invokeExact(
+                    buffer.handle(),
+                    start,
+                    end,
+                    (Addressable) bufPOINTER.address(),
+                    (Addressable) bufSizePOINTER.address(),
+                    (Addressable) bufConsumedPOINTER.address(),
+                    (Addressable) (font == null ? MemoryAddress.NULL : font.handle()),
+                    format.getValue(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1536,7 +1650,15 @@ public final class HarfBuzz {
         MemorySegment bufConsumedPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_buffer_serialize_unicode.invokeExact(buffer.handle(), start, end, (Addressable) bufPOINTER.address(), (Addressable) bufSizePOINTER.address(), (Addressable) bufConsumedPOINTER.address(), format.getValue(), flags.getValue());
+            RESULT = (int) DowncallHandles.hb_buffer_serialize_unicode.invokeExact(
+                    buffer.handle(),
+                    start,
+                    end,
+                    (Addressable) bufPOINTER.address(),
+                    (Addressable) bufSizePOINTER.address(),
+                    (Addressable) bufConsumedPOINTER.address(),
+                    format.getValue(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1557,7 +1679,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(clusterLevel, "Parameter 'clusterLevel' must not be null");
         try {
-            DowncallHandles.hb_buffer_set_cluster_level.invokeExact(buffer.handle(), clusterLevel.getValue());
+            DowncallHandles.hb_buffer_set_cluster_level.invokeExact(
+                    buffer.handle(),
+                    clusterLevel.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1573,7 +1697,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
         try {
-            DowncallHandles.hb_buffer_set_content_type.invokeExact(buffer.handle(), contentType.getValue());
+            DowncallHandles.hb_buffer_set_content_type.invokeExact(
+                    buffer.handle(),
+                    contentType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1594,7 +1720,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
         try {
-            DowncallHandles.hb_buffer_set_direction.invokeExact(buffer.handle(), direction.getValue());
+            DowncallHandles.hb_buffer_set_direction.invokeExact(
+                    buffer.handle(),
+                    direction.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1609,7 +1737,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            DowncallHandles.hb_buffer_set_flags.invokeExact(buffer.handle(), flags.getValue());
+            DowncallHandles.hb_buffer_set_flags.invokeExact(
+                    buffer.handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1627,7 +1757,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(invisible, "Parameter 'invisible' must not be null");
         try {
-            DowncallHandles.hb_buffer_set_invisible_glyph.invokeExact(buffer.handle(), invisible.getValue());
+            DowncallHandles.hb_buffer_set_invisible_glyph.invokeExact(
+                    buffer.handle(),
+                    invisible.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1650,7 +1782,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
         try {
-            DowncallHandles.hb_buffer_set_language.invokeExact(buffer.handle(), language.handle());
+            DowncallHandles.hb_buffer_set_language.invokeExact(
+                    buffer.handle(),
+                    language.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1667,7 +1801,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_buffer_set_length.invokeExact(buffer.handle(), length);
+            RESULT = (int) DowncallHandles.hb_buffer_set_length.invokeExact(
+                    buffer.handle(),
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1698,7 +1834,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(notFound, "Parameter 'notFound' must not be null");
         try {
-            DowncallHandles.hb_buffer_set_not_found_glyph.invokeExact(buffer.handle(), notFound.getValue());
+            DowncallHandles.hb_buffer_set_not_found_glyph.invokeExact(
+                    buffer.handle(),
+                    notFound.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1716,7 +1854,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(replacement, "Parameter 'replacement' must not be null");
         try {
-            DowncallHandles.hb_buffer_set_replacement_codepoint.invokeExact(buffer.handle(), replacement.getValue());
+            DowncallHandles.hb_buffer_set_replacement_codepoint.invokeExact(
+                    buffer.handle(),
+                    replacement.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1739,7 +1879,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
         try {
-            DowncallHandles.hb_buffer_set_script.invokeExact(buffer.handle(), script.getValue());
+            DowncallHandles.hb_buffer_set_script.invokeExact(
+                    buffer.handle(),
+                    script.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1756,7 +1898,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(props, "Parameter 'props' must not be null");
         try {
-            DowncallHandles.hb_buffer_set_segment_properties.invokeExact(buffer.handle(), props.handle());
+            DowncallHandles.hb_buffer_set_segment_properties.invokeExact(
+                    buffer.handle(),
+                    props.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1772,7 +1916,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(unicodeFuncs, "Parameter 'unicodeFuncs' must not be null");
         try {
-            DowncallHandles.hb_buffer_set_unicode_funcs.invokeExact(buffer.handle(), unicodeFuncs.handle());
+            DowncallHandles.hb_buffer_set_unicode_funcs.invokeExact(
+                    buffer.handle(),
+                    unicodeFuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1800,7 +1946,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.hb_color_get_alpha.invokeExact(color.getValue());
+            RESULT = (byte) DowncallHandles.hb_color_get_alpha.invokeExact(
+                    color.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1816,7 +1963,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.hb_color_get_blue.invokeExact(color.getValue());
+            RESULT = (byte) DowncallHandles.hb_color_get_blue.invokeExact(
+                    color.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1832,7 +1980,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.hb_color_get_green.invokeExact(color.getValue());
+            RESULT = (byte) DowncallHandles.hb_color_get_green.invokeExact(
+                    color.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1848,7 +1997,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.hb_color_get_red.invokeExact(color.getValue());
+            RESULT = (byte) DowncallHandles.hb_color_get_red.invokeExact(
+                    color.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1870,7 +2020,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_direction_from_string.invokeExact(Interop.allocateNativeArray(str, false), len);
+            RESULT = (int) DowncallHandles.hb_direction_from_string.invokeExact(
+                    Interop.allocateNativeArray(str, false),
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1886,11 +2038,12 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_direction_to_string.invokeExact(direction.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.hb_direction_to_string.invokeExact(
+                    direction.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -1901,10 +2054,12 @@ public final class HarfBuzz {
      */
     public static void drawClosePath(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull org.harfbuzz.DrawStateT st) {
         java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
-        java.util.Objects.requireNonNullElse(drawData, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(st, "Parameter 'st' must not be null");
         try {
-            DowncallHandles.hb_draw_close_path.invokeExact(dfuncs.handle(), drawData, st.handle());
+            DowncallHandles.hb_draw_close_path.invokeExact(
+                    dfuncs.handle(),
+                    (Addressable) (drawData == null ? MemoryAddress.NULL : drawData),
+                    st.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1924,10 +2079,18 @@ public final class HarfBuzz {
      */
     public static void drawCubicTo(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull org.harfbuzz.DrawStateT st, float control1X, float control1Y, float control2X, float control2Y, float toX, float toY) {
         java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
-        java.util.Objects.requireNonNullElse(drawData, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(st, "Parameter 'st' must not be null");
         try {
-            DowncallHandles.hb_draw_cubic_to.invokeExact(dfuncs.handle(), drawData, st.handle(), control1X, control1Y, control2X, control2Y, toX, toY);
+            DowncallHandles.hb_draw_cubic_to.invokeExact(
+                    dfuncs.handle(),
+                    (Addressable) (drawData == null ? MemoryAddress.NULL : drawData),
+                    st.handle(),
+                    control1X,
+                    control1Y,
+                    control2X,
+                    control2Y,
+                    toX,
+                    toY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1960,7 +2123,8 @@ public final class HarfBuzz {
     public static void drawFuncsDestroy(@NotNull org.harfbuzz.DrawFuncsT dfuncs) {
         java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
         try {
-            DowncallHandles.hb_draw_funcs_destroy.invokeExact(dfuncs.handle());
+            DowncallHandles.hb_draw_funcs_destroy.invokeExact(
+                    dfuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1975,7 +2139,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_draw_funcs_is_immutable.invokeExact(dfuncs.handle());
+            RESULT = (int) DowncallHandles.hb_draw_funcs_is_immutable.invokeExact(
+                    dfuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1989,7 +2154,8 @@ public final class HarfBuzz {
     public static void drawFuncsMakeImmutable(@NotNull org.harfbuzz.DrawFuncsT dfuncs) {
         java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
         try {
-            DowncallHandles.hb_draw_funcs_make_immutable.invokeExact(dfuncs.handle());
+            DowncallHandles.hb_draw_funcs_make_immutable.invokeExact(
+                    dfuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2005,7 +2171,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_draw_funcs_reference.invokeExact(dfuncs.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_draw_funcs_reference.invokeExact(
+                    dfuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2077,10 +2244,14 @@ public final class HarfBuzz {
      */
     public static void drawLineTo(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull org.harfbuzz.DrawStateT st, float toX, float toY) {
         java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
-        java.util.Objects.requireNonNullElse(drawData, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(st, "Parameter 'st' must not be null");
         try {
-            DowncallHandles.hb_draw_line_to.invokeExact(dfuncs.handle(), drawData, st.handle(), toX, toY);
+            DowncallHandles.hb_draw_line_to.invokeExact(
+                    dfuncs.handle(),
+                    (Addressable) (drawData == null ? MemoryAddress.NULL : drawData),
+                    st.handle(),
+                    toX,
+                    toY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2096,10 +2267,14 @@ public final class HarfBuzz {
      */
     public static void drawMoveTo(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull org.harfbuzz.DrawStateT st, float toX, float toY) {
         java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
-        java.util.Objects.requireNonNullElse(drawData, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(st, "Parameter 'st' must not be null");
         try {
-            DowncallHandles.hb_draw_move_to.invokeExact(dfuncs.handle(), drawData, st.handle(), toX, toY);
+            DowncallHandles.hb_draw_move_to.invokeExact(
+                    dfuncs.handle(),
+                    (Addressable) (drawData == null ? MemoryAddress.NULL : drawData),
+                    st.handle(),
+                    toX,
+                    toY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2117,10 +2292,16 @@ public final class HarfBuzz {
      */
     public static void drawQuadraticTo(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull org.harfbuzz.DrawStateT st, float controlX, float controlY, float toX, float toY) {
         java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
-        java.util.Objects.requireNonNullElse(drawData, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(st, "Parameter 'st' must not be null");
         try {
-            DowncallHandles.hb_draw_quadratic_to.invokeExact(dfuncs.handle(), drawData, st.handle(), controlX, controlY, toX, toY);
+            DowncallHandles.hb_draw_quadratic_to.invokeExact(
+                    dfuncs.handle(),
+                    (Addressable) (drawData == null ? MemoryAddress.NULL : drawData),
+                    st.handle(),
+                    controlX,
+                    controlY,
+                    toX,
+                    toY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2139,7 +2320,10 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_face_builder_add_table.invokeExact(face.handle(), tag.getValue(), blob.handle());
+            RESULT = (int) DowncallHandles.hb_face_builder_add_table.invokeExact(
+                    face.handle(),
+                    tag.getValue().intValue(),
+                    blob.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2172,7 +2356,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(out, "Parameter 'out' must not be null");
         try {
-            DowncallHandles.hb_face_collect_unicodes.invokeExact(face.handle(), out.handle());
+            DowncallHandles.hb_face_collect_unicodes.invokeExact(
+                    face.handle(),
+                    out.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2188,7 +2374,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(out, "Parameter 'out' must not be null");
         try {
-            DowncallHandles.hb_face_collect_variation_selectors.invokeExact(face.handle(), out.handle());
+            DowncallHandles.hb_face_collect_variation_selectors.invokeExact(
+                    face.handle(),
+                    out.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2206,7 +2394,10 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(variationSelector, "Parameter 'variationSelector' must not be null");
         java.util.Objects.requireNonNull(out, "Parameter 'out' must not be null");
         try {
-            DowncallHandles.hb_face_collect_variation_unicodes.invokeExact(face.handle(), variationSelector.getValue(), out.handle());
+            DowncallHandles.hb_face_collect_variation_unicodes.invokeExact(
+                    face.handle(),
+                    variationSelector.getValue().intValue(),
+                    out.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2221,7 +2412,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_face_count.invokeExact(blob.handle());
+            RESULT = (int) DowncallHandles.hb_face_count.invokeExact(
+                    blob.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2251,7 +2443,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_face_create.invokeExact(blob.handle(), index);
+            RESULT = (MemoryAddress) DowncallHandles.hb_face_create.invokeExact(
+                    blob.handle(),
+                    index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2284,7 +2478,8 @@ public final class HarfBuzz {
     public static void faceDestroy(@NotNull org.harfbuzz.FaceT face) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         try {
-            DowncallHandles.hb_face_destroy.invokeExact(face.handle());
+            DowncallHandles.hb_face_destroy.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2313,7 +2508,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_face_get_glyph_count.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_face_get_glyph_count.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2331,7 +2527,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_face_get_index.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_face_get_index.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2356,7 +2553,11 @@ public final class HarfBuzz {
         MemorySegment tableTagsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_face_get_table_tags.invokeExact(face.handle(), startOffset, (Addressable) tableCountPOINTER.address(), (Addressable) tableTagsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_face_get_table_tags.invokeExact(
+                    face.handle(),
+                    startOffset,
+                    (Addressable) tableCountPOINTER.address(),
+                    (Addressable) tableTagsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2379,7 +2580,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_face_get_upem.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_face_get_upem.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2398,7 +2600,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_face_get_user_data.invokeExact(face.handle(), key.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_face_get_user_data.invokeExact(
+                    face.handle(),
+                    key.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2414,7 +2618,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_face_is_immutable.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_face_is_immutable.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2428,7 +2633,8 @@ public final class HarfBuzz {
     public static void faceMakeImmutable(@NotNull org.harfbuzz.FaceT face) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         try {
-            DowncallHandles.hb_face_make_immutable.invokeExact(face.handle());
+            DowncallHandles.hb_face_make_immutable.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2443,7 +2649,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_face_reference.invokeExact(face.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_face_reference.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2461,7 +2668,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_face_reference_blob.invokeExact(face.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_face_reference_blob.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2480,7 +2688,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_face_reference_table.invokeExact(face.handle(), tag.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.hb_face_reference_table.invokeExact(
+                    face.handle(),
+                    tag.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2495,7 +2705,9 @@ public final class HarfBuzz {
     public static void faceSetGlyphCount(@NotNull org.harfbuzz.FaceT face, int glyphCount) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         try {
-            DowncallHandles.hb_face_set_glyph_count.invokeExact(face.handle(), glyphCount);
+            DowncallHandles.hb_face_set_glyph_count.invokeExact(
+                    face.handle(),
+                    glyphCount);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2513,7 +2725,9 @@ public final class HarfBuzz {
     public static void faceSetIndex(@NotNull org.harfbuzz.FaceT face, int index) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         try {
-            DowncallHandles.hb_face_set_index.invokeExact(face.handle(), index);
+            DowncallHandles.hb_face_set_index.invokeExact(
+                    face.handle(),
+                    index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2527,7 +2741,9 @@ public final class HarfBuzz {
     public static void faceSetUpem(@NotNull org.harfbuzz.FaceT face, int upem) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         try {
-            DowncallHandles.hb_face_set_upem.invokeExact(face.handle(), upem);
+            DowncallHandles.hb_face_set_upem.invokeExact(
+                    face.handle(),
+                    upem);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2589,17 +2805,18 @@ public final class HarfBuzz {
      * @param feature the {@link FeatureT} to initialize with the parsed values
      * @return {@code true} if {@code str} is successfully parsed, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT featureFromString(byte[] str, int len, @NotNull Out<org.harfbuzz.FeatureT> feature) {
+    public static @NotNull org.harfbuzz.BoolT featureFromString(byte[] str, int len, @NotNull org.harfbuzz.FeatureT feature) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         java.util.Objects.requireNonNull(feature, "Parameter 'feature' must not be null");
-        MemorySegment featurePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_feature_from_string.invokeExact(Interop.allocateNativeArray(str, false), len, (Addressable) featurePOINTER.address());
+            RESULT = (int) DowncallHandles.hb_feature_from_string.invokeExact(
+                    Interop.allocateNativeArray(str, false),
+                    len,
+                    feature.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        feature.set(new org.harfbuzz.FeatureT(Refcounted.get(featurePOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -2617,7 +2834,10 @@ public final class HarfBuzz {
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.hb_feature_to_string.invokeExact(feature.handle(), (Addressable) bufPOINTER.address(), (Addressable) sizePOINTER.address());
+            DowncallHandles.hb_feature_to_string.invokeExact(
+                    feature.handle(),
+                    (Addressable) bufPOINTER.address(),
+                    (Addressable) sizePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2625,7 +2845,7 @@ public final class HarfBuzz {
         java.lang.String[] bufARRAY = new java.lang.String[size.get().intValue()];
         for (int I = 0; I < size.get().intValue(); I++) {
             var OBJ = bufPOINTER.get(ValueLayout.ADDRESS, I);
-            bufARRAY[I] = OBJ.getUtf8String(0);
+            bufARRAY[I] = Interop.getStringFrom(OBJ);
         }
         buf.set(bufARRAY);
     }
@@ -2653,7 +2873,12 @@ public final class HarfBuzz {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.hb_font_add_glyph_origin_for_direction.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            DowncallHandles.hb_font_add_glyph_origin_for_direction.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue(),
+                    direction.getValue(),
+                    (Addressable) xPOINTER.address(),
+                    (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2677,7 +2902,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_font_create.invokeExact(face.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_create.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2694,7 +2920,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(parent, "Parameter 'parent' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_font_create_sub_font.invokeExact(parent.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_create_sub_font.invokeExact(
+                    parent.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2710,7 +2937,8 @@ public final class HarfBuzz {
     public static void fontDestroy(@NotNull org.harfbuzz.FontT font) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            DowncallHandles.hb_font_destroy.invokeExact(font.handle());
+            DowncallHandles.hb_font_destroy.invokeExact(
+                    font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2739,7 +2967,8 @@ public final class HarfBuzz {
     public static void fontFuncsDestroy(@NotNull org.harfbuzz.FontFuncsT ffuncs) {
         java.util.Objects.requireNonNull(ffuncs, "Parameter 'ffuncs' must not be null");
         try {
-            DowncallHandles.hb_font_funcs_destroy.invokeExact(ffuncs.handle());
+            DowncallHandles.hb_font_funcs_destroy.invokeExact(
+                    ffuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2771,7 +3000,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_font_funcs_get_user_data.invokeExact(ffuncs.handle(), key.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_funcs_get_user_data.invokeExact(
+                    ffuncs.handle(),
+                    key.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2787,7 +3018,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(ffuncs, "Parameter 'ffuncs' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_font_funcs_is_immutable.invokeExact(ffuncs.handle());
+            RESULT = (int) DowncallHandles.hb_font_funcs_is_immutable.invokeExact(
+                    ffuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2801,7 +3033,8 @@ public final class HarfBuzz {
     public static void fontFuncsMakeImmutable(@NotNull org.harfbuzz.FontFuncsT ffuncs) {
         java.util.Objects.requireNonNull(ffuncs, "Parameter 'ffuncs' must not be null");
         try {
-            DowncallHandles.hb_font_funcs_make_immutable.invokeExact(ffuncs.handle());
+            DowncallHandles.hb_font_funcs_make_immutable.invokeExact(
+                    ffuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2816,7 +3049,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(ffuncs, "Parameter 'ffuncs' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_font_funcs_reference.invokeExact(ffuncs.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_funcs_reference.invokeExact(
+                    ffuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3072,17 +3306,18 @@ public final class HarfBuzz {
      * @param direction The direction of the text segment
      * @param extents The {@link FontExtentsT} retrieved
      */
-    public static void fontGetExtentsForDirection(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.DirectionT direction, @NotNull Out<org.harfbuzz.FontExtentsT> extents) {
+    public static void fontGetExtentsForDirection(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.DirectionT direction, @NotNull org.harfbuzz.FontExtentsT extents) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
         java.util.Objects.requireNonNull(extents, "Parameter 'extents' must not be null");
-        MemorySegment extentsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.hb_font_get_extents_for_direction.invokeExact(font.handle(), direction.getValue(), (Addressable) extentsPOINTER.address());
+            DowncallHandles.hb_font_get_extents_for_direction.invokeExact(
+                    font.handle(),
+                    direction.getValue(),
+                    extents.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        extents.set(new org.harfbuzz.FontExtentsT(Refcounted.get(extentsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -3094,7 +3329,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_font_get_face.invokeExact(font.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_get_face.invokeExact(
+                    font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3121,7 +3357,11 @@ public final class HarfBuzz {
         MemorySegment glyphPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_font_get_glyph.invokeExact(font.handle(), unicode.getValue(), variationSelector.getValue(), (Addressable) glyphPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph.invokeExact(
+                    font.handle(),
+                    unicode.getValue().intValue(),
+                    variationSelector.getValue().intValue(),
+                    (Addressable) glyphPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3150,7 +3390,12 @@ public final class HarfBuzz {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.hb_font_get_glyph_advance_for_direction.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            DowncallHandles.hb_font_get_glyph_advance_for_direction.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue(),
+                    direction.getValue(),
+                    (Addressable) xPOINTER.address(),
+                    (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3181,7 +3426,14 @@ public final class HarfBuzz {
         MemorySegment firstAdvancePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment advanceStridePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.hb_font_get_glyph_advances_for_direction.invokeExact(font.handle(), direction.getValue(), count, new PointerInteger(firstGlyph.getValue()).handle(), glyphStride, (Addressable) firstAdvancePOINTER.address(), (Addressable) advanceStridePOINTER.address());
+            DowncallHandles.hb_font_get_glyph_advances_for_direction.invokeExact(
+                    font.handle(),
+                    direction.getValue(),
+                    count,
+                    new PointerInteger(firstGlyph.getValue().intValue()).handle(),
+                    glyphStride,
+                    (Addressable) firstAdvancePOINTER.address(),
+                    (Addressable) advanceStridePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3209,7 +3461,12 @@ public final class HarfBuzz {
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_font_get_glyph_contour_point.invokeExact(font.handle(), glyph.getValue(), pointIndex, (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_contour_point.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue(),
+                    pointIndex,
+                    (Addressable) xPOINTER.address(),
+                    (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3243,7 +3500,13 @@ public final class HarfBuzz {
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_font_get_glyph_contour_point_for_origin.invokeExact(font.handle(), glyph.getValue(), pointIndex, direction.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_contour_point_for_origin.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue(),
+                    pointIndex,
+                    direction.getValue(),
+                    (Addressable) xPOINTER.address(),
+                    (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3260,18 +3523,19 @@ public final class HarfBuzz {
      * @param extents The {@link GlyphExtentsT} retrieved
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontGetGlyphExtents(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull Out<org.harfbuzz.GlyphExtentsT> extents) {
+    public static @NotNull org.harfbuzz.BoolT fontGetGlyphExtents(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.GlyphExtentsT extents) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         java.util.Objects.requireNonNull(extents, "Parameter 'extents' must not be null");
-        MemorySegment extentsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_font_get_glyph_extents.invokeExact(font.handle(), glyph.getValue(), (Addressable) extentsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_extents.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue(),
+                    extents.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        extents.set(new org.harfbuzz.GlyphExtentsT(Refcounted.get(extentsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -3288,19 +3552,21 @@ public final class HarfBuzz {
      * @param extents The {@link GlyphExtentsT} retrieved
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontGetGlyphExtentsForOrigin(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DirectionT direction, @NotNull Out<org.harfbuzz.GlyphExtentsT> extents) {
+    public static @NotNull org.harfbuzz.BoolT fontGetGlyphExtentsForOrigin(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DirectionT direction, @NotNull org.harfbuzz.GlyphExtentsT extents) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
         java.util.Objects.requireNonNull(extents, "Parameter 'extents' must not be null");
-        MemorySegment extentsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_font_get_glyph_extents_for_origin.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), (Addressable) extentsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_extents_for_origin.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue(),
+                    direction.getValue(),
+                    extents.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        extents.set(new org.harfbuzz.GlyphExtentsT(Refcounted.get(extentsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -3321,7 +3587,11 @@ public final class HarfBuzz {
         MemorySegment glyphPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_font_get_glyph_from_name.invokeExact(font.handle(), Interop.allocateNativeArray(name, false), len, (Addressable) glyphPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_from_name.invokeExact(
+                    font.handle(),
+                    Interop.allocateNativeArray(name, false),
+                    len,
+                    (Addressable) glyphPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3341,7 +3611,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_font_get_glyph_h_advance.invokeExact(font.handle(), glyph.getValue());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_h_advance.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3365,7 +3637,13 @@ public final class HarfBuzz {
         PointerInteger firstGlyphPOINTER = new PointerInteger(firstGlyph.getValue());
         MemorySegment firstAdvancePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.hb_font_get_glyph_h_advances.invokeExact(font.handle(), count, new PointerInteger(firstGlyph.getValue()).handle(), glyphStride, (Addressable) firstAdvancePOINTER.address(), advanceStride);
+            DowncallHandles.hb_font_get_glyph_h_advances.invokeExact(
+                    font.handle(),
+                    count,
+                    new PointerInteger(firstGlyph.getValue().intValue()).handle(),
+                    glyphStride,
+                    (Addressable) firstAdvancePOINTER.address(),
+                    advanceStride);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3390,7 +3668,10 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(rightGlyph, "Parameter 'rightGlyph' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_font_get_glyph_h_kerning.invokeExact(font.handle(), leftGlyph.getValue(), rightGlyph.getValue());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_h_kerning.invokeExact(
+                    font.handle(),
+                    leftGlyph.getValue().intValue(),
+                    rightGlyph.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3415,7 +3696,11 @@ public final class HarfBuzz {
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_font_get_glyph_h_origin.invokeExact(font.handle(), glyph.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_h_origin.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue(),
+                    (Addressable) xPOINTER.address(),
+                    (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3446,7 +3731,13 @@ public final class HarfBuzz {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.hb_font_get_glyph_kerning_for_direction.invokeExact(font.handle(), firstGlyph.getValue(), secondGlyph.getValue(), direction.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            DowncallHandles.hb_font_get_glyph_kerning_for_direction.invokeExact(
+                    font.handle(),
+                    firstGlyph.getValue().intValue(),
+                    secondGlyph.getValue().intValue(),
+                    direction.getValue(),
+                    (Addressable) xPOINTER.address(),
+                    (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3470,7 +3761,11 @@ public final class HarfBuzz {
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_font_get_glyph_name.invokeExact(font.handle(), glyph.getValue(), (Addressable) namePOINTER.address(), (Addressable) sizePOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_name.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue(),
+                    (Addressable) namePOINTER.address(),
+                    (Addressable) sizePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3478,7 +3773,7 @@ public final class HarfBuzz {
         java.lang.String[] nameARRAY = new java.lang.String[size.get().intValue()];
         for (int I = 0; I < size.get().intValue(); I++) {
             var OBJ = namePOINTER.get(ValueLayout.ADDRESS, I);
-            nameARRAY[I] = OBJ.getUtf8String(0);
+            nameARRAY[I] = Interop.getStringFrom(OBJ);
         }
         name.set(nameARRAY);
         return new org.harfbuzz.BoolT(RESULT);
@@ -3505,7 +3800,12 @@ public final class HarfBuzz {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.hb_font_get_glyph_origin_for_direction.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            DowncallHandles.hb_font_get_glyph_origin_for_direction.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue(),
+                    direction.getValue(),
+                    (Addressable) xPOINTER.address(),
+                    (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3526,9 +3826,12 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
-        java.util.Objects.requireNonNullElse(drawData, MemoryAddress.NULL);
         try {
-            DowncallHandles.hb_font_get_glyph_shape.invokeExact(font.handle(), glyph.getValue(), dfuncs.handle(), drawData);
+            DowncallHandles.hb_font_get_glyph_shape.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue(),
+                    dfuncs.handle(),
+                    (Addressable) (drawData == null ? MemoryAddress.NULL : drawData));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3546,7 +3849,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_font_get_glyph_v_advance.invokeExact(font.handle(), glyph.getValue());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_v_advance.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3571,7 +3876,13 @@ public final class HarfBuzz {
         MemorySegment firstAdvancePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment advanceStridePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.hb_font_get_glyph_v_advances.invokeExact(font.handle(), count, new PointerInteger(firstGlyph.getValue()).handle(), glyphStride, (Addressable) firstAdvancePOINTER.address(), (Addressable) advanceStridePOINTER.address());
+            DowncallHandles.hb_font_get_glyph_v_advances.invokeExact(
+                    font.handle(),
+                    count,
+                    new PointerInteger(firstGlyph.getValue().intValue()).handle(),
+                    glyphStride,
+                    (Addressable) firstAdvancePOINTER.address(),
+                    (Addressable) advanceStridePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3598,7 +3909,10 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(bottomGlyph, "Parameter 'bottomGlyph' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_font_get_glyph_v_kerning.invokeExact(font.handle(), topGlyph.getValue(), bottomGlyph.getValue());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_v_kerning.invokeExact(
+                    font.handle(),
+                    topGlyph.getValue().intValue(),
+                    bottomGlyph.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3623,7 +3937,11 @@ public final class HarfBuzz {
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_font_get_glyph_v_origin.invokeExact(font.handle(), glyph.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_v_origin.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue(),
+                    (Addressable) xPOINTER.address(),
+                    (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3639,17 +3957,17 @@ public final class HarfBuzz {
      * @param extents The font extents retrieved
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontGetHExtents(@NotNull org.harfbuzz.FontT font, @NotNull Out<org.harfbuzz.FontExtentsT> extents) {
+    public static @NotNull org.harfbuzz.BoolT fontGetHExtents(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.FontExtentsT extents) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(extents, "Parameter 'extents' must not be null");
-        MemorySegment extentsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_font_get_h_extents.invokeExact(font.handle(), (Addressable) extentsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_h_extents.invokeExact(
+                    font.handle(),
+                    extents.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        extents.set(new org.harfbuzz.FontExtentsT(Refcounted.get(extentsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -3672,7 +3990,10 @@ public final class HarfBuzz {
         MemorySegment glyphPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_font_get_nominal_glyph.invokeExact(font.handle(), unicode.getValue(), (Addressable) glyphPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_nominal_glyph.invokeExact(
+                    font.handle(),
+                    unicode.getValue().intValue(),
+                    (Addressable) glyphPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3699,7 +4020,13 @@ public final class HarfBuzz {
         MemorySegment firstGlyphPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_font_get_nominal_glyphs.invokeExact(font.handle(), count, new PointerInteger(firstUnicode.getValue()).handle(), unicodeStride, (Addressable) firstGlyphPOINTER.address(), glyphStride);
+            RESULT = (int) DowncallHandles.hb_font_get_nominal_glyphs.invokeExact(
+                    font.handle(),
+                    count,
+                    new PointerInteger(firstUnicode.getValue().intValue()).handle(),
+                    unicodeStride,
+                    (Addressable) firstGlyphPOINTER.address(),
+                    glyphStride);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3717,7 +4044,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_font_get_parent.invokeExact(font.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_get_parent.invokeExact(
+                    font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3737,7 +4065,10 @@ public final class HarfBuzz {
         MemorySegment xPpemPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment yPpemPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.hb_font_get_ppem.invokeExact(font.handle(), (Addressable) xPpemPOINTER.address(), (Addressable) yPpemPOINTER.address());
+            DowncallHandles.hb_font_get_ppem.invokeExact(
+                    font.handle(),
+                    (Addressable) xPpemPOINTER.address(),
+                    (Addressable) yPpemPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3755,7 +4086,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.hb_font_get_ptem.invokeExact(font.handle());
+            RESULT = (float) DowncallHandles.hb_font_get_ptem.invokeExact(
+                    font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3775,7 +4107,10 @@ public final class HarfBuzz {
         MemorySegment xScalePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment yScalePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.hb_font_get_scale.invokeExact(font.handle(), (Addressable) xScalePOINTER.address(), (Addressable) yScalePOINTER.address());
+            DowncallHandles.hb_font_get_scale.invokeExact(
+                    font.handle(),
+                    (Addressable) xScalePOINTER.address(),
+                    (Addressable) yScalePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3792,7 +4127,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.hb_font_get_synthetic_slant.invokeExact(font.handle());
+            RESULT = (float) DowncallHandles.hb_font_get_synthetic_slant.invokeExact(
+                    font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3811,7 +4147,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_font_get_user_data.invokeExact(font.handle(), key.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_get_user_data.invokeExact(
+                    font.handle(),
+                    key.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3825,17 +4163,17 @@ public final class HarfBuzz {
      * @param extents The font extents retrieved
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontGetVExtents(@NotNull org.harfbuzz.FontT font, @NotNull Out<org.harfbuzz.FontExtentsT> extents) {
+    public static @NotNull org.harfbuzz.BoolT fontGetVExtents(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.FontExtentsT extents) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(extents, "Parameter 'extents' must not be null");
-        MemorySegment extentsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_font_get_v_extents.invokeExact(font.handle(), (Addressable) extentsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_v_extents.invokeExact(
+                    font.handle(),
+                    extents.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        extents.set(new org.harfbuzz.FontExtentsT(Refcounted.get(extentsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -3859,7 +4197,9 @@ public final class HarfBuzz {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_font_get_var_coords_design.invokeExact(font.handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_get_var_coords_design.invokeExact(
+                    font.handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3886,7 +4226,9 @@ public final class HarfBuzz {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_font_get_var_coords_normalized.invokeExact(font.handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_get_var_coords_normalized.invokeExact(
+                    font.handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3912,7 +4254,11 @@ public final class HarfBuzz {
         MemorySegment glyphPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_font_get_variation_glyph.invokeExact(font.handle(), unicode.getValue(), variationSelector.getValue(), (Addressable) glyphPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_variation_glyph.invokeExact(
+                    font.handle(),
+                    unicode.getValue().intValue(),
+                    variationSelector.getValue().intValue(),
+                    (Addressable) glyphPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3938,7 +4284,11 @@ public final class HarfBuzz {
         MemorySegment glyphPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_font_glyph_from_string.invokeExact(font.handle(), Interop.allocateNativeArray(s, false), len, (Addressable) glyphPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_glyph_from_string.invokeExact(
+                    font.handle(),
+                    Interop.allocateNativeArray(s, false),
+                    len,
+                    (Addressable) glyphPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3964,7 +4314,11 @@ public final class HarfBuzz {
         MemorySegment sPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.hb_font_glyph_to_string.invokeExact(font.handle(), glyph.getValue(), (Addressable) sPOINTER.address(), (Addressable) sizePOINTER.address());
+            DowncallHandles.hb_font_glyph_to_string.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue(),
+                    (Addressable) sPOINTER.address(),
+                    (Addressable) sizePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3972,7 +4326,7 @@ public final class HarfBuzz {
         java.lang.String[] sARRAY = new java.lang.String[size.get().intValue()];
         for (int I = 0; I < size.get().intValue(); I++) {
             var OBJ = sPOINTER.get(ValueLayout.ADDRESS, I);
-            sARRAY[I] = OBJ.getUtf8String(0);
+            sARRAY[I] = Interop.getStringFrom(OBJ);
         }
         s.set(sARRAY);
     }
@@ -3986,7 +4340,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_font_is_immutable.invokeExact(font.handle());
+            RESULT = (int) DowncallHandles.hb_font_is_immutable.invokeExact(
+                    font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4000,7 +4355,8 @@ public final class HarfBuzz {
     public static void fontMakeImmutable(@NotNull org.harfbuzz.FontT font) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            DowncallHandles.hb_font_make_immutable.invokeExact(font.handle());
+            DowncallHandles.hb_font_make_immutable.invokeExact(
+                    font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4015,7 +4371,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_font_reference.invokeExact(font.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_reference.invokeExact(
+                    font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4031,7 +4388,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         try {
-            DowncallHandles.hb_font_set_face.invokeExact(font.handle(), face.handle());
+            DowncallHandles.hb_font_set_face.invokeExact(
+                    font.handle(),
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4069,7 +4428,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(parent, "Parameter 'parent' must not be null");
         try {
-            DowncallHandles.hb_font_set_parent.invokeExact(font.handle(), parent.handle());
+            DowncallHandles.hb_font_set_parent.invokeExact(
+                    font.handle(),
+                    parent.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4084,7 +4445,10 @@ public final class HarfBuzz {
     public static void fontSetPpem(@NotNull org.harfbuzz.FontT font, int xPpem, int yPpem) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            DowncallHandles.hb_font_set_ppem.invokeExact(font.handle(), xPpem, yPpem);
+            DowncallHandles.hb_font_set_ppem.invokeExact(
+                    font.handle(),
+                    xPpem,
+                    yPpem);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4101,7 +4465,9 @@ public final class HarfBuzz {
     public static void fontSetPtem(@NotNull org.harfbuzz.FontT font, float ptem) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            DowncallHandles.hb_font_set_ptem.invokeExact(font.handle(), ptem);
+            DowncallHandles.hb_font_set_ptem.invokeExact(
+                    font.handle(),
+                    ptem);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4116,7 +4482,10 @@ public final class HarfBuzz {
     public static void fontSetScale(@NotNull org.harfbuzz.FontT font, int xScale, int yScale) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            DowncallHandles.hb_font_set_scale.invokeExact(font.handle(), xScale, yScale);
+            DowncallHandles.hb_font_set_scale.invokeExact(
+                    font.handle(),
+                    xScale,
+                    yScale);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4142,7 +4511,9 @@ public final class HarfBuzz {
     public static void fontSetSyntheticSlant(@NotNull org.harfbuzz.FontT font, float slant) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            DowncallHandles.hb_font_set_synthetic_slant.invokeExact(font.handle(), slant);
+            DowncallHandles.hb_font_set_synthetic_slant.invokeExact(
+                    font.handle(),
+                    slant);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4176,7 +4547,10 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(coords, "Parameter 'coords' must not be null");
         try {
-            DowncallHandles.hb_font_set_var_coords_design.invokeExact(font.handle(), Interop.allocateNativeArray(coords, false), coordsLength);
+            DowncallHandles.hb_font_set_var_coords_design.invokeExact(
+                    font.handle(),
+                    Interop.allocateNativeArray(coords, false),
+                    coordsLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4199,7 +4573,10 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(coords, "Parameter 'coords' must not be null");
         try {
-            DowncallHandles.hb_font_set_var_coords_normalized.invokeExact(font.handle(), Interop.allocateNativeArray(coords, false), coordsLength);
+            DowncallHandles.hb_font_set_var_coords_normalized.invokeExact(
+                    font.handle(),
+                    Interop.allocateNativeArray(coords, false),
+                    coordsLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4213,7 +4590,9 @@ public final class HarfBuzz {
     public static void fontSetVarNamedInstance(@NotNull org.harfbuzz.FontT font, int instanceIndex) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            DowncallHandles.hb_font_set_var_named_instance.invokeExact(font.handle(), instanceIndex);
+            DowncallHandles.hb_font_set_var_named_instance.invokeExact(
+                    font.handle(),
+                    instanceIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4233,7 +4612,10 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(variations, "Parameter 'variations' must not be null");
         try {
-            DowncallHandles.hb_font_set_variations.invokeExact(font.handle(), Interop.allocateNativeArray(variations, false), variationsLength);
+            DowncallHandles.hb_font_set_variations.invokeExact(
+                    font.handle(),
+                    Interop.allocateNativeArray(variations, false),
+                    variationsLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4262,7 +4644,12 @@ public final class HarfBuzz {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.hb_font_subtract_glyph_origin_for_direction.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            DowncallHandles.hb_font_subtract_glyph_origin_for_direction.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue(),
+                    direction.getValue(),
+                    (Addressable) xPOINTER.address(),
+                    (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4333,7 +4720,8 @@ public final class HarfBuzz {
     public static void ftFontChanged(@NotNull org.harfbuzz.FontT font) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            DowncallHandles.hb_ft_font_changed.invokeExact(font.handle());
+            DowncallHandles.hb_ft_font_changed.invokeExact(
+                    font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4410,7 +4798,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ft_font_get_load_flags.invokeExact(font.handle());
+            RESULT = (int) DowncallHandles.hb_ft_font_get_load_flags.invokeExact(
+                    font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4448,7 +4837,8 @@ public final class HarfBuzz {
     public static void ftFontSetFuncs(@NotNull org.harfbuzz.FontT font) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            DowncallHandles.hb_ft_font_set_funcs.invokeExact(font.handle());
+            DowncallHandles.hb_ft_font_set_funcs.invokeExact(
+                    font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4465,7 +4855,9 @@ public final class HarfBuzz {
     public static void ftFontSetLoadFlags(@NotNull org.harfbuzz.FontT font, int loadFlags) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            DowncallHandles.hb_ft_font_set_load_flags.invokeExact(font.handle(), loadFlags);
+            DowncallHandles.hb_ft_font_set_load_flags.invokeExact(
+                    font.handle(),
+                    loadFlags);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4478,7 +4870,8 @@ public final class HarfBuzz {
     public static void ftFontUnlockFace(@NotNull org.harfbuzz.FontT font) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            DowncallHandles.hb_ft_font_unlock_face.invokeExact(font.handle());
+            DowncallHandles.hb_ft_font_unlock_face.invokeExact(
+                    font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4494,7 +4887,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(gbytes, "Parameter 'gbytes' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_glib_blob_create.invokeExact(gbytes.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_glib_blob_create.invokeExact(
+                    gbytes.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4526,7 +4920,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_glib_script_from_script.invokeExact(script.getValue());
+            RESULT = (int) DowncallHandles.hb_glib_script_from_script.invokeExact(
+                    script.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4543,7 +4938,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_glib_script_to_script.invokeExact(script.getValue());
+            RESULT = (int) DowncallHandles.hb_glib_script_to_script.invokeExact(
+                    script.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4559,7 +4955,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_glyph_info_get_glyph_flags.invokeExact(info.handle());
+            RESULT = (int) DowncallHandles.hb_glyph_info_get_glyph_flags.invokeExact(
+                    info.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4598,7 +4995,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_language_from_string.invokeExact(Interop.allocateNativeArray(str, false), len);
+            RESULT = (MemoryAddress) DowncallHandles.hb_language_from_string.invokeExact(
+                    Interop.allocateNativeArray(str, false),
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4637,11 +5036,12 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_language_to_string.invokeExact(language.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_language_to_string.invokeExact(
+                    language.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -4653,7 +5053,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_map_allocation_successful.invokeExact(map.handle());
+            RESULT = (int) DowncallHandles.hb_map_allocation_successful.invokeExact(
+                    map.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4667,7 +5068,8 @@ public final class HarfBuzz {
     public static void mapClear(@NotNull org.harfbuzz.MapT map) {
         java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
         try {
-            DowncallHandles.hb_map_clear.invokeExact(map.handle());
+            DowncallHandles.hb_map_clear.invokeExact(
+                    map.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4696,7 +5098,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         try {
-            DowncallHandles.hb_map_del.invokeExact(map.handle(), key.getValue());
+            DowncallHandles.hb_map_del.invokeExact(
+                    map.handle(),
+                    key.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4711,7 +5115,8 @@ public final class HarfBuzz {
     public static void mapDestroy(@NotNull org.harfbuzz.MapT map) {
         java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
         try {
-            DowncallHandles.hb_map_destroy.invokeExact(map.handle());
+            DowncallHandles.hb_map_destroy.invokeExact(
+                    map.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4727,7 +5132,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_map_get.invokeExact(map.handle(), key.getValue());
+            RESULT = (int) DowncallHandles.hb_map_get.invokeExact(
+                    map.handle(),
+                    key.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4757,7 +5164,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_map_get_population.invokeExact(map.handle());
+            RESULT = (int) DowncallHandles.hb_map_get_population.invokeExact(
+                    map.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4776,7 +5184,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_map_get_user_data.invokeExact(map.handle(), key.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_map_get_user_data.invokeExact(
+                    map.handle(),
+                    key.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4794,7 +5204,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_map_has.invokeExact(map.handle(), key.getValue());
+            RESULT = (int) DowncallHandles.hb_map_has.invokeExact(
+                    map.handle(),
+                    key.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4810,7 +5222,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_map_is_empty.invokeExact(map.handle());
+            RESULT = (int) DowncallHandles.hb_map_is_empty.invokeExact(
+                    map.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4826,7 +5239,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_map_reference.invokeExact(map.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_map_reference.invokeExact(
+                    map.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4844,7 +5258,10 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.hb_map_set.invokeExact(map.handle(), key.getValue(), value.getValue());
+            DowncallHandles.hb_map_set.invokeExact(
+                    map.handle(),
+                    key.getValue().intValue(),
+                    value.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4878,12 +5295,16 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         java.util.Objects.requireNonNull(layerCount, "Parameter 'layerCount' must not be null");
-        java.util.Objects.requireNonNullElse(layers, MemoryAddress.NULL);
         MemorySegment layerCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment layersPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_color_glyph_get_layers.invokeExact(face.handle(), glyph.getValue(), startOffset, (Addressable) layerCountPOINTER.address(), (Addressable) layersPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_color_glyph_get_layers.invokeExact(
+                    face.handle(),
+                    glyph.getValue().intValue(),
+                    startOffset,
+                    (Addressable) layerCountPOINTER.address(),
+                    (Addressable) (layers == null ? MemoryAddress.NULL : (Addressable) layersPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4912,7 +5333,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_ot_color_glyph_reference_png.invokeExact(font.handle(), glyph.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.hb_ot_color_glyph_reference_png.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4932,7 +5355,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_ot_color_glyph_reference_svg.invokeExact(face.handle(), glyph.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.hb_ot_color_glyph_reference_svg.invokeExact(
+                    face.handle(),
+                    glyph.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4948,7 +5373,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_color_has_layers.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_color_has_layers.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4964,7 +5390,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_color_has_palettes.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_color_has_palettes.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4980,7 +5407,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_color_has_png.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_color_has_png.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4996,7 +5424,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_color_has_svg.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_color_has_svg.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5017,7 +5446,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_color_palette_color_get_name_id.invokeExact(face.handle(), colorIndex);
+            RESULT = (int) DowncallHandles.hb_ot_color_palette_color_get_name_id.invokeExact(
+                    face.handle(),
+                    colorIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5043,12 +5474,16 @@ public final class HarfBuzz {
     public static int otColorPaletteGetColors(@NotNull org.harfbuzz.FaceT face, int paletteIndex, int startOffset, Out<Integer> colorCount, Out<org.harfbuzz.ColorT[]> colors) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(colorCount, "Parameter 'colorCount' must not be null");
-        java.util.Objects.requireNonNullElse(colors, MemoryAddress.NULL);
         MemorySegment colorCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment colorsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_color_palette_get_colors.invokeExact(face.handle(), paletteIndex, startOffset, (Addressable) colorCountPOINTER.address(), (Addressable) colorsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_color_palette_get_colors.invokeExact(
+                    face.handle(),
+                    paletteIndex,
+                    startOffset,
+                    (Addressable) colorCountPOINTER.address(),
+                    (Addressable) (colors == null ? MemoryAddress.NULL : (Addressable) colorsPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5071,7 +5506,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_color_palette_get_count.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_color_palette_get_count.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5088,7 +5524,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_color_palette_get_flags.invokeExact(face.handle(), paletteIndex);
+            RESULT = (int) DowncallHandles.hb_ot_color_palette_get_flags.invokeExact(
+                    face.handle(),
+                    paletteIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5110,7 +5548,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_color_palette_get_name_id.invokeExact(face.handle(), paletteIndex);
+            RESULT = (int) DowncallHandles.hb_ot_color_palette_get_name_id.invokeExact(
+                    face.handle(),
+                    paletteIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5124,7 +5564,8 @@ public final class HarfBuzz {
     public static void otFontSetFuncs(@NotNull org.harfbuzz.FontT font) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            DowncallHandles.hb_ot_font_set_funcs.invokeExact(font.handle());
+            DowncallHandles.hb_ot_font_set_funcs.invokeExact(
+                    font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5143,7 +5584,7 @@ public final class HarfBuzz {
      * @param features The array of features to collect
      * @param featureIndexes The array of feature indexes found for the query
      */
-    public static void otLayoutCollectFeatures(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, @NotNull org.harfbuzz.TagT scripts, @NotNull org.harfbuzz.TagT languages, @NotNull org.harfbuzz.TagT features, @NotNull Out<org.harfbuzz.SetT> featureIndexes) {
+    public static void otLayoutCollectFeatures(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, @NotNull org.harfbuzz.TagT scripts, @NotNull org.harfbuzz.TagT languages, @NotNull org.harfbuzz.TagT features, @NotNull org.harfbuzz.SetT featureIndexes) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
         java.util.Objects.requireNonNull(scripts, "Parameter 'scripts' must not be null");
@@ -5153,16 +5594,20 @@ public final class HarfBuzz {
         PointerInteger scriptsPOINTER = new PointerInteger(scripts.getValue());
         PointerInteger languagesPOINTER = new PointerInteger(languages.getValue());
         PointerInteger featuresPOINTER = new PointerInteger(features.getValue());
-        MemorySegment featureIndexesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.hb_ot_layout_collect_features.invokeExact(face.handle(), tableTag.getValue(), new PointerInteger(scripts.getValue()).handle(), new PointerInteger(languages.getValue()).handle(), new PointerInteger(features.getValue()).handle(), (Addressable) featureIndexesPOINTER.address());
+            DowncallHandles.hb_ot_layout_collect_features.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue(),
+                    new PointerInteger(scripts.getValue().intValue()).handle(),
+                    new PointerInteger(languages.getValue().intValue()).handle(),
+                    new PointerInteger(features.getValue().intValue()).handle(),
+                    featureIndexes.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
             scripts.setValue(scriptsPOINTER.get());
             languages.setValue(languagesPOINTER.get());
             features.setValue(featuresPOINTER.get());
-        featureIndexes.set(new org.harfbuzz.SetT(Refcounted.get(featureIndexesPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -5178,7 +5623,7 @@ public final class HarfBuzz {
      * @param features The array of features to collect lookups for
      * @param lookupIndexes The array of lookup indexes found for the query
      */
-    public static void otLayoutCollectLookups(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, @NotNull org.harfbuzz.TagT scripts, @NotNull org.harfbuzz.TagT languages, @NotNull org.harfbuzz.TagT features, @NotNull Out<org.harfbuzz.SetT> lookupIndexes) {
+    public static void otLayoutCollectLookups(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, @NotNull org.harfbuzz.TagT scripts, @NotNull org.harfbuzz.TagT languages, @NotNull org.harfbuzz.TagT features, @NotNull org.harfbuzz.SetT lookupIndexes) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
         java.util.Objects.requireNonNull(scripts, "Parameter 'scripts' must not be null");
@@ -5188,16 +5633,20 @@ public final class HarfBuzz {
         PointerInteger scriptsPOINTER = new PointerInteger(scripts.getValue());
         PointerInteger languagesPOINTER = new PointerInteger(languages.getValue());
         PointerInteger featuresPOINTER = new PointerInteger(features.getValue());
-        MemorySegment lookupIndexesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.hb_ot_layout_collect_lookups.invokeExact(face.handle(), tableTag.getValue(), new PointerInteger(scripts.getValue()).handle(), new PointerInteger(languages.getValue()).handle(), new PointerInteger(features.getValue()).handle(), (Addressable) lookupIndexesPOINTER.address());
+            DowncallHandles.hb_ot_layout_collect_lookups.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue(),
+                    new PointerInteger(scripts.getValue().intValue()).handle(),
+                    new PointerInteger(languages.getValue().intValue()).handle(),
+                    new PointerInteger(features.getValue().intValue()).handle(),
+                    lookupIndexes.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
             scripts.setValue(scriptsPOINTER.get());
             languages.setValue(languagesPOINTER.get());
             features.setValue(featuresPOINTER.get());
-        lookupIndexes.set(new org.harfbuzz.SetT(Refcounted.get(lookupIndexesPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -5223,7 +5672,13 @@ public final class HarfBuzz {
         MemorySegment charactersPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_feature_get_characters.invokeExact(face.handle(), tableTag.getValue(), featureIndex, startOffset, (Addressable) charCountPOINTER.address(), (Addressable) charactersPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_feature_get_characters.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue(),
+                    featureIndex,
+                    startOffset,
+                    (Addressable) charCountPOINTER.address(),
+                    (Addressable) charactersPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5259,7 +5714,13 @@ public final class HarfBuzz {
         MemorySegment lookupIndexesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_feature_get_lookups.invokeExact(face.handle(), tableTag.getValue(), featureIndex, startOffset, (Addressable) lookupCountPOINTER.address(), (Addressable) lookupIndexesPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_feature_get_lookups.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue(),
+                    featureIndex,
+                    startOffset,
+                    (Addressable) lookupCountPOINTER.address(),
+                    (Addressable) lookupIndexesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5302,7 +5763,15 @@ public final class HarfBuzz {
         MemorySegment firstParamIdPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_feature_get_name_ids.invokeExact(face.handle(), tableTag.getValue(), featureIndex, (Addressable) labelIdPOINTER.address(), (Addressable) tooltipIdPOINTER.address(), (Addressable) sampleIdPOINTER.address(), (Addressable) numNamedParametersPOINTER.address(), (Addressable) firstParamIdPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_feature_get_name_ids.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue(),
+                    featureIndex,
+                    (Addressable) labelIdPOINTER.address(),
+                    (Addressable) tooltipIdPOINTER.address(),
+                    (Addressable) sampleIdPOINTER.address(),
+                    (Addressable) numNamedParametersPOINTER.address(),
+                    (Addressable) firstParamIdPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5337,7 +5806,14 @@ public final class HarfBuzz {
         MemorySegment lookupIndexesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_feature_with_variations_get_lookups.invokeExact(face.handle(), tableTag.getValue(), featureIndex, variationsIndex, startOffset, (Addressable) lookupCountPOINTER.address(), (Addressable) lookupIndexesPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_feature_with_variations_get_lookups.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue(),
+                    featureIndex,
+                    variationsIndex,
+                    startOffset,
+                    (Addressable) lookupCountPOINTER.address(),
+                    (Addressable) lookupIndexesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5368,7 +5844,12 @@ public final class HarfBuzz {
         MemorySegment pointArrayPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_get_attach_points.invokeExact(face.handle(), glyph.getValue(), startOffset, (Addressable) pointCountPOINTER.address(), (Addressable) pointArrayPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_get_attach_points.invokeExact(
+                    face.handle(),
+                    glyph.getValue().intValue(),
+                    startOffset,
+                    (Addressable) pointCountPOINTER.address(),
+                    (Addressable) pointArrayPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5393,15 +5874,20 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
         java.util.Objects.requireNonNull(scriptTag, "Parameter 'scriptTag' must not be null");
         java.util.Objects.requireNonNull(languageTag, "Parameter 'languageTag' must not be null");
-        java.util.Objects.requireNonNullElse(coord, MemoryAddress.NULL);
         MemorySegment coordPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_get_baseline.invokeExact(font.handle(), baselineTag.getValue(), direction.getValue(), scriptTag.getValue(), languageTag.getValue(), (Addressable) coordPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_get_baseline.invokeExact(
+                    font.handle(),
+                    baselineTag.getValue(),
+                    direction.getValue(),
+                    scriptTag.getValue().intValue(),
+                    languageTag.getValue().intValue(),
+                    (Addressable) (coord == null ? MemoryAddress.NULL : (Addressable) coordPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        coord.set(new org.harfbuzz.PositionT(coordPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        if (coord != null) coord.set(new org.harfbuzz.PositionT(coordPOINTER.get(ValueLayout.JAVA_INT, 0)));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -5424,7 +5910,13 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(coord, "Parameter 'coord' must not be null");
         MemorySegment coordPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.hb_ot_layout_get_baseline_with_fallback.invokeExact(font.handle(), baselineTag.getValue(), direction.getValue(), scriptTag.getValue(), languageTag.getValue(), (Addressable) coordPOINTER.address());
+            DowncallHandles.hb_ot_layout_get_baseline_with_fallback.invokeExact(
+                    font.handle(),
+                    baselineTag.getValue(),
+                    direction.getValue(),
+                    scriptTag.getValue().intValue(),
+                    languageTag.getValue().intValue(),
+                    (Addressable) coordPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5443,7 +5935,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_get_glyph_class.invokeExact(face.handle(), glyph.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_layout_get_glyph_class.invokeExact(
+                    face.handle(),
+                    glyph.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5458,17 +5952,18 @@ public final class HarfBuzz {
      * @param glyphs The {@link SetT} set of all glyphs belonging to the requested
      *          class.
      */
-    public static void otLayoutGetGlyphsInClass(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.OtLayoutGlyphClassT klass, @NotNull Out<org.harfbuzz.SetT> glyphs) {
+    public static void otLayoutGetGlyphsInClass(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.OtLayoutGlyphClassT klass, @NotNull org.harfbuzz.SetT glyphs) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(klass, "Parameter 'klass' must not be null");
         java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
-        MemorySegment glyphsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.hb_ot_layout_get_glyphs_in_class.invokeExact(face.handle(), klass.getValue(), (Addressable) glyphsPOINTER.address());
+            DowncallHandles.hb_ot_layout_get_glyphs_in_class.invokeExact(
+                    face.handle(),
+                    klass.getValue(),
+                    glyphs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        glyphs.set(new org.harfbuzz.SetT(Refcounted.get(glyphsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -5480,7 +5975,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_get_horizontal_baseline_tag_for_script.invokeExact(script.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_layout_get_horizontal_baseline_tag_for_script.invokeExact(
+                    script.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5516,7 +6012,13 @@ public final class HarfBuzz {
         MemorySegment caretArrayPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_get_ligature_carets.invokeExact(font.handle(), direction.getValue(), glyph.getValue(), startOffset, (Addressable) caretCountPOINTER.address(), (Addressable) caretArrayPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_get_ligature_carets.invokeExact(
+                    font.handle(),
+                    direction.getValue(),
+                    glyph.getValue().intValue(),
+                    startOffset,
+                    (Addressable) caretCountPOINTER.address(),
+                    (Addressable) caretArrayPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5561,7 +6063,13 @@ public final class HarfBuzz {
         MemorySegment rangeEndPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_get_size_params.invokeExact(face.handle(), (Addressable) designSizePOINTER.address(), (Addressable) subfamilyIdPOINTER.address(), (Addressable) subfamilyNameIdPOINTER.address(), (Addressable) rangeStartPOINTER.address(), (Addressable) rangeEndPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_get_size_params.invokeExact(
+                    face.handle(),
+                    (Addressable) designSizePOINTER.address(),
+                    (Addressable) subfamilyIdPOINTER.address(),
+                    (Addressable) subfamilyNameIdPOINTER.address(),
+                    (Addressable) rangeStartPOINTER.address(),
+                    (Addressable) rangeEndPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5582,7 +6090,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_has_glyph_classes.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_layout_has_glyph_classes.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5598,7 +6107,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_has_positioning.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_layout_has_positioning.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5614,7 +6124,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_has_substitution.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_layout_has_substitution.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5640,7 +6151,13 @@ public final class HarfBuzz {
         MemorySegment featureIndexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_language_find_feature.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, featureTag.getValue(), (Addressable) featureIndexPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_language_find_feature.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue(),
+                    scriptIndex,
+                    languageIndex,
+                    featureTag.getValue().intValue(),
+                    (Addressable) featureIndexPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5671,7 +6188,14 @@ public final class HarfBuzz {
         MemorySegment featureIndexesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_language_get_feature_indexes.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, startOffset, (Addressable) featureCountPOINTER.address(), (Addressable) featureIndexesPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_language_get_feature_indexes.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue(),
+                    scriptIndex,
+                    languageIndex,
+                    startOffset,
+                    (Addressable) featureCountPOINTER.address(),
+                    (Addressable) featureIndexesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5703,7 +6227,14 @@ public final class HarfBuzz {
         MemorySegment featureTagsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_language_get_feature_tags.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, startOffset, (Addressable) featureCountPOINTER.address(), (Addressable) featureTagsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_language_get_feature_tags.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue(),
+                    scriptIndex,
+                    languageIndex,
+                    startOffset,
+                    (Addressable) featureCountPOINTER.address(),
+                    (Addressable) featureTagsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5737,7 +6268,13 @@ public final class HarfBuzz {
         MemorySegment featureTagPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_language_get_required_feature.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, (Addressable) featureIndexPOINTER.address(), (Addressable) featureTagPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_language_get_required_feature.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue(),
+                    scriptIndex,
+                    languageIndex,
+                    (Addressable) featureIndexPOINTER.address(),
+                    (Addressable) featureTagPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5763,7 +6300,12 @@ public final class HarfBuzz {
         MemorySegment featureIndexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_language_get_required_feature_index.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, (Addressable) featureIndexPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_language_get_required_feature_index.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue(),
+                    scriptIndex,
+                    languageIndex,
+                    (Addressable) featureIndexPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5782,26 +6324,25 @@ public final class HarfBuzz {
      * @param glyphsAfter Array of glyphs following the substitution range
      * @param glyphsOutput Array of glyphs that would be the substituted output of the lookup
      */
-    public static void otLayoutLookupCollectGlyphs(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int lookupIndex, @NotNull Out<org.harfbuzz.SetT> glyphsBefore, @NotNull Out<org.harfbuzz.SetT> glyphsInput, @NotNull Out<org.harfbuzz.SetT> glyphsAfter, @NotNull Out<org.harfbuzz.SetT> glyphsOutput) {
+    public static void otLayoutLookupCollectGlyphs(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int lookupIndex, @NotNull org.harfbuzz.SetT glyphsBefore, @NotNull org.harfbuzz.SetT glyphsInput, @NotNull org.harfbuzz.SetT glyphsAfter, @NotNull org.harfbuzz.SetT glyphsOutput) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
         java.util.Objects.requireNonNull(glyphsBefore, "Parameter 'glyphsBefore' must not be null");
         java.util.Objects.requireNonNull(glyphsInput, "Parameter 'glyphsInput' must not be null");
         java.util.Objects.requireNonNull(glyphsAfter, "Parameter 'glyphsAfter' must not be null");
         java.util.Objects.requireNonNull(glyphsOutput, "Parameter 'glyphsOutput' must not be null");
-        MemorySegment glyphsBeforePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment glyphsInputPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment glyphsAfterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment glyphsOutputPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.hb_ot_layout_lookup_collect_glyphs.invokeExact(face.handle(), tableTag.getValue(), lookupIndex, (Addressable) glyphsBeforePOINTER.address(), (Addressable) glyphsInputPOINTER.address(), (Addressable) glyphsAfterPOINTER.address(), (Addressable) glyphsOutputPOINTER.address());
+            DowncallHandles.hb_ot_layout_lookup_collect_glyphs.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue(),
+                    lookupIndex,
+                    glyphsBefore.handle(),
+                    glyphsInput.handle(),
+                    glyphsAfter.handle(),
+                    glyphsOutput.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        glyphsBefore.set(new org.harfbuzz.SetT(Refcounted.get(glyphsBeforePOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        glyphsInput.set(new org.harfbuzz.SetT(Refcounted.get(glyphsInputPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        glyphsAfter.set(new org.harfbuzz.SetT(Refcounted.get(glyphsAfterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        glyphsOutput.set(new org.harfbuzz.SetT(Refcounted.get(glyphsOutputPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -5825,7 +6366,13 @@ public final class HarfBuzz {
         MemorySegment alternateGlyphsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_lookup_get_glyph_alternates.invokeExact(face.handle(), lookupIndex, glyph.getValue(), startOffset, (Addressable) alternateCountPOINTER.address(), (Addressable) alternateGlyphsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_lookup_get_glyph_alternates.invokeExact(
+                    face.handle(),
+                    lookupIndex,
+                    glyph.getValue().intValue(),
+                    startOffset,
+                    (Addressable) alternateCountPOINTER.address(),
+                    (Addressable) alternateGlyphsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5846,16 +6393,17 @@ public final class HarfBuzz {
      * @param lookupIndex index of the feature lookup to query
      * @param glyphs Array of glyphs comprising the transitive closure of the lookup
      */
-    public static void otLayoutLookupSubstituteClosure(@NotNull org.harfbuzz.FaceT face, int lookupIndex, @NotNull Out<org.harfbuzz.SetT> glyphs) {
+    public static void otLayoutLookupSubstituteClosure(@NotNull org.harfbuzz.FaceT face, int lookupIndex, @NotNull org.harfbuzz.SetT glyphs) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
-        MemorySegment glyphsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.hb_ot_layout_lookup_substitute_closure.invokeExact(face.handle(), lookupIndex, (Addressable) glyphsPOINTER.address());
+            DowncallHandles.hb_ot_layout_lookup_substitute_closure.invokeExact(
+                    face.handle(),
+                    lookupIndex,
+                    glyphs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        glyphs.set(new org.harfbuzz.SetT(Refcounted.get(glyphsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -5876,7 +6424,12 @@ public final class HarfBuzz {
         PointerInteger glyphsPOINTER = new PointerInteger(glyphs.getValue());
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_lookup_would_substitute.invokeExact(face.handle(), lookupIndex, new PointerInteger(glyphs.getValue()).handle(), glyphsLength, zeroContext.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_layout_lookup_would_substitute.invokeExact(
+                    face.handle(),
+                    lookupIndex,
+                    new PointerInteger(glyphs.getValue().intValue()).handle(),
+                    glyphsLength,
+                    zeroContext.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5891,17 +6444,18 @@ public final class HarfBuzz {
      * @param lookups The set of lookups to query
      * @param glyphs Array of glyphs comprising the transitive closure of the lookups
      */
-    public static void otLayoutLookupsSubstituteClosure(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SetT lookups, @NotNull Out<org.harfbuzz.SetT> glyphs) {
+    public static void otLayoutLookupsSubstituteClosure(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SetT lookups, @NotNull org.harfbuzz.SetT glyphs) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(lookups, "Parameter 'lookups' must not be null");
         java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
-        MemorySegment glyphsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.hb_ot_layout_lookups_substitute_closure.invokeExact(face.handle(), lookups.handle(), (Addressable) glyphsPOINTER.address());
+            DowncallHandles.hb_ot_layout_lookups_substitute_closure.invokeExact(
+                    face.handle(),
+                    lookups.handle(),
+                    glyphs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        glyphs.set(new org.harfbuzz.SetT(Refcounted.get(glyphsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -5922,7 +6476,12 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(languageIndex, "Parameter 'languageIndex' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_script_find_language.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageTag.getValue(), languageIndex.handle());
+            RESULT = (int) DowncallHandles.hb_ot_layout_script_find_language.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue(),
+                    scriptIndex,
+                    languageTag.getValue().intValue(),
+                    languageIndex.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5950,7 +6509,13 @@ public final class HarfBuzz {
         MemorySegment languageTagsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_script_get_language_tags.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, startOffset, (Addressable) languageCountPOINTER.address(), (Addressable) languageTagsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_script_get_language_tags.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue(),
+                    scriptIndex,
+                    startOffset,
+                    (Addressable) languageCountPOINTER.address(),
+                    (Addressable) languageTagsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5988,7 +6553,13 @@ public final class HarfBuzz {
         MemorySegment languageIndexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_script_select_language.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageCount, new PointerInteger(languageTags.getValue()).handle(), (Addressable) languageIndexPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_script_select_language.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue(),
+                    scriptIndex,
+                    languageCount,
+                    new PointerInteger(languageTags.getValue().intValue()).handle(),
+                    (Addressable) languageIndexPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6016,7 +6587,12 @@ public final class HarfBuzz {
         MemorySegment chosenScriptPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_table_choose_script.invokeExact(face.handle(), tableTag.getValue(), new PointerInteger(scriptTags.getValue()).handle(), (Addressable) scriptIndexPOINTER.address(), (Addressable) chosenScriptPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_table_choose_script.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue(),
+                    new PointerInteger(scriptTags.getValue().intValue()).handle(),
+                    (Addressable) scriptIndexPOINTER.address(),
+                    (Addressable) chosenScriptPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6044,7 +6620,12 @@ public final class HarfBuzz {
         MemorySegment variationsIndexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_table_find_feature_variations.invokeExact(face.handle(), tableTag.getValue(), coords.handle(), numCoords, (Addressable) variationsIndexPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_table_find_feature_variations.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue(),
+                    coords.handle(),
+                    numCoords,
+                    (Addressable) variationsIndexPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6069,7 +6650,11 @@ public final class HarfBuzz {
         MemorySegment scriptIndexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_table_find_script.invokeExact(face.handle(), tableTag.getValue(), scriptTag.getValue(), (Addressable) scriptIndexPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_table_find_script.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue(),
+                    scriptTag.getValue().intValue(),
+                    (Addressable) scriptIndexPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6096,7 +6681,12 @@ public final class HarfBuzz {
         MemorySegment featureTagsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_table_get_feature_tags.invokeExact(face.handle(), tableTag.getValue(), startOffset, (Addressable) featureCountPOINTER.address(), (Addressable) featureTagsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_table_get_feature_tags.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue(),
+                    startOffset,
+                    (Addressable) featureCountPOINTER.address(),
+                    (Addressable) featureTagsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6122,7 +6712,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_table_get_lookup_count.invokeExact(face.handle(), tableTag.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_layout_table_get_lookup_count.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6149,7 +6741,12 @@ public final class HarfBuzz {
         MemorySegment scriptTagsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_table_get_script_tags.invokeExact(face.handle(), tableTag.getValue(), startOffset, (Addressable) scriptCountPOINTER.address(), (Addressable) scriptTagsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_table_get_script_tags.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue(),
+                    startOffset,
+                    (Addressable) scriptCountPOINTER.address(),
+                    (Addressable) scriptTagsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6190,7 +6787,13 @@ public final class HarfBuzz {
         MemorySegment chosenScriptPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_layout_table_select_script.invokeExact(face.handle(), tableTag.getValue(), scriptCount, new PointerInteger(scriptTags.getValue()).handle(), (Addressable) scriptIndexPOINTER.address(), (Addressable) chosenScriptPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_table_select_script.invokeExact(
+                    face.handle(),
+                    tableTag.getValue().intValue(),
+                    scriptCount,
+                    new PointerInteger(scriptTags.getValue().intValue()).handle(),
+                    (Addressable) scriptIndexPOINTER.address(),
+                    (Addressable) chosenScriptPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6217,7 +6820,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(constant, "Parameter 'constant' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_math_get_constant.invokeExact(font.handle(), constant.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_math_get_constant.invokeExact(
+                    font.handle(),
+                    constant.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6256,7 +6861,14 @@ public final class HarfBuzz {
         MemorySegment italicsCorrectionPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_math_get_glyph_assembly.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), startOffset, (Addressable) partsCountPOINTER.address(), (Addressable) partsPOINTER.address(), (Addressable) italicsCorrectionPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_math_get_glyph_assembly.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue(),
+                    direction.getValue(),
+                    startOffset,
+                    (Addressable) partsCountPOINTER.address(),
+                    (Addressable) partsPOINTER.address(),
+                    (Addressable) italicsCorrectionPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6283,7 +6895,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_math_get_glyph_italics_correction.invokeExact(font.handle(), glyph.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_math_get_glyph_italics_correction.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6311,7 +6925,11 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(correctionHeight, "Parameter 'correctionHeight' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_math_get_glyph_kerning.invokeExact(font.handle(), glyph.getValue(), kern.getValue(), correctionHeight.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_math_get_glyph_kerning.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue(),
+                    kern.getValue(),
+                    correctionHeight.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6352,7 +6970,13 @@ public final class HarfBuzz {
         MemorySegment kernEntriesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_math_get_glyph_kernings.invokeExact(font.handle(), glyph.getValue(), kern.getValue(), startOffset, (Addressable) entriesCountPOINTER.address(), (Addressable) kernEntriesPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_math_get_glyph_kernings.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue(),
+                    kern.getValue(),
+                    startOffset,
+                    (Addressable) entriesCountPOINTER.address(),
+                    (Addressable) kernEntriesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6385,7 +7009,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_math_get_glyph_top_accent_attachment.invokeExact(font.handle(), glyph.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_math_get_glyph_top_accent_attachment.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6420,7 +7046,13 @@ public final class HarfBuzz {
         MemorySegment variantsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_math_get_glyph_variants.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), startOffset, (Addressable) variantsCountPOINTER.address(), (Addressable) variantsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_math_get_glyph_variants.invokeExact(
+                    font.handle(),
+                    glyph.getValue().intValue(),
+                    direction.getValue(),
+                    startOffset,
+                    (Addressable) variantsCountPOINTER.address(),
+                    (Addressable) variantsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6452,7 +7084,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_math_get_min_connector_overlap.invokeExact(font.handle(), direction.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_math_get_min_connector_overlap.invokeExact(
+                    font.handle(),
+                    direction.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6468,7 +7102,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_math_has_data.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_math_has_data.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6486,7 +7121,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_math_is_glyph_extended_shape.invokeExact(face.handle(), glyph.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_math_is_glyph_extended_shape.invokeExact(
+                    face.handle(),
+                    glyph.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6509,7 +7146,11 @@ public final class HarfBuzz {
         MemorySegment entriesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_meta_get_entry_tags.invokeExact(face.handle(), startOffset, (Addressable) entriesCountPOINTER.address(), (Addressable) entriesPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_meta_get_entry_tags.invokeExact(
+                    face.handle(),
+                    startOffset,
+                    (Addressable) entriesCountPOINTER.address(),
+                    (Addressable) entriesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6534,7 +7175,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(metaTag, "Parameter 'metaTag' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_ot_meta_reference_entry.invokeExact(face.handle(), metaTag.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.hb_ot_meta_reference_entry.invokeExact(
+                    face.handle(),
+                    metaTag.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6555,7 +7198,10 @@ public final class HarfBuzz {
         MemorySegment positionPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_metrics_get_position.invokeExact(font.handle(), metricsTag.getValue(), (Addressable) positionPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_metrics_get_position.invokeExact(
+                    font.handle(),
+                    metricsTag.getValue(),
+                    (Addressable) positionPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6576,7 +7222,10 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
         MemorySegment positionPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.hb_ot_metrics_get_position_with_fallback.invokeExact(font.handle(), metricsTag.getValue(), (Addressable) positionPOINTER.address());
+            DowncallHandles.hb_ot_metrics_get_position_with_fallback.invokeExact(
+                    font.handle(),
+                    metricsTag.getValue(),
+                    (Addressable) positionPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6595,7 +7244,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(metricsTag, "Parameter 'metricsTag' must not be null");
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.hb_ot_metrics_get_variation.invokeExact(font.handle(), metricsTag.getValue());
+            RESULT = (float) DowncallHandles.hb_ot_metrics_get_variation.invokeExact(
+                    font.handle(),
+                    metricsTag.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6614,7 +7265,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(metricsTag, "Parameter 'metricsTag' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_metrics_get_x_variation.invokeExact(font.handle(), metricsTag.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_metrics_get_x_variation.invokeExact(
+                    font.handle(),
+                    metricsTag.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6633,7 +7286,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(metricsTag, "Parameter 'metricsTag' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_metrics_get_y_variation.invokeExact(font.handle(), metricsTag.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_metrics_get_y_variation.invokeExact(
+                    font.handle(),
+                    metricsTag.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6663,7 +7318,12 @@ public final class HarfBuzz {
         MemorySegment textPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_name_get_utf16.invokeExact(face.handle(), nameId.getValue(), language.handle(), (Addressable) textSizePOINTER.address(), (Addressable) textPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_name_get_utf16.invokeExact(
+                    face.handle(),
+                    nameId.getValue().intValue(),
+                    language.handle(),
+                    (Addressable) textSizePOINTER.address(),
+                    (Addressable) textPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6695,7 +7355,12 @@ public final class HarfBuzz {
         MemorySegment textPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_name_get_utf32.invokeExact(face.handle(), nameId.getValue(), language.handle(), (Addressable) textSizePOINTER.address(), (Addressable) textPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_name_get_utf32.invokeExact(
+                    face.handle(),
+                    nameId.getValue().intValue(),
+                    language.handle(),
+                    (Addressable) textSizePOINTER.address(),
+                    (Addressable) textPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6727,7 +7392,12 @@ public final class HarfBuzz {
         MemorySegment textPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_name_get_utf8.invokeExact(face.handle(), nameId.getValue(), language.handle(), (Addressable) textSizePOINTER.address(), (Addressable) textPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_name_get_utf8.invokeExact(
+                    face.handle(),
+                    nameId.getValue().intValue(),
+                    language.handle(),
+                    (Addressable) textSizePOINTER.address(),
+                    (Addressable) textPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6735,7 +7405,7 @@ public final class HarfBuzz {
         java.lang.String[] textARRAY = new java.lang.String[textSize.get().intValue()];
         for (int I = 0; I < textSize.get().intValue(); I++) {
             var OBJ = textPOINTER.get(ValueLayout.ADDRESS, I);
-            textARRAY[I] = OBJ.getUtf8String(0);
+            textARRAY[I] = Interop.getStringFrom(OBJ);
         }
         text.set(textARRAY);
         return RESULT;
@@ -6755,7 +7425,9 @@ public final class HarfBuzz {
         MemorySegment numEntriesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_ot_name_list_names.invokeExact(face.handle(), (Addressable) numEntriesPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.hb_ot_name_list_names.invokeExact(
+                    face.handle(),
+                    (Addressable) numEntriesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6778,18 +7450,21 @@ public final class HarfBuzz {
      * @param numFeatures The number of features enabled on the buffer
      * @param glyphs The {@link SetT} set of glyphs comprising the transitive closure of the query
      */
-    public static void otShapeGlyphsClosure(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferT buffer, org.harfbuzz.FeatureT[] features, int numFeatures, @NotNull Out<org.harfbuzz.SetT> glyphs) {
+    public static void otShapeGlyphsClosure(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferT buffer, org.harfbuzz.FeatureT[] features, int numFeatures, @NotNull org.harfbuzz.SetT glyphs) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(features, "Parameter 'features' must not be null");
         java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
-        MemorySegment glyphsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.hb_ot_shape_glyphs_closure.invokeExact(font.handle(), buffer.handle(), Interop.allocateNativeArray(features, false), numFeatures, (Addressable) glyphsPOINTER.address());
+            DowncallHandles.hb_ot_shape_glyphs_closure.invokeExact(
+                    font.handle(),
+                    buffer.handle(),
+                    Interop.allocateNativeArray(features, false),
+                    numFeatures,
+                    glyphs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        glyphs.set(new org.harfbuzz.SetT(Refcounted.get(glyphsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -6799,24 +7474,26 @@ public final class HarfBuzz {
      * @param tableTag GSUB or GPOS
      * @param lookupIndexes The {@link SetT} set of lookups returned
      */
-    public static void otShapePlanCollectLookups(@NotNull org.harfbuzz.ShapePlanT shapePlan, @NotNull org.harfbuzz.TagT tableTag, @NotNull Out<org.harfbuzz.SetT> lookupIndexes) {
+    public static void otShapePlanCollectLookups(@NotNull org.harfbuzz.ShapePlanT shapePlan, @NotNull org.harfbuzz.TagT tableTag, @NotNull org.harfbuzz.SetT lookupIndexes) {
         java.util.Objects.requireNonNull(shapePlan, "Parameter 'shapePlan' must not be null");
         java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
         java.util.Objects.requireNonNull(lookupIndexes, "Parameter 'lookupIndexes' must not be null");
-        MemorySegment lookupIndexesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.hb_ot_shape_plan_collect_lookups.invokeExact(shapePlan.handle(), tableTag.getValue(), (Addressable) lookupIndexesPOINTER.address());
+            DowncallHandles.hb_ot_shape_plan_collect_lookups.invokeExact(
+                    shapePlan.handle(),
+                    tableTag.getValue().intValue(),
+                    lookupIndexes.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        lookupIndexes.set(new org.harfbuzz.SetT(Refcounted.get(lookupIndexesPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     public static @NotNull org.harfbuzz.TagT otTagFromLanguage(@NotNull org.harfbuzz.LanguageT language) {
         java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_tag_from_language.invokeExact(language.handle());
+            RESULT = (int) DowncallHandles.hb_ot_tag_from_language.invokeExact(
+                    language.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6832,7 +7509,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_ot_tag_to_language.invokeExact(tag.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.hb_ot_tag_to_language.invokeExact(
+                    tag.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6848,7 +7526,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_tag_to_script.invokeExact(tag.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_tag_to_script.invokeExact(
+                    tag.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6862,7 +7541,10 @@ public final class HarfBuzz {
         PointerInteger scriptTag1POINTER = new PointerInteger(scriptTag1.getValue());
         PointerInteger scriptTag2POINTER = new PointerInteger(scriptTag2.getValue());
         try {
-            DowncallHandles.hb_ot_tags_from_script.invokeExact(script.getValue(), new PointerInteger(scriptTag1.getValue()).handle(), new PointerInteger(scriptTag2.getValue()).handle());
+            DowncallHandles.hb_ot_tags_from_script.invokeExact(
+                    script.getValue(),
+                    new PointerInteger(scriptTag1.getValue().intValue()).handle(),
+                    new PointerInteger(scriptTag2.getValue().intValue()).handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6895,7 +7577,13 @@ public final class HarfBuzz {
         MemorySegment languageCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment languageTagsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.hb_ot_tags_from_script_and_language.invokeExact(script.getValue(), language.handle(), (Addressable) scriptCountPOINTER.address(), (Addressable) scriptTagsPOINTER.address(), (Addressable) languageCountPOINTER.address(), (Addressable) languageTagsPOINTER.address());
+            DowncallHandles.hb_ot_tags_from_script_and_language.invokeExact(
+                    script.getValue(),
+                    language.handle(),
+                    (Addressable) scriptCountPOINTER.address(),
+                    (Addressable) scriptTagsPOINTER.address(),
+                    (Addressable) languageCountPOINTER.address(),
+                    (Addressable) languageTagsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6914,20 +7602,22 @@ public final class HarfBuzz {
      * @param language the {@link LanguageT} corresponding to {@code script_tag} and
      * {@code language_tag}.
      */
-    public static void otTagsToScriptAndLanguage(@NotNull org.harfbuzz.TagT scriptTag, @NotNull org.harfbuzz.TagT languageTag, @NotNull Out<org.harfbuzz.ScriptT> script, @NotNull Out<org.harfbuzz.LanguageT> language) {
+    public static void otTagsToScriptAndLanguage(@NotNull org.harfbuzz.TagT scriptTag, @NotNull org.harfbuzz.TagT languageTag, @NotNull Out<org.harfbuzz.ScriptT> script, @NotNull org.harfbuzz.LanguageT language) {
         java.util.Objects.requireNonNull(scriptTag, "Parameter 'scriptTag' must not be null");
         java.util.Objects.requireNonNull(languageTag, "Parameter 'languageTag' must not be null");
         java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
         java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
         MemorySegment scriptPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment languagePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.hb_ot_tags_to_script_and_language.invokeExact(scriptTag.getValue(), languageTag.getValue(), (Addressable) scriptPOINTER.address(), (Addressable) languagePOINTER.address());
+            DowncallHandles.hb_ot_tags_to_script_and_language.invokeExact(
+                    scriptTag.getValue().intValue(),
+                    languageTag.getValue().intValue(),
+                    (Addressable) scriptPOINTER.address(),
+                    language.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         script.set(new org.harfbuzz.ScriptT(scriptPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        language.set(new org.harfbuzz.LanguageT(Refcounted.get(languagePOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -6942,19 +7632,21 @@ public final class HarfBuzz {
      * </ul>
      */
     @Deprecated
-    public static @NotNull org.harfbuzz.BoolT otVarFindAxis(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT axisTag, PointerInteger axisIndex, @NotNull Out<org.harfbuzz.OtVarAxisT> axisInfo) {
+    public static @NotNull org.harfbuzz.BoolT otVarFindAxis(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT axisTag, PointerInteger axisIndex, @NotNull org.harfbuzz.OtVarAxisT axisInfo) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(axisTag, "Parameter 'axisTag' must not be null");
         java.util.Objects.requireNonNull(axisIndex, "Parameter 'axisIndex' must not be null");
         java.util.Objects.requireNonNull(axisInfo, "Parameter 'axisInfo' must not be null");
-        MemorySegment axisInfoPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_var_find_axis.invokeExact(face.handle(), axisTag.getValue(), axisIndex.handle(), (Addressable) axisInfoPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_var_find_axis.invokeExact(
+                    face.handle(),
+                    axisTag.getValue().intValue(),
+                    axisIndex.handle(),
+                    axisInfo.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        axisInfo.set(new org.harfbuzz.OtVarAxisT(Refcounted.get(axisInfoPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -6966,18 +7658,19 @@ public final class HarfBuzz {
      * @param axisInfo The {@link OtVarAxisInfoT} of the axis tag queried
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT otVarFindAxisInfo(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT axisTag, @NotNull Out<org.harfbuzz.OtVarAxisInfoT> axisInfo) {
+    public static @NotNull org.harfbuzz.BoolT otVarFindAxisInfo(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT axisTag, @NotNull org.harfbuzz.OtVarAxisInfoT axisInfo) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(axisTag, "Parameter 'axisTag' must not be null");
         java.util.Objects.requireNonNull(axisInfo, "Parameter 'axisInfo' must not be null");
-        MemorySegment axisInfoPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_var_find_axis_info.invokeExact(face.handle(), axisTag.getValue(), (Addressable) axisInfoPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_var_find_axis_info.invokeExact(
+                    face.handle(),
+                    axisTag.getValue().intValue(),
+                    axisInfo.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        axisInfo.set(new org.harfbuzz.OtVarAxisInfoT(Refcounted.get(axisInfoPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -7000,7 +7693,11 @@ public final class HarfBuzz {
         MemorySegment axesArrayPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_var_get_axes.invokeExact(face.handle(), startOffset, (Addressable) axesCountPOINTER.address(), (Addressable) axesArrayPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_var_get_axes.invokeExact(
+                    face.handle(),
+                    startOffset,
+                    (Addressable) axesCountPOINTER.address(),
+                    (Addressable) axesArrayPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7023,7 +7720,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_var_get_axis_count.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_var_get_axis_count.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7048,7 +7746,11 @@ public final class HarfBuzz {
         MemorySegment axesArrayPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_var_get_axis_infos.invokeExact(face.handle(), startOffset, (Addressable) axesCountPOINTER.address(), (Addressable) axesArrayPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_var_get_axis_infos.invokeExact(
+                    face.handle(),
+                    startOffset,
+                    (Addressable) axesCountPOINTER.address(),
+                    (Addressable) axesArrayPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7071,7 +7773,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_var_get_named_instance_count.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_var_get_named_instance_count.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7087,7 +7790,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_var_has_data.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_var_has_data.invokeExact(
+                    face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7112,7 +7816,11 @@ public final class HarfBuzz {
         MemorySegment coordsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_var_named_instance_get_design_coords.invokeExact(face.handle(), instanceIndex, (Addressable) coordsLengthPOINTER.address(), (Addressable) coordsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_var_named_instance_get_design_coords.invokeExact(
+                    face.handle(),
+                    instanceIndex,
+                    (Addressable) coordsLengthPOINTER.address(),
+                    (Addressable) coordsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7132,7 +7840,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_var_named_instance_get_postscript_name_id.invokeExact(face.handle(), instanceIndex);
+            RESULT = (int) DowncallHandles.hb_ot_var_named_instance_get_postscript_name_id.invokeExact(
+                    face.handle(),
+                    instanceIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7150,7 +7860,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_ot_var_named_instance_get_subfamily_name_id.invokeExact(face.handle(), instanceIndex);
+            RESULT = (int) DowncallHandles.hb_ot_var_named_instance_get_subfamily_name_id.invokeExact(
+                    face.handle(),
+                    instanceIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7178,7 +7890,11 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(normalizedCoords, "Parameter 'normalizedCoords' must not be null");
         MemorySegment normalizedCoordsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.hb_ot_var_normalize_coords.invokeExact(face.handle(), coordsLength, designCoords.handle(), (Addressable) normalizedCoordsPOINTER.address());
+            DowncallHandles.hb_ot_var_normalize_coords.invokeExact(
+                    face.handle(),
+                    coordsLength,
+                    designCoords.handle(),
+                    (Addressable) normalizedCoordsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7200,7 +7916,12 @@ public final class HarfBuzz {
         MemorySegment coordsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment coordsLengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.hb_ot_var_normalize_variations.invokeExact(face.handle(), variations.handle(), variationsLength, (Addressable) coordsPOINTER.address(), (Addressable) coordsLengthPOINTER.address());
+            DowncallHandles.hb_ot_var_normalize_variations.invokeExact(
+                    face.handle(),
+                    variations.handle(),
+                    variationsLength,
+                    (Addressable) coordsPOINTER.address(),
+                    (Addressable) coordsLengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7217,7 +7938,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_script_from_iso15924_tag.invokeExact(tag.getValue());
+            RESULT = (int) DowncallHandles.hb_script_from_iso15924_tag.invokeExact(
+                    tag.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7237,7 +7959,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_script_from_string.invokeExact(Interop.allocateNativeArray(str, false), len);
+            RESULT = (int) DowncallHandles.hb_script_from_string.invokeExact(
+                    Interop.allocateNativeArray(str, false),
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7258,7 +7982,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_script_get_horizontal_direction.invokeExact(script.getValue());
+            RESULT = (int) DowncallHandles.hb_script_get_horizontal_direction.invokeExact(
+                    script.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7274,7 +7999,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_script_to_iso15924_tag.invokeExact(script.getValue());
+            RESULT = (int) DowncallHandles.hb_script_to_iso15924_tag.invokeExact(
+                    script.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7292,7 +8018,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_segment_properties_equal.invokeExact(a.handle(), b.handle());
+            RESULT = (int) DowncallHandles.hb_segment_properties_equal.invokeExact(
+                    a.handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7308,7 +8036,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_segment_properties_hash.invokeExact(p.handle());
+            RESULT = (int) DowncallHandles.hb_segment_properties_hash.invokeExact(
+                    p.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7333,7 +8062,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
         java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         try {
-            DowncallHandles.hb_segment_properties_overlay.invokeExact(p.handle(), src.handle());
+            DowncallHandles.hb_segment_properties_overlay.invokeExact(
+                    p.handle(),
+                    src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7348,7 +8079,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         java.util.Objects.requireNonNull(codepoint, "Parameter 'codepoint' must not be null");
         try {
-            DowncallHandles.hb_set_add.invokeExact(set.handle(), codepoint.getValue());
+            DowncallHandles.hb_set_add.invokeExact(
+                    set.handle(),
+                    codepoint.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7366,7 +8099,10 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(first, "Parameter 'first' must not be null");
         java.util.Objects.requireNonNull(last, "Parameter 'last' must not be null");
         try {
-            DowncallHandles.hb_set_add_range.invokeExact(set.handle(), first.getValue(), last.getValue());
+            DowncallHandles.hb_set_add_range.invokeExact(
+                    set.handle(),
+                    first.getValue().intValue(),
+                    last.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7381,7 +8117,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_set_allocation_successful.invokeExact(set.handle());
+            RESULT = (int) DowncallHandles.hb_set_allocation_successful.invokeExact(
+                    set.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7395,7 +8132,8 @@ public final class HarfBuzz {
     public static void setClear(@NotNull org.harfbuzz.SetT set) {
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         try {
-            DowncallHandles.hb_set_clear.invokeExact(set.handle());
+            DowncallHandles.hb_set_clear.invokeExact(
+                    set.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7410,7 +8148,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_set_copy.invokeExact(set.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_set_copy.invokeExact(
+                    set.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7440,7 +8179,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         java.util.Objects.requireNonNull(codepoint, "Parameter 'codepoint' must not be null");
         try {
-            DowncallHandles.hb_set_del.invokeExact(set.handle(), codepoint.getValue());
+            DowncallHandles.hb_set_del.invokeExact(
+                    set.handle(),
+                    codepoint.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7461,7 +8202,10 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(first, "Parameter 'first' must not be null");
         java.util.Objects.requireNonNull(last, "Parameter 'last' must not be null");
         try {
-            DowncallHandles.hb_set_del_range.invokeExact(set.handle(), first.getValue(), last.getValue());
+            DowncallHandles.hb_set_del_range.invokeExact(
+                    set.handle(),
+                    first.getValue().intValue(),
+                    last.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7476,7 +8220,8 @@ public final class HarfBuzz {
     public static void setDestroy(@NotNull org.harfbuzz.SetT set) {
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         try {
-            DowncallHandles.hb_set_destroy.invokeExact(set.handle());
+            DowncallHandles.hb_set_destroy.invokeExact(
+                    set.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7505,7 +8250,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_set_get_max.invokeExact(set.handle());
+            RESULT = (int) DowncallHandles.hb_set_get_max.invokeExact(
+                    set.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7521,7 +8267,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_set_get_min.invokeExact(set.handle());
+            RESULT = (int) DowncallHandles.hb_set_get_min.invokeExact(
+                    set.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7537,7 +8284,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_set_get_population.invokeExact(set.handle());
+            RESULT = (int) DowncallHandles.hb_set_get_population.invokeExact(
+                    set.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7556,7 +8304,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_set_get_user_data.invokeExact(set.handle(), key.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_set_get_user_data.invokeExact(
+                    set.handle(),
+                    key.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7574,7 +8324,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(codepoint, "Parameter 'codepoint' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_set_has.invokeExact(set.handle(), codepoint.getValue());
+            RESULT = (int) DowncallHandles.hb_set_has.invokeExact(
+                    set.handle(),
+                    codepoint.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7590,7 +8342,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         try {
-            DowncallHandles.hb_set_intersect.invokeExact(set.handle(), other.handle());
+            DowncallHandles.hb_set_intersect.invokeExact(
+                    set.handle(),
+                    other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7603,7 +8357,8 @@ public final class HarfBuzz {
     public static void setInvert(@NotNull org.harfbuzz.SetT set) {
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         try {
-            DowncallHandles.hb_set_invert.invokeExact(set.handle());
+            DowncallHandles.hb_set_invert.invokeExact(
+                    set.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7618,7 +8373,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_set_is_empty.invokeExact(set.handle());
+            RESULT = (int) DowncallHandles.hb_set_is_empty.invokeExact(
+                    set.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7637,7 +8393,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_set_is_equal.invokeExact(set.handle(), other.handle());
+            RESULT = (int) DowncallHandles.hb_set_is_equal.invokeExact(
+                    set.handle(),
+                    other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7655,7 +8413,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(largerSet, "Parameter 'largerSet' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_set_is_subset.invokeExact(set.handle(), largerSet.handle());
+            RESULT = (int) DowncallHandles.hb_set_is_subset.invokeExact(
+                    set.handle(),
+                    largerSet.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7677,7 +8437,9 @@ public final class HarfBuzz {
         MemorySegment codepointPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_set_next.invokeExact(set.handle(), (Addressable) codepointPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_set_next.invokeExact(
+                    set.handle(),
+                    (Addressable) codepointPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7704,7 +8466,10 @@ public final class HarfBuzz {
         MemorySegment lastPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_set_next_range.invokeExact(set.handle(), (Addressable) firstPOINTER.address(), (Addressable) lastPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_set_next_range.invokeExact(
+                    set.handle(),
+                    (Addressable) firstPOINTER.address(),
+                    (Addressable) lastPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7728,7 +8493,9 @@ public final class HarfBuzz {
         MemorySegment codepointPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_set_previous.invokeExact(set.handle(), (Addressable) codepointPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_set_previous.invokeExact(
+                    set.handle(),
+                    (Addressable) codepointPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7755,7 +8522,10 @@ public final class HarfBuzz {
         MemorySegment lastPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_set_previous_range.invokeExact(set.handle(), (Addressable) firstPOINTER.address(), (Addressable) lastPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_set_previous_range.invokeExact(
+                    set.handle(),
+                    (Addressable) firstPOINTER.address(),
+                    (Addressable) lastPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7773,7 +8543,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_set_reference.invokeExact(set.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_set_reference.invokeExact(
+                    set.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7789,7 +8560,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         try {
-            DowncallHandles.hb_set_set.invokeExact(set.handle(), other.handle());
+            DowncallHandles.hb_set_set.invokeExact(
+                    set.handle(),
+                    other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7817,7 +8590,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         try {
-            DowncallHandles.hb_set_subtract.invokeExact(set.handle(), other.handle());
+            DowncallHandles.hb_set_subtract.invokeExact(
+                    set.handle(),
+                    other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7833,7 +8608,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         try {
-            DowncallHandles.hb_set_symmetric_difference.invokeExact(set.handle(), other.handle());
+            DowncallHandles.hb_set_symmetric_difference.invokeExact(
+                    set.handle(),
+                    other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7848,7 +8625,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         try {
-            DowncallHandles.hb_set_union.invokeExact(set.handle(), other.handle());
+            DowncallHandles.hb_set_union.invokeExact(
+                    set.handle(),
+                    other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7869,9 +8648,12 @@ public final class HarfBuzz {
     public static void shape(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferT buffer, org.harfbuzz.FeatureT[] features, int numFeatures) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNullElse(features, MemoryAddress.NULL);
         try {
-            DowncallHandles.hb_shape.invokeExact(font.handle(), buffer.handle(), Interop.allocateNativeArray(features, false), numFeatures);
+            DowncallHandles.hb_shape.invokeExact(
+                    font.handle(),
+                    buffer.handle(),
+                    (Addressable) (features == null ? MemoryAddress.NULL : Interop.allocateNativeArray(features, false)),
+                    numFeatures);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7893,11 +8675,14 @@ public final class HarfBuzz {
     public static @NotNull org.harfbuzz.BoolT shapeFull(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferT buffer, org.harfbuzz.FeatureT[] features, int numFeatures, java.lang.String[] shaperList) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNullElse(features, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(shaperList, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_shape_full.invokeExact(font.handle(), buffer.handle(), Interop.allocateNativeArray(features, false), numFeatures, Interop.allocateNativeArray(shaperList, false));
+            RESULT = (int) DowncallHandles.hb_shape_full.invokeExact(
+                    font.handle(),
+                    buffer.handle(),
+                    (Addressable) (features == null ? MemoryAddress.NULL : Interop.allocateNativeArray(features, false)),
+                    numFeatures,
+                    (Addressable) (shaperList == null ? MemoryAddress.NULL : Interop.allocateNativeArray(shaperList, false)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7936,7 +8721,12 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(shaperList, "Parameter 'shaperList' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_create.invokeExact(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures, false), numUserFeatures, Interop.allocateNativeArray(shaperList, false));
+            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_create.invokeExact(
+                    face.handle(),
+                    props.handle(),
+                    Interop.allocateNativeArray(userFeatures, false),
+                    numUserFeatures,
+                    Interop.allocateNativeArray(shaperList, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7964,7 +8754,14 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(shaperList, "Parameter 'shaperList' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_create2.invokeExact(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures, false), numUserFeatures, Interop.allocateNativeArray(coords, false), numCoords, Interop.allocateNativeArray(shaperList, false));
+            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_create2.invokeExact(
+                    face.handle(),
+                    props.handle(),
+                    Interop.allocateNativeArray(userFeatures, false),
+                    numUserFeatures,
+                    Interop.allocateNativeArray(coords, false),
+                    numCoords,
+                    Interop.allocateNativeArray(shaperList, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7988,7 +8785,12 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(shaperList, "Parameter 'shaperList' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_create_cached.invokeExact(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures, false), numUserFeatures, Interop.allocateNativeArray(shaperList, false));
+            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_create_cached.invokeExact(
+                    face.handle(),
+                    props.handle(),
+                    Interop.allocateNativeArray(userFeatures, false),
+                    numUserFeatures,
+                    Interop.allocateNativeArray(shaperList, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8017,7 +8819,14 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(shaperList, "Parameter 'shaperList' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_create_cached2.invokeExact(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures, false), numUserFeatures, Interop.allocateNativeArray(coords, false), numCoords, Interop.allocateNativeArray(shaperList, false));
+            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_create_cached2.invokeExact(
+                    face.handle(),
+                    props.handle(),
+                    Interop.allocateNativeArray(userFeatures, false),
+                    numUserFeatures,
+                    Interop.allocateNativeArray(coords, false),
+                    numCoords,
+                    Interop.allocateNativeArray(shaperList, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8033,7 +8842,8 @@ public final class HarfBuzz {
     public static void shapePlanDestroy(@NotNull org.harfbuzz.ShapePlanT shapePlan) {
         java.util.Objects.requireNonNull(shapePlan, "Parameter 'shapePlan' must not be null");
         try {
-            DowncallHandles.hb_shape_plan_destroy.invokeExact(shapePlan.handle());
+            DowncallHandles.hb_shape_plan_destroy.invokeExact(
+                    shapePlan.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8056,7 +8866,12 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(features, "Parameter 'features' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_shape_plan_execute.invokeExact(shapePlan.handle(), font.handle(), buffer.handle(), Interop.allocateNativeArray(features, false), numFeatures);
+            RESULT = (int) DowncallHandles.hb_shape_plan_execute.invokeExact(
+                    shapePlan.handle(),
+                    font.handle(),
+                    buffer.handle(),
+                    Interop.allocateNativeArray(features, false),
+                    numFeatures);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8086,11 +8901,12 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(shapePlan, "Parameter 'shapePlan' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_get_shaper.invokeExact(shapePlan.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_get_shaper.invokeExact(
+                    shapePlan.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -8105,7 +8921,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_get_user_data.invokeExact(shapePlan.handle(), key.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_get_user_data.invokeExact(
+                    shapePlan.handle(),
+                    key.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8121,7 +8939,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(shapePlan, "Parameter 'shapePlan' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_reference.invokeExact(shapePlan.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_reference.invokeExact(
+                    shapePlan.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8154,7 +8973,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(styleTag, "Parameter 'styleTag' must not be null");
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.hb_style_get_value.invokeExact(font.handle(), styleTag.getValue());
+            RESULT = (float) DowncallHandles.hb_style_get_value.invokeExact(
+                    font.handle(),
+                    styleTag.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8174,7 +8995,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_tag_from_string.invokeExact(Interop.allocateNativeArray(str, false), len);
+            RESULT = (int) DowncallHandles.hb_tag_from_string.invokeExact(
+                    Interop.allocateNativeArray(str, false),
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8192,7 +9015,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.hb_tag_to_string.invokeExact(tag.getValue(), (Addressable) bufPOINTER.address());
+            DowncallHandles.hb_tag_to_string.invokeExact(
+                    tag.getValue().intValue(),
+                    (Addressable) bufPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8211,7 +9036,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(unicode, "Parameter 'unicode' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_unicode_combining_class.invokeExact(ufuncs.handle(), unicode.getValue());
+            RESULT = (int) DowncallHandles.hb_unicode_combining_class.invokeExact(
+                    ufuncs.handle(),
+                    unicode.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8238,7 +9065,11 @@ public final class HarfBuzz {
         MemorySegment abPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_unicode_compose.invokeExact(ufuncs.handle(), a.getValue(), b.getValue(), (Addressable) abPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_unicode_compose.invokeExact(
+                    ufuncs.handle(),
+                    a.getValue().intValue(),
+                    b.getValue().intValue(),
+                    (Addressable) abPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8266,7 +9097,11 @@ public final class HarfBuzz {
         MemorySegment bPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_unicode_decompose.invokeExact(ufuncs.handle(), ab.getValue(), (Addressable) aPOINTER.address(), (Addressable) bPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_unicode_decompose.invokeExact(
+                    ufuncs.handle(),
+                    ab.getValue().intValue(),
+                    (Addressable) aPOINTER.address(),
+                    (Addressable) bPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8291,7 +9126,10 @@ public final class HarfBuzz {
         MemorySegment decomposedPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_unicode_decompose_compatibility.invokeExact(ufuncs.handle(), u.getValue(), (Addressable) decomposedPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_unicode_decompose_compatibility.invokeExact(
+                    ufuncs.handle(),
+                    u.getValue().intValue(),
+                    (Addressable) decomposedPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8310,7 +9148,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(unicode, "Parameter 'unicode' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_unicode_eastasian_width.invokeExact(ufuncs.handle(), unicode.getValue());
+            RESULT = (int) DowncallHandles.hb_unicode_eastasian_width.invokeExact(
+                    ufuncs.handle(),
+                    unicode.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8323,10 +9163,10 @@ public final class HarfBuzz {
      * @return The Unicode-functions structure
      */
     public static @NotNull org.harfbuzz.UnicodeFuncsT unicodeFuncsCreate(@Nullable org.harfbuzz.UnicodeFuncsT parent) {
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_unicode_funcs_create.invokeExact(parent.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_unicode_funcs_create.invokeExact(
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8342,7 +9182,8 @@ public final class HarfBuzz {
     public static void unicodeFuncsDestroy(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs) {
         java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
         try {
-            DowncallHandles.hb_unicode_funcs_destroy.invokeExact(ufuncs.handle());
+            DowncallHandles.hb_unicode_funcs_destroy.invokeExact(
+                    ufuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8387,7 +9228,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_unicode_funcs_get_parent.invokeExact(ufuncs.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_unicode_funcs_get_parent.invokeExact(
+                    ufuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8406,7 +9248,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_unicode_funcs_get_user_data.invokeExact(ufuncs.handle(), key.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_unicode_funcs_get_user_data.invokeExact(
+                    ufuncs.handle(),
+                    key.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8423,7 +9267,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_unicode_funcs_is_immutable.invokeExact(ufuncs.handle());
+            RESULT = (int) DowncallHandles.hb_unicode_funcs_is_immutable.invokeExact(
+                    ufuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8438,7 +9283,8 @@ public final class HarfBuzz {
     public static void unicodeFuncsMakeImmutable(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs) {
         java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
         try {
-            DowncallHandles.hb_unicode_funcs_make_immutable.invokeExact(ufuncs.handle());
+            DowncallHandles.hb_unicode_funcs_make_immutable.invokeExact(
+                    ufuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8453,7 +9299,8 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_unicode_funcs_reference.invokeExact(ufuncs.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_unicode_funcs_reference.invokeExact(
+                    ufuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8575,7 +9422,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(unicode, "Parameter 'unicode' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_unicode_general_category.invokeExact(ufuncs.handle(), unicode.getValue());
+            RESULT = (int) DowncallHandles.hb_unicode_general_category.invokeExact(
+                    ufuncs.handle(),
+                    unicode.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8594,7 +9443,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(unicode, "Parameter 'unicode' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_unicode_mirroring.invokeExact(ufuncs.handle(), unicode.getValue());
+            RESULT = (int) DowncallHandles.hb_unicode_mirroring.invokeExact(
+                    ufuncs.handle(),
+                    unicode.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8613,7 +9464,9 @@ public final class HarfBuzz {
         java.util.Objects.requireNonNull(unicode, "Parameter 'unicode' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_unicode_script.invokeExact(ufuncs.handle(), unicode.getValue());
+            RESULT = (int) DowncallHandles.hb_unicode_script.invokeExact(
+                    ufuncs.handle(),
+                    unicode.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8634,17 +9487,18 @@ public final class HarfBuzz {
      * @param variation the {@link VariationT} to initialize with the parsed values
      * @return {@code true} if {@code str} is successfully parsed, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT variationFromString(byte[] str, int len, @NotNull Out<org.harfbuzz.VariationT> variation) {
+    public static @NotNull org.harfbuzz.BoolT variationFromString(byte[] str, int len, @NotNull org.harfbuzz.VariationT variation) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         java.util.Objects.requireNonNull(variation, "Parameter 'variation' must not be null");
-        MemorySegment variationPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_variation_from_string.invokeExact(Interop.allocateNativeArray(str, false), len, (Addressable) variationPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_variation_from_string.invokeExact(
+                    Interop.allocateNativeArray(str, false),
+                    len,
+                    variation.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        variation.set(new org.harfbuzz.VariationT(Refcounted.get(variationPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -8662,7 +9516,10 @@ public final class HarfBuzz {
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.hb_variation_to_string.invokeExact(variation.handle(), (Addressable) bufPOINTER.address(), (Addressable) sizePOINTER.address());
+            DowncallHandles.hb_variation_to_string.invokeExact(
+                    variation.handle(),
+                    (Addressable) bufPOINTER.address(),
+                    (Addressable) sizePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8670,7 +9527,7 @@ public final class HarfBuzz {
         java.lang.String[] bufARRAY = new java.lang.String[size.get().intValue()];
         for (int I = 0; I < size.get().intValue(); I++) {
             var OBJ = bufPOINTER.get(ValueLayout.ADDRESS, I);
-            bufARRAY[I] = OBJ.getUtf8String(0);
+            bufARRAY[I] = Interop.getStringFrom(OBJ);
         }
         buf.set(bufARRAY);
     }
@@ -8689,7 +9546,10 @@ public final class HarfBuzz {
         MemorySegment minorPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment microPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.hb_version.invokeExact((Addressable) majorPOINTER.address(), (Addressable) minorPOINTER.address(), (Addressable) microPOINTER.address());
+            DowncallHandles.hb_version.invokeExact(
+                    (Addressable) majorPOINTER.address(),
+                    (Addressable) minorPOINTER.address(),
+                    (Addressable) microPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8710,7 +9570,10 @@ public final class HarfBuzz {
     public static @NotNull org.harfbuzz.BoolT versionAtleast(int major, int minor, int micro) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.hb_version_atleast.invokeExact(major, minor, micro);
+            RESULT = (int) DowncallHandles.hb_version_atleast.invokeExact(
+                    major,
+                    minor,
+                    micro);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8728,7 +9591,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     private static class DowncallHandles {

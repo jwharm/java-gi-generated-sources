@@ -37,28 +37,41 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkStringList";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public StringList(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to StringList */
+    /**
+     * Cast object to StringList if its GType is a (or inherits from) "GtkStringList".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "StringList" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkStringList", a ClassCastException will be thrown.
+     */
     public static StringList castFrom(org.gtk.gobject.Object gobject) {
-        return new StringList(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkStringList"))) {
+            return new StringList(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkStringList");
+        }
     }
     
     private static Refcounted constructNew(java.lang.String[] strings) {
-        java.util.Objects.requireNonNullElse(strings, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_string_list_new.invokeExact(Interop.allocateNativeArray(strings, false)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_string_list_new.invokeExact(
+                    (Addressable) (strings == null ? MemoryAddress.NULL : Interop.allocateNativeArray(strings, false))), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,7 +96,9 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
     public void append(@NotNull java.lang.String string) {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         try {
-            DowncallHandles.gtk_string_list_append.invokeExact(handle(), Interop.allocateNativeString(string));
+            DowncallHandles.gtk_string_list_append.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,11 +117,13 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
     public @Nullable java.lang.String getString(int position) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_string_list_get_string.invokeExact(handle(), position);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_string_list_get_string.invokeExact(
+                    handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -118,7 +135,9 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      */
     public void remove(int position) {
         try {
-            DowncallHandles.gtk_string_list_remove.invokeExact(handle(), position);
+            DowncallHandles.gtk_string_list_remove.invokeExact(
+                    handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,9 +161,12 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * @param additions The strings to add
      */
     public void splice(int position, int nRemovals, java.lang.String[] additions) {
-        java.util.Objects.requireNonNullElse(additions, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_string_list_splice.invokeExact(handle(), position, nRemovals, Interop.allocateNativeArray(additions, false));
+            DowncallHandles.gtk_string_list_splice.invokeExact(
+                    handle(),
+                    position,
+                    nRemovals,
+                    (Addressable) (additions == null ? MemoryAddress.NULL : Interop.allocateNativeArray(additions, false)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -164,7 +186,9 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
     public void take(@NotNull java.lang.String string) {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         try {
-            DowncallHandles.gtk_string_list_take.invokeExact(handle(), Interop.allocateNativeString(string));
+            DowncallHandles.gtk_string_list_take.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

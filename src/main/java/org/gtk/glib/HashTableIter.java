@@ -20,6 +20,8 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GHashTableIter";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("dummy1"),
         Interop.valueLayout.ADDRESS.withName("dummy2"),
@@ -27,16 +29,26 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
         ValueLayout.JAVA_INT.withName("dummy4"),
         ValueLayout.JAVA_INT.withName("dummy5"),
         Interop.valueLayout.ADDRESS.withName("dummy6")
-    ).withName("GHashTableIter");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static HashTableIter allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        HashTableIter newInstance = new HashTableIter(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public HashTableIter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -48,7 +60,8 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.HashTable getHashTable() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hash_table_iter_get_hash_table.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_hash_table_iter_get_hash_table.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,7 +90,9 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
     public void init(@NotNull org.gtk.glib.HashTable hashTable) {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
         try {
-            DowncallHandles.g_hash_table_iter_init.invokeExact(handle(), hashTable.handle());
+            DowncallHandles.g_hash_table_iter_init.invokeExact(
+                    handle(),
+                    hashTable.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,18 +107,19 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
      * @return {@code false} if the end of the {@link HashTable} has been reached.
      */
     public boolean next(@Nullable Out<java.lang.foreign.MemoryAddress> key, @Nullable Out<java.lang.foreign.MemoryAddress> value) {
-        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         MemorySegment keyPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_hash_table_iter_next.invokeExact(handle(), (Addressable) keyPOINTER.address(), (Addressable) valuePOINTER.address());
+            RESULT = (int) DowncallHandles.g_hash_table_iter_next.invokeExact(
+                    handle(),
+                    (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) keyPOINTER.address()),
+                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        key.set(keyPOINTER.get(ValueLayout.ADDRESS, 0));
-        value.set(valuePOINTER.get(ValueLayout.ADDRESS, 0));
+        if (key != null) key.set(keyPOINTER.get(ValueLayout.ADDRESS, 0));
+        if (value != null) value.set(valuePOINTER.get(ValueLayout.ADDRESS, 0));
         return RESULT != 0;
     }
     
@@ -129,7 +145,8 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public void remove() {
         try {
-            DowncallHandles.g_hash_table_iter_remove.invokeExact(handle());
+            DowncallHandles.g_hash_table_iter_remove.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,9 +162,10 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
      * @param value the value to replace with
      */
     public void replace(@Nullable java.lang.foreign.MemoryAddress value) {
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_hash_table_iter_replace.invokeExact(handle(), value);
+            DowncallHandles.g_hash_table_iter_replace.invokeExact(
+                    handle(),
+                    (Addressable) (value == null ? MemoryAddress.NULL : value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,7 +180,8 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public void steal() {
         try {
-            DowncallHandles.g_hash_table_iter_steal.invokeExact(handle());
+            DowncallHandles.g_hash_table_iter_steal.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

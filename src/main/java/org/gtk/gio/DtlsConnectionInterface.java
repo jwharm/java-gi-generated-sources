@@ -15,6 +15,8 @@ public class DtlsConnectionInterface extends io.github.jwharm.javagi.ResourceBas
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GDtlsConnectionInterface";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface"),
         Interop.valueLayout.ADDRESS.withName("accept_certificate"),
@@ -27,16 +29,35 @@ public class DtlsConnectionInterface extends io.github.jwharm.javagi.ResourceBas
         Interop.valueLayout.ADDRESS.withName("set_advertised_protocols"),
         Interop.valueLayout.ADDRESS.withName("get_negotiated_protocol"),
         Interop.valueLayout.ADDRESS.withName("get_binding_data")
-    ).withName("GDtlsConnectionInterface");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static DtlsConnectionInterface allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        DtlsConnectionInterface newInstance = new DtlsConnectionInterface(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code g_iface}
+     * @return The value of the field {@code g_iface}
+     */
+    public org.gtk.gobject.TypeInterface g_iface$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
+        return new org.gtk.gobject.TypeInterface(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public DtlsConnectionInterface(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

@@ -17,21 +17,34 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkGestureRotate";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public GestureRotate(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to GestureRotate */
+    /**
+     * Cast object to GestureRotate if its GType is a (or inherits from) "GtkGestureRotate".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "GestureRotate" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkGestureRotate", a ClassCastException will be thrown.
+     */
     public static GestureRotate castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureRotate(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGestureRotate"))) {
+            return new GestureRotate(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGestureRotate");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -63,7 +76,8 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
     public double getAngleDelta() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_gesture_rotate_get_angle_delta.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_gesture_rotate_get_angle_delta.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

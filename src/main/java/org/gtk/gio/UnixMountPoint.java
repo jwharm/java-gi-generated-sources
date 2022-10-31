@@ -15,14 +15,26 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GUnixMountPoint";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static UnixMountPoint allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        UnixMountPoint newInstance = new UnixMountPoint(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public UnixMountPoint(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -37,7 +49,9 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(mount2, "Parameter 'mount2' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_mount_point_compare.invokeExact(handle(), mount2.handle());
+            RESULT = (int) DowncallHandles.g_unix_mount_point_compare.invokeExact(
+                    handle(),
+                    mount2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -51,7 +65,8 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gio.UnixMountPoint copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -63,7 +78,8 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.g_unix_mount_point_free.invokeExact(handle());
+            DowncallHandles.g_unix_mount_point_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,11 +92,12 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getDevicePath() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_get_device_path.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_get_device_path.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -90,11 +107,12 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getFsType() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_get_fs_type.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_get_fs_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -104,11 +122,12 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getMountPath() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_get_mount_path.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_get_mount_path.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -118,11 +137,12 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.String getOptions() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_get_options.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_get_options.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -132,7 +152,8 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
     public boolean guessCanEject() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_mount_point_guess_can_eject.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_unix_mount_point_guess_can_eject.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,7 +167,8 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gio.Icon guessIcon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_guess_icon.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_guess_icon.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,11 +184,12 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String guessName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_guess_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_guess_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -176,7 +199,8 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gio.Icon guessSymbolicIcon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_guess_symbolic_icon.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_guess_symbolic_icon.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -190,7 +214,8 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
     public boolean isLoopback() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_mount_point_is_loopback.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_unix_mount_point_is_loopback.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,7 +229,8 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
     public boolean isReadonly() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_mount_point_is_readonly.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_unix_mount_point_is_readonly.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +244,8 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
     public boolean isUserMountable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_mount_point_is_user_mountable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_unix_mount_point_is_user_mountable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -243,7 +270,9 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment timeReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_at.invokeExact(Interop.allocateNativeString(mountPath), (Addressable) timeReadPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_at.invokeExact(
+                    Interop.allocateNativeString(mountPath),
+                    (Addressable) timeReadPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

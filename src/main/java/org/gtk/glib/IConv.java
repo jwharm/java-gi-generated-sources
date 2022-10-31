@@ -15,14 +15,26 @@ public class IConv extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GIConv";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static IConv allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        IConv newInstance = new IConv(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public IConv(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -54,7 +66,12 @@ public class IConv extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(outbytesLeft, "Parameter 'outbytesLeft' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_iconv.invokeExact(handle(), inbuf.handle(), inbytesLeft.handle(), outbuf.handle(), outbytesLeft.handle());
+            RESULT = (long) DowncallHandles.g_iconv.invokeExact(
+                    handle(),
+                    inbuf.handle(),
+                    inbytesLeft.handle(),
+                    outbuf.handle(),
+                    outbytesLeft.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -75,7 +92,8 @@ public class IConv extends io.github.jwharm.javagi.ResourceBase {
     public int close() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_iconv_close.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_iconv_close.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +117,9 @@ public class IConv extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(fromCodeset, "Parameter 'fromCodeset' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_iconv_open.invokeExact(Interop.allocateNativeString(toCodeset), Interop.allocateNativeString(fromCodeset));
+            RESULT = (MemoryAddress) DowncallHandles.g_iconv_open.invokeExact(
+                    Interop.allocateNativeString(toCodeset),
+                    Interop.allocateNativeString(fromCodeset));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

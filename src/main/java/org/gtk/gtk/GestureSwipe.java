@@ -25,21 +25,34 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkGestureSwipe";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public GestureSwipe(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to GestureSwipe */
+    /**
+     * Cast object to GestureSwipe if its GType is a (or inherits from) "GtkGestureSwipe".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "GestureSwipe" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkGestureSwipe", a ClassCastException will be thrown.
+     */
     public static GestureSwipe castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureSwipe(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGestureSwipe"))) {
+            return new GestureSwipe(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGestureSwipe");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -76,7 +89,10 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
         MemorySegment velocityYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_swipe_get_velocity.invokeExact(handle(), (Addressable) velocityXPOINTER.address(), (Addressable) velocityYPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_gesture_swipe_get_velocity.invokeExact(
+                    handle(),
+                    (Addressable) velocityXPOINTER.address(),
+                    (Addressable) velocityYPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

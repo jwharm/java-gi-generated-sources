@@ -55,21 +55,67 @@ public class DBusInterfaceVTable extends io.github.jwharm.javagi.ResourceBase {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GDBusInterfaceVTable";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("method_call"),
         Interop.valueLayout.ADDRESS.withName("get_property"),
         Interop.valueLayout.ADDRESS.withName("set_property"),
+        MemoryLayout.paddingLayout(320),
         MemoryLayout.sequenceLayout(8, ValueLayout.ADDRESS).withName("padding")
-    ).withName("GDBusInterfaceVTable");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static DBusInterfaceVTable allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        DBusInterfaceVTable newInstance = new DBusInterfaceVTable(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code method_call}
+     * @return The value of the field {@code method_call}
+     */
+    public org.gtk.gio.DBusInterfaceMethodCallFunc method_call$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("method_call"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    /**
+     * Get the value of the field {@code get_property}
+     * @return The value of the field {@code get_property}
+     */
+    public org.gtk.gio.DBusInterfaceGetPropertyFunc get_property$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("get_property"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    /**
+     * Get the value of the field {@code set_property}
+     * @return The value of the field {@code set_property}
+     */
+    public org.gtk.gio.DBusInterfaceSetPropertyFunc set_property$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("set_property"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    @ApiStatus.Internal
     public DBusInterfaceVTable(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

@@ -20,22 +20,34 @@ public class MarkupParser extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GMarkupParser";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("start_element"),
         Interop.valueLayout.ADDRESS.withName("end_element"),
         Interop.valueLayout.ADDRESS.withName("text"),
         Interop.valueLayout.ADDRESS.withName("passthrough"),
         Interop.valueLayout.ADDRESS.withName("error")
-    ).withName("GMarkupParser");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static MarkupParser allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        MarkupParser newInstance = new MarkupParser(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public MarkupParser(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

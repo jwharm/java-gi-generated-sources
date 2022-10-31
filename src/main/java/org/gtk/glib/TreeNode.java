@@ -15,14 +15,26 @@ public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTreeNode";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static TreeNode allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        TreeNode newInstance = new TreeNode(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public TreeNode(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -34,7 +46,8 @@ public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress key() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_key.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_key.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -49,7 +62,8 @@ public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.glib.TreeNode next() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_next.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_next.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,7 +78,8 @@ public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.glib.TreeNode previous() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_previous.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_previous.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -78,7 +93,8 @@ public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress value() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_value.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_value.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

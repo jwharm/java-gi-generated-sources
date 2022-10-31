@@ -22,28 +22,42 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSubprocessLauncher";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public SubprocessLauncher(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to SubprocessLauncher */
+    /**
+     * Cast object to SubprocessLauncher if its GType is a (or inherits from) "GSubprocessLauncher".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "SubprocessLauncher" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GSubprocessLauncher", a ClassCastException will be thrown.
+     */
     public static SubprocessLauncher castFrom(org.gtk.gobject.Object gobject) {
-        return new SubprocessLauncher(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSubprocessLauncher"))) {
+            return new SubprocessLauncher(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSubprocessLauncher");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gio.SubprocessFlags flags) {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_subprocess_launcher_new.invokeExact(flags.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_subprocess_launcher_new.invokeExact(
+                    flags.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,7 +90,8 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      */
     public void close() {
         try {
-            DowncallHandles.g_subprocess_launcher_close.invokeExact(handle());
+            DowncallHandles.g_subprocess_launcher_close.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,11 +111,13 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(variable, "Parameter 'variable' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_subprocess_launcher_getenv.invokeExact(handle(), Interop.allocateNativeString(variable));
+            RESULT = (MemoryAddress) DowncallHandles.g_subprocess_launcher_getenv.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(variable));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -122,13 +139,14 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
     public void setChildSetup(@NotNull org.gtk.glib.SpawnChildSetupFunc childSetup) {
         java.util.Objects.requireNonNull(childSetup, "Parameter 'childSetup' must not be null");
         try {
-            DowncallHandles.g_subprocess_launcher_set_child_setup.invokeExact(handle(), 
+            DowncallHandles.g_subprocess_launcher_set_child_setup.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(childSetup)), 
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(childSetup)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -146,7 +164,9 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
     public void setCwd(@NotNull java.lang.String cwd) {
         java.util.Objects.requireNonNull(cwd, "Parameter 'cwd' must not be null");
         try {
-            DowncallHandles.g_subprocess_launcher_set_cwd.invokeExact(handle(), Interop.allocateNativeString(cwd));
+            DowncallHandles.g_subprocess_launcher_set_cwd.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(cwd));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,7 +197,9 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
     public void setEnviron(java.lang.String[] env) {
         java.util.Objects.requireNonNull(env, "Parameter 'env' must not be null");
         try {
-            DowncallHandles.g_subprocess_launcher_set_environ.invokeExact(handle(), Interop.allocateNativeArray(env, false));
+            DowncallHandles.g_subprocess_launcher_set_environ.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(env, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -201,7 +223,9 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
     public void setFlags(@NotNull org.gtk.gio.SubprocessFlags flags) {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            DowncallHandles.g_subprocess_launcher_set_flags.invokeExact(handle(), flags.getValue());
+            DowncallHandles.g_subprocess_launcher_set_flags.invokeExact(
+                    handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -225,9 +249,10 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * @param path a filename or {@code null}
      */
     public void setStderrFilePath(@Nullable java.lang.String path) {
-        java.util.Objects.requireNonNullElse(path, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_subprocess_launcher_set_stderr_file_path.invokeExact(handle(), Interop.allocateNativeString(path));
+            DowncallHandles.g_subprocess_launcher_set_stderr_file_path.invokeExact(
+                    handle(),
+                    (Addressable) (path == null ? MemoryAddress.NULL : Interop.allocateNativeString(path)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -248,7 +273,9 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
     public void setStdinFilePath(@NotNull java.lang.String path) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         try {
-            DowncallHandles.g_subprocess_launcher_set_stdin_file_path.invokeExact(handle(), Interop.allocateNativeString(path));
+            DowncallHandles.g_subprocess_launcher_set_stdin_file_path.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(path));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -269,9 +296,10 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * @param path a filename or {@code null}
      */
     public void setStdoutFilePath(@Nullable java.lang.String path) {
-        java.util.Objects.requireNonNullElse(path, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_subprocess_launcher_set_stdout_file_path.invokeExact(handle(), Interop.allocateNativeString(path));
+            DowncallHandles.g_subprocess_launcher_set_stdout_file_path.invokeExact(
+                    handle(),
+                    (Addressable) (path == null ? MemoryAddress.NULL : Interop.allocateNativeString(path)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -293,7 +321,11 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(variable, "Parameter 'variable' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.g_subprocess_launcher_setenv.invokeExact(handle(), Interop.allocateNativeString(variable), Interop.allocateNativeString(value), overwrite ? 1 : 0);
+            DowncallHandles.g_subprocess_launcher_setenv.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(variable),
+                    Interop.allocateNativeString(value),
+                    overwrite ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -320,7 +352,9 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_subprocess_launcher_spawnv.invokeExact(handle(), Interop.allocateNativeArray(argv, false), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_subprocess_launcher_spawnv.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(argv, false), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -348,7 +382,10 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      */
     public void takeFd(int sourceFd, int targetFd) {
         try {
-            DowncallHandles.g_subprocess_launcher_take_fd.invokeExact(handle(), sourceFd, targetFd);
+            DowncallHandles.g_subprocess_launcher_take_fd.invokeExact(
+                    handle(),
+                    sourceFd,
+                    targetFd);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -375,7 +412,9 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      */
     public void takeStderrFd(int fd) {
         try {
-            DowncallHandles.g_subprocess_launcher_take_stderr_fd.invokeExact(handle(), fd);
+            DowncallHandles.g_subprocess_launcher_take_stderr_fd.invokeExact(
+                    handle(),
+                    fd);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -404,7 +443,9 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      */
     public void takeStdinFd(int fd) {
         try {
-            DowncallHandles.g_subprocess_launcher_take_stdin_fd.invokeExact(handle(), fd);
+            DowncallHandles.g_subprocess_launcher_take_stdin_fd.invokeExact(
+                    handle(),
+                    fd);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -432,7 +473,9 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      */
     public void takeStdoutFd(int fd) {
         try {
-            DowncallHandles.g_subprocess_launcher_take_stdout_fd.invokeExact(handle(), fd);
+            DowncallHandles.g_subprocess_launcher_take_stdout_fd.invokeExact(
+                    handle(),
+                    fd);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -450,7 +493,9 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
     public void unsetenv(@NotNull java.lang.String variable) {
         java.util.Objects.requireNonNull(variable, "Parameter 'variable' must not be null");
         try {
-            DowncallHandles.g_subprocess_launcher_unsetenv.invokeExact(handle(), Interop.allocateNativeString(variable));
+            DowncallHandles.g_subprocess_launcher_unsetenv.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(variable));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -21,21 +21,34 @@ public class BindingGroup extends org.gtk.gobject.Object {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GBindingGroup";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public BindingGroup(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to BindingGroup */
+    /**
+     * Cast object to BindingGroup if its GType is a (or inherits from) "GBindingGroup".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "BindingGroup" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GBindingGroup", a ClassCastException will be thrown.
+     */
     public static BindingGroup castFrom(org.gtk.gobject.Object gobject) {
-        return new BindingGroup(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GBindingGroup"))) {
+            return new BindingGroup(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GBindingGroup");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -73,7 +86,12 @@ public class BindingGroup extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(targetProperty, "Parameter 'targetProperty' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            DowncallHandles.g_binding_group_bind.invokeExact(handle(), Interop.allocateNativeString(sourceProperty), target.handle(), Interop.allocateNativeString(targetProperty), flags.getValue());
+            DowncallHandles.g_binding_group_bind.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(sourceProperty),
+                    target.handle(),
+                    Interop.allocateNativeString(targetProperty),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,21 +118,24 @@ public class BindingGroup extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
         java.util.Objects.requireNonNull(targetProperty, "Parameter 'targetProperty' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNullElse(transformTo, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(transformFrom, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_binding_group_bind_full.invokeExact(handle(), Interop.allocateNativeString(sourceProperty), target.handle(), Interop.allocateNativeString(targetProperty), flags.getValue(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_binding_group_bind_full.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(sourceProperty),
+                    target.handle(),
+                    Interop.allocateNativeString(targetProperty),
+                    flags.getValue(),
+                    (Addressable) (transformTo == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbBindingTransformFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+                        Interop.getScope())),
+                    (Addressable) (transformFrom == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbBindingTransformFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (transformTo == null ? MemoryAddress.NULL : Interop.registerCallback(transformTo)), 
+                        Interop.getScope())),
+                    (Addressable) (transformTo == null ? MemoryAddress.NULL : Interop.registerCallback(transformTo)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -148,10 +169,15 @@ public class BindingGroup extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
         java.util.Objects.requireNonNull(targetProperty, "Parameter 'targetProperty' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNullElse(transformTo, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(transformFrom, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_binding_group_bind_with_closures.invokeExact(handle(), Interop.allocateNativeString(sourceProperty), target.handle(), Interop.allocateNativeString(targetProperty), flags.getValue(), transformTo.handle(), transformFrom.handle());
+            DowncallHandles.g_binding_group_bind_with_closures.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(sourceProperty),
+                    target.handle(),
+                    Interop.allocateNativeString(targetProperty),
+                    flags.getValue(),
+                    (Addressable) (transformTo == null ? MemoryAddress.NULL : transformTo.handle()),
+                    (Addressable) (transformFrom == null ? MemoryAddress.NULL : transformFrom.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -164,7 +190,8 @@ public class BindingGroup extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gobject.Object dupSource() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_binding_group_dup_source.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_binding_group_dup_source.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,9 +208,10 @@ public class BindingGroup extends org.gtk.gobject.Object {
      *   or {@code null} to clear it
      */
     public void setSource(@Nullable org.gtk.gobject.Object source) {
-        java.util.Objects.requireNonNullElse(source, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_binding_group_set_source.invokeExact(handle(), source.handle());
+            DowncallHandles.g_binding_group_set_source.invokeExact(
+                    handle(),
+                    (Addressable) (source == null ? MemoryAddress.NULL : source.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

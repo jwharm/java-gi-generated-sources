@@ -19,21 +19,34 @@ public class ATContext extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkATContext";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ATContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ATContext */
+    /**
+     * Cast object to ATContext if its GType is a (or inherits from) "GtkATContext".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ATContext" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkATContext", a ClassCastException will be thrown.
+     */
     public static ATContext castFrom(org.gtk.gobject.Object gobject) {
-        return new ATContext(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkATContext"))) {
+            return new ATContext(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkATContext");
+        }
     }
     
     private static Refcounted constructCreate(@NotNull org.gtk.gtk.AccessibleRole accessibleRole, @NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gdk.Display display) {
@@ -42,7 +55,10 @@ public class ATContext extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_at_context_create.invokeExact(accessibleRole.getValue(), accessible.handle(), display.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_at_context_create.invokeExact(
+                    accessibleRole.getValue(),
+                    accessible.handle(),
+                    display.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -71,7 +87,8 @@ public class ATContext extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.Accessible getAccessible() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_at_context_get_accessible.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_at_context_get_accessible.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,7 +102,8 @@ public class ATContext extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.AccessibleRole getAccessibleRole() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_at_context_get_accessible_role.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_at_context_get_accessible_role.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

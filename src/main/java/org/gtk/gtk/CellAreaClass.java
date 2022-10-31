@@ -11,6 +11,8 @@ public class CellAreaClass extends io.github.jwharm.javagi.ResourceBase {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkCellAreaClass";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.InitiallyUnownedClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("add"),
@@ -32,17 +34,28 @@ public class CellAreaClass extends io.github.jwharm.javagi.ResourceBase {
         Interop.valueLayout.ADDRESS.withName("focus"),
         Interop.valueLayout.ADDRESS.withName("is_activatable"),
         Interop.valueLayout.ADDRESS.withName("activate"),
+        MemoryLayout.paddingLayout(256),
         MemoryLayout.sequenceLayout(8, ValueLayout.ADDRESS).withName("padding")
-    ).withName("GtkCellAreaClass");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static CellAreaClass allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        CellAreaClass newInstance = new CellAreaClass(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public CellAreaClass(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -56,7 +69,9 @@ public class CellAreaClass extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(propertyName, "Parameter 'propertyName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_area_class_find_cell_property.invokeExact(handle(), Interop.allocateNativeString(propertyName));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_area_class_find_cell_property.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(propertyName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -71,7 +86,10 @@ public class CellAreaClass extends io.github.jwharm.javagi.ResourceBase {
     public void installCellProperty(int propertyId, @NotNull org.gtk.gobject.ParamSpec pspec) {
         java.util.Objects.requireNonNull(pspec, "Parameter 'pspec' must not be null");
         try {
-            DowncallHandles.gtk_cell_area_class_install_cell_property.invokeExact(handle(), propertyId, pspec.handle());
+            DowncallHandles.gtk_cell_area_class_install_cell_property.invokeExact(
+                    handle(),
+                    propertyId,
+                    pspec.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -89,7 +107,9 @@ public class CellAreaClass extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment nPropertiesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_area_class_list_cell_properties.invokeExact(handle(), (Addressable) nPropertiesPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_area_class_list_cell_properties.invokeExact(
+                    handle(),
+                    (Addressable) nPropertiesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

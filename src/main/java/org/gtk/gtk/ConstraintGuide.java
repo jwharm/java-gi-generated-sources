@@ -25,21 +25,34 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkConstraintGuide";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ConstraintGuide(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ConstraintGuide */
+    /**
+     * Cast object to ConstraintGuide if its GType is a (or inherits from) "GtkConstraintGuide".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ConstraintGuide" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkConstraintGuide", a ClassCastException will be thrown.
+     */
     public static ConstraintGuide castFrom(org.gtk.gobject.Object gobject) {
-        return new ConstraintGuide(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkConstraintGuide"))) {
+            return new ConstraintGuide(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkConstraintGuide");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -70,7 +83,10 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_constraint_guide_get_max_size.invokeExact(handle(), (Addressable) widthPOINTER.address(), (Addressable) heightPOINTER.address());
+            DowncallHandles.gtk_constraint_guide_get_max_size.invokeExact(
+                    handle(),
+                    (Addressable) widthPOINTER.address(),
+                    (Addressable) heightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -89,7 +105,10 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_constraint_guide_get_min_size.invokeExact(handle(), (Addressable) widthPOINTER.address(), (Addressable) heightPOINTER.address());
+            DowncallHandles.gtk_constraint_guide_get_min_size.invokeExact(
+                    handle(),
+                    (Addressable) widthPOINTER.address(),
+                    (Addressable) heightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,11 +123,12 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
     public @Nullable java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_guide_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_guide_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -122,7 +142,10 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_constraint_guide_get_nat_size.invokeExact(handle(), (Addressable) widthPOINTER.address(), (Addressable) heightPOINTER.address());
+            DowncallHandles.gtk_constraint_guide_get_nat_size.invokeExact(
+                    handle(),
+                    (Addressable) widthPOINTER.address(),
+                    (Addressable) heightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -137,7 +160,8 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
     public @NotNull org.gtk.gtk.ConstraintStrength getStrength() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_constraint_guide_get_strength.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_constraint_guide_get_strength.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,7 +178,10 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
      */
     public void setMaxSize(int width, int height) {
         try {
-            DowncallHandles.gtk_constraint_guide_set_max_size.invokeExact(handle(), width, height);
+            DowncallHandles.gtk_constraint_guide_set_max_size.invokeExact(
+                    handle(),
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,7 +197,10 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
      */
     public void setMinSize(int width, int height) {
         try {
-            DowncallHandles.gtk_constraint_guide_set_min_size.invokeExact(handle(), width, height);
+            DowncallHandles.gtk_constraint_guide_set_min_size.invokeExact(
+                    handle(),
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,9 +213,10 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
      * @param name a name for the {@code guide}
      */
     public void setName(@Nullable java.lang.String name) {
-        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_constraint_guide_set_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.gtk_constraint_guide_set_name.invokeExact(
+                    handle(),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -201,7 +232,10 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
      */
     public void setNatSize(int width, int height) {
         try {
-            DowncallHandles.gtk_constraint_guide_set_nat_size.invokeExact(handle(), width, height);
+            DowncallHandles.gtk_constraint_guide_set_nat_size.invokeExact(
+                    handle(),
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -215,7 +249,9 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
     public void setStrength(@NotNull org.gtk.gtk.ConstraintStrength strength) {
         java.util.Objects.requireNonNull(strength, "Parameter 'strength' must not be null");
         try {
-            DowncallHandles.gtk_constraint_guide_set_strength.invokeExact(handle(), strength.getValue());
+            DowncallHandles.gtk_constraint_guide_set_strength.invokeExact(
+                    handle(),
+                    strength.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

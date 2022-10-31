@@ -17,6 +17,26 @@ import org.jetbrains.annotations.*;
  * choices. The row displays the selected choice. When activated, the row
  * displays a popover which allows the user to make a new choice.
  * <p>
+ * Example of an {@code AdwComboRow} UI definition:
+ * <pre>{@code xml
+ * <object class="AdwComboRow">
+ *   <property name="title" translatable="yes">Combo Row</property>
+ *   <property name="model">
+ *     <object class="GtkStringList">
+ *       <items>
+ *         <item translatable="yes">Foo</item>
+ *         <item translatable="yes">Bar</item>
+ *         <item translatable="yes">Baz</item>
+ *       </items>
+ *     </object>
+ *   </property>
+ * </object>
+ * }</pre>
+ * <p>
+ * The {@code ComboRow:selected] and [property@ComboRow:selected-item}
+ * properties can be used to keep track of the selected item and react to their
+ * changes.
+ * <p>
  * {@code AdwComboRow} mirrors {@link org.gtk.gtk.DropDown}, see that widget for details.
  * <p>
  * {@code AdwComboRow} is {@code Gtk.ListBoxRow:activatable} if a model is set.
@@ -39,25 +59,47 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwComboRow";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gnome.adw.ActionRow.getMemoryLayout().withName("parent_instance")
-    ).withName("AdwComboRow");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gnome.adw.ActionRow parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gnome.adw.ActionRow(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public ComboRow(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ComboRow */
+    /**
+     * Cast object to ComboRow if its GType is a (or inherits from) "AdwComboRow".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ComboRow" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwComboRow", a ClassCastException will be thrown.
+     */
     public static ComboRow castFrom(org.gtk.gobject.Object gobject) {
-        return new ComboRow(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwComboRow"))) {
+            return new ComboRow(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwComboRow");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -84,7 +126,8 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
     public @Nullable org.gtk.gtk.Expression getExpression() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_combo_row_get_expression.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_combo_row_get_expression.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,13 +135,14 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
     }
     
     /**
-     * Gets the factory that's currently used to populate list items.
+     * Gets the factory for populating list items.
      * @return the factory in use
      */
     public @Nullable org.gtk.gtk.ListItemFactory getFactory() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_combo_row_get_factory.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_combo_row_get_factory.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,13 +150,14 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
     }
     
     /**
-     * Gets the factory that's currently used to populate list items in the popup.
+     * Gets the factory for populating list items in the popup.
      * @return the factory in use
      */
     public @Nullable org.gtk.gtk.ListItemFactory getListFactory() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_combo_row_get_list_factory.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_combo_row_get_list_factory.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,7 +171,8 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
     public @Nullable org.gtk.gio.ListModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_combo_row_get_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_combo_row_get_model.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,7 +187,8 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
     public int getSelected() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_combo_row_get_selected.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_combo_row_get_selected.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,7 +202,8 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
     public @Nullable org.gtk.gobject.Object getSelectedItem() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_combo_row_get_selected_item.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_combo_row_get_selected_item.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,7 +217,8 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
     public boolean getUseSubtitle() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_combo_row_get_use_subtitle.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_combo_row_get_use_subtitle.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,51 +229,64 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
      * Sets the expression used to obtain strings from items.
      * <p>
      * The expression must have a value type of {@code G_TYPE_STRING}.
+     * <p>
+     * It's used to bind strings to labels produced by the default factory if
+     * {@code ComboRow:factory} is not set, or when
+     * {@code ComboRow:use-subtitle} is set to {@code TRUE}.
      * @param expression an expression
      */
     public void setExpression(@Nullable org.gtk.gtk.Expression expression) {
-        java.util.Objects.requireNonNullElse(expression, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_combo_row_set_expression.invokeExact(handle(), expression.handle());
+            DowncallHandles.adw_combo_row_set_expression.invokeExact(
+                    handle(),
+                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     /**
-     * Sets the {@code GtkListItemFactory} to use for populating list items.
+     * Sets the factory for populating list items.
+     * <p>
+     * This factory is always used for the item in the row. It is also used for
+     * items in the popup unless {@code ComboRow:list-factory} is set.
      * @param factory the factory to use
      */
     public void setFactory(@Nullable org.gtk.gtk.ListItemFactory factory) {
-        java.util.Objects.requireNonNullElse(factory, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_combo_row_set_factory.invokeExact(handle(), factory.handle());
+            DowncallHandles.adw_combo_row_set_factory.invokeExact(
+                    handle(),
+                    (Addressable) (factory == null ? MemoryAddress.NULL : factory.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     /**
-     * Sets the {@code GtkListItemFactory} to use for populating list items in the popup.
+     * Sets the factory for populating list items in the popup.
+     * <p>
+     * If this is not set, {@code ComboRow:factory} is used.
      * @param factory the factory to use
      */
     public void setListFactory(@Nullable org.gtk.gtk.ListItemFactory factory) {
-        java.util.Objects.requireNonNullElse(factory, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_combo_row_set_list_factory.invokeExact(handle(), factory.handle());
+            DowncallHandles.adw_combo_row_set_list_factory.invokeExact(
+                    handle(),
+                    (Addressable) (factory == null ? MemoryAddress.NULL : factory.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     /**
-     * Sets the {@code Gio.ListModel} to use.
+     * Sets the model that provides the displayed items.
      * @param model the model to use
      */
     public void setModel(@Nullable org.gtk.gio.ListModel model) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_combo_row_set_model.invokeExact(handle(), model.handle());
+            DowncallHandles.adw_combo_row_set_model.invokeExact(
+                    handle(),
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -237,7 +299,9 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
      */
     public void setSelected(int position) {
         try {
-            DowncallHandles.adw_combo_row_set_selected.invokeExact(handle(), position);
+            DowncallHandles.adw_combo_row_set_selected.invokeExact(
+                    handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -245,11 +309,21 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
     
     /**
      * Sets whether to use the current value as the subtitle.
+     * <p>
+     * If you use a custom list item factory, you will need to give the row a
+     * name conversion expression with {@code ComboRow:expression}.
+     * <p>
+     * If set to {@code TRUE}, you should not access {@code ActionRow:subtitle}.
+     * <p>
+     * The subtitle is interpreted as Pango markup if
+     * {@code PreferencesRow:use-markup} is set to {@code TRUE}.
      * @param useSubtitle whether to use the current value as the subtitle
      */
     public void setUseSubtitle(boolean useSubtitle) {
         try {
-            DowncallHandles.adw_combo_row_set_use_subtitle.invokeExact(handle(), useSubtitle ? 1 : 0);
+            DowncallHandles.adw_combo_row_set_use_subtitle.invokeExact(
+                    handle(),
+                    useSubtitle ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

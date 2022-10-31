@@ -16,14 +16,26 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTree";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Tree allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Tree newInstance = new Tree(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Tree(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -54,9 +66,9 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(keyCompareFunc)), 
-                    Interop.cbDestroyNotifySymbol(), 
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(keyCompareFunc)),
+                    Interop.cbDestroyNotifySymbol(),
                     Interop.cbDestroyNotifySymbol()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -84,8 +96,8 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(keyCompareFunc))), true);
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(keyCompareFunc))), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,7 +124,8 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      */
     public void destroy() {
         try {
-            DowncallHandles.g_tree_destroy.invokeExact(handle());
+            DowncallHandles.g_tree_destroy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -133,13 +146,14 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     public void foreach(@NotNull org.gtk.glib.TraverseFunc func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.g_tree_foreach.invokeExact(handle(), 
+            DowncallHandles.g_tree_foreach.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTraverseFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,13 +174,14 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     public void foreachNode(@NotNull org.gtk.glib.TraverseNodeFunc func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.g_tree_foreach_node.invokeExact(handle(), 
+            DowncallHandles.g_tree_foreach_node.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTraverseNodeFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,7 +198,8 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     public int height() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tree_height.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_tree_height.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -199,10 +215,11 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * @param value the value corresponding to the key
      */
     public void insert(@Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
-        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_tree_insert.invokeExact(handle(), key, value);
+            DowncallHandles.g_tree_insert.invokeExact(
+                    handle(),
+                    (Addressable) (key == null ? MemoryAddress.NULL : key),
+                    (Addressable) (value == null ? MemoryAddress.NULL : value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -227,11 +244,12 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * @return the inserted (or set) node.
      */
     public @NotNull org.gtk.glib.TreeNode insertNode(@Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
-        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_insert_node.invokeExact(handle(), key, value);
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_insert_node.invokeExact(
+                    handle(),
+                    (Addressable) (key == null ? MemoryAddress.NULL : key),
+                    (Addressable) (value == null ? MemoryAddress.NULL : value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -247,10 +265,11 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      *     if the key was not found
      */
     public @Nullable java.lang.foreign.MemoryAddress lookup(@Nullable java.lang.foreign.MemoryAddress key) {
-        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_lookup.invokeExact(handle(), key);
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_lookup.invokeExact(
+                    handle(),
+                    (Addressable) (key == null ? MemoryAddress.NULL : key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -268,19 +287,20 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * @return {@code true} if the key was found in the {@link Tree}
      */
     public boolean lookupExtended(@Nullable java.lang.foreign.MemoryAddress lookupKey, @Nullable Out<java.lang.foreign.MemoryAddress> origKey, @Nullable Out<java.lang.foreign.MemoryAddress> value) {
-        java.util.Objects.requireNonNullElse(lookupKey, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(origKey, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         MemorySegment origKeyPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tree_lookup_extended.invokeExact(handle(), lookupKey, (Addressable) origKeyPOINTER.address(), (Addressable) valuePOINTER.address());
+            RESULT = (int) DowncallHandles.g_tree_lookup_extended.invokeExact(
+                    handle(),
+                    (Addressable) (lookupKey == null ? MemoryAddress.NULL : lookupKey),
+                    (Addressable) (origKey == null ? MemoryAddress.NULL : (Addressable) origKeyPOINTER.address()),
+                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        origKey.set(origKeyPOINTER.get(ValueLayout.ADDRESS, 0));
-        value.set(valuePOINTER.get(ValueLayout.ADDRESS, 0));
+        if (origKey != null) origKey.set(origKeyPOINTER.get(ValueLayout.ADDRESS, 0));
+        if (value != null) value.set(valuePOINTER.get(ValueLayout.ADDRESS, 0));
         return RESULT != 0;
     }
     
@@ -293,10 +313,11 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      *          the key, or {@code null} if the key was not found
      */
     public @Nullable org.gtk.glib.TreeNode lookupNode(@Nullable java.lang.foreign.MemoryAddress key) {
-        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_lookup_node.invokeExact(handle(), key);
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_lookup_node.invokeExact(
+                    handle(),
+                    (Addressable) (key == null ? MemoryAddress.NULL : key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -316,10 +337,11 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      *          keys strictly lower than the searched key.
      */
     public @Nullable org.gtk.glib.TreeNode lowerBound(@Nullable java.lang.foreign.MemoryAddress key) {
-        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_lower_bound.invokeExact(handle(), key);
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_lower_bound.invokeExact(
+                    handle(),
+                    (Addressable) (key == null ? MemoryAddress.NULL : key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -333,7 +355,8 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     public int nnodes() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tree_nnodes.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_tree_nnodes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -348,7 +371,8 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.glib.TreeNode nodeFirst() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_first.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_first.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -363,7 +387,8 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.glib.TreeNode nodeLast() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_last.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_last.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -379,7 +404,8 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Tree ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -402,10 +428,11 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      *     returned nothing)
      */
     public boolean remove(@Nullable java.lang.foreign.MemoryAddress key) {
-        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tree_remove.invokeExact(handle(), key);
+            RESULT = (int) DowncallHandles.g_tree_remove.invokeExact(
+                    handle(),
+                    (Addressable) (key == null ? MemoryAddress.NULL : key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -418,7 +445,8 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      */
     public void removeAll() {
         try {
-            DowncallHandles.g_tree_remove_all.invokeExact(handle());
+            DowncallHandles.g_tree_remove_all.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -431,10 +459,11 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * @param value the value corresponding to the key
      */
     public void replace(@Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
-        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_tree_replace.invokeExact(handle(), key, value);
+            DowncallHandles.g_tree_replace.invokeExact(
+                    handle(),
+                    (Addressable) (key == null ? MemoryAddress.NULL : key),
+                    (Addressable) (value == null ? MemoryAddress.NULL : value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -455,11 +484,12 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * @return the inserted (or set) node.
      */
     public @NotNull org.gtk.glib.TreeNode replaceNode(@Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
-        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_replace_node.invokeExact(handle(), key, value);
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_replace_node.invokeExact(
+                    handle(),
+                    (Addressable) (key == null ? MemoryAddress.NULL : key),
+                    (Addressable) (value == null ? MemoryAddress.NULL : value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -484,13 +514,14 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(searchFunc, "Parameter 'searchFunc' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_search.invokeExact(handle(), 
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_search.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(searchFunc)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(searchFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -515,13 +546,14 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(searchFunc, "Parameter 'searchFunc' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_search_node.invokeExact(handle(), 
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_search_node.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(searchFunc)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(searchFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -538,10 +570,11 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      *     returned nothing)
      */
     public boolean steal(@Nullable java.lang.foreign.MemoryAddress key) {
-        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tree_steal.invokeExact(handle(), key);
+            RESULT = (int) DowncallHandles.g_tree_steal.invokeExact(
+                    handle(),
+                    (Addressable) (key == null ? MemoryAddress.NULL : key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -564,13 +597,15 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(traverseFunc, "Parameter 'traverseFunc' must not be null");
         java.util.Objects.requireNonNull(traverseType, "Parameter 'traverseType' must not be null");
         try {
-            DowncallHandles.g_tree_traverse.invokeExact(handle(), 
+            DowncallHandles.g_tree_traverse.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTraverseFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), traverseType.getValue(), 
-                   (Addressable) (Interop.registerCallback(traverseFunc)));
+                        Interop.getScope()),
+                    traverseType.getValue(),
+                    (Addressable) (Interop.registerCallback(traverseFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -586,7 +621,8 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_tree_unref.invokeExact(handle());
+            DowncallHandles.g_tree_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -605,10 +641,11 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      *          lower than or equal to the searched key.
      */
     public @Nullable org.gtk.glib.TreeNode upperBound(@Nullable java.lang.foreign.MemoryAddress key) {
-        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_upper_bound.invokeExact(handle(), key);
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_upper_bound.invokeExact(
+                    handle(),
+                    (Addressable) (key == null ? MemoryAddress.NULL : key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

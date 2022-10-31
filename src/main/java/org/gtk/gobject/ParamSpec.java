@@ -25,34 +25,141 @@ public class ParamSpec extends org.gtk.gobject.Object {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GParamSpec";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.TypeInstance.getMemoryLayout().withName("g_type_instance"),
         Interop.valueLayout.ADDRESS.withName("name"),
-        org.gtk.gobject.ParamFlags.getMemoryLayout().withName("flags"),
+        Interop.valueLayout.C_INT.withName("flags"),
+        MemoryLayout.paddingLayout(32),
         ValueLayout.JAVA_LONG.withName("value_type"),
         ValueLayout.JAVA_LONG.withName("owner_type"),
         Interop.valueLayout.ADDRESS.withName("_nick"),
         Interop.valueLayout.ADDRESS.withName("_blurb"),
-        org.gtk.glib.Data.getMemoryLayout().withName("qdata"),
+        Interop.valueLayout.ADDRESS.withName("qdata"),
         ValueLayout.JAVA_INT.withName("ref_count"),
         ValueLayout.JAVA_INT.withName("param_id")
-    ).withName("GParamSpec");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code g_type_instance}
+     * @return The value of the field {@code g_type_instance}
+     */
+    public org.gtk.gobject.TypeInstance g_type_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_type_instance"));
+        return new org.gtk.gobject.TypeInstance(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    /**
+     * Get the value of the field {@code name}
+     * @return The value of the field {@code name}
+     */
+    public java.lang.String name$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("name"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringFrom(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code name}
+     * @param name The new value of the field {@code name}
+     */
+    public void name$set(java.lang.String name) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("name"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(name));
+    }
+    
+    /**
+     * Get the value of the field {@code flags}
+     * @return The value of the field {@code flags}
+     */
+    public org.gtk.gobject.ParamFlags flags$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.gobject.ParamFlags(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code flags}
+     * @param flags The new value of the field {@code flags}
+     */
+    public void flags$set(org.gtk.gobject.ParamFlags flags) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags.getValue());
+    }
+    
+    /**
+     * Get the value of the field {@code value_type}
+     * @return The value of the field {@code value_type}
+     */
+    public org.gtk.glib.Type value_type$get() {
+        var RESULT = (long) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("value_type"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code value_type}
+     * @param value_type The new value of the field {@code value_type}
+     */
+    public void value_type$set(org.gtk.glib.Type value_type) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("value_type"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value_type.getValue().longValue());
+    }
+    
+    /**
+     * Get the value of the field {@code owner_type}
+     * @return The value of the field {@code owner_type}
+     */
+    public org.gtk.glib.Type owner_type$get() {
+        var RESULT = (long) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("owner_type"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code owner_type}
+     * @param owner_type The new value of the field {@code owner_type}
+     */
+    public void owner_type$set(org.gtk.glib.Type owner_type) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("owner_type"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), owner_type.getValue().longValue());
+    }
+    
+    @ApiStatus.Internal
     public ParamSpec(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ParamSpec */
+    /**
+     * Cast object to ParamSpec if its GType is a (or inherits from) "GParamSpec".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ParamSpec" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GParamSpec", a ClassCastException will be thrown.
+     */
     public static ParamSpec castFrom(org.gtk.gobject.Object gobject) {
-        return new ParamSpec(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GParamSpec"))) {
+            return new ParamSpec(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GParamSpec");
+        }
     }
     
     /**
@@ -62,11 +169,12 @@ public class ParamSpec extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getBlurb() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_get_blurb.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_get_blurb.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -78,7 +186,8 @@ public class ParamSpec extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gobject.Value getDefaultValue() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_get_default_value.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_get_default_value.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,11 +204,12 @@ public class ParamSpec extends org.gtk.gobject.Object {
     public @NotNull java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -109,7 +219,8 @@ public class ParamSpec extends org.gtk.gobject.Object {
     public @NotNull org.gtk.glib.Quark getNameQuark() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_param_spec_get_name_quark.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_param_spec_get_name_quark.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,11 +234,12 @@ public class ParamSpec extends org.gtk.gobject.Object {
     public @NotNull java.lang.String getNick() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_get_nick.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_get_nick.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -139,7 +251,9 @@ public class ParamSpec extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(quark, "Parameter 'quark' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_get_qdata.invokeExact(handle(), quark.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_get_qdata.invokeExact(
+                    handle(),
+                    quark.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,7 +274,8 @@ public class ParamSpec extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gobject.ParamSpec getRedirectTarget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_get_redirect_target.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_get_redirect_target.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,7 +289,8 @@ public class ParamSpec extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gobject.ParamSpec ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -188,7 +304,8 @@ public class ParamSpec extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gobject.ParamSpec refSink() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_ref_sink.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_ref_sink.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -208,7 +325,10 @@ public class ParamSpec extends org.gtk.gobject.Object {
     public void setQdata(@NotNull org.gtk.glib.Quark quark, @Nullable java.lang.foreign.MemoryAddress data) {
         java.util.Objects.requireNonNull(quark, "Parameter 'quark' must not be null");
         try {
-            DowncallHandles.g_param_spec_set_qdata.invokeExact(handle(), quark.getValue(), data);
+            DowncallHandles.g_param_spec_set_qdata.invokeExact(
+                    handle(),
+                    quark.getValue().intValue(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -228,7 +348,10 @@ public class ParamSpec extends org.gtk.gobject.Object {
     public void setQdataFull(@NotNull org.gtk.glib.Quark quark, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.gtk.glib.DestroyNotify destroy) {
         java.util.Objects.requireNonNull(quark, "Parameter 'quark' must not be null");
         try {
-            DowncallHandles.g_param_spec_set_qdata_full.invokeExact(handle(), quark.getValue(), data, 
+            DowncallHandles.g_param_spec_set_qdata_full.invokeExact(
+                    handle(),
+                    quark.getValue().intValue(),
+                    data,
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -246,7 +369,8 @@ public class ParamSpec extends org.gtk.gobject.Object {
      */
     public void sink() {
         try {
-            DowncallHandles.g_param_spec_sink.invokeExact(handle());
+            DowncallHandles.g_param_spec_sink.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -264,7 +388,9 @@ public class ParamSpec extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(quark, "Parameter 'quark' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_steal_qdata.invokeExact(handle(), quark.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_steal_qdata.invokeExact(
+                    handle(),
+                    quark.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -276,7 +402,8 @@ public class ParamSpec extends org.gtk.gobject.Object {
      */
     public void unref() {
         try {
-            DowncallHandles.g_param_spec_unref.invokeExact(handle());
+            DowncallHandles.g_param_spec_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -310,7 +437,12 @@ public class ParamSpec extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_internal.invokeExact(paramType.getValue(), Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_internal.invokeExact(
+                    paramType.getValue().longValue(),
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(nick),
+                    Interop.allocateNativeString(blurb),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -331,7 +463,8 @@ public class ParamSpec extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_param_spec_is_valid_name.invokeExact(Interop.allocateNativeString(name));
+            RESULT = (int) DowncallHandles.g_param_spec_is_valid_name.invokeExact(
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

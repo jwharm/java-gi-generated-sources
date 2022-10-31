@@ -35,6 +35,21 @@ import org.jetbrains.annotations.*;
 public interface Initable extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to Initable if its GType is a (or inherits from) "GInitable".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Initable" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GInitable", a ClassCastException will be thrown.
+     */
+    public static Initable castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GInitable"))) {
+            return new InitableImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GInitable");
+        }
+    }
+    
+    /**
      * Initializes the object implementing the interface.
      * <p>
      * This method is intended for language bindings. If writing in C,
@@ -79,11 +94,12 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean init(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_initable_init.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_initable_init.invokeExact(
+                    handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,11 +143,14 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(objectType, "Parameter 'objectType' must not be null");
         java.util.Objects.requireNonNull(firstPropertyName, "Parameter 'firstPropertyName' must not be null");
         java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_initable_new_valist.invokeExact(objectType.getValue(), Interop.allocateNativeString(firstPropertyName), varArgs, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_initable_new_valist.invokeExact(
+                    objectType.getValue().longValue(),
+                    Interop.allocateNativeString(firstPropertyName),
+                    varArgs,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,11 +178,14 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
     public static @NotNull org.gtk.gobject.Object newv(@NotNull org.gtk.glib.Type objectType, int nParameters, org.gtk.gobject.Parameter[] parameters, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(objectType, "Parameter 'objectType' must not be null");
         java.util.Objects.requireNonNull(parameters, "Parameter 'parameters' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_initable_newv.invokeExact(objectType.getValue(), nParameters, Interop.allocateNativeArray(parameters, false), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_initable_newv.invokeExact(
+                    objectType.getValue().longValue(),
+                    nParameters,
+                    Interop.allocateNativeArray(parameters, false),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

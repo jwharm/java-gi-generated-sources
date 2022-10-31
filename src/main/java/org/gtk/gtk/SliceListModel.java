@@ -18,28 +18,43 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkSliceListModel";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public SliceListModel(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to SliceListModel */
+    /**
+     * Cast object to SliceListModel if its GType is a (or inherits from) "GtkSliceListModel".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "SliceListModel" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkSliceListModel", a ClassCastException will be thrown.
+     */
     public static SliceListModel castFrom(org.gtk.gobject.Object gobject) {
-        return new SliceListModel(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSliceListModel"))) {
+            return new SliceListModel(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkSliceListModel");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gio.ListModel model, int offset, int size) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_slice_list_model_new.invokeExact(model.refcounted().unowned().handle(), offset, size), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_slice_list_model_new.invokeExact(
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.refcounted().unowned().handle()),
+                    offset,
+                    size), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,7 +81,8 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
     public @Nullable org.gtk.gio.ListModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_slice_list_model_get_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_slice_list_model_get_model.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +96,8 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
     public int getOffset() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_slice_list_model_get_offset.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_slice_list_model_get_offset.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,7 +111,8 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
     public int getSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_slice_list_model_get_size.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_slice_list_model_get_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,9 +126,10 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
      * @param model The model to be sliced
      */
     public void setModel(@Nullable org.gtk.gio.ListModel model) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_slice_list_model_set_model.invokeExact(handle(), model.handle());
+            DowncallHandles.gtk_slice_list_model_set_model.invokeExact(
+                    handle(),
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,7 +144,9 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
      */
     public void setOffset(int offset) {
         try {
-            DowncallHandles.gtk_slice_list_model_set_offset.invokeExact(handle(), offset);
+            DowncallHandles.gtk_slice_list_model_set_offset.invokeExact(
+                    handle(),
+                    offset);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,7 +162,9 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
      */
     public void setSize(int size) {
         try {
-            DowncallHandles.gtk_slice_list_model_set_size.invokeExact(handle(), size);
+            DowncallHandles.gtk_slice_list_model_set_size.invokeExact(
+                    handle(),
+                    size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

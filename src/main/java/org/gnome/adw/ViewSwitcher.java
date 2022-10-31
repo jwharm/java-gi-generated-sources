@@ -39,21 +39,34 @@ public class ViewSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwViewSwitcher";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ViewSwitcher(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ViewSwitcher */
+    /**
+     * Cast object to ViewSwitcher if its GType is a (or inherits from) "AdwViewSwitcher".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ViewSwitcher" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwViewSwitcher", a ClassCastException will be thrown.
+     */
     public static ViewSwitcher castFrom(org.gtk.gobject.Object gobject) {
-        return new ViewSwitcher(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwViewSwitcher"))) {
+            return new ViewSwitcher(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwViewSwitcher");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -80,7 +93,8 @@ public class ViewSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public @NotNull org.gnome.adw.ViewSwitcherPolicy getPolicy() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_view_switcher_get_policy.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_view_switcher_get_policy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,7 +108,8 @@ public class ViewSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public @Nullable org.gnome.adw.ViewStack getStack() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_switcher_get_stack.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_switcher_get_stack.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,7 +123,9 @@ public class ViewSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public void setPolicy(@NotNull org.gnome.adw.ViewSwitcherPolicy policy) {
         java.util.Objects.requireNonNull(policy, "Parameter 'policy' must not be null");
         try {
-            DowncallHandles.adw_view_switcher_set_policy.invokeExact(handle(), policy.getValue());
+            DowncallHandles.adw_view_switcher_set_policy.invokeExact(
+                    handle(),
+                    policy.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,9 +136,10 @@ public class ViewSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * @param stack a stack
      */
     public void setStack(@Nullable org.gnome.adw.ViewStack stack) {
-        java.util.Objects.requireNonNullElse(stack, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_view_switcher_set_stack.invokeExact(handle(), stack.handle());
+            DowncallHandles.adw_view_switcher_set_stack.invokeExact(
+                    handle(),
+                    (Addressable) (stack == null ? MemoryAddress.NULL : stack.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

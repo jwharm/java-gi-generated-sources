@@ -19,18 +19,30 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkBitsetIter";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         MemoryLayout.sequenceLayout(10, ValueLayout.ADDRESS).withName("private_data")
-    ).withName("GtkBitsetIter");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static BitsetIter allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        BitsetIter newInstance = new BitsetIter(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public BitsetIter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -45,7 +57,8 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
     public int getValue() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bitset_iter_get_value.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_bitset_iter_get_value.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -59,7 +72,8 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean isValid() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bitset_iter_is_valid.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_bitset_iter_is_valid.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,7 +93,9 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bitset_iter_next.invokeExact(handle(), (Addressable) valuePOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_bitset_iter_next.invokeExact(
+                    handle(),
+                    (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,7 +116,9 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bitset_iter_previous.invokeExact(handle(), (Addressable) valuePOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_bitset_iter_previous.invokeExact(
+                    handle(),
+                    (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,19 +137,21 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
      * @param value Set to the found value in {@code set}
      * @return {@code true} if a value was found.
      */
-    public static boolean initAt(@NotNull Out<org.gtk.gtk.BitsetIter> iter, @NotNull org.gtk.gtk.Bitset set, int target, Out<Integer> value) {
+    public static boolean initAt(@NotNull org.gtk.gtk.BitsetIter iter, @NotNull org.gtk.gtk.Bitset set, int target, Out<Integer> value) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bitset_iter_init_at.invokeExact((Addressable) iterPOINTER.address(), set.handle(), target, (Addressable) valuePOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_bitset_iter_init_at.invokeExact(
+                    iter.handle(),
+                    set.handle(),
+                    target,
+                    (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.BitsetIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         value.set(valuePOINTER.get(ValueLayout.JAVA_INT, 0));
         return RESULT != 0;
     }
@@ -146,19 +166,20 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
      * @param value Set to the first value in {@code set}
      * @return {@code true} if {@code set} isn't empty.
      */
-    public static boolean initFirst(@NotNull Out<org.gtk.gtk.BitsetIter> iter, @NotNull org.gtk.gtk.Bitset set, Out<Integer> value) {
+    public static boolean initFirst(@NotNull org.gtk.gtk.BitsetIter iter, @NotNull org.gtk.gtk.Bitset set, Out<Integer> value) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bitset_iter_init_first.invokeExact((Addressable) iterPOINTER.address(), set.handle(), (Addressable) valuePOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_bitset_iter_init_first.invokeExact(
+                    iter.handle(),
+                    set.handle(),
+                    (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.BitsetIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         value.set(valuePOINTER.get(ValueLayout.JAVA_INT, 0));
         return RESULT != 0;
     }
@@ -173,19 +194,20 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
      * @param value Set to the last value in {@code set}
      * @return {@code true} if {@code set} isn't empty.
      */
-    public static boolean initLast(@NotNull Out<org.gtk.gtk.BitsetIter> iter, @NotNull org.gtk.gtk.Bitset set, Out<Integer> value) {
+    public static boolean initLast(@NotNull org.gtk.gtk.BitsetIter iter, @NotNull org.gtk.gtk.Bitset set, Out<Integer> value) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bitset_iter_init_last.invokeExact((Addressable) iterPOINTER.address(), set.handle(), (Addressable) valuePOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_bitset_iter_init_last.invokeExact(
+                    iter.handle(),
+                    set.handle(),
+                    (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.BitsetIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         value.set(valuePOINTER.get(ValueLayout.JAVA_INT, 0));
         return RESULT != 0;
     }

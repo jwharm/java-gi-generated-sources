@@ -1,5 +1,10 @@
 package org.gtk.gobject;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * This is the signature of marshaller functions, required to marshall
  * arrays of parameter values to signal emissions into C language callback

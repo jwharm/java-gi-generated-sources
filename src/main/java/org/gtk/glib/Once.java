@@ -17,19 +17,74 @@ public class Once extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GOnce";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.glib.OnceStatus.getMemoryLayout().withName("status"),
+        Interop.valueLayout.C_INT.withName("status"),
+        MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("retval")
-    ).withName("GOnce");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Once allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Once newInstance = new Once(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code status}
+     * @return The value of the field {@code status}
+     */
+    public org.gtk.glib.OnceStatus status$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("status"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.glib.OnceStatus(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code status}
+     * @param status The new value of the field {@code status}
+     */
+    public void status$set(org.gtk.glib.OnceStatus status) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("status"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), status.getValue());
+    }
+    
+    /**
+     * Get the value of the field {@code retval}
+     * @return The value of the field {@code retval}
+     */
+    public java.lang.foreign.MemoryAddress retval$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("retval"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code retval}
+     * @param retval The new value of the field {@code retval}
+     */
+    public void retval$set(java.lang.foreign.MemoryAddress retval) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("retval"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), retval);
+    }
+    
+    @ApiStatus.Internal
     public Once(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -72,7 +127,8 @@ public class Once extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(location, "Parameter 'location' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_once_init_enter.invokeExact(location);
+            RESULT = (int) DowncallHandles.g_once_init_enter.invokeExact(
+                    location);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,7 +151,9 @@ public class Once extends io.github.jwharm.javagi.ResourceBase {
     public static void initLeave(@NotNull java.lang.foreign.MemoryAddress location, long result) {
         java.util.Objects.requireNonNull(location, "Parameter 'location' must not be null");
         try {
-            DowncallHandles.g_once_init_leave.invokeExact(location, result);
+            DowncallHandles.g_once_init_leave.invokeExact(
+                    location,
+                    result);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -28,21 +28,34 @@ public class Display extends org.gtk.gobject.Object {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkDisplay";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Display(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Display */
+    /**
+     * Cast object to Display if its GType is a (or inherits from) "GdkDisplay".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Display" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkDisplay", a ClassCastException will be thrown.
+     */
     public static Display castFrom(org.gtk.gobject.Object gobject) {
-        return new Display(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkDisplay"))) {
+            return new Display(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkDisplay");
+        }
     }
     
     /**
@@ -50,7 +63,8 @@ public class Display extends org.gtk.gobject.Object {
      */
     public void beep() {
         try {
-            DowncallHandles.gdk_display_beep.invokeExact(handle());
+            DowncallHandles.gdk_display_beep.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -63,7 +77,8 @@ public class Display extends org.gtk.gobject.Object {
      */
     public void close() {
         try {
-            DowncallHandles.gdk_display_close.invokeExact(handle());
+            DowncallHandles.gdk_display_close.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -86,7 +101,8 @@ public class Display extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_display_create_gl_context.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_display_create_gl_context.invokeExact(
+                    handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,7 +121,9 @@ public class Display extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_display_device_is_grabbed.invokeExact(handle(), device.handle());
+            RESULT = (int) DowncallHandles.gdk_display_device_is_grabbed.invokeExact(
+                    handle(),
+                    device.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,7 +144,8 @@ public class Display extends org.gtk.gobject.Object {
      */
     public void flush() {
         try {
-            DowncallHandles.gdk_display_flush.invokeExact(handle());
+            DowncallHandles.gdk_display_flush.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,7 +159,8 @@ public class Display extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.AppLaunchContext getAppLaunchContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_display_get_app_launch_context.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_display_get_app_launch_context.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,7 +174,8 @@ public class Display extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.Clipboard getClipboard() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_display_get_clipboard.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_display_get_clipboard.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,7 +192,8 @@ public class Display extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdk.Seat getDefaultSeat() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_display_get_default_seat.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_display_get_default_seat.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -192,7 +214,9 @@ public class Display extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(surface, "Parameter 'surface' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_display_get_monitor_at_surface.invokeExact(handle(), surface.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_display_get_monitor_at_surface.invokeExact(
+                    handle(),
+                    surface.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -212,7 +236,8 @@ public class Display extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gio.ListModel getMonitors() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_display_get_monitors.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_display_get_monitors.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -227,11 +252,12 @@ public class Display extends org.gtk.gobject.Object {
     public @NotNull java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_display_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_display_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -244,7 +270,8 @@ public class Display extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.Clipboard getPrimaryClipboard() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_display_get_primary_clipboard.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_display_get_primary_clipboard.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -264,7 +291,10 @@ public class Display extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_display_get_setting.invokeExact(handle(), Interop.allocateNativeString(name), value.handle());
+            RESULT = (int) DowncallHandles.gdk_display_get_setting.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -279,11 +309,12 @@ public class Display extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getStartupNotificationId() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_display_get_startup_notification_id.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_display_get_startup_notification_id.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -293,7 +324,8 @@ public class Display extends org.gtk.gobject.Object {
     public boolean isClosed() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_display_is_closed.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_display_is_closed.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -318,7 +350,8 @@ public class Display extends org.gtk.gobject.Object {
     public boolean isComposited() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_display_is_composited.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_display_is_composited.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -343,7 +376,8 @@ public class Display extends org.gtk.gobject.Object {
     public boolean isRgba() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_display_is_rgba.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_display_is_rgba.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -358,7 +392,8 @@ public class Display extends org.gtk.gobject.Object {
     public @NotNull org.gtk.glib.List listSeats() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_display_list_seats.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_display_list_seats.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -392,7 +427,12 @@ public class Display extends org.gtk.gobject.Object {
         MemorySegment nEntriesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_display_map_keycode.invokeExact(handle(), keycode, (Addressable) keysPOINTER.address(), (Addressable) keyvalsPOINTER.address(), (Addressable) nEntriesPOINTER.address());
+            RESULT = (int) DowncallHandles.gdk_display_map_keycode.invokeExact(
+                    handle(),
+                    keycode,
+                    (Addressable) keysPOINTER.address(),
+                    (Addressable) keyvalsPOINTER.address(),
+                    (Addressable) nEntriesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -436,7 +476,11 @@ public class Display extends org.gtk.gobject.Object {
         MemorySegment nKeysPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_display_map_keyval.invokeExact(handle(), keyval, (Addressable) keysPOINTER.address(), (Addressable) nKeysPOINTER.address());
+            RESULT = (int) DowncallHandles.gdk_display_map_keyval.invokeExact(
+                    handle(),
+                    keyval,
+                    (Addressable) keysPOINTER.address(),
+                    (Addressable) nKeysPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -464,7 +508,9 @@ public class Display extends org.gtk.gobject.Object {
     public void notifyStartupComplete(@NotNull java.lang.String startupId) {
         java.util.Objects.requireNonNull(startupId, "Parameter 'startupId' must not be null");
         try {
-            DowncallHandles.gdk_display_notify_startup_complete.invokeExact(handle(), Interop.allocateNativeString(startupId));
+            DowncallHandles.gdk_display_notify_startup_complete.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(startupId));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -492,7 +538,8 @@ public class Display extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_display_prepare_gl.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gdk_display_prepare_gl.invokeExact(
+                    handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -513,7 +560,9 @@ public class Display extends org.gtk.gobject.Object {
     public void putEvent(@NotNull org.gtk.gdk.Event event) {
         java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
         try {
-            DowncallHandles.gdk_display_put_event.invokeExact(handle(), event.handle());
+            DowncallHandles.gdk_display_put_event.invokeExact(
+                    handle(),
+                    event.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -531,7 +580,8 @@ public class Display extends org.gtk.gobject.Object {
     public boolean supportsInputShapes() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_display_supports_input_shapes.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_display_supports_input_shapes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -552,7 +602,8 @@ public class Display extends org.gtk.gobject.Object {
      */
     public void sync() {
         try {
-            DowncallHandles.gdk_display_sync.invokeExact(handle());
+            DowncallHandles.gdk_display_sync.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -600,7 +651,15 @@ public class Display extends org.gtk.gobject.Object {
         MemorySegment consumedPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_display_translate_key.invokeExact(handle(), keycode, state.getValue(), group, (Addressable) keyvalPOINTER.address(), (Addressable) effectiveGroupPOINTER.address(), (Addressable) levelPOINTER.address(), (Addressable) consumedPOINTER.address());
+            RESULT = (int) DowncallHandles.gdk_display_translate_key.invokeExact(
+                    handle(),
+                    keycode,
+                    state.getValue(),
+                    group,
+                    (Addressable) keyvalPOINTER.address(),
+                    (Addressable) effectiveGroupPOINTER.address(),
+                    (Addressable) levelPOINTER.address(),
+                    (Addressable) consumedPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -641,7 +700,8 @@ public class Display extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(displayName, "Parameter 'displayName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_display_open.invokeExact(Interop.allocateNativeString(displayName));
+            RESULT = (MemoryAddress) DowncallHandles.gdk_display_open.invokeExact(
+                    Interop.allocateNativeString(displayName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -950,7 +1010,7 @@ public class Display extends org.gtk.gobject.Object {
         public static void signalDisplaySettingChanged(MemoryAddress source, MemoryAddress setting, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Display.SettingChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Display(Refcounted.get(source)), setting.getUtf8String(0));
+            HANDLER.signalReceived(new Display(Refcounted.get(source)), Interop.getStringFrom(setting));
         }
     }
 }

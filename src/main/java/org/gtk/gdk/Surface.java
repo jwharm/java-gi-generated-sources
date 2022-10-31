@@ -22,28 +22,43 @@ public class Surface extends org.gtk.gobject.Object {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkSurface";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Surface(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Surface */
+    /**
+     * Cast object to Surface if its GType is a (or inherits from) "GdkSurface".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Surface" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkSurface", a ClassCastException will be thrown.
+     */
     public static Surface castFrom(org.gtk.gobject.Object gobject) {
-        return new Surface(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkSurface"))) {
+            return new Surface(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkSurface");
+        }
     }
     
     private static Refcounted constructNewPopup(@NotNull org.gtk.gdk.Surface parent, boolean autohide) {
         java.util.Objects.requireNonNull(parent, "Parameter 'parent' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_surface_new_popup.invokeExact(parent.handle(), autohide ? 1 : 0), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_surface_new_popup.invokeExact(
+                    parent.handle(),
+                    autohide ? 1 : 0), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,7 +82,8 @@ public class Surface extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_surface_new_toplevel.invokeExact(display.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_surface_new_toplevel.invokeExact(
+                    display.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,7 +107,8 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public void beep() {
         try {
-            DowncallHandles.gdk_surface_beep.invokeExact(handle());
+            DowncallHandles.gdk_surface_beep.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,7 +121,8 @@ public class Surface extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.CairoContext createCairoContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_create_cairo_context.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_create_cairo_context.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,7 +143,8 @@ public class Surface extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_create_gl_context.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_create_gl_context.invokeExact(
+                    handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,7 +181,11 @@ public class Surface extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(content, "Parameter 'content' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_create_similar_surface.invokeExact(handle(), content.getValue(), width, height);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_create_similar_surface.invokeExact(
+                    handle(),
+                    content.getValue(),
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,7 +204,8 @@ public class Surface extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_create_vulkan_context.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_create_vulkan_context.invokeExact(
+                    handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,7 +228,8 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public void destroy() {
         try {
-            DowncallHandles.gdk_surface_destroy.invokeExact(handle());
+            DowncallHandles.gdk_surface_destroy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,7 +248,8 @@ public class Surface extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdk.Cursor getCursor() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_get_cursor.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_get_cursor.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -245,7 +271,9 @@ public class Surface extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_get_device_cursor.invokeExact(handle(), device.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_get_device_cursor.invokeExact(
+                    handle(),
+                    device.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -273,7 +301,12 @@ public class Surface extends org.gtk.gobject.Object {
         MemorySegment maskPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_surface_get_device_position.invokeExact(handle(), device.handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address(), (Addressable) maskPOINTER.address());
+            RESULT = (int) DowncallHandles.gdk_surface_get_device_position.invokeExact(
+                    handle(),
+                    device.handle(),
+                    (Addressable) xPOINTER.address(),
+                    (Addressable) yPOINTER.address(),
+                    (Addressable) maskPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -290,7 +323,8 @@ public class Surface extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_get_display.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_get_display.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -307,7 +341,8 @@ public class Surface extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.FrameClock getFrameClock() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_get_frame_clock.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_get_frame_clock.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -324,7 +359,8 @@ public class Surface extends org.gtk.gobject.Object {
     public int getHeight() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_surface_get_height.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_surface_get_height.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -341,7 +377,8 @@ public class Surface extends org.gtk.gobject.Object {
     public boolean getMapped() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_surface_get_mapped.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_surface_get_mapped.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -365,7 +402,8 @@ public class Surface extends org.gtk.gobject.Object {
     public int getScaleFactor() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_surface_get_scale_factor.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_surface_get_scale_factor.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -382,7 +420,8 @@ public class Surface extends org.gtk.gobject.Object {
     public int getWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_surface_get_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_surface_get_width.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -399,7 +438,8 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public void hide() {
         try {
-            DowncallHandles.gdk_surface_hide.invokeExact(handle());
+            DowncallHandles.gdk_surface_hide.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -412,7 +452,8 @@ public class Surface extends org.gtk.gobject.Object {
     public boolean isDestroyed() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_surface_is_destroyed.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_surface_is_destroyed.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -428,7 +469,8 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public void queueRender() {
         try {
-            DowncallHandles.gdk_surface_queue_render.invokeExact(handle());
+            DowncallHandles.gdk_surface_queue_render.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -441,7 +483,8 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public void requestLayout() {
         try {
-            DowncallHandles.gdk_surface_request_layout.invokeExact(handle());
+            DowncallHandles.gdk_surface_request_layout.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -459,9 +502,10 @@ public class Surface extends org.gtk.gobject.Object {
      * @param cursor a {@code GdkCursor}
      */
     public void setCursor(@Nullable org.gtk.gdk.Cursor cursor) {
-        java.util.Objects.requireNonNullElse(cursor, MemoryAddress.NULL);
         try {
-            DowncallHandles.gdk_surface_set_cursor.invokeExact(handle(), cursor.handle());
+            DowncallHandles.gdk_surface_set_cursor.invokeExact(
+                    handle(),
+                    (Addressable) (cursor == null ? MemoryAddress.NULL : cursor.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -482,7 +526,10 @@ public class Surface extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
         java.util.Objects.requireNonNull(cursor, "Parameter 'cursor' must not be null");
         try {
-            DowncallHandles.gdk_surface_set_device_cursor.invokeExact(handle(), device.handle(), cursor.handle());
+            DowncallHandles.gdk_surface_set_device_cursor.invokeExact(
+                    handle(),
+                    device.handle(),
+                    cursor.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -508,7 +555,9 @@ public class Surface extends org.gtk.gobject.Object {
     public void setInputRegion(@NotNull org.cairographics.Region region) {
         java.util.Objects.requireNonNull(region, "Parameter 'region' must not be null");
         try {
-            DowncallHandles.gdk_surface_set_input_region.invokeExact(handle(), region.handle());
+            DowncallHandles.gdk_surface_set_input_region.invokeExact(
+                    handle(),
+                    region.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -534,9 +583,10 @@ public class Surface extends org.gtk.gobject.Object {
      *   surface opaque
      */
     public void setOpaqueRegion(@Nullable org.cairographics.Region region) {
-        java.util.Objects.requireNonNullElse(region, MemoryAddress.NULL);
         try {
-            DowncallHandles.gdk_surface_set_opaque_region.invokeExact(handle(), region.handle());
+            DowncallHandles.gdk_surface_set_opaque_region.invokeExact(
+                    handle(),
+                    (Addressable) (region == null ? MemoryAddress.NULL : region.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -560,7 +610,11 @@ public class Surface extends org.gtk.gobject.Object {
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_surface_translate_coordinates.invokeExact(handle(), to.handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            RESULT = (int) DowncallHandles.gdk_surface_translate_coordinates.invokeExact(
+                    handle(),
+                    to.handle(),
+                    (Addressable) xPOINTER.address(),
+                    (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -15,18 +15,30 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GVariantIter";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         MemoryLayout.sequenceLayout(16, ValueLayout.JAVA_LONG).withName("x")
-    ).withName("GVariantIter");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static VariantIter allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        VariantIter newInstance = new VariantIter(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public VariantIter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -47,7 +59,8 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.VariantIter copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_iter_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_iter_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -61,7 +74,8 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.g_variant_iter_free.invokeExact(handle());
+            DowncallHandles.g_variant_iter_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -81,7 +95,9 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_variant_iter_init.invokeExact(handle(), value.handle());
+            RESULT = (long) DowncallHandles.g_variant_iter_init.invokeExact(
+                    handle(),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,7 +186,8 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
     public long nChildren() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_variant_iter_n_children.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_variant_iter_n_children.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -259,7 +276,8 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.glib.Variant nextValue() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_iter_next_value.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_iter_next_value.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

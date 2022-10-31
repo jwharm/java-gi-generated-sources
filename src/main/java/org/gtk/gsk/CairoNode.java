@@ -14,28 +14,42 @@ public class CairoNode extends org.gtk.gsk.RenderNode {
         Gsk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GskCairoNode";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public CairoNode(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CairoNode */
+    /**
+     * Cast object to CairoNode if its GType is a (or inherits from) "GskCairoNode".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CairoNode" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GskCairoNode", a ClassCastException will be thrown.
+     */
     public static CairoNode castFrom(org.gtk.gobject.Object gobject) {
-        return new CairoNode(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskCairoNode"))) {
+            return new CairoNode(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskCairoNode");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.graphene.Rect bounds) {
         java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_cairo_node_new.invokeExact(bounds.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_cairo_node_new.invokeExact(
+                    bounds.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,7 +79,8 @@ public class CairoNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.cairographics.Context getDrawContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_cairo_node_get_draw_context.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_cairo_node_get_draw_context.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,7 +94,8 @@ public class CairoNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.cairographics.Surface getSurface() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_cairo_node_get_surface.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_cairo_node_get_surface.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -15,22 +15,77 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GDBusNodeInfo";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_INT.withName("ref_count"),
+        MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("path"),
         Interop.valueLayout.ADDRESS.withName("interfaces"),
         Interop.valueLayout.ADDRESS.withName("nodes"),
         Interop.valueLayout.ADDRESS.withName("annotations")
-    ).withName("GDBusNodeInfo");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static DBusNodeInfo allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        DBusNodeInfo newInstance = new DBusNodeInfo(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code ref_count}
+     * @return The value of the field {@code ref_count}
+     */
+    public int ref_count$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code ref_count}
+     * @param ref_count The new value of the field {@code ref_count}
+     */
+    public void ref_count$set(int ref_count) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+    }
+    
+    /**
+     * Get the value of the field {@code path}
+     * @return The value of the field {@code path}
+     */
+    public java.lang.String path$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("path"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringFrom(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code path}
+     * @param path The new value of the field {@code path}
+     */
+    public void path$set(java.lang.String path) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("path"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(path));
+    }
+    
+    @ApiStatus.Internal
     public DBusNodeInfo(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -40,7 +95,8 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_node_info_new_for_xml.invokeExact(Interop.allocateNativeString(xmlData), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_node_info_new_for_xml.invokeExact(
+                    Interop.allocateNativeString(xmlData), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,7 +135,10 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
     public void generateXml(int indent, @NotNull org.gtk.glib.String stringBuilder) {
         java.util.Objects.requireNonNull(stringBuilder, "Parameter 'stringBuilder' must not be null");
         try {
-            DowncallHandles.g_dbus_node_info_generate_xml.invokeExact(handle(), indent, stringBuilder.handle());
+            DowncallHandles.g_dbus_node_info_generate_xml.invokeExact(
+                    handle(),
+                    indent,
+                    stringBuilder.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,7 +155,9 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_node_info_lookup_interface.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_node_info_lookup_interface.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,7 +172,8 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gio.DBusNodeInfo ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_node_info_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_node_info_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,7 +187,8 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_dbus_node_info_unref.invokeExact(handle());
+            DowncallHandles.g_dbus_node_info_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

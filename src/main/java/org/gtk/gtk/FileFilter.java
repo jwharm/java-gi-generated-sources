@@ -58,21 +58,34 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkFileFilter";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public FileFilter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to FileFilter */
+    /**
+     * Cast object to FileFilter if its GType is a (or inherits from) "GtkFileFilter".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "FileFilter" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkFileFilter", a ClassCastException will be thrown.
+     */
     public static FileFilter castFrom(org.gtk.gobject.Object gobject) {
-        return new FileFilter(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFileFilter"))) {
+            return new FileFilter(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkFileFilter");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -109,7 +122,8 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
         java.util.Objects.requireNonNull(variant, "Parameter 'variant' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_file_filter_new_from_gvariant.invokeExact(variant.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_file_filter_new_from_gvariant.invokeExact(
+                    variant.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,7 +149,9 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
     public void addMimeType(@NotNull java.lang.String mimeType) {
         java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
         try {
-            DowncallHandles.gtk_file_filter_add_mime_type.invokeExact(handle(), Interop.allocateNativeString(mimeType));
+            DowncallHandles.gtk_file_filter_add_mime_type.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(mimeType));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,7 +168,9 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
     public void addPattern(@NotNull java.lang.String pattern) {
         java.util.Objects.requireNonNull(pattern, "Parameter 'pattern' must not be null");
         try {
-            DowncallHandles.gtk_file_filter_add_pattern.invokeExact(handle(), Interop.allocateNativeString(pattern));
+            DowncallHandles.gtk_file_filter_add_pattern.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(pattern));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,7 +185,8 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      */
     public void addPixbufFormats() {
         try {
-            DowncallHandles.gtk_file_filter_add_pixbuf_formats.invokeExact(handle());
+            DowncallHandles.gtk_file_filter_add_pixbuf_formats.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -186,7 +205,9 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
     public void addSuffix(@NotNull java.lang.String suffix) {
         java.util.Objects.requireNonNull(suffix, "Parameter 'suffix' must not be null");
         try {
-            DowncallHandles.gtk_file_filter_add_suffix.invokeExact(handle(), Interop.allocateNativeString(suffix));
+            DowncallHandles.gtk_file_filter_add_suffix.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(suffix));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,7 +225,8 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
     public @NotNull PointerString getAttributes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_file_filter_get_attributes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_file_filter_get_attributes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -220,11 +242,12 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
     public @Nullable java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_file_filter_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_file_filter_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -236,9 +259,10 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      *   to remove any existing name.
      */
     public void setName(@Nullable java.lang.String name) {
-        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_file_filter_set_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.gtk_file_filter_set_name.invokeExact(
+                    handle(),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -251,7 +275,8 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
     public @NotNull org.gtk.glib.Variant toGvariant() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_file_filter_to_gvariant.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_file_filter_to_gvariant.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

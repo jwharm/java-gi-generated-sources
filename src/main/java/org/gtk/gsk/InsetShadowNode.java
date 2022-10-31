@@ -14,21 +14,34 @@ public class InsetShadowNode extends org.gtk.gsk.RenderNode {
         Gsk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GskInsetShadowNode";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public InsetShadowNode(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to InsetShadowNode */
+    /**
+     * Cast object to InsetShadowNode if its GType is a (or inherits from) "GskInsetShadowNode".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "InsetShadowNode" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GskInsetShadowNode", a ClassCastException will be thrown.
+     */
     public static InsetShadowNode castFrom(org.gtk.gobject.Object gobject) {
-        return new InsetShadowNode(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskInsetShadowNode"))) {
+            return new InsetShadowNode(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskInsetShadowNode");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gsk.RoundedRect outline, @NotNull org.gtk.gdk.RGBA color, float dx, float dy, float spread, float blurRadius) {
@@ -36,7 +49,13 @@ public class InsetShadowNode extends org.gtk.gsk.RenderNode {
         java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_inset_shadow_node_new.invokeExact(outline.handle(), color.handle(), dx, dy, spread, blurRadius), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_inset_shadow_node_new.invokeExact(
+                    outline.handle(),
+                    color.handle(),
+                    dx,
+                    dy,
+                    spread,
+                    blurRadius), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,7 +83,8 @@ public class InsetShadowNode extends org.gtk.gsk.RenderNode {
     public float getBlurRadius() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gsk_inset_shadow_node_get_blur_radius.invokeExact(handle());
+            RESULT = (float) DowncallHandles.gsk_inset_shadow_node_get_blur_radius.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -78,7 +98,8 @@ public class InsetShadowNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.gdk.RGBA getColor() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_inset_shadow_node_get_color.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_inset_shadow_node_get_color.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,7 +113,8 @@ public class InsetShadowNode extends org.gtk.gsk.RenderNode {
     public float getDx() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gsk_inset_shadow_node_get_dx.invokeExact(handle());
+            RESULT = (float) DowncallHandles.gsk_inset_shadow_node_get_dx.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,7 +128,8 @@ public class InsetShadowNode extends org.gtk.gsk.RenderNode {
     public float getDy() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gsk_inset_shadow_node_get_dy.invokeExact(handle());
+            RESULT = (float) DowncallHandles.gsk_inset_shadow_node_get_dy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,7 +143,8 @@ public class InsetShadowNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.gsk.RoundedRect getOutline() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_inset_shadow_node_get_outline.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_inset_shadow_node_get_outline.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,7 +158,8 @@ public class InsetShadowNode extends org.gtk.gsk.RenderNode {
     public float getSpread() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gsk_inset_shadow_node_get_spread.invokeExact(handle());
+            RESULT = (float) DowncallHandles.gsk_inset_shadow_node_get_spread.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -14,21 +14,34 @@ public class KeyEvent extends org.gtk.gdk.Event {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkKeyEvent";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public KeyEvent(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to KeyEvent */
+    /**
+     * Cast object to KeyEvent if its GType is a (or inherits from) "GdkKeyEvent".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "KeyEvent" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkKeyEvent", a ClassCastException will be thrown.
+     */
     public static KeyEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new KeyEvent(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkKeyEvent"))) {
+            return new KeyEvent(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkKeyEvent");
+        }
     }
     
     /**
@@ -38,7 +51,8 @@ public class KeyEvent extends org.gtk.gdk.Event {
     public @NotNull org.gtk.gdk.ModifierType getConsumedModifiers() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_key_event_get_consumed_modifiers.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_key_event_get_consumed_modifiers.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -52,7 +66,8 @@ public class KeyEvent extends org.gtk.gdk.Event {
     public int getKeycode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_key_event_get_keycode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_key_event_get_keycode.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,7 +81,8 @@ public class KeyEvent extends org.gtk.gdk.Event {
     public int getKeyval() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_key_event_get_keyval.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_key_event_get_keyval.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +96,8 @@ public class KeyEvent extends org.gtk.gdk.Event {
     public int getLayout() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_key_event_get_layout.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_key_event_get_layout.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,7 +111,8 @@ public class KeyEvent extends org.gtk.gdk.Event {
     public int getLevel() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_key_event_get_level.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_key_event_get_level.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,7 +135,10 @@ public class KeyEvent extends org.gtk.gdk.Event {
         MemorySegment modifiersPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_key_event_get_match.invokeExact(handle(), (Addressable) keyvalPOINTER.address(), (Addressable) modifiersPOINTER.address());
+            RESULT = (int) DowncallHandles.gdk_key_event_get_match.invokeExact(
+                    handle(),
+                    (Addressable) keyvalPOINTER.address(),
+                    (Addressable) modifiersPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -133,7 +154,8 @@ public class KeyEvent extends org.gtk.gdk.Event {
     public boolean isModifier() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_key_event_is_modifier.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_key_event_is_modifier.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -157,7 +179,10 @@ public class KeyEvent extends org.gtk.gdk.Event {
         java.util.Objects.requireNonNull(modifiers, "Parameter 'modifiers' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_key_event_matches.invokeExact(handle(), keyval, modifiers.getValue());
+            RESULT = (int) DowncallHandles.gdk_key_event_matches.invokeExact(
+                    handle(),
+                    keyval,
+                    modifiers.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

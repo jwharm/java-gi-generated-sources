@@ -112,25 +112,38 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkGLArea";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkGLArea");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    @ApiStatus.Internal
     public GLArea(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to GLArea */
+    /**
+     * Cast object to GLArea if its GType is a (or inherits from) "GtkGLArea".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "GLArea" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkGLArea", a ClassCastException will be thrown.
+     */
     public static GLArea castFrom(org.gtk.gobject.Object gobject) {
-        return new GLArea(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGLArea"))) {
+            return new GLArea(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGLArea");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -163,7 +176,8 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void attachBuffers() {
         try {
-            DowncallHandles.gtk_gl_area_attach_buffers.invokeExact(handle());
+            DowncallHandles.gtk_gl_area_attach_buffers.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -176,7 +190,8 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getAutoRender() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gl_area_get_auto_render.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_gl_area_get_auto_render.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -190,7 +205,8 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public @Nullable org.gtk.gdk.GLContext getContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_gl_area_get_context.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gl_area_get_context.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,7 +220,8 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public @Nullable org.gtk.glib.Error getError() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_gl_area_get_error.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gl_area_get_error.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +235,8 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getHasDepthBuffer() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gl_area_get_has_depth_buffer.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_gl_area_get_has_depth_buffer.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -232,7 +250,8 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getHasStencilBuffer() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gl_area_get_has_stencil_buffer.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_gl_area_get_has_stencil_buffer.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -252,7 +271,10 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         MemorySegment majorPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment minorPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_gl_area_get_required_version.invokeExact(handle(), (Addressable) majorPOINTER.address(), (Addressable) minorPOINTER.address());
+            DowncallHandles.gtk_gl_area_get_required_version.invokeExact(
+                    handle(),
+                    (Addressable) majorPOINTER.address(),
+                    (Addressable) minorPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -270,7 +292,8 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getUseEs() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gl_area_get_use_es.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_gl_area_get_use_es.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -287,7 +310,8 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void makeCurrent() {
         try {
-            DowncallHandles.gtk_gl_area_make_current.invokeExact(handle());
+            DowncallHandles.gtk_gl_area_make_current.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -306,7 +330,8 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void queueRender() {
         try {
-            DowncallHandles.gtk_gl_area_queue_render.invokeExact(handle());
+            DowncallHandles.gtk_gl_area_queue_render.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -328,7 +353,9 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void setAutoRender(boolean autoRender) {
         try {
-            DowncallHandles.gtk_gl_area_set_auto_render.invokeExact(handle(), autoRender ? 1 : 0);
+            DowncallHandles.gtk_gl_area_set_auto_render.invokeExact(
+                    handle(),
+                    autoRender ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -343,9 +370,10 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @param error a new {@code GError}, or {@code null} to unset the error
      */
     public void setError(@Nullable org.gtk.glib.Error error) {
-        java.util.Objects.requireNonNullElse(error, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_gl_area_set_error.invokeExact(handle(), error.handle());
+            DowncallHandles.gtk_gl_area_set_error.invokeExact(
+                    handle(),
+                    (Addressable) (error == null ? MemoryAddress.NULL : error.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -361,7 +389,9 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void setHasDepthBuffer(boolean hasDepthBuffer) {
         try {
-            DowncallHandles.gtk_gl_area_set_has_depth_buffer.invokeExact(handle(), hasDepthBuffer ? 1 : 0);
+            DowncallHandles.gtk_gl_area_set_has_depth_buffer.invokeExact(
+                    handle(),
+                    hasDepthBuffer ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -377,7 +407,9 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void setHasStencilBuffer(boolean hasStencilBuffer) {
         try {
-            DowncallHandles.gtk_gl_area_set_has_stencil_buffer.invokeExact(handle(), hasStencilBuffer ? 1 : 0);
+            DowncallHandles.gtk_gl_area_set_has_stencil_buffer.invokeExact(
+                    handle(),
+                    hasStencilBuffer ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -393,7 +425,10 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void setRequiredVersion(int major, int minor) {
         try {
-            DowncallHandles.gtk_gl_area_set_required_version.invokeExact(handle(), major, minor);
+            DowncallHandles.gtk_gl_area_set_required_version.invokeExact(
+                    handle(),
+                    major,
+                    minor);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -408,7 +443,9 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void setUseEs(boolean useEs) {
         try {
-            DowncallHandles.gtk_gl_area_set_use_es.invokeExact(handle(), useEs ? 1 : 0);
+            DowncallHandles.gtk_gl_area_set_use_es.invokeExact(
+                    handle(),
+                    useEs ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

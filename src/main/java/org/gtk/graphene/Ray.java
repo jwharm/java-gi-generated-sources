@@ -18,19 +18,31 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
         Graphene.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "graphene_ray_t";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.graphene.Vec3.getMemoryLayout().withName("origin"),
         org.gtk.graphene.Vec3.getMemoryLayout().withName("direction")
-    ).withName("graphene_ray_t");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Ray allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Ray newInstance = new Ray(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Ray(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -66,7 +78,9 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_ray_equal.invokeExact(handle(), b.handle());
+            RESULT = (boolean) DowncallHandles.graphene_ray_equal.invokeExact(
+                    handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -78,7 +92,8 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_ray_free.invokeExact(handle());
+            DowncallHandles.graphene_ray_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,31 +105,32 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
      * @param p a {@link Point3D}
      * @param res return location for the closest point3d
      */
-    public void getClosestPointToPoint(@NotNull org.gtk.graphene.Point3D p, @NotNull Out<org.gtk.graphene.Point3D> res) {
+    public void getClosestPointToPoint(@NotNull org.gtk.graphene.Point3D p, @NotNull org.gtk.graphene.Point3D res) {
         java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_ray_get_closest_point_to_point.invokeExact(handle(), p.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_ray_get_closest_point_to_point.invokeExact(
+                    handle(),
+                    p.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Point3D(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
      * Retrieves the direction of the given {@link Ray}.
      * @param direction return location for the direction
      */
-    public void getDirection(@NotNull Out<org.gtk.graphene.Vec3> direction) {
+    public void getDirection(@NotNull org.gtk.graphene.Vec3 direction) {
         java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        MemorySegment directionPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_ray_get_direction.invokeExact(handle(), (Addressable) directionPOINTER.address());
+            DowncallHandles.graphene_ray_get_direction.invokeExact(
+                    handle(),
+                    direction.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        direction.set(new org.gtk.graphene.Vec3(Refcounted.get(directionPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -129,7 +145,9 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_ray_get_distance_to_plane.invokeExact(handle(), p.handle());
+            RESULT = (float) DowncallHandles.graphene_ray_get_distance_to_plane.invokeExact(
+                    handle(),
+                    p.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -150,7 +168,9 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_ray_get_distance_to_point.invokeExact(handle(), p.handle());
+            RESULT = (float) DowncallHandles.graphene_ray_get_distance_to_point.invokeExact(
+                    handle(),
+                    p.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,15 +181,15 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
      * Retrieves the origin of the given {@link Ray}.
      * @param origin return location for the origin
      */
-    public void getOrigin(@NotNull Out<org.gtk.graphene.Point3D> origin) {
+    public void getOrigin(@NotNull org.gtk.graphene.Point3D origin) {
         java.util.Objects.requireNonNull(origin, "Parameter 'origin' must not be null");
-        MemorySegment originPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_ray_get_origin.invokeExact(handle(), (Addressable) originPOINTER.address());
+            DowncallHandles.graphene_ray_get_origin.invokeExact(
+                    handle(),
+                    origin.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        origin.set(new org.gtk.graphene.Point3D(Refcounted.get(originPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -178,15 +198,16 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
      * @param t the distance along the ray
      * @param position return location for the position
      */
-    public void getPositionAt(float t, @NotNull Out<org.gtk.graphene.Point3D> position) {
+    public void getPositionAt(float t, @NotNull org.gtk.graphene.Point3D position) {
         java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
-        MemorySegment positionPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_ray_get_position_at.invokeExact(handle(), t, (Addressable) positionPOINTER.address());
+            DowncallHandles.graphene_ray_get_position_at.invokeExact(
+                    handle(),
+                    t,
+                    position.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        position.set(new org.gtk.graphene.Point3D(Refcounted.get(positionPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -197,11 +218,12 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
      * @return the initialized ray
      */
     public @NotNull org.gtk.graphene.Ray init(@Nullable org.gtk.graphene.Point3D origin, @Nullable org.gtk.graphene.Vec3 direction) {
-        java.util.Objects.requireNonNullElse(origin, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(direction, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_ray_init.invokeExact(handle(), origin.handle(), direction.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_ray_init.invokeExact(
+                    handle(),
+                    (Addressable) (origin == null ? MemoryAddress.NULL : origin.handle()),
+                    (Addressable) (direction == null ? MemoryAddress.NULL : direction.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +240,9 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_ray_init_from_ray.invokeExact(handle(), src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_ray_init_from_ray.invokeExact(
+                    handle(),
+                    src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -232,11 +256,12 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
      * @return the initialized ray
      */
     public @NotNull org.gtk.graphene.Ray initFromVec3(@Nullable org.gtk.graphene.Vec3 origin, @Nullable org.gtk.graphene.Vec3 direction) {
-        java.util.Objects.requireNonNullElse(origin, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(direction, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_ray_init_from_vec3.invokeExact(handle(), origin.handle(), direction.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_ray_init_from_vec3.invokeExact(
+                    handle(),
+                    (Addressable) (origin == null ? MemoryAddress.NULL : origin.handle()),
+                    (Addressable) (direction == null ? MemoryAddress.NULL : direction.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -256,7 +281,10 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment tOutPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.graphene_ray_intersect_box.invokeExact(handle(), b.handle(), (Addressable) tOutPOINTER.address());
+            RESULT = (int) DowncallHandles.graphene_ray_intersect_box.invokeExact(
+                    handle(),
+                    b.handle(),
+                    (Addressable) tOutPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -277,7 +305,10 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment tOutPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.graphene_ray_intersect_sphere.invokeExact(handle(), s.handle(), (Addressable) tOutPOINTER.address());
+            RESULT = (int) DowncallHandles.graphene_ray_intersect_sphere.invokeExact(
+                    handle(),
+                    s.handle(),
+                    (Addressable) tOutPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -298,7 +329,10 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment tOutPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.graphene_ray_intersect_triangle.invokeExact(handle(), t.handle(), (Addressable) tOutPOINTER.address());
+            RESULT = (int) DowncallHandles.graphene_ray_intersect_triangle.invokeExact(
+                    handle(),
+                    t.handle(),
+                    (Addressable) tOutPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -318,7 +352,9 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_ray_intersects_box.invokeExact(handle(), b.handle());
+            RESULT = (boolean) DowncallHandles.graphene_ray_intersects_box.invokeExact(
+                    handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -337,7 +373,9 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_ray_intersects_sphere.invokeExact(handle(), s.handle());
+            RESULT = (boolean) DowncallHandles.graphene_ray_intersects_sphere.invokeExact(
+                    handle(),
+                    s.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -356,7 +394,9 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(t, "Parameter 't' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_ray_intersects_triangle.invokeExact(handle(), t.handle());
+            RESULT = (boolean) DowncallHandles.graphene_ray_intersects_triangle.invokeExact(
+                    handle(),
+                    t.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

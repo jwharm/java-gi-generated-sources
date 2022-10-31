@@ -39,6 +39,21 @@ import org.jetbrains.annotations.*;
 public interface Action extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to Action if its GType is a (or inherits from) "GAction".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Action" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GAction", a ClassCastException will be thrown.
+     */
+    public static Action castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GAction"))) {
+            return new ActionImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GAction");
+        }
+    }
+    
+    /**
      * Activates the action.
      * <p>
      * {@code parameter} must be the correct type of parameter for the action (ie:
@@ -49,9 +64,10 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * @param parameter the parameter to the activation
      */
     default void activate(@Nullable org.gtk.glib.Variant parameter) {
-        java.util.Objects.requireNonNullElse(parameter, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_action_activate.invokeExact(handle(), parameter.handle());
+            DowncallHandles.g_action_activate.invokeExact(
+                    handle(),
+                    (Addressable) (parameter == null ? MemoryAddress.NULL : parameter.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,7 +89,9 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
     default void changeState(@NotNull org.gtk.glib.Variant value) {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.g_action_change_state.invokeExact(handle(), value.handle());
+            DowncallHandles.g_action_change_state.invokeExact(
+                    handle(),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -89,7 +107,8 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
     default boolean getEnabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_action_get_enabled.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_action_get_enabled.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,11 +122,12 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
     default @NotNull java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_action_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_action_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -124,7 +144,8 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.glib.VariantType getParameterType() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_action_get_parameter_type.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_action_get_parameter_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,7 +166,8 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.glib.Variant getState() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_action_get_state.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_action_get_state.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -176,7 +198,8 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.glib.Variant getStateHint() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_action_get_state_hint.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_action_get_state_hint.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -201,7 +224,8 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.glib.VariantType getStateType() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_action_get_state_type.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_action_get_state_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,7 +247,8 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_action_name_is_valid.invokeExact(Interop.allocateNativeString(actionName));
+            RESULT = (int) DowncallHandles.g_action_name_is_valid.invokeExact(
+                    Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -261,24 +286,25 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if successful, else {@code false} with {@code error} set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean parseDetailedName(@NotNull java.lang.String detailedName, @NotNull Out<java.lang.String> actionName, @NotNull Out<org.gtk.glib.Variant> targetValue) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean parseDetailedName(@NotNull java.lang.String detailedName, @NotNull Out<java.lang.String> actionName, @NotNull PointerProxy<org.gtk.glib.Variant> targetValue) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(detailedName, "Parameter 'detailedName' must not be null");
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         java.util.Objects.requireNonNull(targetValue, "Parameter 'targetValue' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment actionNamePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment targetValuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_action_parse_detailed_name.invokeExact(Interop.allocateNativeString(detailedName), (Addressable) actionNamePOINTER.address(), (Addressable) targetValuePOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_action_parse_detailed_name.invokeExact(
+                    Interop.allocateNativeString(detailedName),
+                    (Addressable) actionNamePOINTER.address(),
+                    targetValue.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        actionName.set(actionNamePOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
-        targetValue.set(new org.gtk.glib.Variant(Refcounted.get(targetValuePOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        actionName.set(Interop.getStringFrom(actionNamePOINTER.get(ValueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -299,14 +325,15 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      */
     public static @NotNull java.lang.String printDetailedName(@NotNull java.lang.String actionName, @Nullable org.gtk.glib.Variant targetValue) {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
-        java.util.Objects.requireNonNullElse(targetValue, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_action_print_detailed_name.invokeExact(Interop.allocateNativeString(actionName), targetValue.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_action_print_detailed_name.invokeExact(
+                    Interop.allocateNativeString(actionName),
+                    (Addressable) (targetValue == null ? MemoryAddress.NULL : targetValue.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     @ApiStatus.Internal

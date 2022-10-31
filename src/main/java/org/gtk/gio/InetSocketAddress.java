@@ -15,33 +15,57 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GInetSocketAddress";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.SocketAddress.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.InetSocketAddressPrivate.getMemoryLayout().withName("priv")
-    ).withName("GInetSocketAddress");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gio.SocketAddress parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gio.SocketAddress(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public InetSocketAddress(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to InetSocketAddress */
+    /**
+     * Cast object to InetSocketAddress if its GType is a (or inherits from) "GInetSocketAddress".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "InetSocketAddress" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GInetSocketAddress", a ClassCastException will be thrown.
+     */
     public static InetSocketAddress castFrom(org.gtk.gobject.Object gobject) {
-        return new InetSocketAddress(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GInetSocketAddress"))) {
+            return new InetSocketAddress(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GInetSocketAddress");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gio.InetAddress address, short port) {
         java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_inet_socket_address_new.invokeExact(address.handle(), port), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_inet_socket_address_new.invokeExact(
+                    address.handle(),
+                    port), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -61,7 +85,9 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
         java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_inet_socket_address_new_from_string.invokeExact(Interop.allocateNativeString(address), port), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_inet_socket_address_new_from_string.invokeExact(
+                    Interop.allocateNativeString(address),
+                    port), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +116,8 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
     public @NotNull org.gtk.gio.InetAddress getAddress() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_inet_socket_address_get_address.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_inet_socket_address_get_address.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,7 +132,8 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
     public int getFlowinfo() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_inet_socket_address_get_flowinfo.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_inet_socket_address_get_flowinfo.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,7 +147,8 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
     public short getPort() {
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.g_inet_socket_address_get_port.invokeExact(handle());
+            RESULT = (short) DowncallHandles.g_inet_socket_address_get_port.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,7 +163,8 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
     public int getScopeId() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_inet_socket_address_get_scope_id.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_inet_socket_address_get_scope_id.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -18,6 +18,21 @@ import org.jetbrains.annotations.*;
 public interface Converter extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to Converter if its GType is a (or inherits from) "GConverter".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Converter" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GConverter", a ClassCastException will be thrown.
+     */
+    public static Converter castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GConverter"))) {
+            return new ConverterImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GConverter");
+        }
+    }
+    
+    /**
      * This is the main operation used when converting data. It is to be called
      * multiple times in a loop, and each time it will do some work, i.e.
      * producing some output (in {@code outbuf}) or consuming some input (from {@code inbuf}) or
@@ -123,7 +138,15 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_converter_convert.invokeExact(handle(), Interop.allocateNativeArray(inbuf, false), inbufSize, Interop.allocateNativeArray(outbuf, false), outbufSize, flags.getValue(), (Addressable) bytesReadPOINTER.address(), (Addressable) bytesWrittenPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_converter_convert.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(inbuf, false),
+                    inbufSize,
+                    Interop.allocateNativeArray(outbuf, false),
+                    outbufSize,
+                    flags.getValue(),
+                    (Addressable) bytesReadPOINTER.address(),
+                    (Addressable) bytesWrittenPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,7 +165,8 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
      */
     default void reset() {
         try {
-            DowncallHandles.g_converter_reset.invokeExact(handle());
+            DowncallHandles.g_converter_reset.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

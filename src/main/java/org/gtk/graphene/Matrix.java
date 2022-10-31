@@ -17,18 +17,30 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         Graphene.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "graphene_matrix_t";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.graphene.Simd4X4F.getMemoryLayout().withName("value")
-    ).withName("graphene_matrix_t");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Matrix allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Matrix newInstance = new Matrix(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Matrix(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -66,28 +78,24 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @param perspective the perspective vector
      * @return {@code true} if the matrix could be decomposed
      */
-    public boolean decompose(@NotNull Out<org.gtk.graphene.Vec3> translate, @NotNull Out<org.gtk.graphene.Vec3> scale, @NotNull Out<org.gtk.graphene.Quaternion> rotate, @NotNull Out<org.gtk.graphene.Vec3> shear, @NotNull Out<org.gtk.graphene.Vec4> perspective) {
+    public boolean decompose(@NotNull org.gtk.graphene.Vec3 translate, @NotNull org.gtk.graphene.Vec3 scale, @NotNull org.gtk.graphene.Quaternion rotate, @NotNull org.gtk.graphene.Vec3 shear, @NotNull org.gtk.graphene.Vec4 perspective) {
         java.util.Objects.requireNonNull(translate, "Parameter 'translate' must not be null");
         java.util.Objects.requireNonNull(scale, "Parameter 'scale' must not be null");
         java.util.Objects.requireNonNull(rotate, "Parameter 'rotate' must not be null");
         java.util.Objects.requireNonNull(shear, "Parameter 'shear' must not be null");
         java.util.Objects.requireNonNull(perspective, "Parameter 'perspective' must not be null");
-        MemorySegment translatePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment scalePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment rotatePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment shearPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment perspectivePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_matrix_decompose.invokeExact(handle(), (Addressable) translatePOINTER.address(), (Addressable) scalePOINTER.address(), (Addressable) rotatePOINTER.address(), (Addressable) shearPOINTER.address(), (Addressable) perspectivePOINTER.address());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_decompose.invokeExact(
+                    handle(),
+                    translate.handle(),
+                    scale.handle(),
+                    rotate.handle(),
+                    shear.handle(),
+                    perspective.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        translate.set(new org.gtk.graphene.Vec3(Refcounted.get(translatePOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        scale.set(new org.gtk.graphene.Vec3(Refcounted.get(scalePOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        rotate.set(new org.gtk.graphene.Quaternion(Refcounted.get(rotatePOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        shear.set(new org.gtk.graphene.Vec3(Refcounted.get(shearPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        perspective.set(new org.gtk.graphene.Vec4(Refcounted.get(perspectivePOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT;
     }
     
@@ -98,7 +106,8 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public float determinant() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_matrix_determinant.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_matrix_determinant.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,7 +123,9 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_matrix_equal.invokeExact(handle(), b.handle());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_equal.invokeExact(
+                    handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,7 +162,9 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_matrix_equal_fast.invokeExact(handle(), b.handle());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_equal_fast.invokeExact(
+                    handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -163,7 +176,8 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_matrix_free.invokeExact(handle());
+            DowncallHandles.graphene_matrix_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,15 +189,16 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the {@link Vec4}
      *   that is used to store the row vector
      */
-    public void getRow(int index, @NotNull Out<org.gtk.graphene.Vec4> res) {
+    public void getRow(int index, @NotNull org.gtk.graphene.Vec4 res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_matrix_get_row.invokeExact(handle(), index, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_get_row.invokeExact(
+                    handle(),
+                    index,
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -195,7 +210,10 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public float getValue(int row, int col) {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_matrix_get_value.invokeExact(handle(), row, col);
+            RESULT = (float) DowncallHandles.graphene_matrix_get_value.invokeExact(
+                    handle(),
+                    row,
+                    col);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -209,7 +227,8 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public float getXScale() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_matrix_get_x_scale.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_matrix_get_x_scale.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,7 +242,8 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public float getXTranslation() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_matrix_get_x_translation.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_matrix_get_x_translation.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -237,7 +257,8 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public float getYScale() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_matrix_get_y_scale.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_matrix_get_y_scale.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -251,7 +272,8 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public float getYTranslation() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_matrix_get_y_translation.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_matrix_get_y_translation.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -265,7 +287,8 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public float getZScale() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_matrix_get_z_scale.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_matrix_get_z_scale.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -279,7 +302,8 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public float getZTranslation() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_matrix_get_z_translation.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_matrix_get_z_translation.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -310,7 +334,14 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Matrix initFrom2d(double xx, double yx, double xy, double yy, double x0, double y0) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_from_2d.invokeExact(handle(), xx, yx, xy, yy, x0, y0);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_from_2d.invokeExact(
+                    handle(),
+                    xx,
+                    yx,
+                    xy,
+                    yy,
+                    x0,
+                    y0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -328,7 +359,9 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_from_float.invokeExact(handle(), Interop.allocateNativeArray(v, false));
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_from_float.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(v, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -345,7 +378,9 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_from_matrix.invokeExact(handle(), src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_from_matrix.invokeExact(
+                    handle(),
+                    src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -368,7 +403,12 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(v3, "Parameter 'v3' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_from_vec4.invokeExact(handle(), v0.handle(), v1.handle(), v2.handle(), v3.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_from_vec4.invokeExact(
+                    handle(),
+                    v0.handle(),
+                    v1.handle(),
+                    v2.handle(),
+                    v3.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -390,7 +430,14 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Matrix initFrustum(float left, float right, float bottom, float top, float zNear, float zFar) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_frustum.invokeExact(handle(), left, right, bottom, top, zNear, zFar);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_frustum.invokeExact(
+                    handle(),
+                    left,
+                    right,
+                    bottom,
+                    top,
+                    zNear,
+                    zFar);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -404,7 +451,8 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Matrix initIdentity() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_identity.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_identity.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -440,7 +488,11 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(up, "Parameter 'up' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_look_at.invokeExact(handle(), eye.handle(), center.handle(), up.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_look_at.invokeExact(
+                    handle(),
+                    eye.handle(),
+                    center.handle(),
+                    up.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -460,7 +512,14 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Matrix initOrtho(float left, float right, float top, float bottom, float zNear, float zFar) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_ortho.invokeExact(handle(), left, right, top, bottom, zNear, zFar);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_ortho.invokeExact(
+                    handle(),
+                    left,
+                    right,
+                    top,
+                    bottom,
+                    zNear,
+                    zFar);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -478,7 +537,12 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Matrix initPerspective(float fovy, float aspect, float zNear, float zFar) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_perspective.invokeExact(handle(), fovy, aspect, zNear, zFar);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_perspective.invokeExact(
+                    handle(),
+                    fovy,
+                    aspect,
+                    zNear,
+                    zFar);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -496,7 +560,10 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(axis, "Parameter 'axis' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_rotate.invokeExact(handle(), angle, axis.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_rotate.invokeExact(
+                    handle(),
+                    angle,
+                    axis.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -513,7 +580,11 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Matrix initScale(float x, float y, float z) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_scale.invokeExact(handle(), x, y, z);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_scale.invokeExact(
+                    handle(),
+                    x,
+                    y,
+                    z);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -530,7 +601,10 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Matrix initSkew(float xSkew, float ySkew) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_skew.invokeExact(handle(), xSkew, ySkew);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_skew.invokeExact(
+                    handle(),
+                    xSkew,
+                    ySkew);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -547,7 +621,9 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_translate.invokeExact(handle(), p.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_translate.invokeExact(
+                    handle(),
+                    p.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -566,16 +642,18 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the
      *   interpolated matrix
      */
-    public void interpolate(@NotNull org.gtk.graphene.Matrix b, double factor, @NotNull Out<org.gtk.graphene.Matrix> res) {
+    public void interpolate(@NotNull org.gtk.graphene.Matrix b, double factor, @NotNull org.gtk.graphene.Matrix res) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_matrix_interpolate.invokeExact(handle(), b.handle(), factor, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_interpolate.invokeExact(
+                    handle(),
+                    b.handle(),
+                    factor,
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Matrix(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -584,16 +662,16 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      *   inverse matrix
      * @return {@code true} if the matrix is invertible
      */
-    public boolean inverse(@NotNull Out<org.gtk.graphene.Matrix> res) {
+    public boolean inverse(@NotNull org.gtk.graphene.Matrix res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_matrix_inverse.invokeExact(handle(), (Addressable) resPOINTER.address());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_inverse.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Matrix(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT;
     }
     
@@ -606,7 +684,8 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public boolean is2d() {
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_matrix_is_2d.invokeExact(handle());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_is_2d.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -620,7 +699,8 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public boolean isBackfaceVisible() {
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_matrix_is_backface_visible.invokeExact(handle());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_is_backface_visible.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -634,7 +714,8 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public boolean isIdentity() {
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_matrix_is_identity.invokeExact(handle());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_is_identity.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -648,7 +729,8 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public boolean isSingular() {
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_matrix_is_singular.invokeExact(handle());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_is_singular.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -664,16 +746,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the matrix
      *   result
      */
-    public void multiply(@NotNull org.gtk.graphene.Matrix b, @NotNull Out<org.gtk.graphene.Matrix> res) {
+    public void multiply(@NotNull org.gtk.graphene.Matrix b, @NotNull org.gtk.graphene.Matrix res) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_matrix_multiply.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_multiply.invokeExact(
+                    handle(),
+                    b.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Matrix(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -689,7 +772,10 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_matrix_near.invokeExact(handle(), b.handle(), epsilon);
+            RESULT = (boolean) DowncallHandles.graphene_matrix_near.invokeExact(
+                    handle(),
+                    b.handle(),
+                    epsilon);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -700,15 +786,15 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * Normalizes the given {@link Matrix}.
      * @param res return location for the normalized matrix
      */
-    public void normalize(@NotNull Out<org.gtk.graphene.Matrix> res) {
+    public void normalize(@NotNull org.gtk.graphene.Matrix res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_matrix_normalize.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_normalize.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Matrix(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -717,15 +803,16 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the
      *   perspective matrix
      */
-    public void perspective(float depth, @NotNull Out<org.gtk.graphene.Matrix> res) {
+    public void perspective(float depth, @NotNull org.gtk.graphene.Matrix res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_matrix_perspective.invokeExact(handle(), depth, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_perspective.invokeExact(
+                    handle(),
+                    depth,
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Matrix(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -736,7 +823,8 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public void print() {
         try {
-            DowncallHandles.graphene_matrix_print.invokeExact(handle());
+            DowncallHandles.graphene_matrix_print.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -748,16 +836,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the projected
      *   point
      */
-    public void projectPoint(@NotNull org.gtk.graphene.Point p, @NotNull Out<org.gtk.graphene.Point> res) {
+    public void projectPoint(@NotNull org.gtk.graphene.Point p, @NotNull org.gtk.graphene.Point res) {
         java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_matrix_project_point.invokeExact(handle(), p.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_project_point.invokeExact(
+                    handle(),
+                    p.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Point(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -768,16 +857,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the projected
      *   rectangle
      */
-    public void projectRect(@NotNull org.gtk.graphene.Rect r, @NotNull Out<org.gtk.graphene.Quad> res) {
+    public void projectRect(@NotNull org.gtk.graphene.Rect r, @NotNull org.gtk.graphene.Quad res) {
         java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_matrix_project_rect.invokeExact(handle(), r.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_project_rect.invokeExact(
+                    handle(),
+                    r.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Quad(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -789,16 +879,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the projected
      *   rectangle
      */
-    public void projectRectBounds(@NotNull org.gtk.graphene.Rect r, @NotNull Out<org.gtk.graphene.Rect> res) {
+    public void projectRectBounds(@NotNull org.gtk.graphene.Rect r, @NotNull org.gtk.graphene.Rect res) {
         java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_matrix_project_rect_bounds.invokeExact(handle(), r.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_project_rect_bounds.invokeExact(
+                    handle(),
+                    r.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Rect(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -813,7 +904,10 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public void rotate(float angle, @NotNull org.gtk.graphene.Vec3 axis) {
         java.util.Objects.requireNonNull(axis, "Parameter 'axis' must not be null");
         try {
-            DowncallHandles.graphene_matrix_rotate.invokeExact(handle(), angle, axis.handle());
+            DowncallHandles.graphene_matrix_rotate.invokeExact(
+                    handle(),
+                    angle,
+                    axis.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -827,7 +921,9 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public void rotateEuler(@NotNull org.gtk.graphene.Euler e) {
         java.util.Objects.requireNonNull(e, "Parameter 'e' must not be null");
         try {
-            DowncallHandles.graphene_matrix_rotate_euler.invokeExact(handle(), e.handle());
+            DowncallHandles.graphene_matrix_rotate_euler.invokeExact(
+                    handle(),
+                    e.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -844,7 +940,9 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public void rotateQuaternion(@NotNull org.gtk.graphene.Quaternion q) {
         java.util.Objects.requireNonNull(q, "Parameter 'q' must not be null");
         try {
-            DowncallHandles.graphene_matrix_rotate_quaternion.invokeExact(handle(), q.handle());
+            DowncallHandles.graphene_matrix_rotate_quaternion.invokeExact(
+                    handle(),
+                    q.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -859,7 +957,9 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public void rotateX(float angle) {
         try {
-            DowncallHandles.graphene_matrix_rotate_x.invokeExact(handle(), angle);
+            DowncallHandles.graphene_matrix_rotate_x.invokeExact(
+                    handle(),
+                    angle);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -874,7 +974,9 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public void rotateY(float angle) {
         try {
-            DowncallHandles.graphene_matrix_rotate_y.invokeExact(handle(), angle);
+            DowncallHandles.graphene_matrix_rotate_y.invokeExact(
+                    handle(),
+                    angle);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -889,7 +991,9 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public void rotateZ(float angle) {
         try {
-            DowncallHandles.graphene_matrix_rotate_z.invokeExact(handle(), angle);
+            DowncallHandles.graphene_matrix_rotate_z.invokeExact(
+                    handle(),
+                    angle);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -907,7 +1011,11 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public void scale(float factorX, float factorY, float factorZ) {
         try {
-            DowncallHandles.graphene_matrix_scale.invokeExact(handle(), factorX, factorY, factorZ);
+            DowncallHandles.graphene_matrix_scale.invokeExact(
+                    handle(),
+                    factorX,
+                    factorY,
+                    factorZ);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -919,7 +1027,9 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public void skewXy(float factor) {
         try {
-            DowncallHandles.graphene_matrix_skew_xy.invokeExact(handle(), factor);
+            DowncallHandles.graphene_matrix_skew_xy.invokeExact(
+                    handle(),
+                    factor);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -931,7 +1041,9 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public void skewXz(float factor) {
         try {
-            DowncallHandles.graphene_matrix_skew_xz.invokeExact(handle(), factor);
+            DowncallHandles.graphene_matrix_skew_xz.invokeExact(
+                    handle(),
+                    factor);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -943,7 +1055,9 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public void skewYz(float factor) {
         try {
-            DowncallHandles.graphene_matrix_skew_yz.invokeExact(handle(), factor);
+            DowncallHandles.graphene_matrix_skew_yz.invokeExact(
+                    handle(),
+                    factor);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -986,7 +1100,14 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment y0POINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_matrix_to_2d.invokeExact(handle(), (Addressable) xxPOINTER.address(), (Addressable) yxPOINTER.address(), (Addressable) xyPOINTER.address(), (Addressable) yyPOINTER.address(), (Addressable) x0POINTER.address(), (Addressable) y0POINTER.address());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_to_2d.invokeExact(
+                    handle(),
+                    (Addressable) xxPOINTER.address(),
+                    (Addressable) yxPOINTER.address(),
+                    (Addressable) xyPOINTER.address(),
+                    (Addressable) yyPOINTER.address(),
+                    (Addressable) x0POINTER.address(),
+                    (Addressable) y0POINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1010,7 +1131,9 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
         MemorySegment vPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_matrix_to_float.invokeExact(handle(), (Addressable) vPOINTER.address());
+            DowncallHandles.graphene_matrix_to_float.invokeExact(
+                    handle(),
+                    (Addressable) vPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1028,16 +1151,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the bounds
      *   of the transformed rectangle
      */
-    public void transformBounds(@NotNull org.gtk.graphene.Rect r, @NotNull Out<org.gtk.graphene.Rect> res) {
+    public void transformBounds(@NotNull org.gtk.graphene.Rect r, @NotNull org.gtk.graphene.Rect res) {
         java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_matrix_transform_bounds.invokeExact(handle(), r.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_transform_bounds.invokeExact(
+                    handle(),
+                    r.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Rect(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -1049,16 +1173,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the bounds
      *   of the transformed box
      */
-    public void transformBox(@NotNull org.gtk.graphene.Box b, @NotNull Out<org.gtk.graphene.Box> res) {
+    public void transformBox(@NotNull org.gtk.graphene.Box b, @NotNull org.gtk.graphene.Box res) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_matrix_transform_box.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_transform_box.invokeExact(
+                    handle(),
+                    b.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Box(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -1073,16 +1198,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the
      *   transformed {@link Point}
      */
-    public void transformPoint(@NotNull org.gtk.graphene.Point p, @NotNull Out<org.gtk.graphene.Point> res) {
+    public void transformPoint(@NotNull org.gtk.graphene.Point p, @NotNull org.gtk.graphene.Point res) {
         java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_matrix_transform_point.invokeExact(handle(), p.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_transform_point.invokeExact(
+                    handle(),
+                    p.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Point(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -1096,16 +1222,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @param p a {@link Point3D}
      * @param res return location for the result
      */
-    public void transformPoint3d(@NotNull org.gtk.graphene.Point3D p, @NotNull Out<org.gtk.graphene.Point3D> res) {
+    public void transformPoint3d(@NotNull org.gtk.graphene.Point3D p, @NotNull org.gtk.graphene.Point3D res) {
         java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_matrix_transform_point3d.invokeExact(handle(), p.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_transform_point3d.invokeExact(
+                    handle(),
+                    p.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Point3D(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -1114,16 +1241,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the
      *   transformed ray
      */
-    public void transformRay(@NotNull org.gtk.graphene.Ray r, @NotNull Out<org.gtk.graphene.Ray> res) {
+    public void transformRay(@NotNull org.gtk.graphene.Ray r, @NotNull org.gtk.graphene.Ray res) {
         java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_matrix_transform_ray.invokeExact(handle(), r.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_transform_ray.invokeExact(
+                    handle(),
+                    r.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Ray(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -1136,16 +1264,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the
      *   transformed quad
      */
-    public void transformRect(@NotNull org.gtk.graphene.Rect r, @NotNull Out<org.gtk.graphene.Quad> res) {
+    public void transformRect(@NotNull org.gtk.graphene.Rect r, @NotNull org.gtk.graphene.Quad res) {
         java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_matrix_transform_rect.invokeExact(handle(), r.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_transform_rect.invokeExact(
+                    handle(),
+                    r.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Quad(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -1155,16 +1284,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the bounds
      *   of the transformed sphere
      */
-    public void transformSphere(@NotNull org.gtk.graphene.Sphere s, @NotNull Out<org.gtk.graphene.Sphere> res) {
+    public void transformSphere(@NotNull org.gtk.graphene.Sphere s, @NotNull org.gtk.graphene.Sphere res) {
         java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_matrix_transform_sphere.invokeExact(handle(), s.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_transform_sphere.invokeExact(
+                    handle(),
+                    s.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Sphere(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -1178,16 +1308,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @param v a {@link Vec3}
      * @param res return location for a {@link Vec3}
      */
-    public void transformVec3(@NotNull org.gtk.graphene.Vec3 v, @NotNull Out<org.gtk.graphene.Vec3> res) {
+    public void transformVec3(@NotNull org.gtk.graphene.Vec3 v, @NotNull org.gtk.graphene.Vec3 res) {
         java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_matrix_transform_vec3.invokeExact(handle(), v.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_transform_vec3.invokeExact(
+                    handle(),
+                    v.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -1197,16 +1328,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @param v a {@link Vec4}
      * @param res return location for a {@link Vec4}
      */
-    public void transformVec4(@NotNull org.gtk.graphene.Vec4 v, @NotNull Out<org.gtk.graphene.Vec4> res) {
+    public void transformVec4(@NotNull org.gtk.graphene.Vec4 v, @NotNull org.gtk.graphene.Vec4 res) {
         java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_matrix_transform_vec4.invokeExact(handle(), v.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_transform_vec4.invokeExact(
+                    handle(),
+                    v.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -1220,7 +1352,9 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public void translate(@NotNull org.gtk.graphene.Point3D pos) {
         java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
         try {
-            DowncallHandles.graphene_matrix_translate.invokeExact(handle(), pos.handle());
+            DowncallHandles.graphene_matrix_translate.invokeExact(
+                    handle(),
+                    pos.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1231,15 +1365,15 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the
      *   transposed matrix
      */
-    public void transpose(@NotNull Out<org.gtk.graphene.Matrix> res) {
+    public void transpose(@NotNull org.gtk.graphene.Matrix res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_matrix_transpose.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_transpose.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Matrix(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -1251,17 +1385,19 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the unprojected
      *   point
      */
-    public void unprojectPoint3d(@NotNull org.gtk.graphene.Matrix modelview, @NotNull org.gtk.graphene.Point3D point, @NotNull Out<org.gtk.graphene.Point3D> res) {
+    public void unprojectPoint3d(@NotNull org.gtk.graphene.Matrix modelview, @NotNull org.gtk.graphene.Point3D point, @NotNull org.gtk.graphene.Point3D res) {
         java.util.Objects.requireNonNull(modelview, "Parameter 'modelview' must not be null");
         java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_matrix_unproject_point3d.invokeExact(handle(), modelview.handle(), point.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_unproject_point3d.invokeExact(
+                    handle(),
+                    modelview.handle(),
+                    point.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Point3D(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -1272,17 +1408,19 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the
      *   untransformed rectangle
      */
-    public void untransformBounds(@NotNull org.gtk.graphene.Rect r, @NotNull org.gtk.graphene.Rect bounds, @NotNull Out<org.gtk.graphene.Rect> res) {
+    public void untransformBounds(@NotNull org.gtk.graphene.Rect r, @NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Rect res) {
         java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
         java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_matrix_untransform_bounds.invokeExact(handle(), r.handle(), bounds.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_untransform_bounds.invokeExact(
+                    handle(),
+                    r.handle(),
+                    bounds.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Rect(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -1294,18 +1432,20 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      *   untransformed point
      * @return {@code true} if the point was successfully untransformed
      */
-    public boolean untransformPoint(@NotNull org.gtk.graphene.Point p, @NotNull org.gtk.graphene.Rect bounds, @NotNull Out<org.gtk.graphene.Point> res) {
+    public boolean untransformPoint(@NotNull org.gtk.graphene.Point p, @NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point res) {
         java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
         java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_matrix_untransform_point.invokeExact(handle(), p.handle(), bounds.handle(), (Addressable) resPOINTER.address());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_untransform_point.invokeExact(
+                    handle(),
+                    p.handle(),
+                    bounds.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Point(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT;
     }
     

@@ -16,26 +16,48 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GAppLaunchContext";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.AppLaunchContextPrivate.getMemoryLayout().withName("priv")
-    ).withName("GAppLaunchContext");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public AppLaunchContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to AppLaunchContext */
+    /**
+     * Cast object to AppLaunchContext if its GType is a (or inherits from) "GAppLaunchContext".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "AppLaunchContext" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GAppLaunchContext", a ClassCastException will be thrown.
+     */
     public static AppLaunchContext castFrom(org.gtk.gobject.Object gobject) {
-        return new AppLaunchContext(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GAppLaunchContext"))) {
+            return new AppLaunchContext(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GAppLaunchContext");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -69,11 +91,14 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(files, "Parameter 'files' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_launch_context_get_display.invokeExact(handle(), info.handle(), files.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_app_launch_context_get_display.invokeExact(
+                    handle(),
+                    info.handle(),
+                    files.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -86,7 +111,8 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     public @NotNull PointerString getEnvironment() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_launch_context_get_environment.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_app_launch_context_get_environment.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,11 +135,14 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(files, "Parameter 'files' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_launch_context_get_startup_notify_id.invokeExact(handle(), info.handle(), files.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_app_launch_context_get_startup_notify_id.invokeExact(
+                    handle(),
+                    info.handle(),
+                    files.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -124,7 +153,9 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     public void launchFailed(@NotNull java.lang.String startupNotifyId) {
         java.util.Objects.requireNonNull(startupNotifyId, "Parameter 'startupNotifyId' must not be null");
         try {
-            DowncallHandles.g_app_launch_context_launch_failed.invokeExact(handle(), Interop.allocateNativeString(startupNotifyId));
+            DowncallHandles.g_app_launch_context_launch_failed.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(startupNotifyId));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,7 +171,10 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(variable, "Parameter 'variable' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.g_app_launch_context_setenv.invokeExact(handle(), Interop.allocateNativeString(variable), Interop.allocateNativeString(value));
+            DowncallHandles.g_app_launch_context_setenv.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(variable),
+                    Interop.allocateNativeString(value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,7 +188,9 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     public void unsetenv(@NotNull java.lang.String variable) {
         java.util.Objects.requireNonNull(variable, "Parameter 'variable' must not be null");
         try {
-            DowncallHandles.g_app_launch_context_unsetenv.invokeExact(handle(), Interop.allocateNativeString(variable));
+            DowncallHandles.g_app_launch_context_unsetenv.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(variable));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -304,7 +340,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
         public static void signalAppLaunchContextLaunchFailed(MemoryAddress source, MemoryAddress startupNotifyId, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (AppLaunchContext.LaunchFailed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppLaunchContext(Refcounted.get(source)), startupNotifyId.getUtf8String(0));
+            HANDLER.signalReceived(new AppLaunchContext(Refcounted.get(source)), Interop.getStringFrom(startupNotifyId));
         }
         
         public static void signalAppLaunchContextLaunchStarted(MemoryAddress source, MemoryAddress info, MemoryAddress platformData, MemoryAddress data) {

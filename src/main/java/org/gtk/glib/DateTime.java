@@ -15,14 +15,26 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GDateTime";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static DateTime allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        DateTime newInstance = new DateTime(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public DateTime(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -31,7 +43,14 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(tz, "Parameter 'tz' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new.invokeExact(tz.handle(), year, month, day, hour, minute, seconds), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new.invokeExact(
+                    tz.handle(),
+                    year,
+                    month,
+                    day,
+                    hour,
+                    minute,
+                    seconds), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -81,10 +100,11 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     
     private static Refcounted constructNewFromIso8601(@NotNull java.lang.String text, @Nullable org.gtk.glib.TimeZone defaultTz) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        java.util.Objects.requireNonNullElse(defaultTz, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_from_iso8601.invokeExact(Interop.allocateNativeString(text), defaultTz.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_from_iso8601.invokeExact(
+                    Interop.allocateNativeString(text),
+                    (Addressable) (defaultTz == null ? MemoryAddress.NULL : defaultTz.handle())), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,7 +171,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(tv, "Parameter 'tv' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_from_timeval_local.invokeExact(tv.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_from_timeval_local.invokeExact(
+                    tv.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,7 +206,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(tv, "Parameter 'tv' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_from_timeval_utc.invokeExact(tv.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_from_timeval_utc.invokeExact(
+                    tv.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -216,7 +238,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructNewFromUnixLocal(long t) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_from_unix_local.invokeExact(t), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_from_unix_local.invokeExact(
+                    t), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -245,7 +268,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructNewFromUnixUtc(long t) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_from_unix_utc.invokeExact(t), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_from_unix_utc.invokeExact(
+                    t), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -273,7 +297,13 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructNewLocal(int year, int month, int day, int hour, int minute, double seconds) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_local.invokeExact(year, month, day, hour, minute, seconds), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_local.invokeExact(
+                    year,
+                    month,
+                    day,
+                    hour,
+                    minute,
+                    seconds), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -302,7 +332,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(tz, "Parameter 'tz' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_now.invokeExact(tz.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_now.invokeExact(
+                    tz.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -372,7 +403,13 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructNewUtc(int year, int month, int day, int hour, int minute, double seconds) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_utc.invokeExact(year, month, day, hour, minute, seconds), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_utc.invokeExact(
+                    year,
+                    month,
+                    day,
+                    hour,
+                    minute,
+                    seconds), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -407,7 +444,9 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(timespan, "Parameter 'timespan' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_date_time_add.invokeExact(handle(), timespan.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_add.invokeExact(
+                    handle(),
+                    timespan.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -424,7 +463,9 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.glib.DateTime addDays(int days) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_date_time_add_days.invokeExact(handle(), days);
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_add_days.invokeExact(
+                    handle(),
+                    days);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -446,7 +487,14 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.glib.DateTime addFull(int years, int months, int days, int hours, int minutes, double seconds) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_date_time_add_full.invokeExact(handle(), years, months, days, hours, minutes, seconds);
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_add_full.invokeExact(
+                    handle(),
+                    years,
+                    months,
+                    days,
+                    hours,
+                    minutes,
+                    seconds);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -463,7 +511,9 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.glib.DateTime addHours(int hours) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_date_time_add_hours.invokeExact(handle(), hours);
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_add_hours.invokeExact(
+                    handle(),
+                    hours);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -480,7 +530,9 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.glib.DateTime addMinutes(int minutes) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_date_time_add_minutes.invokeExact(handle(), minutes);
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_add_minutes.invokeExact(
+                    handle(),
+                    minutes);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -502,7 +554,9 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.glib.DateTime addMonths(int months) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_date_time_add_months.invokeExact(handle(), months);
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_add_months.invokeExact(
+                    handle(),
+                    months);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -519,7 +573,9 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.glib.DateTime addSeconds(double seconds) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_date_time_add_seconds.invokeExact(handle(), seconds);
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_add_seconds.invokeExact(
+                    handle(),
+                    seconds);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -536,7 +592,9 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.glib.DateTime addWeeks(int weeks) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_date_time_add_weeks.invokeExact(handle(), weeks);
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_add_weeks.invokeExact(
+                    handle(),
+                    weeks);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -556,7 +614,9 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.glib.DateTime addYears(int years) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_date_time_add_years.invokeExact(handle(), years);
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_add_years.invokeExact(
+                    handle(),
+                    years);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -574,7 +634,9 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(dt2, "Parameter 'dt2' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_time_compare.invokeExact(handle(), dt2.handle());
+            RESULT = (int) DowncallHandles.g_date_time_compare.invokeExact(
+                    handle(),
+                    dt2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -593,7 +655,9 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(begin, "Parameter 'begin' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_date_time_difference.invokeExact(handle(), begin.handle());
+            RESULT = (long) DowncallHandles.g_date_time_difference.invokeExact(
+                    handle(),
+                    begin.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -612,7 +676,9 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(dt2, "Parameter 'dt2' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_time_equal.invokeExact(handle(), dt2.handle());
+            RESULT = (int) DowncallHandles.g_date_time_equal.invokeExact(
+                    handle(),
+                    dt2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -732,11 +798,13 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_date_time_format.invokeExact(handle(), Interop.allocateNativeString(format));
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_format.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(format));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -752,11 +820,12 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.String formatIso8601() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_date_time_format_iso8601.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_format_iso8601.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -767,7 +836,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public int getDayOfMonth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_time_get_day_of_month.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_time_get_day_of_month.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -782,7 +852,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public int getDayOfWeek() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_time_get_day_of_week.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_time_get_day_of_week.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -797,7 +868,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public int getDayOfYear() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_time_get_day_of_year.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_time_get_day_of_year.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -811,7 +883,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public int getHour() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_time_get_hour.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_time_get_hour.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -825,7 +898,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public int getMicrosecond() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_time_get_microsecond.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_time_get_microsecond.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -839,7 +913,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public int getMinute() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_time_get_minute.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_time_get_minute.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -854,7 +929,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public int getMonth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_time_get_month.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_time_get_month.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -868,7 +944,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public int getSecond() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_time_get_second.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_time_get_second.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -883,7 +960,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public double getSeconds() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.g_date_time_get_seconds.invokeExact(handle());
+            RESULT = (double) DowncallHandles.g_date_time_get_seconds.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -897,7 +975,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.TimeZone getTimezone() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_date_time_get_timezone.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_get_timezone.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -918,11 +997,12 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getTimezoneAbbreviation() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_date_time_get_timezone_abbreviation.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_get_timezone_abbreviation.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -940,7 +1020,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.TimeSpan getUtcOffset() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_date_time_get_utc_offset.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_date_time_get_utc_offset.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -984,7 +1065,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public int getWeekNumberingYear() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_time_get_week_numbering_year.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_time_get_week_numbering_year.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1012,7 +1094,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public int getWeekOfYear() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_time_get_week_of_year.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_time_get_week_of_year.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1026,7 +1109,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public int getYear() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_time_get_year.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_time_get_year.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1047,7 +1131,11 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment monthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment dayPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.g_date_time_get_ymd.invokeExact(handle(), (Addressable) yearPOINTER.address(), (Addressable) monthPOINTER.address(), (Addressable) dayPOINTER.address());
+            DowncallHandles.g_date_time_get_ymd.invokeExact(
+                    handle(),
+                    (Addressable) yearPOINTER.address(),
+                    (Addressable) monthPOINTER.address(),
+                    (Addressable) dayPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1063,7 +1151,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public int hash() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_time_hash.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_time_hash.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1078,7 +1167,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public boolean isDaylightSavings() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_time_is_daylight_savings.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_time_is_daylight_savings.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1092,7 +1182,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.DateTime ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_date_time_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1111,7 +1202,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.glib.DateTime toLocal() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_date_time_to_local.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_to_local.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1142,7 +1234,9 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(tv, "Parameter 'tv' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_time_to_timeval.invokeExact(handle(), tv.handle());
+            RESULT = (int) DowncallHandles.g_date_time_to_timeval.invokeExact(
+                    handle(),
+                    tv.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1164,7 +1258,9 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(tz, "Parameter 'tz' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_date_time_to_timezone.invokeExact(handle(), tz.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_to_timezone.invokeExact(
+                    handle(),
+                    tz.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1182,7 +1278,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public long toUnix() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_date_time_to_unix.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_date_time_to_unix.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1201,7 +1298,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.glib.DateTime toUtc() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_date_time_to_utc.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_to_utc.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1216,7 +1314,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_date_time_unref.invokeExact(handle());
+            DowncallHandles.g_date_time_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -43,21 +43,34 @@ public class Tooltip extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkTooltip";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Tooltip(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Tooltip */
+    /**
+     * Cast object to Tooltip if its GType is a (or inherits from) "GtkTooltip".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Tooltip" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkTooltip", a ClassCastException will be thrown.
+     */
     public static Tooltip castFrom(org.gtk.gobject.Object gobject) {
-        return new Tooltip(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTooltip"))) {
+            return new Tooltip(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTooltip");
+        }
     }
     
     /**
@@ -70,9 +83,10 @@ public class Tooltip extends org.gtk.gobject.Object {
      * @param customWidget a {@code GtkWidget}, or {@code null} to unset the old custom widget.
      */
     public void setCustom(@Nullable org.gtk.gtk.Widget customWidget) {
-        java.util.Objects.requireNonNullElse(customWidget, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_tooltip_set_custom.invokeExact(handle(), customWidget.handle());
+            DowncallHandles.gtk_tooltip_set_custom.invokeExact(
+                    handle(),
+                    (Addressable) (customWidget == null ? MemoryAddress.NULL : customWidget.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,9 +98,10 @@ public class Tooltip extends org.gtk.gobject.Object {
      * @param paintable a {@code GdkPaintable}
      */
     public void setIcon(@Nullable org.gtk.gdk.Paintable paintable) {
-        java.util.Objects.requireNonNullElse(paintable, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_tooltip_set_icon.invokeExact(handle(), paintable.handle());
+            DowncallHandles.gtk_tooltip_set_icon.invokeExact(
+                    handle(),
+                    (Addressable) (paintable == null ? MemoryAddress.NULL : paintable.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,9 +114,10 @@ public class Tooltip extends org.gtk.gobject.Object {
      * @param gicon a {@code GIcon} representing the icon
      */
     public void setIconFromGicon(@Nullable org.gtk.gio.Icon gicon) {
-        java.util.Objects.requireNonNullElse(gicon, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_tooltip_set_icon_from_gicon.invokeExact(handle(), gicon.handle());
+            DowncallHandles.gtk_tooltip_set_icon_from_gicon.invokeExact(
+                    handle(),
+                    (Addressable) (gicon == null ? MemoryAddress.NULL : gicon.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,9 +130,10 @@ public class Tooltip extends org.gtk.gobject.Object {
      * @param iconName an icon name
      */
     public void setIconFromIconName(@Nullable java.lang.String iconName) {
-        java.util.Objects.requireNonNullElse(iconName, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_tooltip_set_icon_from_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName));
+            DowncallHandles.gtk_tooltip_set_icon_from_icon_name.invokeExact(
+                    handle(),
+                    (Addressable) (iconName == null ? MemoryAddress.NULL : Interop.allocateNativeString(iconName)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -130,9 +147,10 @@ public class Tooltip extends org.gtk.gobject.Object {
      * @param markup a string with Pango markup or {@code NLL}
      */
     public void setMarkup(@Nullable java.lang.String markup) {
-        java.util.Objects.requireNonNullElse(markup, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_tooltip_set_markup.invokeExact(handle(), Interop.allocateNativeString(markup));
+            DowncallHandles.gtk_tooltip_set_markup.invokeExact(
+                    handle(),
+                    (Addressable) (markup == null ? MemoryAddress.NULL : Interop.allocateNativeString(markup)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,9 +164,10 @@ public class Tooltip extends org.gtk.gobject.Object {
      * @param text a text string
      */
     public void setText(@Nullable java.lang.String text) {
-        java.util.Objects.requireNonNullElse(text, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_tooltip_set_text.invokeExact(handle(), Interop.allocateNativeString(text));
+            DowncallHandles.gtk_tooltip_set_text.invokeExact(
+                    handle(),
+                    (Addressable) (text == null ? MemoryAddress.NULL : Interop.allocateNativeString(text)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -168,7 +187,9 @@ public class Tooltip extends org.gtk.gobject.Object {
     public void setTipArea(@NotNull org.gtk.gdk.Rectangle rect) {
         java.util.Objects.requireNonNull(rect, "Parameter 'rect' must not be null");
         try {
-            DowncallHandles.gtk_tooltip_set_tip_area.invokeExact(handle(), rect.handle());
+            DowncallHandles.gtk_tooltip_set_tip_area.invokeExact(
+                    handle(),
+                    rect.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -14,28 +14,42 @@ public class NamedAction extends org.gtk.gtk.ShortcutAction {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkNamedAction";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public NamedAction(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to NamedAction */
+    /**
+     * Cast object to NamedAction if its GType is a (or inherits from) "GtkNamedAction".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "NamedAction" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkNamedAction", a ClassCastException will be thrown.
+     */
     public static NamedAction castFrom(org.gtk.gobject.Object gobject) {
-        return new NamedAction(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkNamedAction"))) {
+            return new NamedAction(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkNamedAction");
+        }
     }
     
     private static Refcounted constructNew(@NotNull java.lang.String name) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_named_action_new.invokeExact(Interop.allocateNativeString(name)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_named_action_new.invokeExact(
+                    Interop.allocateNativeString(name)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -63,11 +77,12 @@ public class NamedAction extends org.gtk.gtk.ShortcutAction {
     public @NotNull java.lang.String getActionName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_named_action_get_action_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_named_action_get_action_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     private static class DowncallHandles {

@@ -82,9 +82,7 @@ public final class GdkPixbuf {
         public static boolean cbPixbufSaveFunc(MemoryAddress buf, long count, MemoryAddress error, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (PixbufSaveFunc) Interop.signalRegistry.get(HASH);
-        var errorOUT = new Out<PointerProxy<org.gtk.glib.Error>>(new PointerProxy<org.gtk.glib.Error>(error, org.gtk.glib.Error.class));
-            var RESULT = HANDLER.onPixbufSaveFunc(new PointerByte(buf), count, errorOUT);
-            error.set(ValueLayout.ADDRESS, 0, errorOUT.get().handle());
+            var RESULT = HANDLER.onPixbufSaveFunc(new PointerByte(buf), count, new PointerProxy<org.gtk.glib.Error>(error, org.gtk.glib.Error.class));
             return RESULT;
         }
         

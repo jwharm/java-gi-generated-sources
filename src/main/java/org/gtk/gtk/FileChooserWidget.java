@@ -21,28 +21,42 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkFileChooserWidget";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public FileChooserWidget(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to FileChooserWidget */
+    /**
+     * Cast object to FileChooserWidget if its GType is a (or inherits from) "GtkFileChooserWidget".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "FileChooserWidget" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkFileChooserWidget", a ClassCastException will be thrown.
+     */
     public static FileChooserWidget castFrom(org.gtk.gobject.Object gobject) {
-        return new FileChooserWidget(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFileChooserWidget"))) {
+            return new FileChooserWidget(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkFileChooserWidget");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gtk.FileChooserAction action) {
         java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_file_chooser_widget_new.invokeExact(action.getValue()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_file_chooser_widget_new.invokeExact(
+                    action.getValue()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -500,7 +514,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
         public static void signalFileChooserWidgetLocationPopup(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FileChooserWidget.LocationPopup) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)), path.getUtf8String(0));
+            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)), Interop.getStringFrom(path));
         }
         
         public static void signalFileChooserWidgetLocationPopupOnPaste(MemoryAddress source, MemoryAddress data) {

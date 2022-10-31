@@ -36,21 +36,34 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwClampLayout";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ClampLayout(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ClampLayout */
+    /**
+     * Cast object to ClampLayout if its GType is a (or inherits from) "AdwClampLayout".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ClampLayout" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwClampLayout", a ClassCastException will be thrown.
+     */
     public static ClampLayout castFrom(org.gtk.gobject.Object gobject) {
-        return new ClampLayout(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwClampLayout"))) {
+            return new ClampLayout(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwClampLayout");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -77,7 +90,8 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
     public int getMaximumSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_clamp_layout_get_maximum_size.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_clamp_layout_get_maximum_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,7 +105,8 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
     public int getTighteningThreshold() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_clamp_layout_get_tightening_threshold.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_clamp_layout_get_tightening_threshold.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,11 +115,15 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
     
     /**
      * Sets the maximum size allocated to the children.
+     * <p>
+     * It is the width if the layout is horizontal, or the height if it is vertical.
      * @param maximumSize the maximum size
      */
     public void setMaximumSize(int maximumSize) {
         try {
-            DowncallHandles.adw_clamp_layout_set_maximum_size.invokeExact(handle(), maximumSize);
+            DowncallHandles.adw_clamp_layout_set_maximum_size.invokeExact(
+                    handle(),
+                    maximumSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,11 +131,26 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
     
     /**
      * Sets the size above which the children are clamped.
+     * <p>
+     * Starting from this size, the layout will tighten its grip on the children,
+     * slowly allocating less and less of the available size up to the maximum
+     * allocated size. Below that threshold and below the maximum size, the children
+     * will be allocated all the available size.
+     * <p>
+     * If the threshold is greater than the maximum size to allocate to the
+     * children, they will be allocated the whole size up to the maximum. If the
+     * threshold is lower than the minimum size to allocate to the children, that
+     * size will be used as the tightening threshold.
+     * <p>
+     * Effectively, tightening the grip on a child before it reaches its maximum
+     * size makes transitions to and from the maximum size smoother when resizing.
      * @param tighteningThreshold the tightening threshold
      */
     public void setTighteningThreshold(int tighteningThreshold) {
         try {
-            DowncallHandles.adw_clamp_layout_set_tightening_threshold.invokeExact(handle(), tighteningThreshold);
+            DowncallHandles.adw_clamp_layout_set_tightening_threshold.invokeExact(
+                    handle(),
+                    tighteningThreshold);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

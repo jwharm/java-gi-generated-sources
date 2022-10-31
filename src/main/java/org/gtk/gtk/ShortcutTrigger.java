@@ -24,28 +24,42 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkShortcutTrigger";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ShortcutTrigger(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ShortcutTrigger */
+    /**
+     * Cast object to ShortcutTrigger if its GType is a (or inherits from) "GtkShortcutTrigger".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ShortcutTrigger" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkShortcutTrigger", a ClassCastException will be thrown.
+     */
     public static ShortcutTrigger castFrom(org.gtk.gobject.Object gobject) {
-        return new ShortcutTrigger(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkShortcutTrigger"))) {
+            return new ShortcutTrigger(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkShortcutTrigger");
+        }
     }
     
     private static Refcounted constructParseString(@NotNull java.lang.String string) {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_shortcut_trigger_parse_string.invokeExact(Interop.allocateNativeString(string)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_shortcut_trigger_parse_string.invokeExact(
+                    Interop.allocateNativeString(string)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,7 +105,9 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(trigger2, "Parameter 'trigger2' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_shortcut_trigger_compare.invokeExact(handle(), trigger2.handle());
+            RESULT = (int) DowncallHandles.gtk_shortcut_trigger_compare.invokeExact(
+                    handle(),
+                    trigger2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,7 +126,9 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(trigger2, "Parameter 'trigger2' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_shortcut_trigger_equal.invokeExact(handle(), trigger2.handle());
+            RESULT = (int) DowncallHandles.gtk_shortcut_trigger_equal.invokeExact(
+                    handle(),
+                    trigger2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,7 +150,8 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
     public int hash() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_shortcut_trigger_hash.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_shortcut_trigger_hash.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -150,7 +169,9 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
     public void print(@NotNull org.gtk.glib.String string) {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         try {
-            DowncallHandles.gtk_shortcut_trigger_print.invokeExact(handle(), string.handle());
+            DowncallHandles.gtk_shortcut_trigger_print.invokeExact(
+                    handle(),
+                    string.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -179,7 +200,10 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_shortcut_trigger_print_label.invokeExact(handle(), display.handle(), string.handle());
+            RESULT = (int) DowncallHandles.gtk_shortcut_trigger_print_label.invokeExact(
+                    handle(),
+                    display.handle(),
+                    string.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -206,11 +230,13 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_trigger_to_label.invokeExact(handle(), display.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_trigger_to_label.invokeExact(
+                    handle(),
+                    display.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -223,11 +249,12 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
     public @NotNull java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_trigger_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_trigger_to_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -242,7 +269,10 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_shortcut_trigger_trigger.invokeExact(handle(), event.handle(), enableMnemonics ? 1 : 0);
+            RESULT = (int) DowncallHandles.gtk_shortcut_trigger_trigger.invokeExact(
+                    handle(),
+                    event.handle(),
+                    enableMnemonics ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -15,23 +15,78 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GDBusInterfaceInfo";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_INT.withName("ref_count"),
+        MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("name"),
         Interop.valueLayout.ADDRESS.withName("methods"),
         Interop.valueLayout.ADDRESS.withName("signals"),
         Interop.valueLayout.ADDRESS.withName("properties"),
         Interop.valueLayout.ADDRESS.withName("annotations")
-    ).withName("GDBusInterfaceInfo");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static DBusInterfaceInfo allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        DBusInterfaceInfo newInstance = new DBusInterfaceInfo(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code ref_count}
+     * @return The value of the field {@code ref_count}
+     */
+    public int ref_count$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code ref_count}
+     * @param ref_count The new value of the field {@code ref_count}
+     */
+    public void ref_count$set(int ref_count) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+    }
+    
+    /**
+     * Get the value of the field {@code name}
+     * @return The value of the field {@code name}
+     */
+    public java.lang.String name$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("name"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringFrom(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code name}
+     * @param name The new value of the field {@code name}
+     */
+    public void name$set(java.lang.String name) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("name"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(name));
+    }
+    
+    @ApiStatus.Internal
     public DBusInterfaceInfo(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -50,7 +105,8 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public void cacheBuild() {
         try {
-            DowncallHandles.g_dbus_interface_info_cache_build.invokeExact(handle());
+            DowncallHandles.g_dbus_interface_info_cache_build.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -63,7 +119,8 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public void cacheRelease() {
         try {
-            DowncallHandles.g_dbus_interface_info_cache_release.invokeExact(handle());
+            DowncallHandles.g_dbus_interface_info_cache_release.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +139,10 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
     public void generateXml(int indent, @NotNull org.gtk.glib.String stringBuilder) {
         java.util.Objects.requireNonNull(stringBuilder, "Parameter 'stringBuilder' must not be null");
         try {
-            DowncallHandles.g_dbus_interface_info_generate_xml.invokeExact(handle(), indent, stringBuilder.handle());
+            DowncallHandles.g_dbus_interface_info_generate_xml.invokeExact(
+                    handle(),
+                    indent,
+                    stringBuilder.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,7 +160,9 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_info_lookup_method.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_info_lookup_method.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,7 +181,9 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_info_lookup_property.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_info_lookup_property.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,7 +202,9 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_info_lookup_signal.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_info_lookup_signal.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,7 +219,8 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gio.DBusInterfaceInfo ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_info_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_info_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,7 +234,8 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_dbus_interface_info_unref.invokeExact(handle());
+            DowncallHandles.g_dbus_interface_info_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -25,28 +25,41 @@ public class TreeListRowSorter extends org.gtk.gtk.Sorter {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkTreeListRowSorter";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public TreeListRowSorter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TreeListRowSorter */
+    /**
+     * Cast object to TreeListRowSorter if its GType is a (or inherits from) "GtkTreeListRowSorter".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TreeListRowSorter" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkTreeListRowSorter", a ClassCastException will be thrown.
+     */
     public static TreeListRowSorter castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeListRowSorter(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeListRowSorter"))) {
+            return new TreeListRowSorter(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTreeListRowSorter");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gtk.Sorter sorter) {
-        java.util.Objects.requireNonNullElse(sorter, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_list_row_sorter_new.invokeExact(sorter.refcounted().unowned().handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_list_row_sorter_new.invokeExact(
+                    (Addressable) (sorter == null ? MemoryAddress.NULL : sorter.refcounted().unowned().handle())), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -72,7 +85,8 @@ public class TreeListRowSorter extends org.gtk.gtk.Sorter {
     public @Nullable org.gtk.gtk.Sorter getSorter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_row_sorter_get_sorter.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_row_sorter_get_sorter.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,9 +101,10 @@ public class TreeListRowSorter extends org.gtk.gtk.Sorter {
      * @param sorter The sorter to use
      */
     public void setSorter(@Nullable org.gtk.gtk.Sorter sorter) {
-        java.util.Objects.requireNonNullElse(sorter, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_tree_list_row_sorter_set_sorter.invokeExact(handle(), sorter.handle());
+            DowncallHandles.gtk_tree_list_row_sorter_set_sorter.invokeExact(
+                    handle(),
+                    (Addressable) (sorter == null ? MemoryAddress.NULL : sorter.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

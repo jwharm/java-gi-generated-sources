@@ -53,29 +53,43 @@ public class Scrollbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkScrollbar";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Scrollbar(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Scrollbar */
+    /**
+     * Cast object to Scrollbar if its GType is a (or inherits from) "GtkScrollbar".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Scrollbar" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkScrollbar", a ClassCastException will be thrown.
+     */
     public static Scrollbar castFrom(org.gtk.gobject.Object gobject) {
-        return new Scrollbar(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkScrollbar"))) {
+            return new Scrollbar(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkScrollbar");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gtk.Orientation orientation, @Nullable org.gtk.gtk.Adjustment adjustment) {
         java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
-        java.util.Objects.requireNonNullElse(adjustment, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_scrollbar_new.invokeExact(orientation.getValue(), adjustment.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_scrollbar_new.invokeExact(
+                    orientation.getValue(),
+                    (Addressable) (adjustment == null ? MemoryAddress.NULL : adjustment.handle())), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +113,8 @@ public class Scrollbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public @NotNull org.gtk.gtk.Adjustment getAdjustment() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_scrollbar_get_adjustment.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scrollbar_get_adjustment.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,9 +126,10 @@ public class Scrollbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @param adjustment the adjustment to set
      */
     public void setAdjustment(@Nullable org.gtk.gtk.Adjustment adjustment) {
-        java.util.Objects.requireNonNullElse(adjustment, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_scrollbar_set_adjustment.invokeExact(handle(), adjustment.handle());
+            DowncallHandles.gtk_scrollbar_set_adjustment.invokeExact(
+                    handle(),
+                    (Addressable) (adjustment == null ? MemoryAddress.NULL : adjustment.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -14,21 +14,34 @@ public class TextureNode extends org.gtk.gsk.RenderNode {
         Gsk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GskTextureNode";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public TextureNode(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TextureNode */
+    /**
+     * Cast object to TextureNode if its GType is a (or inherits from) "GskTextureNode".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TextureNode" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GskTextureNode", a ClassCastException will be thrown.
+     */
     public static TextureNode castFrom(org.gtk.gobject.Object gobject) {
-        return new TextureNode(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskTextureNode"))) {
+            return new TextureNode(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskTextureNode");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gdk.Texture texture, @NotNull org.gtk.graphene.Rect bounds) {
@@ -36,7 +49,9 @@ public class TextureNode extends org.gtk.gsk.RenderNode {
         java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_texture_node_new.invokeExact(texture.handle(), bounds.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_texture_node_new.invokeExact(
+                    texture.handle(),
+                    bounds.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -60,7 +75,8 @@ public class TextureNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.gdk.Texture getTexture() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_texture_node_get_texture.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_texture_node_get_texture.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

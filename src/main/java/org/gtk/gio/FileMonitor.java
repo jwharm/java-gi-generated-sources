@@ -27,26 +27,48 @@ public class FileMonitor extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GFileMonitor";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.FileMonitorPrivate.getMemoryLayout().withName("priv")
-    ).withName("GFileMonitor");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public FileMonitor(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to FileMonitor */
+    /**
+     * Cast object to FileMonitor if its GType is a (or inherits from) "GFileMonitor".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "FileMonitor" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GFileMonitor", a ClassCastException will be thrown.
+     */
     public static FileMonitor castFrom(org.gtk.gobject.Object gobject) {
-        return new FileMonitor(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GFileMonitor"))) {
+            return new FileMonitor(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GFileMonitor");
+        }
     }
     
     /**
@@ -56,7 +78,8 @@ public class FileMonitor extends org.gtk.gobject.Object {
     public boolean cancel() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_monitor_cancel.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_file_monitor_cancel.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +103,11 @@ public class FileMonitor extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(otherFile, "Parameter 'otherFile' must not be null");
         java.util.Objects.requireNonNull(eventType, "Parameter 'eventType' must not be null");
         try {
-            DowncallHandles.g_file_monitor_emit_event.invokeExact(handle(), child.handle(), otherFile.handle(), eventType.getValue());
+            DowncallHandles.g_file_monitor_emit_event.invokeExact(
+                    handle(),
+                    child.handle(),
+                    otherFile.handle(),
+                    eventType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,7 +120,8 @@ public class FileMonitor extends org.gtk.gobject.Object {
     public boolean isCancelled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_monitor_is_cancelled.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_file_monitor_is_cancelled.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,7 +136,9 @@ public class FileMonitor extends org.gtk.gobject.Object {
      */
     public void setRateLimit(int limitMsecs) {
         try {
-            DowncallHandles.g_file_monitor_set_rate_limit.invokeExact(handle(), limitMsecs);
+            DowncallHandles.g_file_monitor_set_rate_limit.invokeExact(
+                    handle(),
+                    limitMsecs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

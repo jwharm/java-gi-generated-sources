@@ -11,14 +11,26 @@ public class TcpWrapperConnectionPrivate extends io.github.jwharm.javagi.Resourc
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTcpWrapperConnectionPrivate";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static TcpWrapperConnectionPrivate allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        TcpWrapperConnectionPrivate newInstance = new TcpWrapperConnectionPrivate(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public TcpWrapperConnectionPrivate(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

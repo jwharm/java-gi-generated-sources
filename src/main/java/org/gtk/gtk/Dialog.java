@@ -130,25 +130,47 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkDialog";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Window.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkDialog");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gtk.Window parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gtk.Window(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Dialog(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Dialog */
+    /**
+     * Cast object to Dialog if its GType is a (or inherits from) "GtkDialog".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Dialog" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkDialog", a ClassCastException will be thrown.
+     */
     public static Dialog castFrom(org.gtk.gobject.Object gobject) {
-        return new Dialog(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkDialog"))) {
+            return new Dialog(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkDialog");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -236,7 +258,10 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
     public void addActionWidget(@NotNull org.gtk.gtk.Widget child, int responseId) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_dialog_add_action_widget.invokeExact(handle(), child.handle(), responseId);
+            DowncallHandles.gtk_dialog_add_action_widget.invokeExact(
+                    handle(),
+                    child.handle(),
+                    responseId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -257,7 +282,10 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
         java.util.Objects.requireNonNull(buttonText, "Parameter 'buttonText' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_dialog_add_button.invokeExact(handle(), Interop.allocateNativeString(buttonText), responseId);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_dialog_add_button.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(buttonText),
+                    responseId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -284,7 +312,8 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
     public @NotNull org.gtk.gtk.Box getContentArea() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_dialog_get_content_area.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_dialog_get_content_area.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -301,7 +330,8 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
     public @NotNull org.gtk.gtk.HeaderBar getHeaderBar() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_dialog_get_header_bar.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_dialog_get_header_bar.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -319,7 +349,9 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_dialog_get_response_for_widget.invokeExact(handle(), widget.handle());
+            RESULT = (int) DowncallHandles.gtk_dialog_get_response_for_widget.invokeExact(
+                    handle(),
+                    widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -336,7 +368,9 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
     public @Nullable org.gtk.gtk.Widget getWidgetForResponse(int responseId) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_dialog_get_widget_for_response.invokeExact(handle(), responseId);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_dialog_get_widget_for_response.invokeExact(
+                    handle(),
+                    responseId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -351,7 +385,9 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
      */
     public void response(int responseId) {
         try {
-            DowncallHandles.gtk_dialog_response.invokeExact(handle(), responseId);
+            DowncallHandles.gtk_dialog_response.invokeExact(
+                    handle(),
+                    responseId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -365,7 +401,9 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
      */
     public void setDefaultResponse(int responseId) {
         try {
-            DowncallHandles.gtk_dialog_set_default_response.invokeExact(handle(), responseId);
+            DowncallHandles.gtk_dialog_set_default_response.invokeExact(
+                    handle(),
+                    responseId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -381,7 +419,10 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
      */
     public void setResponseSensitive(int responseId, boolean setting) {
         try {
-            DowncallHandles.gtk_dialog_set_response_sensitive.invokeExact(handle(), responseId, setting ? 1 : 0);
+            DowncallHandles.gtk_dialog_set_response_sensitive.invokeExact(
+                    handle(),
+                    responseId,
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

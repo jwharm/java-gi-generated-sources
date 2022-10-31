@@ -26,25 +26,47 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
         GdkPixbuf.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkPixbufAnimation";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName("GdkPixbufAnimation");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public PixbufAnimation(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to PixbufAnimation */
+    /**
+     * Cast object to PixbufAnimation if its GType is a (or inherits from) "GdkPixbufAnimation".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "PixbufAnimation" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkPixbufAnimation", a ClassCastException will be thrown.
+     */
     public static PixbufAnimation castFrom(org.gtk.gobject.Object gobject) {
-        return new PixbufAnimation(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkPixbufAnimation"))) {
+            return new PixbufAnimation(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkPixbufAnimation");
+        }
     }
     
     private static Refcounted constructNewFromFile(@NotNull java.lang.String filename) throws GErrorException {
@@ -52,7 +74,8 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_animation_new_from_file.invokeExact(Interop.allocateNativeString(filename), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_animation_new_from_file.invokeExact(
+                    Interop.allocateNativeString(filename), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,7 +108,8 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_animation_new_from_resource.invokeExact(Interop.allocateNativeString(resourcePath), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_animation_new_from_resource.invokeExact(
+                    Interop.allocateNativeString(resourcePath), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,11 +134,12 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
     
     private static Refcounted constructNewFromStream(@NotNull org.gtk.gio.InputStream stream, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_animation_new_from_stream.invokeExact(stream.handle(), cancellable.handle(), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_animation_new_from_stream.invokeExact(
+                    stream.handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,7 +176,8 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_animation_new_from_stream_finish.invokeExact(asyncResult.handle(), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_animation_new_from_stream_finish.invokeExact(
+                    asyncResult.handle(), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -179,7 +205,8 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
     public int getHeight() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_animation_get_height.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_animation_get_height.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -225,10 +252,11 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * @return an iterator to move over the animation
      */
     public @NotNull org.gtk.gdkpixbuf.PixbufAnimationIter getIter(@Nullable org.gtk.glib.TimeVal startTime) {
-        java.util.Objects.requireNonNullElse(startTime, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_animation_get_iter.invokeExact(handle(), startTime.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_animation_get_iter.invokeExact(
+                    handle(),
+                    (Addressable) (startTime == null ? MemoryAddress.NULL : startTime.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -252,7 +280,8 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdkpixbuf.Pixbuf getStaticImage() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_animation_get_static_image.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_animation_get_static_image.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -266,7 +295,8 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
     public int getWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_animation_get_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_animation_get_width.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -285,7 +315,8 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
     public boolean isStaticImage() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_animation_is_static_image.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_animation_is_static_image.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -301,7 +332,8 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdkpixbuf.PixbufAnimation ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_animation_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_animation_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -315,7 +347,8 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
     @Deprecated
     public void unref() {
         try {
-            DowncallHandles.gdk_pixbuf_animation_unref.invokeExact(handle());
+            DowncallHandles.gdk_pixbuf_animation_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -336,16 +369,16 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      */
     public static void newFromStreamAsync(@NotNull org.gtk.gio.InputStream stream, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.gdk_pixbuf_animation_new_from_stream_async.invokeExact(stream.handle(), cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gdk_pixbuf_animation_new_from_stream_async.invokeExact(
+                    stream.handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GdkPixbuf.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

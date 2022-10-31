@@ -18,14 +18,26 @@ public class Checksum extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GChecksum";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Checksum allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Checksum newInstance = new Checksum(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Checksum(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -34,7 +46,8 @@ public class Checksum extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(checksumType, "Parameter 'checksumType' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_checksum_new.invokeExact(checksumType.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_checksum_new.invokeExact(
+                    checksumType.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -71,7 +84,8 @@ public class Checksum extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Checksum copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_checksum_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_checksum_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,7 +97,8 @@ public class Checksum extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.g_checksum_free.invokeExact(handle());
+            DowncallHandles.g_checksum_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,7 +119,10 @@ public class Checksum extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(digestLen, "Parameter 'digestLen' must not be null");
         MemorySegment digestLenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         try {
-            DowncallHandles.g_checksum_get_digest.invokeExact(handle(), Interop.allocateNativeArray(buffer, false), (Addressable) digestLenPOINTER.address());
+            DowncallHandles.g_checksum_get_digest.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(buffer, false),
+                    (Addressable) digestLenPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,11 +143,12 @@ public class Checksum extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_checksum_get_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_checksum_get_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -137,7 +156,8 @@ public class Checksum extends io.github.jwharm.javagi.ResourceBase {
      */
     public void reset() {
         try {
-            DowncallHandles.g_checksum_reset.invokeExact(handle());
+            DowncallHandles.g_checksum_reset.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,7 +173,10 @@ public class Checksum extends io.github.jwharm.javagi.ResourceBase {
     public void update(byte[] data, long length) {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         try {
-            DowncallHandles.g_checksum_update.invokeExact(handle(), Interop.allocateNativeArray(data, false), length);
+            DowncallHandles.g_checksum_update.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(data, false),
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,7 +192,8 @@ public class Checksum extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(checksumType, "Parameter 'checksumType' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_checksum_type_get_length.invokeExact(checksumType.getValue());
+            RESULT = (long) DowncallHandles.g_checksum_type_get_length.invokeExact(
+                    checksumType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

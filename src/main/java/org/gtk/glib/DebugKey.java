@@ -15,19 +15,73 @@ public class DebugKey extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GDebugKey";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("key"),
         ValueLayout.JAVA_INT.withName("value")
-    ).withName("GDebugKey");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static DebugKey allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        DebugKey newInstance = new DebugKey(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code key}
+     * @return The value of the field {@code key}
+     */
+    public java.lang.String key$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("key"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringFrom(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code key}
+     * @param key The new value of the field {@code key}
+     */
+    public void key$set(java.lang.String key) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("key"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(key));
+    }
+    
+    /**
+     * Get the value of the field {@code value}
+     * @return The value of the field {@code value}
+     */
+    public int value$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("value"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code value}
+     * @param value The new value of the field {@code value}
+     */
+    public void value$set(int value) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("value"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
+    }
+    
+    @ApiStatus.Internal
     public DebugKey(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

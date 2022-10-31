@@ -48,21 +48,34 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkStatusbar";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Statusbar(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Statusbar */
+    /**
+     * Cast object to Statusbar if its GType is a (or inherits from) "GtkStatusbar".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Statusbar" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkStatusbar", a ClassCastException will be thrown.
+     */
     public static Statusbar castFrom(org.gtk.gobject.Object gobject) {
-        return new Statusbar(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkStatusbar"))) {
+            return new Statusbar(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkStatusbar");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -95,7 +108,9 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         java.util.Objects.requireNonNull(contextDescription, "Parameter 'contextDescription' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_statusbar_get_context_id.invokeExact(handle(), Interop.allocateNativeString(contextDescription));
+            RESULT = (int) DowncallHandles.gtk_statusbar_get_context_id.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(contextDescription));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -113,7 +128,9 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public void pop(int contextId) {
         try {
-            DowncallHandles.gtk_statusbar_pop.invokeExact(handle(), contextId);
+            DowncallHandles.gtk_statusbar_pop.invokeExact(
+                    handle(),
+                    contextId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -131,7 +148,10 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_statusbar_push.invokeExact(handle(), contextId, Interop.allocateNativeString(text));
+            RESULT = (int) DowncallHandles.gtk_statusbar_push.invokeExact(
+                    handle(),
+                    contextId,
+                    Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,7 +166,10 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public void remove(int contextId, int messageId) {
         try {
-            DowncallHandles.gtk_statusbar_remove.invokeExact(handle(), contextId, messageId);
+            DowncallHandles.gtk_statusbar_remove.invokeExact(
+                    handle(),
+                    contextId,
+                    messageId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,7 +182,9 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public void removeAll(int contextId) {
         try {
-            DowncallHandles.gtk_statusbar_remove_all.invokeExact(handle(), contextId);
+            DowncallHandles.gtk_statusbar_remove_all.invokeExact(
+                    handle(),
+                    contextId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -255,13 +280,13 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         public static void signalStatusbarTextPopped(MemoryAddress source, int contextId, MemoryAddress text, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Statusbar.TextPopped) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Statusbar(Refcounted.get(source)), contextId, text.getUtf8String(0));
+            HANDLER.signalReceived(new Statusbar(Refcounted.get(source)), contextId, Interop.getStringFrom(text));
         }
         
         public static void signalStatusbarTextPushed(MemoryAddress source, int contextId, MemoryAddress text, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Statusbar.TextPushed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Statusbar(Refcounted.get(source)), contextId, text.getUtf8String(0));
+            HANDLER.signalReceived(new Statusbar(Refcounted.get(source)), contextId, Interop.getStringFrom(text));
         }
     }
 }

@@ -28,14 +28,26 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkBitset";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Bitset allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Bitset newInstance = new Bitset(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Bitset(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -61,7 +73,9 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructNewRange(int start, int nItems) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_bitset_new_range.invokeExact(start, nItems), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_bitset_new_range.invokeExact(
+                    start,
+                    nItems), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,7 +101,9 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     public boolean add(int value) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bitset_add.invokeExact(handle(), value);
+            RESULT = (int) DowncallHandles.gtk_bitset_add.invokeExact(
+                    handle(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,7 +118,10 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      */
     public void addRange(int start, int nItems) {
         try {
-            DowncallHandles.gtk_bitset_add_range.invokeExact(handle(), start, nItems);
+            DowncallHandles.gtk_bitset_add_range.invokeExact(
+                    handle(),
+                    start,
+                    nItems);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,7 +135,10 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      */
     public void addRangeClosed(int first, int last) {
         try {
-            DowncallHandles.gtk_bitset_add_range_closed.invokeExact(handle(), first, last);
+            DowncallHandles.gtk_bitset_add_range_closed.invokeExact(
+                    handle(),
+                    first,
+                    last);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,7 +154,12 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      */
     public void addRectangle(int start, int width, int height, int stride) {
         try {
-            DowncallHandles.gtk_bitset_add_rectangle.invokeExact(handle(), start, width, height, stride);
+            DowncallHandles.gtk_bitset_add_rectangle.invokeExact(
+                    handle(),
+                    start,
+                    width,
+                    height,
+                    stride);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,7 +173,9 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     public boolean contains(int value) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bitset_contains.invokeExact(handle(), value);
+            RESULT = (int) DowncallHandles.gtk_bitset_contains.invokeExact(
+                    handle(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,7 +190,8 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gtk.Bitset copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_bitset_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_bitset_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,7 +212,9 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     public void difference(@NotNull org.gtk.gtk.Bitset other) {
         java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         try {
-            DowncallHandles.gtk_bitset_difference.invokeExact(handle(), other.handle());
+            DowncallHandles.gtk_bitset_difference.invokeExact(
+                    handle(),
+                    other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -197,7 +229,9 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bitset_equals.invokeExact(handle(), other.handle());
+            RESULT = (int) DowncallHandles.gtk_bitset_equals.invokeExact(
+                    handle(),
+                    other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -213,7 +247,8 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     public int getMaximum() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bitset_get_maximum.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_bitset_get_maximum.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -229,7 +264,8 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     public int getMinimum() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bitset_get_minimum.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_bitset_get_minimum.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -246,7 +282,9 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     public int getNth(int nth) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bitset_get_nth.invokeExact(handle(), nth);
+            RESULT = (int) DowncallHandles.gtk_bitset_get_nth.invokeExact(
+                    handle(),
+                    nth);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -267,7 +305,8 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     public long getSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gtk_bitset_get_size.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gtk_bitset_get_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -288,7 +327,10 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     public long getSizeInRange(int first, int last) {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gtk_bitset_get_size_in_range.invokeExact(handle(), first, last);
+            RESULT = (long) DowncallHandles.gtk_bitset_get_size_in_range.invokeExact(
+                    handle(),
+                    first,
+                    last);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -307,7 +349,9 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     public void intersect(@NotNull org.gtk.gtk.Bitset other) {
         java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         try {
-            DowncallHandles.gtk_bitset_intersect.invokeExact(handle(), other.handle());
+            DowncallHandles.gtk_bitset_intersect.invokeExact(
+                    handle(),
+                    other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -320,7 +364,8 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     public boolean isEmpty() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bitset_is_empty.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_bitset_is_empty.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -334,7 +379,8 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gtk.Bitset ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_bitset_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_bitset_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -350,7 +396,9 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     public boolean remove(int value) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bitset_remove.invokeExact(handle(), value);
+            RESULT = (int) DowncallHandles.gtk_bitset_remove.invokeExact(
+                    handle(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -362,7 +410,8 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      */
     public void removeAll() {
         try {
-            DowncallHandles.gtk_bitset_remove_all.invokeExact(handle());
+            DowncallHandles.gtk_bitset_remove_all.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -376,7 +425,10 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      */
     public void removeRange(int start, int nItems) {
         try {
-            DowncallHandles.gtk_bitset_remove_range.invokeExact(handle(), start, nItems);
+            DowncallHandles.gtk_bitset_remove_range.invokeExact(
+                    handle(),
+                    start,
+                    nItems);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -390,7 +442,10 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      */
     public void removeRangeClosed(int first, int last) {
         try {
-            DowncallHandles.gtk_bitset_remove_range_closed.invokeExact(handle(), first, last);
+            DowncallHandles.gtk_bitset_remove_range_closed.invokeExact(
+                    handle(),
+                    first,
+                    last);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -406,7 +461,12 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      */
     public void removeRectangle(int start, int width, int height, int stride) {
         try {
-            DowncallHandles.gtk_bitset_remove_rectangle.invokeExact(handle(), start, width, height, stride);
+            DowncallHandles.gtk_bitset_remove_rectangle.invokeExact(
+                    handle(),
+                    start,
+                    width,
+                    height,
+                    stride);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -420,7 +480,9 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      */
     public void shiftLeft(int amount) {
         try {
-            DowncallHandles.gtk_bitset_shift_left.invokeExact(handle(), amount);
+            DowncallHandles.gtk_bitset_shift_left.invokeExact(
+                    handle(),
+                    amount);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -434,7 +496,9 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      */
     public void shiftRight(int amount) {
         try {
-            DowncallHandles.gtk_bitset_shift_right.invokeExact(handle(), amount);
+            DowncallHandles.gtk_bitset_shift_right.invokeExact(
+                    handle(),
+                    amount);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -457,7 +521,11 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      */
     public void splice(int position, int removed, int added) {
         try {
-            DowncallHandles.gtk_bitset_splice.invokeExact(handle(), position, removed, added);
+            DowncallHandles.gtk_bitset_splice.invokeExact(
+                    handle(),
+                    position,
+                    removed,
+                    added);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -475,7 +543,9 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     public void subtract(@NotNull org.gtk.gtk.Bitset other) {
         java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         try {
-            DowncallHandles.gtk_bitset_subtract.invokeExact(handle(), other.handle());
+            DowncallHandles.gtk_bitset_subtract.invokeExact(
+                    handle(),
+                    other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -493,7 +563,9 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     public void union(@NotNull org.gtk.gtk.Bitset other) {
         java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         try {
-            DowncallHandles.gtk_bitset_union.invokeExact(handle(), other.handle());
+            DowncallHandles.gtk_bitset_union.invokeExact(
+                    handle(),
+                    other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -507,7 +579,8 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.gtk_bitset_unref.invokeExact(handle());
+            DowncallHandles.gtk_bitset_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -26,28 +26,41 @@ public class StringFilter extends org.gtk.gtk.Filter {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkStringFilter";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public StringFilter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to StringFilter */
+    /**
+     * Cast object to StringFilter if its GType is a (or inherits from) "GtkStringFilter".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "StringFilter" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkStringFilter", a ClassCastException will be thrown.
+     */
     public static StringFilter castFrom(org.gtk.gobject.Object gobject) {
-        return new StringFilter(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkStringFilter"))) {
+            return new StringFilter(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkStringFilter");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gtk.Expression expression) {
-        java.util.Objects.requireNonNullElse(expression, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_string_filter_new.invokeExact(expression.refcounted().unowned().handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_string_filter_new.invokeExact(
+                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.refcounted().unowned().handle())), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,7 +86,8 @@ public class StringFilter extends org.gtk.gtk.Filter {
     public @Nullable org.gtk.gtk.Expression getExpression() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_string_filter_get_expression.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_string_filter_get_expression.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,7 +101,8 @@ public class StringFilter extends org.gtk.gtk.Filter {
     public boolean getIgnoreCase() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_string_filter_get_ignore_case.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_string_filter_get_ignore_case.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -101,7 +116,8 @@ public class StringFilter extends org.gtk.gtk.Filter {
     public @NotNull org.gtk.gtk.StringFilterMatchMode getMatchMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_string_filter_get_match_mode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_string_filter_get_match_mode.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,11 +131,12 @@ public class StringFilter extends org.gtk.gtk.Filter {
     public @Nullable java.lang.String getSearch() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_string_filter_get_search.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_string_filter_get_search.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -130,9 +147,10 @@ public class StringFilter extends org.gtk.gtk.Filter {
      * @param expression a {@code GtkExpression}
      */
     public void setExpression(@Nullable org.gtk.gtk.Expression expression) {
-        java.util.Objects.requireNonNullElse(expression, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_string_filter_set_expression.invokeExact(handle(), expression.handle());
+            DowncallHandles.gtk_string_filter_set_expression.invokeExact(
+                    handle(),
+                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -144,7 +162,9 @@ public class StringFilter extends org.gtk.gtk.Filter {
      */
     public void setIgnoreCase(boolean ignoreCase) {
         try {
-            DowncallHandles.gtk_string_filter_set_ignore_case.invokeExact(handle(), ignoreCase ? 1 : 0);
+            DowncallHandles.gtk_string_filter_set_ignore_case.invokeExact(
+                    handle(),
+                    ignoreCase ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -157,7 +177,9 @@ public class StringFilter extends org.gtk.gtk.Filter {
     public void setMatchMode(@NotNull org.gtk.gtk.StringFilterMatchMode mode) {
         java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
         try {
-            DowncallHandles.gtk_string_filter_set_match_mode.invokeExact(handle(), mode.getValue());
+            DowncallHandles.gtk_string_filter_set_match_mode.invokeExact(
+                    handle(),
+                    mode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,9 +191,10 @@ public class StringFilter extends org.gtk.gtk.Filter {
      *   or {@code null} to clear the search
      */
     public void setSearch(@Nullable java.lang.String search) {
-        java.util.Objects.requireNonNullElse(search, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_string_filter_set_search.invokeExact(handle(), Interop.allocateNativeString(search));
+            DowncallHandles.gtk_string_filter_set_search.invokeExact(
+                    handle(),
+                    (Addressable) (search == null ? MemoryAddress.NULL : Interop.allocateNativeString(search)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

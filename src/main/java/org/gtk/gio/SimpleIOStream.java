@@ -22,21 +22,34 @@ public class SimpleIOStream extends org.gtk.gio.IOStream {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSimpleIOStream";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public SimpleIOStream(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to SimpleIOStream */
+    /**
+     * Cast object to SimpleIOStream if its GType is a (or inherits from) "GSimpleIOStream".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "SimpleIOStream" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GSimpleIOStream", a ClassCastException will be thrown.
+     */
     public static SimpleIOStream castFrom(org.gtk.gobject.Object gobject) {
-        return new SimpleIOStream(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSimpleIOStream"))) {
+            return new SimpleIOStream(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSimpleIOStream");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gio.InputStream inputStream, @NotNull org.gtk.gio.OutputStream outputStream) {
@@ -44,7 +57,9 @@ public class SimpleIOStream extends org.gtk.gio.IOStream {
         java.util.Objects.requireNonNull(outputStream, "Parameter 'outputStream' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_simple_io_stream_new.invokeExact(inputStream.handle(), outputStream.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_simple_io_stream_new.invokeExact(
+                    inputStream.handle(),
+                    outputStream.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

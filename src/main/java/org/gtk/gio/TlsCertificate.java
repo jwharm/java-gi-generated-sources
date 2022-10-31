@@ -19,26 +19,48 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTlsCertificate";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.TlsCertificatePrivate.getMemoryLayout().withName("priv")
-    ).withName("GTlsCertificate");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public TlsCertificate(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TlsCertificate */
+    /**
+     * Cast object to TlsCertificate if its GType is a (or inherits from) "GTlsCertificate".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TlsCertificate" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GTlsCertificate", a ClassCastException will be thrown.
+     */
     public static TlsCertificate castFrom(org.gtk.gobject.Object gobject) {
-        return new TlsCertificate(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTlsCertificate"))) {
+            return new TlsCertificate(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GTlsCertificate");
+        }
     }
     
     private static Refcounted constructNewFromFile(@NotNull java.lang.String file) throws GErrorException {
@@ -46,7 +68,8 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_tls_certificate_new_from_file.invokeExact(Interop.allocateNativeString(file), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_tls_certificate_new_from_file.invokeExact(
+                    Interop.allocateNativeString(file), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +103,9 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_tls_certificate_new_from_file_with_password.invokeExact(Interop.allocateNativeString(file), Interop.allocateNativeString(password), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_tls_certificate_new_from_file_with_password.invokeExact(
+                    Interop.allocateNativeString(file),
+                    Interop.allocateNativeString(password), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,7 +139,9 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_tls_certificate_new_from_files.invokeExact(Interop.allocateNativeString(certFile), Interop.allocateNativeString(keyFile), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_tls_certificate_new_from_files.invokeExact(
+                    Interop.allocateNativeString(certFile),
+                    Interop.allocateNativeString(keyFile), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,7 +182,9 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_tls_certificate_new_from_pem.invokeExact(Interop.allocateNativeString(data), length, (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_tls_certificate_new_from_pem.invokeExact(
+                    Interop.allocateNativeString(data),
+                    length, (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -191,11 +220,12 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     
     private static Refcounted constructNewFromPkcs11Uris(@NotNull java.lang.String pkcs11Uri, @Nullable java.lang.String privateKeyPkcs11Uri) throws GErrorException {
         java.util.Objects.requireNonNull(pkcs11Uri, "Parameter 'pkcs11Uri' must not be null");
-        java.util.Objects.requireNonNullElse(privateKeyPkcs11Uri, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_tls_certificate_new_from_pkcs11_uris.invokeExact(Interop.allocateNativeString(pkcs11Uri), Interop.allocateNativeString(privateKeyPkcs11Uri), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_tls_certificate_new_from_pkcs11_uris.invokeExact(
+                    Interop.allocateNativeString(pkcs11Uri),
+                    (Addressable) (privateKeyPkcs11Uri == null ? MemoryAddress.NULL : Interop.allocateNativeString(privateKeyPkcs11Uri)), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,11 +270,13 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     
     private static Refcounted constructNewFromPkcs12(byte[] data, long length, @Nullable java.lang.String password) throws GErrorException {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        java.util.Objects.requireNonNullElse(password, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_tls_certificate_new_from_pkcs12.invokeExact(Interop.allocateNativeArray(data, false), length, Interop.allocateNativeString(password), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_tls_certificate_new_from_pkcs12.invokeExact(
+                    Interop.allocateNativeArray(data, false),
+                    length,
+                    (Addressable) (password == null ? MemoryAddress.NULL : Interop.allocateNativeString(password)), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -290,7 +322,8 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     public @Nullable PointerProxy<org.gtk.glib.Bytes> getDnsNames() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_get_dns_names.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_get_dns_names.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -305,7 +338,8 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     public @Nullable PointerProxy<org.gtk.gio.InetAddress> getIpAddresses() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_get_ip_addresses.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_get_ip_addresses.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -321,7 +355,8 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gio.TlsCertificate getIssuer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_get_issuer.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_get_issuer.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -335,11 +370,12 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getIssuerName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_get_issuer_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_get_issuer_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -349,7 +385,8 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     public @Nullable org.gtk.glib.DateTime getNotValidAfter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_get_not_valid_after.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_get_not_valid_after.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -363,7 +400,8 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     public @Nullable org.gtk.glib.DateTime getNotValidBefore() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_get_not_valid_before.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_get_not_valid_before.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -377,11 +415,12 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getSubjectName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_get_subject_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_get_subject_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -397,7 +436,9 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(certTwo, "Parameter 'certTwo' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tls_certificate_is_same.invokeExact(handle(), certTwo.handle());
+            RESULT = (int) DowncallHandles.g_tls_certificate_is_same.invokeExact(
+                    handle(),
+                    certTwo.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -441,11 +482,12 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * @return the appropriate {@link TlsCertificateFlags}
      */
     public @NotNull org.gtk.gio.TlsCertificateFlags verify(@Nullable org.gtk.gio.SocketConnectable identity, @Nullable org.gtk.gio.TlsCertificate trustedCa) {
-        java.util.Objects.requireNonNullElse(identity, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(trustedCa, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tls_certificate_verify.invokeExact(handle(), identity.handle(), trustedCa.handle());
+            RESULT = (int) DowncallHandles.g_tls_certificate_verify.invokeExact(
+                    handle(),
+                    (Addressable) (identity == null ? MemoryAddress.NULL : identity.handle()),
+                    (Addressable) (trustedCa == null ? MemoryAddress.NULL : trustedCa.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -469,7 +511,8 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_list_new_from_file.invokeExact(Interop.allocateNativeString(file), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_list_new_from_file.invokeExact(
+                    Interop.allocateNativeString(file), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

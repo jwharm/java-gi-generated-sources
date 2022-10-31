@@ -125,26 +125,48 @@ public class MenuModel extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GMenuModel";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.MenuModelPrivate.getMemoryLayout().withName("priv")
-    ).withName("GMenuModel");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public MenuModel(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to MenuModel */
+    /**
+     * Cast object to MenuModel if its GType is a (or inherits from) "GMenuModel".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "MenuModel" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GMenuModel", a ClassCastException will be thrown.
+     */
     public static MenuModel castFrom(org.gtk.gobject.Object gobject) {
-        return new MenuModel(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GMenuModel"))) {
+            return new MenuModel(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GMenuModel");
+        }
     }
     
     /**
@@ -194,10 +216,13 @@ public class MenuModel extends org.gtk.gobject.Object {
      */
     public @Nullable org.gtk.glib.Variant getItemAttributeValue(int itemIndex, @NotNull java.lang.String attribute, @Nullable org.gtk.glib.VariantType expectedType) {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
-        java.util.Objects.requireNonNullElse(expectedType, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_menu_model_get_item_attribute_value.invokeExact(handle(), itemIndex, Interop.allocateNativeString(attribute), expectedType.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_menu_model_get_item_attribute_value.invokeExact(
+                    handle(),
+                    itemIndex,
+                    Interop.allocateNativeString(attribute),
+                    (Addressable) (expectedType == null ? MemoryAddress.NULL : expectedType.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +243,10 @@ public class MenuModel extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_menu_model_get_item_link.invokeExact(handle(), itemIndex, Interop.allocateNativeString(link));
+            RESULT = (MemoryAddress) DowncallHandles.g_menu_model_get_item_link.invokeExact(
+                    handle(),
+                    itemIndex,
+                    Interop.allocateNativeString(link));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -232,7 +260,8 @@ public class MenuModel extends org.gtk.gobject.Object {
     public int getNItems() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_menu_model_get_n_items.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_menu_model_get_n_items.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -250,7 +279,8 @@ public class MenuModel extends org.gtk.gobject.Object {
     public boolean isMutable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_menu_model_is_mutable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_menu_model_is_mutable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -279,7 +309,11 @@ public class MenuModel extends org.gtk.gobject.Object {
      */
     public void itemsChanged(int position, int removed, int added) {
         try {
-            DowncallHandles.g_menu_model_items_changed.invokeExact(handle(), position, removed, added);
+            DowncallHandles.g_menu_model_items_changed.invokeExact(
+                    handle(),
+                    position,
+                    removed,
+                    added);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -296,7 +330,9 @@ public class MenuModel extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gio.MenuAttributeIter iterateItemAttributes(int itemIndex) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_menu_model_iterate_item_attributes.invokeExact(handle(), itemIndex);
+            RESULT = (MemoryAddress) DowncallHandles.g_menu_model_iterate_item_attributes.invokeExact(
+                    handle(),
+                    itemIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -314,7 +350,9 @@ public class MenuModel extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gio.MenuLinkIter iterateItemLinks(int itemIndex) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_menu_model_iterate_item_links.invokeExact(handle(), itemIndex);
+            RESULT = (MemoryAddress) DowncallHandles.g_menu_model_iterate_item_links.invokeExact(
+                    handle(),
+                    itemIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -13,6 +13,21 @@ import org.jetbrains.annotations.*;
 public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to TlsClientConnection if its GType is a (or inherits from) "GTlsClientConnection".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TlsClientConnection" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GTlsClientConnection", a ClassCastException will be thrown.
+     */
+    public static TlsClientConnection castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTlsClientConnection"))) {
+            return new TlsClientConnectionImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GTlsClientConnection");
+        }
+    }
+    
+    /**
      * Possibly copies session state from one connection to another, for use
      * in TLS session resumption. This is not normally needed, but may be
      * used when the same session needs to be used between different
@@ -46,7 +61,9 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
     default void copySessionState(@NotNull org.gtk.gio.TlsClientConnection source) {
         java.util.Objects.requireNonNull(source, "Parameter 'source' must not be null");
         try {
-            DowncallHandles.g_tls_client_connection_copy_session_state.invokeExact(handle(), source.handle());
+            DowncallHandles.g_tls_client_connection_copy_session_state.invokeExact(
+                    handle(),
+                    source.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,7 +84,8 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.glib.List getAcceptedCas() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_client_connection_get_accepted_cas.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_client_connection_get_accepted_cas.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,7 +101,8 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gio.SocketConnectable getServerIdentity() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_client_connection_get_server_identity.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_client_connection_get_server_identity.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,7 +119,8 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
     default boolean getUseSsl3() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tls_client_connection_get_use_ssl3.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_tls_client_connection_get_use_ssl3.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,7 +140,8 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.gio.TlsCertificateFlags getValidationFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tls_client_connection_get_validation_flags.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_tls_client_connection_get_validation_flags.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -137,7 +158,9 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
     default void setServerIdentity(@NotNull org.gtk.gio.SocketConnectable identity) {
         java.util.Objects.requireNonNull(identity, "Parameter 'identity' must not be null");
         try {
-            DowncallHandles.g_tls_client_connection_set_server_identity.invokeExact(handle(), identity.handle());
+            DowncallHandles.g_tls_client_connection_set_server_identity.invokeExact(
+                    handle(),
+                    identity.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,7 +183,9 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
     @Deprecated
     default void setUseSsl3(boolean useSsl3) {
         try {
-            DowncallHandles.g_tls_client_connection_set_use_ssl3.invokeExact(handle(), useSsl3 ? 1 : 0);
+            DowncallHandles.g_tls_client_connection_set_use_ssl3.invokeExact(
+                    handle(),
+                    useSsl3 ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,7 +206,9 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
     default void setValidationFlags(@NotNull org.gtk.gio.TlsCertificateFlags flags) {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            DowncallHandles.g_tls_client_connection_set_validation_flags.invokeExact(handle(), flags.getValue());
+            DowncallHandles.g_tls_client_connection_set_validation_flags.invokeExact(
+                    handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -203,11 +230,12 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
      */
     public static @NotNull org.gtk.gio.TlsClientConnection new_(@NotNull org.gtk.gio.IOStream baseIoStream, @Nullable org.gtk.gio.SocketConnectable serverIdentity) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(baseIoStream, "Parameter 'baseIoStream' must not be null");
-        java.util.Objects.requireNonNullElse(serverIdentity, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_client_connection_new.invokeExact(baseIoStream.handle(), serverIdentity.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_client_connection_new.invokeExact(
+                    baseIoStream.handle(),
+                    (Addressable) (serverIdentity == null ? MemoryAddress.NULL : serverIdentity.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

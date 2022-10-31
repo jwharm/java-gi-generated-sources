@@ -33,28 +33,41 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkWidgetPaintable";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public WidgetPaintable(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to WidgetPaintable */
+    /**
+     * Cast object to WidgetPaintable if its GType is a (or inherits from) "GtkWidgetPaintable".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "WidgetPaintable" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkWidgetPaintable", a ClassCastException will be thrown.
+     */
     public static WidgetPaintable castFrom(org.gtk.gobject.Object gobject) {
-        return new WidgetPaintable(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkWidgetPaintable"))) {
+            return new WidgetPaintable(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkWidgetPaintable");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNullElse(widget, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_widget_paintable_new.invokeExact(widget.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_widget_paintable_new.invokeExact(
+                    (Addressable) (widget == null ? MemoryAddress.NULL : widget.handle())), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,7 +89,8 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
     public @Nullable org.gtk.gtk.Widget getWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_widget_paintable_get_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_widget_paintable_get_widget.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,9 +102,10 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
      * @param widget the widget to observe
      */
     public void setWidget(@Nullable org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNullElse(widget, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_widget_paintable_set_widget.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_widget_paintable_set_widget.invokeExact(
+                    handle(),
+                    (Addressable) (widget == null ? MemoryAddress.NULL : widget.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -18,14 +18,26 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GMarkupParseContext";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static MarkupParseContext allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        MarkupParseContext newInstance = new MarkupParseContext(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public MarkupParseContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -35,7 +47,10 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_markup_parse_context_new.invokeExact(parser.handle(), flags.getValue(), userData, 
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_markup_parse_context_new.invokeExact(
+                    parser.handle(),
+                    flags.getValue(),
+                    userData,
                     Interop.cbDestroyNotifySymbol()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -72,7 +87,8 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_markup_parse_context_end_parse.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_markup_parse_context_end_parse.invokeExact(
+                    handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +106,8 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.g_markup_parse_context_free.invokeExact(handle());
+            DowncallHandles.g_markup_parse_context_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,11 +124,12 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getElement() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_markup_parse_context_get_element.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_markup_parse_context_get_element.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -131,7 +149,8 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.SList getElementStack() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_markup_parse_context_get_element_stack.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_markup_parse_context_get_element_stack.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,7 +171,10 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lineNumberPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment charNumberPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.g_markup_parse_context_get_position.invokeExact(handle(), (Addressable) lineNumberPOINTER.address(), (Addressable) charNumberPOINTER.address());
+            DowncallHandles.g_markup_parse_context_get_position.invokeExact(
+                    handle(),
+                    (Addressable) lineNumberPOINTER.address(),
+                    (Addressable) charNumberPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -173,7 +195,8 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress getUserData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_markup_parse_context_get_user_data.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_markup_parse_context_get_user_data.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -201,7 +224,10 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_markup_parse_context_parse.invokeExact(handle(), Interop.allocateNativeString(text), textLen, (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_markup_parse_context_parse.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(text),
+                    textLen, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,7 +256,8 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress pop() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_markup_parse_context_pop.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_markup_parse_context_pop.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -355,7 +382,10 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
     public void push(@NotNull org.gtk.glib.MarkupParser parser, @Nullable java.lang.foreign.MemoryAddress userData) {
         java.util.Objects.requireNonNull(parser, "Parameter 'parser' must not be null");
         try {
-            DowncallHandles.g_markup_parse_context_push.invokeExact(handle(), parser.handle(), userData);
+            DowncallHandles.g_markup_parse_context_push.invokeExact(
+                    handle(),
+                    parser.handle(),
+                    userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -368,7 +398,8 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.MarkupParseContext ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_markup_parse_context_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_markup_parse_context_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -381,7 +412,8 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_markup_parse_context_unref.invokeExact(handle());
+            DowncallHandles.g_markup_parse_context_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

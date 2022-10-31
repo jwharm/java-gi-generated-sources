@@ -22,26 +22,48 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GNetworkService";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.NetworkServicePrivate.getMemoryLayout().withName("priv")
-    ).withName("GNetworkService");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public NetworkService(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to NetworkService */
+    /**
+     * Cast object to NetworkService if its GType is a (or inherits from) "GNetworkService".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "NetworkService" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GNetworkService", a ClassCastException will be thrown.
+     */
     public static NetworkService castFrom(org.gtk.gobject.Object gobject) {
-        return new NetworkService(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GNetworkService"))) {
+            return new NetworkService(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GNetworkService");
+        }
     }
     
     private static Refcounted constructNew(@NotNull java.lang.String service, @NotNull java.lang.String protocol, @NotNull java.lang.String domain) {
@@ -50,7 +72,10 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
         java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_network_service_new.invokeExact(Interop.allocateNativeString(service), Interop.allocateNativeString(protocol), Interop.allocateNativeString(domain)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_network_service_new.invokeExact(
+                    Interop.allocateNativeString(service),
+                    Interop.allocateNativeString(protocol),
+                    Interop.allocateNativeString(domain)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,11 +102,12 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
     public @NotNull java.lang.String getDomain() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_network_service_get_domain.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_network_service_get_domain.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -91,11 +117,12 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
     public @NotNull java.lang.String getProtocol() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_network_service_get_protocol.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_network_service_get_protocol.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -106,11 +133,12 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
     public @NotNull java.lang.String getScheme() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_network_service_get_scheme.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_network_service_get_scheme.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -120,11 +148,12 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
     public @NotNull java.lang.String getService() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_network_service_get_service.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_network_service_get_service.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -135,7 +164,9 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
     public void setScheme(@NotNull java.lang.String scheme) {
         java.util.Objects.requireNonNull(scheme, "Parameter 'scheme' must not be null");
         try {
-            DowncallHandles.g_network_service_set_scheme.invokeExact(handle(), Interop.allocateNativeString(scheme));
+            DowncallHandles.g_network_service_set_scheme.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(scheme));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

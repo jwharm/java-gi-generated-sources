@@ -14,21 +14,34 @@ public class BlendNode extends org.gtk.gsk.RenderNode {
         Gsk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GskBlendNode";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public BlendNode(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to BlendNode */
+    /**
+     * Cast object to BlendNode if its GType is a (or inherits from) "GskBlendNode".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "BlendNode" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GskBlendNode", a ClassCastException will be thrown.
+     */
     public static BlendNode castFrom(org.gtk.gobject.Object gobject) {
-        return new BlendNode(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskBlendNode"))) {
+            return new BlendNode(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskBlendNode");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gsk.RenderNode bottom, @NotNull org.gtk.gsk.RenderNode top, @NotNull org.gtk.gsk.BlendMode blendMode) {
@@ -37,7 +50,10 @@ public class BlendNode extends org.gtk.gsk.RenderNode {
         java.util.Objects.requireNonNull(blendMode, "Parameter 'blendMode' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_blend_node_new.invokeExact(bottom.handle(), top.handle(), blendMode.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_blend_node_new.invokeExact(
+                    bottom.handle(),
+                    top.handle(),
+                    blendMode.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -62,7 +78,8 @@ public class BlendNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.gsk.BlendMode getBlendMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_blend_node_get_blend_mode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gsk_blend_node_get_blend_mode.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,7 +93,8 @@ public class BlendNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.gsk.RenderNode getBottomChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_blend_node_get_bottom_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_blend_node_get_bottom_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +108,8 @@ public class BlendNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.gsk.RenderNode getTopChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_blend_node_get_top_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_blend_node_get_top_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

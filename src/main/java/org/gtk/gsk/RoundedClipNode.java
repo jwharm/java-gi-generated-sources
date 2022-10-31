@@ -14,21 +14,34 @@ public class RoundedClipNode extends org.gtk.gsk.RenderNode {
         Gsk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GskRoundedClipNode";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public RoundedClipNode(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to RoundedClipNode */
+    /**
+     * Cast object to RoundedClipNode if its GType is a (or inherits from) "GskRoundedClipNode".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "RoundedClipNode" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GskRoundedClipNode", a ClassCastException will be thrown.
+     */
     public static RoundedClipNode castFrom(org.gtk.gobject.Object gobject) {
-        return new RoundedClipNode(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskRoundedClipNode"))) {
+            return new RoundedClipNode(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskRoundedClipNode");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gsk.RenderNode child, @NotNull org.gtk.gsk.RoundedRect clip) {
@@ -36,7 +49,9 @@ public class RoundedClipNode extends org.gtk.gsk.RenderNode {
         java.util.Objects.requireNonNull(clip, "Parameter 'clip' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_rounded_clip_node_new.invokeExact(child.handle(), clip.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_rounded_clip_node_new.invokeExact(
+                    child.handle(),
+                    clip.handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -60,7 +75,8 @@ public class RoundedClipNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.gsk.RenderNode getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_clip_node_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_clip_node_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,7 +90,8 @@ public class RoundedClipNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.gsk.RoundedRect getClip() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_clip_node_get_clip.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_clip_node_get_clip.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

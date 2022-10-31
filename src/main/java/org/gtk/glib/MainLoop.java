@@ -15,23 +15,36 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GMainLoop";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static MainLoop allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        MainLoop newInstance = new MainLoop(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public MainLoop(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.glib.MainContext context, boolean isRunning) {
-        java.util.Objects.requireNonNullElse(context, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_main_loop_new.invokeExact(context.handle(), isRunning ? 1 : 0), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_main_loop_new.invokeExact(
+                    (Addressable) (context == null ? MemoryAddress.NULL : context.handle()),
+                    isRunning ? 1 : 0), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -56,7 +69,8 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.MainContext getContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_main_loop_get_context.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_main_loop_get_context.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,7 +84,8 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
     public boolean isRunning() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_main_loop_is_running.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_main_loop_is_running.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -86,7 +101,8 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
      */
     public void quit() {
         try {
-            DowncallHandles.g_main_loop_quit.invokeExact(handle());
+            DowncallHandles.g_main_loop_quit.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +115,8 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.MainLoop ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_main_loop_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_main_loop_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,7 +131,8 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
      */
     public void run() {
         try {
-            DowncallHandles.g_main_loop_run.invokeExact(handle());
+            DowncallHandles.g_main_loop_run.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,7 +144,8 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_main_loop_unref.invokeExact(handle());
+            DowncallHandles.g_main_loop_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

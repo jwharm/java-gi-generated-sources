@@ -15,22 +15,34 @@ public class StaticResource extends io.github.jwharm.javagi.ResourceBase {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GStaticResource";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_BYTE.withName("data"),
+        Interop.valueLayout.ADDRESS.withName("data"),
         ValueLayout.JAVA_LONG.withName("data_len"),
-        org.gtk.gio.Resource.getMemoryLayout().withName("resource"),
-        org.gtk.gio.StaticResource.getMemoryLayout().withName("next"),
+        Interop.valueLayout.ADDRESS.withName("resource"),
+        Interop.valueLayout.ADDRESS.withName("next"),
         Interop.valueLayout.ADDRESS.withName("padding")
-    ).withName("GStaticResource");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static StaticResource allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        StaticResource newInstance = new StaticResource(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public StaticResource(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -44,7 +56,8 @@ public class StaticResource extends io.github.jwharm.javagi.ResourceBase {
      */
     public void fini() {
         try {
-            DowncallHandles.g_static_resource_fini.invokeExact(handle());
+            DowncallHandles.g_static_resource_fini.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -61,7 +74,8 @@ public class StaticResource extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gio.Resource getResource() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_static_resource_get_resource.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_static_resource_get_resource.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -78,7 +92,8 @@ public class StaticResource extends io.github.jwharm.javagi.ResourceBase {
      */
     public void init() {
         try {
-            DowncallHandles.g_static_resource_init.invokeExact(handle());
+            DowncallHandles.g_static_resource_init.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

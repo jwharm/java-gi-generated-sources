@@ -17,26 +17,69 @@ public class FilterInputStream extends org.gtk.gio.InputStream {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GFilterInputStream";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.InputStream.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.InputStream.getMemoryLayout().withName("base_stream")
-    ).withName("GFilterInputStream");
+        Interop.valueLayout.ADDRESS.withName("base_stream")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gio.InputStream parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gio.InputStream(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    /**
+     * Get the value of the field {@code base_stream}
+     * @return The value of the field {@code base_stream}
+     */
+    public org.gtk.gio.InputStream base_stream$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("base_stream"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.gio.InputStream(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Change the value of the field {@code base_stream}
+     * @param base_stream The new value of the field {@code base_stream}
+     */
+    public void base_stream$set(org.gtk.gio.InputStream base_stream) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("base_stream"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), base_stream.handle());
+    }
+    
+    @ApiStatus.Internal
     public FilterInputStream(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to FilterInputStream */
+    /**
+     * Cast object to FilterInputStream if its GType is a (or inherits from) "GFilterInputStream".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "FilterInputStream" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GFilterInputStream", a ClassCastException will be thrown.
+     */
     public static FilterInputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new FilterInputStream(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GFilterInputStream"))) {
+            return new FilterInputStream(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GFilterInputStream");
+        }
     }
     
     /**
@@ -46,7 +89,8 @@ public class FilterInputStream extends org.gtk.gio.InputStream {
     public @NotNull org.gtk.gio.InputStream getBaseStream() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_filter_input_stream_get_base_stream.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_filter_input_stream_get_base_stream.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -61,7 +105,8 @@ public class FilterInputStream extends org.gtk.gio.InputStream {
     public boolean getCloseBaseStream() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_filter_input_stream_get_close_base_stream.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_filter_input_stream_get_close_base_stream.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,7 +119,9 @@ public class FilterInputStream extends org.gtk.gio.InputStream {
      */
     public void setCloseBaseStream(boolean closeBase) {
         try {
-            DowncallHandles.g_filter_input_stream_set_close_base_stream.invokeExact(handle(), closeBase ? 1 : 0);
+            DowncallHandles.g_filter_input_stream_set_close_base_stream.invokeExact(
+                    handle(),
+                    closeBase ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

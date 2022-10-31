@@ -39,21 +39,34 @@ public class Settings extends org.gtk.gobject.Object implements org.gtk.gtk.Styl
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkSettings";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Settings(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Settings */
+    /**
+     * Cast object to Settings if its GType is a (or inherits from) "GtkSettings".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Settings" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkSettings", a ClassCastException will be thrown.
+     */
     public static Settings castFrom(org.gtk.gobject.Object gobject) {
-        return new Settings(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSettings"))) {
+            return new Settings(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkSettings");
+        }
     }
     
     /**
@@ -67,7 +80,9 @@ public class Settings extends org.gtk.gobject.Object implements org.gtk.gtk.Styl
     public void resetProperty(@NotNull java.lang.String name) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            DowncallHandles.gtk_settings_reset_property.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.gtk_settings_reset_property.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,7 +115,8 @@ public class Settings extends org.gtk.gobject.Object implements org.gtk.gtk.Styl
         java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_settings_get_for_display.invokeExact(display.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_settings_get_for_display.invokeExact(
+                    display.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

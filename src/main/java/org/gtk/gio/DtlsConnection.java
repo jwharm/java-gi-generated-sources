@@ -30,6 +30,21 @@ import org.jetbrains.annotations.*;
 public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to DtlsConnection if its GType is a (or inherits from) "GDtlsConnection".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DtlsConnection" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GDtlsConnection", a ClassCastException will be thrown.
+     */
+    public static DtlsConnection castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDtlsConnection"))) {
+            return new DtlsConnectionImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDtlsConnection");
+        }
+    }
+    
+    /**
      * Close the DTLS connection. This is equivalent to calling
      * g_dtls_connection_shutdown() to shut down both sides of the connection.
      * <p>
@@ -54,11 +69,12 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean close(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_close.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_dtls_connection_close.invokeExact(
+                    handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,16 +92,17 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * @param callback callback to call when the close operation is complete
      */
     default void closeAsync(int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_dtls_connection_close_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_dtls_connection_close_async.invokeExact(
+                    handle(),
+                    ioPriority,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,7 +121,9 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_close_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_dtls_connection_close_finish.invokeExact(
+                    handle(),
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,7 +146,10 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(errors, "Parameter 'errors' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_emit_accept_certificate.invokeExact(handle(), peerCert.handle(), errors.getValue());
+            RESULT = (int) DowncallHandles.g_dtls_connection_emit_accept_certificate.invokeExact(
+                    handle(),
+                    peerCert.handle(),
+                    errors.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,7 +164,8 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gio.TlsCertificate getCertificate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_certificate.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_certificate.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,11 +210,12 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default @Nullable java.lang.String getCiphersuiteName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_ciphersuite_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_ciphersuite_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -202,7 +226,8 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gio.TlsDatabase getDatabase() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_database.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_database.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +243,8 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gio.TlsInteraction getInteraction() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_interaction.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_interaction.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -238,11 +264,12 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default @Nullable java.lang.String getNegotiatedProtocol() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_negotiated_protocol.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_negotiated_protocol.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -254,7 +281,8 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gio.TlsCertificate getPeerCertificate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_peer_certificate.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_peer_certificate.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -270,7 +298,8 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.gio.TlsCertificateFlags getPeerCertificateErrors() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_get_peer_certificate_errors.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_dtls_connection_get_peer_certificate_errors.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -287,7 +316,8 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.gio.TlsProtocolVersion getProtocolVersion() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_get_protocol_version.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_dtls_connection_get_protocol_version.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -306,7 +336,8 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.gio.TlsRehandshakeMode getRehandshakeMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_get_rehandshake_mode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_dtls_connection_get_rehandshake_mode.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -322,7 +353,8 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default boolean getRequireCloseNotify() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_get_require_close_notify.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_dtls_connection_get_require_close_notify.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -361,11 +393,12 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean handshake(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_handshake.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_dtls_connection_handshake.invokeExact(
+                    handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -383,16 +416,17 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * @param callback callback to call when the handshake is complete
      */
     default void handshakeAsync(int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_dtls_connection_handshake_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_dtls_connection_handshake_async.invokeExact(
+                    handle(),
+                    ioPriority,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -411,7 +445,9 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_handshake_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_dtls_connection_handshake_finish.invokeExact(
+                    handle(),
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -436,9 +472,10 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      *   array of ALPN protocol names (eg, "http/1.1", "h2"), or {@code null}
      */
     default void setAdvertisedProtocols(java.lang.String[] protocols) {
-        java.util.Objects.requireNonNullElse(protocols, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_dtls_connection_set_advertised_protocols.invokeExact(handle(), Interop.allocateNativeArray(protocols, false));
+            DowncallHandles.g_dtls_connection_set_advertised_protocols.invokeExact(
+                    handle(),
+                    (Addressable) (protocols == null ? MemoryAddress.NULL : Interop.allocateNativeArray(protocols, false)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -468,7 +505,9 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default void setCertificate(@NotNull org.gtk.gio.TlsCertificate certificate) {
         java.util.Objects.requireNonNull(certificate, "Parameter 'certificate' must not be null");
         try {
-            DowncallHandles.g_dtls_connection_set_certificate.invokeExact(handle(), certificate.handle());
+            DowncallHandles.g_dtls_connection_set_certificate.invokeExact(
+                    handle(),
+                    certificate.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -489,9 +528,10 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * @param database a {@link TlsDatabase}
      */
     default void setDatabase(@Nullable org.gtk.gio.TlsDatabase database) {
-        java.util.Objects.requireNonNullElse(database, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_dtls_connection_set_database.invokeExact(handle(), database.handle());
+            DowncallHandles.g_dtls_connection_set_database.invokeExact(
+                    handle(),
+                    (Addressable) (database == null ? MemoryAddress.NULL : database.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -507,9 +547,10 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * @param interaction an interaction object, or {@code null}
      */
     default void setInteraction(@Nullable org.gtk.gio.TlsInteraction interaction) {
-        java.util.Objects.requireNonNullElse(interaction, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_dtls_connection_set_interaction.invokeExact(handle(), interaction.handle());
+            DowncallHandles.g_dtls_connection_set_interaction.invokeExact(
+                    handle(),
+                    (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -529,7 +570,9 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default void setRehandshakeMode(@NotNull org.gtk.gio.TlsRehandshakeMode mode) {
         java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
         try {
-            DowncallHandles.g_dtls_connection_set_rehandshake_mode.invokeExact(handle(), mode.getValue());
+            DowncallHandles.g_dtls_connection_set_rehandshake_mode.invokeExact(
+                    handle(),
+                    mode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -565,7 +608,9 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      */
     default void setRequireCloseNotify(boolean requireCloseNotify) {
         try {
-            DowncallHandles.g_dtls_connection_set_require_close_notify.invokeExact(handle(), requireCloseNotify ? 1 : 0);
+            DowncallHandles.g_dtls_connection_set_require_close_notify.invokeExact(
+                    handle(),
+                    requireCloseNotify ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -595,11 +640,14 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean shutdown(boolean shutdownRead, boolean shutdownWrite, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_shutdown.invokeExact(handle(), shutdownRead ? 1 : 0, shutdownWrite ? 1 : 0, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_dtls_connection_shutdown.invokeExact(
+                    handle(),
+                    shutdownRead ? 1 : 0,
+                    shutdownWrite ? 1 : 0,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -619,16 +667,19 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * @param callback callback to call when the shutdown operation is complete
      */
     default void shutdownAsync(boolean shutdownRead, boolean shutdownWrite, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_dtls_connection_shutdown_async.invokeExact(handle(), shutdownRead ? 1 : 0, shutdownWrite ? 1 : 0, ioPriority, cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_dtls_connection_shutdown_async.invokeExact(
+                    handle(),
+                    shutdownRead ? 1 : 0,
+                    shutdownWrite ? 1 : 0,
+                    ioPriority,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -647,7 +698,9 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_shutdown_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_dtls_connection_shutdown_finish.invokeExact(
+                    handle(),
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

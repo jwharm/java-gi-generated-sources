@@ -21,29 +21,42 @@ public class PageSetupUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.g
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkPageSetupUnixDialog";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public PageSetupUnixDialog(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to PageSetupUnixDialog */
+    /**
+     * Cast object to PageSetupUnixDialog if its GType is a (or inherits from) "GtkPageSetupUnixDialog".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "PageSetupUnixDialog" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkPageSetupUnixDialog", a ClassCastException will be thrown.
+     */
     public static PageSetupUnixDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new PageSetupUnixDialog(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPageSetupUnixDialog"))) {
+            return new PageSetupUnixDialog(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkPageSetupUnixDialog");
+        }
     }
     
     private static Refcounted constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {
-        java.util.Objects.requireNonNullElse(title, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_page_setup_unix_dialog_new.invokeExact(Interop.allocateNativeString(title), parent.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_page_setup_unix_dialog_new.invokeExact(
+                    (Addressable) (title == null ? MemoryAddress.NULL : Interop.allocateNativeString(title)),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle())), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,7 +79,8 @@ public class PageSetupUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.g
     public @NotNull org.gtk.gtk.PageSetup getPageSetup() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_page_setup_unix_dialog_get_page_setup.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_page_setup_unix_dialog_get_page_setup.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +94,8 @@ public class PageSetupUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.g
     public @Nullable org.gtk.gtk.PrintSettings getPrintSettings() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_page_setup_unix_dialog_get_print_settings.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_page_setup_unix_dialog_get_print_settings.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,7 +110,9 @@ public class PageSetupUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.g
     public void setPageSetup(@NotNull org.gtk.gtk.PageSetup pageSetup) {
         java.util.Objects.requireNonNull(pageSetup, "Parameter 'pageSetup' must not be null");
         try {
-            DowncallHandles.gtk_page_setup_unix_dialog_set_page_setup.invokeExact(handle(), pageSetup.handle());
+            DowncallHandles.gtk_page_setup_unix_dialog_set_page_setup.invokeExact(
+                    handle(),
+                    pageSetup.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,9 +124,10 @@ public class PageSetupUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.g
      * @param printSettings a {@code GtkPrintSettings}
      */
     public void setPrintSettings(@Nullable org.gtk.gtk.PrintSettings printSettings) {
-        java.util.Objects.requireNonNullElse(printSettings, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_page_setup_unix_dialog_set_print_settings.invokeExact(handle(), printSettings.handle());
+            DowncallHandles.gtk_page_setup_unix_dialog_set_print_settings.invokeExact(
+                    handle(),
+                    (Addressable) (printSettings == null ? MemoryAddress.NULL : printSettings.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

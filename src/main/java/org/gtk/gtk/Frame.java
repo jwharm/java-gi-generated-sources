@@ -53,32 +53,54 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkFrame";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkFrame");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gtk.Widget parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gtk.Widget(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Frame(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Frame */
+    /**
+     * Cast object to Frame if its GType is a (or inherits from) "GtkFrame".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Frame" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkFrame", a ClassCastException will be thrown.
+     */
     public static Frame castFrom(org.gtk.gobject.Object gobject) {
-        return new Frame(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFrame"))) {
+            return new Frame(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkFrame");
+        }
     }
     
     private static Refcounted constructNew(@Nullable java.lang.String label) {
-        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_frame_new.invokeExact(Interop.allocateNativeString(label)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_frame_new.invokeExact(
+                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label))), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,7 +124,8 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_frame_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_frame_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,11 +144,12 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable java.lang.String getLabel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_frame_get_label.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_frame_get_label.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -135,7 +159,8 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public float getLabelAlign() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gtk_frame_get_label_align.invokeExact(handle());
+            RESULT = (float) DowncallHandles.gtk_frame_get_label_align.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,7 +174,8 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable org.gtk.gtk.Widget getLabelWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_frame_get_label_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_frame_get_label_widget.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,9 +187,10 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param child the child widget
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_frame_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_frame_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,9 +202,10 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param label the text to use as the label of the frame
      */
     public void setLabel(@Nullable java.lang.String label) {
-        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_frame_set_label.invokeExact(handle(), Interop.allocateNativeString(label));
+            DowncallHandles.gtk_frame_set_label.invokeExact(
+                    handle(),
+                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -193,7 +221,9 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setLabelAlign(float xalign) {
         try {
-            DowncallHandles.gtk_frame_set_label_align.invokeExact(handle(), xalign);
+            DowncallHandles.gtk_frame_set_label_align.invokeExact(
+                    handle(),
+                    xalign);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -207,9 +237,10 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param labelWidget the new label widget
      */
     public void setLabelWidget(@Nullable org.gtk.gtk.Widget labelWidget) {
-        java.util.Objects.requireNonNullElse(labelWidget, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_frame_set_label_widget.invokeExact(handle(), labelWidget.handle());
+            DowncallHandles.gtk_frame_set_label_widget.invokeExact(
+                    handle(),
+                    (Addressable) (labelWidget == null ? MemoryAddress.NULL : labelWidget.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -13,13 +13,7 @@ import org.jetbrains.annotations.*;
  */
 public class AccessibleRelation extends io.github.jwharm.javagi.Enumeration {
     
-    /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
-     */
-    public static MemoryLayout getMemoryLayout() {
-        return Interop.valueLayout.ADDRESS;
-    }
+    private static final java.lang.String C_TYPE_NAME = "GtkAccessibleRelation";
     
     /**
      * Identifies the currently active
@@ -144,7 +138,9 @@ public class AccessibleRelation extends io.github.jwharm.javagi.Enumeration {
         java.util.Objects.requireNonNull(relation, "Parameter 'relation' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.gtk_accessible_relation_init_value.invokeExact(relation.getValue(), value.handle());
+            DowncallHandles.gtk_accessible_relation_init_value.invokeExact(
+                    relation.getValue(),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

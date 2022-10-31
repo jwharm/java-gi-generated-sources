@@ -27,28 +27,42 @@ public class GesturePan extends org.gtk.gtk.GestureDrag {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkGesturePan";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public GesturePan(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to GesturePan */
+    /**
+     * Cast object to GesturePan if its GType is a (or inherits from) "GtkGesturePan".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "GesturePan" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkGesturePan", a ClassCastException will be thrown.
+     */
     public static GesturePan castFrom(org.gtk.gobject.Object gobject) {
-        return new GesturePan(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGesturePan"))) {
+            return new GesturePan(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGesturePan");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gtk.Orientation orientation) {
         java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_gesture_pan_new.invokeExact(orientation.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_gesture_pan_new.invokeExact(
+                    orientation.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,7 +84,8 @@ public class GesturePan extends org.gtk.gtk.GestureDrag {
     public @NotNull org.gtk.gtk.Orientation getOrientation() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_pan_get_orientation.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_gesture_pan_get_orientation.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,7 +99,9 @@ public class GesturePan extends org.gtk.gtk.GestureDrag {
     public void setOrientation(@NotNull org.gtk.gtk.Orientation orientation) {
         java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
         try {
-            DowncallHandles.gtk_gesture_pan_set_orientation.invokeExact(handle(), orientation.getValue());
+            DowncallHandles.gtk_gesture_pan_set_orientation.invokeExact(
+                    handle(),
+                    orientation.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

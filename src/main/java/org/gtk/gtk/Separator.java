@@ -27,28 +27,42 @@ public class Separator extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkSeparator";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Separator(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Separator */
+    /**
+     * Cast object to Separator if its GType is a (or inherits from) "GtkSeparator".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Separator" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkSeparator", a ClassCastException will be thrown.
+     */
     public static Separator castFrom(org.gtk.gobject.Object gobject) {
-        return new Separator(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSeparator"))) {
+            return new Separator(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkSeparator");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gtk.Orientation orientation) {
         java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_separator_new.invokeExact(orientation.getValue()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_separator_new.invokeExact(
+                    orientation.getValue()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

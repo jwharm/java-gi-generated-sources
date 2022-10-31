@@ -26,29 +26,42 @@ public class FontChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkFontChooserDialog";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public FontChooserDialog(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to FontChooserDialog */
+    /**
+     * Cast object to FontChooserDialog if its GType is a (or inherits from) "GtkFontChooserDialog".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "FontChooserDialog" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkFontChooserDialog", a ClassCastException will be thrown.
+     */
     public static FontChooserDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new FontChooserDialog(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFontChooserDialog"))) {
+            return new FontChooserDialog(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkFontChooserDialog");
+        }
     }
     
     private static Refcounted constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {
-        java.util.Objects.requireNonNullElse(title, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_font_chooser_dialog_new.invokeExact(Interop.allocateNativeString(title), parent.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_font_chooser_dialog_new.invokeExact(
+                    (Addressable) (title == null ? MemoryAddress.NULL : Interop.allocateNativeString(title)),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle())), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

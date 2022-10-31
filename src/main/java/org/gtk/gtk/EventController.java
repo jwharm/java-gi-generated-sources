@@ -25,21 +25,34 @@ public class EventController extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkEventController";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public EventController(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to EventController */
+    /**
+     * Cast object to EventController if its GType is a (or inherits from) "GtkEventController".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "EventController" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkEventController", a ClassCastException will be thrown.
+     */
     public static EventController castFrom(org.gtk.gobject.Object gobject) {
-        return new EventController(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEventController"))) {
+            return new EventController(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEventController");
+        }
     }
     
     /**
@@ -52,7 +65,8 @@ public class EventController extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdk.Event getCurrentEvent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_event_controller_get_current_event.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_event_controller_get_current_event.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,7 +84,8 @@ public class EventController extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdk.Device getCurrentEventDevice() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_event_controller_get_current_event_device.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_event_controller_get_current_event_device.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,7 +102,8 @@ public class EventController extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.ModifierType getCurrentEventState() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_event_controller_get_current_event_state.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_event_controller_get_current_event_state.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,7 +120,8 @@ public class EventController extends org.gtk.gobject.Object {
     public int getCurrentEventTime() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_event_controller_get_current_event_time.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_event_controller_get_current_event_time.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,11 +135,12 @@ public class EventController extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_event_controller_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_event_controller_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -132,7 +150,8 @@ public class EventController extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.PropagationLimit getPropagationLimit() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_event_controller_get_propagation_limit.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_event_controller_get_propagation_limit.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,7 +165,8 @@ public class EventController extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.PropagationPhase getPropagationPhase() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_event_controller_get_propagation_phase.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_event_controller_get_propagation_phase.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,7 +180,8 @@ public class EventController extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.Widget getWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_event_controller_get_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_event_controller_get_widget.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -172,7 +193,8 @@ public class EventController extends org.gtk.gobject.Object {
      */
     public void reset() {
         try {
-            DowncallHandles.gtk_event_controller_reset.invokeExact(handle());
+            DowncallHandles.gtk_event_controller_reset.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,9 +205,10 @@ public class EventController extends org.gtk.gobject.Object {
      * @param name a name for {@code controller}
      */
     public void setName(@Nullable java.lang.String name) {
-        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_event_controller_set_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.gtk_event_controller_set_name.invokeExact(
+                    handle(),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,7 +225,9 @@ public class EventController extends org.gtk.gobject.Object {
     public void setPropagationLimit(@NotNull org.gtk.gtk.PropagationLimit limit) {
         java.util.Objects.requireNonNull(limit, "Parameter 'limit' must not be null");
         try {
-            DowncallHandles.gtk_event_controller_set_propagation_limit.invokeExact(handle(), limit.getValue());
+            DowncallHandles.gtk_event_controller_set_propagation_limit.invokeExact(
+                    handle(),
+                    limit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +243,9 @@ public class EventController extends org.gtk.gobject.Object {
     public void setPropagationPhase(@NotNull org.gtk.gtk.PropagationPhase phase) {
         java.util.Objects.requireNonNull(phase, "Parameter 'phase' must not be null");
         try {
-            DowncallHandles.gtk_event_controller_set_propagation_phase.invokeExact(handle(), phase.getValue());
+            DowncallHandles.gtk_event_controller_set_propagation_phase.invokeExact(
+                    handle(),
+                    phase.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

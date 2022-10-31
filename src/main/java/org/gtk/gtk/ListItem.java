@@ -27,21 +27,34 @@ public class ListItem extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkListItem";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ListItem(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ListItem */
+    /**
+     * Cast object to ListItem if its GType is a (or inherits from) "GtkListItem".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ListItem" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkListItem", a ClassCastException will be thrown.
+     */
     public static ListItem castFrom(org.gtk.gobject.Object gobject) {
-        return new ListItem(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkListItem"))) {
+            return new ListItem(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkListItem");
+        }
     }
     
     /**
@@ -52,7 +65,8 @@ public class ListItem extends org.gtk.gobject.Object {
     public boolean getActivatable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_item_get_activatable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_list_item_get_activatable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,7 +81,8 @@ public class ListItem extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_list_item_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_item_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,7 +98,8 @@ public class ListItem extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gobject.Object getItem() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_list_item_get_item.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_item_get_item.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +115,8 @@ public class ListItem extends org.gtk.gobject.Object {
     public int getPosition() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_item_get_position.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_list_item_get_position.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,7 +133,8 @@ public class ListItem extends org.gtk.gobject.Object {
     public boolean getSelectable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_item_get_selectable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_list_item_get_selectable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -133,7 +151,8 @@ public class ListItem extends org.gtk.gobject.Object {
     public boolean getSelected() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_item_get_selected.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_list_item_get_selected.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,7 +173,9 @@ public class ListItem extends org.gtk.gobject.Object {
      */
     public void setActivatable(boolean activatable) {
         try {
-            DowncallHandles.gtk_list_item_set_activatable.invokeExact(handle(), activatable ? 1 : 0);
+            DowncallHandles.gtk_list_item_set_activatable.invokeExact(
+                    handle(),
+                    activatable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,9 +190,10 @@ public class ListItem extends org.gtk.gobject.Object {
      * @param child The list item's child or {@code null} to unset
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_list_item_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_list_item_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -194,7 +216,9 @@ public class ListItem extends org.gtk.gobject.Object {
      */
     public void setSelectable(boolean selectable) {
         try {
-            DowncallHandles.gtk_list_item_set_selectable.invokeExact(handle(), selectable ? 1 : 0);
+            DowncallHandles.gtk_list_item_set_selectable.invokeExact(
+                    handle(),
+                    selectable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

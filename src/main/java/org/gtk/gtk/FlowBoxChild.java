@@ -14,25 +14,38 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkFlowBoxChild";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkFlowBoxChild");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    @ApiStatus.Internal
     public FlowBoxChild(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to FlowBoxChild */
+    /**
+     * Cast object to FlowBoxChild if its GType is a (or inherits from) "GtkFlowBoxChild".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "FlowBoxChild" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkFlowBoxChild", a ClassCastException will be thrown.
+     */
     public static FlowBoxChild castFrom(org.gtk.gobject.Object gobject) {
-        return new FlowBoxChild(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFlowBoxChild"))) {
+            return new FlowBoxChild(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkFlowBoxChild");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -77,7 +90,8 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      */
     public void changed() {
         try {
-            DowncallHandles.gtk_flow_box_child_changed.invokeExact(handle());
+            DowncallHandles.gtk_flow_box_child_changed.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +104,8 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_flow_box_child_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_flow_box_child_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,7 +120,8 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public int getIndex() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_flow_box_child_get_index.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_flow_box_child_get_index.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,7 +136,8 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public boolean isSelected() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_flow_box_child_is_selected.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_flow_box_child_is_selected.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,9 +149,10 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * @param child the child widget
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_flow_box_child_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_flow_box_child_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -91,25 +91,38 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkGrid";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkGrid");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    @ApiStatus.Internal
     public Grid(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Grid */
+    /**
+     * Cast object to Grid if its GType is a (or inherits from) "GtkGrid".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Grid" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkGrid", a ClassCastException will be thrown.
+     */
     public static Grid castFrom(org.gtk.gobject.Object gobject) {
-        return new Grid(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGrid"))) {
+            return new Grid(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGrid");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -144,7 +157,13 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     public void attach(@NotNull org.gtk.gtk.Widget child, int column, int row, int width, int height) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_grid_attach.invokeExact(handle(), child.handle(), column, row, width, height);
+            DowncallHandles.gtk_grid_attach.invokeExact(
+                    handle(),
+                    child.handle(),
+                    column,
+                    row,
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,10 +188,15 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      */
     public void attachNextTo(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget sibling, @NotNull org.gtk.gtk.PositionType side, int width, int height) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNullElse(sibling, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(side, "Parameter 'side' must not be null");
         try {
-            DowncallHandles.gtk_grid_attach_next_to.invokeExact(handle(), child.handle(), sibling.handle(), side.getValue(), width, height);
+            DowncallHandles.gtk_grid_attach_next_to.invokeExact(
+                    handle(),
+                    child.handle(),
+                    (Addressable) (sibling == null ? MemoryAddress.NULL : sibling.handle()),
+                    side.getValue(),
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,7 +209,8 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     public int getBaselineRow() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_grid_get_baseline_row.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_grid_get_baseline_row.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,7 +227,10 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     public @Nullable org.gtk.gtk.Widget getChildAt(int column, int row) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_grid_get_child_at.invokeExact(handle(), column, row);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_grid_get_child_at.invokeExact(
+                    handle(),
+                    column,
+                    row);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -216,7 +244,8 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     public boolean getColumnHomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_grid_get_column_homogeneous.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_grid_get_column_homogeneous.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,7 +259,8 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     public int getColumnSpacing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_grid_get_column_spacing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_grid_get_column_spacing.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -247,7 +277,9 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     public @NotNull org.gtk.gtk.BaselinePosition getRowBaselinePosition(int row) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_grid_get_row_baseline_position.invokeExact(handle(), row);
+            RESULT = (int) DowncallHandles.gtk_grid_get_row_baseline_position.invokeExact(
+                    handle(),
+                    row);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -261,7 +293,8 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     public boolean getRowHomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_grid_get_row_homogeneous.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_grid_get_row_homogeneous.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -275,7 +308,8 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     public int getRowSpacing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_grid_get_row_spacing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_grid_get_row_spacing.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -292,7 +326,9 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      */
     public void insertColumn(int position) {
         try {
-            DowncallHandles.gtk_grid_insert_column.invokeExact(handle(), position);
+            DowncallHandles.gtk_grid_insert_column.invokeExact(
+                    handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -313,7 +349,10 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         java.util.Objects.requireNonNull(sibling, "Parameter 'sibling' must not be null");
         java.util.Objects.requireNonNull(side, "Parameter 'side' must not be null");
         try {
-            DowncallHandles.gtk_grid_insert_next_to.invokeExact(handle(), sibling.handle(), side.getValue());
+            DowncallHandles.gtk_grid_insert_next_to.invokeExact(
+                    handle(),
+                    sibling.handle(),
+                    side.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -329,7 +368,9 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      */
     public void insertRow(int position) {
         try {
-            DowncallHandles.gtk_grid_insert_row.invokeExact(handle(), position);
+            DowncallHandles.gtk_grid_insert_row.invokeExact(
+                    handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -354,7 +395,13 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_grid_query_child.invokeExact(handle(), child.handle(), (Addressable) columnPOINTER.address(), (Addressable) rowPOINTER.address(), (Addressable) widthPOINTER.address(), (Addressable) heightPOINTER.address());
+            DowncallHandles.gtk_grid_query_child.invokeExact(
+                    handle(),
+                    child.handle(),
+                    (Addressable) columnPOINTER.address(),
+                    (Addressable) rowPOINTER.address(),
+                    (Addressable) widthPOINTER.address(),
+                    (Addressable) heightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -374,7 +421,9 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     public void remove(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_grid_remove.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_grid_remove.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -391,7 +440,9 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      */
     public void removeColumn(int position) {
         try {
-            DowncallHandles.gtk_grid_remove_column.invokeExact(handle(), position);
+            DowncallHandles.gtk_grid_remove_column.invokeExact(
+                    handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -408,7 +459,9 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      */
     public void removeRow(int position) {
         try {
-            DowncallHandles.gtk_grid_remove_row.invokeExact(handle(), position);
+            DowncallHandles.gtk_grid_remove_row.invokeExact(
+                    handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -424,7 +477,9 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      */
     public void setBaselineRow(int row) {
         try {
-            DowncallHandles.gtk_grid_set_baseline_row.invokeExact(handle(), row);
+            DowncallHandles.gtk_grid_set_baseline_row.invokeExact(
+                    handle(),
+                    row);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -436,7 +491,9 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      */
     public void setColumnHomogeneous(boolean homogeneous) {
         try {
-            DowncallHandles.gtk_grid_set_column_homogeneous.invokeExact(handle(), homogeneous ? 1 : 0);
+            DowncallHandles.gtk_grid_set_column_homogeneous.invokeExact(
+                    handle(),
+                    homogeneous ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -448,7 +505,9 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      */
     public void setColumnSpacing(int spacing) {
         try {
-            DowncallHandles.gtk_grid_set_column_spacing.invokeExact(handle(), spacing);
+            DowncallHandles.gtk_grid_set_column_spacing.invokeExact(
+                    handle(),
+                    spacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -465,7 +524,10 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     public void setRowBaselinePosition(int row, @NotNull org.gtk.gtk.BaselinePosition pos) {
         java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
         try {
-            DowncallHandles.gtk_grid_set_row_baseline_position.invokeExact(handle(), row, pos.getValue());
+            DowncallHandles.gtk_grid_set_row_baseline_position.invokeExact(
+                    handle(),
+                    row,
+                    pos.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -477,7 +539,9 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      */
     public void setRowHomogeneous(boolean homogeneous) {
         try {
-            DowncallHandles.gtk_grid_set_row_homogeneous.invokeExact(handle(), homogeneous ? 1 : 0);
+            DowncallHandles.gtk_grid_set_row_homogeneous.invokeExact(
+                    handle(),
+                    homogeneous ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -489,7 +553,9 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      */
     public void setRowSpacing(int spacing) {
         try {
-            DowncallHandles.gtk_grid_set_row_spacing.invokeExact(handle(), spacing);
+            DowncallHandles.gtk_grid_set_row_spacing.invokeExact(
+                    handle(),
+                    spacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

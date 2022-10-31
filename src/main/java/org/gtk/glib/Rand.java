@@ -15,14 +15,26 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GRand";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Rand allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Rand newInstance = new Rand(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Rand(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -36,7 +48,8 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Rand copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_rand_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_rand_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -51,7 +64,8 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     public double double_() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.g_rand_double.invokeExact(handle());
+            RESULT = (double) DowncallHandles.g_rand_double.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -68,7 +82,10 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     public double doubleRange(double begin, double end) {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.g_rand_double_range.invokeExact(handle(), begin, end);
+            RESULT = (double) DowncallHandles.g_rand_double_range.invokeExact(
+                    handle(),
+                    begin,
+                    end);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +97,8 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.g_rand_free.invokeExact(handle());
+            DowncallHandles.g_rand_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,7 +112,8 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     public int int_() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_rand_int.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_rand_int.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,7 +130,10 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     public int intRange(int begin, int end) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_rand_int_range.invokeExact(handle(), begin, end);
+            RESULT = (int) DowncallHandles.g_rand_int_range.invokeExact(
+                    handle(),
+                    begin,
+                    end);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,7 +146,9 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setSeed(int seed) {
         try {
-            DowncallHandles.g_rand_set_seed.invokeExact(handle(), seed);
+            DowncallHandles.g_rand_set_seed.invokeExact(
+                    handle(),
+                    seed);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,7 +166,10 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     public void setSeedArray(PointerInteger seed, int seedLength) {
         java.util.Objects.requireNonNull(seed, "Parameter 'seed' must not be null");
         try {
-            DowncallHandles.g_rand_set_seed_array.invokeExact(handle(), seed.handle(), seedLength);
+            DowncallHandles.g_rand_set_seed_array.invokeExact(
+                    handle(),
+                    seed.handle(),
+                    seedLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,7 +201,8 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     public static @NotNull org.gtk.glib.Rand newWithSeed(int seed) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_rand_new_with_seed.invokeExact(seed);
+            RESULT = (MemoryAddress) DowncallHandles.g_rand_new_with_seed.invokeExact(
+                    seed);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -192,7 +220,9 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(seed, "Parameter 'seed' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_rand_new_with_seed_array.invokeExact(seed.handle(), seedLength);
+            RESULT = (MemoryAddress) DowncallHandles.g_rand_new_with_seed_array.invokeExact(
+                    seed.handle(),
+                    seedLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -51,21 +51,34 @@ public class Credentials extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GCredentials";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Credentials(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Credentials */
+    /**
+     * Cast object to Credentials if its GType is a (or inherits from) "GCredentials".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Credentials" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GCredentials", a ClassCastException will be thrown.
+     */
     public static Credentials castFrom(org.gtk.gobject.Object gobject) {
-        return new Credentials(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GCredentials"))) {
+            return new Credentials(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GCredentials");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -103,7 +116,9 @@ public class Credentials extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(nativeType, "Parameter 'nativeType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_credentials_get_native.invokeExact(handle(), nativeType.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_credentials_get_native.invokeExact(
+                    handle(),
+                    nativeType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,7 +139,8 @@ public class Credentials extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_credentials_get_unix_pid.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_credentials_get_unix_pid.invokeExact(
+                    handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -148,7 +164,8 @@ public class Credentials extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_credentials_get_unix_user.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_credentials_get_unix_user.invokeExact(
+                    handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -173,7 +190,9 @@ public class Credentials extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_credentials_is_same_user.invokeExact(handle(), otherCredentials.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_credentials_is_same_user.invokeExact(
+                    handle(),
+                    otherCredentials.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -197,7 +216,10 @@ public class Credentials extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(nativeType, "Parameter 'nativeType' must not be null");
         java.util.Objects.requireNonNull(native_, "Parameter 'native_' must not be null");
         try {
-            DowncallHandles.g_credentials_set_native.invokeExact(handle(), nativeType.getValue(), native_);
+            DowncallHandles.g_credentials_set_native.invokeExact(
+                    handle(),
+                    nativeType.getValue(),
+                    native_);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,7 +241,9 @@ public class Credentials extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_credentials_set_unix_user.invokeExact(handle(), uid, (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_credentials_set_unix_user.invokeExact(
+                    handle(),
+                    uid, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -238,11 +262,12 @@ public class Credentials extends org.gtk.gobject.Object {
     public @NotNull java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_credentials_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_credentials_to_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     private static class DowncallHandles {

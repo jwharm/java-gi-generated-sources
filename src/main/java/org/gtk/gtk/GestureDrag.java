@@ -22,21 +22,34 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkGestureDrag";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public GestureDrag(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to GestureDrag */
+    /**
+     * Cast object to GestureDrag if its GType is a (or inherits from) "GtkGestureDrag".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "GestureDrag" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkGestureDrag", a ClassCastException will be thrown.
+     */
     public static GestureDrag castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureDrag(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGestureDrag"))) {
+            return new GestureDrag(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGestureDrag");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -67,18 +80,19 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
      * @return {@code true} if the gesture is active
      */
     public boolean getOffset(Out<Double> x, Out<Double> y) {
-        java.util.Objects.requireNonNullElse(x, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(y, MemoryAddress.NULL);
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_drag_get_offset.invokeExact(handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_gesture_drag_get_offset.invokeExact(
+                    handle(),
+                    (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
+                    (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(xPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        y.set(yPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        if (x != null) x.set(xPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        if (y != null) y.set(yPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
         return RESULT != 0;
     }
     
@@ -93,18 +107,19 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
      * @return {@code true} if the gesture is active
      */
     public boolean getStartPoint(Out<Double> x, Out<Double> y) {
-        java.util.Objects.requireNonNullElse(x, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(y, MemoryAddress.NULL);
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_drag_get_start_point.invokeExact(handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_gesture_drag_get_start_point.invokeExact(
+                    handle(),
+                    (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
+                    (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(xPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        y.set(yPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        if (x != null) x.set(xPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        if (y != null) y.set(yPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
         return RESULT != 0;
     }
     

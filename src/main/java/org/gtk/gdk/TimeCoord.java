@@ -14,20 +14,75 @@ public class TimeCoord extends io.github.jwharm.javagi.ResourceBase {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkTimeCoord";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_INT.withName("time"),
-        org.gtk.gdk.AxisFlags.getMemoryLayout().withName("flags"),
+        Interop.valueLayout.C_INT.withName("flags"),
+        MemoryLayout.paddingLayout(704),
         MemoryLayout.sequenceLayout(12, ValueLayout.JAVA_DOUBLE).withName("axes")
-    ).withName("GdkTimeCoord");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static TimeCoord allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        TimeCoord newInstance = new TimeCoord(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code time}
+     * @return The value of the field {@code time}
+     */
+    public int time$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("time"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code time}
+     * @param time The new value of the field {@code time}
+     */
+    public void time$set(int time) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("time"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), time);
+    }
+    
+    /**
+     * Get the value of the field {@code flags}
+     * @return The value of the field {@code flags}
+     */
+    public org.gtk.gdk.AxisFlags flags$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.gdk.AxisFlags(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code flags}
+     * @param flags The new value of the field {@code flags}
+     */
+    public void flags$set(org.gtk.gdk.AxisFlags flags) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags.getValue());
+    }
+    
+    @ApiStatus.Internal
     public TimeCoord(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

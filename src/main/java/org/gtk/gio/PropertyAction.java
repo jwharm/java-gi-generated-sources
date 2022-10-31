@@ -65,21 +65,34 @@ public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gi
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GPropertyAction";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public PropertyAction(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to PropertyAction */
+    /**
+     * Cast object to PropertyAction if its GType is a (or inherits from) "GPropertyAction".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "PropertyAction" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GPropertyAction", a ClassCastException will be thrown.
+     */
     public static PropertyAction castFrom(org.gtk.gobject.Object gobject) {
-        return new PropertyAction(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GPropertyAction"))) {
+            return new PropertyAction(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GPropertyAction");
+        }
     }
     
     private static Refcounted constructNew(@NotNull java.lang.String name, @NotNull org.gtk.gobject.Object object, @NotNull java.lang.String propertyName) {
@@ -88,7 +101,10 @@ public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gi
         java.util.Objects.requireNonNull(propertyName, "Parameter 'propertyName' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_property_action_new.invokeExact(Interop.allocateNativeString(name), object.handle(), Interop.allocateNativeString(propertyName)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_property_action_new.invokeExact(
+                    Interop.allocateNativeString(name),
+                    object.handle(),
+                    Interop.allocateNativeString(propertyName)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -20,6 +20,21 @@ import org.jetbrains.annotations.*;
 public interface ActionMap extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to ActionMap if its GType is a (or inherits from) "GActionMap".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ActionMap" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GActionMap", a ClassCastException will be thrown.
+     */
+    public static ActionMap castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GActionMap"))) {
+            return new ActionMapImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GActionMap");
+        }
+    }
+    
+    /**
      * Adds an action to the {@code action_map}.
      * <p>
      * If the action map already contains an action with the same name
@@ -31,7 +46,9 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
     default void addAction(@NotNull org.gtk.gio.Action action) {
         java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
         try {
-            DowncallHandles.g_action_map_add_action.invokeExact(handle(), action.handle());
+            DowncallHandles.g_action_map_add_action.invokeExact(
+                    handle(),
+                    action.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +99,11 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
     default void addActionEntries(org.gtk.gio.ActionEntry[] entries, int nEntries, @Nullable java.lang.foreign.MemoryAddress userData) {
         java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
         try {
-            DowncallHandles.g_action_map_add_action_entries.invokeExact(handle(), Interop.allocateNativeArray(entries, false), nEntries, userData);
+            DowncallHandles.g_action_map_add_action_entries.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(entries, false),
+                    nEntries,
+                    userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +120,9 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_action_map_lookup_action.invokeExact(handle(), Interop.allocateNativeString(actionName));
+            RESULT = (MemoryAddress) DowncallHandles.g_action_map_lookup_action.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,7 +138,9 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
     default void removeAction(@NotNull java.lang.String actionName) {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         try {
-            DowncallHandles.g_action_map_remove_action.invokeExact(handle(), Interop.allocateNativeString(actionName));
+            DowncallHandles.g_action_map_remove_action.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

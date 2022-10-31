@@ -45,29 +45,43 @@ public class Cursor extends org.gtk.gobject.Object {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkCursor";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Cursor(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Cursor */
+    /**
+     * Cast object to Cursor if its GType is a (or inherits from) "GdkCursor".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Cursor" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkCursor", a ClassCastException will be thrown.
+     */
     public static Cursor castFrom(org.gtk.gobject.Object gobject) {
-        return new Cursor(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkCursor"))) {
+            return new Cursor(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkCursor");
+        }
     }
     
     private static Refcounted constructNewFromName(@NotNull java.lang.String name, @Nullable org.gtk.gdk.Cursor fallback) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNullElse(fallback, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_cursor_new_from_name.invokeExact(Interop.allocateNativeString(name), fallback.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_cursor_new_from_name.invokeExact(
+                    Interop.allocateNativeString(name),
+                    (Addressable) (fallback == null ? MemoryAddress.NULL : fallback.handle())), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,10 +118,13 @@ public class Cursor extends org.gtk.gobject.Object {
     
     private static Refcounted constructNewFromTexture(@NotNull org.gtk.gdk.Texture texture, int hotspotX, int hotspotY, @Nullable org.gtk.gdk.Cursor fallback) {
         java.util.Objects.requireNonNull(texture, "Parameter 'texture' must not be null");
-        java.util.Objects.requireNonNullElse(fallback, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_cursor_new_from_texture.invokeExact(texture.handle(), hotspotX, hotspotY, fallback.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_cursor_new_from_texture.invokeExact(
+                    texture.handle(),
+                    hotspotX,
+                    hotspotY,
+                    (Addressable) (fallback == null ? MemoryAddress.NULL : fallback.handle())), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,7 +158,8 @@ public class Cursor extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdk.Cursor getFallback() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_cursor_get_fallback.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_cursor_get_fallback.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,7 +179,8 @@ public class Cursor extends org.gtk.gobject.Object {
     public int getHotspotX() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_cursor_get_hotspot_x.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_cursor_get_hotspot_x.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,7 +200,8 @@ public class Cursor extends org.gtk.gobject.Object {
     public int getHotspotY() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_cursor_get_hotspot_y.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_cursor_get_hotspot_y.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -198,11 +218,12 @@ public class Cursor extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_cursor_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_cursor_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -215,7 +236,8 @@ public class Cursor extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdk.Texture getTexture() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_cursor_get_texture.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_cursor_get_texture.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

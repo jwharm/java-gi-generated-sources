@@ -15,34 +15,46 @@ public class CustomSorter extends org.gtk.gtk.Sorter {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkCustomSorter";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public CustomSorter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CustomSorter */
+    /**
+     * Cast object to CustomSorter if its GType is a (or inherits from) "GtkCustomSorter".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CustomSorter" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkCustomSorter", a ClassCastException will be thrown.
+     */
     public static CustomSorter castFrom(org.gtk.gobject.Object gobject) {
-        return new CustomSorter(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCustomSorter"))) {
+            return new CustomSorter(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCustomSorter");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.glib.CompareDataFunc sortFunc) {
-        java.util.Objects.requireNonNullElse(sortFunc, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
             RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_custom_sorter_new.invokeExact(
-                    (Addressable) Linker.nativeLinker().upcallStub(
+                    (Addressable) (sortFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (sortFunc == null ? MemoryAddress.NULL : Interop.registerCallback(sortFunc)), 
+                        Interop.getScope())),
+                    (Addressable) (sortFunc == null ? MemoryAddress.NULL : Interop.registerCallback(sortFunc)),
                     Interop.cbDestroyNotifySymbol()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -74,15 +86,15 @@ public class CustomSorter extends org.gtk.gtk.Sorter {
      * @param sortFunc function to sort items
      */
     public void setSortFunc(@Nullable org.gtk.glib.CompareDataFunc sortFunc) {
-        java.util.Objects.requireNonNullElse(sortFunc, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_custom_sorter_set_sort_func.invokeExact(handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gtk_custom_sorter_set_sort_func.invokeExact(
+                    handle(),
+                    (Addressable) (sortFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (sortFunc == null ? MemoryAddress.NULL : Interop.registerCallback(sortFunc)), 
+                        Interop.getScope())),
+                    (Addressable) (sortFunc == null ? MemoryAddress.NULL : Interop.registerCallback(sortFunc)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

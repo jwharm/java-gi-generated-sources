@@ -14,19 +14,31 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTypeInterface";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_LONG.withName("g_type"),
         ValueLayout.JAVA_LONG.withName("g_instance_type")
-    ).withName("GTypeInterface");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static TypeInterface allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        TypeInterface newInstance = new TypeInterface(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public TypeInterface(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -44,7 +56,8 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gobject.TypeInterface peekParent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_interface_peek_parent.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_interface_peek_parent.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,7 +77,9 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(interfaceType, "Parameter 'interfaceType' must not be null");
         java.util.Objects.requireNonNull(prerequisiteType, "Parameter 'prerequisiteType' must not be null");
         try {
-            DowncallHandles.g_type_interface_add_prerequisite.invokeExact(interfaceType.getValue(), prerequisiteType.getValue());
+            DowncallHandles.g_type_interface_add_prerequisite.invokeExact(
+                    interfaceType.getValue().longValue(),
+                    prerequisiteType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,7 +100,9 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(interfaceType, "Parameter 'interfaceType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_interface_get_plugin.invokeExact(instanceType.getValue(), interfaceType.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_interface_get_plugin.invokeExact(
+                    instanceType.getValue().longValue(),
+                    interfaceType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,7 +123,8 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(interfaceType, "Parameter 'interfaceType' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_type_interface_instantiatable_prerequisite.invokeExact(interfaceType.getValue());
+            RESULT = (long) DowncallHandles.g_type_interface_instantiatable_prerequisite.invokeExact(
+                    interfaceType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,7 +145,9 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(ifaceType, "Parameter 'ifaceType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_interface_peek.invokeExact(instanceClass.handle(), ifaceType.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_interface_peek.invokeExact(
+                    instanceClass.handle(),
+                    ifaceType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,7 +169,9 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment nPrerequisitesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_interface_prerequisites.invokeExact(interfaceType.getValue(), (Addressable) nPrerequisitesPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_interface_prerequisites.invokeExact(
+                    interfaceType.getValue().longValue(),
+                    (Addressable) nPrerequisitesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

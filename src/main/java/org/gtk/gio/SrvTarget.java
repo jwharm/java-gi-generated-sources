@@ -27,14 +27,26 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSrvTarget";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static SrvTarget allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        SrvTarget newInstance = new SrvTarget(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public SrvTarget(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -43,7 +55,11 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(hostname, "Parameter 'hostname' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_srv_target_new.invokeExact(Interop.allocateNativeString(hostname), port, priority, weight), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_srv_target_new.invokeExact(
+                    Interop.allocateNativeString(hostname),
+                    port,
+                    priority,
+                    weight), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -71,7 +87,8 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gio.SrvTarget copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_srv_target_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_srv_target_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,7 +100,8 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.g_srv_target_free.invokeExact(handle());
+            DowncallHandles.g_srv_target_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,11 +117,12 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getHostname() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_srv_target_get_hostname.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_srv_target_get_hostname.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -113,7 +132,8 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
     public short getPort() {
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.g_srv_target_get_port.invokeExact(handle());
+            RESULT = (short) DowncallHandles.g_srv_target_get_port.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,7 +149,8 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
     public short getPriority() {
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.g_srv_target_get_priority.invokeExact(handle());
+            RESULT = (short) DowncallHandles.g_srv_target_get_priority.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,7 +166,8 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
     public short getWeight() {
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.g_srv_target_get_weight.invokeExact(handle());
+            RESULT = (short) DowncallHandles.g_srv_target_get_weight.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,7 +183,8 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(targets, "Parameter 'targets' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_srv_target_list_sort.invokeExact(targets.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_srv_target_list_sort.invokeExact(
+                    targets.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

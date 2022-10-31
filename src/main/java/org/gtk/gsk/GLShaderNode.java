@@ -14,31 +14,48 @@ public class GLShaderNode extends org.gtk.gsk.RenderNode {
         Gsk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GskGLShaderNode";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public GLShaderNode(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to GLShaderNode */
+    /**
+     * Cast object to GLShaderNode if its GType is a (or inherits from) "GskGLShaderNode".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "GLShaderNode" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GskGLShaderNode", a ClassCastException will be thrown.
+     */
     public static GLShaderNode castFrom(org.gtk.gobject.Object gobject) {
-        return new GLShaderNode(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskGLShaderNode"))) {
+            return new GLShaderNode(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskGLShaderNode");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gsk.GLShader shader, @NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.glib.Bytes args, org.gtk.gsk.RenderNode[] children, int nChildren) {
         java.util.Objects.requireNonNull(shader, "Parameter 'shader' must not be null");
         java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNullElse(children, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_gl_shader_node_new.invokeExact(shader.handle(), bounds.handle(), args.handle(), Interop.allocateNativeArray(children, false), nChildren), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_gl_shader_node_new.invokeExact(
+                    shader.handle(),
+                    bounds.handle(),
+                    args.handle(),
+                    (Addressable) (children == null ? MemoryAddress.NULL : Interop.allocateNativeArray(children, false)),
+                    nChildren), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +99,8 @@ public class GLShaderNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.glib.Bytes getArgs() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_node_get_args.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_node_get_args.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,7 +115,9 @@ public class GLShaderNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.gsk.RenderNode getChild(int idx) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_node_get_child.invokeExact(handle(), idx);
+            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_node_get_child.invokeExact(
+                    handle(),
+                    idx);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,7 +131,8 @@ public class GLShaderNode extends org.gtk.gsk.RenderNode {
     public int getNChildren() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_gl_shader_node_get_n_children.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gsk_gl_shader_node_get_n_children.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,7 +146,8 @@ public class GLShaderNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.gsk.GLShader getShader() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_node_get_shader.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_node_get_shader.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

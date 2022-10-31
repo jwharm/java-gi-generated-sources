@@ -50,21 +50,34 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkTreeExpander";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public TreeExpander(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TreeExpander */
+    /**
+     * Cast object to TreeExpander if its GType is a (or inherits from) "GtkTreeExpander".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TreeExpander" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkTreeExpander", a ClassCastException will be thrown.
+     */
     public static TreeExpander castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeExpander(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeExpander"))) {
+            return new TreeExpander(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTreeExpander");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -91,7 +104,8 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_expander_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_expander_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,7 +119,8 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public boolean getIndentForIcon() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_expander_get_indent_for_icon.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_expander_get_indent_for_icon.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,7 +139,8 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public @Nullable org.gtk.gobject.Object getItem() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_expander_get_item.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_expander_get_item.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,7 +154,8 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public @Nullable org.gtk.gtk.TreeListRow getListRow() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_expander_get_list_row.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_expander_get_list_row.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -150,9 +167,10 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * @param child a {@code GtkWidget}
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_tree_expander_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_tree_expander_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -164,7 +182,9 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      */
     public void setIndentForIcon(boolean indentForIcon) {
         try {
-            DowncallHandles.gtk_tree_expander_set_indent_for_icon.invokeExact(handle(), indentForIcon ? 1 : 0);
+            DowncallHandles.gtk_tree_expander_set_indent_for_icon.invokeExact(
+                    handle(),
+                    indentForIcon ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,9 +195,10 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * @param listRow a {@code GtkTreeListRow}
      */
     public void setListRow(@Nullable org.gtk.gtk.TreeListRow listRow) {
-        java.util.Objects.requireNonNullElse(listRow, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_tree_expander_set_list_row.invokeExact(handle(), listRow.handle());
+            DowncallHandles.gtk_tree_expander_set_list_row.invokeExact(
+                    handle(),
+                    (Addressable) (listRow == null ? MemoryAddress.NULL : listRow.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

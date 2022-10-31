@@ -32,21 +32,34 @@ public class CellAreaBox extends org.gtk.gtk.CellArea implements org.gtk.gtk.Bui
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkCellAreaBox";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public CellAreaBox(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CellAreaBox */
+    /**
+     * Cast object to CellAreaBox if its GType is a (or inherits from) "GtkCellAreaBox".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CellAreaBox" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkCellAreaBox", a ClassCastException will be thrown.
+     */
     public static CellAreaBox castFrom(org.gtk.gobject.Object gobject) {
-        return new CellAreaBox(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellAreaBox"))) {
+            return new CellAreaBox(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCellAreaBox");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -73,7 +86,8 @@ public class CellAreaBox extends org.gtk.gtk.CellArea implements org.gtk.gtk.Bui
     public int getSpacing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_cell_area_box_get_spacing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_cell_area_box_get_spacing.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,7 +108,12 @@ public class CellAreaBox extends org.gtk.gtk.CellArea implements org.gtk.gtk.Bui
     public void packEnd(@NotNull org.gtk.gtk.CellRenderer renderer, boolean expand, boolean align, boolean fixed) {
         java.util.Objects.requireNonNull(renderer, "Parameter 'renderer' must not be null");
         try {
-            DowncallHandles.gtk_cell_area_box_pack_end.invokeExact(handle(), renderer.handle(), expand ? 1 : 0, align ? 1 : 0, fixed ? 1 : 0);
+            DowncallHandles.gtk_cell_area_box_pack_end.invokeExact(
+                    handle(),
+                    renderer.handle(),
+                    expand ? 1 : 0,
+                    align ? 1 : 0,
+                    fixed ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,7 +133,12 @@ public class CellAreaBox extends org.gtk.gtk.CellArea implements org.gtk.gtk.Bui
     public void packStart(@NotNull org.gtk.gtk.CellRenderer renderer, boolean expand, boolean align, boolean fixed) {
         java.util.Objects.requireNonNull(renderer, "Parameter 'renderer' must not be null");
         try {
-            DowncallHandles.gtk_cell_area_box_pack_start.invokeExact(handle(), renderer.handle(), expand ? 1 : 0, align ? 1 : 0, fixed ? 1 : 0);
+            DowncallHandles.gtk_cell_area_box_pack_start.invokeExact(
+                    handle(),
+                    renderer.handle(),
+                    expand ? 1 : 0,
+                    align ? 1 : 0,
+                    fixed ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,7 +150,9 @@ public class CellAreaBox extends org.gtk.gtk.CellArea implements org.gtk.gtk.Bui
      */
     public void setSpacing(int spacing) {
         try {
-            DowncallHandles.gtk_cell_area_box_set_spacing.invokeExact(handle(), spacing);
+            DowncallHandles.gtk_cell_area_box_set_spacing.invokeExact(
+                    handle(),
+                    spacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

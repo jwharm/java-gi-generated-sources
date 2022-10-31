@@ -30,25 +30,47 @@ public class NativeDialog extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkNativeDialog";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkNativeDialog");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public NativeDialog(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to NativeDialog */
+    /**
+     * Cast object to NativeDialog if its GType is a (or inherits from) "GtkNativeDialog".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "NativeDialog" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkNativeDialog", a ClassCastException will be thrown.
+     */
     public static NativeDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new NativeDialog(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkNativeDialog"))) {
+            return new NativeDialog(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkNativeDialog");
+        }
     }
     
     /**
@@ -66,7 +88,8 @@ public class NativeDialog extends org.gtk.gobject.Object {
      */
     public void destroy() {
         try {
-            DowncallHandles.gtk_native_dialog_destroy.invokeExact(handle());
+            DowncallHandles.gtk_native_dialog_destroy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,7 +102,8 @@ public class NativeDialog extends org.gtk.gobject.Object {
     public boolean getModal() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_native_dialog_get_modal.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_native_dialog_get_modal.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,11 +119,12 @@ public class NativeDialog extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_native_dialog_get_title.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_native_dialog_get_title.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -110,7 +135,8 @@ public class NativeDialog extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gtk.Window getTransientFor() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_native_dialog_get_transient_for.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_native_dialog_get_transient_for.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,7 +150,8 @@ public class NativeDialog extends org.gtk.gobject.Object {
     public boolean getVisible() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_native_dialog_get_visible.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_native_dialog_get_visible.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,7 +169,8 @@ public class NativeDialog extends org.gtk.gobject.Object {
      */
     public void hide() {
         try {
-            DowncallHandles.gtk_native_dialog_hide.invokeExact(handle());
+            DowncallHandles.gtk_native_dialog_hide.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,7 +188,9 @@ public class NativeDialog extends org.gtk.gobject.Object {
      */
     public void setModal(boolean modal) {
         try {
-            DowncallHandles.gtk_native_dialog_set_modal.invokeExact(handle(), modal ? 1 : 0);
+            DowncallHandles.gtk_native_dialog_set_modal.invokeExact(
+                    handle(),
+                    modal ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -173,7 +203,9 @@ public class NativeDialog extends org.gtk.gobject.Object {
     public void setTitle(@NotNull java.lang.String title) {
         java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
         try {
-            DowncallHandles.gtk_native_dialog_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
+            DowncallHandles.gtk_native_dialog_set_title.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -190,9 +222,10 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * @param parent parent window
      */
     public void setTransientFor(@Nullable org.gtk.gtk.Window parent) {
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_native_dialog_set_transient_for.invokeExact(handle(), parent.handle());
+            DowncallHandles.gtk_native_dialog_set_transient_for.invokeExact(
+                    handle(),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -209,7 +242,8 @@ public class NativeDialog extends org.gtk.gobject.Object {
      */
     public void show() {
         try {
-            DowncallHandles.gtk_native_dialog_show.invokeExact(handle());
+            DowncallHandles.gtk_native_dialog_show.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

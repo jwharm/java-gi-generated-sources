@@ -14,21 +14,34 @@ public class ButtonEvent extends org.gtk.gdk.Event {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkButtonEvent";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ButtonEvent(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ButtonEvent */
+    /**
+     * Cast object to ButtonEvent if its GType is a (or inherits from) "GdkButtonEvent".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ButtonEvent" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkButtonEvent", a ClassCastException will be thrown.
+     */
     public static ButtonEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new ButtonEvent(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkButtonEvent"))) {
+            return new ButtonEvent(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkButtonEvent");
+        }
     }
     
     /**
@@ -38,7 +51,8 @@ public class ButtonEvent extends org.gtk.gdk.Event {
     public int getButton() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_button_event_get_button.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_button_event_get_button.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -26,19 +26,49 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
         Graphene.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "graphene_rect_t";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.graphene.Point.getMemoryLayout().withName("origin"),
         org.gtk.graphene.Size.getMemoryLayout().withName("size")
-    ).withName("graphene_rect_t");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Rect allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Rect newInstance = new Rect(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code origin}
+     * @return The value of the field {@code origin}
+     */
+    public org.gtk.graphene.Point origin$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("origin"));
+        return new org.gtk.graphene.Point(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    /**
+     * Get the value of the field {@code size}
+     * @return The value of the field {@code size}
+     */
+    public org.gtk.graphene.Size size$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("size"));
+        return new org.gtk.graphene.Size(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Rect(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -52,7 +82,9 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_rect_contains_point.invokeExact(handle(), p.handle());
+            RESULT = (boolean) DowncallHandles.graphene_rect_contains_point.invokeExact(
+                    handle(),
+                    p.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,7 +101,9 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_rect_contains_rect.invokeExact(handle(), b.handle());
+            RESULT = (boolean) DowncallHandles.graphene_rect_contains_rect.invokeExact(
+                    handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,7 +119,9 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_rect_equal.invokeExact(handle(), b.handle());
+            RESULT = (boolean) DowncallHandles.graphene_rect_equal.invokeExact(
+                    handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,16 +133,17 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * @param p a {@link Point}
      * @param res return location for the expanded rectangle
      */
-    public void expand(@NotNull org.gtk.graphene.Point p, @NotNull Out<org.gtk.graphene.Rect> res) {
+    public void expand(@NotNull org.gtk.graphene.Point p, @NotNull org.gtk.graphene.Rect res) {
         java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_rect_expand.invokeExact(handle(), p.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_rect_expand.invokeExact(
+                    handle(),
+                    p.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Rect(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -114,7 +151,8 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_rect_free.invokeExact(handle());
+            DowncallHandles.graphene_rect_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,7 +165,8 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     public float getArea() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_rect_get_area.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_rect_get_area.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,45 +177,45 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * Retrieves the coordinates of the bottom-left corner of the given rectangle.
      * @param p return location for a {@link Point}
      */
-    public void getBottomLeft(@NotNull Out<org.gtk.graphene.Point> p) {
+    public void getBottomLeft(@NotNull org.gtk.graphene.Point p) {
         java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
-        MemorySegment pPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_rect_get_bottom_left.invokeExact(handle(), (Addressable) pPOINTER.address());
+            DowncallHandles.graphene_rect_get_bottom_left.invokeExact(
+                    handle(),
+                    p.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        p.set(new org.gtk.graphene.Point(Refcounted.get(pPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
      * Retrieves the coordinates of the bottom-right corner of the given rectangle.
      * @param p return location for a {@link Point}
      */
-    public void getBottomRight(@NotNull Out<org.gtk.graphene.Point> p) {
+    public void getBottomRight(@NotNull org.gtk.graphene.Point p) {
         java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
-        MemorySegment pPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_rect_get_bottom_right.invokeExact(handle(), (Addressable) pPOINTER.address());
+            DowncallHandles.graphene_rect_get_bottom_right.invokeExact(
+                    handle(),
+                    p.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        p.set(new org.gtk.graphene.Point(Refcounted.get(pPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
      * Retrieves the coordinates of the center of the given rectangle.
      * @param p return location for a {@link Point}
      */
-    public void getCenter(@NotNull Out<org.gtk.graphene.Point> p) {
+    public void getCenter(@NotNull org.gtk.graphene.Point p) {
         java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
-        MemorySegment pPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_rect_get_center.invokeExact(handle(), (Addressable) pPOINTER.address());
+            DowncallHandles.graphene_rect_get_center.invokeExact(
+                    handle(),
+                    p.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        p.set(new org.gtk.graphene.Point(Refcounted.get(pPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -186,7 +225,8 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     public float getHeight() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_rect_get_height.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_rect_get_height.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -197,30 +237,30 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * Retrieves the coordinates of the top-left corner of the given rectangle.
      * @param p return location for a {@link Point}
      */
-    public void getTopLeft(@NotNull Out<org.gtk.graphene.Point> p) {
+    public void getTopLeft(@NotNull org.gtk.graphene.Point p) {
         java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
-        MemorySegment pPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_rect_get_top_left.invokeExact(handle(), (Addressable) pPOINTER.address());
+            DowncallHandles.graphene_rect_get_top_left.invokeExact(
+                    handle(),
+                    p.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        p.set(new org.gtk.graphene.Point(Refcounted.get(pPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
      * Retrieves the coordinates of the top-right corner of the given rectangle.
      * @param p return location for a {@link Point}
      */
-    public void getTopRight(@NotNull Out<org.gtk.graphene.Point> p) {
+    public void getTopRight(@NotNull org.gtk.graphene.Point p) {
         java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
-        MemorySegment pPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_rect_get_top_right.invokeExact(handle(), (Addressable) pPOINTER.address());
+            DowncallHandles.graphene_rect_get_top_right.invokeExact(
+                    handle(),
+                    p.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        p.set(new org.gtk.graphene.Point(Refcounted.get(pPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -232,7 +272,9 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(vertices, "Parameter 'vertices' must not be null");
         MemorySegment verticesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_rect_get_vertices.invokeExact(handle(), (Addressable) verticesPOINTER.address());
+            DowncallHandles.graphene_rect_get_vertices.invokeExact(
+                    handle(),
+                    (Addressable) verticesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -251,7 +293,8 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     public float getWidth() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_rect_get_width.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_rect_get_width.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -266,7 +309,8 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     public float getX() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_rect_get_x.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_rect_get_x.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -281,7 +325,8 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     public float getY() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_rect_get_y.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_rect_get_y.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -302,7 +347,12 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Rect init(float x, float y, float width, float height) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_rect_init.invokeExact(handle(), x, y, width, height);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_rect_init.invokeExact(
+                    handle(),
+                    x,
+                    y,
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -321,7 +371,9 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_rect_init_from_rect.invokeExact(handle(), src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_rect_init_from_rect.invokeExact(
+                    handle(),
+                    src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -350,7 +402,10 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Rect inset(float dX, float dY) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_rect_inset.invokeExact(handle(), dX, dY);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_rect_inset.invokeExact(
+                    handle(),
+                    dX,
+                    dY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -376,15 +431,17 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * @param dY the vertical inset
      * @param res return location for the inset rectangle
      */
-    public void insetR(float dX, float dY, @NotNull Out<org.gtk.graphene.Rect> res) {
+    public void insetR(float dX, float dY, @NotNull org.gtk.graphene.Rect res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_rect_inset_r.invokeExact(handle(), dX, dY, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_rect_inset_r.invokeExact(
+                    handle(),
+                    dX,
+                    dY,
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Rect(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -395,16 +452,18 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the
      *   interpolated rectangle
      */
-    public void interpolate(@NotNull org.gtk.graphene.Rect b, double factor, @NotNull Out<org.gtk.graphene.Rect> res) {
+    public void interpolate(@NotNull org.gtk.graphene.Rect b, double factor, @NotNull org.gtk.graphene.Rect res) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_rect_interpolate.invokeExact(handle(), b.handle(), factor, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_rect_interpolate.invokeExact(
+                    handle(),
+                    b.handle(),
+                    factor,
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Rect(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -421,17 +480,18 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      *   a {@link Rect}
      * @return {@code true} if the two rectangles intersect
      */
-    public boolean intersection(@NotNull org.gtk.graphene.Rect b, @NotNull Out<org.gtk.graphene.Rect> res) {
+    public boolean intersection(@NotNull org.gtk.graphene.Rect b, @NotNull org.gtk.graphene.Rect res) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_rect_intersection.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            RESULT = (boolean) DowncallHandles.graphene_rect_intersection.invokeExact(
+                    handle(),
+                    b.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Rect(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT;
     }
     
@@ -446,7 +506,8 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Rect normalize() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_rect_normalize.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_rect_normalize.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -462,15 +523,15 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * @param res the return location for the
      *   normalized rectangle
      */
-    public void normalizeR(@NotNull Out<org.gtk.graphene.Rect> res) {
+    public void normalizeR(@NotNull org.gtk.graphene.Rect res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_rect_normalize_r.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_rect_normalize_r.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Rect(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -484,7 +545,10 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Rect offset(float dX, float dY) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_rect_offset.invokeExact(handle(), dX, dY);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_rect_offset.invokeExact(
+                    handle(),
+                    dX,
+                    dY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -500,15 +564,17 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the offset
      *   rectangle
      */
-    public void offsetR(float dX, float dY, @NotNull Out<org.gtk.graphene.Rect> res) {
+    public void offsetR(float dX, float dY, @NotNull org.gtk.graphene.Rect res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_rect_offset_r.invokeExact(handle(), dX, dY, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_rect_offset_r.invokeExact(
+                    handle(),
+                    dX,
+                    dY,
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Rect(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -526,15 +592,15 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * @deprecated Use graphene_rect_round_extents() instead
      */
     @Deprecated
-    public void round(@NotNull Out<org.gtk.graphene.Rect> res) {
+    public void round(@NotNull org.gtk.graphene.Rect res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_rect_round.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_rect_round.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Rect(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -562,15 +628,15 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the
      *   rectangle with rounded extents
      */
-    public void roundExtents(@NotNull Out<org.gtk.graphene.Rect> res) {
+    public void roundExtents(@NotNull org.gtk.graphene.Rect res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_rect_round_extents.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_rect_round_extents.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Rect(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -584,7 +650,8 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Rect roundToPixel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_rect_round_to_pixel.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_rect_round_to_pixel.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -599,15 +666,17 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the
      *   scaled rectangle
      */
-    public void scale(float sH, float sV, @NotNull Out<org.gtk.graphene.Rect> res) {
+    public void scale(float sH, float sV, @NotNull org.gtk.graphene.Rect res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_rect_scale.invokeExact(handle(), sH, sV, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_rect_scale.invokeExact(
+                    handle(),
+                    sH,
+                    sV,
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Rect(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -619,16 +688,17 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * @param b a {@link Rect}
      * @param res return location for a {@link Rect}
      */
-    public void union(@NotNull org.gtk.graphene.Rect b, @NotNull Out<org.gtk.graphene.Rect> res) {
+    public void union(@NotNull org.gtk.graphene.Rect b, @NotNull org.gtk.graphene.Rect res) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_rect_union.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_rect_union.invokeExact(
+                    handle(),
+                    b.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Rect(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**

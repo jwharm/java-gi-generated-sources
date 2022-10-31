@@ -18,28 +18,41 @@ public class MediaControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkMediaControls";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public MediaControls(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to MediaControls */
+    /**
+     * Cast object to MediaControls if its GType is a (or inherits from) "GtkMediaControls".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "MediaControls" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkMediaControls", a ClassCastException will be thrown.
+     */
     public static MediaControls castFrom(org.gtk.gobject.Object gobject) {
-        return new MediaControls(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMediaControls"))) {
+            return new MediaControls(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkMediaControls");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gtk.MediaStream stream) {
-        java.util.Objects.requireNonNullElse(stream, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_media_controls_new.invokeExact(stream.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_media_controls_new.invokeExact(
+                    (Addressable) (stream == null ? MemoryAddress.NULL : stream.handle())), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -61,7 +74,8 @@ public class MediaControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     public @Nullable org.gtk.gtk.MediaStream getMediaStream() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_media_controls_get_media_stream.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_media_controls_get_media_stream.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,9 +87,10 @@ public class MediaControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * @param stream a {@code GtkMediaStream}
      */
     public void setMediaStream(@Nullable org.gtk.gtk.MediaStream stream) {
-        java.util.Objects.requireNonNullElse(stream, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_media_controls_set_media_stream.invokeExact(handle(), stream.handle());
+            DowncallHandles.gtk_media_controls_set_media_stream.invokeExact(
+                    handle(),
+                    (Addressable) (stream == null ? MemoryAddress.NULL : stream.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

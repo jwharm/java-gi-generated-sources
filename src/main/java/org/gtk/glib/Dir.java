@@ -14,14 +14,26 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GDir";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Dir allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Dir newInstance = new Dir(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Dir(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -31,7 +43,8 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
      */
     public void close() {
         try {
-            DowncallHandles.g_dir_close.invokeExact(handle());
+            DowncallHandles.g_dir_close.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -58,11 +71,12 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String readName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dir_read_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dir_read_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -71,7 +85,8 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
      */
     public void rewind() {
         try {
-            DowncallHandles.g_dir_rewind.invokeExact(handle());
+            DowncallHandles.g_dir_rewind.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -98,18 +113,18 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static @NotNull java.lang.String makeTmp(@Nullable java.lang.String tmpl) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(tmpl, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dir_make_tmp.invokeExact(Interop.allocateNativeString(tmpl), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_dir_make_tmp.invokeExact(
+                    (Addressable) (tmpl == null ? MemoryAddress.NULL : Interop.allocateNativeString(tmpl)), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -129,7 +144,9 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dir_open.invokeExact(Interop.allocateNativeString(path), flags, (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_dir_open.invokeExact(
+                    Interop.allocateNativeString(path),
+                    flags, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

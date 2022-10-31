@@ -14,6 +14,8 @@ public class FileIface extends io.github.jwharm.javagi.ResourceBase {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GFileIface";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface"),
         Interop.valueLayout.ADDRESS.withName("dup"),
@@ -110,6 +112,7 @@ public class FileIface extends io.github.jwharm.javagi.ResourceBase {
         Interop.valueLayout.ADDRESS.withName("stop_mountable"),
         Interop.valueLayout.ADDRESS.withName("stop_mountable_finish"),
         ValueLayout.JAVA_INT.withName("supports_thread_contexts"),
+        MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("unmount_mountable_with_operation"),
         Interop.valueLayout.ADDRESS.withName("unmount_mountable_with_operation_finish"),
         Interop.valueLayout.ADDRESS.withName("eject_mountable_with_operation"),
@@ -119,16 +122,56 @@ public class FileIface extends io.github.jwharm.javagi.ResourceBase {
         Interop.valueLayout.ADDRESS.withName("measure_disk_usage"),
         Interop.valueLayout.ADDRESS.withName("measure_disk_usage_async"),
         Interop.valueLayout.ADDRESS.withName("measure_disk_usage_finish")
-    ).withName("GFileIface");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static FileIface allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        FileIface newInstance = new FileIface(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code g_iface}
+     * @return The value of the field {@code g_iface}
+     */
+    public org.gtk.gobject.TypeInterface g_iface$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
+        return new org.gtk.gobject.TypeInterface(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    /**
+     * Get the value of the field {@code supports_thread_contexts}
+     * @return The value of the field {@code supports_thread_contexts}
+     */
+    public boolean supports_thread_contexts$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("supports_thread_contexts"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT != 0;
+    }
+    
+    /**
+     * Change the value of the field {@code supports_thread_contexts}
+     * @param supports_thread_contexts The new value of the field {@code supports_thread_contexts}
+     */
+    public void supports_thread_contexts$set(boolean supports_thread_contexts) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("supports_thread_contexts"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), supports_thread_contexts ? 1 : 0);
+    }
+    
+    @ApiStatus.Internal
     public FileIface(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

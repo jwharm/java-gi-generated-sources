@@ -19,13 +19,7 @@ import org.jetbrains.annotations.*;
  */
 public class Script extends io.github.jwharm.javagi.Enumeration {
     
-    /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
-     */
-    public static MemoryLayout getMemoryLayout() {
-        return Interop.valueLayout.ADDRESS;
-    }
+    private static final java.lang.String C_TYPE_NAME = "PangoScript";
     
     /**
      * a value never returned from pango_script_for_unichar()
@@ -643,7 +637,8 @@ public class Script extends io.github.jwharm.javagi.Enumeration {
     public static @NotNull org.pango.Script forUnichar(int ch) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_script_for_unichar.invokeExact(ch);
+            RESULT = (int) DowncallHandles.pango_script_for_unichar.invokeExact(
+                    ch);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -688,7 +683,8 @@ public class Script extends io.github.jwharm.javagi.Enumeration {
         java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_script_get_sample_language.invokeExact(script.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_script_get_sample_language.invokeExact(
+                    script.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

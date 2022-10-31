@@ -57,21 +57,34 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkFlowBox";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public FlowBox(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to FlowBox */
+    /**
+     * Cast object to FlowBox if its GType is a (or inherits from) "GtkFlowBox".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "FlowBox" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkFlowBox", a ClassCastException will be thrown.
+     */
     public static FlowBox castFrom(org.gtk.gobject.Object gobject) {
-        return new FlowBox(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFlowBox"))) {
+            return new FlowBox(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkFlowBox");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -103,7 +116,9 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void append(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_flow_box_append.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_flow_box_append.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,16 +144,17 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param createWidgetFunc a function that creates widgets for items
      */
     public void bindModel(@Nullable org.gtk.gio.ListModel model, @NotNull org.gtk.gtk.FlowBoxCreateWidgetFunc createWidgetFunc) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(createWidgetFunc, "Parameter 'createWidgetFunc' must not be null");
         try {
-            DowncallHandles.gtk_flow_box_bind_model.invokeExact(handle(), model.handle(), 
+            DowncallHandles.gtk_flow_box_bind_model.invokeExact(
+                    handle(),
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbFlowBoxCreateWidgetFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(createWidgetFunc)), 
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(createWidgetFunc)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -153,7 +169,8 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public boolean getActivateOnSingleClick() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_flow_box_get_activate_on_single_click.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_flow_box_get_activate_on_single_click.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,7 +187,9 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public @Nullable org.gtk.gtk.FlowBoxChild getChildAtIndex(int idx) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_flow_box_get_child_at_index.invokeExact(handle(), idx);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_flow_box_get_child_at_index.invokeExact(
+                    handle(),
+                    idx);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -190,7 +209,10 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public @Nullable org.gtk.gtk.FlowBoxChild getChildAtPos(int x, int y) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_flow_box_get_child_at_pos.invokeExact(handle(), x, y);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_flow_box_get_child_at_pos.invokeExact(
+                    handle(),
+                    x,
+                    y);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,7 +226,8 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public int getColumnSpacing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_flow_box_get_column_spacing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_flow_box_get_column_spacing.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +241,8 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public boolean getHomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_flow_box_get_homogeneous.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_flow_box_get_homogeneous.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -232,7 +256,8 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public int getMaxChildrenPerLine() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_flow_box_get_max_children_per_line.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_flow_box_get_max_children_per_line.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -246,7 +271,8 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public int getMinChildrenPerLine() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_flow_box_get_min_children_per_line.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_flow_box_get_min_children_per_line.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -260,7 +286,8 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public int getRowSpacing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_flow_box_get_row_spacing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_flow_box_get_row_spacing.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -275,7 +302,8 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public @NotNull org.gtk.glib.List getSelectedChildren() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_flow_box_get_selected_children.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_flow_box_get_selected_children.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -289,7 +317,8 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public @NotNull org.gtk.gtk.SelectionMode getSelectionMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_flow_box_get_selection_mode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_flow_box_get_selection_mode.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -310,7 +339,10 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void insert(@NotNull org.gtk.gtk.Widget widget, int position) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            DowncallHandles.gtk_flow_box_insert.invokeExact(handle(), widget.handle(), position);
+            DowncallHandles.gtk_flow_box_insert.invokeExact(
+                    handle(),
+                    widget.handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -327,7 +359,8 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void invalidateFilter() {
         try {
-            DowncallHandles.gtk_flow_box_invalidate_filter.invokeExact(handle());
+            DowncallHandles.gtk_flow_box_invalidate_filter.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -341,7 +374,8 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void invalidateSort() {
         try {
-            DowncallHandles.gtk_flow_box_invalidate_sort.invokeExact(handle());
+            DowncallHandles.gtk_flow_box_invalidate_sort.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -359,7 +393,9 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void prepend(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_flow_box_prepend.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_flow_box_prepend.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -372,7 +408,9 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void remove(@NotNull org.gtk.gtk.Widget widget) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            DowncallHandles.gtk_flow_box_remove.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_flow_box_remove.invokeExact(
+                    handle(),
+                    widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -384,7 +422,8 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void selectAll() {
         try {
-            DowncallHandles.gtk_flow_box_select_all.invokeExact(handle());
+            DowncallHandles.gtk_flow_box_select_all.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -398,7 +437,9 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void selectChild(@NotNull org.gtk.gtk.FlowBoxChild child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_flow_box_select_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_flow_box_select_child.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -414,13 +455,14 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void selectedForeach(@NotNull org.gtk.gtk.FlowBoxForeachFunc func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.gtk_flow_box_selected_foreach.invokeExact(handle(), 
+            DowncallHandles.gtk_flow_box_selected_foreach.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbFlowBoxForeachFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -433,7 +475,9 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void setActivateOnSingleClick(boolean single) {
         try {
-            DowncallHandles.gtk_flow_box_set_activate_on_single_click.invokeExact(handle(), single ? 1 : 0);
+            DowncallHandles.gtk_flow_box_set_activate_on_single_click.invokeExact(
+                    handle(),
+                    single ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -445,7 +489,9 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void setColumnSpacing(int spacing) {
         try {
-            DowncallHandles.gtk_flow_box_set_column_spacing.invokeExact(handle(), spacing);
+            DowncallHandles.gtk_flow_box_set_column_spacing.invokeExact(
+                    handle(),
+                    spacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -469,15 +515,15 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      *   lets you filter which children to show
      */
     public void setFilterFunc(@Nullable org.gtk.gtk.FlowBoxFilterFunc filterFunc) {
-        java.util.Objects.requireNonNullElse(filterFunc, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_flow_box_set_filter_func.invokeExact(handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gtk_flow_box_set_filter_func.invokeExact(
+                    handle(),
+                    (Addressable) (filterFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbFlowBoxFilterFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (filterFunc == null ? MemoryAddress.NULL : Interop.registerCallback(filterFunc)), 
+                        Interop.getScope())),
+                    (Addressable) (filterFunc == null ? MemoryAddress.NULL : Interop.registerCallback(filterFunc)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -502,7 +548,9 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void setHadjustment(@NotNull org.gtk.gtk.Adjustment adjustment) {
         java.util.Objects.requireNonNull(adjustment, "Parameter 'adjustment' must not be null");
         try {
-            DowncallHandles.gtk_flow_box_set_hadjustment.invokeExact(handle(), adjustment.handle());
+            DowncallHandles.gtk_flow_box_set_hadjustment.invokeExact(
+                    handle(),
+                    adjustment.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -516,7 +564,9 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void setHomogeneous(boolean homogeneous) {
         try {
-            DowncallHandles.gtk_flow_box_set_homogeneous.invokeExact(handle(), homogeneous ? 1 : 0);
+            DowncallHandles.gtk_flow_box_set_homogeneous.invokeExact(
+                    handle(),
+                    homogeneous ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -533,7 +583,9 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void setMaxChildrenPerLine(int nChildren) {
         try {
-            DowncallHandles.gtk_flow_box_set_max_children_per_line.invokeExact(handle(), nChildren);
+            DowncallHandles.gtk_flow_box_set_max_children_per_line.invokeExact(
+                    handle(),
+                    nChildren);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -546,7 +598,9 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void setMinChildrenPerLine(int nChildren) {
         try {
-            DowncallHandles.gtk_flow_box_set_min_children_per_line.invokeExact(handle(), nChildren);
+            DowncallHandles.gtk_flow_box_set_min_children_per_line.invokeExact(
+                    handle(),
+                    nChildren);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -558,7 +612,9 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void setRowSpacing(int spacing) {
         try {
-            DowncallHandles.gtk_flow_box_set_row_spacing.invokeExact(handle(), spacing);
+            DowncallHandles.gtk_flow_box_set_row_spacing.invokeExact(
+                    handle(),
+                    spacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -571,7 +627,9 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void setSelectionMode(@NotNull org.gtk.gtk.SelectionMode mode) {
         java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
         try {
-            DowncallHandles.gtk_flow_box_set_selection_mode.invokeExact(handle(), mode.getValue());
+            DowncallHandles.gtk_flow_box_set_selection_mode.invokeExact(
+                    handle(),
+                    mode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -592,15 +650,15 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param sortFunc the sort function
      */
     public void setSortFunc(@Nullable org.gtk.gtk.FlowBoxSortFunc sortFunc) {
-        java.util.Objects.requireNonNullElse(sortFunc, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_flow_box_set_sort_func.invokeExact(handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gtk_flow_box_set_sort_func.invokeExact(
+                    handle(),
+                    (Addressable) (sortFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbFlowBoxSortFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (sortFunc == null ? MemoryAddress.NULL : Interop.registerCallback(sortFunc)), 
+                        Interop.getScope())),
+                    (Addressable) (sortFunc == null ? MemoryAddress.NULL : Interop.registerCallback(sortFunc)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -625,7 +683,9 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void setVadjustment(@NotNull org.gtk.gtk.Adjustment adjustment) {
         java.util.Objects.requireNonNull(adjustment, "Parameter 'adjustment' must not be null");
         try {
-            DowncallHandles.gtk_flow_box_set_vadjustment.invokeExact(handle(), adjustment.handle());
+            DowncallHandles.gtk_flow_box_set_vadjustment.invokeExact(
+                    handle(),
+                    adjustment.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -637,7 +697,8 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void unselectAll() {
         try {
-            DowncallHandles.gtk_flow_box_unselect_all.invokeExact(handle());
+            DowncallHandles.gtk_flow_box_unselect_all.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -651,7 +712,9 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void unselectChild(@NotNull org.gtk.gtk.FlowBoxChild child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_flow_box_unselect_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_flow_box_unselect_child.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

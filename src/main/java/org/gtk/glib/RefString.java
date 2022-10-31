@@ -1,5 +1,10 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * A typedef for a reference-counted string. A pointer to a {@link RefString} can be
  * treated like a standard {@code char*} array by all code, but can additionally have

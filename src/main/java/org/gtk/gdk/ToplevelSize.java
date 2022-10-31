@@ -15,14 +15,26 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkToplevelSize";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static ToplevelSize allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        ToplevelSize newInstance = new ToplevelSize(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public ToplevelSize(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -44,7 +56,10 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment boundsWidthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment boundsHeightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gdk_toplevel_size_get_bounds.invokeExact(handle(), (Addressable) boundsWidthPOINTER.address(), (Addressable) boundsHeightPOINTER.address());
+            DowncallHandles.gdk_toplevel_size_get_bounds.invokeExact(
+                    handle(),
+                    (Addressable) boundsWidthPOINTER.address(),
+                    (Addressable) boundsHeightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,7 +82,10 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setMinSize(int minWidth, int minHeight) {
         try {
-            DowncallHandles.gdk_toplevel_size_set_min_size.invokeExact(handle(), minWidth, minHeight);
+            DowncallHandles.gdk_toplevel_size_set_min_size.invokeExact(
+                    handle(),
+                    minWidth,
+                    minHeight);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -86,7 +104,12 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setShadowWidth(int left, int right, int top, int bottom) {
         try {
-            DowncallHandles.gdk_toplevel_size_set_shadow_width.invokeExact(handle(), left, right, top, bottom);
+            DowncallHandles.gdk_toplevel_size_set_shadow_width.invokeExact(
+                    handle(),
+                    left,
+                    right,
+                    top,
+                    bottom);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,7 +127,10 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setSize(int width, int height) {
         try {
-            DowncallHandles.gdk_toplevel_size_set_size.invokeExact(handle(), width, height);
+            DowncallHandles.gdk_toplevel_size_set_size.invokeExact(
+                    handle(),
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

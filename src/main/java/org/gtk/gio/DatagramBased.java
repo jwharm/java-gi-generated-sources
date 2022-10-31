@@ -58,6 +58,21 @@ import org.jetbrains.annotations.*;
 public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to DatagramBased if its GType is a (or inherits from) "GDatagramBased".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DatagramBased" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GDatagramBased", a ClassCastException will be thrown.
+     */
+    public static DatagramBased castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDatagramBased"))) {
+            return new DatagramBasedImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDatagramBased");
+        }
+    }
+    
+    /**
      * Checks on the readiness of {@code datagram_based} to perform operations. The
      * operations specified in {@code condition} are checked for and masked against the
      * currently-satisfied conditions on {@code datagram_based}. The result is returned.
@@ -101,7 +116,9 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(condition, "Parameter 'condition' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_datagram_based_condition_check.invokeExact(handle(), condition.getValue());
+            RESULT = (int) DowncallHandles.g_datagram_based_condition_check.invokeExact(
+                    handle(),
+                    condition.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,11 +141,14 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
      */
     default boolean conditionWait(@NotNull org.gtk.glib.IOCondition condition, long timeout, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(condition, "Parameter 'condition' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_datagram_based_condition_wait.invokeExact(handle(), condition.getValue(), timeout, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_datagram_based_condition_wait.invokeExact(
+                    handle(),
+                    condition.getValue(),
+                    timeout,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,10 +179,12 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
      */
     default @NotNull org.gtk.glib.Source createSource(@NotNull org.gtk.glib.IOCondition condition, @Nullable org.gtk.gio.Cancellable cancellable) {
         java.util.Objects.requireNonNull(condition, "Parameter 'condition' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_datagram_based_create_source.invokeExact(handle(), condition.getValue(), cancellable.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_datagram_based_create_source.invokeExact(
+                    handle(),
+                    condition.getValue(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -235,11 +257,16 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
      */
     default int receiveMessages(org.gtk.gio.InputMessage[] messages, int numMessages, int flags, long timeout, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(messages, "Parameter 'messages' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_datagram_based_receive_messages.invokeExact(handle(), Interop.allocateNativeArray(messages, false), numMessages, flags, timeout, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_datagram_based_receive_messages.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(messages, false),
+                    numMessages,
+                    flags,
+                    timeout,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -305,11 +332,16 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
      */
     default int sendMessages(org.gtk.gio.OutputMessage[] messages, int numMessages, int flags, long timeout, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(messages, "Parameter 'messages' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_datagram_based_send_messages.invokeExact(handle(), Interop.allocateNativeArray(messages, false), numMessages, flags, timeout, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_datagram_based_send_messages.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(messages, false),
+                    numMessages,
+                    flags,
+                    timeout,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

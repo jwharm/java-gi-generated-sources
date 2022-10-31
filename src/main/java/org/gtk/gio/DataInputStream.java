@@ -15,33 +15,56 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GDataInputStream";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.BufferedInputStream.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.DataInputStreamPrivate.getMemoryLayout().withName("priv")
-    ).withName("GDataInputStream");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gio.BufferedInputStream parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gio.BufferedInputStream(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public DataInputStream(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DataInputStream */
+    /**
+     * Cast object to DataInputStream if its GType is a (or inherits from) "GDataInputStream".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DataInputStream" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GDataInputStream", a ClassCastException will be thrown.
+     */
     public static DataInputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new DataInputStream(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDataInputStream"))) {
+            return new DataInputStream(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDataInputStream");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gio.InputStream baseStream) {
         java.util.Objects.requireNonNull(baseStream, "Parameter 'baseStream' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_data_input_stream_new.invokeExact(baseStream.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_data_input_stream_new.invokeExact(
+                    baseStream.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -63,7 +86,8 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
     public @NotNull org.gtk.gio.DataStreamByteOrder getByteOrder() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_data_input_stream_get_byte_order.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_data_input_stream_get_byte_order.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,7 +101,8 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
     public @NotNull org.gtk.gio.DataStreamNewlineType getNewlineType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_data_input_stream_get_newline_type.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_data_input_stream_get_newline_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,11 +117,12 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public byte readByte(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.g_data_input_stream_read_byte.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (byte) DowncallHandles.g_data_input_stream_read_byte.invokeExact(
+                    handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,11 +143,12 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public short readInt16(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.g_data_input_stream_read_int16.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (short) DowncallHandles.g_data_input_stream_read_int16.invokeExact(
+                    handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,11 +173,12 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public int readInt32(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_data_input_stream_read_int32.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_data_input_stream_read_int32.invokeExact(
+                    handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,11 +203,12 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public long readInt64(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_data_input_stream_read_int64.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_data_input_stream_read_int64.invokeExact(
+                    handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -208,12 +237,14 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      */
     public @Nullable PointerByte readLine(Out<Long> length, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_line.invokeExact(handle(), (Addressable) lengthPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_line.invokeExact(
+                    handle(),
+                    (Addressable) lengthPOINTER.address(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -236,16 +267,17 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      * @param callback callback to call when the request is satisfied.
      */
     public void readLineAsync(int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_data_input_stream_read_line_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_data_input_stream_read_line_async.invokeExact(
+                    handle(),
+                    ioPriority,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -272,7 +304,10 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_line_finish.invokeExact(handle(), result.handle(), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_line_finish.invokeExact(
+                    handle(),
+                    result.handle(),
+                    (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -303,7 +338,10 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_line_finish_utf8.invokeExact(handle(), result.handle(), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_line_finish_utf8.invokeExact(
+                    handle(),
+                    result.handle(),
+                    (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -311,7 +349,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
             throw new GErrorException(GERROR);
         }
         length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -333,12 +371,14 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      */
     public @Nullable java.lang.String readLineUtf8(Out<Long> length, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_line_utf8.invokeExact(handle(), (Addressable) lengthPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_line_utf8.invokeExact(
+                    handle(),
+                    (Addressable) lengthPOINTER.address(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -346,7 +386,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
             throw new GErrorException(GERROR);
         }
         length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -360,11 +400,12 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public short readUint16(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.g_data_input_stream_read_uint16.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (short) DowncallHandles.g_data_input_stream_read_uint16.invokeExact(
+                    handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -389,11 +430,12 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public int readUint32(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_data_input_stream_read_uint32.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_data_input_stream_read_uint32.invokeExact(
+                    handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -418,11 +460,12 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public long readUint64(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_data_input_stream_read_uint64.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_data_input_stream_read_uint64.invokeExact(
+                    handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -459,12 +502,15 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
     public @NotNull java.lang.String readUntil(@NotNull java.lang.String stopChars, Out<Long> length, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(stopChars, "Parameter 'stopChars' must not be null");
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_until.invokeExact(handle(), Interop.allocateNativeString(stopChars), (Addressable) lengthPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_until.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(stopChars),
+                    (Addressable) lengthPOINTER.address(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -472,7 +518,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
             throw new GErrorException(GERROR);
         }
         length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -501,16 +547,18 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
     @Deprecated
     public void readUntilAsync(@NotNull java.lang.String stopChars, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(stopChars, "Parameter 'stopChars' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_data_input_stream_read_until_async.invokeExact(handle(), Interop.allocateNativeString(stopChars), ioPriority, cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_data_input_stream_read_until_async.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(stopChars),
+                    ioPriority,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -537,7 +585,10 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_until_finish.invokeExact(handle(), result.handle(), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_until_finish.invokeExact(
+                    handle(),
+                    result.handle(),
+                    (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -545,7 +596,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
             throw new GErrorException(GERROR);
         }
         length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -575,12 +626,16 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
     public @NotNull java.lang.String readUpto(@NotNull java.lang.String stopChars, long stopCharsLen, Out<Long> length, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(stopChars, "Parameter 'stopChars' must not be null");
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_upto.invokeExact(handle(), Interop.allocateNativeString(stopChars), stopCharsLen, (Addressable) lengthPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_upto.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(stopChars),
+                    stopCharsLen,
+                    (Addressable) lengthPOINTER.address(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -588,7 +643,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
             throw new GErrorException(GERROR);
         }
         length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -615,16 +670,19 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      */
     public void readUptoAsync(@NotNull java.lang.String stopChars, long stopCharsLen, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(stopChars, "Parameter 'stopChars' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_data_input_stream_read_upto_async.invokeExact(handle(), Interop.allocateNativeString(stopChars), stopCharsLen, ioPriority, cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_data_input_stream_read_upto_async.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(stopChars),
+                    stopCharsLen,
+                    ioPriority,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -654,7 +712,10 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_upto_finish.invokeExact(handle(), result.handle(), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_upto_finish.invokeExact(
+                    handle(),
+                    result.handle(),
+                    (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -662,7 +723,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
             throw new GErrorException(GERROR);
         }
         length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -673,7 +734,9 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
     public void setByteOrder(@NotNull org.gtk.gio.DataStreamByteOrder order) {
         java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
         try {
-            DowncallHandles.g_data_input_stream_set_byte_order.invokeExact(handle(), order.getValue());
+            DowncallHandles.g_data_input_stream_set_byte_order.invokeExact(
+                    handle(),
+                    order.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -690,7 +753,9 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
     public void setNewlineType(@NotNull org.gtk.gio.DataStreamNewlineType type) {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         try {
-            DowncallHandles.g_data_input_stream_set_newline_type.invokeExact(handle(), type.getValue());
+            DowncallHandles.g_data_input_stream_set_newline_type.invokeExact(
+                    handle(),
+                    type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

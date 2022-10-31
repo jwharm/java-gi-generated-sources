@@ -11,6 +11,8 @@ public class MemoryOutputStreamClass extends io.github.jwharm.javagi.ResourceBas
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GMemoryOutputStreamClass";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.OutputStreamClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("_g_reserved1"),
@@ -18,16 +20,35 @@ public class MemoryOutputStreamClass extends io.github.jwharm.javagi.ResourceBas
         Interop.valueLayout.ADDRESS.withName("_g_reserved3"),
         Interop.valueLayout.ADDRESS.withName("_g_reserved4"),
         Interop.valueLayout.ADDRESS.withName("_g_reserved5")
-    ).withName("GMemoryOutputStreamClass");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static MemoryOutputStreamClass allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        MemoryOutputStreamClass newInstance = new MemoryOutputStreamClass(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code parent_class}
+     * @return The value of the field {@code parent_class}
+     */
+    public org.gtk.gio.OutputStreamClass parent_class$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
+        return new org.gtk.gio.OutputStreamClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public MemoryOutputStreamClass(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

@@ -14,28 +14,43 @@ public class KeyvalTrigger extends org.gtk.gtk.ShortcutTrigger {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkKeyvalTrigger";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public KeyvalTrigger(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to KeyvalTrigger */
+    /**
+     * Cast object to KeyvalTrigger if its GType is a (or inherits from) "GtkKeyvalTrigger".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "KeyvalTrigger" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkKeyvalTrigger", a ClassCastException will be thrown.
+     */
     public static KeyvalTrigger castFrom(org.gtk.gobject.Object gobject) {
-        return new KeyvalTrigger(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkKeyvalTrigger"))) {
+            return new KeyvalTrigger(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkKeyvalTrigger");
+        }
     }
     
     private static Refcounted constructNew(int keyval, @NotNull org.gtk.gdk.ModifierType modifiers) {
         java.util.Objects.requireNonNull(modifiers, "Parameter 'modifiers' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_keyval_trigger_new.invokeExact(keyval, modifiers.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_keyval_trigger_new.invokeExact(
+                    keyval,
+                    modifiers.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -60,7 +75,8 @@ public class KeyvalTrigger extends org.gtk.gtk.ShortcutTrigger {
     public int getKeyval() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_keyval_trigger_get_keyval.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_keyval_trigger_get_keyval.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -75,7 +91,8 @@ public class KeyvalTrigger extends org.gtk.gtk.ShortcutTrigger {
     public @NotNull org.gtk.gdk.ModifierType getModifiers() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_keyval_trigger_get_modifiers.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_keyval_trigger_get_modifiers.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

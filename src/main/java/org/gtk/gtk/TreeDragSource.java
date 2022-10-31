@@ -11,6 +11,21 @@ import org.jetbrains.annotations.*;
 public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to TreeDragSource if its GType is a (or inherits from) "GtkTreeDragSource".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TreeDragSource" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkTreeDragSource", a ClassCastException will be thrown.
+     */
+    public static TreeDragSource castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeDragSource"))) {
+            return new TreeDragSourceImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTreeDragSource");
+        }
+    }
+    
+    /**
      * Asks the {@code GtkTreeDragSource} to delete the row at {@code path}, because
      * it was moved somewhere else via drag-and-drop. Returns {@code false}
      * if the deletion fails because {@code path} no longer exists, or for
@@ -23,7 +38,9 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_drag_source_drag_data_delete.invokeExact(handle(), path.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_drag_source_drag_data_delete.invokeExact(
+                    handle(),
+                    path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -42,7 +59,9 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_drag_source_drag_data_get.invokeExact(handle(), path.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_drag_source_drag_data_get.invokeExact(
+                    handle(),
+                    path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -60,7 +79,9 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_drag_source_row_draggable.invokeExact(handle(), path.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_drag_source_row_draggable.invokeExact(
+                    handle(),
+                    path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

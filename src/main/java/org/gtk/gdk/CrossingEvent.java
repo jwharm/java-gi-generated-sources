@@ -14,21 +14,34 @@ public class CrossingEvent extends org.gtk.gdk.Event {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkCrossingEvent";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public CrossingEvent(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CrossingEvent */
+    /**
+     * Cast object to CrossingEvent if its GType is a (or inherits from) "GdkCrossingEvent".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CrossingEvent" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkCrossingEvent", a ClassCastException will be thrown.
+     */
     public static CrossingEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new CrossingEvent(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkCrossingEvent"))) {
+            return new CrossingEvent(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkCrossingEvent");
+        }
     }
     
     /**
@@ -38,7 +51,8 @@ public class CrossingEvent extends org.gtk.gdk.Event {
     public @NotNull org.gtk.gdk.NotifyType getDetail() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_crossing_event_get_detail.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_crossing_event_get_detail.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -52,7 +66,8 @@ public class CrossingEvent extends org.gtk.gdk.Event {
     public boolean getFocus() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_crossing_event_get_focus.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_crossing_event_get_focus.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,7 +81,8 @@ public class CrossingEvent extends org.gtk.gdk.Event {
     public @NotNull org.gtk.gdk.CrossingMode getMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_crossing_event_get_mode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_crossing_event_get_mode.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -15,14 +15,26 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkRecentInfo";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static RecentInfo allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        RecentInfo newInstance = new RecentInfo(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public RecentInfo(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -39,11 +51,12 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @Nullable org.gtk.gio.AppInfo createAppInfo(@Nullable java.lang.String appName) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(appName, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_create_app_info.invokeExact(handle(), Interop.allocateNativeString(appName), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_create_app_info.invokeExact(
+                    handle(),
+                    (Addressable) (appName == null ? MemoryAddress.NULL : Interop.allocateNativeString(appName)), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -62,7 +75,8 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     public boolean exists() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_recent_info_exists.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_recent_info_exists.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -78,7 +92,8 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.DateTime getAdded() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_added.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_added.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,7 +109,8 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     public int getAge() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_recent_info_get_age.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_recent_info_get_age.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,23 +134,26 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      *   {@code app_exec} string is owned by the {@code GtkRecentInfo} and should not be
      *   modified or freed
      */
-    public boolean getApplicationInfo(@NotNull java.lang.String appName, @NotNull Out<java.lang.String> appExec, Out<Integer> count, @NotNull Out<org.gtk.glib.DateTime> stamp) {
+    public boolean getApplicationInfo(@NotNull java.lang.String appName, @NotNull Out<java.lang.String> appExec, Out<Integer> count, @NotNull PointerProxy<org.gtk.glib.DateTime> stamp) {
         java.util.Objects.requireNonNull(appName, "Parameter 'appName' must not be null");
         java.util.Objects.requireNonNull(appExec, "Parameter 'appExec' must not be null");
         java.util.Objects.requireNonNull(count, "Parameter 'count' must not be null");
         java.util.Objects.requireNonNull(stamp, "Parameter 'stamp' must not be null");
         MemorySegment appExecPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment countPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment stampPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_recent_info_get_application_info.invokeExact(handle(), Interop.allocateNativeString(appName), (Addressable) appExecPOINTER.address(), (Addressable) countPOINTER.address(), (Addressable) stampPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_recent_info_get_application_info.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(appName),
+                    (Addressable) appExecPOINTER.address(),
+                    (Addressable) countPOINTER.address(),
+                    stamp.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        appExec.set(appExecPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        appExec.set(Interop.getStringFrom(appExecPOINTER.get(ValueLayout.ADDRESS, 0)));
         count.set(countPOINTER.get(ValueLayout.JAVA_INT, 0));
-        stamp.set(new org.gtk.glib.DateTime(Refcounted.get(stampPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -149,7 +168,9 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_applications.invokeExact(handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_applications.invokeExact(
+                    handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -157,7 +178,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = OBJ.getUtf8String(0);
+            resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
     }
@@ -170,11 +191,12 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_description.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_description.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -188,11 +210,12 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getDisplayName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_display_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_display_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -202,7 +225,8 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.gio.Icon getGicon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_gicon.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_gicon.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,7 +247,9 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_groups.invokeExact(handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_groups.invokeExact(
+                    handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -231,7 +257,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = OBJ.getUtf8String(0);
+            resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
     }
@@ -244,11 +270,12 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getMimeType() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_mime_type.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_mime_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -260,7 +287,8 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.DateTime getModified() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_modified.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_modified.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -278,7 +306,8 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     public boolean getPrivateHint() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_recent_info_get_private_hint.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_recent_info_get_private_hint.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -297,11 +326,12 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getShortName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_short_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_short_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -312,11 +342,12 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getUri() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_uri.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_uri.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -331,11 +362,12 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.String getUriDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_uri_display.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_uri_display.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -347,7 +379,8 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.DateTime getVisited() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_visited.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_visited.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -364,7 +397,9 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(appName, "Parameter 'appName' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_recent_info_has_application.invokeExact(handle(), Interop.allocateNativeString(appName));
+            RESULT = (int) DowncallHandles.gtk_recent_info_has_application.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(appName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -381,7 +416,9 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_recent_info_has_group.invokeExact(handle(), Interop.allocateNativeString(groupName));
+            RESULT = (int) DowncallHandles.gtk_recent_info_has_group.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(groupName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -396,7 +433,8 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     public boolean isLocal() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_recent_info_is_local.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_recent_info_is_local.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -411,11 +449,12 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String lastApplication() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_last_application.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_last_application.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -428,7 +467,9 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(infoB, "Parameter 'infoB' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_recent_info_match.invokeExact(handle(), infoB.handle());
+            RESULT = (int) DowncallHandles.gtk_recent_info_match.invokeExact(
+                    handle(),
+                    infoB.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -443,7 +484,8 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gtk.RecentInfo ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -458,7 +500,8 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.gtk_recent_info_unref.invokeExact(handle());
+            DowncallHandles.gtk_recent_info_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

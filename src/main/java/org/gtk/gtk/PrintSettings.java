@@ -25,21 +25,34 @@ public class PrintSettings extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkPrintSettings";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public PrintSettings(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to PrintSettings */
+    /**
+     * Cast object to PrintSettings if its GType is a (or inherits from) "GtkPrintSettings".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "PrintSettings" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkPrintSettings", a ClassCastException will be thrown.
+     */
     public static PrintSettings castFrom(org.gtk.gobject.Object gobject) {
-        return new PrintSettings(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPrintSettings"))) {
+            return new PrintSettings(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkPrintSettings");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -64,7 +77,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_print_settings_new_from_file.invokeExact(Interop.allocateNativeString(fileName), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_print_settings_new_from_file.invokeExact(
+                    Interop.allocateNativeString(fileName), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,7 +108,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(variant, "Parameter 'variant' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_print_settings_new_from_gvariant.invokeExact(variant.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_print_settings_new_from_gvariant.invokeExact(
+                    variant.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,11 +130,12 @@ public class PrintSettings extends org.gtk.gobject.Object {
     
     private static Refcounted constructNewFromKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) throws GErrorException {
         java.util.Objects.requireNonNull(keyFile, "Parameter 'keyFile' must not be null");
-        java.util.Objects.requireNonNullElse(groupName, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_print_settings_new_from_key_file.invokeExact(keyFile.handle(), Interop.allocateNativeString(groupName), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_print_settings_new_from_key_file.invokeExact(
+                    keyFile.handle(),
+                    (Addressable) (groupName == null ? MemoryAddress.NULL : Interop.allocateNativeString(groupName)), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,7 +168,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.PrintSettings copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -166,13 +183,14 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public void foreach(@NotNull org.gtk.gtk.PrintSettingsFunc func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_foreach.invokeExact(handle(), 
+            DowncallHandles.gtk_print_settings_foreach.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbPrintSettingsFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,11 +205,13 @@ public class PrintSettings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_get.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_get.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -207,7 +227,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_settings_get_bool.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (int) DowncallHandles.gtk_print_settings_get_bool.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -221,7 +243,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public boolean getCollate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_settings_get_collate.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_settings_get_collate.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -235,11 +258,12 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getDefaultSource() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_get_default_source.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_get_default_source.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -249,11 +273,12 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getDither() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_get_dither.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_get_dither.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -265,7 +290,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_print_settings_get_double.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (double) DowncallHandles.gtk_print_settings_get_double.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -286,7 +313,10 @@ public class PrintSettings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_print_settings_get_double_with_default.invokeExact(handle(), Interop.allocateNativeString(key), def);
+            RESULT = (double) DowncallHandles.gtk_print_settings_get_double_with_default.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    def);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -300,7 +330,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.PrintDuplex getDuplex() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_settings_get_duplex.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_settings_get_duplex.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -314,11 +345,12 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getFinishings() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_get_finishings.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_get_finishings.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -330,7 +362,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_settings_get_int.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (int) DowncallHandles.gtk_print_settings_get_int.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -348,7 +382,10 @@ public class PrintSettings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_settings_get_int_with_default.invokeExact(handle(), Interop.allocateNativeString(key), def);
+            RESULT = (int) DowncallHandles.gtk_print_settings_get_int_with_default.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    def);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -369,7 +406,10 @@ public class PrintSettings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_print_settings_get_length.invokeExact(handle(), Interop.allocateNativeString(key), unit.getValue());
+            RESULT = (double) DowncallHandles.gtk_print_settings_get_length.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -385,11 +425,12 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getMediaType() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_get_media_type.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_get_media_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -399,7 +440,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public int getNCopies() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_settings_get_n_copies.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_settings_get_n_copies.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -413,7 +455,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public int getNumberUp() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_settings_get_number_up.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_settings_get_number_up.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -427,7 +470,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.NumberUpLayout getNumberUpLayout() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_settings_get_number_up_layout.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_settings_get_number_up_layout.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -442,7 +486,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.PageOrientation getOrientation() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_settings_get_orientation.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_settings_get_orientation.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -456,11 +501,12 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getOutputBin() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_get_output_bin.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_get_output_bin.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -475,7 +521,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
         MemorySegment numRangesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_get_page_ranges.invokeExact(handle(), (Addressable) numRangesPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_get_page_ranges.invokeExact(
+                    handle(),
+                    (Addressable) numRangesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -495,7 +543,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.PageSet getPageSet() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_settings_get_page_set.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_settings_get_page_set.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -512,7 +561,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_print_settings_get_paper_height.invokeExact(handle(), unit.getValue());
+            RESULT = (double) DowncallHandles.gtk_print_settings_get_paper_height.invokeExact(
+                    handle(),
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -527,7 +578,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gtk.PaperSize getPaperSize() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_get_paper_size.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_get_paper_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -544,7 +596,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_print_settings_get_paper_width.invokeExact(handle(), unit.getValue());
+            RESULT = (double) DowncallHandles.gtk_print_settings_get_paper_width.invokeExact(
+                    handle(),
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -558,7 +612,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.PrintPages getPrintPages() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_settings_get_print_pages.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_settings_get_print_pages.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -573,11 +628,12 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getPrinter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_get_printer.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_get_printer.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -587,7 +643,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public double getPrinterLpi() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_print_settings_get_printer_lpi.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_print_settings_get_printer_lpi.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -601,7 +658,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.PrintQuality getQuality() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_settings_get_quality.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_settings_get_quality.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -615,7 +673,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public int getResolution() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_settings_get_resolution.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_settings_get_resolution.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -629,7 +688,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public int getResolutionX() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_settings_get_resolution_x.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_settings_get_resolution_x.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -643,7 +703,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public int getResolutionY() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_settings_get_resolution_y.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_settings_get_resolution_y.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -657,7 +718,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public boolean getReverse() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_settings_get_reverse.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_settings_get_reverse.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -671,7 +733,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public double getScale() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_print_settings_get_scale.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_print_settings_get_scale.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -685,7 +748,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public boolean getUseColor() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_settings_get_use_color.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_settings_get_use_color.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -701,7 +765,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_settings_has_key.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (int) DowncallHandles.gtk_print_settings_has_key.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -724,7 +790,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_settings_load_file.invokeExact(handle(), Interop.allocateNativeString(fileName), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_print_settings_load_file.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(fileName), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -747,11 +815,13 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public boolean loadKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(keyFile, "Parameter 'keyFile' must not be null");
-        java.util.Objects.requireNonNullElse(groupName, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_settings_load_key_file.invokeExact(handle(), keyFile.handle(), Interop.allocateNativeString(groupName), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_print_settings_load_key_file.invokeExact(
+                    handle(),
+                    keyFile.handle(),
+                    (Addressable) (groupName == null ? MemoryAddress.NULL : Interop.allocateNativeString(groupName)), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -768,9 +838,11 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public void set(@NotNull java.lang.String key, @Nullable java.lang.String value) {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_print_settings_set.invokeExact(handle(), Interop.allocateNativeString(key), Interop.allocateNativeString(value));
+            DowncallHandles.gtk_print_settings_set.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    (Addressable) (value == null ? MemoryAddress.NULL : Interop.allocateNativeString(value)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -784,7 +856,10 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public void setBool(@NotNull java.lang.String key, boolean value) {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_set_bool.invokeExact(handle(), Interop.allocateNativeString(key), value ? 1 : 0);
+            DowncallHandles.gtk_print_settings_set_bool.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    value ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -796,7 +871,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public void setCollate(boolean collate) {
         try {
-            DowncallHandles.gtk_print_settings_set_collate.invokeExact(handle(), collate ? 1 : 0);
+            DowncallHandles.gtk_print_settings_set_collate.invokeExact(
+                    handle(),
+                    collate ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -809,7 +886,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public void setDefaultSource(@NotNull java.lang.String defaultSource) {
         java.util.Objects.requireNonNull(defaultSource, "Parameter 'defaultSource' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_set_default_source.invokeExact(handle(), Interop.allocateNativeString(defaultSource));
+            DowncallHandles.gtk_print_settings_set_default_source.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(defaultSource));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -822,7 +901,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public void setDither(@NotNull java.lang.String dither) {
         java.util.Objects.requireNonNull(dither, "Parameter 'dither' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_set_dither.invokeExact(handle(), Interop.allocateNativeString(dither));
+            DowncallHandles.gtk_print_settings_set_dither.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(dither));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -836,7 +917,10 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public void setDouble(@NotNull java.lang.String key, double value) {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_set_double.invokeExact(handle(), Interop.allocateNativeString(key), value);
+            DowncallHandles.gtk_print_settings_set_double.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -849,7 +933,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public void setDuplex(@NotNull org.gtk.gtk.PrintDuplex duplex) {
         java.util.Objects.requireNonNull(duplex, "Parameter 'duplex' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_set_duplex.invokeExact(handle(), duplex.getValue());
+            DowncallHandles.gtk_print_settings_set_duplex.invokeExact(
+                    handle(),
+                    duplex.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -862,7 +948,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public void setFinishings(@NotNull java.lang.String finishings) {
         java.util.Objects.requireNonNull(finishings, "Parameter 'finishings' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_set_finishings.invokeExact(handle(), Interop.allocateNativeString(finishings));
+            DowncallHandles.gtk_print_settings_set_finishings.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(finishings));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -876,7 +964,10 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public void setInt(@NotNull java.lang.String key, int value) {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_set_int.invokeExact(handle(), Interop.allocateNativeString(key), value);
+            DowncallHandles.gtk_print_settings_set_int.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -892,7 +983,11 @@ public class PrintSettings extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_set_length.invokeExact(handle(), Interop.allocateNativeString(key), value, unit.getValue());
+            DowncallHandles.gtk_print_settings_set_length.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    value,
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -907,7 +1002,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public void setMediaType(@NotNull java.lang.String mediaType) {
         java.util.Objects.requireNonNull(mediaType, "Parameter 'mediaType' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_set_media_type.invokeExact(handle(), Interop.allocateNativeString(mediaType));
+            DowncallHandles.gtk_print_settings_set_media_type.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(mediaType));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -919,7 +1016,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public void setNCopies(int numCopies) {
         try {
-            DowncallHandles.gtk_print_settings_set_n_copies.invokeExact(handle(), numCopies);
+            DowncallHandles.gtk_print_settings_set_n_copies.invokeExact(
+                    handle(),
+                    numCopies);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -931,7 +1030,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public void setNumberUp(int numberUp) {
         try {
-            DowncallHandles.gtk_print_settings_set_number_up.invokeExact(handle(), numberUp);
+            DowncallHandles.gtk_print_settings_set_number_up.invokeExact(
+                    handle(),
+                    numberUp);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -944,7 +1045,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public void setNumberUpLayout(@NotNull org.gtk.gtk.NumberUpLayout numberUpLayout) {
         java.util.Objects.requireNonNull(numberUpLayout, "Parameter 'numberUpLayout' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_set_number_up_layout.invokeExact(handle(), numberUpLayout.getValue());
+            DowncallHandles.gtk_print_settings_set_number_up_layout.invokeExact(
+                    handle(),
+                    numberUpLayout.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -957,7 +1060,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public void setOrientation(@NotNull org.gtk.gtk.PageOrientation orientation) {
         java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_set_orientation.invokeExact(handle(), orientation.getValue());
+            DowncallHandles.gtk_print_settings_set_orientation.invokeExact(
+                    handle(),
+                    orientation.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -970,7 +1075,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public void setOutputBin(@NotNull java.lang.String outputBin) {
         java.util.Objects.requireNonNull(outputBin, "Parameter 'outputBin' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_set_output_bin.invokeExact(handle(), Interop.allocateNativeString(outputBin));
+            DowncallHandles.gtk_print_settings_set_output_bin.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(outputBin));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -984,7 +1091,10 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public void setPageRanges(org.gtk.gtk.PageRange[] pageRanges, int numRanges) {
         java.util.Objects.requireNonNull(pageRanges, "Parameter 'pageRanges' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_set_page_ranges.invokeExact(handle(), Interop.allocateNativeArray(pageRanges, false), numRanges);
+            DowncallHandles.gtk_print_settings_set_page_ranges.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(pageRanges, false),
+                    numRanges);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -997,7 +1107,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public void setPageSet(@NotNull org.gtk.gtk.PageSet pageSet) {
         java.util.Objects.requireNonNull(pageSet, "Parameter 'pageSet' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_set_page_set.invokeExact(handle(), pageSet.getValue());
+            DowncallHandles.gtk_print_settings_set_page_set.invokeExact(
+                    handle(),
+                    pageSet.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1011,7 +1123,10 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public void setPaperHeight(double height, @NotNull org.gtk.gtk.Unit unit) {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_set_paper_height.invokeExact(handle(), height, unit.getValue());
+            DowncallHandles.gtk_print_settings_set_paper_height.invokeExact(
+                    handle(),
+                    height,
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1026,7 +1141,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public void setPaperSize(@NotNull org.gtk.gtk.PaperSize paperSize) {
         java.util.Objects.requireNonNull(paperSize, "Parameter 'paperSize' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_set_paper_size.invokeExact(handle(), paperSize.handle());
+            DowncallHandles.gtk_print_settings_set_paper_size.invokeExact(
+                    handle(),
+                    paperSize.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1040,7 +1157,10 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public void setPaperWidth(double width, @NotNull org.gtk.gtk.Unit unit) {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_set_paper_width.invokeExact(handle(), width, unit.getValue());
+            DowncallHandles.gtk_print_settings_set_paper_width.invokeExact(
+                    handle(),
+                    width,
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1053,7 +1173,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public void setPrintPages(@NotNull org.gtk.gtk.PrintPages pages) {
         java.util.Objects.requireNonNull(pages, "Parameter 'pages' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_set_print_pages.invokeExact(handle(), pages.getValue());
+            DowncallHandles.gtk_print_settings_set_print_pages.invokeExact(
+                    handle(),
+                    pages.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1067,7 +1189,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public void setPrinter(@NotNull java.lang.String printer) {
         java.util.Objects.requireNonNull(printer, "Parameter 'printer' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_set_printer.invokeExact(handle(), Interop.allocateNativeString(printer));
+            DowncallHandles.gtk_print_settings_set_printer.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(printer));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1079,7 +1203,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public void setPrinterLpi(double lpi) {
         try {
-            DowncallHandles.gtk_print_settings_set_printer_lpi.invokeExact(handle(), lpi);
+            DowncallHandles.gtk_print_settings_set_printer_lpi.invokeExact(
+                    handle(),
+                    lpi);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1092,7 +1218,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public void setQuality(@NotNull org.gtk.gtk.PrintQuality quality) {
         java.util.Objects.requireNonNull(quality, "Parameter 'quality' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_set_quality.invokeExact(handle(), quality.getValue());
+            DowncallHandles.gtk_print_settings_set_quality.invokeExact(
+                    handle(),
+                    quality.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1106,7 +1234,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public void setResolution(int resolution) {
         try {
-            DowncallHandles.gtk_print_settings_set_resolution.invokeExact(handle(), resolution);
+            DowncallHandles.gtk_print_settings_set_resolution.invokeExact(
+                    handle(),
+                    resolution);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1121,7 +1251,10 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public void setResolutionXy(int resolutionX, int resolutionY) {
         try {
-            DowncallHandles.gtk_print_settings_set_resolution_xy.invokeExact(handle(), resolutionX, resolutionY);
+            DowncallHandles.gtk_print_settings_set_resolution_xy.invokeExact(
+                    handle(),
+                    resolutionX,
+                    resolutionY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1133,7 +1266,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public void setReverse(boolean reverse) {
         try {
-            DowncallHandles.gtk_print_settings_set_reverse.invokeExact(handle(), reverse ? 1 : 0);
+            DowncallHandles.gtk_print_settings_set_reverse.invokeExact(
+                    handle(),
+                    reverse ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1145,7 +1280,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public void setScale(double scale) {
         try {
-            DowncallHandles.gtk_print_settings_set_scale.invokeExact(handle(), scale);
+            DowncallHandles.gtk_print_settings_set_scale.invokeExact(
+                    handle(),
+                    scale);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1157,7 +1294,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public void setUseColor(boolean useColor) {
         try {
-            DowncallHandles.gtk_print_settings_set_use_color.invokeExact(handle(), useColor ? 1 : 0);
+            DowncallHandles.gtk_print_settings_set_use_color.invokeExact(
+                    handle(),
+                    useColor ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1177,7 +1316,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_settings_to_file.invokeExact(handle(), Interop.allocateNativeString(fileName), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_print_settings_to_file.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(fileName), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1194,7 +1335,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public @NotNull org.gtk.glib.Variant toGvariant() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_to_gvariant.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_settings_to_gvariant.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1209,9 +1351,11 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public void toKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) {
         java.util.Objects.requireNonNull(keyFile, "Parameter 'keyFile' must not be null");
-        java.util.Objects.requireNonNullElse(groupName, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_print_settings_to_key_file.invokeExact(handle(), keyFile.handle(), Interop.allocateNativeString(groupName));
+            DowncallHandles.gtk_print_settings_to_key_file.invokeExact(
+                    handle(),
+                    keyFile.handle(),
+                    (Addressable) (groupName == null ? MemoryAddress.NULL : Interop.allocateNativeString(groupName)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1226,7 +1370,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public void unset(@NotNull java.lang.String key) {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         try {
-            DowncallHandles.gtk_print_settings_unset.invokeExact(handle(), Interop.allocateNativeString(key));
+            DowncallHandles.gtk_print_settings_unset.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

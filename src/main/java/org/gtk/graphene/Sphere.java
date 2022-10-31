@@ -15,19 +15,31 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
         Graphene.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "graphene_sphere_t";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.graphene.Vec3.getMemoryLayout().withName("center"),
         ValueLayout.JAVA_FLOAT.withName("radius")
-    ).withName("graphene_sphere_t");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Sphere allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Sphere newInstance = new Sphere(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Sphere(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -63,7 +75,9 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_sphere_contains_point.invokeExact(handle(), point.handle());
+            RESULT = (boolean) DowncallHandles.graphene_sphere_contains_point.invokeExact(
+                    handle(),
+                    point.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +94,9 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_sphere_distance.invokeExact(handle(), point.handle());
+            RESULT = (float) DowncallHandles.graphene_sphere_distance.invokeExact(
+                    handle(),
+                    point.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,7 +112,9 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_sphere_equal.invokeExact(handle(), b.handle());
+            RESULT = (boolean) DowncallHandles.graphene_sphere_equal.invokeExact(
+                    handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,7 +126,8 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_sphere_free.invokeExact(handle());
+            DowncallHandles.graphene_sphere_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,15 +138,15 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
      * given {@link Sphere}.
      * @param box return location for the bounding box
      */
-    public void getBoundingBox(@NotNull Out<org.gtk.graphene.Box> box) {
+    public void getBoundingBox(@NotNull org.gtk.graphene.Box box) {
         java.util.Objects.requireNonNull(box, "Parameter 'box' must not be null");
-        MemorySegment boxPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_sphere_get_bounding_box.invokeExact(handle(), (Addressable) boxPOINTER.address());
+            DowncallHandles.graphene_sphere_get_bounding_box.invokeExact(
+                    handle(),
+                    box.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        box.set(new org.gtk.graphene.Box(Refcounted.get(boxPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -135,15 +154,15 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
      * @param center return location for the coordinates of
      *   the center
      */
-    public void getCenter(@NotNull Out<org.gtk.graphene.Point3D> center) {
+    public void getCenter(@NotNull org.gtk.graphene.Point3D center) {
         java.util.Objects.requireNonNull(center, "Parameter 'center' must not be null");
-        MemorySegment centerPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_sphere_get_center.invokeExact(handle(), (Addressable) centerPOINTER.address());
+            DowncallHandles.graphene_sphere_get_center.invokeExact(
+                    handle(),
+                    center.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        center.set(new org.gtk.graphene.Point3D(Refcounted.get(centerPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -152,7 +171,8 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
     public float getRadius() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_sphere_get_radius.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_sphere_get_radius.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,10 +187,12 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
      * @return the initialized {@link Sphere}
      */
     public @NotNull org.gtk.graphene.Sphere init(@Nullable org.gtk.graphene.Point3D center, float radius) {
-        java.util.Objects.requireNonNullElse(center, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_sphere_init.invokeExact(handle(), center.handle(), radius);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_sphere_init.invokeExact(
+                    handle(),
+                    (Addressable) (center == null ? MemoryAddress.NULL : center.handle()),
+                    radius);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -190,10 +212,13 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
      */
     public @NotNull org.gtk.graphene.Sphere initFromPoints(int nPoints, org.gtk.graphene.Point3D[] points, @Nullable org.gtk.graphene.Point3D center) {
         java.util.Objects.requireNonNull(points, "Parameter 'points' must not be null");
-        java.util.Objects.requireNonNullElse(center, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_sphere_init_from_points.invokeExact(handle(), nPoints, Interop.allocateNativeArray(points, false), center.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_sphere_init_from_points.invokeExact(
+                    handle(),
+                    nPoints,
+                    Interop.allocateNativeArray(points, false),
+                    (Addressable) (center == null ? MemoryAddress.NULL : center.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -213,10 +238,13 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
      */
     public @NotNull org.gtk.graphene.Sphere initFromVectors(int nVectors, org.gtk.graphene.Vec3[] vectors, @Nullable org.gtk.graphene.Point3D center) {
         java.util.Objects.requireNonNull(vectors, "Parameter 'vectors' must not be null");
-        java.util.Objects.requireNonNullElse(center, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_sphere_init_from_vectors.invokeExact(handle(), nVectors, Interop.allocateNativeArray(vectors, false), center.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_sphere_init_from_vectors.invokeExact(
+                    handle(),
+                    nVectors,
+                    Interop.allocateNativeArray(vectors, false),
+                    (Addressable) (center == null ? MemoryAddress.NULL : center.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,7 +258,8 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
     public boolean isEmpty() {
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_sphere_is_empty.invokeExact(handle());
+            RESULT = (boolean) DowncallHandles.graphene_sphere_is_empty.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -243,16 +272,17 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
      * @param point the coordinates of the translation
      * @param res return location for the translated sphere
      */
-    public void translate(@NotNull org.gtk.graphene.Point3D point, @NotNull Out<org.gtk.graphene.Sphere> res) {
+    public void translate(@NotNull org.gtk.graphene.Point3D point, @NotNull org.gtk.graphene.Sphere res) {
         java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_sphere_translate.invokeExact(handle(), point.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_sphere_translate.invokeExact(
+                    handle(),
+                    point.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Sphere(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     private static class DowncallHandles {

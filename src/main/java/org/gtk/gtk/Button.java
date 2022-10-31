@@ -41,25 +41,38 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkButton";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkButton");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    @ApiStatus.Internal
     public Button(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Button */
+    /**
+     * Cast object to Button if its GType is a (or inherits from) "GtkButton".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Button" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkButton", a ClassCastException will be thrown.
+     */
     public static Button castFrom(org.gtk.gobject.Object gobject) {
-        return new Button(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkButton"))) {
+            return new Button(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkButton");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -82,10 +95,10 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     }
     
     private static Refcounted constructNewFromIconName(@Nullable java.lang.String iconName) {
-        java.util.Objects.requireNonNullElse(iconName, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_button_new_from_icon_name.invokeExact(Interop.allocateNativeString(iconName)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_button_new_from_icon_name.invokeExact(
+                    (Addressable) (iconName == null ? MemoryAddress.NULL : Interop.allocateNativeString(iconName))), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,7 +122,8 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_button_new_with_label.invokeExact(Interop.allocateNativeString(label)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_button_new_with_label.invokeExact(
+                    Interop.allocateNativeString(label)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,7 +143,8 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_button_new_with_mnemonic.invokeExact(Interop.allocateNativeString(label)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_button_new_with_mnemonic.invokeExact(
+                    Interop.allocateNativeString(label)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -158,7 +173,8 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_button_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_button_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -172,7 +188,8 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getHasFrame() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_button_get_has_frame.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_button_get_has_frame.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -190,11 +207,12 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_button_get_icon_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_button_get_icon_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -209,11 +227,12 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public @Nullable java.lang.String getLabel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_button_get_label.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_button_get_label.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -226,7 +245,8 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getUseUnderline() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_button_get_use_underline.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_button_get_use_underline.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -244,9 +264,10 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @param child the child widget
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_button_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_button_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -260,7 +281,9 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void setHasFrame(boolean hasFrame) {
         try {
-            DowncallHandles.gtk_button_set_has_frame.invokeExact(handle(), hasFrame ? 1 : 0);
+            DowncallHandles.gtk_button_set_has_frame.invokeExact(
+                    handle(),
+                    hasFrame ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -276,7 +299,9 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public void setIconName(@NotNull java.lang.String iconName) {
         java.util.Objects.requireNonNull(iconName, "Parameter 'iconName' must not be null");
         try {
-            DowncallHandles.gtk_button_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName));
+            DowncallHandles.gtk_button_set_icon_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(iconName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -291,7 +316,9 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public void setLabel(@NotNull java.lang.String label) {
         java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
         try {
-            DowncallHandles.gtk_button_set_label.invokeExact(handle(), Interop.allocateNativeString(label));
+            DowncallHandles.gtk_button_set_label.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(label));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -306,7 +333,9 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void setUseUnderline(boolean useUnderline) {
         try {
-            DowncallHandles.gtk_button_set_use_underline.invokeExact(handle(), useUnderline ? 1 : 0);
+            DowncallHandles.gtk_button_set_use_underline.invokeExact(
+                    handle(),
+                    useUnderline ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

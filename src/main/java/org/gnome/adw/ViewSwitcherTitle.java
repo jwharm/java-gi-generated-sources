@@ -33,17 +33,17 @@ import org.jetbrains.annotations.*;
  * switcher, as follows:
  * <pre>{@code xml
  * <object class="GtkWindow">
- *   <child type="titlebar">
+ *   <property name="titlebar">
  *     <object class="AdwHeaderBar">
  *       <property name="centering-policy">strict</property>
- *       <child type="title">
+ *       <property name="title-widget">
  *         <object class="AdwViewSwitcherTitle" id="title">
  *           <property name="stack">stack</property>
  *         </object>
  *       </child>
  *     </object>
- *   </child>
- *   <child>
+ *   </property>
+ *   <property>
  *     <object class="GtkBox">
  *       <property name="orientation">vertical</property>
  *       <child>
@@ -58,7 +58,7 @@ import org.jetbrains.annotations.*;
  *         </object>
  *       </child>
  *     </object>
- *   </child>
+ *   </property>
  * </object>
  * }</pre>
  * <p>
@@ -72,21 +72,34 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwViewSwitcherTitle";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ViewSwitcherTitle(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ViewSwitcherTitle */
+    /**
+     * Cast object to ViewSwitcherTitle if its GType is a (or inherits from) "AdwViewSwitcherTitle".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ViewSwitcherTitle" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwViewSwitcherTitle", a ClassCastException will be thrown.
+     */
     public static ViewSwitcherTitle castFrom(org.gtk.gobject.Object gobject) {
-        return new ViewSwitcherTitle(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwViewSwitcherTitle"))) {
+            return new ViewSwitcherTitle(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwViewSwitcherTitle");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -113,7 +126,8 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
     public @Nullable org.gnome.adw.ViewStack getStack() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_switcher_title_get_stack.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_switcher_title_get_stack.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,11 +141,12 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
     public @NotNull java.lang.String getSubtitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_switcher_title_get_subtitle.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_switcher_title_get_subtitle.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -141,21 +156,26 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
     public @NotNull java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_switcher_title_get_title.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_switcher_title_get_title.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
      * Gets whether the title of {@code self} is currently visible.
+     * <p>
+     * If the title is visible, it means the view switcher is hidden an it may be
+     * wanted to show an alternative switcher, e.g. a {@link ViewSwitcherBar}.
      * @return whether the title of {@code self} is currently visible
      */
     public boolean getTitleVisible() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_view_switcher_title_get_title_visible.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_view_switcher_title_get_title_visible.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,7 +189,8 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
     public boolean getViewSwitcherEnabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_view_switcher_title_get_view_switcher_enabled.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_view_switcher_title_get_view_switcher_enabled.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,9 +202,10 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
      * @param stack a stack
      */
     public void setStack(@Nullable org.gnome.adw.ViewStack stack) {
-        java.util.Objects.requireNonNullElse(stack, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_view_switcher_title_set_stack.invokeExact(handle(), stack.handle());
+            DowncallHandles.adw_view_switcher_title_set_stack.invokeExact(
+                    handle(),
+                    (Addressable) (stack == null ? MemoryAddress.NULL : stack.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -191,12 +213,16 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
     
     /**
      * Sets the subtitle of {@code self}.
+     * <p>
+     * The subtitle should give the user additional details.
      * @param subtitle a subtitle
      */
     public void setSubtitle(@NotNull java.lang.String subtitle) {
         java.util.Objects.requireNonNull(subtitle, "Parameter 'subtitle' must not be null");
         try {
-            DowncallHandles.adw_view_switcher_title_set_subtitle.invokeExact(handle(), Interop.allocateNativeString(subtitle));
+            DowncallHandles.adw_view_switcher_title_set_subtitle.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(subtitle));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,12 +230,17 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
     
     /**
      * Sets the title of {@code self}.
+     * <p>
+     * The title typically identifies the current view or content item, and
+     * generally does not use the application name.
      * @param title a title
      */
     public void setTitle(@NotNull java.lang.String title) {
         java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
         try {
-            DowncallHandles.adw_view_switcher_title_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
+            DowncallHandles.adw_view_switcher_title_set_title.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -217,11 +248,20 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
     
     /**
      * Sets whether {@code self}'s view switcher is enabled.
+     * <p>
+     * If it is disabled, the title will be displayed instead. This allows to
+     * programmatically hide the view switcher even if it fits in the available
+     * space.
+     * <p>
+     * This can be used e.g. to ensure the view switcher is hidden below a certain
+     * window width, or any other constraint you find suitable.
      * @param enabled whether the view switcher is enabled
      */
     public void setViewSwitcherEnabled(boolean enabled) {
         try {
-            DowncallHandles.adw_view_switcher_title_set_view_switcher_enabled.invokeExact(handle(), enabled ? 1 : 0);
+            DowncallHandles.adw_view_switcher_title_set_view_switcher_enabled.invokeExact(
+                    handle(),
+                    enabled ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

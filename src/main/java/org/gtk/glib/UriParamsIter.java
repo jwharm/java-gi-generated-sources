@@ -23,21 +23,35 @@ public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GUriParamsIter";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_INT.withName("dummy0"),
+        MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("dummy1"),
         Interop.valueLayout.ADDRESS.withName("dummy2"),
+        MemoryLayout.paddingLayout(1856),
         MemoryLayout.sequenceLayout(256, ValueLayout.JAVA_BYTE).withName("dummy3")
-    ).withName("GUriParamsIter");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static UriParamsIter allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        UriParamsIter newInstance = new UriParamsIter(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public UriParamsIter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -90,7 +104,12 @@ public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(separators, "Parameter 'separators' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            DowncallHandles.g_uri_params_iter_init.invokeExact(handle(), Interop.allocateNativeString(params), length, Interop.allocateNativeString(separators), flags.getValue());
+            DowncallHandles.g_uri_params_iter_init.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(params),
+                    length,
+                    Interop.allocateNativeString(separators),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,22 +134,23 @@ public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean next(@Nullable Out<java.lang.String> attribute, @Nullable Out<java.lang.String> value) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(attribute, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment attributePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_uri_params_iter_next.invokeExact(handle(), (Addressable) attributePOINTER.address(), (Addressable) valuePOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_uri_params_iter_next.invokeExact(
+                    handle(),
+                    (Addressable) (attribute == null ? MemoryAddress.NULL : (Addressable) attributePOINTER.address()),
+                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        attribute.set(attributePOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
-        value.set(valuePOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        if (attribute != null) attribute.set(Interop.getStringFrom(attributePOINTER.get(ValueLayout.ADDRESS, 0)));
+        if (value != null) value.set(Interop.getStringFrom(valuePOINTER.get(ValueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     

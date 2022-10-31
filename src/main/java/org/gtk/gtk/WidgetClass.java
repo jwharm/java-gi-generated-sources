@@ -11,6 +11,8 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkWidgetClass";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.InitiallyUnownedClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("show"),
@@ -38,18 +40,38 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
         Interop.valueLayout.ADDRESS.withName("system_setting_changed"),
         Interop.valueLayout.ADDRESS.withName("snapshot"),
         Interop.valueLayout.ADDRESS.withName("contains"),
-        org.gtk.gtk.WidgetClassPrivate.getMemoryLayout().withName("priv"),
+        Interop.valueLayout.ADDRESS.withName("priv"),
+        MemoryLayout.paddingLayout(320),
         MemoryLayout.sequenceLayout(8, ValueLayout.ADDRESS).withName("padding")
-    ).withName("GtkWidgetClass");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static WidgetClass allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        WidgetClass newInstance = new WidgetClass(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code parent_class}
+     * @return The value of the field {@code parent_class}
+     */
+    public org.gtk.gobject.InitiallyUnownedClass parent_class$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
+        return new org.gtk.gobject.InitiallyUnownedClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public WidgetClass(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -132,7 +154,9 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     public void addShortcut(@NotNull org.gtk.gtk.Shortcut shortcut) {
         java.util.Objects.requireNonNull(shortcut, "Parameter 'shortcut' must not be null");
         try {
-            DowncallHandles.gtk_widget_class_add_shortcut.invokeExact(handle(), shortcut.handle());
+            DowncallHandles.gtk_widget_class_add_shortcut.invokeExact(
+                    handle(),
+                    shortcut.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -193,7 +217,11 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     public void bindTemplateChildFull(@NotNull java.lang.String name, boolean internalChild, long structOffset) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            DowncallHandles.gtk_widget_class_bind_template_child_full.invokeExact(handle(), Interop.allocateNativeString(name), internalChild ? 1 : 0, structOffset);
+            DowncallHandles.gtk_widget_class_bind_template_child_full.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name),
+                    internalChild ? 1 : 0,
+                    structOffset);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -211,7 +239,8 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gtk.AccessibleRole getAccessibleRole() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_widget_class_get_accessible_role.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_widget_class_get_accessible_role.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -229,7 +258,8 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     public int getActivateSignal() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_widget_class_get_activate_signal.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_widget_class_get_activate_signal.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -245,11 +275,12 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getCssName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_widget_class_get_css_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_widget_class_get_css_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -262,7 +293,8 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Type getLayoutManagerType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gtk_widget_class_get_layout_manager_type.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gtk_widget_class_get_layout_manager_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -307,7 +339,10 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         java.util.Objects.requireNonNull(propertyName, "Parameter 'propertyName' must not be null");
         try {
-            DowncallHandles.gtk_widget_class_install_property_action.invokeExact(handle(), Interop.allocateNativeString(actionName), Interop.allocateNativeString(propertyName));
+            DowncallHandles.gtk_widget_class_install_property_action.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName),
+                    Interop.allocateNativeString(propertyName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -331,25 +366,27 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * @return {@code true} if the action was found, {@code false} if {@code index_}
      *   is out of range
      */
-    public boolean queryAction(int index, @NotNull Out<org.gtk.glib.Type> owner, @NotNull Out<java.lang.String> actionName, @Nullable Out<org.gtk.glib.VariantType> parameterType, @Nullable Out<java.lang.String> propertyName) {
+    public boolean queryAction(int index, @NotNull Out<org.gtk.glib.Type> owner, @NotNull Out<java.lang.String> actionName, @Nullable PointerProxy<org.gtk.glib.VariantType> parameterType, @Nullable Out<java.lang.String> propertyName) {
         java.util.Objects.requireNonNull(owner, "Parameter 'owner' must not be null");
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
-        java.util.Objects.requireNonNullElse(parameterType, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(propertyName, MemoryAddress.NULL);
         MemorySegment ownerPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemorySegment actionNamePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment parameterTypePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment propertyNamePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_widget_class_query_action.invokeExact(handle(), index, (Addressable) ownerPOINTER.address(), (Addressable) actionNamePOINTER.address(), (Addressable) parameterTypePOINTER.address(), (Addressable) propertyNamePOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_widget_class_query_action.invokeExact(
+                    handle(),
+                    index,
+                    (Addressable) ownerPOINTER.address(),
+                    (Addressable) actionNamePOINTER.address(),
+                    (Addressable) (parameterType == null ? MemoryAddress.NULL : parameterType.handle()),
+                    (Addressable) (propertyName == null ? MemoryAddress.NULL : (Addressable) propertyNamePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         owner.set(new org.gtk.glib.Type(ownerPOINTER.get(ValueLayout.JAVA_LONG, 0)));
-        actionName.set(actionNamePOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
-        parameterType.set(new org.gtk.glib.VariantType(Refcounted.get(parameterTypePOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        propertyName.set(propertyNamePOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        actionName.set(Interop.getStringFrom(actionNamePOINTER.get(ValueLayout.ADDRESS, 0)));
+        if (propertyName != null) propertyName.set(Interop.getStringFrom(propertyNamePOINTER.get(ValueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -363,7 +400,9 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     public void setAccessibleRole(@NotNull org.gtk.gtk.AccessibleRole accessibleRole) {
         java.util.Objects.requireNonNull(accessibleRole, "Parameter 'accessibleRole' must not be null");
         try {
-            DowncallHandles.gtk_widget_class_set_accessible_role.invokeExact(handle(), accessibleRole.getValue());
+            DowncallHandles.gtk_widget_class_set_accessible_role.invokeExact(
+                    handle(),
+                    accessibleRole.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -381,7 +420,9 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setActivateSignal(int signalId) {
         try {
-            DowncallHandles.gtk_widget_class_set_activate_signal.invokeExact(handle(), signalId);
+            DowncallHandles.gtk_widget_class_set_activate_signal.invokeExact(
+                    handle(),
+                    signalId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -400,7 +441,9 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     public void setActivateSignalFromName(@NotNull java.lang.String signalName) {
         java.util.Objects.requireNonNull(signalName, "Parameter 'signalName' must not be null");
         try {
-            DowncallHandles.gtk_widget_class_set_activate_signal_from_name.invokeExact(handle(), Interop.allocateNativeString(signalName));
+            DowncallHandles.gtk_widget_class_set_activate_signal_from_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(signalName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -417,7 +460,9 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     public void setCssName(@NotNull java.lang.String name) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            DowncallHandles.gtk_widget_class_set_css_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.gtk_widget_class_set_css_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -437,7 +482,9 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     public void setLayoutManagerType(@NotNull org.gtk.glib.Type type) {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         try {
-            DowncallHandles.gtk_widget_class_set_layout_manager_type.invokeExact(handle(), type.getValue());
+            DowncallHandles.gtk_widget_class_set_layout_manager_type.invokeExact(
+                    handle(),
+                    type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -457,7 +504,9 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     public void setTemplate(@NotNull org.gtk.glib.Bytes templateBytes) {
         java.util.Objects.requireNonNull(templateBytes, "Parameter 'templateBytes' must not be null");
         try {
-            DowncallHandles.gtk_widget_class_set_template.invokeExact(handle(), templateBytes.handle());
+            DowncallHandles.gtk_widget_class_set_template.invokeExact(
+                    handle(),
+                    templateBytes.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -475,7 +524,9 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     public void setTemplateFromResource(@NotNull java.lang.String resourceName) {
         java.util.Objects.requireNonNull(resourceName, "Parameter 'resourceName' must not be null");
         try {
-            DowncallHandles.gtk_widget_class_set_template_from_resource.invokeExact(handle(), Interop.allocateNativeString(resourceName));
+            DowncallHandles.gtk_widget_class_set_template_from_resource.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(resourceName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -494,7 +545,9 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     public void setTemplateScope(@NotNull org.gtk.gtk.BuilderScope scope) {
         java.util.Objects.requireNonNull(scope, "Parameter 'scope' must not be null");
         try {
-            DowncallHandles.gtk_widget_class_set_template_scope.invokeExact(handle(), scope.handle());
+            DowncallHandles.gtk_widget_class_set_template_scope.invokeExact(
+                    handle(),
+                    scope.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

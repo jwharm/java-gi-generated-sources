@@ -10,13 +10,7 @@ import org.jetbrains.annotations.*;
  */
 public class TypeFlags extends io.github.jwharm.javagi.Bitfield {
     
-    /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
-     */
-    public static MemoryLayout getMemoryLayout() {
-        return Interop.valueLayout.ADDRESS;
-    }
+    private static final java.lang.String C_TYPE_NAME = "GTypeFlags";
     
     /**
      * Indicates an abstract type. No instances can be

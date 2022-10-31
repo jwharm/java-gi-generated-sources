@@ -22,21 +22,34 @@ public class VulkanContext extends org.gtk.gdk.DrawContext implements org.gtk.gi
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkVulkanContext";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public VulkanContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to VulkanContext */
+    /**
+     * Cast object to VulkanContext if its GType is a (or inherits from) "GdkVulkanContext".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "VulkanContext" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkVulkanContext", a ClassCastException will be thrown.
+     */
     public static VulkanContext castFrom(org.gtk.gobject.Object gobject) {
-        return new VulkanContext(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkVulkanContext"))) {
+            return new VulkanContext(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkVulkanContext");
+        }
     }
     
     @FunctionalInterface

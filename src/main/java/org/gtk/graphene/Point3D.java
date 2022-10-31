@@ -15,20 +15,95 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
         Graphene.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "graphene_point3d_t";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_FLOAT.withName("x"),
         ValueLayout.JAVA_FLOAT.withName("y"),
         ValueLayout.JAVA_FLOAT.withName("z")
-    ).withName("graphene_point3d_t");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Point3D allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Point3D newInstance = new Point3D(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code x}
+     * @return The value of the field {@code x}
+     */
+    public float x$get() {
+        var RESULT = (float) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("x"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code x}
+     * @param x The new value of the field {@code x}
+     */
+    public void x$set(float x) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("x"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
+    }
+    
+    /**
+     * Get the value of the field {@code y}
+     * @return The value of the field {@code y}
+     */
+    public float y$get() {
+        var RESULT = (float) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("y"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code y}
+     * @param y The new value of the field {@code y}
+     */
+    public void y$set(float y) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("y"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
+    }
+    
+    /**
+     * Get the value of the field {@code z}
+     * @return The value of the field {@code z}
+     */
+    public float z$get() {
+        var RESULT = (float) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("z"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code z}
+     * @param z The new value of the field {@code z}
+     */
+    public void z$set(float z) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("z"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), z);
+    }
+    
+    @ApiStatus.Internal
     public Point3D(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -59,16 +134,17 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the cross
      *   product
      */
-    public void cross(@NotNull org.gtk.graphene.Point3D b, @NotNull Out<org.gtk.graphene.Point3D> res) {
+    public void cross(@NotNull org.gtk.graphene.Point3D b, @NotNull org.gtk.graphene.Point3D res) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_point3d_cross.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_point3d_cross.invokeExact(
+                    handle(),
+                    b.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Point3D(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -78,17 +154,18 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
      *   components on the X, Y, and Z axis
      * @return the distance between two points
      */
-    public float distance(@NotNull org.gtk.graphene.Point3D b, @NotNull Out<org.gtk.graphene.Vec3> delta) {
+    public float distance(@NotNull org.gtk.graphene.Point3D b, @NotNull org.gtk.graphene.Vec3 delta) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(delta, "Parameter 'delta' must not be null");
-        MemorySegment deltaPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_point3d_distance.invokeExact(handle(), b.handle(), (Addressable) deltaPOINTER.address());
+            RESULT = (float) DowncallHandles.graphene_point3d_distance.invokeExact(
+                    handle(),
+                    b.handle(),
+                    delta.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        delta.set(new org.gtk.graphene.Vec3(Refcounted.get(deltaPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT;
     }
     
@@ -101,7 +178,9 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_point3d_dot.invokeExact(handle(), b.handle());
+            RESULT = (float) DowncallHandles.graphene_point3d_dot.invokeExact(
+                    handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,7 +196,9 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_point3d_equal.invokeExact(handle(), b.handle());
+            RESULT = (boolean) DowncallHandles.graphene_point3d_equal.invokeExact(
+                    handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,7 +210,8 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_point3d_free.invokeExact(handle());
+            DowncallHandles.graphene_point3d_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,7 +227,11 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Point3D init(float x, float y, float z) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_point3d_init.invokeExact(handle(), x, y, z);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_point3d_init.invokeExact(
+                    handle(),
+                    x,
+                    y,
+                    z);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,7 +248,9 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_point3d_init_from_point.invokeExact(handle(), src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_point3d_init_from_point.invokeExact(
+                    handle(),
+                    src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -179,7 +267,9 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_point3d_init_from_vec3.invokeExact(handle(), v.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_point3d_init_from_vec3.invokeExact(
+                    handle(),
+                    v.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -194,16 +284,18 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
      * @param res the return location for the
      *   interpolated {@link Point3D}
      */
-    public void interpolate(@NotNull org.gtk.graphene.Point3D b, double factor, @NotNull Out<org.gtk.graphene.Point3D> res) {
+    public void interpolate(@NotNull org.gtk.graphene.Point3D b, double factor, @NotNull org.gtk.graphene.Point3D res) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_point3d_interpolate.invokeExact(handle(), b.handle(), factor, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_point3d_interpolate.invokeExact(
+                    handle(),
+                    b.handle(),
+                    factor,
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Point3D(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -214,7 +306,8 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
     public float length() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_point3d_length.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_point3d_length.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -232,7 +325,10 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_point3d_near.invokeExact(handle(), b.handle(), epsilon);
+            RESULT = (boolean) DowncallHandles.graphene_point3d_near.invokeExact(
+                    handle(),
+                    b.handle(),
+                    epsilon);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -245,15 +341,15 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the normalized
      *   {@link Point3D}
      */
-    public void normalize(@NotNull Out<org.gtk.graphene.Point3D> res) {
+    public void normalize(@NotNull org.gtk.graphene.Point3D res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_point3d_normalize.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_point3d_normalize.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Point3D(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -270,16 +366,19 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
      * @param res the return location for the
      *   normalized {@link Point3D}
      */
-    public void normalizeViewport(@NotNull org.gtk.graphene.Rect viewport, float zNear, float zFar, @NotNull Out<org.gtk.graphene.Point3D> res) {
+    public void normalizeViewport(@NotNull org.gtk.graphene.Rect viewport, float zNear, float zFar, @NotNull org.gtk.graphene.Point3D res) {
         java.util.Objects.requireNonNull(viewport, "Parameter 'viewport' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_point3d_normalize_viewport.invokeExact(handle(), viewport.handle(), zNear, zFar, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_point3d_normalize_viewport.invokeExact(
+                    handle(),
+                    viewport.handle(),
+                    zNear,
+                    zFar,
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Point3D(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -288,15 +387,16 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
      * @param factor the scaling factor
      * @param res return location for the scaled point
      */
-    public void scale(float factor, @NotNull Out<org.gtk.graphene.Point3D> res) {
+    public void scale(float factor, @NotNull org.gtk.graphene.Point3D res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_point3d_scale.invokeExact(handle(), factor, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_point3d_scale.invokeExact(
+                    handle(),
+                    factor,
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Point3D(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -304,15 +404,15 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
      * {@link Vec3}.
      * @param v return location for a {@link Vec3}
      */
-    public void toVec3(@NotNull Out<org.gtk.graphene.Vec3> v) {
+    public void toVec3(@NotNull org.gtk.graphene.Vec3 v) {
         java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
-        MemorySegment vPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_point3d_to_vec3.invokeExact(handle(), (Addressable) vPOINTER.address());
+            DowncallHandles.graphene_point3d_to_vec3.invokeExact(
+                    handle(),
+                    v.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        v.set(new org.gtk.graphene.Vec3(Refcounted.get(vPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**

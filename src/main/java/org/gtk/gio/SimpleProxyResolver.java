@@ -22,26 +22,48 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSimpleProxyResolver";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.SimpleProxyResolverPrivate.getMemoryLayout().withName("priv")
-    ).withName("GSimpleProxyResolver");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public SimpleProxyResolver(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to SimpleProxyResolver */
+    /**
+     * Cast object to SimpleProxyResolver if its GType is a (or inherits from) "GSimpleProxyResolver".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "SimpleProxyResolver" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GSimpleProxyResolver", a ClassCastException will be thrown.
+     */
     public static SimpleProxyResolver castFrom(org.gtk.gobject.Object gobject) {
-        return new SimpleProxyResolver(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSimpleProxyResolver"))) {
+            return new SimpleProxyResolver(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSimpleProxyResolver");
+        }
     }
     
     /**
@@ -57,7 +79,9 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
     public void setDefaultProxy(@NotNull java.lang.String defaultProxy) {
         java.util.Objects.requireNonNull(defaultProxy, "Parameter 'defaultProxy' must not be null");
         try {
-            DowncallHandles.g_simple_proxy_resolver_set_default_proxy.invokeExact(handle(), Interop.allocateNativeString(defaultProxy));
+            DowncallHandles.g_simple_proxy_resolver_set_default_proxy.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(defaultProxy));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,7 +98,9 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
     public void setIgnoreHosts(java.lang.String[] ignoreHosts) {
         java.util.Objects.requireNonNull(ignoreHosts, "Parameter 'ignoreHosts' must not be null");
         try {
-            DowncallHandles.g_simple_proxy_resolver_set_ignore_hosts.invokeExact(handle(), Interop.allocateNativeArray(ignoreHosts, false));
+            DowncallHandles.g_simple_proxy_resolver_set_ignore_hosts.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(ignoreHosts, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,7 +122,10 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
         java.util.Objects.requireNonNull(uriScheme, "Parameter 'uriScheme' must not be null");
         java.util.Objects.requireNonNull(proxy, "Parameter 'proxy' must not be null");
         try {
-            DowncallHandles.g_simple_proxy_resolver_set_uri_proxy.invokeExact(handle(), Interop.allocateNativeString(uriScheme), Interop.allocateNativeString(proxy));
+            DowncallHandles.g_simple_proxy_resolver_set_uri_proxy.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(uriScheme),
+                    Interop.allocateNativeString(proxy));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,11 +143,11 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
      * @return a new {@link SimpleProxyResolver}
      */
     public static @NotNull org.gtk.gio.ProxyResolver new_(@Nullable java.lang.String defaultProxy, java.lang.String[] ignoreHosts) {
-        java.util.Objects.requireNonNullElse(defaultProxy, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(ignoreHosts, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_simple_proxy_resolver_new.invokeExact(Interop.allocateNativeString(defaultProxy), Interop.allocateNativeArray(ignoreHosts, false));
+            RESULT = (MemoryAddress) DowncallHandles.g_simple_proxy_resolver_new.invokeExact(
+                    (Addressable) (defaultProxy == null ? MemoryAddress.NULL : Interop.allocateNativeString(defaultProxy)),
+                    (Addressable) (ignoreHosts == null ? MemoryAddress.NULL : Interop.allocateNativeArray(ignoreHosts, false)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

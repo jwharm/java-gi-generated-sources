@@ -86,21 +86,34 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkDragSource";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public DragSource(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DragSource */
+    /**
+     * Cast object to DragSource if its GType is a (or inherits from) "GtkDragSource".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DragSource" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkDragSource", a ClassCastException will be thrown.
+     */
     public static DragSource castFrom(org.gtk.gobject.Object gobject) {
-        return new DragSource(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkDragSource"))) {
+            return new DragSource(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkDragSource");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -125,7 +138,8 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
      */
     public void dragCancel() {
         try {
-            DowncallHandles.gtk_drag_source_drag_cancel.invokeExact(handle());
+            DowncallHandles.gtk_drag_source_drag_cancel.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,7 +152,8 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
     public @NotNull org.gtk.gdk.DragAction getActions() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_drag_source_get_actions.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_drag_source_get_actions.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,7 +167,8 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
     public @Nullable org.gtk.gdk.ContentProvider getContent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_drag_source_get_content.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drag_source_get_content.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,7 +183,8 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
     public @Nullable org.gtk.gdk.Drag getDrag() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_drag_source_get_drag.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drag_source_get_drag.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -189,7 +206,9 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
     public void setActions(@NotNull org.gtk.gdk.DragAction actions) {
         java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
         try {
-            DowncallHandles.gtk_drag_source_set_actions.invokeExact(handle(), actions.getValue());
+            DowncallHandles.gtk_drag_source_set_actions.invokeExact(
+                    handle(),
+                    actions.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -209,9 +228,10 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
      * @param content a {@code GdkContentProvider}
      */
     public void setContent(@Nullable org.gtk.gdk.ContentProvider content) {
-        java.util.Objects.requireNonNullElse(content, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_drag_source_set_content.invokeExact(handle(), content.handle());
+            DowncallHandles.gtk_drag_source_set_content.invokeExact(
+                    handle(),
+                    (Addressable) (content == null ? MemoryAddress.NULL : content.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -233,9 +253,12 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
      * @param hotY the hotspot Y coordinate on the icon
      */
     public void setIcon(@Nullable org.gtk.gdk.Paintable paintable, int hotX, int hotY) {
-        java.util.Objects.requireNonNullElse(paintable, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_drag_source_set_icon.invokeExact(handle(), paintable.handle(), hotX, hotY);
+            DowncallHandles.gtk_drag_source_set_icon.invokeExact(
+                    handle(),
+                    (Addressable) (paintable == null ? MemoryAddress.NULL : paintable.handle()),
+                    hotX,
+                    hotY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

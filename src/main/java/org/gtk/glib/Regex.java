@@ -79,14 +79,26 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GRegex";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Regex allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Regex newInstance = new Regex(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Regex(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -98,7 +110,10 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_regex_new.invokeExact(Interop.allocateNativeString(pattern), compileOptions.getValue(), matchOptions.getValue(), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_regex_new.invokeExact(
+                    Interop.allocateNativeString(pattern),
+                    compileOptions.getValue(),
+                    matchOptions.getValue(), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,7 +142,8 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     public int getCaptureCount() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_regex_get_capture_count.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_regex_get_capture_count.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,7 +161,8 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.RegexCompileFlags getCompileFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_regex_get_compile_flags.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_regex_get_compile_flags.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,7 +176,8 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     public boolean getHasCrOrLf() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_regex_get_has_cr_or_lf.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_regex_get_has_cr_or_lf.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -173,7 +191,8 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.RegexMatchFlags getMatchFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_regex_get_match_flags.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_regex_get_match_flags.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -189,7 +208,8 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     public int getMaxBackref() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_regex_get_max_backref.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_regex_get_max_backref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,7 +225,8 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     public int getMaxLookbehind() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_regex_get_max_lookbehind.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_regex_get_max_lookbehind.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -220,11 +241,12 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getPattern() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_regex_get_pattern.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_regex_get_pattern.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -237,7 +259,9 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_regex_get_string_number.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (int) DowncallHandles.g_regex_get_string_number.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -290,18 +314,20 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      *     the {@link MatchInfo}, or {@code null} if you do not need it
      * @return {@code true} is the string matched, {@code false} otherwise
      */
-    public boolean match(@NotNull java.lang.String string, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, @NotNull Out<org.gtk.glib.MatchInfo> matchInfo) {
+    public boolean match(@NotNull java.lang.String string, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, @NotNull PointerProxy<org.gtk.glib.MatchInfo> matchInfo) {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
         java.util.Objects.requireNonNull(matchInfo, "Parameter 'matchInfo' must not be null");
-        MemorySegment matchInfoPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_regex_match.invokeExact(handle(), Interop.allocateNativeString(string), matchOptions.getValue(), (Addressable) matchInfoPOINTER.address());
+            RESULT = (int) DowncallHandles.g_regex_match.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(string),
+                    matchOptions.getValue(),
+                    matchInfo.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        matchInfo.set(new org.gtk.glib.MatchInfo(Refcounted.get(matchInfoPOINTER.get(ValueLayout.ADDRESS, 0), true)));
         return RESULT != 0;
     }
     
@@ -326,18 +352,20 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      *     the {@link MatchInfo}, or {@code null} if you do not need it
      * @return {@code true} is the string matched, {@code false} otherwise
      */
-    public boolean matchAll(@NotNull java.lang.String string, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, @NotNull Out<org.gtk.glib.MatchInfo> matchInfo) {
+    public boolean matchAll(@NotNull java.lang.String string, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, @NotNull PointerProxy<org.gtk.glib.MatchInfo> matchInfo) {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
         java.util.Objects.requireNonNull(matchInfo, "Parameter 'matchInfo' must not be null");
-        MemorySegment matchInfoPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_regex_match_all.invokeExact(handle(), Interop.allocateNativeString(string), matchOptions.getValue(), (Addressable) matchInfoPOINTER.address());
+            RESULT = (int) DowncallHandles.g_regex_match_all.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(string),
+                    matchOptions.getValue(),
+                    matchInfo.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        matchInfo.set(new org.gtk.glib.MatchInfo(Refcounted.get(matchInfoPOINTER.get(ValueLayout.ADDRESS, 0), true)));
         return RESULT != 0;
     }
     
@@ -389,22 +417,26 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * @return {@code true} is the string matched, {@code false} otherwise
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean matchAllFull(java.lang.String[] string, long stringLen, int startPosition, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, @NotNull Out<org.gtk.glib.MatchInfo> matchInfo) throws io.github.jwharm.javagi.GErrorException {
+    public boolean matchAllFull(java.lang.String[] string, long stringLen, int startPosition, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, @NotNull PointerProxy<org.gtk.glib.MatchInfo> matchInfo) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
         java.util.Objects.requireNonNull(matchInfo, "Parameter 'matchInfo' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment matchInfoPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_regex_match_all_full.invokeExact(handle(), Interop.allocateNativeArray(string, false), stringLen, startPosition, matchOptions.getValue(), (Addressable) matchInfoPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_regex_match_all_full.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(string, false),
+                    stringLen,
+                    startPosition,
+                    matchOptions.getValue(),
+                    matchInfo.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        matchInfo.set(new org.gtk.glib.MatchInfo(Refcounted.get(matchInfoPOINTER.get(ValueLayout.ADDRESS, 0), true)));
         return RESULT != 0;
     }
     
@@ -468,22 +500,26 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * @return {@code true} is the string matched, {@code false} otherwise
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean matchFull(java.lang.String[] string, long stringLen, int startPosition, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, @NotNull Out<org.gtk.glib.MatchInfo> matchInfo) throws io.github.jwharm.javagi.GErrorException {
+    public boolean matchFull(java.lang.String[] string, long stringLen, int startPosition, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, @NotNull PointerProxy<org.gtk.glib.MatchInfo> matchInfo) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
         java.util.Objects.requireNonNull(matchInfo, "Parameter 'matchInfo' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment matchInfoPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_regex_match_full.invokeExact(handle(), Interop.allocateNativeArray(string, false), stringLen, startPosition, matchOptions.getValue(), (Addressable) matchInfoPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_regex_match_full.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(string, false),
+                    stringLen,
+                    startPosition,
+                    matchOptions.getValue(),
+                    matchInfo.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        matchInfo.set(new org.gtk.glib.MatchInfo(Refcounted.get(matchInfoPOINTER.get(ValueLayout.ADDRESS, 0), true)));
         return RESULT != 0;
     }
     
@@ -494,7 +530,8 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Regex ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_regex_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_regex_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -544,14 +581,20 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_regex_replace.invokeExact(handle(), Interop.allocateNativeArray(string, false), stringLen, startPosition, Interop.allocateNativeString(replacement), matchOptions.getValue(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_regex_replace.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(string, false),
+                    stringLen,
+                    startPosition,
+                    Interop.allocateNativeString(replacement),
+                    matchOptions.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -615,20 +658,25 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_regex_replace_eval.invokeExact(handle(), Interop.allocateNativeArray(string, false), stringLen, startPosition, matchOptions.getValue(), 
+            RESULT = (MemoryAddress) DowncallHandles.g_regex_replace_eval.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(string, false),
+                    stringLen,
+                    startPosition,
+                    matchOptions.getValue(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbRegexEvalCallback",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(eval)), (Addressable) GERROR);
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(eval)), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -655,14 +703,20 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_regex_replace_literal.invokeExact(handle(), Interop.allocateNativeArray(string, false), stringLen, startPosition, Interop.allocateNativeString(replacement), matchOptions.getValue(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_regex_replace_literal.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(string, false),
+                    stringLen,
+                    startPosition,
+                    Interop.allocateNativeString(replacement),
+                    matchOptions.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -693,7 +747,10 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_regex_split.invokeExact(handle(), Interop.allocateNativeString(string), matchOptions.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_regex_split.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(string),
+                    matchOptions.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -738,7 +795,13 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_regex_split_full.invokeExact(handle(), Interop.allocateNativeArray(string, false), stringLen, startPosition, matchOptions.getValue(), maxTokens, (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_regex_split_full.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(string, false),
+                    stringLen,
+                    startPosition,
+                    matchOptions.getValue(),
+                    maxTokens, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -754,7 +817,8 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_regex_unref.invokeExact(handle());
+            DowncallHandles.g_regex_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -783,7 +847,9 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment hasReferencesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_regex_check_replacement.invokeExact(Interop.allocateNativeString(replacement), (Addressable) hasReferencesPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_regex_check_replacement.invokeExact(
+                    Interop.allocateNativeString(replacement),
+                    (Addressable) hasReferencesPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -818,11 +884,13 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_regex_escape_nul.invokeExact(Interop.allocateNativeString(string), length);
+            RESULT = (MemoryAddress) DowncallHandles.g_regex_escape_nul.invokeExact(
+                    Interop.allocateNativeString(string),
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -841,11 +909,13 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_regex_escape_string.invokeExact(Interop.allocateNativeArray(string, false), length);
+            RESULT = (MemoryAddress) DowncallHandles.g_regex_escape_string.invokeExact(
+                    Interop.allocateNativeArray(string, false),
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -872,7 +942,11 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_regex_match_simple.invokeExact(Interop.allocateNativeString(pattern), Interop.allocateNativeString(string), compileOptions.getValue(), matchOptions.getValue());
+            RESULT = (int) DowncallHandles.g_regex_match_simple.invokeExact(
+                    Interop.allocateNativeString(pattern),
+                    Interop.allocateNativeString(string),
+                    compileOptions.getValue(),
+                    matchOptions.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -921,7 +995,11 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_regex_split_simple.invokeExact(Interop.allocateNativeString(pattern), Interop.allocateNativeString(string), compileOptions.getValue(), matchOptions.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_regex_split_simple.invokeExact(
+                    Interop.allocateNativeString(pattern),
+                    Interop.allocateNativeString(string),
+                    compileOptions.getValue(),
+                    matchOptions.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -14,24 +14,37 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
         Gsk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GskShaderArgsBuilder";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static ShaderArgsBuilder allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        ShaderArgsBuilder newInstance = new ShaderArgsBuilder(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public ShaderArgsBuilder(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gsk.GLShader shader, @Nullable org.gtk.glib.Bytes initialValues) {
         java.util.Objects.requireNonNull(shader, "Parameter 'shader' must not be null");
-        java.util.Objects.requireNonNullElse(initialValues, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_shader_args_builder_new.invokeExact(shader.handle(), initialValues.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_shader_args_builder_new.invokeExact(
+                    shader.handle(),
+                    (Addressable) (initialValues == null ? MemoryAddress.NULL : initialValues.handle())), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -60,7 +73,8 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Bytes freeToArgs() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_shader_args_builder_free_to_args.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_shader_args_builder_free_to_args.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,7 +88,8 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gsk.ShaderArgsBuilder ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_shader_args_builder_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_shader_args_builder_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +105,10 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setBool(int idx, boolean value) {
         try {
-            DowncallHandles.gsk_shader_args_builder_set_bool.invokeExact(handle(), idx, value ? 1 : 0);
+            DowncallHandles.gsk_shader_args_builder_set_bool.invokeExact(
+                    handle(),
+                    idx,
+                    value ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,7 +123,10 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setFloat(int idx, float value) {
         try {
-            DowncallHandles.gsk_shader_args_builder_set_float.invokeExact(handle(), idx, value);
+            DowncallHandles.gsk_shader_args_builder_set_float.invokeExact(
+                    handle(),
+                    idx,
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,7 +141,10 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setInt(int idx, int value) {
         try {
-            DowncallHandles.gsk_shader_args_builder_set_int.invokeExact(handle(), idx, value);
+            DowncallHandles.gsk_shader_args_builder_set_int.invokeExact(
+                    handle(),
+                    idx,
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,7 +159,10 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setUint(int idx, int value) {
         try {
-            DowncallHandles.gsk_shader_args_builder_set_uint.invokeExact(handle(), idx, value);
+            DowncallHandles.gsk_shader_args_builder_set_uint.invokeExact(
+                    handle(),
+                    idx,
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,7 +178,10 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     public void setVec2(int idx, @NotNull org.gtk.graphene.Vec2 value) {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.gsk_shader_args_builder_set_vec2.invokeExact(handle(), idx, value.handle());
+            DowncallHandles.gsk_shader_args_builder_set_vec2.invokeExact(
+                    handle(),
+                    idx,
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,7 +197,10 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     public void setVec3(int idx, @NotNull org.gtk.graphene.Vec3 value) {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.gsk_shader_args_builder_set_vec3.invokeExact(handle(), idx, value.handle());
+            DowncallHandles.gsk_shader_args_builder_set_vec3.invokeExact(
+                    handle(),
+                    idx,
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,7 +216,10 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     public void setVec4(int idx, @NotNull org.gtk.graphene.Vec4 value) {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.gsk_shader_args_builder_set_vec4.invokeExact(handle(), idx, value.handle());
+            DowncallHandles.gsk_shader_args_builder_set_vec4.invokeExact(
+                    handle(),
+                    idx,
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -207,7 +243,8 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Bytes toArgs() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_shader_args_builder_to_args.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_shader_args_builder_to_args.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -221,7 +258,8 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.gsk_shader_args_builder_unref.invokeExact(handle());
+            DowncallHandles.gsk_shader_args_builder_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

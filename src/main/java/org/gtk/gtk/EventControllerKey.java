@@ -15,21 +15,34 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkEventControllerKey";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public EventControllerKey(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to EventControllerKey */
+    /**
+     * Cast object to EventControllerKey if its GType is a (or inherits from) "GtkEventControllerKey".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "EventControllerKey" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkEventControllerKey", a ClassCastException will be thrown.
+     */
     public static EventControllerKey castFrom(org.gtk.gobject.Object gobject) {
-        return new EventControllerKey(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEventControllerKey"))) {
+            return new EventControllerKey(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEventControllerKey");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -63,7 +76,9 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_event_controller_key_forward.invokeExact(handle(), widget.handle());
+            RESULT = (int) DowncallHandles.gtk_event_controller_key_forward.invokeExact(
+                    handle(),
+                    widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,7 +94,8 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
     public int getGroup() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_event_controller_key_get_group.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_event_controller_key_get_group.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,7 +109,8 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
     public @Nullable org.gtk.gtk.IMContext getImContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_event_controller_key_get_im_context.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_event_controller_key_get_im_context.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,9 +122,10 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
      * @param imContext a {@code GtkIMContext}
      */
     public void setImContext(@Nullable org.gtk.gtk.IMContext imContext) {
-        java.util.Objects.requireNonNullElse(imContext, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_event_controller_key_set_im_context.invokeExact(handle(), imContext.handle());
+            DowncallHandles.gtk_event_controller_key_set_im_context.invokeExact(
+                    handle(),
+                    (Addressable) (imContext == null ? MemoryAddress.NULL : imContext.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

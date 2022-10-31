@@ -26,33 +26,55 @@ public class MountOperation extends org.gtk.gio.MountOperation {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkMountOperation";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.MountOperation.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gtk.MountOperationPrivate.getMemoryLayout().withName("priv")
-    ).withName("GtkMountOperation");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gio.MountOperation parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gio.MountOperation(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public MountOperation(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to MountOperation */
+    /**
+     * Cast object to MountOperation if its GType is a (or inherits from) "GtkMountOperation".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "MountOperation" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkMountOperation", a ClassCastException will be thrown.
+     */
     public static MountOperation castFrom(org.gtk.gobject.Object gobject) {
-        return new MountOperation(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMountOperation"))) {
+            return new MountOperation(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkMountOperation");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gtk.Window parent) {
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_mount_operation_new.invokeExact(parent.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_mount_operation_new.invokeExact(
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle())), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -75,7 +97,8 @@ public class MountOperation extends org.gtk.gio.MountOperation {
     public @NotNull org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_mount_operation_get_display.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_mount_operation_get_display.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -89,7 +112,8 @@ public class MountOperation extends org.gtk.gio.MountOperation {
     public @Nullable org.gtk.gtk.Window getParent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_mount_operation_get_parent.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_mount_operation_get_parent.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,7 +128,8 @@ public class MountOperation extends org.gtk.gio.MountOperation {
     public boolean isShowing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_mount_operation_is_showing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_mount_operation_is_showing.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,7 +143,9 @@ public class MountOperation extends org.gtk.gio.MountOperation {
     public void setDisplay(@NotNull org.gtk.gdk.Display display) {
         java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
         try {
-            DowncallHandles.gtk_mount_operation_set_display.invokeExact(handle(), display.handle());
+            DowncallHandles.gtk_mount_operation_set_display.invokeExact(
+                    handle(),
+                    display.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -130,9 +157,10 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      * @param parent transient parent of the window
      */
     public void setParent(@Nullable org.gtk.gtk.Window parent) {
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_mount_operation_set_parent.invokeExact(handle(), parent.handle());
+            DowncallHandles.gtk_mount_operation_set_parent.invokeExact(
+                    handle(),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -15,26 +15,39 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GDBusInterfaceSkeleton";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.DBusInterfaceSkeletonPrivate.getMemoryLayout().withName("priv")
-    ).withName("GDBusInterfaceSkeleton");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    @ApiStatus.Internal
     public DBusInterfaceSkeleton(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DBusInterfaceSkeleton */
+    /**
+     * Cast object to DBusInterfaceSkeleton if its GType is a (or inherits from) "GDBusInterfaceSkeleton".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DBusInterfaceSkeleton" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GDBusInterfaceSkeleton", a ClassCastException will be thrown.
+     */
     public static DBusInterfaceSkeleton castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusInterfaceSkeleton(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusInterfaceSkeleton"))) {
+            return new DBusInterfaceSkeleton(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDBusInterfaceSkeleton");
+        }
     }
     
     /**
@@ -57,7 +70,10 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_interface_skeleton_export.invokeExact(handle(), connection.handle(), Interop.allocateNativeString(objectPath), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_dbus_interface_skeleton_export.invokeExact(
+                    handle(),
+                    connection.handle(),
+                    Interop.allocateNativeString(objectPath), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,7 +95,8 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
      */
     public void flush() {
         try {
-            DowncallHandles.g_dbus_interface_skeleton_flush.invokeExact(handle());
+            DowncallHandles.g_dbus_interface_skeleton_flush.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,7 +110,8 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
     public @Nullable org.gtk.gio.DBusConnection getConnection() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_skeleton_get_connection.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_skeleton_get_connection.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,7 +128,8 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
     public @NotNull org.gtk.glib.List getConnections() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_skeleton_get_connections.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_skeleton_get_connections.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,7 +144,8 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
     public @NotNull org.gtk.gio.DBusInterfaceSkeletonFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_interface_skeleton_get_flags.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_dbus_interface_skeleton_get_flags.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,7 +160,8 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
     public @NotNull org.gtk.gio.DBusInterfaceInfo getInfo() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_skeleton_get_info.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_skeleton_get_info.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,11 +176,12 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
     public @Nullable java.lang.String getObjectPath() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_skeleton_get_object_path.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_skeleton_get_object_path.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -171,7 +193,8 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
     public @NotNull org.gtk.glib.Variant getProperties() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_skeleton_get_properties.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_skeleton_get_properties.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,7 +210,8 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
     public @NotNull org.gtk.gio.DBusInterfaceVTable getVtable() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_skeleton_get_vtable.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_skeleton_get_vtable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -203,7 +227,9 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
         java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_interface_skeleton_has_connection.invokeExact(handle(), connection.handle());
+            RESULT = (int) DowncallHandles.g_dbus_interface_skeleton_has_connection.invokeExact(
+                    handle(),
+                    connection.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -217,7 +243,9 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
     public void setFlags(@NotNull org.gtk.gio.DBusInterfaceSkeletonFlags flags) {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            DowncallHandles.g_dbus_interface_skeleton_set_flags.invokeExact(handle(), flags.getValue());
+            DowncallHandles.g_dbus_interface_skeleton_set_flags.invokeExact(
+                    handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -231,7 +259,8 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
      */
     public void unexport() {
         try {
-            DowncallHandles.g_dbus_interface_skeleton_unexport.invokeExact(handle());
+            DowncallHandles.g_dbus_interface_skeleton_unexport.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -247,7 +276,9 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
     public void unexportFromConnection(@NotNull org.gtk.gio.DBusConnection connection) {
         java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
         try {
-            DowncallHandles.g_dbus_interface_skeleton_unexport_from_connection.invokeExact(handle(), connection.handle());
+            DowncallHandles.g_dbus_interface_skeleton_unexport_from_connection.invokeExact(
+                    handle(),
+                    connection.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

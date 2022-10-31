@@ -16,26 +16,48 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GMenuLinkIter";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.MenuLinkIterPrivate.getMemoryLayout().withName("priv")
-    ).withName("GMenuLinkIter");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public MenuLinkIter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to MenuLinkIter */
+    /**
+     * Cast object to MenuLinkIter if its GType is a (or inherits from) "GMenuLinkIter".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "MenuLinkIter" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GMenuLinkIter", a ClassCastException will be thrown.
+     */
     public static MenuLinkIter castFrom(org.gtk.gobject.Object gobject) {
-        return new MenuLinkIter(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GMenuLinkIter"))) {
+            return new MenuLinkIter(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GMenuLinkIter");
+        }
     }
     
     /**
@@ -47,11 +69,12 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
     public @NotNull java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_menu_link_iter_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_menu_link_iter_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -73,19 +96,20 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
      * @param value the linked {@link MenuModel}
      * @return {@code true} on success, or {@code false} if there is no additional link
      */
-    public boolean getNext(@NotNull Out<java.lang.String> outLink, @NotNull Out<org.gtk.gio.MenuModel> value) {
+    public boolean getNext(@NotNull Out<java.lang.String> outLink, @NotNull PointerProxy<org.gtk.gio.MenuModel> value) {
         java.util.Objects.requireNonNull(outLink, "Parameter 'outLink' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         MemorySegment outLinkPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_menu_link_iter_get_next.invokeExact(handle(), (Addressable) outLinkPOINTER.address(), (Addressable) valuePOINTER.address());
+            RESULT = (int) DowncallHandles.g_menu_link_iter_get_next.invokeExact(
+                    handle(),
+                    (Addressable) outLinkPOINTER.address(),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        outLink.set(outLinkPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
-        value.set(new org.gtk.gio.MenuModel(Refcounted.get(valuePOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        outLink.set(Interop.getStringFrom(outLinkPOINTER.get(ValueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -98,7 +122,8 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gio.MenuModel getValue() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_menu_link_iter_get_value.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_menu_link_iter_get_value.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,7 +144,8 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
     public boolean next() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_menu_link_iter_next.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_menu_link_iter_next.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

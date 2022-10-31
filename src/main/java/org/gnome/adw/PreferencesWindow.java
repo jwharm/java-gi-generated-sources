@@ -27,25 +27,47 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwPreferencesWindow";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gnome.adw.Window.getMemoryLayout().withName("parent_instance")
-    ).withName("AdwPreferencesWindow");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gnome.adw.Window parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gnome.adw.Window(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public PreferencesWindow(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to PreferencesWindow */
+    /**
+     * Cast object to PreferencesWindow if its GType is a (or inherits from) "AdwPreferencesWindow".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "PreferencesWindow" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwPreferencesWindow", a ClassCastException will be thrown.
+     */
     public static PreferencesWindow castFrom(org.gtk.gobject.Object gobject) {
-        return new PreferencesWindow(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwPreferencesWindow"))) {
+            return new PreferencesWindow(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwPreferencesWindow");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -72,7 +94,9 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
     public void add(@NotNull org.gnome.adw.PreferencesPage page) {
         java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         try {
-            DowncallHandles.adw_preferences_window_add.invokeExact(handle(), page.handle());
+            DowncallHandles.adw_preferences_window_add.invokeExact(
+                    handle(),
+                    page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,7 +111,9 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
     public void addToast(@NotNull org.gnome.adw.Toast toast) {
         java.util.Objects.requireNonNull(toast, "Parameter 'toast' must not be null");
         try {
-            DowncallHandles.adw_preferences_window_add_toast.invokeExact(handle(), toast.refcounted().unowned().handle());
+            DowncallHandles.adw_preferences_window_add_toast.invokeExact(
+                    handle(),
+                    toast.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,7 +126,8 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
      */
     public void closeSubpage() {
         try {
-            DowncallHandles.adw_preferences_window_close_subpage.invokeExact(handle());
+            DowncallHandles.adw_preferences_window_close_subpage.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -113,7 +140,8 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
     public boolean getCanNavigateBack() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_preferences_window_get_can_navigate_back.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_preferences_window_get_can_navigate_back.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,7 +155,8 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
     public boolean getSearchEnabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_preferences_window_get_search_enabled.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_preferences_window_get_search_enabled.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,7 +170,8 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
     public @Nullable org.gnome.adw.PreferencesPage getVisiblePage() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_window_get_visible_page.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_window_get_visible_page.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,11 +185,12 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
     public @Nullable java.lang.String getVisiblePageName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_window_get_visible_page_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_window_get_visible_page_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -172,7 +203,9 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
     public void presentSubpage(@NotNull org.gtk.gtk.Widget subpage) {
         java.util.Objects.requireNonNull(subpage, "Parameter 'subpage' must not be null");
         try {
-            DowncallHandles.adw_preferences_window_present_subpage.invokeExact(handle(), subpage.handle());
+            DowncallHandles.adw_preferences_window_present_subpage.invokeExact(
+                    handle(),
+                    subpage.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,7 +218,9 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
     public void remove(@NotNull org.gnome.adw.PreferencesPage page) {
         java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         try {
-            DowncallHandles.adw_preferences_window_remove.invokeExact(handle(), page.handle());
+            DowncallHandles.adw_preferences_window_remove.invokeExact(
+                    handle(),
+                    page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -193,11 +228,25 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
     
     /**
      * Sets whether gestures and shortcuts for closing subpages are enabled.
+     * <p>
+     * The supported gestures are:
+     * <ul>
+     * <li>One-finger swipe on touchscreens
+     * <li>Horizontal scrolling on touchpads (usually two-finger swipe)
+     * <li>Back mouse button
+     * </ul>
+     * <p>
+     * The keyboard back key is also supported, as well as the
+     * &lt;kbd&gt;Alt&lt;/kbd&gt;+&lt;kbd&gt;←&lt;/kbd&gt; shortcut.
+     * <p>
+     * For right-to-left locales, gestures and shortcuts are reversed.
      * @param canNavigateBack the new value
      */
     public void setCanNavigateBack(boolean canNavigateBack) {
         try {
-            DowncallHandles.adw_preferences_window_set_can_navigate_back.invokeExact(handle(), canNavigateBack ? 1 : 0);
+            DowncallHandles.adw_preferences_window_set_can_navigate_back.invokeExact(
+                    handle(),
+                    canNavigateBack ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -209,7 +258,9 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
      */
     public void setSearchEnabled(boolean searchEnabled) {
         try {
-            DowncallHandles.adw_preferences_window_set_search_enabled.invokeExact(handle(), searchEnabled ? 1 : 0);
+            DowncallHandles.adw_preferences_window_set_search_enabled.invokeExact(
+                    handle(),
+                    searchEnabled ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -222,7 +273,9 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
     public void setVisiblePage(@NotNull org.gnome.adw.PreferencesPage page) {
         java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         try {
-            DowncallHandles.adw_preferences_window_set_visible_page.invokeExact(handle(), page.handle());
+            DowncallHandles.adw_preferences_window_set_visible_page.invokeExact(
+                    handle(),
+                    page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,12 +283,16 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
     
     /**
      * Makes the page with the given name visible.
+     * <p>
+     * See {@code ViewStack:visible-child}.
      * @param name the name of the page to make visible
      */
     public void setVisiblePageName(@NotNull java.lang.String name) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            DowncallHandles.adw_preferences_window_set_visible_page_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.adw_preferences_window_set_visible_page_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

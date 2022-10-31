@@ -16,13 +16,29 @@ import org.jetbrains.annotations.*;
 public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to PrintOperationPreview if its GType is a (or inherits from) "GtkPrintOperationPreview".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "PrintOperationPreview" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkPrintOperationPreview", a ClassCastException will be thrown.
+     */
+    public static PrintOperationPreview castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPrintOperationPreview"))) {
+            return new PrintOperationPreviewImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkPrintOperationPreview");
+        }
+    }
+    
+    /**
      * Ends a preview.
      * <p>
      * This function must be called to finish a custom print preview.
      */
     default void endPreview() {
         try {
-            DowncallHandles.gtk_print_operation_preview_end_preview.invokeExact(handle());
+            DowncallHandles.gtk_print_operation_preview_end_preview.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -37,7 +53,9 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
     default boolean isSelected(int pageNr) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_operation_preview_is_selected.invokeExact(handle(), pageNr);
+            RESULT = (int) DowncallHandles.gtk_print_operation_preview_is_selected.invokeExact(
+                    handle(),
+                    pageNr);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -60,7 +78,9 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
      */
     default void renderPage(int pageNr) {
         try {
-            DowncallHandles.gtk_print_operation_preview_render_page.invokeExact(handle(), pageNr);
+            DowncallHandles.gtk_print_operation_preview_render_page.invokeExact(
+                    handle(),
+                    pageNr);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -16,14 +16,26 @@ public class Module extends io.github.jwharm.javagi.ResourceBase {
         GModule.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GModule";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Module allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Module newInstance = new Module(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Module(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -35,7 +47,8 @@ public class Module extends io.github.jwharm.javagi.ResourceBase {
     public boolean close() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_module_close.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_module_close.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -48,7 +61,8 @@ public class Module extends io.github.jwharm.javagi.ResourceBase {
      */
     public void makeResident() {
         try {
-            DowncallHandles.g_module_make_resident.invokeExact(handle());
+            DowncallHandles.g_module_make_resident.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -63,11 +77,12 @@ public class Module extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String name() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_module_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_module_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -79,15 +94,17 @@ public class Module extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean symbol(@NotNull java.lang.String symbolName, @Nullable Out<java.lang.foreign.MemoryAddress> symbol) {
         java.util.Objects.requireNonNull(symbolName, "Parameter 'symbolName' must not be null");
-        java.util.Objects.requireNonNullElse(symbol, MemoryAddress.NULL);
         MemorySegment symbolPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_module_symbol.invokeExact(handle(), Interop.allocateNativeString(symbolName), (Addressable) symbolPOINTER.address());
+            RESULT = (int) DowncallHandles.g_module_symbol.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(symbolName),
+                    (Addressable) (symbol == null ? MemoryAddress.NULL : (Addressable) symbolPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        symbol.set(symbolPOINTER.get(ValueLayout.ADDRESS, 0));
+        if (symbol != null) symbol.set(symbolPOINTER.get(ValueLayout.ADDRESS, 0));
         return RESULT != 0;
     }
     
@@ -113,15 +130,16 @@ public class Module extends io.github.jwharm.javagi.ResourceBase {
      *     prefix and suffix. This should be freed when no longer needed
      */
     public static @NotNull java.lang.String buildPath(@Nullable java.lang.String directory, @NotNull java.lang.String moduleName) {
-        java.util.Objects.requireNonNullElse(directory, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(moduleName, "Parameter 'moduleName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_module_build_path.invokeExact(Interop.allocateNativeString(directory), Interop.allocateNativeString(moduleName));
+            RESULT = (MemoryAddress) DowncallHandles.g_module_build_path.invokeExact(
+                    (Addressable) (directory == null ? MemoryAddress.NULL : Interop.allocateNativeString(directory)),
+                    Interop.allocateNativeString(moduleName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -135,7 +153,7 @@ public class Module extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     public static @NotNull org.gtk.glib.Quark errorQuark() {
@@ -157,11 +175,12 @@ public class Module extends io.github.jwharm.javagi.ResourceBase {
      * @return a {@link Module} on success, or {@code null} on failure
      */
     public static @NotNull org.gtk.gmodule.Module open(@Nullable java.lang.String fileName, @NotNull org.gtk.gmodule.ModuleFlags flags) {
-        java.util.Objects.requireNonNullElse(fileName, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_module_open.invokeExact(Interop.allocateNativeString(fileName), flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_module_open.invokeExact(
+                    (Addressable) (fileName == null ? MemoryAddress.NULL : Interop.allocateNativeString(fileName)),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -189,12 +208,13 @@ public class Module extends io.github.jwharm.javagi.ResourceBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static @NotNull org.gtk.gmodule.Module openFull(@Nullable java.lang.String fileName, @NotNull org.gtk.gmodule.ModuleFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(fileName, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_module_open_full.invokeExact(Interop.allocateNativeString(fileName), flags.getValue(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_module_open_full.invokeExact(
+                    (Addressable) (fileName == null ? MemoryAddress.NULL : Interop.allocateNativeString(fileName)),
+                    flags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

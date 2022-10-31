@@ -16,19 +16,73 @@ public class Requisition extends io.github.jwharm.javagi.ResourceBase {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkRequisition";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_INT.withName("width"),
         ValueLayout.JAVA_INT.withName("height")
-    ).withName("GtkRequisition");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Requisition allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Requisition newInstance = new Requisition(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code width}
+     * @return The value of the field {@code width}
+     */
+    public int width$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("width"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code width}
+     * @param width The new value of the field {@code width}
+     */
+    public void width$set(int width) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("width"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
+    }
+    
+    /**
+     * Get the value of the field {@code height}
+     * @return The value of the field {@code height}
+     */
+    public int height$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("height"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code height}
+     * @param height The new value of the field {@code height}
+     */
+    public void height$set(int height) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("height"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
+    }
+    
+    @ApiStatus.Internal
     public Requisition(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -59,7 +113,8 @@ public class Requisition extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gtk.Requisition copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_requisition_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_requisition_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -71,7 +126,8 @@ public class Requisition extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.gtk_requisition_free.invokeExact(handle());
+            DowncallHandles.gtk_requisition_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

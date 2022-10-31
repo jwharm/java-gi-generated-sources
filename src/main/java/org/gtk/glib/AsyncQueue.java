@@ -16,14 +16,26 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GAsyncQueue";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static AsyncQueue allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        AsyncQueue newInstance = new AsyncQueue(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public AsyncQueue(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -42,7 +54,8 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     public int length() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_async_queue_length.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_async_queue_length.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,7 +78,8 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     public int lengthUnlocked() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_async_queue_length_unlocked.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_async_queue_length_unlocked.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,7 +99,8 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      */
     public void lock() {
         try {
-            DowncallHandles.g_async_queue_lock.invokeExact(handle());
+            DowncallHandles.g_async_queue_lock.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +114,8 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress pop() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_async_queue_pop.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_async_queue_pop.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,7 +132,8 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress popUnlocked() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_async_queue_pop_unlocked.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_async_queue_pop_unlocked.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,7 +146,9 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      */
     public void push(@Nullable java.lang.foreign.MemoryAddress data) {
         try {
-            DowncallHandles.g_async_queue_push.invokeExact(handle(), data);
+            DowncallHandles.g_async_queue_push.invokeExact(
+                    handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -143,9 +162,10 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * @param item data to push into the {@code queue}
      */
     public void pushFront(@Nullable java.lang.foreign.MemoryAddress item) {
-        java.util.Objects.requireNonNullElse(item, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_async_queue_push_front.invokeExact(handle(), item);
+            DowncallHandles.g_async_queue_push_front.invokeExact(
+                    handle(),
+                    (Addressable) (item == null ? MemoryAddress.NULL : item));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,9 +181,10 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * @param item data to push into the {@code queue}
      */
     public void pushFrontUnlocked(@Nullable java.lang.foreign.MemoryAddress item) {
-        java.util.Objects.requireNonNullElse(item, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_async_queue_push_front_unlocked.invokeExact(handle(), item);
+            DowncallHandles.g_async_queue_push_front_unlocked.invokeExact(
+                    handle(),
+                    (Addressable) (item == null ? MemoryAddress.NULL : item));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,14 +206,15 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     public void pushSorted(@NotNull org.gtk.glib.CompareDataFunc func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.g_async_queue_push_sorted.invokeExact(handle(), 
-                   (Addressable) (Interop.registerCallback(func)), 
+            DowncallHandles.g_async_queue_push_sorted.invokeExact(
+                    handle(),
+                    (Addressable) (Interop.registerCallback(func)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,14 +241,15 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     public void pushSortedUnlocked(@NotNull org.gtk.glib.CompareDataFunc func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.g_async_queue_push_sorted_unlocked.invokeExact(handle(), 
-                   (Addressable) (Interop.registerCallback(func)), 
+            DowncallHandles.g_async_queue_push_sorted_unlocked.invokeExact(
+                    handle(),
+                    (Addressable) (Interop.registerCallback(func)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,7 +263,9 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      */
     public void pushUnlocked(@Nullable java.lang.foreign.MemoryAddress data) {
         try {
-            DowncallHandles.g_async_queue_push_unlocked.invokeExact(handle(), data);
+            DowncallHandles.g_async_queue_push_unlocked.invokeExact(
+                    handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -254,7 +279,8 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.AsyncQueue ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_async_queue_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_async_queue_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -270,7 +296,8 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     @Deprecated
     public void refUnlocked() {
         try {
-            DowncallHandles.g_async_queue_ref_unlocked.invokeExact(handle());
+            DowncallHandles.g_async_queue_ref_unlocked.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -282,10 +309,11 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * @return {@code true} if the item was removed
      */
     public boolean remove(@Nullable java.lang.foreign.MemoryAddress item) {
-        java.util.Objects.requireNonNullElse(item, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_async_queue_remove.invokeExact(handle(), item);
+            RESULT = (int) DowncallHandles.g_async_queue_remove.invokeExact(
+                    handle(),
+                    (Addressable) (item == null ? MemoryAddress.NULL : item));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -300,10 +328,11 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * @return {@code true} if the item was removed
      */
     public boolean removeUnlocked(@Nullable java.lang.foreign.MemoryAddress item) {
-        java.util.Objects.requireNonNullElse(item, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_async_queue_remove_unlocked.invokeExact(handle(), item);
+            RESULT = (int) DowncallHandles.g_async_queue_remove_unlocked.invokeExact(
+                    handle(),
+                    (Addressable) (item == null ? MemoryAddress.NULL : item));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -338,13 +367,14 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     public void sort(@NotNull org.gtk.glib.CompareDataFunc func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.g_async_queue_sort.invokeExact(handle(), 
+            DowncallHandles.g_async_queue_sort.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -365,13 +395,14 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     public void sortUnlocked(@NotNull org.gtk.glib.CompareDataFunc func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.g_async_queue_sort_unlocked.invokeExact(handle(), 
+            DowncallHandles.g_async_queue_sort_unlocked.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -395,7 +426,9 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(endTime, "Parameter 'endTime' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_async_queue_timed_pop.invokeExact(handle(), endTime.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_async_queue_timed_pop.invokeExact(
+                    handle(),
+                    endTime.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -422,7 +455,9 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(endTime, "Parameter 'endTime' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_async_queue_timed_pop_unlocked.invokeExact(handle(), endTime.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_async_queue_timed_pop_unlocked.invokeExact(
+                    handle(),
+                    endTime.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -441,7 +476,9 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress timeoutPop(long timeout) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_async_queue_timeout_pop.invokeExact(handle(), timeout);
+            RESULT = (MemoryAddress) DowncallHandles.g_async_queue_timeout_pop.invokeExact(
+                    handle(),
+                    timeout);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -462,7 +499,9 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress timeoutPopUnlocked(long timeout) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_async_queue_timeout_pop_unlocked.invokeExact(handle(), timeout);
+            RESULT = (MemoryAddress) DowncallHandles.g_async_queue_timeout_pop_unlocked.invokeExact(
+                    handle(),
+                    timeout);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -478,7 +517,8 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress tryPop() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_async_queue_try_pop.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_async_queue_try_pop.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -496,7 +536,8 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress tryPopUnlocked() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_async_queue_try_pop_unlocked.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_async_queue_try_pop_unlocked.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -512,7 +553,8 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unlock() {
         try {
-            DowncallHandles.g_async_queue_unlock.invokeExact(handle());
+            DowncallHandles.g_async_queue_unlock.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -528,7 +570,8 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_async_queue_unref.invokeExact(handle());
+            DowncallHandles.g_async_queue_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -546,7 +589,8 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     @Deprecated
     public void unrefAndUnlock() {
         try {
-            DowncallHandles.g_async_queue_unref_and_unlock.invokeExact(handle());
+            DowncallHandles.g_async_queue_unref_and_unlock.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

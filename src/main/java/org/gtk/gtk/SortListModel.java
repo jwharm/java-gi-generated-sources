@@ -32,29 +32,42 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkSortListModel";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public SortListModel(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to SortListModel */
+    /**
+     * Cast object to SortListModel if its GType is a (or inherits from) "GtkSortListModel".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "SortListModel" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkSortListModel", a ClassCastException will be thrown.
+     */
     public static SortListModel castFrom(org.gtk.gobject.Object gobject) {
-        return new SortListModel(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSortListModel"))) {
+            return new SortListModel(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkSortListModel");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.Sorter sorter) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(sorter, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_sort_list_model_new.invokeExact(model.refcounted().unowned().handle(), sorter.refcounted().unowned().handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_sort_list_model_new.invokeExact(
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.refcounted().unowned().handle()),
+                    (Addressable) (sorter == null ? MemoryAddress.NULL : sorter.refcounted().unowned().handle())), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,7 +92,8 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
     public boolean getIncremental() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_sort_list_model_get_incremental.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_sort_list_model_get_incremental.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,7 +107,8 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
     public @Nullable org.gtk.gio.ListModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_sort_list_model_get_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_sort_list_model_get_model.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,7 +138,8 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
     public int getPending() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_sort_list_model_get_pending.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_sort_list_model_get_pending.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -137,7 +153,8 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
     public @Nullable org.gtk.gtk.Sorter getSorter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_sort_list_model_get_sorter.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_sort_list_model_get_sorter.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -165,7 +182,9 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public void setIncremental(boolean incremental) {
         try {
-            DowncallHandles.gtk_sort_list_model_set_incremental.invokeExact(handle(), incremental ? 1 : 0);
+            DowncallHandles.gtk_sort_list_model_set_incremental.invokeExact(
+                    handle(),
+                    incremental ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,9 +197,10 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * @param model The model to be sorted
      */
     public void setModel(@Nullable org.gtk.gio.ListModel model) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_sort_list_model_set_model.invokeExact(handle(), model.handle());
+            DowncallHandles.gtk_sort_list_model_set_model.invokeExact(
+                    handle(),
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -191,9 +211,10 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * @param sorter the {@code GtkSorter} to sort {@code model} with
      */
     public void setSorter(@Nullable org.gtk.gtk.Sorter sorter) {
-        java.util.Objects.requireNonNullElse(sorter, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_sort_list_model_set_sorter.invokeExact(handle(), sorter.handle());
+            DowncallHandles.gtk_sort_list_model_set_sorter.invokeExact(
+                    handle(),
+                    (Addressable) (sorter == null ? MemoryAddress.NULL : sorter.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

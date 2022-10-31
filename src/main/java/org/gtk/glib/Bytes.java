@@ -38,23 +38,36 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GBytes";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Bytes allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Bytes newInstance = new Bytes(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Bytes(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
     private static Refcounted constructNew(byte[] data, long size) {
-        java.util.Objects.requireNonNullElse(data, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_bytes_new.invokeExact(Interop.allocateNativeArray(data, false), size), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_bytes_new.invokeExact(
+                    (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)),
+                    size), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,10 +86,11 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     }
     
     private static Refcounted constructNewStatic(byte[] data, long size) {
-        java.util.Objects.requireNonNullElse(data, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_bytes_new_static.invokeExact(Interop.allocateNativeArray(data, false), size), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_bytes_new_static.invokeExact(
+                    (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)),
+                    size), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,10 +111,11 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     }
     
     private static Refcounted constructNewTake(byte[] data, long size) {
-        java.util.Objects.requireNonNullElse(data, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_bytes_new_take.invokeExact(Interop.allocateNativeArray(data, false), size), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_bytes_new_take.invokeExact(
+                    (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)),
+                    size), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,11 +144,13 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     }
     
     private static Refcounted constructNewWithFreeFunc(byte[] data, long size, @NotNull org.gtk.glib.DestroyNotify freeFunc, @Nullable java.lang.foreign.MemoryAddress userData) {
-        java.util.Objects.requireNonNullElse(data, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_bytes_new_with_free_func.invokeExact(Interop.allocateNativeArray(data, false), size, 
-                    Interop.cbDestroyNotifySymbol(), userData), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_bytes_new_with_free_func.invokeExact(
+                    (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)),
+                    size,
+                    Interop.cbDestroyNotifySymbol(),
+                    userData), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -179,7 +196,9 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(bytes2, "Parameter 'bytes2' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_bytes_compare.invokeExact(handle(), bytes2.handle());
+            RESULT = (int) DowncallHandles.g_bytes_compare.invokeExact(
+                    handle(),
+                    bytes2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -199,7 +218,9 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(bytes2, "Parameter 'bytes2' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_bytes_equal.invokeExact(handle(), bytes2.handle());
+            RESULT = (int) DowncallHandles.g_bytes_equal.invokeExact(
+                    handle(),
+                    bytes2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -222,7 +243,9 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bytes_get_data.invokeExact(handle(), (Addressable) sizePOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_bytes_get_data.invokeExact(
+                    handle(),
+                    (Addressable) sizePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -260,7 +283,11 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress getRegion(long elementSize, long offset, long nElements) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bytes_get_region.invokeExact(handle(), elementSize, offset, nElements);
+            RESULT = (MemoryAddress) DowncallHandles.g_bytes_get_region.invokeExact(
+                    handle(),
+                    elementSize,
+                    offset,
+                    nElements);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -276,7 +303,8 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     public long getSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_bytes_get_size.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_bytes_get_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -293,7 +321,8 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     public int hash() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_bytes_hash.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_bytes_hash.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -319,7 +348,10 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Bytes newFromBytes(long offset, long length) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bytes_new_from_bytes.invokeExact(handle(), offset, length);
+            RESULT = (MemoryAddress) DowncallHandles.g_bytes_new_from_bytes.invokeExact(
+                    handle(),
+                    offset,
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -333,7 +365,8 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Bytes ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bytes_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_bytes_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -346,7 +379,8 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_bytes_unref.invokeExact(handle());
+            DowncallHandles.g_bytes_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -369,7 +403,8 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull PointerByte unrefToArray() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bytes_unref_to_array.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_bytes_unref_to_array.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -393,7 +428,9 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bytes_unref_to_data.invokeExact(handle(), (Addressable) sizePOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_bytes_unref_to_data.invokeExact(
+                    handle(),
+                    (Addressable) sizePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -1,5 +1,10 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Simply a replacement for {@code time_t}. It has been deprecated
  * since it is not equivalent to {@code time_t} on 64-bit platforms

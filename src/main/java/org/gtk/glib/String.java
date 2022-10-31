@@ -14,29 +14,104 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GString";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("str"),
         ValueLayout.JAVA_LONG.withName("len"),
         ValueLayout.JAVA_LONG.withName("allocated_len")
-    ).withName("GString");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static String allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        String newInstance = new String(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code str}
+     * @return The value of the field {@code str}
+     */
+    public java.lang.String str$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("str"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringFrom(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code str}
+     * @param str The new value of the field {@code str}
+     */
+    public void str$set(java.lang.String str) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("str"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(str));
+    }
+    
+    /**
+     * Get the value of the field {@code len}
+     * @return The value of the field {@code len}
+     */
+    public long len$get() {
+        var RESULT = (long) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("len"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code len}
+     * @param len The new value of the field {@code len}
+     */
+    public void len$set(long len) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("len"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
+    }
+    
+    /**
+     * Get the value of the field {@code allocated_len}
+     * @return The value of the field {@code allocated_len}
+     */
+    public long allocated_len$get() {
+        var RESULT = (long) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("allocated_len"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code allocated_len}
+     * @param allocated_len The new value of the field {@code allocated_len}
+     */
+    public void allocated_len$set(long allocated_len) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("allocated_len"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), allocated_len);
+    }
+    
+    @ApiStatus.Internal
     public String(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
     private static Refcounted constructNew(@Nullable java.lang.String init) {
-        java.util.Objects.requireNonNullElse(init, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_string_new.invokeExact(Interop.allocateNativeString(init)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_string_new.invokeExact(
+                    (Addressable) (init == null ? MemoryAddress.NULL : Interop.allocateNativeString(init))), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -56,7 +131,9 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(init, "Parameter 'init' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_string_new_len.invokeExact(Interop.allocateNativeString(init), len), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_string_new_len.invokeExact(
+                    Interop.allocateNativeString(init),
+                    len), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +159,8 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructSizedNew(long dflSize) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_string_sized_new.invokeExact(dflSize), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_string_sized_new.invokeExact(
+                    dflSize), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,7 +189,9 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_append.invokeExact(handle(), Interop.allocateNativeString(val));
+            RESULT = (MemoryAddress) DowncallHandles.g_string_append.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(val));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,7 +207,9 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.String appendC(byte c) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_append_c.invokeExact(handle(), c);
+            RESULT = (MemoryAddress) DowncallHandles.g_string_append_c.invokeExact(
+                    handle(),
+                    c);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,7 +234,10 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_append_len.invokeExact(handle(), Interop.allocateNativeString(val), len);
+            RESULT = (MemoryAddress) DowncallHandles.g_string_append_len.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(val),
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,7 +263,9 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.String appendUnichar(int wc) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_append_unichar.invokeExact(handle(), wc);
+            RESULT = (MemoryAddress) DowncallHandles.g_string_append_unichar.invokeExact(
+                    handle(),
+                    wc);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -199,7 +286,11 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(reservedCharsAllowed, "Parameter 'reservedCharsAllowed' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_append_uri_escaped.invokeExact(handle(), Interop.allocateNativeString(unescaped), Interop.allocateNativeString(reservedCharsAllowed), allowUtf8 ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.g_string_append_uri_escaped.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(unescaped),
+                    Interop.allocateNativeString(reservedCharsAllowed),
+                    allowUtf8 ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +309,10 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         try {
-            DowncallHandles.g_string_append_vprintf.invokeExact(handle(), Interop.allocateNativeString(format), args);
+            DowncallHandles.g_string_append_vprintf.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(format),
+                    args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -233,7 +327,8 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.String asciiDown() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_ascii_down.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_string_ascii_down.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -249,7 +344,8 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.String asciiUp() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_ascii_up.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_string_ascii_up.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -268,7 +364,9 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(rval, "Parameter 'rval' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_assign.invokeExact(handle(), Interop.allocateNativeString(rval));
+            RESULT = (MemoryAddress) DowncallHandles.g_string_assign.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(rval));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -286,7 +384,8 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.String down() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_down.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_string_down.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -304,7 +403,9 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(v2, "Parameter 'v2' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_string_equal.invokeExact(handle(), v2.handle());
+            RESULT = (int) DowncallHandles.g_string_equal.invokeExact(
+                    handle(),
+                    v2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -322,7 +423,10 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.String erase(long pos, long len) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_erase.invokeExact(handle(), pos, len);
+            RESULT = (MemoryAddress) DowncallHandles.g_string_erase.invokeExact(
+                    handle(),
+                    pos,
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -341,11 +445,13 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.String free(boolean freeSegment) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_free.invokeExact(handle(), freeSegment ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.g_string_free.invokeExact(
+                    handle(),
+                    freeSegment ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -362,7 +468,8 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Bytes freeToBytes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_free_to_bytes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_string_free_to_bytes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -376,7 +483,8 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     public int hash() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_string_hash.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_string_hash.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -394,7 +502,10 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_insert.invokeExact(handle(), pos, Interop.allocateNativeString(val));
+            RESULT = (MemoryAddress) DowncallHandles.g_string_insert.invokeExact(
+                    handle(),
+                    pos,
+                    Interop.allocateNativeString(val));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -410,7 +521,10 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.String insertC(long pos, byte c) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_insert_c.invokeExact(handle(), pos, c);
+            RESULT = (MemoryAddress) DowncallHandles.g_string_insert_c.invokeExact(
+                    handle(),
+                    pos,
+                    c);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -438,7 +552,11 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_insert_len.invokeExact(handle(), pos, Interop.allocateNativeString(val), len);
+            RESULT = (MemoryAddress) DowncallHandles.g_string_insert_len.invokeExact(
+                    handle(),
+                    pos,
+                    Interop.allocateNativeString(val),
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -456,7 +574,10 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.String insertUnichar(long pos, int wc) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_insert_unichar.invokeExact(handle(), pos, wc);
+            RESULT = (MemoryAddress) DowncallHandles.g_string_insert_unichar.invokeExact(
+                    handle(),
+                    pos,
+                    wc);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -473,7 +594,10 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_overwrite.invokeExact(handle(), pos, Interop.allocateNativeString(val));
+            RESULT = (MemoryAddress) DowncallHandles.g_string_overwrite.invokeExact(
+                    handle(),
+                    pos,
+                    Interop.allocateNativeString(val));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -492,7 +616,11 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_overwrite_len.invokeExact(handle(), pos, Interop.allocateNativeString(val), len);
+            RESULT = (MemoryAddress) DowncallHandles.g_string_overwrite_len.invokeExact(
+                    handle(),
+                    pos,
+                    Interop.allocateNativeString(val),
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -509,7 +637,9 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_prepend.invokeExact(handle(), Interop.allocateNativeString(val));
+            RESULT = (MemoryAddress) DowncallHandles.g_string_prepend.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(val));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -525,7 +655,9 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.String prependC(byte c) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_prepend_c.invokeExact(handle(), c);
+            RESULT = (MemoryAddress) DowncallHandles.g_string_prepend_c.invokeExact(
+                    handle(),
+                    c);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -550,7 +682,10 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_prepend_len.invokeExact(handle(), Interop.allocateNativeString(val), len);
+            RESULT = (MemoryAddress) DowncallHandles.g_string_prepend_len.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(val),
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -566,7 +701,9 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.String prependUnichar(int wc) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_prepend_unichar.invokeExact(handle(), wc);
+            RESULT = (MemoryAddress) DowncallHandles.g_string_prepend_unichar.invokeExact(
+                    handle(),
+                    wc);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -606,7 +743,11 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(replace, "Parameter 'replace' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_string_replace.invokeExact(handle(), Interop.allocateNativeString(find), Interop.allocateNativeString(replace), limit);
+            RESULT = (int) DowncallHandles.g_string_replace.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(find),
+                    Interop.allocateNativeString(replace),
+                    limit);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -625,7 +766,9 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.String setSize(long len) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_set_size.invokeExact(handle(), len);
+            RESULT = (MemoryAddress) DowncallHandles.g_string_set_size.invokeExact(
+                    handle(),
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -640,7 +783,9 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.String truncate(long len) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_truncate.invokeExact(handle(), len);
+            RESULT = (MemoryAddress) DowncallHandles.g_string_truncate.invokeExact(
+                    handle(),
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -658,7 +803,8 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.String up() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_up.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_string_up.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -676,7 +822,10 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         try {
-            DowncallHandles.g_string_vprintf.invokeExact(handle(), Interop.allocateNativeString(format), args);
+            DowncallHandles.g_string_vprintf.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(format),
+                    args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

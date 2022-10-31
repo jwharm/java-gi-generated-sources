@@ -25,25 +25,38 @@ public class ParamSpecOverride extends org.gtk.gobject.ParamSpec {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GParamSpecOverride";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ParamSpec.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gobject.ParamSpec.getMemoryLayout().withName("overridden")
-    ).withName("GParamSpecOverride");
+        Interop.valueLayout.ADDRESS.withName("overridden")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    @ApiStatus.Internal
     public ParamSpecOverride(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ParamSpecOverride */
+    /**
+     * Cast object to ParamSpecOverride if its GType is a (or inherits from) "GParamSpecOverride".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ParamSpecOverride" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GParamSpecOverride", a ClassCastException will be thrown.
+     */
     public static ParamSpecOverride castFrom(org.gtk.gobject.Object gobject) {
-        return new ParamSpecOverride(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GParamSpecOverride"))) {
+            return new ParamSpecOverride(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GParamSpecOverride");
+        }
     }
 }

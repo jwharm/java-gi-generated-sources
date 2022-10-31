@@ -45,21 +45,34 @@ public class SpringAnimation extends org.gnome.adw.Animation {
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwSpringAnimation";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public SpringAnimation(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to SpringAnimation */
+    /**
+     * Cast object to SpringAnimation if its GType is a (or inherits from) "AdwSpringAnimation".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "SpringAnimation" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwSpringAnimation", a ClassCastException will be thrown.
+     */
     public static SpringAnimation castFrom(org.gtk.gobject.Object gobject) {
-        return new SpringAnimation(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwSpringAnimation"))) {
+            return new SpringAnimation(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwSpringAnimation");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gtk.Widget widget, double from, double to, @NotNull org.gnome.adw.SpringParams springParams, @NotNull org.gnome.adw.AnimationTarget target) {
@@ -68,7 +81,12 @@ public class SpringAnimation extends org.gnome.adw.Animation {
         java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_spring_animation_new.invokeExact(widget.handle(), from, to, springParams.refcounted().unowned().handle(), target.refcounted().unowned().handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_spring_animation_new.invokeExact(
+                    widget.handle(),
+                    from,
+                    to,
+                    springParams.refcounted().unowned().handle(),
+                    target.refcounted().unowned().handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,7 +115,8 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     public boolean getClamp() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_spring_animation_get_clamp.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_spring_animation_get_clamp.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,13 +124,14 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     }
     
     /**
-     * Gets the precision used to determine the duration of {@code self}.
+     * Gets the precision of the spring.
      * @return the epsilon value
      */
     public double getEpsilon() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_spring_animation_get_epsilon.invokeExact(handle());
+            RESULT = (double) DowncallHandles.adw_spring_animation_get_epsilon.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,12 +140,15 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     
     /**
      * Gets the estimated duration of {@code self}.
+     * <p>
+     * Can be {@code DURATION_INFINITE} if the spring damping is set to 0.
      * @return the estimated duration
      */
     public int getEstimatedDuration() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_spring_animation_get_estimated_duration.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_spring_animation_get_estimated_duration.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,7 +162,8 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     public double getInitialVelocity() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_spring_animation_get_initial_velocity.invokeExact(handle());
+            RESULT = (double) DowncallHandles.adw_spring_animation_get_initial_velocity.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,7 +177,8 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     public @NotNull org.gnome.adw.SpringParams getSpringParams() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_spring_animation_get_spring_params.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_spring_animation_get_spring_params.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,7 +192,8 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     public double getValueFrom() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_spring_animation_get_value_from.invokeExact(handle());
+            RESULT = (double) DowncallHandles.adw_spring_animation_get_value_from.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,7 +207,8 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     public double getValueTo() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_spring_animation_get_value_to.invokeExact(handle());
+            RESULT = (double) DowncallHandles.adw_spring_animation_get_value_to.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -195,7 +222,8 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     public double getVelocity() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_spring_animation_get_velocity.invokeExact(handle());
+            RESULT = (double) DowncallHandles.adw_spring_animation_get_velocity.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,23 +232,44 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     
     /**
      * Sets whether {@code self} should be clamped.
+     * <p>
+     * If set to {@code TRUE}, the animation will abruptly end as soon as it reaches the
+     * final value, preventing overshooting.
+     * <p>
+     * It won't prevent overshooting {@code SpringAnimation:value-from} if a
+     * relative negative {@code SpringAnimation:initial-velocity} is set.
      * @param clamp the new value
      */
     public void setClamp(boolean clamp) {
         try {
-            DowncallHandles.adw_spring_animation_set_clamp.invokeExact(handle(), clamp ? 1 : 0);
+            DowncallHandles.adw_spring_animation_set_clamp.invokeExact(
+                    handle(),
+                    clamp ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     /**
-     * Sets the precision used to determine the duration of {@code self}.
+     * Sets the precision of the spring.
+     * <p>
+     * The level of precision used to determine when the animation has come to a
+     * rest, that is, when the amplitude of the oscillations becomes smaller than
+     * this value.
+     * <p>
+     * If the epsilon value is too small, the animation will take a long time to
+     * stop after the animated value has stopped visibly changing.
+     * <p>
+     * If the epsilon value is too large, the animation will end prematurely.
+     * <p>
+     * The default value is 0.001.
      * @param epsilon the new value
      */
     public void setEpsilon(double epsilon) {
         try {
-            DowncallHandles.adw_spring_animation_set_epsilon.invokeExact(handle(), epsilon);
+            DowncallHandles.adw_spring_animation_set_epsilon.invokeExact(
+                    handle(),
+                    epsilon);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -228,11 +277,15 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     
     /**
      * Sets the initial velocity of {@code self}.
+     * <p>
+     * Initial velocity affects only the animation curve, but not its duration.
      * @param velocity the initial velocity
      */
     public void setInitialVelocity(double velocity) {
         try {
-            DowncallHandles.adw_spring_animation_set_initial_velocity.invokeExact(handle(), velocity);
+            DowncallHandles.adw_spring_animation_set_initial_velocity.invokeExact(
+                    handle(),
+                    velocity);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -245,7 +298,9 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     public void setSpringParams(@NotNull org.gnome.adw.SpringParams springParams) {
         java.util.Objects.requireNonNull(springParams, "Parameter 'springParams' must not be null");
         try {
-            DowncallHandles.adw_spring_animation_set_spring_params.invokeExact(handle(), springParams.handle());
+            DowncallHandles.adw_spring_animation_set_spring_params.invokeExact(
+                    handle(),
+                    springParams.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -253,11 +308,16 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     
     /**
      * Sets the value {@code self} will animate from.
+     * <p>
+     * The animation will start at this value and end at
+     * {@code SpringAnimation:value-to}.
      * @param value the value to animate from
      */
     public void setValueFrom(double value) {
         try {
-            DowncallHandles.adw_spring_animation_set_value_from.invokeExact(handle(), value);
+            DowncallHandles.adw_spring_animation_set_value_from.invokeExact(
+                    handle(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -265,11 +325,16 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     
     /**
      * Sets the value {@code self} will animate to.
+     * <p>
+     * The animation will start at {@code SpringAnimation:value-from} and end at
+     * this value.
      * @param value the value to animate to
      */
     public void setValueTo(double value) {
         try {
-            DowncallHandles.adw_spring_animation_set_value_to.invokeExact(handle(), value);
+            DowncallHandles.adw_spring_animation_set_value_to.invokeExact(
+                    handle(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

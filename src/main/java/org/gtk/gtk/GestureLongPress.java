@@ -28,21 +28,34 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkGestureLongPress";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public GestureLongPress(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to GestureLongPress */
+    /**
+     * Cast object to GestureLongPress if its GType is a (or inherits from) "GtkGestureLongPress".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "GestureLongPress" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkGestureLongPress", a ClassCastException will be thrown.
+     */
     public static GestureLongPress castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureLongPress(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGestureLongPress"))) {
+            return new GestureLongPress(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGestureLongPress");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -69,7 +82,8 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
     public double getDelayFactor() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_gesture_long_press_get_delay_factor.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_gesture_long_press_get_delay_factor.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,7 +99,9 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
      */
     public void setDelayFactor(double delayFactor) {
         try {
-            DowncallHandles.gtk_gesture_long_press_set_delay_factor.invokeExact(handle(), delayFactor);
+            DowncallHandles.gtk_gesture_long_press_set_delay_factor.invokeExact(
+                    handle(),
+                    delayFactor);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

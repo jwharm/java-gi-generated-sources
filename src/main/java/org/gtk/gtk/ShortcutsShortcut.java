@@ -17,20 +17,33 @@ public class ShortcutsShortcut extends org.gtk.gtk.Widget implements org.gtk.gtk
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkShortcutsShortcut";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ShortcutsShortcut(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ShortcutsShortcut */
+    /**
+     * Cast object to ShortcutsShortcut if its GType is a (or inherits from) "GtkShortcutsShortcut".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ShortcutsShortcut" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkShortcutsShortcut", a ClassCastException will be thrown.
+     */
     public static ShortcutsShortcut castFrom(org.gtk.gobject.Object gobject) {
-        return new ShortcutsShortcut(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkShortcutsShortcut"))) {
+            return new ShortcutsShortcut(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkShortcutsShortcut");
+        }
     }
 }

@@ -20,14 +20,26 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GOptionGroup";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static OptionGroup allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        OptionGroup newInstance = new OptionGroup(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public OptionGroup(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -38,7 +50,11 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(helpDescription, "Parameter 'helpDescription' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_option_group_new.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(description), Interop.allocateNativeString(helpDescription), userData, 
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_option_group_new.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(description),
+                    Interop.allocateNativeString(helpDescription),
+                    userData,
                     Interop.cbDestroyNotifySymbol()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -71,7 +87,9 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
     public void addEntries(org.gtk.glib.OptionEntry[] entries) {
         java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
         try {
-            DowncallHandles.g_option_group_add_entries.invokeExact(handle(), Interop.allocateNativeArray(entries, false));
+            DowncallHandles.g_option_group_add_entries.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(entries, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,7 +103,8 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
     @Deprecated
     public void free() {
         try {
-            DowncallHandles.g_option_group_free.invokeExact(handle());
+            DowncallHandles.g_option_group_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -98,7 +117,8 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.OptionGroup ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_option_group_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_option_group_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,15 +162,15 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
      * @param func the {@link TranslateFunc}, or {@code null}
      */
     public void setTranslateFunc(@Nullable org.gtk.glib.TranslateFunc func) {
-        java.util.Objects.requireNonNullElse(func, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_option_group_set_translate_func.invokeExact(handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_option_group_set_translate_func.invokeExact(
+                    handle(),
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTranslateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)), 
+                        Interop.getScope())),
+                    (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -165,7 +185,9 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
     public void setTranslationDomain(@NotNull java.lang.String domain) {
         java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
         try {
-            DowncallHandles.g_option_group_set_translation_domain.invokeExact(handle(), Interop.allocateNativeString(domain));
+            DowncallHandles.g_option_group_set_translation_domain.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(domain));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,7 +200,8 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_option_group_unref.invokeExact(handle());
+            DowncallHandles.g_option_group_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

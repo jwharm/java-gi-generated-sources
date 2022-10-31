@@ -20,30 +20,65 @@ public class Renderer extends org.gtk.gobject.Object {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoRenderer";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.pango.Underline.getMemoryLayout().withName("underline"),
+        Interop.valueLayout.C_INT.withName("underline"),
         ValueLayout.JAVA_INT.withName("strikethrough"),
         ValueLayout.JAVA_INT.withName("active_count"),
-        org.pango.Matrix.getMemoryLayout().withName("matrix"),
-        org.pango.RendererPrivate.getMemoryLayout().withName("priv")
-    ).withName("PangoRenderer");
+        MemoryLayout.paddingLayout(32),
+        Interop.valueLayout.ADDRESS.withName("matrix"),
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code matrix}
+     * @return The value of the field {@code matrix}
+     */
+    public org.pango.Matrix matrix$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.pango.Matrix(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Change the value of the field {@code matrix}
+     * @param matrix The new value of the field {@code matrix}
+     */
+    public void matrix$set(org.pango.Matrix matrix) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), matrix.handle());
+    }
+    
+    @ApiStatus.Internal
     public Renderer(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Renderer */
+    /**
+     * Cast object to Renderer if its GType is a (or inherits from) "PangoRenderer".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Renderer" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "PangoRenderer", a ClassCastException will be thrown.
+     */
     public static Renderer castFrom(org.gtk.gobject.Object gobject) {
-        return new Renderer(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoRenderer"))) {
+            return new Renderer(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of PangoRenderer");
+        }
     }
     
     /**
@@ -59,7 +94,8 @@ public class Renderer extends org.gtk.gobject.Object {
      */
     public void activate() {
         try {
-            DowncallHandles.pango_renderer_activate.invokeExact(handle());
+            DowncallHandles.pango_renderer_activate.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -72,7 +108,8 @@ public class Renderer extends org.gtk.gobject.Object {
      */
     public void deactivate() {
         try {
-            DowncallHandles.pango_renderer_deactivate.invokeExact(handle());
+            DowncallHandles.pango_renderer_deactivate.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,7 +132,12 @@ public class Renderer extends org.gtk.gobject.Object {
      */
     public void drawErrorUnderline(int x, int y, int width, int height) {
         try {
-            DowncallHandles.pango_renderer_draw_error_underline.invokeExact(handle(), x, y, width, height);
+            DowncallHandles.pango_renderer_draw_error_underline.invokeExact(
+                    handle(),
+                    x,
+                    y,
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,7 +154,12 @@ public class Renderer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         try {
-            DowncallHandles.pango_renderer_draw_glyph.invokeExact(handle(), font.handle(), glyph.getValue(), x, y);
+            DowncallHandles.pango_renderer_draw_glyph.invokeExact(
+                    handle(),
+                    font.handle(),
+                    glyph.getValue().intValue(),
+                    x,
+                    y);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,10 +192,14 @@ public class Renderer extends org.gtk.gobject.Object {
      *   in Pango units
      */
     public void drawGlyphItem(@Nullable java.lang.String text, @NotNull org.pango.GlyphItem glyphItem, int x, int y) {
-        java.util.Objects.requireNonNullElse(text, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(glyphItem, "Parameter 'glyphItem' must not be null");
         try {
-            DowncallHandles.pango_renderer_draw_glyph_item.invokeExact(handle(), Interop.allocateNativeString(text), glyphItem.handle(), x, y);
+            DowncallHandles.pango_renderer_draw_glyph_item.invokeExact(
+                    handle(),
+                    (Addressable) (text == null ? MemoryAddress.NULL : Interop.allocateNativeString(text)),
+                    glyphItem.handle(),
+                    x,
+                    y);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,7 +218,12 @@ public class Renderer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
         try {
-            DowncallHandles.pango_renderer_draw_glyphs.invokeExact(handle(), font.handle(), glyphs.handle(), x, y);
+            DowncallHandles.pango_renderer_draw_glyphs.invokeExact(
+                    handle(),
+                    font.handle(),
+                    glyphs.handle(),
+                    x,
+                    y);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,7 +243,11 @@ public class Renderer extends org.gtk.gobject.Object {
     public void drawLayout(@NotNull org.pango.Layout layout, int x, int y) {
         java.util.Objects.requireNonNull(layout, "Parameter 'layout' must not be null");
         try {
-            DowncallHandles.pango_renderer_draw_layout.invokeExact(handle(), layout.handle(), x, y);
+            DowncallHandles.pango_renderer_draw_layout.invokeExact(
+                    handle(),
+                    layout.handle(),
+                    x,
+                    y);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -208,7 +268,11 @@ public class Renderer extends org.gtk.gobject.Object {
     public void drawLayoutLine(@NotNull org.pango.LayoutLine line, int x, int y) {
         java.util.Objects.requireNonNull(line, "Parameter 'line' must not be null");
         try {
-            DowncallHandles.pango_renderer_draw_layout_line.invokeExact(handle(), line.handle(), x, y);
+            DowncallHandles.pango_renderer_draw_layout_line.invokeExact(
+                    handle(),
+                    line.handle(),
+                    x,
+                    y);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -231,7 +295,13 @@ public class Renderer extends org.gtk.gobject.Object {
     public void drawRectangle(@NotNull org.pango.RenderPart part, int x, int y, int width, int height) {
         java.util.Objects.requireNonNull(part, "Parameter 'part' must not be null");
         try {
-            DowncallHandles.pango_renderer_draw_rectangle.invokeExact(handle(), part.getValue(), x, y, width, height);
+            DowncallHandles.pango_renderer_draw_rectangle.invokeExact(
+                    handle(),
+                    part.getValue(),
+                    x,
+                    y,
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -251,7 +321,15 @@ public class Renderer extends org.gtk.gobject.Object {
     public void drawTrapezoid(@NotNull org.pango.RenderPart part, double y1, double x11, double x21, double y2, double x12, double x22) {
         java.util.Objects.requireNonNull(part, "Parameter 'part' must not be null");
         try {
-            DowncallHandles.pango_renderer_draw_trapezoid.invokeExact(handle(), part.getValue(), y1, x11, x21, y2, x12, x22);
+            DowncallHandles.pango_renderer_draw_trapezoid.invokeExact(
+                    handle(),
+                    part.getValue(),
+                    y1,
+                    x11,
+                    x21,
+                    y2,
+                    x12,
+                    x22);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -268,7 +346,9 @@ public class Renderer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(part, "Parameter 'part' must not be null");
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.pango_renderer_get_alpha.invokeExact(handle(), part.getValue());
+            RESULT = (short) DowncallHandles.pango_renderer_get_alpha.invokeExact(
+                    handle(),
+                    part.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -286,7 +366,9 @@ public class Renderer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(part, "Parameter 'part' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_renderer_get_color.invokeExact(handle(), part.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_renderer_get_color.invokeExact(
+                    handle(),
+                    part.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -307,7 +389,8 @@ public class Renderer extends org.gtk.gobject.Object {
     public @Nullable org.pango.Layout getLayout() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_renderer_get_layout.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_renderer_get_layout.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -328,7 +411,8 @@ public class Renderer extends org.gtk.gobject.Object {
     public @Nullable org.pango.LayoutLine getLayoutLine() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_renderer_get_layout_line.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_renderer_get_layout_line.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -347,7 +431,8 @@ public class Renderer extends org.gtk.gobject.Object {
     public @Nullable org.pango.Matrix getMatrix() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_renderer_get_matrix.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_renderer_get_matrix.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -374,7 +459,9 @@ public class Renderer extends org.gtk.gobject.Object {
     public void partChanged(@NotNull org.pango.RenderPart part) {
         java.util.Objects.requireNonNull(part, "Parameter 'part' must not be null");
         try {
-            DowncallHandles.pango_renderer_part_changed.invokeExact(handle(), part.getValue());
+            DowncallHandles.pango_renderer_part_changed.invokeExact(
+                    handle(),
+                    part.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -391,7 +478,10 @@ public class Renderer extends org.gtk.gobject.Object {
     public void setAlpha(@NotNull org.pango.RenderPart part, short alpha) {
         java.util.Objects.requireNonNull(part, "Parameter 'part' must not be null");
         try {
-            DowncallHandles.pango_renderer_set_alpha.invokeExact(handle(), part.getValue(), alpha);
+            DowncallHandles.pango_renderer_set_alpha.invokeExact(
+                    handle(),
+                    part.getValue(),
+                    alpha);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -406,9 +496,11 @@ public class Renderer extends org.gtk.gobject.Object {
      */
     public void setColor(@NotNull org.pango.RenderPart part, @Nullable org.pango.Color color) {
         java.util.Objects.requireNonNull(part, "Parameter 'part' must not be null");
-        java.util.Objects.requireNonNullElse(color, MemoryAddress.NULL);
         try {
-            DowncallHandles.pango_renderer_set_color.invokeExact(handle(), part.getValue(), color.handle());
+            DowncallHandles.pango_renderer_set_color.invokeExact(
+                    handle(),
+                    part.getValue(),
+                    (Addressable) (color == null ? MemoryAddress.NULL : color.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -420,9 +512,10 @@ public class Renderer extends org.gtk.gobject.Object {
      *  (No matrix set is the same as setting the identity matrix.)
      */
     public void setMatrix(@Nullable org.pango.Matrix matrix) {
-        java.util.Objects.requireNonNullElse(matrix, MemoryAddress.NULL);
         try {
-            DowncallHandles.pango_renderer_set_matrix.invokeExact(handle(), matrix.handle());
+            DowncallHandles.pango_renderer_set_matrix.invokeExact(
+                    handle(),
+                    (Addressable) (matrix == null ? MemoryAddress.NULL : matrix.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

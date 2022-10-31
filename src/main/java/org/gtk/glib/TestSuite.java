@@ -14,14 +14,26 @@ public class TestSuite extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTestSuite";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static TestSuite allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        TestSuite newInstance = new TestSuite(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public TestSuite(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -33,7 +45,9 @@ public class TestSuite extends io.github.jwharm.javagi.ResourceBase {
     public void add(@NotNull org.gtk.glib.TestCase testCase) {
         java.util.Objects.requireNonNull(testCase, "Parameter 'testCase' must not be null");
         try {
-            DowncallHandles.g_test_suite_add.invokeExact(handle(), testCase.handle());
+            DowncallHandles.g_test_suite_add.invokeExact(
+                    handle(),
+                    testCase.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -46,7 +60,9 @@ public class TestSuite extends io.github.jwharm.javagi.ResourceBase {
     public void addSuite(@NotNull org.gtk.glib.TestSuite nestedsuite) {
         java.util.Objects.requireNonNull(nestedsuite, "Parameter 'nestedsuite' must not be null");
         try {
-            DowncallHandles.g_test_suite_add_suite.invokeExact(handle(), nestedsuite.handle());
+            DowncallHandles.g_test_suite_add_suite.invokeExact(
+                    handle(),
+                    nestedsuite.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -57,7 +73,8 @@ public class TestSuite extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.g_test_suite_free.invokeExact(handle());
+            DowncallHandles.g_test_suite_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

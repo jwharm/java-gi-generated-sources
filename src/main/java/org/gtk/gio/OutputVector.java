@@ -18,19 +18,73 @@ public class OutputVector extends io.github.jwharm.javagi.ResourceBase {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GOutputVector";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("buffer"),
         ValueLayout.JAVA_LONG.withName("size")
-    ).withName("GOutputVector");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static OutputVector allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        OutputVector newInstance = new OutputVector(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code buffer}
+     * @return The value of the field {@code buffer}
+     */
+    public java.lang.foreign.MemoryAddress buffer$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code buffer}
+     * @param buffer The new value of the field {@code buffer}
+     */
+    public void buffer$set(java.lang.foreign.MemoryAddress buffer) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), buffer);
+    }
+    
+    /**
+     * Get the value of the field {@code size}
+     * @return The value of the field {@code size}
+     */
+    public long size$get() {
+        var RESULT = (long) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("size"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code size}
+     * @param size The new value of the field {@code size}
+     */
+    public void size$set(long size) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("size"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
+    }
+    
+    @ApiStatus.Internal
     public OutputVector(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

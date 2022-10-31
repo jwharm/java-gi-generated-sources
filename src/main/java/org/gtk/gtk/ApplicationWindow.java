@@ -82,32 +82,55 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkApplicationWindow";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Window.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkApplicationWindow");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gtk.Window parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gtk.Window(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public ApplicationWindow(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ApplicationWindow */
+    /**
+     * Cast object to ApplicationWindow if its GType is a (or inherits from) "GtkApplicationWindow".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ApplicationWindow" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkApplicationWindow", a ClassCastException will be thrown.
+     */
     public static ApplicationWindow castFrom(org.gtk.gobject.Object gobject) {
-        return new ApplicationWindow(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkApplicationWindow"))) {
+            return new ApplicationWindow(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkApplicationWindow");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gtk.Application application) {
         java.util.Objects.requireNonNull(application, "Parameter 'application' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_application_window_new.invokeExact(application.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_application_window_new.invokeExact(
+                    application.handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,7 +155,8 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
     public @Nullable org.gtk.gtk.ShortcutsWindow getHelpOverlay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_application_window_get_help_overlay.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_application_window_get_help_overlay.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,7 +173,8 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
     public int getId() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_application_window_get_id.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_application_window_get_id.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -164,7 +189,8 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
     public boolean getShowMenubar() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_application_window_get_show_menubar.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_application_window_get_show_menubar.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,9 +207,10 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
      * @param helpOverlay a {@code GtkShortcutsWindow}
      */
     public void setHelpOverlay(@Nullable org.gtk.gtk.ShortcutsWindow helpOverlay) {
-        java.util.Objects.requireNonNullElse(helpOverlay, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_application_window_set_help_overlay.invokeExact(handle(), helpOverlay.handle());
+            DowncallHandles.gtk_application_window_set_help_overlay.invokeExact(
+                    handle(),
+                    (Addressable) (helpOverlay == null ? MemoryAddress.NULL : helpOverlay.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -196,7 +223,9 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
      */
     public void setShowMenubar(boolean showMenubar) {
         try {
-            DowncallHandles.gtk_application_window_set_show_menubar.invokeExact(handle(), showMenubar ? 1 : 0);
+            DowncallHandles.gtk_application_window_set_show_menubar.invokeExact(
+                    handle(),
+                    showMenubar ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

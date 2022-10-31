@@ -42,21 +42,34 @@ public class CenterBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkCenterBox";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public CenterBox(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CenterBox */
+    /**
+     * Cast object to CenterBox if its GType is a (or inherits from) "GtkCenterBox".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CenterBox" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkCenterBox", a ClassCastException will be thrown.
+     */
     public static CenterBox castFrom(org.gtk.gobject.Object gobject) {
-        return new CenterBox(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCenterBox"))) {
+            return new CenterBox(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCenterBox");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -83,7 +96,8 @@ public class CenterBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public @NotNull org.gtk.gtk.BaselinePosition getBaselinePosition() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_center_box_get_baseline_position.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_center_box_get_baseline_position.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,7 +111,8 @@ public class CenterBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public @Nullable org.gtk.gtk.Widget getCenterWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_center_box_get_center_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_center_box_get_center_widget.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,7 +126,8 @@ public class CenterBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public @Nullable org.gtk.gtk.Widget getEndWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_center_box_get_end_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_center_box_get_end_widget.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,7 +141,8 @@ public class CenterBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public @Nullable org.gtk.gtk.Widget getStartWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_center_box_get_start_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_center_box_get_start_widget.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,7 +162,9 @@ public class CenterBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public void setBaselinePosition(@NotNull org.gtk.gtk.BaselinePosition position) {
         java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
         try {
-            DowncallHandles.gtk_center_box_set_baseline_position.invokeExact(handle(), position.getValue());
+            DowncallHandles.gtk_center_box_set_baseline_position.invokeExact(
+                    handle(),
+                    position.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -158,9 +177,10 @@ public class CenterBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @param child the new center widget
      */
     public void setCenterWidget(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_center_box_set_center_widget.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_center_box_set_center_widget.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -173,9 +193,10 @@ public class CenterBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @param child the new end widget
      */
     public void setEndWidget(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_center_box_set_end_widget.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_center_box_set_end_widget.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -188,9 +209,10 @@ public class CenterBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @param child the new start widget
      */
     public void setStartWidget(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_center_box_set_start_widget.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_center_box_set_start_widget.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

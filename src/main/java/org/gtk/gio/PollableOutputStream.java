@@ -15,6 +15,21 @@ import org.jetbrains.annotations.*;
 public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to PollableOutputStream if its GType is a (or inherits from) "GPollableOutputStream".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "PollableOutputStream" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GPollableOutputStream", a ClassCastException will be thrown.
+     */
+    public static PollableOutputStream castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GPollableOutputStream"))) {
+            return new PollableOutputStreamImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GPollableOutputStream");
+        }
+    }
+    
+    /**
      * Checks if {@code stream} is actually pollable. Some classes may implement
      * {@link PollableOutputStream} but have only certain instances of that
      * class be pollable. If this method returns {@code false}, then the behavior
@@ -27,7 +42,8 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
     default boolean canPoll() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_pollable_output_stream_can_poll.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_pollable_output_stream_can_poll.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -47,10 +63,11 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
      * @return a new {@link org.gtk.glib.Source}
      */
     default @NotNull org.gtk.glib.Source createSource(@Nullable org.gtk.gio.Cancellable cancellable) {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_pollable_output_stream_create_source.invokeExact(handle(), cancellable.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_pollable_output_stream_create_source.invokeExact(
+                    handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,7 +91,8 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
     default boolean isWritable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_pollable_output_stream_is_writable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_pollable_output_stream_is_writable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,11 +125,14 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
      */
     default long writeNonblocking(byte[] buffer, long count, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_pollable_output_stream_write_nonblocking.invokeExact(handle(), Interop.allocateNativeArray(buffer, false), count, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_pollable_output_stream_write_nonblocking.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(buffer, false),
+                    count,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,12 +173,16 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.gio.PollableReturn writevNonblocking(org.gtk.gio.OutputVector[] vectors, long nVectors, Out<Long> bytesWritten, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(vectors, "Parameter 'vectors' must not be null");
         java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_pollable_output_stream_writev_nonblocking.invokeExact(handle(), Interop.allocateNativeArray(vectors, false), nVectors, (Addressable) bytesWrittenPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_pollable_output_stream_writev_nonblocking.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(vectors, false),
+                    nVectors,
+                    (Addressable) bytesWrittenPOINTER.address(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

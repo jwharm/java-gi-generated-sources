@@ -33,25 +33,47 @@ public class Sorter extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkSorter";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkSorter");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Sorter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Sorter */
+    /**
+     * Cast object to Sorter if its GType is a (or inherits from) "GtkSorter".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Sorter" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkSorter", a ClassCastException will be thrown.
+     */
     public static Sorter castFrom(org.gtk.gobject.Object gobject) {
-        return new Sorter(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSorter"))) {
+            return new Sorter(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkSorter");
+        }
     }
     
     /**
@@ -72,7 +94,9 @@ public class Sorter extends org.gtk.gobject.Object {
     public void changed(@NotNull org.gtk.gtk.SorterChange change) {
         java.util.Objects.requireNonNull(change, "Parameter 'change' must not be null");
         try {
-            DowncallHandles.gtk_sorter_changed.invokeExact(handle(), change.getValue());
+            DowncallHandles.gtk_sorter_changed.invokeExact(
+                    handle(),
+                    change.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,7 +126,10 @@ public class Sorter extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(item2, "Parameter 'item2' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_sorter_compare.invokeExact(handle(), item1.handle(), item2.handle());
+            RESULT = (int) DowncallHandles.gtk_sorter_compare.invokeExact(
+                    handle(),
+                    item1.handle(),
+                    item2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,7 +148,8 @@ public class Sorter extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.SorterOrder getOrder() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_sorter_get_order.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_sorter_get_order.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

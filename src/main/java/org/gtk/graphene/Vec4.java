@@ -17,18 +17,30 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
         Graphene.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "graphene_vec4_t";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.graphene.Simd4F.getMemoryLayout().withName("value")
-    ).withName("graphene_vec4_t");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Vec4 allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Vec4 newInstance = new Vec4(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Vec4(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -62,16 +74,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * @param b a {@link Vec4}
      * @param res return location for the resulting vector
      */
-    public void add(@NotNull org.gtk.graphene.Vec4 b, @NotNull Out<org.gtk.graphene.Vec4> res) {
+    public void add(@NotNull org.gtk.graphene.Vec4 b, @NotNull org.gtk.graphene.Vec4 res) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_vec4_add.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec4_add.invokeExact(
+                    handle(),
+                    b.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -81,16 +94,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * @param b a {@link Vec4}
      * @param res return location for the resulting vector
      */
-    public void divide(@NotNull org.gtk.graphene.Vec4 b, @NotNull Out<org.gtk.graphene.Vec4> res) {
+    public void divide(@NotNull org.gtk.graphene.Vec4 b, @NotNull org.gtk.graphene.Vec4 res) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_vec4_divide.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec4_divide.invokeExact(
+                    handle(),
+                    b.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -102,7 +116,9 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_vec4_dot.invokeExact(handle(), b.handle());
+            RESULT = (float) DowncallHandles.graphene_vec4_dot.invokeExact(
+                    handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,7 +134,9 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(v2, "Parameter 'v2' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_vec4_equal.invokeExact(handle(), v2.handle());
+            RESULT = (boolean) DowncallHandles.graphene_vec4_equal.invokeExact(
+                    handle(),
+                    v2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -130,7 +148,8 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_vec4_free.invokeExact(handle());
+            DowncallHandles.graphene_vec4_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -143,7 +162,8 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
     public float getW() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_vec4_get_w.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_vec4_get_w.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -157,7 +177,8 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
     public float getX() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_vec4_get_x.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_vec4_get_x.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,15 +190,15 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * of the given {@link Vec4}.
      * @param res return location for a {@link Vec2}
      */
-    public void getXy(@NotNull Out<org.gtk.graphene.Vec2> res) {
+    public void getXy(@NotNull org.gtk.graphene.Vec2 res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_vec4_get_xy.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec4_get_xy.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Vec2(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -185,15 +206,15 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * of the given {@link Vec4}.
      * @param res return location for a graphene_vec3_t
      */
-    public void getXyz(@NotNull Out<org.gtk.graphene.Vec3> res) {
+    public void getXyz(@NotNull org.gtk.graphene.Vec3 res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_vec4_get_xyz.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec4_get_xyz.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -203,7 +224,8 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
     public float getY() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_vec4_get_y.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_vec4_get_y.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -217,7 +239,8 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
     public float getZ() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_vec4_get_z.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_vec4_get_z.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -238,7 +261,12 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Vec4 init(float x, float y, float z, float w) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_vec4_init.invokeExact(handle(), x, y, z, w);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_vec4_init.invokeExact(
+                    handle(),
+                    x,
+                    y,
+                    z,
+                    w);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -254,7 +282,9 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_vec4_init_from_float.invokeExact(handle(), Interop.allocateNativeArray(src, false));
+            RESULT = (MemoryAddress) DowncallHandles.graphene_vec4_init_from_float.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(src, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -273,7 +303,11 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_vec4_init_from_vec2.invokeExact(handle(), src.handle(), z, w);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_vec4_init_from_vec2.invokeExact(
+                    handle(),
+                    src.handle(),
+                    z,
+                    w);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -291,7 +325,10 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_vec4_init_from_vec3.invokeExact(handle(), src.handle(), w);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_vec4_init_from_vec3.invokeExact(
+                    handle(),
+                    src.handle(),
+                    w);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -308,7 +345,9 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_vec4_init_from_vec4.invokeExact(handle(), src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_vec4_init_from_vec4.invokeExact(
+                    handle(),
+                    src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -321,16 +360,18 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * @param factor the interpolation factor
      * @param res the interpolated vector
      */
-    public void interpolate(@NotNull org.gtk.graphene.Vec4 v2, double factor, @NotNull Out<org.gtk.graphene.Vec4> res) {
+    public void interpolate(@NotNull org.gtk.graphene.Vec4 v2, double factor, @NotNull org.gtk.graphene.Vec4 res) {
         java.util.Objects.requireNonNull(v2, "Parameter 'v2' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_vec4_interpolate.invokeExact(handle(), v2.handle(), factor, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec4_interpolate.invokeExact(
+                    handle(),
+                    v2.handle(),
+                    factor,
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -340,7 +381,8 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
     public float length() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_vec4_length.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_vec4_length.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -353,16 +395,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * @param b a {@link Vec4}
      * @param res return location for the result vector
      */
-    public void max(@NotNull org.gtk.graphene.Vec4 b, @NotNull Out<org.gtk.graphene.Vec4> res) {
+    public void max(@NotNull org.gtk.graphene.Vec4 b, @NotNull org.gtk.graphene.Vec4 res) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_vec4_max.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec4_max.invokeExact(
+                    handle(),
+                    b.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -371,16 +414,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * @param b a {@link Vec4}
      * @param res return location for the result vector
      */
-    public void min(@NotNull org.gtk.graphene.Vec4 b, @NotNull Out<org.gtk.graphene.Vec4> res) {
+    public void min(@NotNull org.gtk.graphene.Vec4 b, @NotNull org.gtk.graphene.Vec4 res) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_vec4_min.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec4_min.invokeExact(
+                    handle(),
+                    b.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -388,16 +432,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * @param b a {@link Vec4}
      * @param res return location for the resulting vector
      */
-    public void multiply(@NotNull org.gtk.graphene.Vec4 b, @NotNull Out<org.gtk.graphene.Vec4> res) {
+    public void multiply(@NotNull org.gtk.graphene.Vec4 b, @NotNull org.gtk.graphene.Vec4 res) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_vec4_multiply.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec4_multiply.invokeExact(
+                    handle(),
+                    b.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -411,7 +456,10 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(v2, "Parameter 'v2' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_vec4_near.invokeExact(handle(), v2.handle(), epsilon);
+            RESULT = (boolean) DowncallHandles.graphene_vec4_near.invokeExact(
+                    handle(),
+                    v2.handle(),
+                    epsilon);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -422,15 +470,15 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Negates the given {@link Vec4}.
      * @param res return location for the result vector
      */
-    public void negate(@NotNull Out<org.gtk.graphene.Vec4> res) {
+    public void negate(@NotNull org.gtk.graphene.Vec4 res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_vec4_negate.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec4_negate.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -438,15 +486,15 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the normalized
      *   vector
      */
-    public void normalize(@NotNull Out<org.gtk.graphene.Vec4> res) {
+    public void normalize(@NotNull org.gtk.graphene.Vec4 res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_vec4_normalize.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec4_normalize.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -454,15 +502,16 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * @param factor the scalar factor
      * @param res return location for the result vector
      */
-    public void scale(float factor, @NotNull Out<org.gtk.graphene.Vec4> res) {
+    public void scale(float factor, @NotNull org.gtk.graphene.Vec4 res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_vec4_scale.invokeExact(handle(), factor, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec4_scale.invokeExact(
+                    handle(),
+                    factor,
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -472,16 +521,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * @param b a {@link Vec4}
      * @param res return location for the resulting vector
      */
-    public void subtract(@NotNull org.gtk.graphene.Vec4 b, @NotNull Out<org.gtk.graphene.Vec4> res) {
+    public void subtract(@NotNull org.gtk.graphene.Vec4 b, @NotNull org.gtk.graphene.Vec4 res) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_vec4_subtract.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec4_subtract.invokeExact(
+                    handle(),
+                    b.handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -494,7 +544,9 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
         MemorySegment destPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_vec4_to_float.invokeExact(handle(), (Addressable) destPOINTER.address());
+            DowncallHandles.graphene_vec4_to_float.invokeExact(
+                    handle(),
+                    (Addressable) destPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

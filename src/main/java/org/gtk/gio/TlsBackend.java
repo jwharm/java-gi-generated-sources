@@ -12,6 +12,21 @@ import org.jetbrains.annotations.*;
 public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to TlsBackend if its GType is a (or inherits from) "GTlsBackend".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TlsBackend" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GTlsBackend", a ClassCastException will be thrown.
+     */
+    public static TlsBackend castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTlsBackend"))) {
+            return new TlsBackendImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GTlsBackend");
+        }
+    }
+    
+    /**
      * Gets the {@link org.gtk.gobject.Type} of {@code backend}'s {@link TlsCertificate} implementation.
      * @return the {@link org.gtk.gobject.Type} of {@code backend}'s {@link TlsCertificate}
      *   implementation.
@@ -19,7 +34,8 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.glib.Type getCertificateType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_tls_backend_get_certificate_type.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_tls_backend_get_certificate_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -34,7 +50,8 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.glib.Type getClientConnectionType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_tls_backend_get_client_connection_type.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_tls_backend_get_client_connection_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -49,7 +66,8 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.gio.TlsDatabase getDefaultDatabase() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_backend_get_default_database.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_backend_get_default_database.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,7 +82,8 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.glib.Type getDtlsClientConnectionType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_tls_backend_get_dtls_client_connection_type.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_tls_backend_get_dtls_client_connection_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,7 +98,8 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.glib.Type getDtlsServerConnectionType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_tls_backend_get_dtls_server_connection_type.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_tls_backend_get_dtls_server_connection_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,7 +113,8 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.glib.Type getFileDatabaseType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_tls_backend_get_file_database_type.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_tls_backend_get_file_database_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,7 +129,8 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.glib.Type getServerConnectionType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_tls_backend_get_server_connection_type.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_tls_backend_get_server_connection_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,9 +149,10 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
      * @param database the {@link TlsDatabase}
      */
     default void setDefaultDatabase(@Nullable org.gtk.gio.TlsDatabase database) {
-        java.util.Objects.requireNonNullElse(database, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_tls_backend_set_default_database.invokeExact(handle(), database.handle());
+            DowncallHandles.g_tls_backend_set_default_database.invokeExact(
+                    handle(),
+                    (Addressable) (database == null ? MemoryAddress.NULL : database.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -143,7 +166,8 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     default boolean supportsDtls() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tls_backend_supports_dtls.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_tls_backend_supports_dtls.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -158,7 +182,8 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     default boolean supportsTls() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tls_backend_supports_tls.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_tls_backend_supports_tls.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

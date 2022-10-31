@@ -25,6 +25,8 @@ public class SelectionModelInterface extends io.github.jwharm.javagi.ResourceBas
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkSelectionModelInterface";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface"),
         Interop.valueLayout.ADDRESS.withName("is_selected"),
@@ -36,16 +38,26 @@ public class SelectionModelInterface extends io.github.jwharm.javagi.ResourceBas
         Interop.valueLayout.ADDRESS.withName("select_all"),
         Interop.valueLayout.ADDRESS.withName("unselect_all"),
         Interop.valueLayout.ADDRESS.withName("set_selection")
-    ).withName("GtkSelectionModelInterface");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static SelectionModelInterface allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        SelectionModelInterface newInstance = new SelectionModelInterface(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public SelectionModelInterface(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

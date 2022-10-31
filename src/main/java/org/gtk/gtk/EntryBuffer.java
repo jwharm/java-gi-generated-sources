@@ -23,32 +23,55 @@ public class EntryBuffer extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkEntryBuffer";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkEntryBuffer");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public EntryBuffer(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to EntryBuffer */
+    /**
+     * Cast object to EntryBuffer if its GType is a (or inherits from) "GtkEntryBuffer".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "EntryBuffer" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkEntryBuffer", a ClassCastException will be thrown.
+     */
     public static EntryBuffer castFrom(org.gtk.gobject.Object gobject) {
-        return new EntryBuffer(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEntryBuffer"))) {
+            return new EntryBuffer(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEntryBuffer");
+        }
     }
     
     private static Refcounted constructNew(@Nullable java.lang.String initialChars, int nInitialChars) {
-        java.util.Objects.requireNonNullElse(initialChars, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_entry_buffer_new.invokeExact(Interop.allocateNativeString(initialChars), nInitialChars), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_entry_buffer_new.invokeExact(
+                    (Addressable) (initialChars == null ? MemoryAddress.NULL : Interop.allocateNativeString(initialChars)),
+                    nInitialChars), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,7 +108,10 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     public int deleteText(int position, int nChars) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_buffer_delete_text.invokeExact(handle(), position, nChars);
+            RESULT = (int) DowncallHandles.gtk_entry_buffer_delete_text.invokeExact(
+                    handle(),
+                    position,
+                    nChars);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +125,10 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      */
     public void emitDeletedText(int position, int nChars) {
         try {
-            DowncallHandles.gtk_entry_buffer_emit_deleted_text.invokeExact(handle(), position, nChars);
+            DowncallHandles.gtk_entry_buffer_emit_deleted_text.invokeExact(
+                    handle(),
+                    position,
+                    nChars);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,7 +143,11 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     public void emitInsertedText(int position, @NotNull java.lang.String chars, int nChars) {
         java.util.Objects.requireNonNull(chars, "Parameter 'chars' must not be null");
         try {
-            DowncallHandles.gtk_entry_buffer_emit_inserted_text.invokeExact(handle(), position, Interop.allocateNativeString(chars), nChars);
+            DowncallHandles.gtk_entry_buffer_emit_inserted_text.invokeExact(
+                    handle(),
+                    position,
+                    Interop.allocateNativeString(chars),
+                    nChars);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,7 +162,8 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     public long getBytes() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gtk_entry_buffer_get_bytes.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gtk_entry_buffer_get_bytes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -143,7 +177,8 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     public int getLength() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_buffer_get_length.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_entry_buffer_get_length.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -158,7 +193,8 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     public int getMaxLength() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_buffer_get_max_length.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_entry_buffer_get_max_length.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,11 +213,12 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     public @NotNull java.lang.String getText() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_buffer_get_text.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_buffer_get_text.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -203,7 +240,11 @@ public class EntryBuffer extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(chars, "Parameter 'chars' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_buffer_insert_text.invokeExact(handle(), position, Interop.allocateNativeString(chars), nChars);
+            RESULT = (int) DowncallHandles.gtk_entry_buffer_insert_text.invokeExact(
+                    handle(),
+                    position,
+                    Interop.allocateNativeString(chars),
+                    nChars);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -221,7 +262,9 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      */
     public void setMaxLength(int maxLength) {
         try {
-            DowncallHandles.gtk_entry_buffer_set_max_length.invokeExact(handle(), maxLength);
+            DowncallHandles.gtk_entry_buffer_set_max_length.invokeExact(
+                    handle(),
+                    maxLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -241,7 +284,10 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     public void setText(@NotNull java.lang.String chars, int nChars) {
         java.util.Objects.requireNonNull(chars, "Parameter 'chars' must not be null");
         try {
-            DowncallHandles.gtk_entry_buffer_set_text.invokeExact(handle(), Interop.allocateNativeString(chars), nChars);
+            DowncallHandles.gtk_entry_buffer_set_text.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(chars),
+                    nChars);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -371,7 +417,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
         public static void signalEntryBufferInsertedText(MemoryAddress source, int position, MemoryAddress chars, int nChars, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EntryBuffer.InsertedText) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EntryBuffer(Refcounted.get(source)), position, chars.getUtf8String(0), nChars);
+            HANDLER.signalReceived(new EntryBuffer(Refcounted.get(source)), position, Interop.getStringFrom(chars), nChars);
         }
     }
 }

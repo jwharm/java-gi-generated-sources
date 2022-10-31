@@ -43,32 +43,56 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkBox";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkBox");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gtk.Widget parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gtk.Widget(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Box(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Box */
+    /**
+     * Cast object to Box if its GType is a (or inherits from) "GtkBox".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Box" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkBox", a ClassCastException will be thrown.
+     */
     public static Box castFrom(org.gtk.gobject.Object gobject) {
-        return new Box(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkBox"))) {
+            return new Box(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkBox");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gtk.Orientation orientation, int spacing) {
         java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_box_new.invokeExact(orientation.getValue(), spacing), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_box_new.invokeExact(
+                    orientation.getValue(),
+                    spacing), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,7 +115,9 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
     public void append(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_box_append.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_box_append.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,7 +130,8 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
     public @NotNull org.gtk.gtk.BaselinePosition getBaselinePosition() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_box_get_baseline_position.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_box_get_baseline_position.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,7 +146,8 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
     public boolean getHomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_box_get_homogeneous.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_box_get_homogeneous.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -133,7 +161,8 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
     public int getSpacing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_box_get_spacing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_box_get_spacing.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -150,9 +179,11 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
      */
     public void insertChildAfter(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget sibling) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNullElse(sibling, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_box_insert_child_after.invokeExact(handle(), child.handle(), sibling.handle());
+            DowncallHandles.gtk_box_insert_child_after.invokeExact(
+                    handle(),
+                    child.handle(),
+                    (Addressable) (sibling == null ? MemoryAddress.NULL : sibling.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -165,7 +196,9 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
     public void prepend(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_box_prepend.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_box_prepend.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,7 +215,9 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
     public void remove(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_box_remove.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_box_remove.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -198,9 +233,11 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
      */
     public void reorderChildAfter(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget sibling) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNullElse(sibling, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_box_reorder_child_after.invokeExact(handle(), child.handle(), sibling.handle());
+            DowncallHandles.gtk_box_reorder_child_after.invokeExact(
+                    handle(),
+                    child.handle(),
+                    (Addressable) (sibling == null ? MemoryAddress.NULL : sibling.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,7 +256,9 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
     public void setBaselinePosition(@NotNull org.gtk.gtk.BaselinePosition position) {
         java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
         try {
-            DowncallHandles.gtk_box_set_baseline_position.invokeExact(handle(), position.getValue());
+            DowncallHandles.gtk_box_set_baseline_position.invokeExact(
+                    handle(),
+                    position.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -233,7 +272,9 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
      */
     public void setHomogeneous(boolean homogeneous) {
         try {
-            DowncallHandles.gtk_box_set_homogeneous.invokeExact(handle(), homogeneous ? 1 : 0);
+            DowncallHandles.gtk_box_set_homogeneous.invokeExact(
+                    handle(),
+                    homogeneous ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -245,7 +286,9 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
      */
     public void setSpacing(int spacing) {
         try {
-            DowncallHandles.gtk_box_set_spacing.invokeExact(handle(), spacing);
+            DowncallHandles.gtk_box_set_spacing.invokeExact(
+                    handle(),
+                    spacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

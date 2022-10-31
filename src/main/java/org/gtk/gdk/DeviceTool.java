@@ -14,21 +14,34 @@ public class DeviceTool extends org.gtk.gobject.Object {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkDeviceTool";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public DeviceTool(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DeviceTool */
+    /**
+     * Cast object to DeviceTool if its GType is a (or inherits from) "GdkDeviceTool".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DeviceTool" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkDeviceTool", a ClassCastException will be thrown.
+     */
     public static DeviceTool castFrom(org.gtk.gobject.Object gobject) {
-        return new DeviceTool(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkDeviceTool"))) {
+            return new DeviceTool(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkDeviceTool");
+        }
     }
     
     /**
@@ -38,7 +51,8 @@ public class DeviceTool extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.AxisFlags getAxes() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_tool_get_axes.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_device_tool_get_axes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -62,7 +76,8 @@ public class DeviceTool extends org.gtk.gobject.Object {
     public long getHardwareId() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gdk_device_tool_get_hardware_id.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gdk_device_tool_get_hardware_id.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,7 +94,8 @@ public class DeviceTool extends org.gtk.gobject.Object {
     public long getSerial() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gdk_device_tool_get_serial.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gdk_device_tool_get_serial.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,7 +111,8 @@ public class DeviceTool extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.DeviceToolType getToolType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_tool_get_tool_type.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_device_tool_get_tool_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

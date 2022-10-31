@@ -23,26 +23,48 @@ public class TlsDatabase extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTlsDatabase";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.TlsDatabasePrivate.getMemoryLayout().withName("priv")
-    ).withName("GTlsDatabase");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public TlsDatabase(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TlsDatabase */
+    /**
+     * Cast object to TlsDatabase if its GType is a (or inherits from) "GTlsDatabase".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TlsDatabase" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GTlsDatabase", a ClassCastException will be thrown.
+     */
     public static TlsDatabase castFrom(org.gtk.gobject.Object gobject) {
-        return new TlsDatabase(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTlsDatabase"))) {
+            return new TlsDatabase(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GTlsDatabase");
+        }
     }
     
     /**
@@ -62,11 +84,13 @@ public class TlsDatabase extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(certificate, "Parameter 'certificate' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_database_create_certificate_handle.invokeExact(handle(), certificate.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_database_create_certificate_handle.invokeExact(
+                    handle(),
+                    certificate.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -92,13 +116,16 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      */
     public @Nullable org.gtk.gio.TlsCertificate lookupCertificateForHandle(@NotNull java.lang.String handle, @Nullable org.gtk.gio.TlsInteraction interaction, @NotNull org.gtk.gio.TlsDatabaseLookupFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(handle, "Parameter 'handle' must not be null");
-        java.util.Objects.requireNonNullElse(interaction, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificate_for_handle.invokeExact(handle(), Interop.allocateNativeString(handle), interaction.handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificate_for_handle.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(handle),
+                    (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
+                    flags.getValue(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,18 +146,20 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      */
     public void lookupCertificateForHandleAsync(@NotNull java.lang.String handle, @Nullable org.gtk.gio.TlsInteraction interaction, @NotNull org.gtk.gio.TlsDatabaseLookupFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(handle, "Parameter 'handle' must not be null");
-        java.util.Objects.requireNonNullElse(interaction, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_tls_database_lookup_certificate_for_handle_async.invokeExact(handle(), Interop.allocateNativeString(handle), interaction.handle(), flags.getValue(), cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_tls_database_lookup_certificate_for_handle_async.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(handle),
+                    (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
+                    flags.getValue(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,7 +181,9 @@ public class TlsDatabase extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificate_for_handle_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificate_for_handle_finish.invokeExact(
+                    handle(),
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -193,13 +224,16 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      */
     public @NotNull org.gtk.gio.TlsCertificate lookupCertificateIssuer(@NotNull org.gtk.gio.TlsCertificate certificate, @Nullable org.gtk.gio.TlsInteraction interaction, @NotNull org.gtk.gio.TlsDatabaseLookupFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(certificate, "Parameter 'certificate' must not be null");
-        java.util.Objects.requireNonNullElse(interaction, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificate_issuer.invokeExact(handle(), certificate.handle(), interaction.handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificate_issuer.invokeExact(
+                    handle(),
+                    certificate.handle(),
+                    (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
+                    flags.getValue(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -220,18 +254,20 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      */
     public void lookupCertificateIssuerAsync(@NotNull org.gtk.gio.TlsCertificate certificate, @Nullable org.gtk.gio.TlsInteraction interaction, @NotNull org.gtk.gio.TlsDatabaseLookupFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(certificate, "Parameter 'certificate' must not be null");
-        java.util.Objects.requireNonNullElse(interaction, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_tls_database_lookup_certificate_issuer_async.invokeExact(handle(), certificate.handle(), interaction.handle(), flags.getValue(), cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_tls_database_lookup_certificate_issuer_async.invokeExact(
+                    handle(),
+                    certificate.handle(),
+                    (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
+                    flags.getValue(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -250,7 +286,9 @@ public class TlsDatabase extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificate_issuer_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificate_issuer_finish.invokeExact(
+                    handle(),
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -275,13 +313,16 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      */
     public @NotNull org.gtk.glib.List lookupCertificatesIssuedBy(byte[] issuerRawDn, @Nullable org.gtk.gio.TlsInteraction interaction, @NotNull org.gtk.gio.TlsDatabaseLookupFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(issuerRawDn, "Parameter 'issuerRawDn' must not be null");
-        java.util.Objects.requireNonNullElse(interaction, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificates_issued_by.invokeExact(handle(), Interop.allocateNativeArray(issuerRawDn, false), interaction.handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificates_issued_by.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(issuerRawDn, false),
+                    (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
+                    flags.getValue(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -306,18 +347,20 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      */
     public void lookupCertificatesIssuedByAsync(byte[] issuerRawDn, @Nullable org.gtk.gio.TlsInteraction interaction, @NotNull org.gtk.gio.TlsDatabaseLookupFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(issuerRawDn, "Parameter 'issuerRawDn' must not be null");
-        java.util.Objects.requireNonNullElse(interaction, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_tls_database_lookup_certificates_issued_by_async.invokeExact(handle(), Interop.allocateNativeArray(issuerRawDn, false), interaction.handle(), flags.getValue(), cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_tls_database_lookup_certificates_issued_by_async.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(issuerRawDn, false),
+                    (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
+                    flags.getValue(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -336,7 +379,9 @@ public class TlsDatabase extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificates_issued_by_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificates_issued_by_finish.invokeExact(
+                    handle(),
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -420,14 +465,18 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gio.TlsCertificateFlags verifyChain(@NotNull org.gtk.gio.TlsCertificate chain, @NotNull java.lang.String purpose, @Nullable org.gtk.gio.SocketConnectable identity, @Nullable org.gtk.gio.TlsInteraction interaction, @NotNull org.gtk.gio.TlsDatabaseVerifyFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(chain, "Parameter 'chain' must not be null");
         java.util.Objects.requireNonNull(purpose, "Parameter 'purpose' must not be null");
-        java.util.Objects.requireNonNullElse(identity, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(interaction, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tls_database_verify_chain.invokeExact(handle(), chain.handle(), Interop.allocateNativeString(purpose), identity.handle(), interaction.handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_tls_database_verify_chain.invokeExact(
+                    handle(),
+                    chain.handle(),
+                    Interop.allocateNativeString(purpose),
+                    (Addressable) (identity == null ? MemoryAddress.NULL : identity.handle()),
+                    (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
+                    flags.getValue(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -452,19 +501,22 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     public void verifyChainAsync(@NotNull org.gtk.gio.TlsCertificate chain, @NotNull java.lang.String purpose, @Nullable org.gtk.gio.SocketConnectable identity, @Nullable org.gtk.gio.TlsInteraction interaction, @NotNull org.gtk.gio.TlsDatabaseVerifyFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(chain, "Parameter 'chain' must not be null");
         java.util.Objects.requireNonNull(purpose, "Parameter 'purpose' must not be null");
-        java.util.Objects.requireNonNullElse(identity, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(interaction, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_tls_database_verify_chain_async.invokeExact(handle(), chain.handle(), Interop.allocateNativeString(purpose), identity.handle(), interaction.handle(), flags.getValue(), cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_tls_database_verify_chain_async.invokeExact(
+                    handle(),
+                    chain.handle(),
+                    Interop.allocateNativeString(purpose),
+                    (Addressable) (identity == null ? MemoryAddress.NULL : identity.handle()),
+                    (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
+                    flags.getValue(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -492,7 +544,9 @@ public class TlsDatabase extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tls_database_verify_chain_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_tls_database_verify_chain_finish.invokeExact(
+                    handle(),
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -18,19 +18,31 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
         Graphene.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "graphene_euler_t";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.graphene.Vec3.getMemoryLayout().withName("angles"),
-        org.gtk.graphene.EulerOrder.getMemoryLayout().withName("order")
-    ).withName("graphene_euler_t");
+        Interop.valueLayout.C_INT.withName("order")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Euler allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Euler newInstance = new Euler(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Euler(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -64,7 +76,9 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_euler_equal.invokeExact(handle(), b.handle());
+            RESULT = (boolean) DowncallHandles.graphene_euler_equal.invokeExact(
+                    handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,7 +90,8 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_euler_free.invokeExact(handle());
+            DowncallHandles.graphene_euler_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,7 +107,8 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     public float getAlpha() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_euler_get_alpha.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_euler_get_alpha.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,7 +125,8 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     public float getBeta() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_euler_get_beta.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_euler_get_beta.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,7 +143,8 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     public float getGamma() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_euler_get_gamma.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_euler_get_gamma.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,7 +164,8 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.EulerOrder getOrder() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.graphene_euler_get_order.invokeExact(handle());
+            RESULT = (int) DowncallHandles.graphene_euler_get_order.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,7 +179,8 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     public float getX() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_euler_get_x.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_euler_get_x.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,7 +194,8 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     public float getY() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_euler_get_y.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_euler_get_y.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -188,7 +209,8 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     public float getZ() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_euler_get_z.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_euler_get_z.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -207,7 +229,11 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Euler init(float x, float y, float z) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_euler_init.invokeExact(handle(), x, y, z);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_euler_init.invokeExact(
+                    handle(),
+                    x,
+                    y,
+                    z);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -224,10 +250,11 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      * @return the initialized {@link Euler}
      */
     public @NotNull org.gtk.graphene.Euler initFromEuler(@Nullable org.gtk.graphene.Euler src) {
-        java.util.Objects.requireNonNullElse(src, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_euler_init_from_euler.invokeExact(handle(), src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_euler_init_from_euler.invokeExact(
+                    handle(),
+                    (Addressable) (src == null ? MemoryAddress.NULL : src.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -244,11 +271,13 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      * @return the initialized {@link Euler}
      */
     public @NotNull org.gtk.graphene.Euler initFromMatrix(@Nullable org.gtk.graphene.Matrix m, @NotNull org.gtk.graphene.EulerOrder order) {
-        java.util.Objects.requireNonNullElse(m, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_euler_init_from_matrix.invokeExact(handle(), m.handle(), order.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_euler_init_from_matrix.invokeExact(
+                    handle(),
+                    (Addressable) (m == null ? MemoryAddress.NULL : m.handle()),
+                    order.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -265,11 +294,13 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      * @return the initialized {@link Euler}
      */
     public @NotNull org.gtk.graphene.Euler initFromQuaternion(@Nullable org.gtk.graphene.Quaternion q, @NotNull org.gtk.graphene.EulerOrder order) {
-        java.util.Objects.requireNonNullElse(q, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_euler_init_from_quaternion.invokeExact(handle(), q.handle(), order.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_euler_init_from_quaternion.invokeExact(
+                    handle(),
+                    (Addressable) (q == null ? MemoryAddress.NULL : q.handle()),
+                    order.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -289,7 +320,12 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_euler_init_from_radians.invokeExact(handle(), x, y, z, order.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_euler_init_from_radians.invokeExact(
+                    handle(),
+                    x,
+                    y,
+                    z,
+                    order.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -308,11 +344,13 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      * @return the initialized {@link Euler}
      */
     public @NotNull org.gtk.graphene.Euler initFromVec3(@Nullable org.gtk.graphene.Vec3 v, @NotNull org.gtk.graphene.EulerOrder order) {
-        java.util.Objects.requireNonNullElse(v, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_euler_init_from_vec3.invokeExact(handle(), v.handle(), order.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_euler_init_from_vec3.invokeExact(
+                    handle(),
+                    (Addressable) (v == null ? MemoryAddress.NULL : v.handle()),
+                    order.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -331,7 +369,12 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_euler_init_with_order.invokeExact(handle(), x, y, z, order.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_euler_init_with_order.invokeExact(
+                    handle(),
+                    x,
+                    y,
+                    z,
+                    order.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -348,16 +391,17 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the reordered
      *   {@link Euler}
      */
-    public void reorder(@NotNull org.gtk.graphene.EulerOrder order, @NotNull Out<org.gtk.graphene.Euler> res) {
+    public void reorder(@NotNull org.gtk.graphene.EulerOrder order, @NotNull org.gtk.graphene.Euler res) {
         java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_euler_reorder.invokeExact(handle(), order.getValue(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_euler_reorder.invokeExact(
+                    handle(),
+                    order.getValue(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Euler(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -379,30 +423,30 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      * between Euler-based, quaternion-based, and angle-axis-based rotations.
      * @param res return location for a {@link Matrix}
      */
-    public void toMatrix(@NotNull Out<org.gtk.graphene.Matrix> res) {
+    public void toMatrix(@NotNull org.gtk.graphene.Matrix res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_euler_to_matrix.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_euler_to_matrix.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Matrix(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
      * Converts a {@link Euler} into a {@link Quaternion}.
      * @param res return location for a {@link Quaternion}
      */
-    public void toQuaternion(@NotNull Out<org.gtk.graphene.Quaternion> res) {
+    public void toQuaternion(@NotNull org.gtk.graphene.Quaternion res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_euler_to_quaternion.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_euler_to_quaternion.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Quaternion(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -410,15 +454,15 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      * {@link Vec3} with them.
      * @param res return location for a {@link Vec3}
      */
-    public void toVec3(@NotNull Out<org.gtk.graphene.Vec3> res) {
+    public void toVec3(@NotNull org.gtk.graphene.Vec3 res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_euler_to_vec3.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_euler_to_vec3.invokeExact(
+                    handle(),
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     private static class DowncallHandles {

@@ -108,29 +108,42 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkListView";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ListView(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ListView */
+    /**
+     * Cast object to ListView if its GType is a (or inherits from) "GtkListView".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ListView" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkListView", a ClassCastException will be thrown.
+     */
     public static ListView castFrom(org.gtk.gobject.Object gobject) {
-        return new ListView(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkListView"))) {
+            return new ListView(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkListView");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gtk.SelectionModel model, @Nullable org.gtk.gtk.ListItemFactory factory) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(factory, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_list_view_new.invokeExact(model.refcounted().unowned().handle(), factory.refcounted().unowned().handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_list_view_new.invokeExact(
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.refcounted().unowned().handle()),
+                    (Addressable) (factory == null ? MemoryAddress.NULL : factory.refcounted().unowned().handle())), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,7 +174,8 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
     public boolean getEnableRubberband() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_view_get_enable_rubberband.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_list_view_get_enable_rubberband.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,7 +189,8 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
     public @Nullable org.gtk.gtk.ListItemFactory getFactory() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_list_view_get_factory.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_view_get_factory.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -189,7 +204,8 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
     public @Nullable org.gtk.gtk.SelectionModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_list_view_get_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_view_get_model.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,7 +220,8 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
     public boolean getShowSeparators() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_view_get_show_separators.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_list_view_get_show_separators.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,7 +236,8 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
     public boolean getSingleClickActivate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_view_get_single_click_activate.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_list_view_get_single_click_activate.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -232,7 +250,9 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
      */
     public void setEnableRubberband(boolean enableRubberband) {
         try {
-            DowncallHandles.gtk_list_view_set_enable_rubberband.invokeExact(handle(), enableRubberband ? 1 : 0);
+            DowncallHandles.gtk_list_view_set_enable_rubberband.invokeExact(
+                    handle(),
+                    enableRubberband ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -243,9 +263,10 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
      * @param factory the factory to use
      */
     public void setFactory(@Nullable org.gtk.gtk.ListItemFactory factory) {
-        java.util.Objects.requireNonNullElse(factory, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_list_view_set_factory.invokeExact(handle(), factory.handle());
+            DowncallHandles.gtk_list_view_set_factory.invokeExact(
+                    handle(),
+                    (Addressable) (factory == null ? MemoryAddress.NULL : factory.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -258,9 +279,10 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
      * @param model the model to use
      */
     public void setModel(@Nullable org.gtk.gtk.SelectionModel model) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_list_view_set_model.invokeExact(handle(), model.handle());
+            DowncallHandles.gtk_list_view_set_model.invokeExact(
+                    handle(),
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -273,7 +295,9 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
      */
     public void setShowSeparators(boolean showSeparators) {
         try {
-            DowncallHandles.gtk_list_view_set_show_separators.invokeExact(handle(), showSeparators ? 1 : 0);
+            DowncallHandles.gtk_list_view_set_show_separators.invokeExact(
+                    handle(),
+                    showSeparators ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -286,7 +310,9 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
      */
     public void setSingleClickActivate(boolean singleClickActivate) {
         try {
-            DowncallHandles.gtk_list_view_set_single_click_activate.invokeExact(handle(), singleClickActivate ? 1 : 0);
+            DowncallHandles.gtk_list_view_set_single_click_activate.invokeExact(
+                    handle(),
+                    singleClickActivate ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

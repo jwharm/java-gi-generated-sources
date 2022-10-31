@@ -59,25 +59,47 @@ public class LayoutManager extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkLayoutManager";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkLayoutManager");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public LayoutManager(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to LayoutManager */
+    /**
+     * Cast object to LayoutManager if its GType is a (or inherits from) "GtkLayoutManager".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "LayoutManager" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkLayoutManager", a ClassCastException will be thrown.
+     */
     public static LayoutManager castFrom(org.gtk.gobject.Object gobject) {
-        return new LayoutManager(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkLayoutManager"))) {
+            return new LayoutManager(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkLayoutManager");
+        }
     }
     
     /**
@@ -92,7 +114,12 @@ public class LayoutManager extends org.gtk.gobject.Object {
     public void allocate(@NotNull org.gtk.gtk.Widget widget, int width, int height, int baseline) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            DowncallHandles.gtk_layout_manager_allocate.invokeExact(handle(), widget.handle(), width, height, baseline);
+            DowncallHandles.gtk_layout_manager_allocate.invokeExact(
+                    handle(),
+                    widget.handle(),
+                    width,
+                    height,
+                    baseline);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,7 +141,9 @@ public class LayoutManager extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_layout_manager_get_layout_child.invokeExact(handle(), child.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_layout_manager_get_layout_child.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -128,7 +157,8 @@ public class LayoutManager extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.SizeRequestMode getRequestMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_layout_manager_get_request_mode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_layout_manager_get_request_mode.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,7 +172,8 @@ public class LayoutManager extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gtk.Widget getWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_layout_manager_get_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_layout_manager_get_widget.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -157,7 +188,8 @@ public class LayoutManager extends org.gtk.gobject.Object {
      */
     public void layoutChanged() {
         try {
-            DowncallHandles.gtk_layout_manager_layout_changed.invokeExact(handle());
+            DowncallHandles.gtk_layout_manager_layout_changed.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -198,7 +230,15 @@ public class LayoutManager extends org.gtk.gobject.Object {
         MemorySegment minimumBaselinePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment naturalBaselinePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_layout_manager_measure.invokeExact(handle(), widget.handle(), orientation.getValue(), forSize, (Addressable) minimumPOINTER.address(), (Addressable) naturalPOINTER.address(), (Addressable) minimumBaselinePOINTER.address(), (Addressable) naturalBaselinePOINTER.address());
+            DowncallHandles.gtk_layout_manager_measure.invokeExact(
+                    handle(),
+                    widget.handle(),
+                    orientation.getValue(),
+                    forSize,
+                    (Addressable) minimumPOINTER.address(),
+                    (Addressable) naturalPOINTER.address(),
+                    (Addressable) minimumBaselinePOINTER.address(),
+                    (Addressable) naturalBaselinePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

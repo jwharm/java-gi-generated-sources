@@ -27,26 +27,48 @@ public class SocketClient extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSocketClient";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.SocketClientPrivate.getMemoryLayout().withName("priv")
-    ).withName("GSocketClient");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public SocketClient(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to SocketClient */
+    /**
+     * Cast object to SocketClient if its GType is a (or inherits from) "GSocketClient".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "SocketClient" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GSocketClient", a ClassCastException will be thrown.
+     */
     public static SocketClient castFrom(org.gtk.gobject.Object gobject) {
-        return new SocketClient(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSocketClient"))) {
+            return new SocketClient(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSocketClient");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -91,7 +113,9 @@ public class SocketClient extends org.gtk.gobject.Object {
     public void addApplicationProxy(@NotNull java.lang.String protocol) {
         java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
         try {
-            DowncallHandles.g_socket_client_add_application_proxy.invokeExact(handle(), Interop.allocateNativeString(protocol));
+            DowncallHandles.g_socket_client_add_application_proxy.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(protocol));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,11 +147,13 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public @NotNull org.gtk.gio.SocketConnection connect(@NotNull org.gtk.gio.SocketConnectable connectable, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(connectable, "Parameter 'connectable' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect.invokeExact(handle(), connectable.handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect.invokeExact(
+                    handle(),
+                    connectable.handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -158,16 +184,17 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public void connectAsync(@NotNull org.gtk.gio.SocketConnectable connectable, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(connectable, "Parameter 'connectable' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_socket_client_connect_async.invokeExact(handle(), connectable.handle(), cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_socket_client_connect_async.invokeExact(
+                    handle(),
+                    connectable.handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,7 +211,9 @@ public class SocketClient extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect_finish.invokeExact(
+                    handle(),
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -233,11 +262,14 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public @NotNull org.gtk.gio.SocketConnection connectToHost(@NotNull java.lang.String hostAndPort, short defaultPort, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(hostAndPort, "Parameter 'hostAndPort' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect_to_host.invokeExact(handle(), Interop.allocateNativeString(hostAndPort), defaultPort, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect_to_host.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(hostAndPort),
+                    defaultPort,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -260,16 +292,18 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public void connectToHostAsync(@NotNull java.lang.String hostAndPort, short defaultPort, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(hostAndPort, "Parameter 'hostAndPort' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_socket_client_connect_to_host_async.invokeExact(handle(), Interop.allocateNativeString(hostAndPort), defaultPort, cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_socket_client_connect_to_host_async.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(hostAndPort),
+                    defaultPort,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -286,7 +320,9 @@ public class SocketClient extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect_to_host_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect_to_host_finish.invokeExact(
+                    handle(),
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -320,11 +356,14 @@ public class SocketClient extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gio.SocketConnection connectToService(@NotNull java.lang.String domain, @NotNull java.lang.String service, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
         java.util.Objects.requireNonNull(service, "Parameter 'service' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect_to_service.invokeExact(handle(), Interop.allocateNativeString(domain), Interop.allocateNativeString(service), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect_to_service.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(domain),
+                    Interop.allocateNativeString(service),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -345,16 +384,18 @@ public class SocketClient extends org.gtk.gobject.Object {
     public void connectToServiceAsync(@NotNull java.lang.String domain, @NotNull java.lang.String service, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
         java.util.Objects.requireNonNull(service, "Parameter 'service' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_socket_client_connect_to_service_async.invokeExact(handle(), Interop.allocateNativeString(domain), Interop.allocateNativeString(service), cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_socket_client_connect_to_service_async.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(domain),
+                    Interop.allocateNativeString(service),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -371,7 +412,9 @@ public class SocketClient extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect_to_service_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect_to_service_finish.invokeExact(
+                    handle(),
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -411,11 +454,14 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public @NotNull org.gtk.gio.SocketConnection connectToUri(@NotNull java.lang.String uri, short defaultPort, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect_to_uri.invokeExact(handle(), Interop.allocateNativeString(uri), defaultPort, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect_to_uri.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(uri),
+                    defaultPort,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -438,16 +484,18 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public void connectToUriAsync(@NotNull java.lang.String uri, short defaultPort, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_socket_client_connect_to_uri_async.invokeExact(handle(), Interop.allocateNativeString(uri), defaultPort, cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_socket_client_connect_to_uri_async.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(uri),
+                    defaultPort,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -464,7 +512,9 @@ public class SocketClient extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect_to_uri_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect_to_uri_finish.invokeExact(
+                    handle(),
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -481,7 +531,8 @@ public class SocketClient extends org.gtk.gobject.Object {
     public boolean getEnableProxy() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_socket_client_get_enable_proxy.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_client_get_enable_proxy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -497,7 +548,8 @@ public class SocketClient extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gio.SocketFamily getFamily() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_socket_client_get_family.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_client_get_family.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -513,7 +565,8 @@ public class SocketClient extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gio.SocketAddress getLocalAddress() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_client_get_local_address.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_client_get_local_address.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -529,7 +582,8 @@ public class SocketClient extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gio.SocketProtocol getProtocol() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_socket_client_get_protocol.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_client_get_protocol.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -546,7 +600,8 @@ public class SocketClient extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gio.ProxyResolver getProxyResolver() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_client_get_proxy_resolver.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_client_get_proxy_resolver.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -562,7 +617,8 @@ public class SocketClient extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gio.SocketType getSocketType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_socket_client_get_socket_type.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_client_get_socket_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -578,7 +634,8 @@ public class SocketClient extends org.gtk.gobject.Object {
     public int getTimeout() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_socket_client_get_timeout.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_client_get_timeout.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -593,7 +650,8 @@ public class SocketClient extends org.gtk.gobject.Object {
     public boolean getTls() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_socket_client_get_tls.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_client_get_tls.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -614,7 +672,8 @@ public class SocketClient extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gio.TlsCertificateFlags getTlsValidationFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_socket_client_get_tls_validation_flags.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_client_get_tls_validation_flags.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -632,7 +691,9 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public void setEnableProxy(boolean enable) {
         try {
-            DowncallHandles.g_socket_client_set_enable_proxy.invokeExact(handle(), enable ? 1 : 0);
+            DowncallHandles.g_socket_client_set_enable_proxy.invokeExact(
+                    handle(),
+                    enable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -652,7 +713,9 @@ public class SocketClient extends org.gtk.gobject.Object {
     public void setFamily(@NotNull org.gtk.gio.SocketFamily family) {
         java.util.Objects.requireNonNull(family, "Parameter 'family' must not be null");
         try {
-            DowncallHandles.g_socket_client_set_family.invokeExact(handle(), family.getValue());
+            DowncallHandles.g_socket_client_set_family.invokeExact(
+                    handle(),
+                    family.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -669,9 +732,10 @@ public class SocketClient extends org.gtk.gobject.Object {
      * @param address a {@link SocketAddress}, or {@code null}
      */
     public void setLocalAddress(@Nullable org.gtk.gio.SocketAddress address) {
-        java.util.Objects.requireNonNullElse(address, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_socket_client_set_local_address.invokeExact(handle(), address.handle());
+            DowncallHandles.g_socket_client_set_local_address.invokeExact(
+                    handle(),
+                    (Addressable) (address == null ? MemoryAddress.NULL : address.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -689,7 +753,9 @@ public class SocketClient extends org.gtk.gobject.Object {
     public void setProtocol(@NotNull org.gtk.gio.SocketProtocol protocol) {
         java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
         try {
-            DowncallHandles.g_socket_client_set_protocol.invokeExact(handle(), protocol.getValue());
+            DowncallHandles.g_socket_client_set_protocol.invokeExact(
+                    handle(),
+                    protocol.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -707,9 +773,10 @@ public class SocketClient extends org.gtk.gobject.Object {
      *   default.
      */
     public void setProxyResolver(@Nullable org.gtk.gio.ProxyResolver proxyResolver) {
-        java.util.Objects.requireNonNullElse(proxyResolver, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_socket_client_set_proxy_resolver.invokeExact(handle(), proxyResolver.handle());
+            DowncallHandles.g_socket_client_set_proxy_resolver.invokeExact(
+                    handle(),
+                    (Addressable) (proxyResolver == null ? MemoryAddress.NULL : proxyResolver.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -727,7 +794,9 @@ public class SocketClient extends org.gtk.gobject.Object {
     public void setSocketType(@NotNull org.gtk.gio.SocketType type) {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         try {
-            DowncallHandles.g_socket_client_set_socket_type.invokeExact(handle(), type.getValue());
+            DowncallHandles.g_socket_client_set_socket_type.invokeExact(
+                    handle(),
+                    type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -744,7 +813,9 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public void setTimeout(int timeout) {
         try {
-            DowncallHandles.g_socket_client_set_timeout.invokeExact(handle(), timeout);
+            DowncallHandles.g_socket_client_set_timeout.invokeExact(
+                    handle(),
+                    timeout);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -773,7 +844,9 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public void setTls(boolean tls) {
         try {
-            DowncallHandles.g_socket_client_set_tls.invokeExact(handle(), tls ? 1 : 0);
+            DowncallHandles.g_socket_client_set_tls.invokeExact(
+                    handle(),
+                    tls ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -793,7 +866,9 @@ public class SocketClient extends org.gtk.gobject.Object {
     public void setTlsValidationFlags(@NotNull org.gtk.gio.TlsCertificateFlags flags) {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            DowncallHandles.g_socket_client_set_tls_validation_flags.invokeExact(handle(), flags.getValue());
+            DowncallHandles.g_socket_client_set_tls_validation_flags.invokeExact(
+                    handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -10,13 +10,7 @@ import org.jetbrains.annotations.*;
  */
 public class AccessibleState extends io.github.jwharm.javagi.Enumeration {
     
-    /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
-     */
-    public static MemoryLayout getMemoryLayout() {
-        return Interop.valueLayout.ADDRESS;
-    }
+    private static final java.lang.String C_TYPE_NAME = "GtkAccessibleState";
     
     /**
      * A “busy” state. This state has boolean values
@@ -79,7 +73,9 @@ public class AccessibleState extends io.github.jwharm.javagi.Enumeration {
         java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.gtk_accessible_state_init_value.invokeExact(state.getValue(), value.handle());
+            DowncallHandles.gtk_accessible_state_init_value.invokeExact(
+                    state.getValue(),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

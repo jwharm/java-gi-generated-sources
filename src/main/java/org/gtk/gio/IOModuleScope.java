@@ -19,14 +19,26 @@ public class IOModuleScope extends io.github.jwharm.javagi.ResourceBase {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GIOModuleScope";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static IOModuleScope allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        IOModuleScope newInstance = new IOModuleScope(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public IOModuleScope(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -40,7 +52,9 @@ public class IOModuleScope extends io.github.jwharm.javagi.ResourceBase {
     public void block(@NotNull java.lang.String basename) {
         java.util.Objects.requireNonNull(basename, "Parameter 'basename' must not be null");
         try {
-            DowncallHandles.g_io_module_scope_block.invokeExact(handle(), Interop.allocateNativeString(basename));
+            DowncallHandles.g_io_module_scope_block.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(basename));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -51,7 +65,8 @@ public class IOModuleScope extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.g_io_module_scope_free.invokeExact(handle());
+            DowncallHandles.g_io_module_scope_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -71,7 +86,8 @@ public class IOModuleScope extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_module_scope_new.invokeExact(flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_io_module_scope_new.invokeExact(
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

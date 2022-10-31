@@ -17,21 +17,106 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoItem";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_INT.withName("offset"),
         ValueLayout.JAVA_INT.withName("length"),
         ValueLayout.JAVA_INT.withName("num_chars"),
+        MemoryLayout.paddingLayout(32),
         org.pango.Analysis.getMemoryLayout().withName("analysis")
-    ).withName("PangoItem");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Item allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Item newInstance = new Item(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code offset}
+     * @return The value of the field {@code offset}
+     */
+    public int offset$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code offset}
+     * @param offset The new value of the field {@code offset}
+     */
+    public void offset$set(int offset) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
+    }
+    
+    /**
+     * Get the value of the field {@code length}
+     * @return The value of the field {@code length}
+     */
+    public int length$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("length"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code length}
+     * @param length The new value of the field {@code length}
+     */
+    public void length$set(int length) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("length"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
+    }
+    
+    /**
+     * Get the value of the field {@code num_chars}
+     * @return The value of the field {@code num_chars}
+     */
+    public int num_chars$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("num_chars"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code num_chars}
+     * @param num_chars The new value of the field {@code num_chars}
+     */
+    public void num_chars$set(int num_chars) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("num_chars"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), num_chars);
+    }
+    
+    /**
+     * Get the value of the field {@code analysis}
+     * @return The value of the field {@code analysis}
+     */
+    public org.pango.Analysis analysis$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("analysis"));
+        return new org.pango.Analysis(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Item(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -70,7 +155,9 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
     public void applyAttrs(@NotNull org.pango.AttrIterator iter) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         try {
-            DowncallHandles.pango_item_apply_attrs.invokeExact(handle(), iter.handle());
+            DowncallHandles.pango_item_apply_attrs.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,7 +170,8 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.pango.Item copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_item_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_item_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,7 +183,8 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.pango_item_free.invokeExact(handle());
+            DowncallHandles.pango_item_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,7 +212,10 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.pango.Item split(int splitIndex, int splitOffset) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_item_split.invokeExact(handle(), splitIndex, splitOffset);
+            RESULT = (MemoryAddress) DowncallHandles.pango_item_split.invokeExact(
+                    handle(),
+                    splitIndex,
+                    splitOffset);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -40,28 +40,42 @@ public class EditableLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkEditableLabel";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public EditableLabel(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to EditableLabel */
+    /**
+     * Cast object to EditableLabel if its GType is a (or inherits from) "GtkEditableLabel".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "EditableLabel" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkEditableLabel", a ClassCastException will be thrown.
+     */
     public static EditableLabel castFrom(org.gtk.gobject.Object gobject) {
-        return new EditableLabel(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEditableLabel"))) {
+            return new EditableLabel(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEditableLabel");
+        }
     }
     
     private static Refcounted constructNew(@NotNull java.lang.String str) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_editable_label_new.invokeExact(Interop.allocateNativeString(str)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_editable_label_new.invokeExact(
+                    Interop.allocateNativeString(str)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,7 +97,8 @@ public class EditableLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     public boolean getEditing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_editable_label_get_editing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_editable_label_get_editing.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,7 +110,8 @@ public class EditableLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      */
     public void startEditing() {
         try {
-            DowncallHandles.gtk_editable_label_start_editing.invokeExact(handle());
+            DowncallHandles.gtk_editable_label_start_editing.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,7 +128,9 @@ public class EditableLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      */
     public void stopEditing(boolean commit) {
         try {
-            DowncallHandles.gtk_editable_label_stop_editing.invokeExact(handle(), commit ? 1 : 0);
+            DowncallHandles.gtk_editable_label_stop_editing.invokeExact(
+                    handle(),
+                    commit ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -18,14 +18,26 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoLanguage";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Language allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Language newInstance = new Language(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Language(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -54,11 +66,12 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getSampleString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_language_get_sample_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_language_get_sample_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -97,7 +110,9 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment numScriptsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_language_get_scripts.invokeExact(handle(), (Addressable) numScriptsPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.pango_language_get_scripts.invokeExact(
+                    handle(),
+                    (Addressable) numScriptsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,7 +149,9 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_language_includes_script.invokeExact(handle(), script.getValue());
+            RESULT = (int) DowncallHandles.pango_language_includes_script.invokeExact(
+                    handle(),
+                    script.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -158,7 +175,9 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(rangeList, "Parameter 'rangeList' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_language_matches.invokeExact(handle(), Interop.allocateNativeString(rangeList));
+            RESULT = (int) DowncallHandles.pango_language_matches.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(rangeList));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -173,11 +192,12 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_language_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_language_to_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -197,10 +217,10 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * @return a {@code PangoLanguage}
      */
     public static @Nullable org.pango.Language fromString(@Nullable java.lang.String language) {
-        java.util.Objects.requireNonNullElse(language, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_language_from_string.invokeExact(Interop.allocateNativeString(language));
+            RESULT = (MemoryAddress) DowncallHandles.pango_language_from_string.invokeExact(
+                    (Addressable) (language == null ? MemoryAddress.NULL : Interop.allocateNativeString(language)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

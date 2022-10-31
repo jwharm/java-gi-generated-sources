@@ -33,26 +33,48 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GUnixCredentialsMessage";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.SocketControlMessage.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.UnixCredentialsMessagePrivate.getMemoryLayout().withName("priv")
-    ).withName("GUnixCredentialsMessage");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gio.SocketControlMessage parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gio.SocketControlMessage(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public UnixCredentialsMessage(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to UnixCredentialsMessage */
+    /**
+     * Cast object to UnixCredentialsMessage if its GType is a (or inherits from) "GUnixCredentialsMessage".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "UnixCredentialsMessage" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GUnixCredentialsMessage", a ClassCastException will be thrown.
+     */
     public static UnixCredentialsMessage castFrom(org.gtk.gobject.Object gobject) {
-        return new UnixCredentialsMessage(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GUnixCredentialsMessage"))) {
+            return new UnixCredentialsMessage(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GUnixCredentialsMessage");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -76,7 +98,8 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
         java.util.Objects.requireNonNull(credentials, "Parameter 'credentials' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_unix_credentials_message_new_with_credentials.invokeExact(credentials.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_unix_credentials_message_new_with_credentials.invokeExact(
+                    credentials.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +122,8 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
     public @NotNull org.gtk.gio.Credentials getCredentials() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_credentials_message_get_credentials.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_credentials_message_get_credentials.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

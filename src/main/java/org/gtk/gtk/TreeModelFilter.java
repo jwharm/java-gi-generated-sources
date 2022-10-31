@@ -83,26 +83,48 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkTreeModelFilter";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent"),
-        org.gtk.gtk.TreeModelFilterPrivate.getMemoryLayout().withName("priv")
-    ).withName("GtkTreeModelFilter");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent}
+     * @return The value of the field {@code parent}
+     */
+    public org.gtk.gobject.Object parent$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public TreeModelFilter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TreeModelFilter */
+    /**
+     * Cast object to TreeModelFilter if its GType is a (or inherits from) "GtkTreeModelFilter".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TreeModelFilter" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkTreeModelFilter", a ClassCastException will be thrown.
+     */
     public static TreeModelFilter castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeModelFilter(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeModelFilter"))) {
+            return new TreeModelFilter(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTreeModelFilter");
+        }
     }
     
     /**
@@ -115,7 +137,8 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
      */
     public void clearCache() {
         try {
-            DowncallHandles.gtk_tree_model_filter_clear_cache.invokeExact(handle());
+            DowncallHandles.gtk_tree_model_filter_clear_cache.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -130,17 +153,18 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
      * @return {@code true}, if {@code filter_iter} was set, i.e. if {@code child_iter} is a
      * valid iterator pointing to a visible row in child model.
      */
-    public boolean convertChildIterToIter(@NotNull Out<org.gtk.gtk.TreeIter> filterIter, @NotNull org.gtk.gtk.TreeIter childIter) {
+    public boolean convertChildIterToIter(@NotNull org.gtk.gtk.TreeIter filterIter, @NotNull org.gtk.gtk.TreeIter childIter) {
         java.util.Objects.requireNonNull(filterIter, "Parameter 'filterIter' must not be null");
         java.util.Objects.requireNonNull(childIter, "Parameter 'childIter' must not be null");
-        MemorySegment filterIterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_model_filter_convert_child_iter_to_iter.invokeExact(handle(), (Addressable) filterIterPOINTER.address(), childIter.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_model_filter_convert_child_iter_to_iter.invokeExact(
+                    handle(),
+                    filterIter.handle(),
+                    childIter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        filterIter.set(new org.gtk.gtk.TreeIter(Refcounted.get(filterIterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -157,7 +181,9 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
         java.util.Objects.requireNonNull(childPath, "Parameter 'childPath' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_filter_convert_child_path_to_path.invokeExact(handle(), childPath.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_filter_convert_child_path_to_path.invokeExact(
+                    handle(),
+                    childPath.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,16 +195,17 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
      * @param childIter An uninitialized {@code GtkTreeIter}
      * @param filterIter A valid {@code GtkTreeIter} pointing to a row on {@code filter}.
      */
-    public void convertIterToChildIter(@NotNull Out<org.gtk.gtk.TreeIter> childIter, @NotNull org.gtk.gtk.TreeIter filterIter) {
+    public void convertIterToChildIter(@NotNull org.gtk.gtk.TreeIter childIter, @NotNull org.gtk.gtk.TreeIter filterIter) {
         java.util.Objects.requireNonNull(childIter, "Parameter 'childIter' must not be null");
         java.util.Objects.requireNonNull(filterIter, "Parameter 'filterIter' must not be null");
-        MemorySegment childIterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_tree_model_filter_convert_iter_to_child_iter.invokeExact(handle(), (Addressable) childIterPOINTER.address(), filterIter.handle());
+            DowncallHandles.gtk_tree_model_filter_convert_iter_to_child_iter.invokeExact(
+                    handle(),
+                    childIter.handle(),
+                    filterIter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        childIter.set(new org.gtk.gtk.TreeIter(Refcounted.get(childIterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -193,7 +220,9 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
         java.util.Objects.requireNonNull(filterPath, "Parameter 'filterPath' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_filter_convert_path_to_child_path.invokeExact(handle(), filterPath.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_filter_convert_path_to_child_path.invokeExact(
+                    handle(),
+                    filterPath.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -207,7 +236,8 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
     public @NotNull org.gtk.gtk.TreeModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_filter_get_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_filter_get_model.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -220,7 +250,8 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
      */
     public void refilter() {
         try {
-            DowncallHandles.gtk_tree_model_filter_refilter.invokeExact(handle());
+            DowncallHandles.gtk_tree_model_filter_refilter.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -245,13 +276,16 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
         java.util.Objects.requireNonNull(types, "Parameter 'types' must not be null");
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.gtk_tree_model_filter_set_modify_func.invokeExact(handle(), nColumns, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false), 
+            DowncallHandles.gtk_tree_model_filter_set_modify_func.invokeExact(
+                    handle(),
+                    nColumns,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTreeModelFilterModifyFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)), 
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -271,7 +305,9 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
      */
     public void setVisibleColumn(int column) {
         try {
-            DowncallHandles.gtk_tree_model_filter_set_visible_column.invokeExact(handle(), column);
+            DowncallHandles.gtk_tree_model_filter_set_visible_column.invokeExact(
+                    handle(),
+                    column);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -317,13 +353,14 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
     public void setVisibleFunc(@NotNull org.gtk.gtk.TreeModelFilterVisibleFunc func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.gtk_tree_model_filter_set_visible_func.invokeExact(handle(), 
+            DowncallHandles.gtk_tree_model_filter_set_visible_func.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTreeModelFilterVisibleFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)), 
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

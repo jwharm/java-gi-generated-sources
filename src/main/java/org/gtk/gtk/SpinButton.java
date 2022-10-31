@@ -120,28 +120,43 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkSpinButton";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public SpinButton(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to SpinButton */
+    /**
+     * Cast object to SpinButton if its GType is a (or inherits from) "GtkSpinButton".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "SpinButton" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkSpinButton", a ClassCastException will be thrown.
+     */
     public static SpinButton castFrom(org.gtk.gobject.Object gobject) {
-        return new SpinButton(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSpinButton"))) {
+            return new SpinButton(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkSpinButton");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gtk.Adjustment adjustment, double climbRate, int digits) {
-        java.util.Objects.requireNonNullElse(adjustment, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_spin_button_new.invokeExact(adjustment.handle(), climbRate, digits), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_spin_button_new.invokeExact(
+                    (Addressable) (adjustment == null ? MemoryAddress.NULL : adjustment.handle()),
+                    climbRate,
+                    digits), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,7 +177,10 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     private static Refcounted constructNewWithRange(double min, double max, double step) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_spin_button_new_with_range.invokeExact(min, max, step), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_spin_button_new_with_range.invokeExact(
+                    min,
+                    max,
+                    step), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -203,9 +221,12 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @param digits the number of decimal places to display in the spin button
      */
     public void configure(@Nullable org.gtk.gtk.Adjustment adjustment, double climbRate, int digits) {
-        java.util.Objects.requireNonNullElse(adjustment, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_spin_button_configure.invokeExact(handle(), adjustment.handle(), climbRate, digits);
+            DowncallHandles.gtk_spin_button_configure.invokeExact(
+                    handle(),
+                    (Addressable) (adjustment == null ? MemoryAddress.NULL : adjustment.handle()),
+                    climbRate,
+                    digits);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +239,8 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @NotNull org.gtk.gtk.Adjustment getAdjustment() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_spin_button_get_adjustment.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_spin_button_get_adjustment.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -232,7 +254,8 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public double getClimbRate() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_spin_button_get_climb_rate.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_spin_button_get_climb_rate.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -246,7 +269,8 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public int getDigits() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_spin_button_get_digits.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_spin_button_get_digits.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -267,7 +291,10 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         MemorySegment stepPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         MemorySegment pagePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         try {
-            DowncallHandles.gtk_spin_button_get_increments.invokeExact(handle(), (Addressable) stepPOINTER.address(), (Addressable) pagePOINTER.address());
+            DowncallHandles.gtk_spin_button_get_increments.invokeExact(
+                    handle(),
+                    (Addressable) stepPOINTER.address(),
+                    (Addressable) pagePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -282,7 +309,8 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public boolean getNumeric() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_spin_button_get_numeric.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_spin_button_get_numeric.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -302,7 +330,10 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         MemorySegment minPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         MemorySegment maxPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         try {
-            DowncallHandles.gtk_spin_button_get_range.invokeExact(handle(), (Addressable) minPOINTER.address(), (Addressable) maxPOINTER.address());
+            DowncallHandles.gtk_spin_button_get_range.invokeExact(
+                    handle(),
+                    (Addressable) minPOINTER.address(),
+                    (Addressable) maxPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -317,7 +348,8 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public boolean getSnapToTicks() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_spin_button_get_snap_to_ticks.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_spin_button_get_snap_to_ticks.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -333,7 +365,8 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @NotNull org.gtk.gtk.SpinButtonUpdatePolicy getUpdatePolicy() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_spin_button_get_update_policy.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_spin_button_get_update_policy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -347,7 +380,8 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public double getValue() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_spin_button_get_value.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_spin_button_get_value.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -361,7 +395,8 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public int getValueAsInt() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_spin_button_get_value_as_int.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_spin_button_get_value_as_int.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -377,7 +412,8 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public boolean getWrap() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_spin_button_get_wrap.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_spin_button_get_wrap.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -391,7 +427,9 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public void setAdjustment(@NotNull org.gtk.gtk.Adjustment adjustment) {
         java.util.Objects.requireNonNull(adjustment, "Parameter 'adjustment' must not be null");
         try {
-            DowncallHandles.gtk_spin_button_set_adjustment.invokeExact(handle(), adjustment.handle());
+            DowncallHandles.gtk_spin_button_set_adjustment.invokeExact(
+                    handle(),
+                    adjustment.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -404,7 +442,9 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public void setClimbRate(double climbRate) {
         try {
-            DowncallHandles.gtk_spin_button_set_climb_rate.invokeExact(handle(), climbRate);
+            DowncallHandles.gtk_spin_button_set_climb_rate.invokeExact(
+                    handle(),
+                    climbRate);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -419,7 +459,9 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public void setDigits(int digits) {
         try {
-            DowncallHandles.gtk_spin_button_set_digits.invokeExact(handle(), digits);
+            DowncallHandles.gtk_spin_button_set_digits.invokeExact(
+                    handle(),
+                    digits);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -435,7 +477,10 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public void setIncrements(double step, double page) {
         try {
-            DowncallHandles.gtk_spin_button_set_increments.invokeExact(handle(), step, page);
+            DowncallHandles.gtk_spin_button_set_increments.invokeExact(
+                    handle(),
+                    step,
+                    page);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -448,7 +493,9 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public void setNumeric(boolean numeric) {
         try {
-            DowncallHandles.gtk_spin_button_set_numeric.invokeExact(handle(), numeric ? 1 : 0);
+            DowncallHandles.gtk_spin_button_set_numeric.invokeExact(
+                    handle(),
+                    numeric ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -464,7 +511,10 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public void setRange(double min, double max) {
         try {
-            DowncallHandles.gtk_spin_button_set_range.invokeExact(handle(), min, max);
+            DowncallHandles.gtk_spin_button_set_range.invokeExact(
+                    handle(),
+                    min,
+                    max);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -478,7 +528,9 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public void setSnapToTicks(boolean snapToTicks) {
         try {
-            DowncallHandles.gtk_spin_button_set_snap_to_ticks.invokeExact(handle(), snapToTicks ? 1 : 0);
+            DowncallHandles.gtk_spin_button_set_snap_to_ticks.invokeExact(
+                    handle(),
+                    snapToTicks ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -494,7 +546,9 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public void setUpdatePolicy(@NotNull org.gtk.gtk.SpinButtonUpdatePolicy policy) {
         java.util.Objects.requireNonNull(policy, "Parameter 'policy' must not be null");
         try {
-            DowncallHandles.gtk_spin_button_set_update_policy.invokeExact(handle(), policy.getValue());
+            DowncallHandles.gtk_spin_button_set_update_policy.invokeExact(
+                    handle(),
+                    policy.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -506,7 +560,9 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public void setValue(double value) {
         try {
-            DowncallHandles.gtk_spin_button_set_value.invokeExact(handle(), value);
+            DowncallHandles.gtk_spin_button_set_value.invokeExact(
+                    handle(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -520,7 +576,9 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public void setWrap(boolean wrap) {
         try {
-            DowncallHandles.gtk_spin_button_set_wrap.invokeExact(handle(), wrap ? 1 : 0);
+            DowncallHandles.gtk_spin_button_set_wrap.invokeExact(
+                    handle(),
+                    wrap ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -535,7 +593,10 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public void spin(@NotNull org.gtk.gtk.SpinType direction, double increment) {
         java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
         try {
-            DowncallHandles.gtk_spin_button_spin.invokeExact(handle(), direction.getValue(), increment);
+            DowncallHandles.gtk_spin_button_spin.invokeExact(
+                    handle(),
+                    direction.getValue(),
+                    increment);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -546,7 +607,8 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public void update() {
         try {
-            DowncallHandles.gtk_spin_button_update.invokeExact(handle());
+            DowncallHandles.gtk_spin_button_update.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

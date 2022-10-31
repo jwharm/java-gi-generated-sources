@@ -23,33 +23,57 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GNetworkAddress";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.NetworkAddressPrivate.getMemoryLayout().withName("priv")
-    ).withName("GNetworkAddress");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public NetworkAddress(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to NetworkAddress */
+    /**
+     * Cast object to NetworkAddress if its GType is a (or inherits from) "GNetworkAddress".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "NetworkAddress" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GNetworkAddress", a ClassCastException will be thrown.
+     */
     public static NetworkAddress castFrom(org.gtk.gobject.Object gobject) {
-        return new NetworkAddress(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GNetworkAddress"))) {
+            return new NetworkAddress(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GNetworkAddress");
+        }
     }
     
     private static Refcounted constructNew(@NotNull java.lang.String hostname, short port) {
         java.util.Objects.requireNonNull(hostname, "Parameter 'hostname' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_network_address_new.invokeExact(Interop.allocateNativeString(hostname), port), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_network_address_new.invokeExact(
+                    Interop.allocateNativeString(hostname),
+                    port), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -75,7 +99,8 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
     private static Refcounted constructNewLoopback(short port) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_network_address_new_loopback.invokeExact(port), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_network_address_new_loopback.invokeExact(
+                    port), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,11 +135,12 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
     public @NotNull java.lang.String getHostname() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_network_address_get_hostname.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_network_address_get_hostname.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -124,7 +150,8 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
     public short getPort() {
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.g_network_address_get_port.invokeExact(handle());
+            RESULT = (short) DowncallHandles.g_network_address_get_port.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,11 +165,12 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
     public @Nullable java.lang.String getScheme() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_network_address_get_scheme.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_network_address_get_scheme.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -178,7 +206,9 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_network_address_parse.invokeExact(Interop.allocateNativeString(hostAndPort), defaultPort, (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_network_address_parse.invokeExact(
+                    Interop.allocateNativeString(hostAndPort),
+                    defaultPort, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -206,7 +236,9 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_network_address_parse_uri.invokeExact(Interop.allocateNativeString(uri), defaultPort, (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_network_address_parse_uri.invokeExact(
+                    Interop.allocateNativeString(uri),
+                    defaultPort, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

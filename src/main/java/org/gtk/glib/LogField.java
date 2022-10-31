@@ -21,20 +21,95 @@ public class LogField extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GLogField";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("key"),
         Interop.valueLayout.ADDRESS.withName("value"),
         ValueLayout.JAVA_LONG.withName("length")
-    ).withName("GLogField");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static LogField allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        LogField newInstance = new LogField(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code key}
+     * @return The value of the field {@code key}
+     */
+    public java.lang.String key$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("key"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringFrom(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code key}
+     * @param key The new value of the field {@code key}
+     */
+    public void key$set(java.lang.String key) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("key"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(key));
+    }
+    
+    /**
+     * Get the value of the field {@code value}
+     * @return The value of the field {@code value}
+     */
+    public java.lang.foreign.MemoryAddress value$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("value"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code value}
+     * @param value The new value of the field {@code value}
+     */
+    public void value$set(java.lang.foreign.MemoryAddress value) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("value"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
+    }
+    
+    /**
+     * Get the value of the field {@code length}
+     * @return The value of the field {@code length}
+     */
+    public long length$get() {
+        var RESULT = (long) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("length"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code length}
+     * @param length The new value of the field {@code length}
+     */
+    public void length$set(long length) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("length"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
+    }
+    
+    @ApiStatus.Internal
     public LogField(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

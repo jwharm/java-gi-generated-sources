@@ -76,32 +76,55 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkSizeGroup";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkSizeGroup");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public SizeGroup(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to SizeGroup */
+    /**
+     * Cast object to SizeGroup if its GType is a (or inherits from) "GtkSizeGroup".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "SizeGroup" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkSizeGroup", a ClassCastException will be thrown.
+     */
     public static SizeGroup castFrom(org.gtk.gobject.Object gobject) {
-        return new SizeGroup(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSizeGroup"))) {
+            return new SizeGroup(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkSizeGroup");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gtk.SizeGroupMode mode) {
         java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_size_group_new.invokeExact(mode.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_size_group_new.invokeExact(
+                    mode.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -133,7 +156,9 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
     public void addWidget(@NotNull org.gtk.gtk.Widget widget) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            DowncallHandles.gtk_size_group_add_widget.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_size_group_add_widget.invokeExact(
+                    handle(),
+                    widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,7 +171,8 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
     public @NotNull org.gtk.gtk.SizeGroupMode getMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_size_group_get_mode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_size_group_get_mode.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,7 +187,8 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
     public @NotNull org.gtk.glib.SList getWidgets() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_size_group_get_widgets.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_size_group_get_widgets.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,7 +202,9 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
     public void removeWidget(@NotNull org.gtk.gtk.Widget widget) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            DowncallHandles.gtk_size_group_remove_widget.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_size_group_remove_widget.invokeExact(
+                    handle(),
+                    widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -194,7 +223,9 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
     public void setMode(@NotNull org.gtk.gtk.SizeGroupMode mode) {
         java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
         try {
-            DowncallHandles.gtk_size_group_set_mode.invokeExact(handle(), mode.getValue());
+            DowncallHandles.gtk_size_group_set_mode.invokeExact(
+                    handle(),
+                    mode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

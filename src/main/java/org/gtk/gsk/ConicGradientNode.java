@@ -14,21 +14,34 @@ public class ConicGradientNode extends org.gtk.gsk.RenderNode {
         Gsk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GskConicGradientNode";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ConicGradientNode(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ConicGradientNode */
+    /**
+     * Cast object to ConicGradientNode if its GType is a (or inherits from) "GskConicGradientNode".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ConicGradientNode" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GskConicGradientNode", a ClassCastException will be thrown.
+     */
     public static ConicGradientNode castFrom(org.gtk.gobject.Object gobject) {
-        return new ConicGradientNode(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskConicGradientNode"))) {
+            return new ConicGradientNode(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskConicGradientNode");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point center, float rotation, org.gtk.gsk.ColorStop[] colorStops, long nColorStops) {
@@ -37,7 +50,12 @@ public class ConicGradientNode extends org.gtk.gsk.RenderNode {
         java.util.Objects.requireNonNull(colorStops, "Parameter 'colorStops' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_conic_gradient_node_new.invokeExact(bounds.handle(), center.handle(), rotation, Interop.allocateNativeArray(colorStops, false), nColorStops), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_conic_gradient_node_new.invokeExact(
+                    bounds.handle(),
+                    center.handle(),
+                    rotation,
+                    Interop.allocateNativeArray(colorStops, false),
+                    nColorStops), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -75,7 +93,8 @@ public class ConicGradientNode extends org.gtk.gsk.RenderNode {
     public float getAngle() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gsk_conic_gradient_node_get_angle.invokeExact(handle());
+            RESULT = (float) DowncallHandles.gsk_conic_gradient_node_get_angle.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -89,7 +108,8 @@ public class ConicGradientNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.graphene.Point getCenter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_conic_gradient_node_get_center.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_conic_gradient_node_get_center.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,7 +126,9 @@ public class ConicGradientNode extends org.gtk.gsk.RenderNode {
         MemorySegment nStopsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_conic_gradient_node_get_color_stops.invokeExact(handle(), (Addressable) nStopsPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_conic_gradient_node_get_color_stops.invokeExact(
+                    handle(),
+                    (Addressable) nStopsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,7 +148,8 @@ public class ConicGradientNode extends org.gtk.gsk.RenderNode {
     public long getNColorStops() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gsk_conic_gradient_node_get_n_color_stops.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gsk_conic_gradient_node_get_n_color_stops.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,7 +163,8 @@ public class ConicGradientNode extends org.gtk.gsk.RenderNode {
     public float getRotation() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gsk_conic_gradient_node_get_rotation.invokeExact(handle());
+            RESULT = (float) DowncallHandles.gsk_conic_gradient_node_get_rotation.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

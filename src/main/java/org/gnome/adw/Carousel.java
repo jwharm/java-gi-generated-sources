@@ -29,21 +29,34 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwCarousel";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Carousel(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Carousel */
+    /**
+     * Cast object to Carousel if its GType is a (or inherits from) "AdwCarousel".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Carousel" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwCarousel", a ClassCastException will be thrown.
+     */
     public static Carousel castFrom(org.gtk.gobject.Object gobject) {
-        return new Carousel(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwCarousel"))) {
+            return new Carousel(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwCarousel");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -70,7 +83,9 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public void append(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.adw_carousel_append.invokeExact(handle(), child.handle());
+            DowncallHandles.adw_carousel_append.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,7 +98,8 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public boolean getAllowLongSwipes() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_carousel_get_allow_long_swipes.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_carousel_get_allow_long_swipes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,7 +113,8 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public boolean getAllowMouseDrag() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_carousel_get_allow_mouse_drag.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_carousel_get_allow_mouse_drag.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,7 +128,8 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public boolean getAllowScrollWheel() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_carousel_get_allow_scroll_wheel.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_carousel_get_allow_scroll_wheel.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,7 +143,8 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public boolean getInteractive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_carousel_get_interactive.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_carousel_get_interactive.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,7 +158,8 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public int getNPages() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_carousel_get_n_pages.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_carousel_get_n_pages.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,7 +174,9 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public @NotNull org.gtk.gtk.Widget getNthPage(int n) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_carousel_get_nth_page.invokeExact(handle(), n);
+            RESULT = (MemoryAddress) DowncallHandles.adw_carousel_get_nth_page.invokeExact(
+                    handle(),
+                    n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,15 +184,16 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     }
     
     /**
-     * Gets current scroll position in {@code self}.
+     * Gets current scroll position in {@code self}, unitless.
      * <p>
-     * It's unitless, 1 matches 1 page.
+     * 1 matches 1 page. Use {@code Carousel#scrollTo} for changing it.
      * @return the scroll position
      */
     public double getPosition() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_carousel_get_position.invokeExact(handle());
+            RESULT = (double) DowncallHandles.adw_carousel_get_position.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,13 +201,14 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     }
     
     /**
-     * Gets duration of the animation used when adding or removing pages.
+     * Gets the page reveal duration, in milliseconds.
      * @return the duration
      */
     public int getRevealDuration() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_carousel_get_reveal_duration.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_carousel_get_reveal_duration.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -198,7 +222,8 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public @NotNull org.gnome.adw.SpringParams getScrollParams() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_carousel_get_scroll_params.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_carousel_get_scroll_params.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -212,7 +237,8 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public int getSpacing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_carousel_get_spacing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_carousel_get_spacing.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,7 +256,10 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public void insert(@NotNull org.gtk.gtk.Widget child, int position) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.adw_carousel_insert.invokeExact(handle(), child.handle(), position);
+            DowncallHandles.adw_carousel_insert.invokeExact(
+                    handle(),
+                    child.handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -243,7 +272,9 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public void prepend(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.adw_carousel_prepend.invokeExact(handle(), child.handle());
+            DowncallHandles.adw_carousel_prepend.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -256,7 +287,9 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public void remove(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.adw_carousel_remove.invokeExact(handle(), child.handle());
+            DowncallHandles.adw_carousel_remove.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -273,7 +306,10 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public void reorder(@NotNull org.gtk.gtk.Widget child, int position) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.adw_carousel_reorder.invokeExact(handle(), child.handle(), position);
+            DowncallHandles.adw_carousel_reorder.invokeExact(
+                    handle(),
+                    child.handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -289,7 +325,10 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public void scrollTo(@NotNull org.gtk.gtk.Widget widget, boolean animate) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            DowncallHandles.adw_carousel_scroll_to.invokeExact(handle(), widget.handle(), animate ? 1 : 0);
+            DowncallHandles.adw_carousel_scroll_to.invokeExact(
+                    handle(),
+                    widget.handle(),
+                    animate ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -297,11 +336,16 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     
     /**
      * Sets whether to allow swiping for more than one page at a time.
+     * <p>
+     * If {@code allow_long_swipes} is {@code FALSE}, each swipe can only move to the adjacent
+     * pages.
      * @param allowLongSwipes whether to allow long swipes
      */
     public void setAllowLongSwipes(boolean allowLongSwipes) {
         try {
-            DowncallHandles.adw_carousel_set_allow_long_swipes.invokeExact(handle(), allowLongSwipes ? 1 : 0);
+            DowncallHandles.adw_carousel_set_allow_long_swipes.invokeExact(
+                    handle(),
+                    allowLongSwipes ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -309,11 +353,15 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     
     /**
      * Sets whether {@code self} can be dragged with mouse pointer.
+     * <p>
+     * If {@code allow_mouse_drag} is {@code FALSE}, dragging is only available on touch.
      * @param allowMouseDrag whether {@code self} can be dragged with mouse pointer
      */
     public void setAllowMouseDrag(boolean allowMouseDrag) {
         try {
-            DowncallHandles.adw_carousel_set_allow_mouse_drag.invokeExact(handle(), allowMouseDrag ? 1 : 0);
+            DowncallHandles.adw_carousel_set_allow_mouse_drag.invokeExact(
+                    handle(),
+                    allowMouseDrag ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -321,11 +369,15 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     
     /**
      * Sets whether {@code self} will respond to scroll wheel events.
+     * <p>
+     * If {@code allow_scroll_wheel} is {@code FALSE}, wheel events will be ignored.
      * @param allowScrollWheel whether {@code self} will respond to scroll wheel events
      */
     public void setAllowScrollWheel(boolean allowScrollWheel) {
         try {
-            DowncallHandles.adw_carousel_set_allow_scroll_wheel.invokeExact(handle(), allowScrollWheel ? 1 : 0);
+            DowncallHandles.adw_carousel_set_allow_scroll_wheel.invokeExact(
+                    handle(),
+                    allowScrollWheel ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -333,23 +385,32 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     
     /**
      * Sets whether {@code self} can be navigated.
+     * <p>
+     * This can be used to temporarily disable the carousel to only allow navigating
+     * it in a certain state.
      * @param interactive whether {@code self} can be navigated
      */
     public void setInteractive(boolean interactive) {
         try {
-            DowncallHandles.adw_carousel_set_interactive.invokeExact(handle(), interactive ? 1 : 0);
+            DowncallHandles.adw_carousel_set_interactive.invokeExact(
+                    handle(),
+                    interactive ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     /**
-     * Sets duration of the animation used when adding or removing pages.
+     * Sets the page reveal duration, in milliseconds.
+     * <p>
+     * Reveal duration is used when animating adding or removing pages.
      * @param revealDuration the new reveal duration value
      */
     public void setRevealDuration(int revealDuration) {
         try {
-            DowncallHandles.adw_carousel_set_reveal_duration.invokeExact(handle(), revealDuration);
+            DowncallHandles.adw_carousel_set_reveal_duration.invokeExact(
+                    handle(),
+                    revealDuration);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -357,12 +418,19 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     
     /**
      * Sets the scroll animation spring parameters for {@code self}.
+     * <p>
+     * The default value is equivalent to:
+     * <pre>{@code c
+     * adw_spring_params_new (1, 0.5, 500)
+     * }</pre>
      * @param params the new parameters
      */
     public void setScrollParams(@NotNull org.gnome.adw.SpringParams params) {
         java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
         try {
-            DowncallHandles.adw_carousel_set_scroll_params.invokeExact(handle(), params.handle());
+            DowncallHandles.adw_carousel_set_scroll_params.invokeExact(
+                    handle(),
+                    params.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -374,7 +442,9 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
      */
     public void setSpacing(int spacing) {
         try {
-            DowncallHandles.adw_carousel_set_spacing.invokeExact(handle(), spacing);
+            DowncallHandles.adw_carousel_set_spacing.invokeExact(
+                    handle(),
+                    spacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

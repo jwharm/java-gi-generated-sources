@@ -70,25 +70,47 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkComboBox";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkComboBox");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gtk.Widget parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gtk.Widget(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public ComboBox(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ComboBox */
+    /**
+     * Cast object to ComboBox if its GType is a (or inherits from) "GtkComboBox".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ComboBox" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkComboBox", a ClassCastException will be thrown.
+     */
     public static ComboBox castFrom(org.gtk.gobject.Object gobject) {
-        return new ComboBox(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkComboBox"))) {
+            return new ComboBox(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkComboBox");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -134,7 +156,8 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_combo_box_new_with_model.invokeExact(model.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_combo_box_new_with_model.invokeExact(
+                    model.handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,7 +177,8 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_combo_box_new_with_model_and_entry.invokeExact(model.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_combo_box_new_with_model_and_entry.invokeExact(
+                    model.handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,7 +209,8 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_combo_box_get_active.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_combo_box_get_active.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -211,11 +236,12 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable java.lang.String getActiveId() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_get_active_id.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_get_active_id.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -225,16 +251,16 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param iter A {@code GtkTreeIter}
      * @return {@code true} if {@code iter} was set, {@code false} otherwise
      */
-    public boolean getActiveIter(@NotNull Out<org.gtk.gtk.TreeIter> iter) {
+    public boolean getActiveIter(@NotNull org.gtk.gtk.TreeIter iter) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_combo_box_get_active_iter.invokeExact(handle(), (Addressable) iterPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_combo_box_get_active_iter.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -250,7 +276,8 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @NotNull org.gtk.gtk.SensitivityType getButtonSensitivity() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_combo_box_get_button_sensitivity.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_combo_box_get_button_sensitivity.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -264,7 +291,8 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -279,7 +307,8 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getEntryTextColumn() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_combo_box_get_entry_text_column.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_combo_box_get_entry_text_column.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -293,7 +322,8 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getHasEntry() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_combo_box_get_has_entry.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_combo_box_get_has_entry.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -308,7 +338,8 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getIdColumn() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_combo_box_get_id_column.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_combo_box_get_id_column.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -323,7 +354,8 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.TreeModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_get_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_get_model.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -337,7 +369,8 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getPopupFixedWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_combo_box_get_popup_fixed_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_combo_box_get_popup_fixed_width.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -360,7 +393,8 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void popdown() {
         try {
-            DowncallHandles.gtk_combo_box_popdown.invokeExact(handle());
+            DowncallHandles.gtk_combo_box_popdown.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -376,7 +410,8 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void popup() {
         try {
-            DowncallHandles.gtk_combo_box_popup.invokeExact(handle());
+            DowncallHandles.gtk_combo_box_popup.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -394,7 +429,9 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public void popupForDevice(@NotNull org.gtk.gdk.Device device) {
         java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
         try {
-            DowncallHandles.gtk_combo_box_popup_for_device.invokeExact(handle(), device.handle());
+            DowncallHandles.gtk_combo_box_popup_for_device.invokeExact(
+                    handle(),
+                    device.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -407,7 +444,9 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setActive(int index) {
         try {
-            DowncallHandles.gtk_combo_box_set_active.invokeExact(handle(), index);
+            DowncallHandles.gtk_combo_box_set_active.invokeExact(
+                    handle(),
+                    index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -429,10 +468,11 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      *   always returns {@code true}.
      */
     public boolean setActiveId(@Nullable java.lang.String activeId) {
-        java.util.Objects.requireNonNullElse(activeId, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_combo_box_set_active_id.invokeExact(handle(), Interop.allocateNativeString(activeId));
+            RESULT = (int) DowncallHandles.gtk_combo_box_set_active_id.invokeExact(
+                    handle(),
+                    (Addressable) (activeId == null ? MemoryAddress.NULL : Interop.allocateNativeString(activeId)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -446,9 +486,10 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param iter The {@code GtkTreeIter}
      */
     public void setActiveIter(@Nullable org.gtk.gtk.TreeIter iter) {
-        java.util.Objects.requireNonNullElse(iter, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_combo_box_set_active_iter.invokeExact(handle(), iter.handle());
+            DowncallHandles.gtk_combo_box_set_active_iter.invokeExact(
+                    handle(),
+                    (Addressable) (iter == null ? MemoryAddress.NULL : iter.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -462,7 +503,9 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public void setButtonSensitivity(@NotNull org.gtk.gtk.SensitivityType sensitivity) {
         java.util.Objects.requireNonNull(sensitivity, "Parameter 'sensitivity' must not be null");
         try {
-            DowncallHandles.gtk_combo_box_set_button_sensitivity.invokeExact(handle(), sensitivity.getValue());
+            DowncallHandles.gtk_combo_box_set_button_sensitivity.invokeExact(
+                    handle(),
+                    sensitivity.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -473,9 +516,10 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param child the child widget
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_combo_box_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_combo_box_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -498,7 +542,9 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setEntryTextColumn(int textColumn) {
         try {
-            DowncallHandles.gtk_combo_box_set_entry_text_column.invokeExact(handle(), textColumn);
+            DowncallHandles.gtk_combo_box_set_entry_text_column.invokeExact(
+                    handle(),
+                    textColumn);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -514,7 +560,9 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setIdColumn(int idColumn) {
         try {
-            DowncallHandles.gtk_combo_box_set_id_column.invokeExact(handle(), idColumn);
+            DowncallHandles.gtk_combo_box_set_id_column.invokeExact(
+                    handle(),
+                    idColumn);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -532,9 +580,10 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param model A {@code GtkTreeModel}
      */
     public void setModel(@Nullable org.gtk.gtk.TreeModel model) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_combo_box_set_model.invokeExact(handle(), model.handle());
+            DowncallHandles.gtk_combo_box_set_model.invokeExact(
+                    handle(),
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -549,7 +598,9 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setPopupFixedWidth(boolean fixed) {
         try {
-            DowncallHandles.gtk_combo_box_set_popup_fixed_width.invokeExact(handle(), fixed ? 1 : 0);
+            DowncallHandles.gtk_combo_box_set_popup_fixed_width.invokeExact(
+                    handle(),
+                    fixed ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -564,15 +615,15 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param func a {@code GtkTreeViewRowSeparatorFunc}
      */
     public void setRowSeparatorFunc(@Nullable org.gtk.gtk.TreeViewRowSeparatorFunc func) {
-        java.util.Objects.requireNonNullElse(func, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_combo_box_set_row_separator_func.invokeExact(handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gtk_combo_box_set_row_separator_func.invokeExact(
+                    handle(),
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTreeViewRowSeparatorFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)), 
+                        Interop.getScope())),
+                    (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -942,7 +993,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         public static void signalComboBoxFormatEntryText(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ComboBox.FormatEntryText) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ComboBox(Refcounted.get(source)), path.getUtf8String(0));
+            HANDLER.signalReceived(new ComboBox(Refcounted.get(source)), Interop.getStringFrom(path));
         }
         
         public static void signalComboBoxMoveActive(MemoryAddress source, int scrollType, MemoryAddress data) {

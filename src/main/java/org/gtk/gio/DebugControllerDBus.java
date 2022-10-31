@@ -120,34 +120,57 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements org.g
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GDebugControllerDBus";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName("GDebugControllerDBus");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public DebugControllerDBus(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DebugControllerDBus */
+    /**
+     * Cast object to DebugControllerDBus if its GType is a (or inherits from) "GDebugControllerDBus".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DebugControllerDBus" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GDebugControllerDBus", a ClassCastException will be thrown.
+     */
     public static DebugControllerDBus castFrom(org.gtk.gobject.Object gobject) {
-        return new DebugControllerDBus(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDebugControllerDBus"))) {
+            return new DebugControllerDBus(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDebugControllerDBus");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gio.DBusConnection connection, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
         java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_debug_controller_dbus_new.invokeExact(connection.handle(), cancellable.handle(), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_debug_controller_dbus_new.invokeExact(
+                    connection.handle(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -193,7 +216,8 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements org.g
      */
     public void stop() {
         try {
-            DowncallHandles.g_debug_controller_dbus_stop.invokeExact(handle());
+            DowncallHandles.g_debug_controller_dbus_stop.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

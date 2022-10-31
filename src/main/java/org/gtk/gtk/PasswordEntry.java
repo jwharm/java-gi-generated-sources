@@ -43,21 +43,34 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkPasswordEntry";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public PasswordEntry(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to PasswordEntry */
+    /**
+     * Cast object to PasswordEntry if its GType is a (or inherits from) "GtkPasswordEntry".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "PasswordEntry" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkPasswordEntry", a ClassCastException will be thrown.
+     */
     public static PasswordEntry castFrom(org.gtk.gobject.Object gobject) {
-        return new PasswordEntry(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPasswordEntry"))) {
+            return new PasswordEntry(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkPasswordEntry");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -84,7 +97,8 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     public @Nullable org.gtk.gio.MenuModel getExtraMenu() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_password_entry_get_extra_menu.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_password_entry_get_extra_menu.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +113,8 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     public boolean getShowPeekIcon() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_password_entry_get_show_peek_icon.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_password_entry_get_show_peek_icon.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,9 +127,10 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * @param model a {@code GMenuModel}
      */
     public void setExtraMenu(@Nullable org.gtk.gio.MenuModel model) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_password_entry_set_extra_menu.invokeExact(handle(), model.handle());
+            DowncallHandles.gtk_password_entry_set_extra_menu.invokeExact(
+                    handle(),
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,7 +145,9 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      */
     public void setShowPeekIcon(boolean showPeekIcon) {
         try {
-            DowncallHandles.gtk_password_entry_set_show_peek_icon.invokeExact(handle(), showPeekIcon ? 1 : 0);
+            DowncallHandles.gtk_password_entry_set_show_peek_icon.invokeExact(
+                    handle(),
+                    showPeekIcon ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

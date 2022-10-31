@@ -16,14 +16,26 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GMappedFile";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static MappedFile allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        MappedFile newInstance = new MappedFile(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public MappedFile(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -33,7 +45,9 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_mapped_file_new.invokeExact(Interop.allocateNativeString(filename), writable ? 1 : 0, (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_mapped_file_new.invokeExact(
+                    Interop.allocateNativeString(filename),
+                    writable ? 1 : 0, (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,7 +87,9 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_mapped_file_new_from_fd.invokeExact(fd, writable ? 1 : 0, (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_mapped_file_new_from_fd.invokeExact(
+                    fd,
+                    writable ? 1 : 0, (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -113,7 +129,8 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
     @Deprecated
     public void free() {
         try {
-            DowncallHandles.g_mapped_file_free.invokeExact(handle());
+            DowncallHandles.g_mapped_file_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,7 +146,8 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Bytes getBytes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_get_bytes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_get_bytes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -148,11 +166,12 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getContents() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_get_contents.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_get_contents.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -162,7 +181,8 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
     public long getLength() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_mapped_file_get_length.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_mapped_file_get_length.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,7 +197,8 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.MappedFile ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -194,7 +215,8 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_mapped_file_unref.invokeExact(handle());
+            DowncallHandles.g_mapped_file_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

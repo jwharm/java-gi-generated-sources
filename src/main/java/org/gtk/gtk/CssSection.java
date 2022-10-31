@@ -17,25 +17,39 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkCssSection";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static CssSection allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        CssSection newInstance = new CssSection(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public CssSection(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gio.File file, @NotNull org.gtk.gtk.CssLocation start, @NotNull org.gtk.gtk.CssLocation end) {
-        java.util.Objects.requireNonNullElse(file, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_css_section_new.invokeExact(file.handle(), start.handle(), end.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_css_section_new.invokeExact(
+                    (Addressable) (file == null ? MemoryAddress.NULL : file.handle()),
+                    start.handle(),
+                    end.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -62,7 +76,8 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gtk.CssLocation getEndLocation() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_get_end_location.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_get_end_location.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +95,8 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.gio.File getFile() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_get_file.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_get_file.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -101,7 +117,8 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.gtk.CssSection getParent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_get_parent.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_get_parent.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,7 +133,8 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gtk.CssLocation getStartLocation() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_get_start_location.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_get_start_location.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -133,7 +151,9 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
     public void print(@NotNull org.gtk.glib.String string) {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         try {
-            DowncallHandles.gtk_css_section_print.invokeExact(handle(), string.handle());
+            DowncallHandles.gtk_css_section_print.invokeExact(
+                    handle(),
+                    string.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,7 +166,8 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gtk.CssSection ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,11 +182,12 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_to_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -174,7 +196,8 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.gtk_css_section_unref.invokeExact(handle());
+            DowncallHandles.gtk_css_section_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

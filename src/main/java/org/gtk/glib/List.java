@@ -14,20 +14,95 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GList";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("data"),
-        org.gtk.glib.List.getMemoryLayout().withName("next"),
-        org.gtk.glib.List.getMemoryLayout().withName("prev")
-    ).withName("GList");
+        Interop.valueLayout.ADDRESS.withName("next"),
+        Interop.valueLayout.ADDRESS.withName("prev")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static List allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        List newInstance = new List(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code data}
+     * @return The value of the field {@code data}
+     */
+    public java.lang.foreign.MemoryAddress data$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code data}
+     * @param data The new value of the field {@code data}
+     */
+    public void data$set(java.lang.foreign.MemoryAddress data) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), data);
+    }
+    
+    /**
+     * Get the value of the field {@code next}
+     * @return The value of the field {@code next}
+     */
+    public org.gtk.glib.List next$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("next"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Change the value of the field {@code next}
+     * @param next The new value of the field {@code next}
+     */
+    public void next$set(org.gtk.glib.List next) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("next"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), next.handle());
+    }
+    
+    /**
+     * Get the value of the field {@code prev}
+     * @return The value of the field {@code prev}
+     */
+    public org.gtk.glib.List prev$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("prev"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Change the value of the field {@code prev}
+     * @param prev The new value of the field {@code prev}
+     */
+    public void prev$set(org.gtk.glib.List prev) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("prev"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), prev.handle());
+    }
+    
+    @ApiStatus.Internal
     public List(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -78,7 +153,9 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_append.invokeExact(list.handle(), data);
+            RESULT = (MemoryAddress) DowncallHandles.g_list_append.invokeExact(
+                    list.handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,7 +183,9 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(list2, "Parameter 'list2' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_concat.invokeExact(list1.handle(), list2.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_list_concat.invokeExact(
+                    list1.handle(),
+                    list2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,7 +206,8 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_copy.invokeExact(list.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_list_copy.invokeExact(
+                    list.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -166,13 +246,14 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_copy_deep.invokeExact(list.handle(), 
+            RESULT = (MemoryAddress) DowncallHandles.g_list_copy_deep.invokeExact(
+                    list.handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -192,7 +273,9 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_delete_link.invokeExact(list.handle(), link.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_list_delete_link.invokeExact(
+                    list.handle(),
+                    link.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -209,7 +292,9 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_find.invokeExact(list.handle(), data);
+            RESULT = (MemoryAddress) DowncallHandles.g_list_find.invokeExact(
+                    list.handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -233,8 +318,9 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_find_custom.invokeExact(list.handle(), 
-                   (Addressable) (Interop.registerCallback(func)), 
+            RESULT = (MemoryAddress) DowncallHandles.g_list_find_custom.invokeExact(
+                    list.handle(),
+                    (Addressable) (Interop.registerCallback(func)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
@@ -256,7 +342,8 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_first.invokeExact(list.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_list_first.invokeExact(
+                    list.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -275,13 +362,14 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.g_list_foreach.invokeExact(list.handle(), 
+            DowncallHandles.g_list_foreach.invokeExact(
+                    list.handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -305,7 +393,8 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     public static void free(@NotNull org.gtk.glib.List list) {
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         try {
-            DowncallHandles.g_list_free.invokeExact(list.handle());
+            DowncallHandles.g_list_free.invokeExact(
+                    list.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -322,7 +411,8 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     public static void free1(@NotNull org.gtk.glib.List list) {
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         try {
-            DowncallHandles.g_list_free_1.invokeExact(list.handle());
+            DowncallHandles.g_list_free_1.invokeExact(
+                    list.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -362,7 +452,9 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_list_index.invokeExact(list.handle(), data);
+            RESULT = (int) DowncallHandles.g_list_index.invokeExact(
+                    list.handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -382,7 +474,10 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_insert.invokeExact(list.handle(), data, position);
+            RESULT = (MemoryAddress) DowncallHandles.g_list_insert.invokeExact(
+                    list.handle(),
+                    data,
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -402,7 +497,10 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(sibling, "Parameter 'sibling' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_insert_before.invokeExact(list.handle(), sibling.handle(), data);
+            RESULT = (MemoryAddress) DowncallHandles.g_list_insert_before.invokeExact(
+                    list.handle(),
+                    sibling.handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -420,11 +518,13 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      */
     public static @NotNull org.gtk.glib.List insertBeforeLink(@NotNull org.gtk.glib.List list, @Nullable org.gtk.glib.List sibling, @NotNull org.gtk.glib.List link) {
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
-        java.util.Objects.requireNonNullElse(sibling, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_insert_before_link.invokeExact(list.handle(), sibling.handle(), link.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_list_insert_before_link.invokeExact(
+                    list.handle(),
+                    (Addressable) (sibling == null ? MemoryAddress.NULL : sibling.handle()),
+                    link.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -451,8 +551,9 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_insert_sorted.invokeExact(list.handle(), 
-                   (Addressable) (Interop.registerCallback(func)), 
+            RESULT = (MemoryAddress) DowncallHandles.g_list_insert_sorted.invokeExact(
+                    list.handle(),
+                    (Addressable) (Interop.registerCallback(func)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
@@ -484,14 +585,15 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_insert_sorted_with_data.invokeExact(list.handle(), 
-                   (Addressable) (Interop.registerCallback(func)), 
+            RESULT = (MemoryAddress) DowncallHandles.g_list_insert_sorted_with_data.invokeExact(
+                    list.handle(),
+                    (Addressable) (Interop.registerCallback(func)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -508,7 +610,8 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_last.invokeExact(list.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_list_last.invokeExact(
+                    list.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -529,7 +632,8 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_list_length.invokeExact(list.handle());
+            RESULT = (int) DowncallHandles.g_list_length.invokeExact(
+                    list.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -551,7 +655,9 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_nth.invokeExact(list.handle(), n);
+            RESULT = (MemoryAddress) DowncallHandles.g_list_nth.invokeExact(
+                    list.handle(),
+                    n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -573,7 +679,9 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_nth_data.invokeExact(list.handle(), n);
+            RESULT = (MemoryAddress) DowncallHandles.g_list_nth_data.invokeExact(
+                    list.handle(),
+                    n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -591,7 +699,9 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_nth_prev.invokeExact(list.handle(), n);
+            RESULT = (MemoryAddress) DowncallHandles.g_list_nth_prev.invokeExact(
+                    list.handle(),
+                    n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -611,7 +721,9 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(llink, "Parameter 'llink' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_list_position.invokeExact(list.handle(), llink.handle());
+            RESULT = (int) DowncallHandles.g_list_position.invokeExact(
+                    list.handle(),
+                    llink.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -642,7 +754,9 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_prepend.invokeExact(list.handle(), data);
+            RESULT = (MemoryAddress) DowncallHandles.g_list_prepend.invokeExact(
+                    list.handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -661,7 +775,9 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_remove.invokeExact(list.handle(), data);
+            RESULT = (MemoryAddress) DowncallHandles.g_list_remove.invokeExact(
+                    list.handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -681,7 +797,9 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_remove_all.invokeExact(list.handle(), data);
+            RESULT = (MemoryAddress) DowncallHandles.g_list_remove_all.invokeExact(
+                    list.handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -710,7 +828,9 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(llink, "Parameter 'llink' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_remove_link.invokeExact(list.handle(), llink.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_list_remove_link.invokeExact(
+                    list.handle(),
+                    llink.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -727,7 +847,8 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_reverse.invokeExact(list.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_list_reverse.invokeExact(
+                    list.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -761,13 +882,14 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_sort_with_data.invokeExact(list.handle(), 
+            RESULT = (MemoryAddress) DowncallHandles.g_list_sort_with_data.invokeExact(
+                    list.handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(compareFunc)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(compareFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -22,25 +22,47 @@ public class ContentProvider extends org.gtk.gobject.Object {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkContentProvider";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent")
-    ).withName("GdkContentProvider");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent}
+     * @return The value of the field {@code parent}
+     */
+    public org.gtk.gobject.Object parent$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public ContentProvider(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ContentProvider */
+    /**
+     * Cast object to ContentProvider if its GType is a (or inherits from) "GdkContentProvider".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ContentProvider" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkContentProvider", a ClassCastException will be thrown.
+     */
     public static ContentProvider castFrom(org.gtk.gobject.Object gobject) {
-        return new ContentProvider(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkContentProvider"))) {
+            return new ContentProvider(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkContentProvider");
+        }
     }
     
     private static Refcounted constructNewForBytes(@NotNull java.lang.String mimeType, @NotNull org.gtk.glib.Bytes bytes) {
@@ -48,7 +70,9 @@ public class ContentProvider extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_content_provider_new_for_bytes.invokeExact(Interop.allocateNativeString(mimeType), bytes.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_content_provider_new_for_bytes.invokeExact(
+                    Interop.allocateNativeString(mimeType),
+                    bytes.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,7 +94,8 @@ public class ContentProvider extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_content_provider_new_for_value.invokeExact(value.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_content_provider_new_for_value.invokeExact(
+                    value.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,10 +129,11 @@ public class ContentProvider extends org.gtk.gobject.Object {
     }
     
     private static Refcounted constructNewUnion(org.gtk.gdk.ContentProvider[] providers, long nProviders) {
-        java.util.Objects.requireNonNullElse(providers, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_content_provider_new_union.invokeExact(Interop.allocateNativeArray(providers, false), nProviders), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_content_provider_new_union.invokeExact(
+                    (Addressable) (providers == null ? MemoryAddress.NULL : Interop.allocateNativeArray(providers, false)),
+                    nProviders), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -143,7 +169,8 @@ public class ContentProvider extends org.gtk.gobject.Object {
      */
     public void contentChanged() {
         try {
-            DowncallHandles.gdk_content_provider_content_changed.invokeExact(handle());
+            DowncallHandles.gdk_content_provider_content_changed.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,20 +189,20 @@ public class ContentProvider extends org.gtk.gobject.Object {
      *   {@code error} will be set to describe the failure.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean getValue(@NotNull Out<org.gtk.gobject.Value> value) throws io.github.jwharm.javagi.GErrorException {
+    public boolean getValue(@NotNull org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_content_provider_get_value.invokeExact(handle(), (Addressable) valuePOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gdk_content_provider_get_value.invokeExact(
+                    handle(),
+                    value.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        value.set(new org.gtk.gobject.Value(Refcounted.get(valuePOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -186,7 +213,8 @@ public class ContentProvider extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.ContentFormats refFormats() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_provider_ref_formats.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_provider_ref_formats.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,7 +233,8 @@ public class ContentProvider extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.ContentFormats refStorableFormats() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_provider_ref_storable_formats.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_provider_ref_storable_formats.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -234,16 +263,19 @@ public class ContentProvider extends org.gtk.gobject.Object {
     public void writeMimeTypeAsync(@NotNull java.lang.String mimeType, @NotNull org.gtk.gio.OutputStream stream, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.gdk_content_provider_write_mime_type_async.invokeExact(handle(), Interop.allocateNativeString(mimeType), stream.handle(), ioPriority, cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gdk_content_provider_write_mime_type_async.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(mimeType),
+                    stream.handle(),
+                    ioPriority,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gdk.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -263,7 +295,9 @@ public class ContentProvider extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_content_provider_write_mime_type_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gdk_content_provider_write_mime_type_finish.invokeExact(
+                    handle(),
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

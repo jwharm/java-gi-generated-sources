@@ -14,21 +14,34 @@ public class BorderNode extends org.gtk.gsk.RenderNode {
         Gsk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GskBorderNode";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public BorderNode(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to BorderNode */
+    /**
+     * Cast object to BorderNode if its GType is a (or inherits from) "GskBorderNode".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "BorderNode" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GskBorderNode", a ClassCastException will be thrown.
+     */
     public static BorderNode castFrom(org.gtk.gobject.Object gobject) {
-        return new BorderNode(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskBorderNode"))) {
+            return new BorderNode(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskBorderNode");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gsk.RoundedRect outline, float[] borderWidth, org.gtk.gdk.RGBA[] borderColor) {
@@ -37,7 +50,10 @@ public class BorderNode extends org.gtk.gsk.RenderNode {
         java.util.Objects.requireNonNull(borderColor, "Parameter 'borderColor' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_border_node_new.invokeExact(outline.handle(), Interop.allocateNativeArray(borderWidth, false), Interop.allocateNativeArray(borderColor, false)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_border_node_new.invokeExact(
+                    outline.handle(),
+                    Interop.allocateNativeArray(borderWidth, false),
+                    Interop.allocateNativeArray(borderColor, false)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,7 +83,8 @@ public class BorderNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.gdk.RGBA getColors() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_border_node_get_colors.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_border_node_get_colors.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -81,7 +98,8 @@ public class BorderNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.gsk.RoundedRect getOutline() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_border_node_get_outline.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_border_node_get_outline.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,7 +115,8 @@ public class BorderNode extends org.gtk.gsk.RenderNode {
     public @NotNull float[] getWidths() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_border_node_get_widths.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_border_node_get_widths.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

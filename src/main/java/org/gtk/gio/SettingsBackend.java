@@ -37,26 +37,48 @@ public class SettingsBackend extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSettingsBackend";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.SettingsBackendPrivate.getMemoryLayout().withName("priv")
-    ).withName("GSettingsBackend");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public SettingsBackend(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to SettingsBackend */
+    /**
+     * Cast object to SettingsBackend if its GType is a (or inherits from) "GSettingsBackend".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "SettingsBackend" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GSettingsBackend", a ClassCastException will be thrown.
+     */
     public static SettingsBackend castFrom(org.gtk.gobject.Object gobject) {
-        return new SettingsBackend(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSettingsBackend"))) {
+            return new SettingsBackend(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSettingsBackend");
+        }
     }
     
     /**
@@ -87,9 +109,11 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      */
     public void changed(@NotNull java.lang.String key, @Nullable java.lang.foreign.MemoryAddress originTag) {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNullElse(originTag, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_settings_backend_changed.invokeExact(handle(), Interop.allocateNativeString(key), originTag);
+            DowncallHandles.g_settings_backend_changed.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    (Addressable) (originTag == null ? MemoryAddress.NULL : originTag));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,9 +128,11 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      */
     public void changedTree(@NotNull org.gtk.glib.Tree tree, @Nullable java.lang.foreign.MemoryAddress originTag) {
         java.util.Objects.requireNonNull(tree, "Parameter 'tree' must not be null");
-        java.util.Objects.requireNonNullElse(originTag, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_settings_backend_changed_tree.invokeExact(handle(), tree.handle(), originTag);
+            DowncallHandles.g_settings_backend_changed_tree.invokeExact(
+                    handle(),
+                    tree.handle(),
+                    (Addressable) (originTag == null ? MemoryAddress.NULL : originTag));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,9 +167,12 @@ public class SettingsBackend extends org.gtk.gobject.Object {
     public void keysChanged(@NotNull java.lang.String path, java.lang.String[] items, @Nullable java.lang.foreign.MemoryAddress originTag) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         java.util.Objects.requireNonNull(items, "Parameter 'items' must not be null");
-        java.util.Objects.requireNonNullElse(originTag, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_settings_backend_keys_changed.invokeExact(handle(), Interop.allocateNativeString(path), Interop.allocateNativeArray(items, false), originTag);
+            DowncallHandles.g_settings_backend_keys_changed.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(path),
+                    Interop.allocateNativeArray(items, false),
+                    (Addressable) (originTag == null ? MemoryAddress.NULL : originTag));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -176,9 +205,11 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      */
     public void pathChanged(@NotNull java.lang.String path, @Nullable java.lang.foreign.MemoryAddress originTag) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        java.util.Objects.requireNonNullElse(originTag, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_settings_backend_path_changed.invokeExact(handle(), Interop.allocateNativeString(path), originTag);
+            DowncallHandles.g_settings_backend_path_changed.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(path),
+                    (Addressable) (originTag == null ? MemoryAddress.NULL : originTag));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -195,7 +226,9 @@ public class SettingsBackend extends org.gtk.gobject.Object {
     public void pathWritableChanged(@NotNull java.lang.String path) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         try {
-            DowncallHandles.g_settings_backend_path_writable_changed.invokeExact(handle(), Interop.allocateNativeString(path));
+            DowncallHandles.g_settings_backend_path_writable_changed.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(path));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -211,7 +244,9 @@ public class SettingsBackend extends org.gtk.gobject.Object {
     public void writableChanged(@NotNull java.lang.String key) {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         try {
-            DowncallHandles.g_settings_backend_writable_changed.invokeExact(handle(), Interop.allocateNativeString(key));
+            DowncallHandles.g_settings_backend_writable_changed.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

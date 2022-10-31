@@ -249,14 +249,26 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GVariant";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Variant allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Variant newInstance = new Variant(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Variant(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -301,11 +313,12 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     private static Refcounted constructNewArray(@Nullable org.gtk.glib.VariantType childType, org.gtk.glib.Variant[] children, long nChildren) {
-        java.util.Objects.requireNonNullElse(childType, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(children, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_array.invokeExact(childType.handle(), Interop.allocateNativeArray(children, false), nChildren), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_array.invokeExact(
+                    (Addressable) (childType == null ? MemoryAddress.NULL : childType.handle()),
+                    (Addressable) (children == null ? MemoryAddress.NULL : Interop.allocateNativeArray(children, false)),
+                    nChildren), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -341,7 +354,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructNewBoolean(boolean value) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_boolean.invokeExact(value ? 1 : 0), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_boolean.invokeExact(
+                    value ? 1 : 0), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -360,7 +374,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructNewByte(byte value) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_byte.invokeExact(value), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_byte.invokeExact(
+                    value), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -380,7 +395,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_bytestring.invokeExact(Interop.allocateNativeArray(string, false)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_bytestring.invokeExact(
+                    Interop.allocateNativeArray(string, false)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -406,7 +422,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(strv, "Parameter 'strv' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_bytestring_array.invokeExact(Interop.allocateNativeArray(strv, false), length), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_bytestring_array.invokeExact(
+                    Interop.allocateNativeArray(strv, false),
+                    length), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -431,7 +449,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_dict_entry.invokeExact(key.handle(), value.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_dict_entry.invokeExact(
+                    key.handle(),
+                    value.handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -455,7 +475,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructNewDouble(double value) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_double.invokeExact(value), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_double.invokeExact(
+                    value), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -473,10 +494,13 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     
     private static Refcounted constructNewFixedArray(@NotNull org.gtk.glib.VariantType elementType, @Nullable java.lang.foreign.MemoryAddress elements, long nElements, long elementSize) {
         java.util.Objects.requireNonNull(elementType, "Parameter 'elementType' must not be null");
-        java.util.Objects.requireNonNullElse(elements, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_fixed_array.invokeExact(elementType.handle(), elements, nElements, elementSize), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_fixed_array.invokeExact(
+                    elementType.handle(),
+                    (Addressable) (elements == null ? MemoryAddress.NULL : elements),
+                    nElements,
+                    elementSize), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -512,7 +536,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_from_bytes.invokeExact(type.handle(), bytes.handle(), trusted ? 1 : 0), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_from_bytes.invokeExact(
+                    type.handle(),
+                    bytes.handle(),
+                    trusted ? 1 : 0), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -543,8 +570,13 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_from_data.invokeExact(type.handle(), Interop.allocateNativeArray(data, false), size, trusted ? 1 : 0, 
-                    Interop.cbDestroyNotifySymbol(), userData), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_from_data.invokeExact(
+                    type.handle(),
+                    Interop.allocateNativeArray(data, false),
+                    size,
+                    trusted ? 1 : 0,
+                    Interop.cbDestroyNotifySymbol(),
+                    userData), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -596,7 +628,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructNewHandle(int value) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_handle.invokeExact(value), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_handle.invokeExact(
+                    value), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -619,7 +652,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructNewInt16(short value) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_int16.invokeExact(value), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_int16.invokeExact(
+                    value), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -638,7 +672,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructNewInt32(int value) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_int32.invokeExact(value), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_int32.invokeExact(
+                    value), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -657,7 +692,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructNewInt64(long value) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_int64.invokeExact(value), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_int64.invokeExact(
+                    value), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -674,11 +710,11 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     private static Refcounted constructNewMaybe(@Nullable org.gtk.glib.VariantType childType, @Nullable org.gtk.glib.Variant child) {
-        java.util.Objects.requireNonNullElse(childType, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_maybe.invokeExact(childType.handle(), child.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_maybe.invokeExact(
+                    (Addressable) (childType == null ? MemoryAddress.NULL : childType.handle()),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle())), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -708,7 +744,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_object_path.invokeExact(Interop.allocateNativeString(objectPath)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_object_path.invokeExact(
+                    Interop.allocateNativeString(objectPath)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -730,7 +767,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(strv, "Parameter 'strv' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_objv.invokeExact(Interop.allocateNativeArray(strv, false), length), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_objv.invokeExact(
+                    Interop.allocateNativeArray(strv, false),
+                    length), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -802,7 +841,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(app, "Parameter 'app' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_parsed_va.invokeExact(Interop.allocateNativeString(format), app), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_parsed_va.invokeExact(
+                    Interop.allocateNativeString(format),
+                    app), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -861,7 +902,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(signature, "Parameter 'signature' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_signature.invokeExact(Interop.allocateNativeString(signature)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_signature.invokeExact(
+                    Interop.allocateNativeString(signature)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -883,7 +925,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_string.invokeExact(Interop.allocateNativeString(string)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_string.invokeExact(
+                    Interop.allocateNativeString(string)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -907,7 +950,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(strv, "Parameter 'strv' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_strv.invokeExact(Interop.allocateNativeArray(strv, false), length), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_strv.invokeExact(
+                    Interop.allocateNativeArray(strv, false),
+                    length), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -931,7 +976,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_take_string.invokeExact(Interop.allocateNativeString(string)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_take_string.invokeExact(
+                    Interop.allocateNativeString(string)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -962,7 +1008,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(children, "Parameter 'children' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_tuple.invokeExact(Interop.allocateNativeArray(children, false), nChildren), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_tuple.invokeExact(
+                    Interop.allocateNativeArray(children, false),
+                    nChildren), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -989,7 +1037,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructNewUint16(short value) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_uint16.invokeExact(value), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_uint16.invokeExact(
+                    value), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1008,7 +1057,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructNewUint32(int value) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_uint32.invokeExact(value), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_uint32.invokeExact(
+                    value), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1027,7 +1077,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructNewUint64(long value) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_uint64.invokeExact(value), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_uint64.invokeExact(
+                    value), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1045,11 +1096,13 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     
     private static Refcounted constructNewVa(@NotNull java.lang.String formatString, @Nullable PointerString endptr, @NotNull VaList app) {
         java.util.Objects.requireNonNull(formatString, "Parameter 'formatString' must not be null");
-        java.util.Objects.requireNonNullElse(endptr, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(app, "Parameter 'app' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_va.invokeExact(Interop.allocateNativeString(formatString), endptr.handle(), app), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_va.invokeExact(
+                    Interop.allocateNativeString(formatString),
+                    (Addressable) (endptr == null ? MemoryAddress.NULL : endptr.handle()),
+                    app), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1107,7 +1160,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_variant.invokeExact(value.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_new_variant.invokeExact(
+                    value.handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1144,7 +1198,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Variant byteswap() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_byteswap.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_byteswap.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1174,7 +1229,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(formatString, "Parameter 'formatString' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_check_format_string.invokeExact(handle(), Interop.allocateNativeString(formatString), copyOnly ? 1 : 0);
+            RESULT = (int) DowncallHandles.g_variant_check_format_string.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(formatString),
+                    copyOnly ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1188,7 +1246,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.VariantClass classify() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_classify.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_variant_classify.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1224,7 +1283,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(two, "Parameter 'two' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_compare.invokeExact(handle(), two.handle());
+            RESULT = (int) DowncallHandles.g_variant_compare.invokeExact(
+                    handle(),
+                    two.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1245,7 +1306,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_dup_bytestring.invokeExact(handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_dup_bytestring.invokeExact(
+                    handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1272,7 +1335,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_dup_bytestring_array.invokeExact(handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_dup_bytestring_array.invokeExact(
+                    handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1280,7 +1345,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = OBJ.getUtf8String(0);
+            resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
     }
@@ -1304,7 +1369,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_dup_objv.invokeExact(handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_dup_objv.invokeExact(
+                    handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1312,7 +1379,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = OBJ.getUtf8String(0);
+            resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
     }
@@ -1332,12 +1399,14 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_dup_string.invokeExact(handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_dup_string.invokeExact(
+                    handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -1359,7 +1428,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_dup_strv.invokeExact(handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_dup_strv.invokeExact(
+                    handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1367,7 +1438,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = OBJ.getUtf8String(0);
+            resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
     }
@@ -1384,7 +1455,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(two, "Parameter 'two' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_equal.invokeExact(handle(), two.handle());
+            RESULT = (int) DowncallHandles.g_variant_equal.invokeExact(
+                    handle(),
+                    two.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1424,7 +1497,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public boolean getBoolean() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_get_boolean.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_variant_get_boolean.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1441,7 +1515,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public byte getByte() {
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.g_variant_get_byte.invokeExact(handle());
+            RESULT = (byte) DowncallHandles.g_variant_get_byte.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1472,7 +1547,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull PointerByte getBytestring() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_bytestring.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_bytestring.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1498,7 +1574,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_bytestring_array.invokeExact(handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_bytestring_array.invokeExact(
+                    handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1506,7 +1584,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = OBJ.getUtf8String(0);
+            resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
     }
@@ -1558,7 +1636,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Variant getChildValue(long index) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_child_value.invokeExact(handle(), index);
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_child_value.invokeExact(
+                    handle(),
+                    index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1596,7 +1676,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress getData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_data.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_data.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1613,7 +1694,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Bytes getDataAsBytes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_data_as_bytes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_data_as_bytes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1630,7 +1712,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public double getDouble() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.g_variant_get_double.invokeExact(handle());
+            RESULT = (double) DowncallHandles.g_variant_get_double.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1676,7 +1759,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment nElementsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_fixed_array.invokeExact(handle(), (Addressable) nElementsPOINTER.address(), elementSize);
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_fixed_array.invokeExact(
+                    handle(),
+                    (Addressable) nElementsPOINTER.address(),
+                    elementSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1703,7 +1789,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public int getHandle() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_get_handle.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_variant_get_handle.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1720,7 +1807,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public short getInt16() {
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.g_variant_get_int16.invokeExact(handle());
+            RESULT = (short) DowncallHandles.g_variant_get_int16.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1737,7 +1825,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public int getInt32() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_get_int32.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_variant_get_int32.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1754,7 +1843,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public long getInt64() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_variant_get_int64.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_variant_get_int64.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1769,7 +1859,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.glib.Variant getMaybe() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_maybe.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_maybe.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1805,7 +1896,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Variant getNormalForm() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_normal_form.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_normal_form.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1831,7 +1923,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_objv.invokeExact(handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_objv.invokeExact(
+                    handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1839,7 +1933,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = OBJ.getUtf8String(0);
+            resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
     }
@@ -1861,7 +1955,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public long getSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_variant_get_size.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_variant_get_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1896,12 +1991,14 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_string.invokeExact(handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_string.invokeExact(
+                    handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -1923,7 +2020,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_strv.invokeExact(handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_strv.invokeExact(
+                    handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1931,7 +2030,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = OBJ.getUtf8String(0);
+            resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
     }
@@ -1946,7 +2045,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.VariantType getType() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_type.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1962,11 +2062,12 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getTypeString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_type_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_type_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -1979,7 +2080,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public short getUint16() {
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.g_variant_get_uint16.invokeExact(handle());
+            RESULT = (short) DowncallHandles.g_variant_get_uint16.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1996,7 +2098,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public int getUint32() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_get_uint32.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_variant_get_uint32.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2013,7 +2116,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public long getUint64() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_variant_get_uint64.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_variant_get_uint64.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2052,10 +2156,13 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      */
     public void getVa(@NotNull java.lang.String formatString, @Nullable PointerString endptr, @NotNull VaList app) {
         java.util.Objects.requireNonNull(formatString, "Parameter 'formatString' must not be null");
-        java.util.Objects.requireNonNullElse(endptr, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(app, "Parameter 'app' must not be null");
         try {
-            DowncallHandles.g_variant_get_va.invokeExact(handle(), Interop.allocateNativeString(formatString), endptr.handle(), app);
+            DowncallHandles.g_variant_get_va.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(formatString),
+                    (Addressable) (endptr == null ? MemoryAddress.NULL : endptr.handle()),
+                    app);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2069,7 +2176,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Variant getVariant() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_variant.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_get_variant.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2091,7 +2199,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public int hash() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_hash.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_variant_hash.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2105,7 +2214,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public boolean isContainer() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_is_container.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_variant_is_container.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2127,7 +2237,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public boolean isFloating() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_is_floating.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_variant_is_floating.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2153,7 +2264,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public boolean isNormalForm() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_is_normal_form.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_variant_is_normal_form.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2169,7 +2281,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_is_of_type.invokeExact(handle(), type.handle());
+            RESULT = (int) DowncallHandles.g_variant_is_of_type.invokeExact(
+                    handle(),
+                    type.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2190,7 +2304,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.VariantIter iterNew() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_iter_new.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_iter_new.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2248,10 +2363,12 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      */
     public @NotNull org.gtk.glib.Variant lookupValue(@NotNull java.lang.String key, @Nullable org.gtk.glib.VariantType expectedType) {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNullElse(expectedType, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_lookup_value.invokeExact(handle(), Interop.allocateNativeString(key), expectedType.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_lookup_value.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    (Addressable) (expectedType == null ? MemoryAddress.NULL : expectedType.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2275,7 +2392,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public long nChildren() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_variant_n_children.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_variant_n_children.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2296,11 +2414,13 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String print(boolean typeAnnotate) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_print.invokeExact(handle(), typeAnnotate ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_print.invokeExact(
+                    handle(),
+                    typeAnnotate ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -2314,10 +2434,12 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * @return a {@link String} containing the string
      */
     public @NotNull org.gtk.glib.String printString(@Nullable org.gtk.glib.String string, boolean typeAnnotate) {
-        java.util.Objects.requireNonNullElse(string, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_print_string.invokeExact(handle(), string.handle(), typeAnnotate ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_print_string.invokeExact(
+                    handle(),
+                    (Addressable) (string == null ? MemoryAddress.NULL : string.handle()),
+                    typeAnnotate ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2331,7 +2453,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Variant ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2366,7 +2489,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Variant refSink() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_ref_sink.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_ref_sink.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2390,7 +2514,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      */
     public void store(@NotNull java.lang.foreign.MemoryAddress data) {
         try {
-            DowncallHandles.g_variant_store.invokeExact(handle(), data);
+            DowncallHandles.g_variant_store.invokeExact(
+                    handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2434,7 +2560,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Variant takeRef() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_take_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_take_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2447,7 +2574,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_variant_unref.invokeExact(handle());
+            DowncallHandles.g_variant_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2469,7 +2597,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_is_object_path.invokeExact(Interop.allocateNativeString(string));
+            RESULT = (int) DowncallHandles.g_variant_is_object_path.invokeExact(
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2490,7 +2619,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_is_signature.invokeExact(Interop.allocateNativeString(string));
+            RESULT = (int) DowncallHandles.g_variant_is_signature.invokeExact(
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2541,14 +2671,15 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static @NotNull org.gtk.glib.Variant parse(@Nullable org.gtk.glib.VariantType type, @NotNull java.lang.String text, @Nullable java.lang.String limit, @Nullable PointerString endptr) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(type, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        java.util.Objects.requireNonNullElse(limit, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(endptr, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_parse.invokeExact(type.handle(), Interop.allocateNativeString(text), Interop.allocateNativeString(limit), endptr.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_parse.invokeExact(
+                    (Addressable) (type == null ? MemoryAddress.NULL : type.handle()),
+                    Interop.allocateNativeString(text),
+                    (Addressable) (limit == null ? MemoryAddress.NULL : Interop.allocateNativeString(limit)),
+                    (Addressable) (endptr == null ? MemoryAddress.NULL : endptr.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2595,11 +2726,13 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(sourceStr, "Parameter 'sourceStr' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_parse_error_print_context.invokeExact(error.handle(), Interop.allocateNativeString(sourceStr));
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_parse_error_print_context.invokeExact(
+                    error.handle(),
+                    Interop.allocateNativeString(sourceStr));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     public static @NotNull org.gtk.glib.Quark parseErrorQuark() {

@@ -25,29 +25,42 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkColumnViewColumn";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ColumnViewColumn(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ColumnViewColumn */
+    /**
+     * Cast object to ColumnViewColumn if its GType is a (or inherits from) "GtkColumnViewColumn".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ColumnViewColumn" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkColumnViewColumn", a ClassCastException will be thrown.
+     */
     public static ColumnViewColumn castFrom(org.gtk.gobject.Object gobject) {
-        return new ColumnViewColumn(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkColumnViewColumn"))) {
+            return new ColumnViewColumn(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkColumnViewColumn");
+        }
     }
     
     private static Refcounted constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.ListItemFactory factory) {
-        java.util.Objects.requireNonNullElse(title, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(factory, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_column_view_column_new.invokeExact(Interop.allocateNativeString(title), factory.refcounted().unowned().handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_column_view_column_new.invokeExact(
+                    (Addressable) (title == null ? MemoryAddress.NULL : Interop.allocateNativeString(title)),
+                    (Addressable) (factory == null ? MemoryAddress.NULL : factory.refcounted().unowned().handle())), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -81,7 +94,8 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gtk.ColumnView getColumnView() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_column_get_column_view.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_column_get_column_view.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,7 +109,8 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
     public boolean getExpand() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_column_view_column_get_expand.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_column_view_column_get_expand.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,7 +125,8 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gtk.ListItemFactory getFactory() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_column_get_factory.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_column_get_factory.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,7 +140,8 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
     public int getFixedWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_column_view_column_get_fixed_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_column_view_column_get_fixed_width.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,7 +156,8 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gio.MenuModel getHeaderMenu() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_column_get_header_menu.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_column_get_header_menu.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,7 +171,8 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
     public boolean getResizable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_column_view_column_get_resizable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_column_view_column_get_resizable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,7 +186,8 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gtk.Sorter getSorter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_column_get_sorter.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_column_get_sorter.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,11 +201,12 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_column_get_title.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_column_get_title.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -195,7 +216,8 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
     public boolean getVisible() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_column_view_column_get_visible.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_column_view_column_get_visible.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -211,7 +233,9 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      */
     public void setExpand(boolean expand) {
         try {
-            DowncallHandles.gtk_column_view_column_set_expand.invokeExact(handle(), expand ? 1 : 0);
+            DowncallHandles.gtk_column_view_column_set_expand.invokeExact(
+                    handle(),
+                    expand ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,9 +247,10 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * @param factory the factory to use
      */
     public void setFactory(@Nullable org.gtk.gtk.ListItemFactory factory) {
-        java.util.Objects.requireNonNullElse(factory, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_column_view_column_set_factory.invokeExact(handle(), factory.handle());
+            DowncallHandles.gtk_column_view_column_set_factory.invokeExact(
+                    handle(),
+                    (Addressable) (factory == null ? MemoryAddress.NULL : factory.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -241,7 +266,9 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      */
     public void setFixedWidth(int fixedWidth) {
         try {
-            DowncallHandles.gtk_column_view_column_set_fixed_width.invokeExact(handle(), fixedWidth);
+            DowncallHandles.gtk_column_view_column_set_fixed_width.invokeExact(
+                    handle(),
+                    fixedWidth);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -253,9 +280,10 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * @param menu a {@code GMenuModel}
      */
     public void setHeaderMenu(@Nullable org.gtk.gio.MenuModel menu) {
-        java.util.Objects.requireNonNullElse(menu, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_column_view_column_set_header_menu.invokeExact(handle(), menu.handle());
+            DowncallHandles.gtk_column_view_column_set_header_menu.invokeExact(
+                    handle(),
+                    (Addressable) (menu == null ? MemoryAddress.NULL : menu.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -267,7 +295,9 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      */
     public void setResizable(boolean resizable) {
         try {
-            DowncallHandles.gtk_column_view_column_set_resizable.invokeExact(handle(), resizable ? 1 : 0);
+            DowncallHandles.gtk_column_view_column_set_resizable.invokeExact(
+                    handle(),
+                    resizable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -287,9 +317,10 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * @param sorter the {@code GtkSorter} to associate with {@code column}
      */
     public void setSorter(@Nullable org.gtk.gtk.Sorter sorter) {
-        java.util.Objects.requireNonNullElse(sorter, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_column_view_column_set_sorter.invokeExact(handle(), sorter.handle());
+            DowncallHandles.gtk_column_view_column_set_sorter.invokeExact(
+                    handle(),
+                    (Addressable) (sorter == null ? MemoryAddress.NULL : sorter.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -304,9 +335,10 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * @param title Title to use for this column
      */
     public void setTitle(@Nullable java.lang.String title) {
-        java.util.Objects.requireNonNullElse(title, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_column_view_column_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
+            DowncallHandles.gtk_column_view_column_set_title.invokeExact(
+                    handle(),
+                    (Addressable) (title == null ? MemoryAddress.NULL : Interop.allocateNativeString(title)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -318,7 +350,9 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      */
     public void setVisible(boolean visible) {
         try {
-            DowncallHandles.gtk_column_view_column_set_visible.invokeExact(handle(), visible ? 1 : 0);
+            DowncallHandles.gtk_column_view_column_set_visible.invokeExact(
+                    handle(),
+                    visible ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

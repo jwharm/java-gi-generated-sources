@@ -15,14 +15,26 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GMainContext";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static MainContext allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        MainContext newInstance = new MainContext(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public MainContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -48,7 +60,8 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_main_context_new_with_flags.invokeExact(flags.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_main_context_new_with_flags.invokeExact(
+                    flags.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +95,8 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     public boolean acquire() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_main_context_acquire.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_main_context_acquire.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,7 +116,10 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     public void addPoll(@NotNull org.gtk.glib.PollFD fd, int priority) {
         java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
         try {
-            DowncallHandles.g_main_context_add_poll.invokeExact(handle(), fd.handle(), priority);
+            DowncallHandles.g_main_context_add_poll.invokeExact(
+                    handle(),
+                    fd.handle(),
+                    priority);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,7 +143,11 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(fds, "Parameter 'fds' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_main_context_check.invokeExact(handle(), maxPriority, Interop.allocateNativeArray(fds, false), nFds);
+            RESULT = (int) DowncallHandles.g_main_context_check.invokeExact(
+                    handle(),
+                    maxPriority,
+                    Interop.allocateNativeArray(fds, false),
+                    nFds);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,7 +162,8 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public void dispatch() {
         try {
-            DowncallHandles.g_main_context_dispatch.invokeExact(handle());
+            DowncallHandles.g_main_context_dispatch.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,7 +181,10 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(funcs, "Parameter 'funcs' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_main_context_find_source_by_funcs_user_data.invokeExact(handle(), funcs.handle(), userData);
+            RESULT = (MemoryAddress) DowncallHandles.g_main_context_find_source_by_funcs_user_data.invokeExact(
+                    handle(),
+                    funcs.handle(),
+                    userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,7 +210,9 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Source findSourceById(int sourceId) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_main_context_find_source_by_id.invokeExact(handle(), sourceId);
+            RESULT = (MemoryAddress) DowncallHandles.g_main_context_find_source_by_id.invokeExact(
+                    handle(),
+                    sourceId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,7 +229,9 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Source findSourceByUserData(@Nullable java.lang.foreign.MemoryAddress userData) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_main_context_find_source_by_user_data.invokeExact(handle(), userData);
+            RESULT = (MemoryAddress) DowncallHandles.g_main_context_find_source_by_user_data.invokeExact(
+                    handle(),
+                    userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -244,13 +273,14 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     public void invoke(@NotNull org.gtk.glib.SourceFunc function) {
         java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
         try {
-            DowncallHandles.g_main_context_invoke.invokeExact(handle(), 
+            DowncallHandles.g_main_context_invoke.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(function)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(function)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -272,13 +302,15 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     public void invokeFull(int priority, @NotNull org.gtk.glib.SourceFunc function) {
         java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
         try {
-            DowncallHandles.g_main_context_invoke_full.invokeExact(handle(), priority, 
+            DowncallHandles.g_main_context_invoke_full.invokeExact(
+                    handle(),
+                    priority,
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(function)), 
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(function)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -295,7 +327,8 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     public boolean isOwner() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_main_context_is_owner.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_main_context_is_owner.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -321,7 +354,9 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     public boolean iteration(boolean mayBlock) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_main_context_iteration.invokeExact(handle(), mayBlock ? 1 : 0);
+            RESULT = (int) DowncallHandles.g_main_context_iteration.invokeExact(
+                    handle(),
+                    mayBlock ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -335,7 +370,8 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     public boolean pending() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_main_context_pending.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_main_context_pending.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -348,7 +384,8 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public void popThreadDefault() {
         try {
-            DowncallHandles.g_main_context_pop_thread_default.invokeExact(handle());
+            DowncallHandles.g_main_context_pop_thread_default.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -370,7 +407,9 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment priorityPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_main_context_prepare.invokeExact(handle(), (Addressable) priorityPOINTER.address());
+            RESULT = (int) DowncallHandles.g_main_context_prepare.invokeExact(
+                    handle(),
+                    (Addressable) priorityPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -420,7 +459,8 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public void pushThreadDefault() {
         try {
-            DowncallHandles.g_main_context_push_thread_default.invokeExact(handle());
+            DowncallHandles.g_main_context_push_thread_default.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -450,7 +490,12 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment fdsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_main_context_query.invokeExact(handle(), maxPriority, (Addressable) timeoutPOINTER.address(), (Addressable) fdsPOINTER.address(), nFds);
+            RESULT = (int) DowncallHandles.g_main_context_query.invokeExact(
+                    handle(),
+                    maxPriority,
+                    (Addressable) timeoutPOINTER.address(),
+                    (Addressable) fdsPOINTER.address(),
+                    nFds);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -471,7 +516,8 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.MainContext ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_main_context_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_main_context_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -486,7 +532,8 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public void release() {
         try {
-            DowncallHandles.g_main_context_release.invokeExact(handle());
+            DowncallHandles.g_main_context_release.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -500,7 +547,9 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     public void removePoll(@NotNull org.gtk.glib.PollFD fd) {
         java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
         try {
-            DowncallHandles.g_main_context_remove_poll.invokeExact(handle(), fd.handle());
+            DowncallHandles.g_main_context_remove_poll.invokeExact(
+                    handle(),
+                    fd.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -526,7 +575,8 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_main_context_unref.invokeExact(handle());
+            DowncallHandles.g_main_context_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -550,7 +600,10 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(mutex, "Parameter 'mutex' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_main_context_wait.invokeExact(handle(), cond.handle(), mutex.handle());
+            RESULT = (int) DowncallHandles.g_main_context_wait.invokeExact(
+                    handle(),
+                    cond.handle(),
+                    mutex.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -588,7 +641,8 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public void wakeup() {
         try {
-            DowncallHandles.g_main_context_wakeup.invokeExact(handle());
+            DowncallHandles.g_main_context_wakeup.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

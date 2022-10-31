@@ -29,32 +29,55 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GThreadedSocketService";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.SocketService.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.ThreadedSocketServicePrivate.getMemoryLayout().withName("priv")
-    ).withName("GThreadedSocketService");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gio.SocketService parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gio.SocketService(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public ThreadedSocketService(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ThreadedSocketService */
+    /**
+     * Cast object to ThreadedSocketService if its GType is a (or inherits from) "GThreadedSocketService".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ThreadedSocketService" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GThreadedSocketService", a ClassCastException will be thrown.
+     */
     public static ThreadedSocketService castFrom(org.gtk.gobject.Object gobject) {
-        return new ThreadedSocketService(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GThreadedSocketService"))) {
+            return new ThreadedSocketService(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GThreadedSocketService");
+        }
     }
     
     private static Refcounted constructNew(int maxThreads) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_threaded_socket_service_new.invokeExact(maxThreads), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_threaded_socket_service_new.invokeExact(
+                    maxThreads), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -14,33 +14,56 @@ public class NativeSocketAddress extends org.gtk.gio.SocketAddress implements or
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GNativeSocketAddress";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.SocketAddress.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.NativeSocketAddressPrivate.getMemoryLayout().withName("priv")
-    ).withName("GNativeSocketAddress");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gio.SocketAddress parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gio.SocketAddress(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public NativeSocketAddress(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to NativeSocketAddress */
+    /**
+     * Cast object to NativeSocketAddress if its GType is a (or inherits from) "GNativeSocketAddress".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "NativeSocketAddress" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GNativeSocketAddress", a ClassCastException will be thrown.
+     */
     public static NativeSocketAddress castFrom(org.gtk.gobject.Object gobject) {
-        return new NativeSocketAddress(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GNativeSocketAddress"))) {
+            return new NativeSocketAddress(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GNativeSocketAddress");
+        }
     }
     
     private static Refcounted constructNew(@Nullable java.lang.foreign.MemoryAddress native_, long len) {
-        java.util.Objects.requireNonNullElse(native_, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_native_socket_address_new.invokeExact(native_, len), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_native_socket_address_new.invokeExact(
+                    (Addressable) (native_ == null ? MemoryAddress.NULL : native_),
+                    len), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

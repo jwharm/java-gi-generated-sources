@@ -20,27 +20,44 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkAspectFrame";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public AspectFrame(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to AspectFrame */
+    /**
+     * Cast object to AspectFrame if its GType is a (or inherits from) "GtkAspectFrame".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "AspectFrame" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkAspectFrame", a ClassCastException will be thrown.
+     */
     public static AspectFrame castFrom(org.gtk.gobject.Object gobject) {
-        return new AspectFrame(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkAspectFrame"))) {
+            return new AspectFrame(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkAspectFrame");
+        }
     }
     
     private static Refcounted constructNew(float xalign, float yalign, float ratio, boolean obeyChild) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_aspect_frame_new.invokeExact(xalign, yalign, ratio, obeyChild ? 1 : 0), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_aspect_frame_new.invokeExact(
+                    xalign,
+                    yalign,
+                    ratio,
+                    obeyChild ? 1 : 0), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -68,7 +85,8 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_aspect_frame_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_aspect_frame_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,7 +101,8 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public boolean getObeyChild() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_aspect_frame_get_obey_child.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_aspect_frame_get_obey_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,7 +116,8 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public float getRatio() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gtk_aspect_frame_get_ratio.invokeExact(handle());
+            RESULT = (float) DowncallHandles.gtk_aspect_frame_get_ratio.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,7 +132,8 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public float getXalign() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gtk_aspect_frame_get_xalign.invokeExact(handle());
+            RESULT = (float) DowncallHandles.gtk_aspect_frame_get_xalign.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,7 +148,8 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public float getYalign() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gtk_aspect_frame_get_yalign.invokeExact(handle());
+            RESULT = (float) DowncallHandles.gtk_aspect_frame_get_yalign.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,9 +161,10 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @param child the child widget
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_aspect_frame_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_aspect_frame_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -156,7 +179,9 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public void setObeyChild(boolean obeyChild) {
         try {
-            DowncallHandles.gtk_aspect_frame_set_obey_child.invokeExact(handle(), obeyChild ? 1 : 0);
+            DowncallHandles.gtk_aspect_frame_set_obey_child.invokeExact(
+                    handle(),
+                    obeyChild ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -168,7 +193,9 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public void setRatio(float ratio) {
         try {
-            DowncallHandles.gtk_aspect_frame_set_ratio.invokeExact(handle(), ratio);
+            DowncallHandles.gtk_aspect_frame_set_ratio.invokeExact(
+                    handle(),
+                    ratio);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,7 +208,9 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public void setXalign(float xalign) {
         try {
-            DowncallHandles.gtk_aspect_frame_set_xalign.invokeExact(handle(), xalign);
+            DowncallHandles.gtk_aspect_frame_set_xalign.invokeExact(
+                    handle(),
+                    xalign);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -194,7 +223,9 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public void setYalign(float yalign) {
         try {
-            DowncallHandles.gtk_aspect_frame_set_yalign.invokeExact(handle(), yalign);
+            DowncallHandles.gtk_aspect_frame_set_yalign.invokeExact(
+                    handle(),
+                    yalign);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

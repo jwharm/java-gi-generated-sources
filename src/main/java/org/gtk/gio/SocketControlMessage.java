@@ -34,26 +34,48 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSocketControlMessage";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.SocketControlMessagePrivate.getMemoryLayout().withName("priv")
-    ).withName("GSocketControlMessage");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public SocketControlMessage(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to SocketControlMessage */
+    /**
+     * Cast object to SocketControlMessage if its GType is a (or inherits from) "GSocketControlMessage".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "SocketControlMessage" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GSocketControlMessage", a ClassCastException will be thrown.
+     */
     public static SocketControlMessage castFrom(org.gtk.gobject.Object gobject) {
-        return new SocketControlMessage(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSocketControlMessage"))) {
+            return new SocketControlMessage(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSocketControlMessage");
+        }
     }
     
     /**
@@ -64,7 +86,8 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
     public int getLevel() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_socket_control_message_get_level.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_control_message_get_level.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,7 +102,8 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
     public int getMsgType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_socket_control_message_get_msg_type.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_control_message_get_msg_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,7 +118,8 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
     public long getSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_socket_control_message_get_size.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_socket_control_message_get_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,7 +137,9 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
      */
     public void serialize(@NotNull java.lang.foreign.MemoryAddress data) {
         try {
-            DowncallHandles.g_socket_control_message_serialize.invokeExact(handle(), data);
+            DowncallHandles.g_socket_control_message_serialize.invokeExact(
+                    handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,7 +163,11 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_control_message_deserialize.invokeExact(level, type, size, Interop.allocateNativeArray(data, false));
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_control_message_deserialize.invokeExact(
+                    level,
+                    type,
+                    size,
+                    Interop.allocateNativeArray(data, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

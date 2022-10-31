@@ -28,21 +28,117 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkRectangle";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_INT.withName("x"),
         ValueLayout.JAVA_INT.withName("y"),
         ValueLayout.JAVA_INT.withName("width"),
         ValueLayout.JAVA_INT.withName("height")
-    ).withName("GdkRectangle");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Rectangle allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Rectangle newInstance = new Rectangle(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code x}
+     * @return The value of the field {@code x}
+     */
+    public int x$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("x"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code x}
+     * @param x The new value of the field {@code x}
+     */
+    public void x$set(int x) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("x"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
+    }
+    
+    /**
+     * Get the value of the field {@code y}
+     * @return The value of the field {@code y}
+     */
+    public int y$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("y"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code y}
+     * @param y The new value of the field {@code y}
+     */
+    public void y$set(int y) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("y"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
+    }
+    
+    /**
+     * Get the value of the field {@code width}
+     * @return The value of the field {@code width}
+     */
+    public int width$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("width"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code width}
+     * @param width The new value of the field {@code width}
+     */
+    public void width$set(int width) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("width"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
+    }
+    
+    /**
+     * Get the value of the field {@code height}
+     * @return The value of the field {@code height}
+     */
+    public int height$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("height"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code height}
+     * @param height The new value of the field {@code height}
+     */
+    public void height$set(int height) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("height"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
+    }
+    
+    @ApiStatus.Internal
     public Rectangle(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -56,7 +152,10 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
     public boolean containsPoint(int x, int y) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_rectangle_contains_point.invokeExact(handle(), x, y);
+            RESULT = (int) DowncallHandles.gdk_rectangle_contains_point.invokeExact(
+                    handle(),
+                    x,
+                    y);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -72,7 +171,9 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(rect2, "Parameter 'rect2' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_rectangle_equal.invokeExact(handle(), rect2.handle());
+            RESULT = (int) DowncallHandles.gdk_rectangle_equal.invokeExact(
+                    handle(),
+                    rect2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,17 +193,18 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
      *   intersection of {@code src1} and {@code src2}
      * @return {@code true} if the rectangles intersect.
      */
-    public boolean intersect(@NotNull org.gtk.gdk.Rectangle src2, @NotNull Out<org.gtk.gdk.Rectangle> dest) {
+    public boolean intersect(@NotNull org.gtk.gdk.Rectangle src2, @NotNull org.gtk.gdk.Rectangle dest) {
         java.util.Objects.requireNonNull(src2, "Parameter 'src2' must not be null");
         java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        MemorySegment destPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_rectangle_intersect.invokeExact(handle(), src2.handle(), (Addressable) destPOINTER.address());
+            RESULT = (int) DowncallHandles.gdk_rectangle_intersect.invokeExact(
+                    handle(),
+                    src2.handle(),
+                    dest.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        dest.set(new org.gtk.gdk.Rectangle(Refcounted.get(destPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -118,16 +220,17 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
      * @param src2 a {@code GdkRectangle}
      * @param dest return location for the union of {@code src1} and {@code src2}
      */
-    public void union(@NotNull org.gtk.gdk.Rectangle src2, @NotNull Out<org.gtk.gdk.Rectangle> dest) {
+    public void union(@NotNull org.gtk.gdk.Rectangle src2, @NotNull org.gtk.gdk.Rectangle dest) {
         java.util.Objects.requireNonNull(src2, "Parameter 'src2' must not be null");
         java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        MemorySegment destPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gdk_rectangle_union.invokeExact(handle(), src2.handle(), (Addressable) destPOINTER.address());
+            DowncallHandles.gdk_rectangle_union.invokeExact(
+                    handle(),
+                    src2.handle(),
+                    dest.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        dest.set(new org.gtk.gdk.Rectangle(Refcounted.get(destPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     private static class DowncallHandles {

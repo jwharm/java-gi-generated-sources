@@ -177,21 +177,34 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSimpleAsyncResult";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public SimpleAsyncResult(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to SimpleAsyncResult */
+    /**
+     * Cast object to SimpleAsyncResult if its GType is a (or inherits from) "GSimpleAsyncResult".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "SimpleAsyncResult" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GSimpleAsyncResult", a ClassCastException will be thrown.
+     */
     public static SimpleAsyncResult castFrom(org.gtk.gobject.Object gobject) {
-        return new SimpleAsyncResult(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSimpleAsyncResult"))) {
+            return new SimpleAsyncResult(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSimpleAsyncResult");
+        }
     }
     
     private static Refcounted constructNewError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format) {
@@ -214,18 +227,18 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
     }
     
     private static Refcounted constructNewFromError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Error error) {
-        java.util.Objects.requireNonNullElse(sourceObject, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_simple_async_result_new_from_error.invokeExact(sourceObject.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_simple_async_result_new_from_error.invokeExact(
+                    (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)), error.handle()), true);
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)),
+                    error.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -246,18 +259,18 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
     }
     
     private static Refcounted constructNewTakeError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Error error) {
-        java.util.Objects.requireNonNullElse(sourceObject, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_simple_async_result_new_take_error.invokeExact(sourceObject.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_simple_async_result_new_take_error.invokeExact(
+                    (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)), error.handle()), true);
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)),
+                    error.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -291,7 +304,8 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
     @Deprecated
     public void complete() {
         try {
-            DowncallHandles.g_simple_async_result_complete.invokeExact(handle());
+            DowncallHandles.g_simple_async_result_complete.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -310,7 +324,8 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
     @Deprecated
     public void completeInIdle() {
         try {
-            DowncallHandles.g_simple_async_result_complete_in_idle.invokeExact(handle());
+            DowncallHandles.g_simple_async_result_complete_in_idle.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -326,7 +341,8 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
     public boolean getOpResGboolean() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_simple_async_result_get_op_res_gboolean.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_simple_async_result_get_op_res_gboolean.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -342,7 +358,8 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
     public @Nullable java.lang.foreign.MemoryAddress getOpResGpointer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_simple_async_result_get_op_res_gpointer.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_simple_async_result_get_op_res_gpointer.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -358,7 +375,8 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
     public long getOpResGssize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_simple_async_result_get_op_res_gssize.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_simple_async_result_get_op_res_gssize.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -374,7 +392,8 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
     public @Nullable java.lang.foreign.MemoryAddress getSourceTag() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_simple_async_result_get_source_tag.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_simple_async_result_get_source_tag.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -397,7 +416,8 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_simple_async_result_propagate_error.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_simple_async_result_propagate_error.invokeExact(
+                    handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -445,9 +465,10 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
      */
     @Deprecated
     public void setCheckCancellable(@Nullable org.gtk.gio.Cancellable checkCancellable) {
-        java.util.Objects.requireNonNullElse(checkCancellable, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_simple_async_result_set_check_cancellable.invokeExact(handle(), checkCancellable.handle());
+            DowncallHandles.g_simple_async_result_set_check_cancellable.invokeExact(
+                    handle(),
+                    (Addressable) (checkCancellable == null ? MemoryAddress.NULL : checkCancellable.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -480,7 +501,12 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
         java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         try {
-            DowncallHandles.g_simple_async_result_set_error_va.invokeExact(handle(), domain.getValue(), code, Interop.allocateNativeString(format), args);
+            DowncallHandles.g_simple_async_result_set_error_va.invokeExact(
+                    handle(),
+                    domain.getValue().intValue(),
+                    code,
+                    Interop.allocateNativeString(format),
+                    args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -495,7 +521,9 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
     public void setFromError(@NotNull org.gtk.glib.Error error) {
         java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
         try {
-            DowncallHandles.g_simple_async_result_set_from_error.invokeExact(handle(), error.handle());
+            DowncallHandles.g_simple_async_result_set_from_error.invokeExact(
+                    handle(),
+                    error.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -512,7 +540,9 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
     @Deprecated
     public void setHandleCancellation(boolean handleCancellation) {
         try {
-            DowncallHandles.g_simple_async_result_set_handle_cancellation.invokeExact(handle(), handleCancellation ? 1 : 0);
+            DowncallHandles.g_simple_async_result_set_handle_cancellation.invokeExact(
+                    handle(),
+                    handleCancellation ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -526,7 +556,9 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
     @Deprecated
     public void setOpResGboolean(boolean opRes) {
         try {
-            DowncallHandles.g_simple_async_result_set_op_res_gboolean.invokeExact(handle(), opRes ? 1 : 0);
+            DowncallHandles.g_simple_async_result_set_op_res_gboolean.invokeExact(
+                    handle(),
+                    opRes ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -552,7 +584,9 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
     @Deprecated
     public void setOpResGssize(long opRes) {
         try {
-            DowncallHandles.g_simple_async_result_set_op_res_gssize.invokeExact(handle(), opRes);
+            DowncallHandles.g_simple_async_result_set_op_res_gssize.invokeExact(
+                    handle(),
+                    opRes);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -568,7 +602,9 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
     public void takeError(@NotNull org.gtk.glib.Error error) {
         java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
         try {
-            DowncallHandles.g_simple_async_result_take_error.invokeExact(handle(), error.handle());
+            DowncallHandles.g_simple_async_result_take_error.invokeExact(
+                    handle(),
+                    error.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -596,11 +632,12 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
     @Deprecated
     public static boolean isValid(@NotNull org.gtk.gio.AsyncResult result, @Nullable org.gtk.gobject.Object source, @Nullable java.lang.foreign.MemoryAddress sourceTag) {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        java.util.Objects.requireNonNullElse(source, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(sourceTag, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_simple_async_result_is_valid.invokeExact(result.handle(), source.handle(), sourceTag);
+            RESULT = (int) DowncallHandles.g_simple_async_result_is_valid.invokeExact(
+                    result.handle(),
+                    (Addressable) (source == null ? MemoryAddress.NULL : source.handle()),
+                    (Addressable) (sourceTag == null ? MemoryAddress.NULL : sourceTag));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -11,6 +11,8 @@ public class TestConfig extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTestConfig";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_INT.withName("test_initialized"),
         ValueLayout.JAVA_INT.withName("test_quick"),
@@ -18,16 +20,152 @@ public class TestConfig extends io.github.jwharm.javagi.ResourceBase {
         ValueLayout.JAVA_INT.withName("test_verbose"),
         ValueLayout.JAVA_INT.withName("test_quiet"),
         ValueLayout.JAVA_INT.withName("test_undefined")
-    ).withName("GTestConfig");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static TestConfig allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        TestConfig newInstance = new TestConfig(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code test_initialized}
+     * @return The value of the field {@code test_initialized}
+     */
+    public boolean test_initialized$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("test_initialized"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT != 0;
+    }
+    
+    /**
+     * Change the value of the field {@code test_initialized}
+     * @param test_initialized The new value of the field {@code test_initialized}
+     */
+    public void test_initialized$set(boolean test_initialized) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("test_initialized"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_initialized ? 1 : 0);
+    }
+    
+    /**
+     * Get the value of the field {@code test_quick}
+     * @return The value of the field {@code test_quick}
+     */
+    public boolean test_quick$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("test_quick"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT != 0;
+    }
+    
+    /**
+     * Change the value of the field {@code test_quick}
+     * @param test_quick The new value of the field {@code test_quick}
+     */
+    public void test_quick$set(boolean test_quick) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("test_quick"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_quick ? 1 : 0);
+    }
+    
+    /**
+     * Get the value of the field {@code test_perf}
+     * @return The value of the field {@code test_perf}
+     */
+    public boolean test_perf$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("test_perf"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT != 0;
+    }
+    
+    /**
+     * Change the value of the field {@code test_perf}
+     * @param test_perf The new value of the field {@code test_perf}
+     */
+    public void test_perf$set(boolean test_perf) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("test_perf"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_perf ? 1 : 0);
+    }
+    
+    /**
+     * Get the value of the field {@code test_verbose}
+     * @return The value of the field {@code test_verbose}
+     */
+    public boolean test_verbose$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("test_verbose"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT != 0;
+    }
+    
+    /**
+     * Change the value of the field {@code test_verbose}
+     * @param test_verbose The new value of the field {@code test_verbose}
+     */
+    public void test_verbose$set(boolean test_verbose) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("test_verbose"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_verbose ? 1 : 0);
+    }
+    
+    /**
+     * Get the value of the field {@code test_quiet}
+     * @return The value of the field {@code test_quiet}
+     */
+    public boolean test_quiet$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("test_quiet"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT != 0;
+    }
+    
+    /**
+     * Change the value of the field {@code test_quiet}
+     * @param test_quiet The new value of the field {@code test_quiet}
+     */
+    public void test_quiet$set(boolean test_quiet) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("test_quiet"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_quiet ? 1 : 0);
+    }
+    
+    /**
+     * Get the value of the field {@code test_undefined}
+     * @return The value of the field {@code test_undefined}
+     */
+    public boolean test_undefined$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("test_undefined"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT != 0;
+    }
+    
+    /**
+     * Change the value of the field {@code test_undefined}
+     * @param test_undefined The new value of the field {@code test_undefined}
+     */
+    public void test_undefined$set(boolean test_undefined) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("test_undefined"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_undefined ? 1 : 0);
+    }
+    
+    @ApiStatus.Internal
     public TestConfig(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

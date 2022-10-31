@@ -14,21 +14,34 @@ public class SqueezerPage extends org.gtk.gobject.Object {
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwSqueezerPage";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public SqueezerPage(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to SqueezerPage */
+    /**
+     * Cast object to SqueezerPage if its GType is a (or inherits from) "AdwSqueezerPage".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "SqueezerPage" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwSqueezerPage", a ClassCastException will be thrown.
+     */
     public static SqueezerPage castFrom(org.gtk.gobject.Object gobject) {
-        return new SqueezerPage(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwSqueezerPage"))) {
+            return new SqueezerPage(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwSqueezerPage");
+        }
     }
     
     /**
@@ -38,7 +51,8 @@ public class SqueezerPage extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_squeezer_page_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_squeezer_page_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -52,7 +66,8 @@ public class SqueezerPage extends org.gtk.gobject.Object {
     public boolean getEnabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_squeezer_page_get_enabled.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_squeezer_page_get_enabled.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -61,11 +76,22 @@ public class SqueezerPage extends org.gtk.gobject.Object {
     
     /**
      * Sets whether {@code self} is enabled.
+     * <p>
+     * If a child is disabled, it will be ignored when looking for the child
+     * fitting the available size best.
+     * <p>
+     * This allows to programmatically and prematurely hide a child even if it fits
+     * in the available space.
+     * <p>
+     * This can be used e.g. to ensure a certain child is hidden below a certain
+     * window width, or any other constraint you find suitable.
      * @param enabled whether {@code self} is enabled
      */
     public void setEnabled(boolean enabled) {
         try {
-            DowncallHandles.adw_squeezer_page_set_enabled.invokeExact(handle(), enabled ? 1 : 0);
+            DowncallHandles.adw_squeezer_page_set_enabled.invokeExact(
+                    handle(),
+                    enabled ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

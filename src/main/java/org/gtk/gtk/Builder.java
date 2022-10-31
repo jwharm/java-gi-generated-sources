@@ -190,21 +190,34 @@ public class Builder extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkBuilder";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Builder(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Builder */
+    /**
+     * Cast object to Builder if its GType is a (or inherits from) "GtkBuilder".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Builder" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkBuilder", a ClassCastException will be thrown.
+     */
     public static Builder castFrom(org.gtk.gobject.Object gobject) {
-        return new Builder(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkBuilder"))) {
+            return new Builder(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkBuilder");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -233,7 +246,8 @@ public class Builder extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_builder_new_from_file.invokeExact(Interop.allocateNativeString(filename)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_builder_new_from_file.invokeExact(
+                    Interop.allocateNativeString(filename)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -257,7 +271,8 @@ public class Builder extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(resourcePath, "Parameter 'resourcePath' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_builder_new_from_resource.invokeExact(Interop.allocateNativeString(resourcePath)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_builder_new_from_resource.invokeExact(
+                    Interop.allocateNativeString(resourcePath)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -280,7 +295,9 @@ public class Builder extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_builder_new_from_string.invokeExact(Interop.allocateNativeString(string), length), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_builder_new_from_string.invokeExact(
+                    Interop.allocateNativeString(string),
+                    length), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -332,7 +349,9 @@ public class Builder extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_builder_add_from_file.invokeExact(handle(), Interop.allocateNativeString(filename), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_builder_add_from_file.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(filename), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -367,7 +386,9 @@ public class Builder extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_builder_add_from_resource.invokeExact(handle(), Interop.allocateNativeString(resourcePath), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_builder_add_from_resource.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(resourcePath), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -403,7 +424,10 @@ public class Builder extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_builder_add_from_string.invokeExact(handle(), Interop.allocateNativeString(buffer), length, (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_builder_add_from_string.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(buffer),
+                    length, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -436,7 +460,10 @@ public class Builder extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_builder_add_objects_from_file.invokeExact(handle(), Interop.allocateNativeString(filename), Interop.allocateNativeArray(objectIds, false), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_builder_add_objects_from_file.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(filename),
+                    Interop.allocateNativeArray(objectIds, false), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -469,7 +496,10 @@ public class Builder extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_builder_add_objects_from_resource.invokeExact(handle(), Interop.allocateNativeString(resourcePath), Interop.allocateNativeArray(objectIds, false), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_builder_add_objects_from_resource.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(resourcePath),
+                    Interop.allocateNativeArray(objectIds, false), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -502,7 +532,11 @@ public class Builder extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_builder_add_objects_from_string.invokeExact(handle(), Interop.allocateNativeString(buffer), length, Interop.allocateNativeArray(objectIds, false), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_builder_add_objects_from_string.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(buffer),
+                    length,
+                    Interop.allocateNativeArray(objectIds, false), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -529,11 +563,14 @@ public class Builder extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gobject.Closure createClosure(@NotNull java.lang.String functionName, @NotNull org.gtk.gtk.BuilderClosureFlags flags, @Nullable org.gtk.gobject.Object object) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(functionName, "Parameter 'functionName' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNullElse(object, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_builder_create_closure.invokeExact(handle(), Interop.allocateNativeString(functionName), flags.getValue(), object.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_builder_create_closure.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(functionName),
+                    flags.getValue(),
+                    (Addressable) (object == null ? MemoryAddress.NULL : object.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -553,7 +590,10 @@ public class Builder extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
         try {
-            DowncallHandles.gtk_builder_expose_object.invokeExact(handle(), Interop.allocateNativeString(name), object.handle());
+            DowncallHandles.gtk_builder_expose_object.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name),
+                    object.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -579,7 +619,12 @@ public class Builder extends org.gtk.gobject.Object {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_builder_extend_with_template.invokeExact(handle(), object.handle(), templateType.getValue(), Interop.allocateNativeString(buffer), length, (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_builder_extend_with_template.invokeExact(
+                    handle(),
+                    object.handle(),
+                    templateType.getValue().longValue(),
+                    Interop.allocateNativeString(buffer),
+                    length, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -596,7 +641,8 @@ public class Builder extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gobject.Object getCurrentObject() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_builder_get_current_object.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_builder_get_current_object.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -615,7 +661,9 @@ public class Builder extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_builder_get_object.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_builder_get_object.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -635,7 +683,8 @@ public class Builder extends org.gtk.gobject.Object {
     public @NotNull org.gtk.glib.SList getObjects() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_builder_get_objects.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_builder_get_objects.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -649,7 +698,8 @@ public class Builder extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.BuilderScope getScope() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_builder_get_scope.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_builder_get_scope.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -663,11 +713,12 @@ public class Builder extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getTranslationDomain() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_builder_get_translation_domain.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_builder_get_translation_domain.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -684,7 +735,9 @@ public class Builder extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(typeName, "Parameter 'typeName' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gtk_builder_get_type_from_name.invokeExact(handle(), Interop.allocateNativeString(typeName));
+            RESULT = (long) DowncallHandles.gtk_builder_get_type_from_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(typeName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -704,9 +757,10 @@ public class Builder extends org.gtk.gobject.Object {
      * @param currentObject the new current object
      */
     public void setCurrentObject(@Nullable org.gtk.gobject.Object currentObject) {
-        java.util.Objects.requireNonNullElse(currentObject, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_builder_set_current_object.invokeExact(handle(), currentObject.handle());
+            DowncallHandles.gtk_builder_set_current_object.invokeExact(
+                    handle(),
+                    (Addressable) (currentObject == null ? MemoryAddress.NULL : currentObject.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -719,9 +773,10 @@ public class Builder extends org.gtk.gobject.Object {
      * @param scope the scope to use
      */
     public void setScope(@Nullable org.gtk.gtk.BuilderScope scope) {
-        java.util.Objects.requireNonNullElse(scope, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_builder_set_scope.invokeExact(handle(), scope.handle());
+            DowncallHandles.gtk_builder_set_scope.invokeExact(
+                    handle(),
+                    (Addressable) (scope == null ? MemoryAddress.NULL : scope.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -732,9 +787,10 @@ public class Builder extends org.gtk.gobject.Object {
      * @param domain the translation domain
      */
     public void setTranslationDomain(@Nullable java.lang.String domain) {
-        java.util.Objects.requireNonNullElse(domain, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_builder_set_translation_domain.invokeExact(handle(), Interop.allocateNativeString(domain));
+            DowncallHandles.gtk_builder_set_translation_domain.invokeExact(
+                    handle(),
+                    (Addressable) (domain == null ? MemoryAddress.NULL : Interop.allocateNativeString(domain)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -758,22 +814,24 @@ public class Builder extends org.gtk.gobject.Object {
      * @return {@code true} on success
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean valueFromString(@NotNull org.gtk.gobject.ParamSpec pspec, @NotNull java.lang.String string, @NotNull Out<org.gtk.gobject.Value> value) throws io.github.jwharm.javagi.GErrorException {
+    public boolean valueFromString(@NotNull org.gtk.gobject.ParamSpec pspec, @NotNull java.lang.String string, @NotNull org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(pspec, "Parameter 'pspec' must not be null");
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_builder_value_from_string.invokeExact(handle(), pspec.handle(), Interop.allocateNativeString(string), (Addressable) valuePOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_builder_value_from_string.invokeExact(
+                    handle(),
+                    pspec.handle(),
+                    Interop.allocateNativeString(string),
+                    value.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        value.set(new org.gtk.gobject.Value(Refcounted.get(valuePOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -794,22 +852,24 @@ public class Builder extends org.gtk.gobject.Object {
      * @return {@code true} on success
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean valueFromStringType(@NotNull org.gtk.glib.Type type, @NotNull java.lang.String string, @NotNull Out<org.gtk.gobject.Value> value) throws io.github.jwharm.javagi.GErrorException {
+    public boolean valueFromStringType(@NotNull org.gtk.glib.Type type, @NotNull java.lang.String string, @NotNull org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_builder_value_from_string_type.invokeExact(handle(), type.getValue(), Interop.allocateNativeString(string), (Addressable) valuePOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_builder_value_from_string_type.invokeExact(
+                    handle(),
+                    type.getValue().longValue(),
+                    Interop.allocateNativeString(string),
+                    value.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        value.set(new org.gtk.gobject.Value(Refcounted.get(valuePOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     

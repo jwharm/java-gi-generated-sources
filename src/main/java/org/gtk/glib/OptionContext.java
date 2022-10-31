@@ -16,14 +16,26 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GOptionContext";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static OptionContext allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        OptionContext newInstance = new OptionContext(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public OptionContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -37,7 +49,9 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     public void addGroup(@NotNull org.gtk.glib.OptionGroup group) {
         java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
         try {
-            DowncallHandles.g_option_context_add_group.invokeExact(handle(), group.refcounted().unowned().handle());
+            DowncallHandles.g_option_context_add_group.invokeExact(
+                    handle(),
+                    group.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -53,9 +67,11 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public void addMainEntries(org.gtk.glib.OptionEntry[] entries, @Nullable java.lang.String translationDomain) {
         java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
-        java.util.Objects.requireNonNullElse(translationDomain, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_option_context_add_main_entries.invokeExact(handle(), Interop.allocateNativeArray(entries, false), Interop.allocateNativeString(translationDomain));
+            DowncallHandles.g_option_context_add_main_entries.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(entries, false),
+                    (Addressable) (translationDomain == null ? MemoryAddress.NULL : Interop.allocateNativeString(translationDomain)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,7 +86,8 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.g_option_context_free.invokeExact(handle());
+            DowncallHandles.g_option_context_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,11 +100,12 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_option_context_get_description.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_option_context_get_description.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -103,14 +121,16 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * @return A newly allocated string containing the help text
      */
     public @NotNull java.lang.String getHelp(boolean mainHelp, @Nullable org.gtk.glib.OptionGroup group) {
-        java.util.Objects.requireNonNullElse(group, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_option_context_get_help.invokeExact(handle(), mainHelp ? 1 : 0, group.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_option_context_get_help.invokeExact(
+                    handle(),
+                    mainHelp ? 1 : 0,
+                    (Addressable) (group == null ? MemoryAddress.NULL : group.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -121,7 +141,8 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     public boolean getHelpEnabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_option_context_get_help_enabled.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_option_context_get_help_enabled.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,7 +157,8 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     public boolean getIgnoreUnknownOptions() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_option_context_get_ignore_unknown_options.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_option_context_get_ignore_unknown_options.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,7 +174,8 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.OptionGroup getMainGroup() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_option_context_get_main_group.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_option_context_get_main_group.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -168,7 +191,8 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     public boolean getStrictPosix() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_option_context_get_strict_posix.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_option_context_get_strict_posix.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,11 +206,12 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getSummary() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_option_context_get_summary.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_option_context_get_summary.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -225,7 +250,10 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment argvPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_option_context_parse.invokeExact(handle(), (Addressable) argcPOINTER.address(), (Addressable) argvPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_option_context_parse.invokeExact(
+                    handle(),
+                    (Addressable) argcPOINTER.address(),
+                    (Addressable) argvPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -236,7 +264,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
         java.lang.String[] argvARRAY = new java.lang.String[argc.get().intValue()];
         for (int I = 0; I < argc.get().intValue(); I++) {
             var OBJ = argvPOINTER.get(ValueLayout.ADDRESS, I);
-            argvARRAY[I] = OBJ.getUtf8String(0);
+            argvARRAY[I] = Interop.getStringFrom(OBJ);
         }
         argv.set(argvARRAY);
         return RESULT != 0;
@@ -281,9 +309,10 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      *   after the list of options, or {@code null}
      */
     public void setDescription(@Nullable java.lang.String description) {
-        java.util.Objects.requireNonNullElse(description, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_option_context_set_description.invokeExact(handle(), Interop.allocateNativeString(description));
+            DowncallHandles.g_option_context_set_description.invokeExact(
+                    handle(),
+                    (Addressable) (description == null ? MemoryAddress.NULL : Interop.allocateNativeString(description)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -298,7 +327,9 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setHelpEnabled(boolean helpEnabled) {
         try {
-            DowncallHandles.g_option_context_set_help_enabled.invokeExact(handle(), helpEnabled ? 1 : 0);
+            DowncallHandles.g_option_context_set_help_enabled.invokeExact(
+                    handle(),
+                    helpEnabled ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -317,7 +348,9 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setIgnoreUnknownOptions(boolean ignoreUnknown) {
         try {
-            DowncallHandles.g_option_context_set_ignore_unknown_options.invokeExact(handle(), ignoreUnknown ? 1 : 0);
+            DowncallHandles.g_option_context_set_ignore_unknown_options.invokeExact(
+                    handle(),
+                    ignoreUnknown ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -333,7 +366,9 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     public void setMainGroup(@NotNull org.gtk.glib.OptionGroup group) {
         java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
         try {
-            DowncallHandles.g_option_context_set_main_group.invokeExact(handle(), group.refcounted().unowned().handle());
+            DowncallHandles.g_option_context_set_main_group.invokeExact(
+                    handle(),
+                    group.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -368,7 +403,9 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setStrictPosix(boolean strictPosix) {
         try {
-            DowncallHandles.g_option_context_set_strict_posix.invokeExact(handle(), strictPosix ? 1 : 0);
+            DowncallHandles.g_option_context_set_strict_posix.invokeExact(
+                    handle(),
+                    strictPosix ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -385,9 +422,10 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      *  before the list of options, or {@code null}
      */
     public void setSummary(@Nullable java.lang.String summary) {
-        java.util.Objects.requireNonNullElse(summary, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_option_context_set_summary.invokeExact(handle(), Interop.allocateNativeString(summary));
+            DowncallHandles.g_option_context_set_summary.invokeExact(
+                    handle(),
+                    (Addressable) (summary == null ? MemoryAddress.NULL : Interop.allocateNativeString(summary)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -408,15 +446,15 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * @param func the {@link TranslateFunc}, or {@code null}
      */
     public void setTranslateFunc(@Nullable org.gtk.glib.TranslateFunc func) {
-        java.util.Objects.requireNonNullElse(func, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_option_context_set_translate_func.invokeExact(handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_option_context_set_translate_func.invokeExact(
+                    handle(),
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTranslateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)), 
+                        Interop.getScope())),
+                    (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -431,7 +469,9 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     public void setTranslationDomain(@NotNull java.lang.String domain) {
         java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
         try {
-            DowncallHandles.g_option_context_set_translation_domain.invokeExact(handle(), Interop.allocateNativeString(domain));
+            DowncallHandles.g_option_context_set_translation_domain.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(domain));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -464,10 +504,10 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      *    freed with g_option_context_free() after use.
      */
     public static @NotNull org.gtk.glib.OptionContext new_(@Nullable java.lang.String parameterString) {
-        java.util.Objects.requireNonNullElse(parameterString, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_option_context_new.invokeExact(Interop.allocateNativeString(parameterString));
+            RESULT = (MemoryAddress) DowncallHandles.g_option_context_new.invokeExact(
+                    (Addressable) (parameterString == null ? MemoryAddress.NULL : Interop.allocateNativeString(parameterString)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

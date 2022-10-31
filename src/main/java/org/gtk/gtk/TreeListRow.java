@@ -24,21 +24,34 @@ public class TreeListRow extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkTreeListRow";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public TreeListRow(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TreeListRow */
+    /**
+     * Cast object to TreeListRow if its GType is a (or inherits from) "GtkTreeListRow".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TreeListRow" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkTreeListRow", a ClassCastException will be thrown.
+     */
     public static TreeListRow castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeListRow(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeListRow"))) {
+            return new TreeListRow(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTreeListRow");
+        }
     }
     
     /**
@@ -50,7 +63,9 @@ public class TreeListRow extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gtk.TreeListRow getChildRow(int position) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_row_get_child_row.invokeExact(handle(), position);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_row_get_child_row.invokeExact(
+                    handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,7 +84,8 @@ public class TreeListRow extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gio.ListModel getChildren() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_row_get_children.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_row_get_children.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -89,7 +105,8 @@ public class TreeListRow extends org.gtk.gobject.Object {
     public int getDepth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_list_row_get_depth.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_list_row_get_depth.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,7 +120,8 @@ public class TreeListRow extends org.gtk.gobject.Object {
     public boolean getExpanded() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_list_row_get_expanded.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_list_row_get_expanded.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,7 +139,8 @@ public class TreeListRow extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gobject.Object getItem() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_row_get_item.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_row_get_item.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -144,7 +163,8 @@ public class TreeListRow extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gtk.TreeListRow getParent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_row_get_parent.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_row_get_parent.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,7 +179,8 @@ public class TreeListRow extends org.gtk.gobject.Object {
     public int getPosition() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_list_row_get_position.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_list_row_get_position.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,7 +199,8 @@ public class TreeListRow extends org.gtk.gobject.Object {
     public boolean isExpandable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_list_row_is_expandable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_list_row_is_expandable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -198,7 +220,9 @@ public class TreeListRow extends org.gtk.gobject.Object {
      */
     public void setExpanded(boolean expanded) {
         try {
-            DowncallHandles.gtk_tree_list_row_set_expanded.invokeExact(handle(), expanded ? 1 : 0);
+            DowncallHandles.gtk_tree_list_row_set_expanded.invokeExact(
+                    handle(),
+                    expanded ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -18,26 +18,48 @@ public class MemoryInputStream extends org.gtk.gio.InputStream implements org.gt
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GMemoryInputStream";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.InputStream.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.MemoryInputStreamPrivate.getMemoryLayout().withName("priv")
-    ).withName("GMemoryInputStream");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gio.InputStream parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gio.InputStream(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public MemoryInputStream(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to MemoryInputStream */
+    /**
+     * Cast object to MemoryInputStream if its GType is a (or inherits from) "GMemoryInputStream".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "MemoryInputStream" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GMemoryInputStream", a ClassCastException will be thrown.
+     */
     public static MemoryInputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new MemoryInputStream(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GMemoryInputStream"))) {
+            return new MemoryInputStream(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GMemoryInputStream");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -61,7 +83,8 @@ public class MemoryInputStream extends org.gtk.gio.InputStream implements org.gt
         java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_memory_input_stream_new_from_bytes.invokeExact(bytes.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_memory_input_stream_new_from_bytes.invokeExact(
+                    bytes.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +122,9 @@ public class MemoryInputStream extends org.gtk.gio.InputStream implements org.gt
     public void addBytes(@NotNull org.gtk.glib.Bytes bytes) {
         java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
         try {
-            DowncallHandles.g_memory_input_stream_add_bytes.invokeExact(handle(), bytes.handle());
+            DowncallHandles.g_memory_input_stream_add_bytes.invokeExact(
+                    handle(),
+                    bytes.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

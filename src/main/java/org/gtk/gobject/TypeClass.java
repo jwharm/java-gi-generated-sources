@@ -14,18 +14,30 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTypeClass";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_LONG.withName("g_type")
-    ).withName("GTypeClass");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static TypeClass allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        TypeClass newInstance = new TypeClass(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public TypeClass(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -99,7 +111,9 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
     @Deprecated
     public void addPrivate(long privateSize) {
         try {
-            DowncallHandles.g_type_class_add_private.invokeExact(handle(), privateSize);
+            DowncallHandles.g_type_class_add_private.invokeExact(
+                    handle(),
+                    privateSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,7 +133,8 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
     public int getInstancePrivateOffset() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_type_class_get_instance_private_offset.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_type_class_get_instance_private_offset.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -130,7 +145,9 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(privateType, "Parameter 'privateType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_class_get_private.invokeExact(handle(), privateType.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_class_get_private.invokeExact(
+                    handle(),
+                    privateType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,7 +169,8 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gobject.TypeClass peekParent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_class_peek_parent.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_class_peek_parent.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,7 +185,8 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_type_class_unref.invokeExact(handle());
+            DowncallHandles.g_type_class_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,17 +200,19 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unrefUncached() {
         try {
-            DowncallHandles.g_type_class_unref_uncached.invokeExact(handle());
+            DowncallHandles.g_type_class_unref_uncached.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     public static void adjustPrivateOffset(@Nullable java.lang.foreign.MemoryAddress gClass, PointerInteger privateSizeOrOffset) {
-        java.util.Objects.requireNonNullElse(gClass, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(privateSizeOrOffset, "Parameter 'privateSizeOrOffset' must not be null");
         try {
-            DowncallHandles.g_type_class_adjust_private_offset.invokeExact(gClass, privateSizeOrOffset.handle());
+            DowncallHandles.g_type_class_adjust_private_offset.invokeExact(
+                    (Addressable) (gClass == null ? MemoryAddress.NULL : gClass),
+                    privateSizeOrOffset.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -212,7 +233,8 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_class_peek.invokeExact(type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_class_peek.invokeExact(
+                    type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -231,7 +253,8 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_class_peek_static.invokeExact(type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_class_peek_static.invokeExact(
+                    type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -250,7 +273,8 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_class_ref.invokeExact(type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_class_ref.invokeExact(
+                    type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

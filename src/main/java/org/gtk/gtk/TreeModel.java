@@ -207,16 +207,32 @@ import org.jetbrains.annotations.*;
 public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to TreeModel if its GType is a (or inherits from) "GtkTreeModel".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TreeModel" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkTreeModel", a ClassCastException will be thrown.
+     */
+    public static TreeModel castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeModel"))) {
+            return new TreeModelImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTreeModel");
+        }
+    }
+    
+    /**
      * Creates a new {@code GtkTreeModel}, with {@code child_model} as the child_model
      * and {@code root} as the virtual root.
      * @param root A {@code GtkTreePath}
      * @return A new {@code GtkTreeModel}.
      */
     default @NotNull org.gtk.gtk.TreeModel filterNew(@Nullable org.gtk.gtk.TreePath root) {
-        java.util.Objects.requireNonNullElse(root, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_filter_new.invokeExact(handle(), root.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_filter_new.invokeExact(
+                    handle(),
+                    (Addressable) (root == null ? MemoryAddress.NULL : root.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -233,13 +249,14 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     default void foreach(@NotNull org.gtk.gtk.TreeModelForeachFunc func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.gtk_tree_model_foreach.invokeExact(handle(), 
+            DowncallHandles.gtk_tree_model_foreach.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTreeModelForeachFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -273,7 +290,9 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.glib.Type getColumnType(int index) {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gtk_tree_model_get_column_type.invokeExact(handle(), index);
+            RESULT = (long) DowncallHandles.gtk_tree_model_get_column_type.invokeExact(
+                    handle(),
+                    index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -291,7 +310,8 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.gtk.TreeModelFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_model_get_flags.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_model_get_flags.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -307,17 +327,18 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * @param path the {@code GtkTreePath}
      * @return {@code true}, if {@code iter} was set
      */
-    default boolean getIter(@NotNull Out<org.gtk.gtk.TreeIter> iter, @NotNull org.gtk.gtk.TreePath path) {
+    default boolean getIter(@NotNull org.gtk.gtk.TreeIter iter, @NotNull org.gtk.gtk.TreePath path) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_model_get_iter.invokeExact(handle(), (Addressable) iterPOINTER.address(), path.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_model_get_iter.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -329,16 +350,16 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * @param iter the uninitialized {@code GtkTreeIter}
      * @return {@code true}, if {@code iter} was set
      */
-    default boolean getIterFirst(@NotNull Out<org.gtk.gtk.TreeIter> iter) {
+    default boolean getIterFirst(@NotNull org.gtk.gtk.TreeIter iter) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_model_get_iter_first.invokeExact(handle(), (Addressable) iterPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_tree_model_get_iter_first.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -351,17 +372,18 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * @param pathString a string representation of a {@code GtkTreePath}
      * @return {@code true}, if {@code iter} was set
      */
-    default boolean getIterFromString(@NotNull Out<org.gtk.gtk.TreeIter> iter, @NotNull java.lang.String pathString) {
+    default boolean getIterFromString(@NotNull org.gtk.gtk.TreeIter iter, @NotNull java.lang.String pathString) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(pathString, "Parameter 'pathString' must not be null");
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_model_get_iter_from_string.invokeExact(handle(), (Addressable) iterPOINTER.address(), Interop.allocateNativeString(pathString));
+            RESULT = (int) DowncallHandles.gtk_tree_model_get_iter_from_string.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    Interop.allocateNativeString(pathString));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -372,7 +394,8 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     default int getNColumns() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_model_get_n_columns.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_model_get_n_columns.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -390,7 +413,9 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_get_path.invokeExact(handle(), iter.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_get_path.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -410,11 +435,13 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_get_string_from_iter.invokeExact(handle(), iter.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_get_string_from_iter.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -429,7 +456,10 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
         try {
-            DowncallHandles.gtk_tree_model_get_valist.invokeExact(handle(), iter.handle(), varArgs);
+            DowncallHandles.gtk_tree_model_get_valist.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    varArgs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -444,16 +474,18 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * @param column the column to lookup the value at
      * @param value an empty {@code GValue} to set
      */
-    default void getValue(@NotNull org.gtk.gtk.TreeIter iter, int column, @NotNull Out<org.gtk.gobject.Value> value) {
+    default void getValue(@NotNull org.gtk.gtk.TreeIter iter, int column, @NotNull org.gtk.gobject.Value value) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_tree_model_get_value.invokeExact(handle(), iter.handle(), column, (Addressable) valuePOINTER.address());
+            DowncallHandles.gtk_tree_model_get_value.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    column,
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(new org.gtk.gobject.Value(Refcounted.get(valuePOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -469,17 +501,17 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * @param parent the {@code GtkTreeIter}
      * @return {@code true}, if {@code iter} has been set to the first child
      */
-    default boolean iterChildren(@NotNull Out<org.gtk.gtk.TreeIter> iter, @Nullable org.gtk.gtk.TreeIter parent) {
+    default boolean iterChildren(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_model_iter_children.invokeExact(handle(), (Addressable) iterPOINTER.address(), parent.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_model_iter_children.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -492,7 +524,9 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_model_iter_has_child.invokeExact(handle(), iter.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_model_iter_has_child.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -508,10 +542,11 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * @return the number of children of {@code iter}
      */
     default int iterNChildren(@Nullable org.gtk.gtk.TreeIter iter) {
-        java.util.Objects.requireNonNullElse(iter, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_model_iter_n_children.invokeExact(handle(), iter.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_model_iter_n_children.invokeExact(
+                    handle(),
+                    (Addressable) (iter == null ? MemoryAddress.NULL : iter.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -530,7 +565,9 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_model_iter_next.invokeExact(handle(), iter.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_model_iter_next.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -550,17 +587,18 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * @param n the index of the desired child
      * @return {@code true}, if {@code parent} has an {@code n}-th child
      */
-    default boolean iterNthChild(@NotNull Out<org.gtk.gtk.TreeIter> iter, @Nullable org.gtk.gtk.TreeIter parent, int n) {
+    default boolean iterNthChild(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent, int n) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_model_iter_nth_child.invokeExact(handle(), (Addressable) iterPOINTER.address(), parent.handle(), n);
+            RESULT = (int) DowncallHandles.gtk_tree_model_iter_nth_child.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                    n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -578,17 +616,18 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * @param child the {@code GtkTreeIter}
      * @return {@code true}, if {@code iter} is set to the parent of {@code child}
      */
-    default boolean iterParent(@NotNull Out<org.gtk.gtk.TreeIter> iter, @NotNull org.gtk.gtk.TreeIter child) {
+    default boolean iterParent(@NotNull org.gtk.gtk.TreeIter iter, @NotNull org.gtk.gtk.TreeIter child) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_model_iter_parent.invokeExact(handle(), (Addressable) iterPOINTER.address(), child.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_model_iter_parent.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -604,7 +643,9 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_model_iter_previous.invokeExact(handle(), iter.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_model_iter_previous.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -634,7 +675,9 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     default void refNode(@NotNull org.gtk.gtk.TreeIter iter) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         try {
-            DowncallHandles.gtk_tree_model_ref_node.invokeExact(handle(), iter.handle());
+            DowncallHandles.gtk_tree_model_ref_node.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -651,7 +694,10 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         try {
-            DowncallHandles.gtk_tree_model_row_changed.invokeExact(handle(), path.handle(), iter.handle());
+            DowncallHandles.gtk_tree_model_row_changed.invokeExact(
+                    handle(),
+                    path.handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -674,7 +720,9 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     default void rowDeleted(@NotNull org.gtk.gtk.TreePath path) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         try {
-            DowncallHandles.gtk_tree_model_row_deleted.invokeExact(handle(), path.handle());
+            DowncallHandles.gtk_tree_model_row_deleted.invokeExact(
+                    handle(),
+                    path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -694,7 +742,10 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         try {
-            DowncallHandles.gtk_tree_model_row_has_child_toggled.invokeExact(handle(), path.handle(), iter.handle());
+            DowncallHandles.gtk_tree_model_row_has_child_toggled.invokeExact(
+                    handle(),
+                    path.handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -711,7 +762,10 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         try {
-            DowncallHandles.gtk_tree_model_row_inserted.invokeExact(handle(), path.handle(), iter.handle());
+            DowncallHandles.gtk_tree_model_row_inserted.invokeExact(
+                    handle(),
+                    path.handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -737,7 +791,11 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(newOrder, "Parameter 'newOrder' must not be null");
         try {
-            DowncallHandles.gtk_tree_model_rows_reordered.invokeExact(handle(), path.handle(), iter.handle(), newOrder.handle());
+            DowncallHandles.gtk_tree_model_rows_reordered.invokeExact(
+                    handle(),
+                    path.handle(),
+                    iter.handle(),
+                    newOrder.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -763,10 +821,14 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      */
     default void rowsReorderedWithLength(@NotNull org.gtk.gtk.TreePath path, @Nullable org.gtk.gtk.TreeIter iter, int[] newOrder, int length) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        java.util.Objects.requireNonNullElse(iter, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(newOrder, "Parameter 'newOrder' must not be null");
         try {
-            DowncallHandles.gtk_tree_model_rows_reordered_with_length.invokeExact(handle(), path.handle(), iter.handle(), Interop.allocateNativeArray(newOrder, false), length);
+            DowncallHandles.gtk_tree_model_rows_reordered_with_length.invokeExact(
+                    handle(),
+                    path.handle(),
+                    (Addressable) (iter == null ? MemoryAddress.NULL : iter.handle()),
+                    Interop.allocateNativeArray(newOrder, false),
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -786,7 +848,9 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     default void unrefNode(@NotNull org.gtk.gtk.TreeIter iter) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         try {
-            DowncallHandles.gtk_tree_model_unref_node.invokeExact(handle(), iter.handle());
+            DowncallHandles.gtk_tree_model_unref_node.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

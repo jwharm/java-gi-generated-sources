@@ -16,13 +16,29 @@ import org.jetbrains.annotations.*;
 public interface Swipeable extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to Swipeable if its GType is a (or inherits from) "AdwSwipeable".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Swipeable" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwSwipeable", a ClassCastException will be thrown.
+     */
+    public static Swipeable castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwSwipeable"))) {
+            return new SwipeableImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwSwipeable");
+        }
+    }
+    
+    /**
      * Gets the progress {@code self} will snap back to after the gesture is canceled.
      * @return the cancel progress, unitless
      */
     default double getCancelProgress() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_swipeable_get_cancel_progress.invokeExact(handle());
+            RESULT = (double) DowncallHandles.adw_swipeable_get_cancel_progress.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -38,7 +54,8 @@ public interface Swipeable extends io.github.jwharm.javagi.Proxy {
     default double getDistance() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_swipeable_get_distance.invokeExact(handle());
+            RESULT = (double) DowncallHandles.adw_swipeable_get_distance.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -52,7 +69,8 @@ public interface Swipeable extends io.github.jwharm.javagi.Proxy {
     default double getProgress() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_swipeable_get_progress.invokeExact(handle());
+            RESULT = (double) DowncallHandles.adw_swipeable_get_progress.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -72,7 +90,9 @@ public interface Swipeable extends io.github.jwharm.javagi.Proxy {
         MemorySegment nSnapPointsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_swipeable_get_snap_points.invokeExact(handle(), (Addressable) nSnapPointsPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.adw_swipeable_get_snap_points.invokeExact(
+                    handle(),
+                    (Addressable) nSnapPointsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,16 +114,18 @@ public interface Swipeable extends io.github.jwharm.javagi.Proxy {
      * @param isDrag whether the swipe is caused by a dragging gesture
      * @param rect a pointer to a rectangle to store the swipe area
      */
-    default void getSwipeArea(@NotNull org.gnome.adw.NavigationDirection navigationDirection, boolean isDrag, @NotNull Out<org.gtk.gdk.Rectangle> rect) {
+    default void getSwipeArea(@NotNull org.gnome.adw.NavigationDirection navigationDirection, boolean isDrag, @NotNull org.gtk.gdk.Rectangle rect) {
         java.util.Objects.requireNonNull(navigationDirection, "Parameter 'navigationDirection' must not be null");
         java.util.Objects.requireNonNull(rect, "Parameter 'rect' must not be null");
-        MemorySegment rectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.adw_swipeable_get_swipe_area.invokeExact(handle(), navigationDirection.getValue(), isDrag ? 1 : 0, (Addressable) rectPOINTER.address());
+            DowncallHandles.adw_swipeable_get_swipe_area.invokeExact(
+                    handle(),
+                    navigationDirection.getValue(),
+                    isDrag ? 1 : 0,
+                    rect.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        rect.set(new org.gtk.gdk.Rectangle(Refcounted.get(rectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     @ApiStatus.Internal

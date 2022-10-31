@@ -66,25 +66,47 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkWindow";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkWindow");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gtk.Widget parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gtk.Widget(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Window(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Window */
+    /**
+     * Cast object to Window if its GType is a (or inherits from) "GtkWindow".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Window" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkWindow", a ClassCastException will be thrown.
+     */
     public static Window castFrom(org.gtk.gobject.Object gobject) {
-        return new Window(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkWindow"))) {
+            return new Window(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkWindow");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -126,7 +148,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void close() {
         try {
-            DowncallHandles.gtk_window_close.invokeExact(handle());
+            DowncallHandles.gtk_window_close.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -137,7 +160,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void destroy() {
         try {
-            DowncallHandles.gtk_window_destroy.invokeExact(handle());
+            DowncallHandles.gtk_window_destroy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -157,7 +181,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void fullscreen() {
         try {
-            DowncallHandles.gtk_window_fullscreen.invokeExact(handle());
+            DowncallHandles.gtk_window_fullscreen.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,7 +203,9 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public void fullscreenOnMonitor(@NotNull org.gtk.gdk.Monitor monitor) {
         java.util.Objects.requireNonNull(monitor, "Parameter 'monitor' must not be null");
         try {
-            DowncallHandles.gtk_window_fullscreen_on_monitor.invokeExact(handle(), monitor.handle());
+            DowncallHandles.gtk_window_fullscreen_on_monitor.invokeExact(
+                    handle(),
+                    monitor.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -191,7 +218,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public @Nullable org.gtk.gtk.Application getApplication() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_window_get_application.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_window_get_application.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,7 +233,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_window_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_window_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,7 +248,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getDecorated() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_window_get_decorated.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_window_get_decorated.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -241,7 +271,10 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_window_get_default_size.invokeExact(handle(), (Addressable) widthPOINTER.address(), (Addressable) heightPOINTER.address());
+            DowncallHandles.gtk_window_get_default_size.invokeExact(
+                    handle(),
+                    (Addressable) widthPOINTER.address(),
+                    (Addressable) heightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -256,7 +289,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public @Nullable org.gtk.gtk.Widget getDefaultWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_window_get_default_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_window_get_default_widget.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -270,7 +304,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getDeletable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_window_get_deletable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_window_get_deletable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -284,7 +319,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getDestroyWithParent() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_window_get_destroy_with_parent.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_window_get_destroy_with_parent.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -303,7 +339,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public @Nullable org.gtk.gtk.Widget getFocus() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_window_get_focus.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_window_get_focus.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -318,7 +355,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getFocusVisible() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_window_get_focus_visible.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_window_get_focus_visible.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -335,7 +373,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public @NotNull org.gtk.gtk.WindowGroup getGroup() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_window_get_group.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_window_get_group.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -350,7 +389,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getHandleMenubarAccel() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_window_get_handle_menubar_accel.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_window_get_handle_menubar_accel.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -364,7 +404,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getHideOnClose() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_window_get_hide_on_close.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_window_get_hide_on_close.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -378,11 +419,12 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_window_get_icon_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_window_get_icon_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -393,7 +435,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getMnemonicsVisible() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_window_get_mnemonics_visible.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_window_get_mnemonics_visible.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -408,7 +451,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getModal() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_window_get_modal.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_window_get_modal.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -422,7 +466,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getResizable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_window_get_resizable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_window_get_resizable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -436,11 +481,12 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public @Nullable java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_window_get_title.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_window_get_title.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -451,7 +497,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public @Nullable org.gtk.gtk.Widget getTitlebar() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_window_get_titlebar.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_window_get_titlebar.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -465,7 +512,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public @Nullable org.gtk.gtk.Window getTransientFor() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_window_get_transient_for.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_window_get_transient_for.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -479,7 +527,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean hasGroup() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_window_has_group.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_window_has_group.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -499,7 +548,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean isActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_window_is_active.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_window_is_active.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -522,7 +572,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean isFullscreen() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_window_is_fullscreen.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_window_is_fullscreen.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -545,7 +596,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean isMaximized() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_window_is_maximized.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_window_is_maximized.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -571,7 +623,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void maximize() {
         try {
-            DowncallHandles.gtk_window_maximize.invokeExact(handle());
+            DowncallHandles.gtk_window_maximize.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -595,7 +648,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void minimize() {
         try {
-            DowncallHandles.gtk_window_minimize.invokeExact(handle());
+            DowncallHandles.gtk_window_minimize.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -610,7 +664,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void present() {
         try {
-            DowncallHandles.gtk_window_present.invokeExact(handle());
+            DowncallHandles.gtk_window_present.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -642,7 +697,9 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void presentWithTime(int timestamp) {
         try {
-            DowncallHandles.gtk_window_present_with_time.invokeExact(handle(), timestamp);
+            DowncallHandles.gtk_window_present_with_time.invokeExact(
+                    handle(),
+                    timestamp);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -665,9 +722,10 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @param application a {@code GtkApplication}, or {@code null} to unset
      */
     public void setApplication(@Nullable org.gtk.gtk.Application application) {
-        java.util.Objects.requireNonNullElse(application, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_window_set_application.invokeExact(handle(), application.handle());
+            DowncallHandles.gtk_window_set_application.invokeExact(
+                    handle(),
+                    (Addressable) (application == null ? MemoryAddress.NULL : application.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -678,9 +736,10 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @param child the child widget
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_window_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_window_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -704,7 +763,9 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void setDecorated(boolean setting) {
         try {
-            DowncallHandles.gtk_window_set_decorated.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_window_set_decorated.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -741,7 +802,10 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void setDefaultSize(int width, int height) {
         try {
-            DowncallHandles.gtk_window_set_default_size.invokeExact(handle(), width, height);
+            DowncallHandles.gtk_window_set_default_size.invokeExact(
+                    handle(),
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -756,9 +820,10 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      *   to unset the default widget for the toplevel
      */
     public void setDefaultWidget(@Nullable org.gtk.gtk.Widget defaultWidget) {
-        java.util.Objects.requireNonNullElse(defaultWidget, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_window_set_default_widget.invokeExact(handle(), defaultWidget.handle());
+            DowncallHandles.gtk_window_set_default_widget.invokeExact(
+                    handle(),
+                    (Addressable) (defaultWidget == null ? MemoryAddress.NULL : defaultWidget.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -781,7 +846,9 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void setDeletable(boolean setting) {
         try {
-            DowncallHandles.gtk_window_set_deletable.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_window_set_deletable.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -797,7 +864,9 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void setDestroyWithParent(boolean setting) {
         try {
-            DowncallHandles.gtk_window_set_destroy_with_parent.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_window_set_destroy_with_parent.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -813,7 +882,9 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public void setDisplay(@NotNull org.gtk.gdk.Display display) {
         java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
         try {
-            DowncallHandles.gtk_window_set_display.invokeExact(handle(), display.handle());
+            DowncallHandles.gtk_window_set_display.invokeExact(
+                    handle(),
+                    display.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -831,9 +902,10 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      *   any focus widget for the toplevel window.
      */
     public void setFocus(@Nullable org.gtk.gtk.Widget focus) {
-        java.util.Objects.requireNonNullElse(focus, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_window_set_focus.invokeExact(handle(), focus.handle());
+            DowncallHandles.gtk_window_set_focus.invokeExact(
+                    handle(),
+                    (Addressable) (focus == null ? MemoryAddress.NULL : focus.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -845,7 +917,9 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void setFocusVisible(boolean setting) {
         try {
-            DowncallHandles.gtk_window_set_focus_visible.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_window_set_focus_visible.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -858,7 +932,9 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void setHandleMenubarAccel(boolean handleMenubarAccel) {
         try {
-            DowncallHandles.gtk_window_set_handle_menubar_accel.invokeExact(handle(), handleMenubarAccel ? 1 : 0);
+            DowncallHandles.gtk_window_set_handle_menubar_accel.invokeExact(
+                    handle(),
+                    handleMenubarAccel ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -871,7 +947,9 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void setHideOnClose(boolean setting) {
         try {
-            DowncallHandles.gtk_window_set_hide_on_close.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_window_set_hide_on_close.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -888,9 +966,10 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @param name the name of the themed icon
      */
     public void setIconName(@Nullable java.lang.String name) {
-        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_window_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.gtk_window_set_icon_name.invokeExact(
+                    handle(),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -902,7 +981,9 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void setMnemonicsVisible(boolean setting) {
         try {
-            DowncallHandles.gtk_window_set_mnemonics_visible.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_window_set_mnemonics_visible.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -920,7 +1001,9 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void setModal(boolean modal) {
         try {
-            DowncallHandles.gtk_window_set_modal.invokeExact(handle(), modal ? 1 : 0);
+            DowncallHandles.gtk_window_set_modal.invokeExact(
+                    handle(),
+                    modal ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -934,7 +1017,9 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void setResizable(boolean resizable) {
         try {
-            DowncallHandles.gtk_window_set_resizable.invokeExact(handle(), resizable ? 1 : 0);
+            DowncallHandles.gtk_window_set_resizable.invokeExact(
+                    handle(),
+                    resizable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -960,7 +1045,9 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public void setStartupId(@NotNull java.lang.String startupId) {
         java.util.Objects.requireNonNull(startupId, "Parameter 'startupId' must not be null");
         try {
-            DowncallHandles.gtk_window_set_startup_id.invokeExact(handle(), Interop.allocateNativeString(startupId));
+            DowncallHandles.gtk_window_set_startup_id.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(startupId));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -980,9 +1067,10 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @param title title of the window
      */
     public void setTitle(@Nullable java.lang.String title) {
-        java.util.Objects.requireNonNullElse(title, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_window_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
+            DowncallHandles.gtk_window_set_title.invokeExact(
+                    handle(),
+                    (Addressable) (title == null ? MemoryAddress.NULL : Interop.allocateNativeString(title)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1003,9 +1091,10 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @param titlebar the widget to use as titlebar
      */
     public void setTitlebar(@Nullable org.gtk.gtk.Widget titlebar) {
-        java.util.Objects.requireNonNullElse(titlebar, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_window_set_titlebar.invokeExact(handle(), titlebar.handle());
+            DowncallHandles.gtk_window_set_titlebar.invokeExact(
+                    handle(),
+                    (Addressable) (titlebar == null ? MemoryAddress.NULL : titlebar.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1026,9 +1115,10 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @param parent parent window
      */
     public void setTransientFor(@Nullable org.gtk.gtk.Window parent) {
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_window_set_transient_for.invokeExact(handle(), parent.handle());
+            DowncallHandles.gtk_window_set_transient_for.invokeExact(
+                    handle(),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1051,7 +1141,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void unfullscreen() {
         try {
-            DowncallHandles.gtk_window_unfullscreen.invokeExact(handle());
+            DowncallHandles.gtk_window_unfullscreen.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1071,7 +1162,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void unmaximize() {
         try {
-            DowncallHandles.gtk_window_unmaximize.invokeExact(handle());
+            DowncallHandles.gtk_window_unmaximize.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1091,7 +1183,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void unminimize() {
         try {
-            DowncallHandles.gtk_window_unminimize.invokeExact(handle());
+            DowncallHandles.gtk_window_unminimize.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1112,7 +1205,7 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -1172,7 +1265,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public static void setAutoStartupNotification(boolean setting) {
         try {
-            DowncallHandles.gtk_window_set_auto_startup_notification.invokeExact(setting ? 1 : 0);
+            DowncallHandles.gtk_window_set_auto_startup_notification.invokeExact(
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1189,7 +1283,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public static void setDefaultIconName(@NotNull java.lang.String name) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            DowncallHandles.gtk_window_set_default_icon_name.invokeExact(Interop.allocateNativeString(name));
+            DowncallHandles.gtk_window_set_default_icon_name.invokeExact(
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1204,7 +1299,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public static void setInteractiveDebugging(boolean enable) {
         try {
-            DowncallHandles.gtk_window_set_interactive_debugging.invokeExact(enable ? 1 : 0);
+            DowncallHandles.gtk_window_set_interactive_debugging.invokeExact(
+                    enable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

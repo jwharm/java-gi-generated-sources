@@ -14,30 +14,45 @@ public class RepeatNode extends org.gtk.gsk.RenderNode {
         Gsk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GskRepeatNode";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public RepeatNode(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to RepeatNode */
+    /**
+     * Cast object to RepeatNode if its GType is a (or inherits from) "GskRepeatNode".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "RepeatNode" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GskRepeatNode", a ClassCastException will be thrown.
+     */
     public static RepeatNode castFrom(org.gtk.gobject.Object gobject) {
-        return new RepeatNode(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskRepeatNode"))) {
+            return new RepeatNode(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskRepeatNode");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.gsk.RenderNode child, @Nullable org.gtk.graphene.Rect childBounds) {
         java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNullElse(childBounds, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_repeat_node_new.invokeExact(bounds.handle(), child.handle(), childBounds.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_repeat_node_new.invokeExact(
+                    bounds.handle(),
+                    child.handle(),
+                    (Addressable) (childBounds == null ? MemoryAddress.NULL : childBounds.handle())), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -63,7 +78,8 @@ public class RepeatNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.gsk.RenderNode getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_repeat_node_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_repeat_node_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,7 +93,8 @@ public class RepeatNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.graphene.Rect getChildBounds() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_repeat_node_get_child_bounds.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_repeat_node_get_child_bounds.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

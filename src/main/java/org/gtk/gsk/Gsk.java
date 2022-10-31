@@ -32,17 +32,17 @@ public final class Gsk {
      * @param outTransform The location to put the transform in
      * @return {@code true} if {@code string} described a valid transform.
      */
-    public static boolean transformParse(@NotNull java.lang.String string, @NotNull Out<org.gtk.gsk.Transform> outTransform) {
+    public static boolean transformParse(@NotNull java.lang.String string, @NotNull PointerProxy<org.gtk.gsk.Transform> outTransform) {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         java.util.Objects.requireNonNull(outTransform, "Parameter 'outTransform' must not be null");
-        MemorySegment outTransformPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_transform_parse.invokeExact(Interop.allocateNativeString(string), (Addressable) outTransformPOINTER.address());
+            RESULT = (int) DowncallHandles.gsk_transform_parse.invokeExact(
+                    Interop.allocateNativeString(string),
+                    outTransform.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        outTransform.set(new org.gtk.gsk.Transform(Refcounted.get(outTransformPOINTER.get(ValueLayout.ADDRESS, 0), true)));
         return RESULT != 0;
     }
     
@@ -56,7 +56,8 @@ public final class Gsk {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_value_dup_render_node.invokeExact(value.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_value_dup_render_node.invokeExact(
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -72,7 +73,8 @@ public final class Gsk {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_value_get_render_node.invokeExact(value.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_value_get_render_node.invokeExact(
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +92,9 @@ public final class Gsk {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         java.util.Objects.requireNonNull(node, "Parameter 'node' must not be null");
         try {
-            DowncallHandles.gsk_value_set_render_node.invokeExact(value.handle(), node.handle());
+            DowncallHandles.gsk_value_set_render_node.invokeExact(
+                    value.handle(),
+                    node.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,9 +109,10 @@ public final class Gsk {
      */
     public static void valueTakeRenderNode(@NotNull org.gtk.gobject.Value value, @Nullable org.gtk.gsk.RenderNode node) {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        java.util.Objects.requireNonNullElse(node, MemoryAddress.NULL);
         try {
-            DowncallHandles.gsk_value_take_render_node.invokeExact(value.handle(), node.refcounted().unowned().handle());
+            DowncallHandles.gsk_value_take_render_node.invokeExact(
+                    value.handle(),
+                    (Addressable) (node == null ? MemoryAddress.NULL : node.refcounted().unowned().handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

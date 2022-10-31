@@ -24,6 +24,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GDate";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_INT.withName("julian_days"),
         ValueLayout.JAVA_INT.withName("julian"),
@@ -31,16 +33,152 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         ValueLayout.JAVA_INT.withName("day"),
         ValueLayout.JAVA_INT.withName("month"),
         ValueLayout.JAVA_INT.withName("year")
-    ).withName("GDate");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Date allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Date newInstance = new Date(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code julian_days}
+     * @return The value of the field {@code julian_days}
+     */
+    public int julian_days$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("julian_days"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code julian_days}
+     * @param julian_days The new value of the field {@code julian_days}
+     */
+    public void julian_days$set(int julian_days) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("julian_days"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), julian_days);
+    }
+    
+    /**
+     * Get the value of the field {@code julian}
+     * @return The value of the field {@code julian}
+     */
+    public int julian$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("julian"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code julian}
+     * @param julian The new value of the field {@code julian}
+     */
+    public void julian$set(int julian) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("julian"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), julian);
+    }
+    
+    /**
+     * Get the value of the field {@code dmy}
+     * @return The value of the field {@code dmy}
+     */
+    public int dmy$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("dmy"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code dmy}
+     * @param dmy The new value of the field {@code dmy}
+     */
+    public void dmy$set(int dmy) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("dmy"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), dmy);
+    }
+    
+    /**
+     * Get the value of the field {@code day}
+     * @return The value of the field {@code day}
+     */
+    public int day$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("day"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code day}
+     * @param day The new value of the field {@code day}
+     */
+    public void day$set(int day) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("day"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), day);
+    }
+    
+    /**
+     * Get the value of the field {@code month}
+     * @return The value of the field {@code month}
+     */
+    public int month$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("month"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code month}
+     * @param month The new value of the field {@code month}
+     */
+    public void month$set(int month) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("month"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), month);
+    }
+    
+    /**
+     * Get the value of the field {@code year}
+     * @return The value of the field {@code year}
+     */
+    public int year$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("year"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code year}
+     * @param year The new value of the field {@code year}
+     */
+    public void year$set(int year) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("year"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), year);
+    }
+    
+    @ApiStatus.Internal
     public Date(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -71,7 +209,10 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_new_dmy.invokeExact(day.getValue(), month.getValue(), year.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_new_dmy.invokeExact(
+                    day.getValue().byteValue(),
+                    month.getValue(),
+                    year.getValue().shortValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,7 +238,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructNewJulian(int julianDay) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_new_julian.invokeExact(julianDay), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_new_julian.invokeExact(
+                    julianDay), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,7 +268,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public void addDays(int nDays) {
         try {
-            DowncallHandles.g_date_add_days.invokeExact(handle(), nDays);
+            DowncallHandles.g_date_add_days.invokeExact(
+                    handle(),
+                    nDays);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,7 +286,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public void addMonths(int nMonths) {
         try {
-            DowncallHandles.g_date_add_months.invokeExact(handle(), nMonths);
+            DowncallHandles.g_date_add_months.invokeExact(
+                    handle(),
+                    nMonths);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -157,7 +303,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public void addYears(int nYears) {
         try {
-            DowncallHandles.g_date_add_years.invokeExact(handle(), nYears);
+            DowncallHandles.g_date_add_years.invokeExact(
+                    handle(),
+                    nYears);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -176,7 +324,10 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(minDate, "Parameter 'minDate' must not be null");
         java.util.Objects.requireNonNull(maxDate, "Parameter 'maxDate' must not be null");
         try {
-            DowncallHandles.g_date_clamp.invokeExact(handle(), minDate.handle(), maxDate.handle());
+            DowncallHandles.g_date_clamp.invokeExact(
+                    handle(),
+                    minDate.handle(),
+                    maxDate.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -191,7 +342,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public void clear(int nDates) {
         try {
-            DowncallHandles.g_date_clear.invokeExact(handle(), nDates);
+            DowncallHandles.g_date_clear.invokeExact(
+                    handle(),
+                    nDates);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -208,7 +361,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(rhs, "Parameter 'rhs' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_compare.invokeExact(handle(), rhs.handle());
+            RESULT = (int) DowncallHandles.g_date_compare.invokeExact(
+                    handle(),
+                    rhs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -224,7 +379,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Date copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_date_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_date_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -242,7 +398,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(date2, "Parameter 'date2' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_days_between.invokeExact(handle(), date2.handle());
+            RESULT = (int) DowncallHandles.g_date_days_between.invokeExact(
+                    handle(),
+                    date2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -254,7 +412,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.g_date_free.invokeExact(handle());
+            DowncallHandles.g_date_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -267,7 +426,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.DateDay getDay() {
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.g_date_get_day.invokeExact(handle());
+            RESULT = (byte) DowncallHandles.g_date_get_day.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -282,7 +442,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public int getDayOfYear() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_get_day_of_year.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_get_day_of_year.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -297,7 +458,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public int getIso8601WeekOfYear() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_get_iso8601_week_of_year.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_get_iso8601_week_of_year.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -314,7 +476,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public int getJulian() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_get_julian.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_get_julian.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -330,7 +493,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public int getMondayWeekOfYear() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_get_monday_week_of_year.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_get_monday_week_of_year.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -344,7 +508,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.DateMonth getMonth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_get_month.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_get_month.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -360,7 +525,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public int getSundayWeekOfYear() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_get_sunday_week_of_year.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_get_sunday_week_of_year.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -374,7 +540,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.DateWeekday getWeekday() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_get_weekday.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_get_weekday.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -388,7 +555,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.DateYear getYear() {
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.g_date_get_year.invokeExact(handle());
+            RESULT = (short) DowncallHandles.g_date_get_year.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -403,7 +571,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public boolean isFirstOfMonth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_is_first_of_month.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_is_first_of_month.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -418,7 +587,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public boolean isLastOfMonth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_is_last_of_month.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_is_last_of_month.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -433,7 +603,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public void order(@NotNull org.gtk.glib.Date date2) {
         java.util.Objects.requireNonNull(date2, "Parameter 'date2' must not be null");
         try {
-            DowncallHandles.g_date_order.invokeExact(handle(), date2.handle());
+            DowncallHandles.g_date_order.invokeExact(
+                    handle(),
+                    date2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -447,7 +619,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public void setDay(@NotNull org.gtk.glib.DateDay day) {
         java.util.Objects.requireNonNull(day, "Parameter 'day' must not be null");
         try {
-            DowncallHandles.g_date_set_day.invokeExact(handle(), day.getValue());
+            DowncallHandles.g_date_set_day.invokeExact(
+                    handle(),
+                    day.getValue().byteValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -467,7 +641,11 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(month, "Parameter 'month' must not be null");
         java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         try {
-            DowncallHandles.g_date_set_dmy.invokeExact(handle(), day.getValue(), month.getValue(), y.getValue());
+            DowncallHandles.g_date_set_dmy.invokeExact(
+                    handle(),
+                    day.getValue().byteValue(),
+                    month.getValue(),
+                    y.getValue().shortValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -479,7 +657,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setJulian(int julianDate) {
         try {
-            DowncallHandles.g_date_set_julian.invokeExact(handle(), julianDate);
+            DowncallHandles.g_date_set_julian.invokeExact(
+                    handle(),
+                    julianDate);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -493,7 +673,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public void setMonth(@NotNull org.gtk.glib.DateMonth month) {
         java.util.Objects.requireNonNull(month, "Parameter 'month' must not be null");
         try {
-            DowncallHandles.g_date_set_month.invokeExact(handle(), month.getValue());
+            DowncallHandles.g_date_set_month.invokeExact(
+                    handle(),
+                    month.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -516,7 +698,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public void setParse(@NotNull java.lang.String str) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         try {
-            DowncallHandles.g_date_set_parse.invokeExact(handle(), Interop.allocateNativeString(str));
+            DowncallHandles.g_date_set_parse.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(str));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -532,7 +716,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public void setTime(@NotNull org.gtk.glib.Time time) {
         java.util.Objects.requireNonNull(time, "Parameter 'time' must not be null");
         try {
-            DowncallHandles.g_date_set_time.invokeExact(handle(), time.getValue());
+            DowncallHandles.g_date_set_time.invokeExact(
+                    handle(),
+                    time.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -554,7 +740,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setTimeT(long timet) {
         try {
-            DowncallHandles.g_date_set_time_t.invokeExact(handle(), timet);
+            DowncallHandles.g_date_set_time_t.invokeExact(
+                    handle(),
+                    timet);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -574,7 +762,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public void setTimeVal(@NotNull org.gtk.glib.TimeVal timeval) {
         java.util.Objects.requireNonNull(timeval, "Parameter 'timeval' must not be null");
         try {
-            DowncallHandles.g_date_set_time_val.invokeExact(handle(), timeval.handle());
+            DowncallHandles.g_date_set_time_val.invokeExact(
+                    handle(),
+                    timeval.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -588,7 +778,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public void setYear(@NotNull org.gtk.glib.DateYear year) {
         java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
         try {
-            DowncallHandles.g_date_set_year.invokeExact(handle(), year.getValue());
+            DowncallHandles.g_date_set_year.invokeExact(
+                    handle(),
+                    year.getValue().shortValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -602,7 +794,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public void subtractDays(int nDays) {
         try {
-            DowncallHandles.g_date_subtract_days.invokeExact(handle(), nDays);
+            DowncallHandles.g_date_subtract_days.invokeExact(
+                    handle(),
+                    nDays);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -617,7 +811,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public void subtractMonths(int nMonths) {
         try {
-            DowncallHandles.g_date_subtract_months.invokeExact(handle(), nMonths);
+            DowncallHandles.g_date_subtract_months.invokeExact(
+                    handle(),
+                    nMonths);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -633,7 +829,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public void subtractYears(int nYears) {
         try {
-            DowncallHandles.g_date_subtract_years.invokeExact(handle(), nYears);
+            DowncallHandles.g_date_subtract_years.invokeExact(
+                    handle(),
+                    nYears);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -647,7 +845,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public void toStructTm(@NotNull java.lang.foreign.MemoryAddress tm) {
         java.util.Objects.requireNonNull(tm, "Parameter 'tm' must not be null");
         try {
-            DowncallHandles.g_date_to_struct_tm.invokeExact(handle(), tm);
+            DowncallHandles.g_date_to_struct_tm.invokeExact(
+                    handle(),
+                    tm);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -662,7 +862,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public boolean valid() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_valid.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_date_valid.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -681,7 +882,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.g_date_get_days_in_month.invokeExact(month.getValue(), year.getValue());
+            RESULT = (byte) DowncallHandles.g_date_get_days_in_month.invokeExact(
+                    month.getValue(),
+                    year.getValue().shortValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -703,7 +906,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.g_date_get_monday_weeks_in_year.invokeExact(year.getValue());
+            RESULT = (byte) DowncallHandles.g_date_get_monday_weeks_in_year.invokeExact(
+                    year.getValue().shortValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -725,7 +929,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.g_date_get_sunday_weeks_in_year.invokeExact(year.getValue());
+            RESULT = (byte) DowncallHandles.g_date_get_sunday_weeks_in_year.invokeExact(
+                    year.getValue().shortValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -746,7 +951,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_is_leap_year.invokeExact(year.getValue());
+            RESULT = (int) DowncallHandles.g_date_is_leap_year.invokeExact(
+                    year.getValue().shortValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -779,7 +985,11 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(date, "Parameter 'date' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_date_strftime.invokeExact(Interop.allocateNativeString(s), slen, Interop.allocateNativeString(format), date.handle());
+            RESULT = (long) DowncallHandles.g_date_strftime.invokeExact(
+                    Interop.allocateNativeString(s),
+                    slen,
+                    Interop.allocateNativeString(format),
+                    date.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -796,7 +1006,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(day, "Parameter 'day' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_valid_day.invokeExact(day.getValue());
+            RESULT = (int) DowncallHandles.g_date_valid_day.invokeExact(
+                    day.getValue().byteValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -818,7 +1029,10 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_valid_dmy.invokeExact(day.getValue(), month.getValue(), year.getValue());
+            RESULT = (int) DowncallHandles.g_date_valid_dmy.invokeExact(
+                    day.getValue().byteValue(),
+                    month.getValue(),
+                    year.getValue().shortValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -834,7 +1048,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     public static boolean validJulian(int julianDate) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_valid_julian.invokeExact(julianDate);
+            RESULT = (int) DowncallHandles.g_date_valid_julian.invokeExact(
+                    julianDate);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -851,7 +1066,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(month, "Parameter 'month' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_valid_month.invokeExact(month.getValue());
+            RESULT = (int) DowncallHandles.g_date_valid_month.invokeExact(
+                    month.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -868,7 +1084,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(weekday, "Parameter 'weekday' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_valid_weekday.invokeExact(weekday.getValue());
+            RESULT = (int) DowncallHandles.g_date_valid_weekday.invokeExact(
+                    weekday.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -885,7 +1102,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_valid_year.invokeExact(year.getValue());
+            RESULT = (int) DowncallHandles.g_date_valid_year.invokeExact(
+                    year.getValue().shortValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

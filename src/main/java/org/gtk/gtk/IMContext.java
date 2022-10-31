@@ -42,25 +42,47 @@ public class IMContext extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkIMContext";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkIMContext");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public IMContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to IMContext */
+    /**
+     * Cast object to IMContext if its GType is a (or inherits from) "GtkIMContext".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "IMContext" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkIMContext", a ClassCastException will be thrown.
+     */
     public static IMContext castFrom(org.gtk.gobject.Object gobject) {
-        return new IMContext(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkIMContext"))) {
+            return new IMContext(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkIMContext");
+        }
     }
     
     /**
@@ -89,7 +111,10 @@ public class IMContext extends org.gtk.gobject.Object {
     public boolean deleteSurrounding(int offset, int nChars) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_im_context_delete_surrounding.invokeExact(handle(), offset, nChars);
+            RESULT = (int) DowncallHandles.gtk_im_context_delete_surrounding.invokeExact(
+                    handle(),
+                    offset,
+                    nChars);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,7 +140,15 @@ public class IMContext extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_im_context_filter_key.invokeExact(handle(), press ? 1 : 0, surface.handle(), device.handle(), time, keycode, state.getValue(), group);
+            RESULT = (int) DowncallHandles.gtk_im_context_filter_key.invokeExact(
+                    handle(),
+                    press ? 1 : 0,
+                    surface.handle(),
+                    device.handle(),
+                    time,
+                    keycode,
+                    state.getValue(),
+                    group);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,7 +168,9 @@ public class IMContext extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_im_context_filter_keypress.invokeExact(handle(), event.handle());
+            RESULT = (int) DowncallHandles.gtk_im_context_filter_keypress.invokeExact(
+                    handle(),
+                    event.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,7 +186,8 @@ public class IMContext extends org.gtk.gobject.Object {
      */
     public void focusIn() {
         try {
-            DowncallHandles.gtk_im_context_focus_in.invokeExact(handle());
+            DowncallHandles.gtk_im_context_focus_in.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -166,7 +202,8 @@ public class IMContext extends org.gtk.gobject.Object {
      */
     public void focusOut() {
         try {
-            DowncallHandles.gtk_im_context_focus_out.invokeExact(handle());
+            DowncallHandles.gtk_im_context_focus_out.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,20 +222,22 @@ public class IMContext extends org.gtk.gobject.Object {
      * @param cursorPos location to store position of cursor
      *   (in characters) within the preedit string.
      */
-    public void getPreeditString(@NotNull Out<java.lang.String> str, @NotNull Out<org.pango.AttrList> attrs, Out<Integer> cursorPos) {
+    public void getPreeditString(@NotNull Out<java.lang.String> str, @NotNull PointerProxy<org.pango.AttrList> attrs, Out<Integer> cursorPos) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
         java.util.Objects.requireNonNull(cursorPos, "Parameter 'cursorPos' must not be null");
         MemorySegment strPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment attrsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment cursorPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_im_context_get_preedit_string.invokeExact(handle(), (Addressable) strPOINTER.address(), (Addressable) attrsPOINTER.address(), (Addressable) cursorPosPOINTER.address());
+            DowncallHandles.gtk_im_context_get_preedit_string.invokeExact(
+                    handle(),
+                    (Addressable) strPOINTER.address(),
+                    attrs.handle(),
+                    (Addressable) cursorPosPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        str.set(strPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
-        attrs.set(new org.pango.AttrList(Refcounted.get(attrsPOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        str.set(Interop.getStringFrom(strPOINTER.get(ValueLayout.ADDRESS, 0)));
         cursorPos.set(cursorPosPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
@@ -236,11 +275,14 @@ public class IMContext extends org.gtk.gobject.Object {
         MemorySegment cursorIndexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_im_context_get_surrounding.invokeExact(handle(), (Addressable) textPOINTER.address(), (Addressable) cursorIndexPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_im_context_get_surrounding.invokeExact(
+                    handle(),
+                    (Addressable) textPOINTER.address(),
+                    (Addressable) cursorIndexPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        text.set(textPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        text.set(Interop.getStringFrom(textPOINTER.get(ValueLayout.ADDRESS, 0)));
         cursorIndex.set(cursorIndexPOINTER.get(ValueLayout.JAVA_INT, 0));
         return RESULT != 0;
     }
@@ -281,11 +323,15 @@ public class IMContext extends org.gtk.gobject.Object {
         MemorySegment anchorIndexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_im_context_get_surrounding_with_selection.invokeExact(handle(), (Addressable) textPOINTER.address(), (Addressable) cursorIndexPOINTER.address(), (Addressable) anchorIndexPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_im_context_get_surrounding_with_selection.invokeExact(
+                    handle(),
+                    (Addressable) textPOINTER.address(),
+                    (Addressable) cursorIndexPOINTER.address(),
+                    (Addressable) anchorIndexPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        text.set(textPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        text.set(Interop.getStringFrom(textPOINTER.get(ValueLayout.ADDRESS, 0)));
         cursorIndex.set(cursorIndexPOINTER.get(ValueLayout.JAVA_INT, 0));
         anchorIndex.set(anchorIndexPOINTER.get(ValueLayout.JAVA_INT, 0));
         return RESULT != 0;
@@ -299,7 +345,8 @@ public class IMContext extends org.gtk.gobject.Object {
      */
     public void reset() {
         try {
-            DowncallHandles.gtk_im_context_reset.invokeExact(handle());
+            DowncallHandles.gtk_im_context_reset.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -315,9 +362,10 @@ public class IMContext extends org.gtk.gobject.Object {
      *   that the previous client widget no longer exists.
      */
     public void setClientWidget(@Nullable org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNullElse(widget, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_im_context_set_client_widget.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_im_context_set_client_widget.invokeExact(
+                    handle(),
+                    (Addressable) (widget == null ? MemoryAddress.NULL : widget.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -333,7 +381,9 @@ public class IMContext extends org.gtk.gobject.Object {
     public void setCursorLocation(@NotNull org.gtk.gdk.Rectangle area) {
         java.util.Objects.requireNonNull(area, "Parameter 'area' must not be null");
         try {
-            DowncallHandles.gtk_im_context_set_cursor_location.invokeExact(handle(), area.handle());
+            DowncallHandles.gtk_im_context_set_cursor_location.invokeExact(
+                    handle(),
+                    area.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -356,7 +406,11 @@ public class IMContext extends org.gtk.gobject.Object {
     public void setSurrounding(@NotNull java.lang.String text, int len, int cursorIndex) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            DowncallHandles.gtk_im_context_set_surrounding.invokeExact(handle(), Interop.allocateNativeString(text), len, cursorIndex);
+            DowncallHandles.gtk_im_context_set_surrounding.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(text),
+                    len,
+                    cursorIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -376,7 +430,12 @@ public class IMContext extends org.gtk.gobject.Object {
     public void setSurroundingWithSelection(@NotNull java.lang.String text, int len, int cursorIndex, int anchorIndex) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            DowncallHandles.gtk_im_context_set_surrounding_with_selection.invokeExact(handle(), Interop.allocateNativeString(text), len, cursorIndex, anchorIndex);
+            DowncallHandles.gtk_im_context_set_surrounding_with_selection.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(text),
+                    len,
+                    cursorIndex,
+                    anchorIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -393,7 +452,9 @@ public class IMContext extends org.gtk.gobject.Object {
      */
     public void setUsePreedit(boolean usePreedit) {
         try {
-            DowncallHandles.gtk_im_context_set_use_preedit.invokeExact(handle(), usePreedit ? 1 : 0);
+            DowncallHandles.gtk_im_context_set_use_preedit.invokeExact(
+                    handle(),
+                    usePreedit ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -651,7 +712,7 @@ public class IMContext extends org.gtk.gobject.Object {
         public static void signalIMContextCommit(MemoryAddress source, MemoryAddress str, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (IMContext.Commit) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IMContext(Refcounted.get(source)), str.getUtf8String(0));
+            HANDLER.signalReceived(new IMContext(Refcounted.get(source)), Interop.getStringFrom(str));
         }
         
         public static boolean signalIMContextDeleteSurrounding(MemoryAddress source, int offset, int nChars, MemoryAddress data) {

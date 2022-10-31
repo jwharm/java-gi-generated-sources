@@ -23,19 +23,32 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GValue";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_LONG.withName("g_type"),
+        MemoryLayout.paddingLayout(64),
         MemoryLayout.sequenceLayout(2, ValueLayout.ADDRESS).withName("data")
-    ).withName("GValue");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Value allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Value newInstance = new Value(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Value(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -47,7 +60,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public void copy(@NotNull org.gtk.gobject.Value destValue) {
         java.util.Objects.requireNonNull(destValue, "Parameter 'destValue' must not be null");
         try {
-            DowncallHandles.g_value_copy.invokeExact(handle(), destValue.handle());
+            DowncallHandles.g_value_copy.invokeExact(
+                    handle(),
+                    destValue.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -63,7 +78,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress dupBoxed() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_value_dup_boxed.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_value_dup_boxed.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +96,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gobject.Object dupObject() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_value_dup_object.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_value_dup_object.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,7 +113,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gobject.ParamSpec dupParam() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_value_dup_param.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_value_dup_param.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,11 +128,12 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String dupString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_value_dup_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_value_dup_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -126,7 +145,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.glib.Variant dupVariant() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_value_dup_variant.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_value_dup_variant.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,7 +161,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public boolean fitsPointer() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_value_fits_pointer.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_value_fits_pointer.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,7 +176,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public boolean getBoolean() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_value_get_boolean.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_value_get_boolean.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,7 +191,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress getBoxed() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_value_get_boxed.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_value_get_boxed.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -188,7 +211,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public byte getChar() {
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.g_value_get_char.invokeExact(handle());
+            RESULT = (byte) DowncallHandles.g_value_get_char.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,7 +226,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public double getDouble() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.g_value_get_double.invokeExact(handle());
+            RESULT = (double) DowncallHandles.g_value_get_double.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -216,7 +241,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public int getEnum() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_value_get_enum.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_value_get_enum.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,7 +256,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public int getFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_value_get_flags.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_value_get_flags.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -244,7 +271,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public float getFloat() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.g_value_get_float.invokeExact(handle());
+            RESULT = (float) DowncallHandles.g_value_get_float.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -258,7 +286,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Type getGtype() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_value_get_gtype.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_value_get_gtype.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -272,7 +301,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public int getInt() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_value_get_int.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_value_get_int.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -286,7 +316,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public long getInt64() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_value_get_int64.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_value_get_int64.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -300,7 +331,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public long getLong() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_value_get_long.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_value_get_long.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -314,7 +346,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gobject.Object getObject() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_value_get_object.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_value_get_object.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -328,7 +361,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gobject.ParamSpec getParam() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_value_get_param.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_value_get_param.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -342,7 +376,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress getPointer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_value_get_pointer.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_value_get_pointer.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -356,7 +391,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public byte getSchar() {
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.g_value_get_schar.invokeExact(handle());
+            RESULT = (byte) DowncallHandles.g_value_get_schar.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -370,11 +406,12 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_value_get_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_value_get_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -384,7 +421,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public byte getUchar() {
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.g_value_get_uchar.invokeExact(handle());
+            RESULT = (byte) DowncallHandles.g_value_get_uchar.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -398,7 +436,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public int getUint() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_value_get_uint.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_value_get_uint.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -412,7 +451,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public long getUint64() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_value_get_uint64.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_value_get_uint64.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -426,7 +466,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public long getUlong() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_value_get_ulong.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_value_get_ulong.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -440,7 +481,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.gtk.glib.Variant getVariant() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_value_get_variant.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_value_get_variant.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -456,7 +498,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(gType, "Parameter 'gType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_value_init.invokeExact(handle(), gType.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_value_init.invokeExact(
+                    handle(),
+                    gType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -476,7 +520,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public void initFromInstance(@NotNull org.gtk.gobject.TypeInstance instance) {
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         try {
-            DowncallHandles.g_value_init_from_instance.invokeExact(handle(), instance.handle());
+            DowncallHandles.g_value_init_from_instance.invokeExact(
+                    handle(),
+                    instance.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -491,7 +537,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress peekPointer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_value_peek_pointer.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_value_peek_pointer.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -506,7 +553,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gobject.Value reset() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_value_reset.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_value_reset.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -519,7 +567,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setBoolean(boolean vBoolean) {
         try {
-            DowncallHandles.g_value_set_boolean.invokeExact(handle(), vBoolean ? 1 : 0);
+            DowncallHandles.g_value_set_boolean.invokeExact(
+                    handle(),
+                    vBoolean ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -530,9 +580,10 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * @param vBoxed boxed value to be set
      */
     public void setBoxed(@Nullable java.lang.foreign.MemoryAddress vBoxed) {
-        java.util.Objects.requireNonNullElse(vBoxed, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_value_set_boxed.invokeExact(handle(), vBoxed);
+            DowncallHandles.g_value_set_boxed.invokeExact(
+                    handle(),
+                    (Addressable) (vBoxed == null ? MemoryAddress.NULL : vBoxed));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -545,9 +596,10 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     @Deprecated
     public void setBoxedTakeOwnership(@Nullable java.lang.foreign.MemoryAddress vBoxed) {
-        java.util.Objects.requireNonNullElse(vBoxed, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_value_set_boxed_take_ownership.invokeExact(handle(), vBoxed);
+            DowncallHandles.g_value_set_boxed_take_ownership.invokeExact(
+                    handle(),
+                    (Addressable) (vBoxed == null ? MemoryAddress.NULL : vBoxed));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -561,7 +613,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     @Deprecated
     public void setChar(byte vChar) {
         try {
-            DowncallHandles.g_value_set_char.invokeExact(handle(), vChar);
+            DowncallHandles.g_value_set_char.invokeExact(
+                    handle(),
+                    vChar);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -573,7 +627,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setDouble(double vDouble) {
         try {
-            DowncallHandles.g_value_set_double.invokeExact(handle(), vDouble);
+            DowncallHandles.g_value_set_double.invokeExact(
+                    handle(),
+                    vDouble);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -585,7 +641,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setEnum(int vEnum) {
         try {
-            DowncallHandles.g_value_set_enum.invokeExact(handle(), vEnum);
+            DowncallHandles.g_value_set_enum.invokeExact(
+                    handle(),
+                    vEnum);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -597,7 +655,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setFlags(int vFlags) {
         try {
-            DowncallHandles.g_value_set_flags.invokeExact(handle(), vFlags);
+            DowncallHandles.g_value_set_flags.invokeExact(
+                    handle(),
+                    vFlags);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -609,7 +669,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setFloat(float vFloat) {
         try {
-            DowncallHandles.g_value_set_float.invokeExact(handle(), vFloat);
+            DowncallHandles.g_value_set_float.invokeExact(
+                    handle(),
+                    vFloat);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -622,7 +684,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     public void setGtype(@NotNull org.gtk.glib.Type vGtype) {
         java.util.Objects.requireNonNull(vGtype, "Parameter 'vGtype' must not be null");
         try {
-            DowncallHandles.g_value_set_gtype.invokeExact(handle(), vGtype.getValue());
+            DowncallHandles.g_value_set_gtype.invokeExact(
+                    handle(),
+                    vGtype.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -634,9 +698,10 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * @param instance the instance
      */
     public void setInstance(@Nullable java.lang.foreign.MemoryAddress instance) {
-        java.util.Objects.requireNonNullElse(instance, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_value_set_instance.invokeExact(handle(), instance);
+            DowncallHandles.g_value_set_instance.invokeExact(
+                    handle(),
+                    (Addressable) (instance == null ? MemoryAddress.NULL : instance));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -648,7 +713,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setInt(int vInt) {
         try {
-            DowncallHandles.g_value_set_int.invokeExact(handle(), vInt);
+            DowncallHandles.g_value_set_int.invokeExact(
+                    handle(),
+                    vInt);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -660,7 +727,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setInt64(long vInt64) {
         try {
-            DowncallHandles.g_value_set_int64.invokeExact(handle(), vInt64);
+            DowncallHandles.g_value_set_int64.invokeExact(
+                    handle(),
+                    vInt64);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -673,9 +742,10 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * @param vString static string to be set
      */
     public void setInternedString(@Nullable java.lang.String vString) {
-        java.util.Objects.requireNonNullElse(vString, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_value_set_interned_string.invokeExact(handle(), Interop.allocateNativeString(vString));
+            DowncallHandles.g_value_set_interned_string.invokeExact(
+                    handle(),
+                    (Addressable) (vString == null ? MemoryAddress.NULL : Interop.allocateNativeString(vString)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -687,7 +757,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setLong(long vLong) {
         try {
-            DowncallHandles.g_value_set_long.invokeExact(handle(), vLong);
+            DowncallHandles.g_value_set_long.invokeExact(
+                    handle(),
+                    vLong);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -708,9 +780,10 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * @param vObject object value to be set
      */
     public void setObject(@Nullable org.gtk.gobject.Object vObject) {
-        java.util.Objects.requireNonNullElse(vObject, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_value_set_object.invokeExact(handle(), vObject.handle());
+            DowncallHandles.g_value_set_object.invokeExact(
+                    handle(),
+                    (Addressable) (vObject == null ? MemoryAddress.NULL : vObject.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -723,9 +796,10 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     @Deprecated
     public void setObjectTakeOwnership(@Nullable java.lang.foreign.MemoryAddress vObject) {
-        java.util.Objects.requireNonNullElse(vObject, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_value_set_object_take_ownership.invokeExact(handle(), vObject);
+            DowncallHandles.g_value_set_object_take_ownership.invokeExact(
+                    handle(),
+                    (Addressable) (vObject == null ? MemoryAddress.NULL : vObject));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -736,9 +810,10 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * @param param the {@link ParamSpec} to be set
      */
     public void setParam(@Nullable org.gtk.gobject.ParamSpec param) {
-        java.util.Objects.requireNonNullElse(param, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_value_set_param.invokeExact(handle(), param.handle());
+            DowncallHandles.g_value_set_param.invokeExact(
+                    handle(),
+                    (Addressable) (param == null ? MemoryAddress.NULL : param.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -751,9 +826,10 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     @Deprecated
     public void setParamTakeOwnership(@Nullable org.gtk.gobject.ParamSpec param) {
-        java.util.Objects.requireNonNullElse(param, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_value_set_param_take_ownership.invokeExact(handle(), param.handle());
+            DowncallHandles.g_value_set_param_take_ownership.invokeExact(
+                    handle(),
+                    (Addressable) (param == null ? MemoryAddress.NULL : param.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -764,9 +840,10 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * @param vPointer pointer value to be set
      */
     public void setPointer(@Nullable java.lang.foreign.MemoryAddress vPointer) {
-        java.util.Objects.requireNonNullElse(vPointer, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_value_set_pointer.invokeExact(handle(), vPointer);
+            DowncallHandles.g_value_set_pointer.invokeExact(
+                    handle(),
+                    (Addressable) (vPointer == null ? MemoryAddress.NULL : vPointer));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -778,7 +855,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setSchar(byte vChar) {
         try {
-            DowncallHandles.g_value_set_schar.invokeExact(handle(), vChar);
+            DowncallHandles.g_value_set_schar.invokeExact(
+                    handle(),
+                    vChar);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -792,9 +871,10 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * @param vBoxed static boxed value to be set
      */
     public void setStaticBoxed(@Nullable java.lang.foreign.MemoryAddress vBoxed) {
-        java.util.Objects.requireNonNullElse(vBoxed, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_value_set_static_boxed.invokeExact(handle(), vBoxed);
+            DowncallHandles.g_value_set_static_boxed.invokeExact(
+                    handle(),
+                    (Addressable) (vBoxed == null ? MemoryAddress.NULL : vBoxed));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -810,9 +890,10 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * @param vString static string to be set
      */
     public void setStaticString(@Nullable java.lang.String vString) {
-        java.util.Objects.requireNonNullElse(vString, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_value_set_static_string.invokeExact(handle(), Interop.allocateNativeString(vString));
+            DowncallHandles.g_value_set_static_string.invokeExact(
+                    handle(),
+                    (Addressable) (vString == null ? MemoryAddress.NULL : Interop.allocateNativeString(vString)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -823,9 +904,10 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * @param vString caller-owned string to be duplicated for the {@link Value}
      */
     public void setString(@Nullable java.lang.String vString) {
-        java.util.Objects.requireNonNullElse(vString, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_value_set_string.invokeExact(handle(), Interop.allocateNativeString(vString));
+            DowncallHandles.g_value_set_string.invokeExact(
+                    handle(),
+                    (Addressable) (vString == null ? MemoryAddress.NULL : Interop.allocateNativeString(vString)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -838,9 +920,10 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     @Deprecated
     public void setStringTakeOwnership(@Nullable java.lang.String vString) {
-        java.util.Objects.requireNonNullElse(vString, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_value_set_string_take_ownership.invokeExact(handle(), Interop.allocateNativeString(vString));
+            DowncallHandles.g_value_set_string_take_ownership.invokeExact(
+                    handle(),
+                    (Addressable) (vString == null ? MemoryAddress.NULL : Interop.allocateNativeString(vString)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -852,7 +935,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setUchar(byte vUchar) {
         try {
-            DowncallHandles.g_value_set_uchar.invokeExact(handle(), vUchar);
+            DowncallHandles.g_value_set_uchar.invokeExact(
+                    handle(),
+                    vUchar);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -864,7 +949,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setUint(int vUint) {
         try {
-            DowncallHandles.g_value_set_uint.invokeExact(handle(), vUint);
+            DowncallHandles.g_value_set_uint.invokeExact(
+                    handle(),
+                    vUint);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -876,7 +963,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setUint64(long vUint64) {
         try {
-            DowncallHandles.g_value_set_uint64.invokeExact(handle(), vUint64);
+            DowncallHandles.g_value_set_uint64.invokeExact(
+                    handle(),
+                    vUint64);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -888,7 +977,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setUlong(long vUlong) {
         try {
-            DowncallHandles.g_value_set_ulong.invokeExact(handle(), vUlong);
+            DowncallHandles.g_value_set_ulong.invokeExact(
+                    handle(),
+                    vUlong);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -900,9 +991,10 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * @param variant a {@link org.gtk.glib.Variant}, or {@code null}
      */
     public void setVariant(@Nullable org.gtk.glib.Variant variant) {
-        java.util.Objects.requireNonNullElse(variant, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_value_set_variant.invokeExact(handle(), variant.handle());
+            DowncallHandles.g_value_set_variant.invokeExact(
+                    handle(),
+                    (Addressable) (variant == null ? MemoryAddress.NULL : variant.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -915,9 +1007,10 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * @param vBoxed duplicated unowned boxed value to be set
      */
     public void takeBoxed(@Nullable java.lang.foreign.MemoryAddress vBoxed) {
-        java.util.Objects.requireNonNullElse(vBoxed, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_value_take_boxed.invokeExact(handle(), vBoxed);
+            DowncallHandles.g_value_take_boxed.invokeExact(
+                    handle(),
+                    (Addressable) (vBoxed == null ? MemoryAddress.NULL : vBoxed));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -934,9 +1027,10 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * @param vObject object value to be set
      */
     public void takeObject(@Nullable java.lang.foreign.MemoryAddress vObject) {
-        java.util.Objects.requireNonNullElse(vObject, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_value_take_object.invokeExact(handle(), vObject);
+            DowncallHandles.g_value_take_object.invokeExact(
+                    handle(),
+                    (Addressable) (vObject == null ? MemoryAddress.NULL : vObject));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -949,9 +1043,10 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * @param param the {@link ParamSpec} to be set
      */
     public void takeParam(@Nullable org.gtk.gobject.ParamSpec param) {
-        java.util.Objects.requireNonNullElse(param, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_value_take_param.invokeExact(handle(), param.handle());
+            DowncallHandles.g_value_take_param.invokeExact(
+                    handle(),
+                    (Addressable) (param == null ? MemoryAddress.NULL : param.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -962,9 +1057,10 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * @param vString string to take ownership of
      */
     public void takeString(@Nullable java.lang.String vString) {
-        java.util.Objects.requireNonNullElse(vString, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_value_take_string.invokeExact(handle(), Interop.allocateNativeString(vString));
+            DowncallHandles.g_value_take_string.invokeExact(
+                    handle(),
+                    (Addressable) (vString == null ? MemoryAddress.NULL : Interop.allocateNativeString(vString)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -986,9 +1082,10 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * @param variant a {@link org.gtk.glib.Variant}, or {@code null}
      */
     public void takeVariant(@Nullable org.gtk.glib.Variant variant) {
-        java.util.Objects.requireNonNullElse(variant, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_value_take_variant.invokeExact(handle(), variant.refcounted().unowned().handle());
+            DowncallHandles.g_value_take_variant.invokeExact(
+                    handle(),
+                    (Addressable) (variant == null ? MemoryAddress.NULL : variant.refcounted().unowned().handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1010,7 +1107,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(destValue, "Parameter 'destValue' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_value_transform.invokeExact(handle(), destValue.handle());
+            RESULT = (int) DowncallHandles.g_value_transform.invokeExact(
+                    handle(),
+                    destValue.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1025,7 +1124,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unset() {
         try {
-            DowncallHandles.g_value_unset.invokeExact(handle());
+            DowncallHandles.g_value_unset.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1056,7 +1156,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(destType, "Parameter 'destType' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_value_type_compatible.invokeExact(srcType.getValue(), destType.getValue());
+            RESULT = (int) DowncallHandles.g_value_type_compatible.invokeExact(
+                    srcType.getValue().longValue(),
+                    destType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1077,7 +1179,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(destType, "Parameter 'destType' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_value_type_transformable.invokeExact(srcType.getValue(), destType.getValue());
+            RESULT = (int) DowncallHandles.g_value_type_transformable.invokeExact(
+                    srcType.getValue().longValue(),
+                    destType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

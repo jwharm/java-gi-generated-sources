@@ -14,48 +14,62 @@ public class CClosureExpression extends org.gtk.gtk.Expression {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkCClosureExpression";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public CClosureExpression(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CClosureExpression */
+    /**
+     * Cast object to CClosureExpression if its GType is a (or inherits from) "GtkCClosureExpression".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CClosureExpression" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkCClosureExpression", a ClassCastException will be thrown.
+     */
     public static CClosureExpression castFrom(org.gtk.gobject.Object gobject) {
-        return new CClosureExpression(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCClosureExpression"))) {
+            return new CClosureExpression(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCClosureExpression");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.glib.Type valueType, @Nullable org.gtk.gobject.ClosureMarshal marshal, int nParams, org.gtk.gtk.Expression[] params, @NotNull org.gtk.gobject.Callback callbackFunc, @Nullable org.gtk.gobject.ClosureNotify userDestroy) {
         java.util.Objects.requireNonNull(valueType, "Parameter 'valueType' must not be null");
-        java.util.Objects.requireNonNullElse(marshal, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
         java.util.Objects.requireNonNull(callbackFunc, "Parameter 'callbackFunc' must not be null");
-        java.util.Objects.requireNonNullElse(userDestroy, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cclosure_expression_new.invokeExact(valueType.getValue(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cclosure_expression_new.invokeExact(
+                    valueType.getValue().longValue(),
+                    (Addressable) (marshal == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbClosureMarshal",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), nParams, Interop.allocateNativeArray(params, false), 
+                        Interop.getScope())),
+                    nParams,
+                    Interop.allocateNativeArray(params, false),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (marshal == null ? MemoryAddress.NULL : Interop.registerCallback(marshal)), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+                        Interop.getScope()),
+                    (Addressable) (marshal == null ? MemoryAddress.NULL : Interop.registerCallback(marshal)),
+                    (Addressable) (userDestroy == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope())), true);
+                        Interop.getScope()))), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

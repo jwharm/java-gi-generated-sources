@@ -46,25 +46,47 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwActionRow";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gnome.adw.PreferencesRow.getMemoryLayout().withName("parent_instance")
-    ).withName("AdwActionRow");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gnome.adw.PreferencesRow parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gnome.adw.PreferencesRow(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public ActionRow(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ActionRow */
+    /**
+     * Cast object to ActionRow if its GType is a (or inherits from) "AdwActionRow".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ActionRow" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwActionRow", a ClassCastException will be thrown.
+     */
     public static ActionRow castFrom(org.gtk.gobject.Object gobject) {
-        return new ActionRow(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwActionRow"))) {
+            return new ActionRow(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwActionRow");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -89,7 +111,8 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
      */
     public void activateRow() {
         try {
-            DowncallHandles.adw_action_row_activate.invokeExact(handle());
+            DowncallHandles.adw_action_row_activate.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,7 +125,9 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
     public void addPrefix(@NotNull org.gtk.gtk.Widget widget) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            DowncallHandles.adw_action_row_add_prefix.invokeExact(handle(), widget.handle());
+            DowncallHandles.adw_action_row_add_prefix.invokeExact(
+                    handle(),
+                    widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,7 +140,9 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
     public void addSuffix(@NotNull org.gtk.gtk.Widget widget) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            DowncallHandles.adw_action_row_add_suffix.invokeExact(handle(), widget.handle());
+            DowncallHandles.adw_action_row_add_suffix.invokeExact(
+                    handle(),
+                    widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -128,7 +155,8 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
     public @Nullable org.gtk.gtk.Widget getActivatableWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_action_row_get_activatable_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_action_row_get_activatable_widget.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,11 +170,12 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_action_row_get_icon_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_action_row_get_icon_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -156,25 +185,25 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
     public @Nullable java.lang.String getSubtitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_action_row_get_subtitle.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_action_row_get_subtitle.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
      * Gets the number of lines at the end of which the subtitle label will be
      * ellipsized.
-     * <p>
-     * If the value is 0, the number of lines won't be limited.
      * @return the number of lines at the end of which the subtitle label will be
      *   ellipsized
      */
     public int getSubtitleLines() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_action_row_get_subtitle_lines.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_action_row_get_subtitle_lines.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,15 +213,14 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
     /**
      * Gets the number of lines at the end of which the title label will be
      * ellipsized.
-     * <p>
-     * If the value is 0, the number of lines won't be limited.
      * @return the number of lines at the end of which the title label will be
      *   ellipsized
      */
     public int getTitleLines() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_action_row_get_title_lines.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_action_row_get_title_lines.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -206,7 +234,9 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
     public void remove(@NotNull org.gtk.gtk.Widget widget) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            DowncallHandles.adw_action_row_remove.invokeExact(handle(), widget.handle());
+            DowncallHandles.adw_action_row_remove.invokeExact(
+                    handle(),
+                    widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -214,12 +244,20 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
     
     /**
      * Sets the widget to activate when {@code self} is activated.
+     * <p>
+     * The row can be activated either by clicking on it, calling
+     * {@code ActionRow#activate}, or via mnemonics in the title or the subtitle.
+     * See the {@code PreferencesRow:use-underline} property to enable mnemonics.
+     * <p>
+     * The target widget will be activated by emitting the
+     * {@code Gtk.Widget::mnemonic-activate} signal on it.
      * @param widget the target widget
      */
     public void setActivatableWidget(@Nullable org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNullElse(widget, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_action_row_set_activatable_widget.invokeExact(handle(), widget.handle());
+            DowncallHandles.adw_action_row_set_activatable_widget.invokeExact(
+                    handle(),
+                    (Addressable) (widget == null ? MemoryAddress.NULL : widget.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,9 +268,10 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
      * @param iconName the icon name
      */
     public void setIconName(@Nullable java.lang.String iconName) {
-        java.util.Objects.requireNonNullElse(iconName, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_action_row_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName));
+            DowncallHandles.adw_action_row_set_icon_name.invokeExact(
+                    handle(),
+                    (Addressable) (iconName == null ? MemoryAddress.NULL : Interop.allocateNativeString(iconName)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,12 +279,17 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
     
     /**
      * Sets the subtitle for {@code self}.
+     * <p>
+     * The subtitle is interpreted as Pango markup unless
+     * {@code PreferencesRow:use-markup} is set to {@code FALSE}.
      * @param subtitle the subtitle
      */
     public void setSubtitle(@NotNull java.lang.String subtitle) {
         java.util.Objects.requireNonNull(subtitle, "Parameter 'subtitle' must not be null");
         try {
-            DowncallHandles.adw_action_row_set_subtitle.invokeExact(handle(), Interop.allocateNativeString(subtitle));
+            DowncallHandles.adw_action_row_set_subtitle.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(subtitle));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -260,7 +304,9 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
      */
     public void setSubtitleLines(int subtitleLines) {
         try {
-            DowncallHandles.adw_action_row_set_subtitle_lines.invokeExact(handle(), subtitleLines);
+            DowncallHandles.adw_action_row_set_subtitle_lines.invokeExact(
+                    handle(),
+                    subtitleLines);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -275,7 +321,9 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
      */
     public void setTitleLines(int titleLines) {
         try {
-            DowncallHandles.adw_action_row_set_title_lines.invokeExact(handle(), titleLines);
+            DowncallHandles.adw_action_row_set_title_lines.invokeExact(
+                    handle(),
+                    titleLines);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

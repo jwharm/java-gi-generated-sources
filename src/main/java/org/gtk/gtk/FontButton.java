@@ -29,21 +29,34 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkFontButton";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public FontButton(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to FontButton */
+    /**
+     * Cast object to FontButton if its GType is a (or inherits from) "GtkFontButton".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "FontButton" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkFontButton", a ClassCastException will be thrown.
+     */
     public static FontButton castFrom(org.gtk.gobject.Object gobject) {
-        return new FontButton(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFontButton"))) {
+            return new FontButton(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkFontButton");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -67,7 +80,8 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         java.util.Objects.requireNonNull(fontname, "Parameter 'fontname' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_font_button_new_with_font.invokeExact(Interop.allocateNativeString(fontname)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_font_button_new_with_font.invokeExact(
+                    Interop.allocateNativeString(fontname)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +104,8 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public boolean getModal() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_font_button_get_modal.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_font_button_get_modal.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,11 +120,12 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @NotNull java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_font_button_get_title.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_font_button_get_title.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -119,7 +135,8 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public boolean getUseFont() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_font_button_get_use_font.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_font_button_get_use_font.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -133,7 +150,8 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public boolean getUseSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_font_button_get_use_size.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_font_button_get_use_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,7 +164,9 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public void setModal(boolean modal) {
         try {
-            DowncallHandles.gtk_font_button_set_modal.invokeExact(handle(), modal ? 1 : 0);
+            DowncallHandles.gtk_font_button_set_modal.invokeExact(
+                    handle(),
+                    modal ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,7 +179,9 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public void setTitle(@NotNull java.lang.String title) {
         java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
         try {
-            DowncallHandles.gtk_font_button_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
+            DowncallHandles.gtk_font_button_set_title.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -172,7 +194,9 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public void setUseFont(boolean useFont) {
         try {
-            DowncallHandles.gtk_font_button_set_use_font.invokeExact(handle(), useFont ? 1 : 0);
+            DowncallHandles.gtk_font_button_set_use_font.invokeExact(
+                    handle(),
+                    useFont ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -186,7 +210,9 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public void setUseSize(boolean useSize) {
         try {
-            DowncallHandles.gtk_font_button_set_use_size.invokeExact(handle(), useSize ? 1 : 0);
+            DowncallHandles.gtk_font_button_set_use_size.invokeExact(
+                    handle(),
+                    useSize ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

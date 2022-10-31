@@ -19,21 +19,34 @@ public class CairoContext extends org.gtk.gdk.DrawContext {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkCairoContext";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public CairoContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CairoContext */
+    /**
+     * Cast object to CairoContext if its GType is a (or inherits from) "GdkCairoContext".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CairoContext" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkCairoContext", a ClassCastException will be thrown.
+     */
     public static CairoContext castFrom(org.gtk.gobject.Object gobject) {
-        return new CairoContext(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkCairoContext"))) {
+            return new CairoContext(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkCairoContext");
+        }
     }
     
     /**
@@ -51,7 +64,8 @@ public class CairoContext extends org.gtk.gdk.DrawContext {
     public @Nullable org.cairographics.Context cairoCreate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_cairo_context_cairo_create.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_cairo_context_cairo_create.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

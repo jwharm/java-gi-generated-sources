@@ -47,28 +47,42 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkEventControllerScroll";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public EventControllerScroll(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to EventControllerScroll */
+    /**
+     * Cast object to EventControllerScroll if its GType is a (or inherits from) "GtkEventControllerScroll".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "EventControllerScroll" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkEventControllerScroll", a ClassCastException will be thrown.
+     */
     public static EventControllerScroll castFrom(org.gtk.gobject.Object gobject) {
-        return new EventControllerScroll(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEventControllerScroll"))) {
+            return new EventControllerScroll(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEventControllerScroll");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gtk.EventControllerScrollFlags flags) {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_event_controller_scroll_new.invokeExact(flags.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_event_controller_scroll_new.invokeExact(
+                    flags.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +104,8 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
     public @NotNull org.gtk.gtk.EventControllerScrollFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_event_controller_scroll_get_flags.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_event_controller_scroll_get_flags.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,7 +119,9 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
     public void setFlags(@NotNull org.gtk.gtk.EventControllerScrollFlags flags) {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            DowncallHandles.gtk_event_controller_scroll_set_flags.invokeExact(handle(), flags.getValue());
+            DowncallHandles.gtk_event_controller_scroll_set_flags.invokeExact(
+                    handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

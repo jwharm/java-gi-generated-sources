@@ -102,21 +102,34 @@ public class Gesture extends org.gtk.gtk.EventController {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkGesture";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Gesture(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Gesture */
+    /**
+     * Cast object to Gesture if its GType is a (or inherits from) "GtkGesture".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Gesture" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkGesture", a ClassCastException will be thrown.
+     */
     public static Gesture castFrom(org.gtk.gobject.Object gobject) {
-        return new Gesture(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGesture"))) {
+            return new Gesture(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGesture");
+        }
     }
     
     /**
@@ -134,16 +147,16 @@ public class Gesture extends org.gtk.gtk.EventController {
      * @param rect bounding box containing all active touches.
      * @return {@code true} if there are active touches, {@code false} otherwise
      */
-    public boolean getBoundingBox(@NotNull Out<org.gtk.gdk.Rectangle> rect) {
+    public boolean getBoundingBox(@NotNull org.gtk.gdk.Rectangle rect) {
         java.util.Objects.requireNonNull(rect, "Parameter 'rect' must not be null");
-        MemorySegment rectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_get_bounding_box.invokeExact(handle(), (Addressable) rectPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_gesture_get_bounding_box.invokeExact(
+                    handle(),
+                    rect.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        rect.set(new org.gtk.gdk.Rectangle(Refcounted.get(rectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -164,7 +177,10 @@ public class Gesture extends org.gtk.gtk.EventController {
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_get_bounding_box_center.invokeExact(handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_gesture_get_bounding_box_center.invokeExact(
+                    handle(),
+                    (Addressable) xPOINTER.address(),
+                    (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,7 +199,8 @@ public class Gesture extends org.gtk.gtk.EventController {
     public @Nullable org.gtk.gdk.Device getDevice() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_get_device.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_get_device.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -198,7 +215,8 @@ public class Gesture extends org.gtk.gtk.EventController {
     public @NotNull org.gtk.glib.List getGroup() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_get_group.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_get_group.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -215,10 +233,11 @@ public class Gesture extends org.gtk.gtk.EventController {
      * @return The last event from {@code sequence}
      */
     public @Nullable org.gtk.gdk.Event getLastEvent(@Nullable org.gtk.gdk.EventSequence sequence) {
-        java.util.Objects.requireNonNullElse(sequence, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_get_last_event.invokeExact(handle(), sequence.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_get_last_event.invokeExact(
+                    handle(),
+                    (Addressable) (sequence == null ? MemoryAddress.NULL : sequence.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -232,7 +251,8 @@ public class Gesture extends org.gtk.gtk.EventController {
     public @Nullable org.gtk.gdk.EventSequence getLastUpdatedSequence() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_get_last_updated_sequence.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_get_last_updated_sequence.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -251,14 +271,17 @@ public class Gesture extends org.gtk.gtk.EventController {
      * @return {@code true} if {@code sequence} is currently interpreted
      */
     public boolean getPoint(@Nullable org.gtk.gdk.EventSequence sequence, Out<Double> x, Out<Double> y) {
-        java.util.Objects.requireNonNullElse(sequence, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
         java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_get_point.invokeExact(handle(), sequence.handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_gesture_get_point.invokeExact(
+                    handle(),
+                    (Addressable) (sequence == null ? MemoryAddress.NULL : sequence.handle()),
+                    (Addressable) xPOINTER.address(),
+                    (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -276,7 +299,9 @@ public class Gesture extends org.gtk.gtk.EventController {
         java.util.Objects.requireNonNull(sequence, "Parameter 'sequence' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_get_sequence_state.invokeExact(handle(), sequence.handle());
+            RESULT = (int) DowncallHandles.gtk_gesture_get_sequence_state.invokeExact(
+                    handle(),
+                    sequence.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -294,7 +319,8 @@ public class Gesture extends org.gtk.gtk.EventController {
     public @NotNull org.gtk.glib.List getSequences() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_get_sequences.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_get_sequences.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -324,7 +350,9 @@ public class Gesture extends org.gtk.gtk.EventController {
     public void group(@NotNull org.gtk.gtk.Gesture gesture) {
         java.util.Objects.requireNonNull(gesture, "Parameter 'gesture' must not be null");
         try {
-            DowncallHandles.gtk_gesture_group.invokeExact(handle(), gesture.handle());
+            DowncallHandles.gtk_gesture_group.invokeExact(
+                    handle(),
+                    gesture.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -337,10 +365,11 @@ public class Gesture extends org.gtk.gtk.EventController {
      * @return {@code true} if {@code gesture} is handling {@code sequence}, {@code false} otherwise
      */
     public boolean handlesSequence(@Nullable org.gtk.gdk.EventSequence sequence) {
-        java.util.Objects.requireNonNullElse(sequence, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_handles_sequence.invokeExact(handle(), sequence.handle());
+            RESULT = (int) DowncallHandles.gtk_gesture_handles_sequence.invokeExact(
+                    handle(),
+                    (Addressable) (sequence == null ? MemoryAddress.NULL : sequence.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -357,7 +386,8 @@ public class Gesture extends org.gtk.gtk.EventController {
     public boolean isActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_is_active.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_gesture_is_active.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -373,7 +403,9 @@ public class Gesture extends org.gtk.gtk.EventController {
         java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_is_grouped_with.invokeExact(handle(), other.handle());
+            RESULT = (int) DowncallHandles.gtk_gesture_is_grouped_with.invokeExact(
+                    handle(),
+                    other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -390,7 +422,8 @@ public class Gesture extends org.gtk.gtk.EventController {
     public boolean isRecognized() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_is_recognized.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_gesture_is_recognized.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -449,7 +482,10 @@ public class Gesture extends org.gtk.gtk.EventController {
         java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_set_sequence_state.invokeExact(handle(), sequence.handle(), state.getValue());
+            RESULT = (int) DowncallHandles.gtk_gesture_set_sequence_state.invokeExact(
+                    handle(),
+                    sequence.handle(),
+                    state.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -470,7 +506,9 @@ public class Gesture extends org.gtk.gtk.EventController {
         java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_set_state.invokeExact(handle(), state.getValue());
+            RESULT = (int) DowncallHandles.gtk_gesture_set_state.invokeExact(
+                    handle(),
+                    state.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -482,7 +520,8 @@ public class Gesture extends org.gtk.gtk.EventController {
      */
     public void ungroup() {
         try {
-            DowncallHandles.gtk_gesture_ungroup.invokeExact(handle());
+            DowncallHandles.gtk_gesture_ungroup.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

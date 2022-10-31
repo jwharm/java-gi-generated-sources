@@ -60,21 +60,34 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwViewStack";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ViewStack(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ViewStack */
+    /**
+     * Cast object to ViewStack if its GType is a (or inherits from) "AdwViewStack".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ViewStack" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwViewStack", a ClassCastException will be thrown.
+     */
     public static ViewStack castFrom(org.gtk.gobject.Object gobject) {
-        return new ViewStack(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwViewStack"))) {
+            return new ViewStack(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwViewStack");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -103,7 +116,9 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_add.invokeExact(handle(), child.handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_add.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,10 +135,12 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public @NotNull org.gnome.adw.ViewStackPage addNamed(@NotNull org.gtk.gtk.Widget child, @Nullable java.lang.String name) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_add_named.invokeExact(handle(), child.handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_add_named.invokeExact(
+                    handle(),
+                    child.handle(),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,11 +159,43 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public @NotNull org.gnome.adw.ViewStackPage addTitled(@NotNull org.gtk.gtk.Widget child, @Nullable java.lang.String name, @NotNull java.lang.String title) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_add_titled.invokeExact(handle(), child.handle(), Interop.allocateNativeString(name), Interop.allocateNativeString(title));
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_add_titled.invokeExact(
+                    handle(),
+                    child.handle(),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
+                    Interop.allocateNativeString(title));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gnome.adw.ViewStackPage(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Adds a child to {@code self}.
+     * <p>
+     * The child is identified by the {@code name}. The {@code title} and {@code icon_name} will be used
+     * by {@link ViewSwitcher} to represent {@code child}.
+     * @param child the widget to add
+     * @param name the name for {@code child}
+     * @param title a human-readable title for {@code child}
+     * @param iconName an icon name for {@code child}
+     * @return the {@code AdwViewStackPage} for {@code child}
+     */
+    public @NotNull org.gnome.adw.ViewStackPage addTitledWithIcon(@NotNull org.gtk.gtk.Widget child, @Nullable java.lang.String name, @NotNull java.lang.String title, @NotNull java.lang.String iconName) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
+        java.util.Objects.requireNonNull(iconName, "Parameter 'iconName' must not be null");
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_add_titled_with_icon.invokeExact(
+                    handle(),
+                    child.handle(),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
+                    Interop.allocateNativeString(title),
+                    Interop.allocateNativeString(iconName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,7 +211,9 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_child_by_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_child_by_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -176,7 +227,8 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public boolean getHhomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_view_stack_get_hhomogeneous.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_view_stack_get_hhomogeneous.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -192,7 +244,9 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_page.invokeExact(handle(), child.handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_page.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -210,7 +264,8 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public @NotNull org.gtk.gtk.SelectionModel getPages() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_pages.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_pages.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -224,7 +279,8 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public boolean getVhomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_view_stack_get_vhomogeneous.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_view_stack_get_vhomogeneous.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -238,7 +294,8 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public @Nullable org.gtk.gtk.Widget getVisibleChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_visible_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_visible_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -252,11 +309,12 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public @Nullable java.lang.String getVisibleChildName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_visible_child_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_visible_child_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -266,7 +324,9 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public void remove(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.adw_view_stack_remove.invokeExact(handle(), child.handle());
+            DowncallHandles.adw_view_stack_remove.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -274,11 +334,19 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     
     /**
      * Sets {@code self} to be horizontally homogeneous or not.
+     * <p>
+     * If the stack is horizontally homogeneous, it allocates the same width for
+     * all children.
+     * <p>
+     * If it's {@code FALSE}, the stack may change width when a different child becomes
+     * visible.
      * @param hhomogeneous whether to make {@code self} horizontally homogeneous
      */
     public void setHhomogeneous(boolean hhomogeneous) {
         try {
-            DowncallHandles.adw_view_stack_set_hhomogeneous.invokeExact(handle(), hhomogeneous ? 1 : 0);
+            DowncallHandles.adw_view_stack_set_hhomogeneous.invokeExact(
+                    handle(),
+                    hhomogeneous ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -286,11 +354,19 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     
     /**
      * Sets {@code self} to be vertically homogeneous or not.
+     * <p>
+     * If the stack is vertically homogeneous, it allocates the same height for
+     * all children.
+     * <p>
+     * If it's {@code FALSE}, the stack may change height when a different child becomes
+     * visible.
      * @param vhomogeneous whether to make {@code self} vertically homogeneous
      */
     public void setVhomogeneous(boolean vhomogeneous) {
         try {
-            DowncallHandles.adw_view_stack_set_vhomogeneous.invokeExact(handle(), vhomogeneous ? 1 : 0);
+            DowncallHandles.adw_view_stack_set_vhomogeneous.invokeExact(
+                    handle(),
+                    vhomogeneous ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -303,7 +379,9 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public void setVisibleChild(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.adw_view_stack_set_visible_child.invokeExact(handle(), child.handle());
+            DowncallHandles.adw_view_stack_set_visible_child.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -311,12 +389,16 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     
     /**
      * Makes the child with {@code name} visible.
+     * <p>
+     * See {@code ViewStack:visible-child}.
      * @param name the name of the child
      */
     public void setVisibleChildName(@NotNull java.lang.String name) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            DowncallHandles.adw_view_stack_set_visible_child_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.adw_view_stack_set_visible_child_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -342,6 +424,11 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         private static final MethodHandle adw_view_stack_add_titled = Interop.downcallHandle(
             "adw_view_stack_add_titled",
             FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_view_stack_add_titled_with_icon = Interop.downcallHandle(
+            "adw_view_stack_add_titled_with_icon",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
         );
         
         private static final MethodHandle adw_view_stack_get_child_by_name = Interop.downcallHandle(

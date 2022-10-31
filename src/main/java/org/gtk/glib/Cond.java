@@ -78,19 +78,31 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GCond";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("p"),
         MemoryLayout.sequenceLayout(2, ValueLayout.JAVA_INT).withName("i")
-    ).withName("GCond");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Cond allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Cond newInstance = new Cond(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Cond(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -103,7 +115,8 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      */
     public void broadcast() {
         try {
-            DowncallHandles.g_cond_broadcast.invokeExact(handle());
+            DowncallHandles.g_cond_broadcast.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,7 +133,8 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      */
     public void clear() {
         try {
-            DowncallHandles.g_cond_clear.invokeExact(handle());
+            DowncallHandles.g_cond_clear.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,7 +155,8 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      */
     public void init() {
         try {
-            DowncallHandles.g_cond_init.invokeExact(handle());
+            DowncallHandles.g_cond_init.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,7 +170,8 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      */
     public void signal() {
         try {
-            DowncallHandles.g_cond_signal.invokeExact(handle());
+            DowncallHandles.g_cond_signal.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,7 +197,9 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
     public void wait(@NotNull org.gtk.glib.Mutex mutex) {
         java.util.Objects.requireNonNull(mutex, "Parameter 'mutex' must not be null");
         try {
-            DowncallHandles.g_cond_wait.invokeExact(handle(), mutex.handle());
+            DowncallHandles.g_cond_wait.invokeExact(
+                    handle(),
+                    mutex.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -243,7 +261,10 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(mutex, "Parameter 'mutex' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_cond_wait_until.invokeExact(handle(), mutex.handle(), endTime);
+            RESULT = (int) DowncallHandles.g_cond_wait_until.invokeExact(
+                    handle(),
+                    mutex.handle(),
+                    endTime);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

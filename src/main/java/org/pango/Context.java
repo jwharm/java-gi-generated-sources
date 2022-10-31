@@ -21,21 +21,34 @@ public class Context extends org.gtk.gobject.Object {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoContext";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Context(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Context */
+    /**
+     * Cast object to Context if its GType is a (or inherits from) "PangoContext".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Context" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "PangoContext", a ClassCastException will be thrown.
+     */
     public static Context castFrom(org.gtk.gobject.Object gobject) {
-        return new Context(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoContext"))) {
+            return new Context(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of PangoContext");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -76,7 +89,8 @@ public class Context extends org.gtk.gobject.Object {
      */
     public void changed() {
         try {
-            DowncallHandles.pango_context_changed.invokeExact(handle());
+            DowncallHandles.pango_context_changed.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,7 +105,8 @@ public class Context extends org.gtk.gobject.Object {
     public @NotNull org.pango.Direction getBaseDir() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_context_get_base_dir.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_context_get_base_dir.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,7 +122,8 @@ public class Context extends org.gtk.gobject.Object {
     public @NotNull org.pango.Gravity getBaseGravity() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_context_get_base_gravity.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_context_get_base_gravity.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -122,7 +138,8 @@ public class Context extends org.gtk.gobject.Object {
     public @NotNull org.pango.FontDescription getFontDescription() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_context_get_font_description.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_context_get_font_description.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -137,7 +154,8 @@ public class Context extends org.gtk.gobject.Object {
     public @NotNull org.pango.FontMap getFontMap() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_context_get_font_map.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_context_get_font_map.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -156,7 +174,8 @@ public class Context extends org.gtk.gobject.Object {
     public @NotNull org.pango.Gravity getGravity() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_context_get_gravity.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_context_get_gravity.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -172,7 +191,8 @@ public class Context extends org.gtk.gobject.Object {
     public @NotNull org.pango.GravityHint getGravityHint() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_context_get_gravity_hint.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_context_get_gravity_hint.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -186,7 +206,8 @@ public class Context extends org.gtk.gobject.Object {
     public @NotNull org.pango.Language getLanguage() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_context_get_language.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_context_get_language.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,7 +226,8 @@ public class Context extends org.gtk.gobject.Object {
     public @Nullable org.pango.Matrix getMatrix() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_context_get_matrix.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_context_get_matrix.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -235,11 +257,12 @@ public class Context extends org.gtk.gobject.Object {
      *   {@link FontMetrics#unref} when finished using the object.
      */
     public @NotNull org.pango.FontMetrics getMetrics(@Nullable org.pango.FontDescription desc, @Nullable org.pango.Language language) {
-        java.util.Objects.requireNonNullElse(desc, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(language, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_context_get_metrics.invokeExact(handle(), desc.handle(), language.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_context_get_metrics.invokeExact(
+                    handle(),
+                    (Addressable) (desc == null ? MemoryAddress.NULL : desc.handle()),
+                    (Addressable) (language == null ? MemoryAddress.NULL : language.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -253,7 +276,8 @@ public class Context extends org.gtk.gobject.Object {
     public boolean getRoundGlyphPositions() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_context_get_round_glyph_positions.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_context_get_round_glyph_positions.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -278,7 +302,8 @@ public class Context extends org.gtk.gobject.Object {
     public int getSerial() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_context_get_serial.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_context_get_serial.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -298,7 +323,10 @@ public class Context extends org.gtk.gobject.Object {
         MemorySegment familiesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment nFamiliesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.pango_context_list_families.invokeExact(handle(), (Addressable) familiesPOINTER.address(), (Addressable) nFamiliesPOINTER.address());
+            DowncallHandles.pango_context_list_families.invokeExact(
+                    handle(),
+                    (Addressable) familiesPOINTER.address(),
+                    (Addressable) nFamiliesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -322,7 +350,9 @@ public class Context extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(desc, "Parameter 'desc' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_context_load_font.invokeExact(handle(), desc.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_context_load_font.invokeExact(
+                    handle(),
+                    desc.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -342,7 +372,10 @@ public class Context extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_context_load_fontset.invokeExact(handle(), desc.handle(), language.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_context_load_fontset.invokeExact(
+                    handle(),
+                    desc.handle(),
+                    language.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -363,7 +396,9 @@ public class Context extends org.gtk.gobject.Object {
     public void setBaseDir(@NotNull org.pango.Direction direction) {
         java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
         try {
-            DowncallHandles.pango_context_set_base_dir.invokeExact(handle(), direction.getValue());
+            DowncallHandles.pango_context_set_base_dir.invokeExact(
+                    handle(),
+                    direction.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -378,7 +413,9 @@ public class Context extends org.gtk.gobject.Object {
     public void setBaseGravity(@NotNull org.pango.Gravity gravity) {
         java.util.Objects.requireNonNull(gravity, "Parameter 'gravity' must not be null");
         try {
-            DowncallHandles.pango_context_set_base_gravity.invokeExact(handle(), gravity.getValue());
+            DowncallHandles.pango_context_set_base_gravity.invokeExact(
+                    handle(),
+                    gravity.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -391,7 +428,9 @@ public class Context extends org.gtk.gobject.Object {
     public void setFontDescription(@NotNull org.pango.FontDescription desc) {
         java.util.Objects.requireNonNull(desc, "Parameter 'desc' must not be null");
         try {
-            DowncallHandles.pango_context_set_font_description.invokeExact(handle(), desc.handle());
+            DowncallHandles.pango_context_set_font_description.invokeExact(
+                    handle(),
+                    desc.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -409,7 +448,9 @@ public class Context extends org.gtk.gobject.Object {
     public void setFontMap(@NotNull org.pango.FontMap fontMap) {
         java.util.Objects.requireNonNull(fontMap, "Parameter 'fontMap' must not be null");
         try {
-            DowncallHandles.pango_context_set_font_map.invokeExact(handle(), fontMap.handle());
+            DowncallHandles.pango_context_set_font_map.invokeExact(
+                    handle(),
+                    fontMap.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -427,7 +468,9 @@ public class Context extends org.gtk.gobject.Object {
     public void setGravityHint(@NotNull org.pango.GravityHint hint) {
         java.util.Objects.requireNonNull(hint, "Parameter 'hint' must not be null");
         try {
-            DowncallHandles.pango_context_set_gravity_hint.invokeExact(handle(), hint.getValue());
+            DowncallHandles.pango_context_set_gravity_hint.invokeExact(
+                    handle(),
+                    hint.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -443,7 +486,9 @@ public class Context extends org.gtk.gobject.Object {
     public void setLanguage(@NotNull org.pango.Language language) {
         java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
         try {
-            DowncallHandles.pango_context_set_language.invokeExact(handle(), language.handle());
+            DowncallHandles.pango_context_set_language.invokeExact(
+                    handle(),
+                    language.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -462,9 +507,10 @@ public class Context extends org.gtk.gobject.Object {
      * matrix. (No matrix set is the same as setting the identity matrix.)
      */
     public void setMatrix(@Nullable org.pango.Matrix matrix) {
-        java.util.Objects.requireNonNullElse(matrix, MemoryAddress.NULL);
         try {
-            DowncallHandles.pango_context_set_matrix.invokeExact(handle(), matrix.handle());
+            DowncallHandles.pango_context_set_matrix.invokeExact(
+                    handle(),
+                    (Addressable) (matrix == null ? MemoryAddress.NULL : matrix.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -484,7 +530,9 @@ public class Context extends org.gtk.gobject.Object {
      */
     public void setRoundGlyphPositions(boolean roundPositions) {
         try {
-            DowncallHandles.pango_context_set_round_glyph_positions.invokeExact(handle(), roundPositions ? 1 : 0);
+            DowncallHandles.pango_context_set_round_glyph_positions.invokeExact(
+                    handle(),
+                    roundPositions ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

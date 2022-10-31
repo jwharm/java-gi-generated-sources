@@ -35,29 +35,42 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkDirectoryList";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public DirectoryList(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DirectoryList */
+    /**
+     * Cast object to DirectoryList if its GType is a (or inherits from) "GtkDirectoryList".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DirectoryList" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkDirectoryList", a ClassCastException will be thrown.
+     */
     public static DirectoryList castFrom(org.gtk.gobject.Object gobject) {
-        return new DirectoryList(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkDirectoryList"))) {
+            return new DirectoryList(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkDirectoryList");
+        }
     }
     
     private static Refcounted constructNew(@Nullable java.lang.String attributes, @Nullable org.gtk.gio.File file) {
-        java.util.Objects.requireNonNullElse(attributes, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(file, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_directory_list_new.invokeExact(Interop.allocateNativeString(attributes), file.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_directory_list_new.invokeExact(
+                    (Addressable) (attributes == null ? MemoryAddress.NULL : Interop.allocateNativeString(attributes)),
+                    (Addressable) (file == null ? MemoryAddress.NULL : file.handle())), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,11 +96,12 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
     public @Nullable java.lang.String getAttributes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_directory_list_get_attributes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_directory_list_get_attributes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -105,7 +119,8 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
     public @Nullable org.gtk.glib.Error getError() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_directory_list_get_error.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_directory_list_get_error.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,7 +134,8 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
     public @Nullable org.gtk.gio.File getFile() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_directory_list_get_file.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_directory_list_get_file.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -133,7 +149,8 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
     public int getIoPriority() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_directory_list_get_io_priority.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_directory_list_get_io_priority.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -148,7 +165,8 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
     public boolean getMonitored() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_directory_list_get_monitored.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_directory_list_get_monitored.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,7 +185,8 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
     public boolean isLoading() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_directory_list_is_loading.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_directory_list_is_loading.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,9 +201,10 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * @param attributes the attributes to enumerate
      */
     public void setAttributes(@Nullable java.lang.String attributes) {
-        java.util.Objects.requireNonNullElse(attributes, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_directory_list_set_attributes.invokeExact(handle(), Interop.allocateNativeString(attributes));
+            DowncallHandles.gtk_directory_list_set_attributes.invokeExact(
+                    handle(),
+                    (Addressable) (attributes == null ? MemoryAddress.NULL : Interop.allocateNativeString(attributes)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -197,9 +217,10 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * @param file the {@code GFile} to be enumerated
      */
     public void setFile(@Nullable org.gtk.gio.File file) {
-        java.util.Objects.requireNonNullElse(file, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_directory_list_set_file.invokeExact(handle(), file.handle());
+            DowncallHandles.gtk_directory_list_set_file.invokeExact(
+                    handle(),
+                    (Addressable) (file == null ? MemoryAddress.NULL : file.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,7 +240,9 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public void setIoPriority(int ioPriority) {
         try {
-            DowncallHandles.gtk_directory_list_set_io_priority.invokeExact(handle(), ioPriority);
+            DowncallHandles.gtk_directory_list_set_io_priority.invokeExact(
+                    handle(),
+                    ioPriority);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,7 +263,9 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public void setMonitored(boolean monitored) {
         try {
-            DowncallHandles.gtk_directory_list_set_monitored.invokeExact(handle(), monitored ? 1 : 0);
+            DowncallHandles.gtk_directory_list_set_monitored.invokeExact(
+                    handle(),
+                    monitored ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

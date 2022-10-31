@@ -15,6 +15,8 @@ public class FontMapClass extends io.github.jwharm.javagi.ResourceBase {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoFontMapClass";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("load_font"),
@@ -25,16 +27,56 @@ public class FontMapClass extends io.github.jwharm.javagi.ResourceBase {
         Interop.valueLayout.ADDRESS.withName("changed"),
         Interop.valueLayout.ADDRESS.withName("get_family"),
         Interop.valueLayout.ADDRESS.withName("get_face")
-    ).withName("PangoFontMapClass");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static FontMapClass allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        FontMapClass newInstance = new FontMapClass(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code parent_class}
+     * @return The value of the field {@code parent_class}
+     */
+    public org.gtk.gobject.ObjectClass parent_class$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
+        return new org.gtk.gobject.ObjectClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    /**
+     * Get the value of the field {@code shape_engine_type}
+     * @return The value of the field {@code shape_engine_type}
+     */
+    public java.lang.String shape_engine_type$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("shape_engine_type"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringFrom(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code shape_engine_type}
+     * @param shape_engine_type The new value of the field {@code shape_engine_type}
+     */
+    public void shape_engine_type$set(java.lang.String shape_engine_type) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("shape_engine_type"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(shape_engine_type));
+    }
+    
+    @ApiStatus.Internal
     public FontMapClass(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

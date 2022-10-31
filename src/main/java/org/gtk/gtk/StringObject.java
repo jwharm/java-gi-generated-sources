@@ -17,28 +17,42 @@ public class StringObject extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkStringObject";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public StringObject(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to StringObject */
+    /**
+     * Cast object to StringObject if its GType is a (or inherits from) "GtkStringObject".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "StringObject" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkStringObject", a ClassCastException will be thrown.
+     */
     public static StringObject castFrom(org.gtk.gobject.Object gobject) {
-        return new StringObject(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkStringObject"))) {
+            return new StringObject(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkStringObject");
+        }
     }
     
     private static Refcounted constructNew(@NotNull java.lang.String string) {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_string_object_new.invokeExact(Interop.allocateNativeString(string)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_string_object_new.invokeExact(
+                    Interop.allocateNativeString(string)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -60,11 +74,12 @@ public class StringObject extends org.gtk.gobject.Object {
     public @NotNull java.lang.String getString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_string_object_get_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_string_object_get_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     private static class DowncallHandles {

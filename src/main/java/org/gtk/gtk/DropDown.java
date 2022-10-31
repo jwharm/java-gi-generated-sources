@@ -38,29 +38,42 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkDropDown";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public DropDown(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DropDown */
+    /**
+     * Cast object to DropDown if its GType is a (or inherits from) "GtkDropDown".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DropDown" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkDropDown", a ClassCastException will be thrown.
+     */
     public static DropDown castFrom(org.gtk.gobject.Object gobject) {
-        return new DropDown(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkDropDown"))) {
+            return new DropDown(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkDropDown");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.Expression expression) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(expression, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_drop_down_new.invokeExact(model.refcounted().unowned().handle(), expression.refcounted().unowned().handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_drop_down_new.invokeExact(
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.refcounted().unowned().handle()),
+                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.refcounted().unowned().handle())), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,7 +96,8 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(strings, "Parameter 'strings' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_drop_down_new_from_strings.invokeExact(Interop.allocateNativeArray(strings, false)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_drop_down_new_from_strings.invokeExact(
+                    Interop.allocateNativeArray(strings, false)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,7 +121,8 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getEnableSearch() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_drop_down_get_enable_search.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_drop_down_get_enable_search.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,7 +138,8 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.Expression getExpression() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_down_get_expression.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_down_get_expression.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,7 +157,8 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.ListItemFactory getFactory() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_down_get_factory.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_down_get_factory.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,7 +172,8 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.ListItemFactory getListFactory() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_down_get_list_factory.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_down_get_list_factory.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,7 +187,8 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gio.ListModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_down_get_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_down_get_model.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,7 +203,8 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getSelected() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_drop_down_get_selected.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_drop_down_get_selected.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -198,7 +218,8 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gobject.Object getSelectedItem() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_down_get_selected_item.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_down_get_selected_item.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -212,7 +233,8 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getShowArrow() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_drop_down_get_show_arrow.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_drop_down_get_show_arrow.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -229,7 +251,9 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setEnableSearch(boolean enableSearch) {
         try {
-            DowncallHandles.gtk_drop_down_set_enable_search.invokeExact(handle(), enableSearch ? 1 : 0);
+            DowncallHandles.gtk_drop_down_set_enable_search.invokeExact(
+                    handle(),
+                    enableSearch ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -243,9 +267,10 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param expression a {@code GtkExpression}
      */
     public void setExpression(@Nullable org.gtk.gtk.Expression expression) {
-        java.util.Objects.requireNonNullElse(expression, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_drop_down_set_expression.invokeExact(handle(), expression.handle());
+            DowncallHandles.gtk_drop_down_set_expression.invokeExact(
+                    handle(),
+                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -256,9 +281,10 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param factory the factory to use
      */
     public void setFactory(@Nullable org.gtk.gtk.ListItemFactory factory) {
-        java.util.Objects.requireNonNullElse(factory, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_drop_down_set_factory.invokeExact(handle(), factory.handle());
+            DowncallHandles.gtk_drop_down_set_factory.invokeExact(
+                    handle(),
+                    (Addressable) (factory == null ? MemoryAddress.NULL : factory.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -269,9 +295,10 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param factory the factory to use
      */
     public void setListFactory(@Nullable org.gtk.gtk.ListItemFactory factory) {
-        java.util.Objects.requireNonNullElse(factory, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_drop_down_set_list_factory.invokeExact(handle(), factory.handle());
+            DowncallHandles.gtk_drop_down_set_list_factory.invokeExact(
+                    handle(),
+                    (Addressable) (factory == null ? MemoryAddress.NULL : factory.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -282,9 +309,10 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param model the model to use
      */
     public void setModel(@Nullable org.gtk.gio.ListModel model) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_drop_down_set_model.invokeExact(handle(), model.handle());
+            DowncallHandles.gtk_drop_down_set_model.invokeExact(
+                    handle(),
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -296,7 +324,9 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setSelected(int position) {
         try {
-            DowncallHandles.gtk_drop_down_set_selected.invokeExact(handle(), position);
+            DowncallHandles.gtk_drop_down_set_selected.invokeExact(
+                    handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -308,7 +338,9 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setShowArrow(boolean showArrow) {
         try {
-            DowncallHandles.gtk_drop_down_set_show_arrow.invokeExact(handle(), showArrow ? 1 : 0);
+            DowncallHandles.gtk_drop_down_set_show_arrow.invokeExact(
+                    handle(),
+                    showArrow ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

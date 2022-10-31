@@ -14,14 +14,26 @@ public class IOSchedulerJob extends io.github.jwharm.javagi.ResourceBase {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GIOSchedulerJob";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static IOSchedulerJob allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        IOSchedulerJob newInstance = new IOSchedulerJob(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public IOSchedulerJob(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -39,13 +51,14 @@ public class IOSchedulerJob extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_scheduler_job_send_to_mainloop.invokeExact(handle(), 
+            RESULT = (int) DowncallHandles.g_io_scheduler_job_send_to_mainloop.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)), 
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -70,13 +83,14 @@ public class IOSchedulerJob extends io.github.jwharm.javagi.ResourceBase {
     public void sendToMainloopAsync(@NotNull org.gtk.glib.SourceFunc func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.g_io_scheduler_job_send_to_mainloop_async.invokeExact(handle(), 
+            DowncallHandles.g_io_scheduler_job_send_to_mainloop_async.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)), 
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

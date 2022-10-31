@@ -11,6 +11,21 @@ import org.jetbrains.annotations.*;
 public interface TreeDragDest extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to TreeDragDest if its GType is a (or inherits from) "GtkTreeDragDest".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TreeDragDest" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkTreeDragDest", a ClassCastException will be thrown.
+     */
+    public static TreeDragDest castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeDragDest"))) {
+            return new TreeDragDestImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTreeDragDest");
+        }
+    }
+    
+    /**
      * Asks the {@code GtkTreeDragDest} to insert a row before the path {@code dest},
      * deriving the contents of the row from {@code value}. If {@code dest} is
      * outside the tree so that inserting before it is impossible, {@code false}
@@ -26,7 +41,10 @@ public interface TreeDragDest extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_drag_dest_drag_data_received.invokeExact(handle(), dest.handle(), value.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_drag_dest_drag_data_received.invokeExact(
+                    handle(),
+                    dest.handle(),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -48,7 +66,10 @@ public interface TreeDragDest extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_drag_dest_row_drop_possible.invokeExact(handle(), destPath.handle(), value.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_drag_dest_row_drop_possible.invokeExact(
+                    handle(),
+                    destPath.handle(),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

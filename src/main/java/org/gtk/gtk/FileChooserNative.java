@@ -151,32 +151,46 @@ public class FileChooserNative extends org.gtk.gtk.NativeDialog implements org.g
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkFileChooserNative";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public FileChooserNative(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to FileChooserNative */
+    /**
+     * Cast object to FileChooserNative if its GType is a (or inherits from) "GtkFileChooserNative".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "FileChooserNative" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkFileChooserNative", a ClassCastException will be thrown.
+     */
     public static FileChooserNative castFrom(org.gtk.gobject.Object gobject) {
-        return new FileChooserNative(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFileChooserNative"))) {
+            return new FileChooserNative(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkFileChooserNative");
+        }
     }
     
     private static Refcounted constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.FileChooserAction action, @Nullable java.lang.String acceptLabel, @Nullable java.lang.String cancelLabel) {
-        java.util.Objects.requireNonNullElse(title, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
-        java.util.Objects.requireNonNullElse(acceptLabel, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(cancelLabel, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_file_chooser_native_new.invokeExact(Interop.allocateNativeString(title), parent.handle(), action.getValue(), Interop.allocateNativeString(acceptLabel), Interop.allocateNativeString(cancelLabel)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_file_chooser_native_new.invokeExact(
+                    (Addressable) (title == null ? MemoryAddress.NULL : Interop.allocateNativeString(title)),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                    action.getValue(),
+                    (Addressable) (acceptLabel == null ? MemoryAddress.NULL : Interop.allocateNativeString(acceptLabel)),
+                    (Addressable) (cancelLabel == null ? MemoryAddress.NULL : Interop.allocateNativeString(cancelLabel))), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,11 +216,12 @@ public class FileChooserNative extends org.gtk.gtk.NativeDialog implements org.g
     public @Nullable java.lang.String getAcceptLabel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_file_chooser_native_get_accept_label.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_file_chooser_native_get_accept_label.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -216,11 +231,12 @@ public class FileChooserNative extends org.gtk.gtk.NativeDialog implements org.g
     public @Nullable java.lang.String getCancelLabel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_file_chooser_native_get_cancel_label.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_file_chooser_native_get_cancel_label.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -235,9 +251,10 @@ public class FileChooserNative extends org.gtk.gtk.NativeDialog implements org.g
      * @param acceptLabel custom label
      */
     public void setAcceptLabel(@Nullable java.lang.String acceptLabel) {
-        java.util.Objects.requireNonNullElse(acceptLabel, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_file_chooser_native_set_accept_label.invokeExact(handle(), Interop.allocateNativeString(acceptLabel));
+            DowncallHandles.gtk_file_chooser_native_set_accept_label.invokeExact(
+                    handle(),
+                    (Addressable) (acceptLabel == null ? MemoryAddress.NULL : Interop.allocateNativeString(acceptLabel)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -255,9 +272,10 @@ public class FileChooserNative extends org.gtk.gtk.NativeDialog implements org.g
      * @param cancelLabel custom label
      */
     public void setCancelLabel(@Nullable java.lang.String cancelLabel) {
-        java.util.Objects.requireNonNullElse(cancelLabel, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_file_chooser_native_set_cancel_label.invokeExact(handle(), Interop.allocateNativeString(cancelLabel));
+            DowncallHandles.gtk_file_chooser_native_set_cancel_label.invokeExact(
+                    handle(),
+                    (Addressable) (cancelLabel == null ? MemoryAddress.NULL : Interop.allocateNativeString(cancelLabel)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

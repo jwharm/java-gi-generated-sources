@@ -15,20 +15,95 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GQueue";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.glib.List.getMemoryLayout().withName("head"),
-        org.gtk.glib.List.getMemoryLayout().withName("tail"),
+        Interop.valueLayout.ADDRESS.withName("head"),
+        Interop.valueLayout.ADDRESS.withName("tail"),
         ValueLayout.JAVA_INT.withName("length")
-    ).withName("GQueue");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Queue allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Queue newInstance = new Queue(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code head}
+     * @return The value of the field {@code head}
+     */
+    public org.gtk.glib.List head$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("head"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Change the value of the field {@code head}
+     * @param head The new value of the field {@code head}
+     */
+    public void head$set(org.gtk.glib.List head) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("head"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), head.handle());
+    }
+    
+    /**
+     * Get the value of the field {@code tail}
+     * @return The value of the field {@code tail}
+     */
+    public org.gtk.glib.List tail$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("tail"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Change the value of the field {@code tail}
+     * @param tail The new value of the field {@code tail}
+     */
+    public void tail$set(org.gtk.glib.List tail) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("tail"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tail.handle());
+    }
+    
+    /**
+     * Get the value of the field {@code length}
+     * @return The value of the field {@code length}
+     */
+    public int length$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("length"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code length}
+     * @param length The new value of the field {@code length}
+     */
+    public void length$set(int length) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("length"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
+    }
+    
+    @ApiStatus.Internal
     public Queue(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -39,7 +114,8 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      */
     public void clear() {
         try {
-            DowncallHandles.g_queue_clear.invokeExact(handle());
+            DowncallHandles.g_queue_clear.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -63,7 +139,8 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Queue copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,7 +156,9 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public void deleteLink(@NotNull org.gtk.glib.List link) {
         java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
         try {
-            DowncallHandles.g_queue_delete_link.invokeExact(handle(), link.handle());
+            DowncallHandles.g_queue_delete_link.invokeExact(
+                    handle(),
+                    link.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,7 +172,9 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.List find(@Nullable java.lang.foreign.MemoryAddress data) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_find.invokeExact(handle(), data);
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_find.invokeExact(
+                    handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,8 +195,9 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_find_custom.invokeExact(handle(), 
-                   (Addressable) (Interop.registerCallback(func)), 
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_find_custom.invokeExact(
+                    handle(),
+                    (Addressable) (Interop.registerCallback(func)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
@@ -138,13 +220,14 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public void foreach(@NotNull org.gtk.glib.Func func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.g_queue_foreach.invokeExact(handle(), 
+            DowncallHandles.g_queue_foreach.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,7 +243,8 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.g_queue_free.invokeExact(handle());
+            DowncallHandles.g_queue_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,7 +269,8 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public int getLength() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_queue_get_length.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_queue_get_length.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -201,7 +286,9 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public int index(@Nullable java.lang.foreign.MemoryAddress data) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_queue_index.invokeExact(handle(), data);
+            RESULT = (int) DowncallHandles.g_queue_index.invokeExact(
+                    handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -216,7 +303,8 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      */
     public void init() {
         try {
-            DowncallHandles.g_queue_init.invokeExact(handle());
+            DowncallHandles.g_queue_init.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -232,9 +320,11 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      * @param data the data to insert
      */
     public void insertAfter(@Nullable org.gtk.glib.List sibling, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNullElse(sibling, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_queue_insert_after.invokeExact(handle(), sibling.handle(), data);
+            DowncallHandles.g_queue_insert_after.invokeExact(
+                    handle(),
+                    (Addressable) (sibling == null ? MemoryAddress.NULL : sibling.handle()),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -249,10 +339,12 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      * @param link a {@link List} link to insert which must not be part of any other list.
      */
     public void insertAfterLink(@Nullable org.gtk.glib.List sibling, @NotNull org.gtk.glib.List link) {
-        java.util.Objects.requireNonNullElse(sibling, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
         try {
-            DowncallHandles.g_queue_insert_after_link.invokeExact(handle(), sibling.handle(), link.handle());
+            DowncallHandles.g_queue_insert_after_link.invokeExact(
+                    handle(),
+                    (Addressable) (sibling == null ? MemoryAddress.NULL : sibling.handle()),
+                    link.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -268,9 +360,11 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      * @param data the data to insert
      */
     public void insertBefore(@Nullable org.gtk.glib.List sibling, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNullElse(sibling, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_queue_insert_before.invokeExact(handle(), sibling.handle(), data);
+            DowncallHandles.g_queue_insert_before.invokeExact(
+                    handle(),
+                    (Addressable) (sibling == null ? MemoryAddress.NULL : sibling.handle()),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -285,10 +379,12 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      * @param link a {@link List} link to insert which must not be part of any other list.
      */
     public void insertBeforeLink(@Nullable org.gtk.glib.List sibling, @NotNull org.gtk.glib.List link) {
-        java.util.Objects.requireNonNullElse(sibling, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
         try {
-            DowncallHandles.g_queue_insert_before_link.invokeExact(handle(), sibling.handle(), link.handle());
+            DowncallHandles.g_queue_insert_before_link.invokeExact(
+                    handle(),
+                    (Addressable) (sibling == null ? MemoryAddress.NULL : sibling.handle()),
+                    link.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -305,14 +401,15 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public void insertSorted(@NotNull org.gtk.glib.CompareDataFunc func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.g_queue_insert_sorted.invokeExact(handle(), 
-                   (Addressable) (Interop.registerCallback(func)), 
+            DowncallHandles.g_queue_insert_sorted.invokeExact(
+                    handle(),
+                    (Addressable) (Interop.registerCallback(func)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -325,7 +422,8 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public boolean isEmpty() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_queue_is_empty.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_queue_is_empty.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -342,7 +440,9 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_queue_link_index.invokeExact(handle(), link.handle());
+            RESULT = (int) DowncallHandles.g_queue_link_index.invokeExact(
+                    handle(),
+                    link.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -357,7 +457,8 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress peekHead() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_head.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_head.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -371,7 +472,8 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.List peekHeadLink() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_head_link.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_head_link.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -387,7 +489,9 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress peekNth(int n) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_nth.invokeExact(handle(), n);
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_nth.invokeExact(
+                    handle(),
+                    n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -403,7 +507,9 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.List peekNthLink(int n) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_nth_link.invokeExact(handle(), n);
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_nth_link.invokeExact(
+                    handle(),
+                    n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -418,7 +524,8 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress peekTail() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_tail.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_tail.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -432,7 +539,8 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.List peekTailLink() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_tail_link.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_tail_link.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -447,7 +555,8 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress popHead() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_head.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_head.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -462,7 +571,8 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.List popHeadLink() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_head_link.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_head_link.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -477,7 +587,9 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress popNth(int n) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_nth.invokeExact(handle(), n);
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_nth.invokeExact(
+                    handle(),
+                    n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -492,7 +604,9 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.List popNthLink(int n) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_nth_link.invokeExact(handle(), n);
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_nth_link.invokeExact(
+                    handle(),
+                    n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -507,7 +621,8 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress popTail() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_tail.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_tail.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -522,7 +637,8 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.List popTailLink() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_tail_link.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_tail_link.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -535,7 +651,9 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      */
     public void pushHead(@Nullable java.lang.foreign.MemoryAddress data) {
         try {
-            DowncallHandles.g_queue_push_head.invokeExact(handle(), data);
+            DowncallHandles.g_queue_push_head.invokeExact(
+                    handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -548,7 +666,9 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public void pushHeadLink(@NotNull org.gtk.glib.List link) {
         java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
         try {
-            DowncallHandles.g_queue_push_head_link.invokeExact(handle(), link.handle());
+            DowncallHandles.g_queue_push_head_link.invokeExact(
+                    handle(),
+                    link.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -563,7 +683,10 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      */
     public void pushNth(@Nullable java.lang.foreign.MemoryAddress data, int n) {
         try {
-            DowncallHandles.g_queue_push_nth.invokeExact(handle(), data, n);
+            DowncallHandles.g_queue_push_nth.invokeExact(
+                    handle(),
+                    data,
+                    n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -579,7 +702,10 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public void pushNthLink(int n, @NotNull org.gtk.glib.List link) {
         java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
         try {
-            DowncallHandles.g_queue_push_nth_link.invokeExact(handle(), n, link.handle());
+            DowncallHandles.g_queue_push_nth_link.invokeExact(
+                    handle(),
+                    n,
+                    link.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -591,7 +717,9 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      */
     public void pushTail(@Nullable java.lang.foreign.MemoryAddress data) {
         try {
-            DowncallHandles.g_queue_push_tail.invokeExact(handle(), data);
+            DowncallHandles.g_queue_push_tail.invokeExact(
+                    handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -604,7 +732,9 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public void pushTailLink(@NotNull org.gtk.glib.List link) {
         java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
         try {
-            DowncallHandles.g_queue_push_tail_link.invokeExact(handle(), link.handle());
+            DowncallHandles.g_queue_push_tail_link.invokeExact(
+                    handle(),
+                    link.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -618,7 +748,9 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public boolean remove(@Nullable java.lang.foreign.MemoryAddress data) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_queue_remove.invokeExact(handle(), data);
+            RESULT = (int) DowncallHandles.g_queue_remove.invokeExact(
+                    handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -633,7 +765,9 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public int removeAll(@Nullable java.lang.foreign.MemoryAddress data) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_queue_remove_all.invokeExact(handle(), data);
+            RESULT = (int) DowncallHandles.g_queue_remove_all.invokeExact(
+                    handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -645,7 +779,8 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      */
     public void reverse() {
         try {
-            DowncallHandles.g_queue_reverse.invokeExact(handle());
+            DowncallHandles.g_queue_reverse.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -661,13 +796,14 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public void sort(@NotNull org.gtk.glib.CompareDataFunc compareFunc) {
         java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
         try {
-            DowncallHandles.g_queue_sort.invokeExact(handle(), 
+            DowncallHandles.g_queue_sort.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(compareFunc)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(compareFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -683,7 +819,9 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public void unlink(@NotNull org.gtk.glib.List link) {
         java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
         try {
-            DowncallHandles.g_queue_unlink.invokeExact(handle(), link.handle());
+            DowncallHandles.g_queue_unlink.invokeExact(
+                    handle(),
+                    link.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

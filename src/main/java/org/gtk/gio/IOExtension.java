@@ -15,14 +15,26 @@ public class IOExtension extends io.github.jwharm.javagi.ResourceBase {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GIOExtension";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static IOExtension allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        IOExtension newInstance = new IOExtension(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public IOExtension(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -37,11 +49,12 @@ public class IOExtension extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -51,7 +64,8 @@ public class IOExtension extends io.github.jwharm.javagi.ResourceBase {
     public int getPriority() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_extension_get_priority.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_io_extension_get_priority.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,7 +79,8 @@ public class IOExtension extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Type getType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_io_extension_get_type.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_io_extension_get_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +95,8 @@ public class IOExtension extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gobject.TypeClass refClass() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_ref_class.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_ref_class.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

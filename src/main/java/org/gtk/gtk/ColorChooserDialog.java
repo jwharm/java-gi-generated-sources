@@ -25,29 +25,42 @@ public class ColorChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gt
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkColorChooserDialog";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ColorChooserDialog(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ColorChooserDialog */
+    /**
+     * Cast object to ColorChooserDialog if its GType is a (or inherits from) "GtkColorChooserDialog".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ColorChooserDialog" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkColorChooserDialog", a ClassCastException will be thrown.
+     */
     public static ColorChooserDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new ColorChooserDialog(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkColorChooserDialog"))) {
+            return new ColorChooserDialog(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkColorChooserDialog");
+        }
     }
     
     private static Refcounted constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {
-        java.util.Objects.requireNonNullElse(title, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_color_chooser_dialog_new.invokeExact(Interop.allocateNativeString(title), parent.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_color_chooser_dialog_new.invokeExact(
+                    (Addressable) (title == null ? MemoryAddress.NULL : Interop.allocateNativeString(title)),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle())), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

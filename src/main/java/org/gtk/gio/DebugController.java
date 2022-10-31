@@ -26,13 +26,29 @@ import org.jetbrains.annotations.*;
 public interface DebugController extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to DebugController if its GType is a (or inherits from) "GDebugController".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DebugController" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GDebugController", a ClassCastException will be thrown.
+     */
+    public static DebugController castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDebugController"))) {
+            return new DebugControllerImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDebugController");
+        }
+    }
+    
+    /**
      * Get the value of {@link DebugController}:debug-enabled.
      * @return {@code true} if debug output should be exposed, {@code false} otherwise
      */
     default boolean getDebugEnabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_debug_controller_get_debug_enabled.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_debug_controller_get_debug_enabled.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -45,7 +61,9 @@ public interface DebugController extends io.github.jwharm.javagi.Proxy {
      */
     default void setDebugEnabled(boolean debugEnabled) {
         try {
-            DowncallHandles.g_debug_controller_set_debug_enabled.invokeExact(handle(), debugEnabled ? 1 : 0);
+            DowncallHandles.g_debug_controller_set_debug_enabled.invokeExact(
+                    handle(),
+                    debugEnabled ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

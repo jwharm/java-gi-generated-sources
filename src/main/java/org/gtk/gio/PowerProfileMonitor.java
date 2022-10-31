@@ -35,6 +35,21 @@ import org.jetbrains.annotations.*;
 public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to PowerProfileMonitor if its GType is a (or inherits from) "GPowerProfileMonitor".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "PowerProfileMonitor" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GPowerProfileMonitor", a ClassCastException will be thrown.
+     */
+    public static PowerProfileMonitor castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GPowerProfileMonitor"))) {
+            return new PowerProfileMonitorImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GPowerProfileMonitor");
+        }
+    }
+    
+    /**
      * Gets whether the system is in “Power Saver” mode.
      * <p>
      * You are expected to listen to the
@@ -45,7 +60,8 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
     default boolean getPowerSaverEnabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_power_profile_monitor_get_power_saver_enabled.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_power_profile_monitor_get_power_saver_enabled.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

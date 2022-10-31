@@ -15,21 +15,34 @@ public class ViewStackPage extends org.gtk.gobject.Object {
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwViewStackPage";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ViewStackPage(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ViewStackPage */
+    /**
+     * Cast object to ViewStackPage if its GType is a (or inherits from) "AdwViewStackPage".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ViewStackPage" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwViewStackPage", a ClassCastException will be thrown.
+     */
     public static ViewStackPage castFrom(org.gtk.gobject.Object gobject) {
-        return new ViewStackPage(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwViewStackPage"))) {
+            return new ViewStackPage(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwViewStackPage");
+        }
     }
     
     /**
@@ -39,7 +52,8 @@ public class ViewStackPage extends org.gtk.gobject.Object {
     public int getBadgeNumber() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_view_stack_page_get_badge_number.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_view_stack_page_get_badge_number.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -53,7 +67,8 @@ public class ViewStackPage extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_page_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_page_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,11 +82,12 @@ public class ViewStackPage extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_page_get_icon_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_page_get_icon_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -81,21 +97,23 @@ public class ViewStackPage extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_page_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_page_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
-     * Gets whether the page is marked as “needs attention”.
+     * Gets whether the page requires the user attention.
      * @return whether the page needs attention
      */
     public boolean getNeedsAttention() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_view_stack_page_get_needs_attention.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_view_stack_page_get_needs_attention.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,11 +127,12 @@ public class ViewStackPage extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_page_get_title.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_page_get_title.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -123,7 +142,8 @@ public class ViewStackPage extends org.gtk.gobject.Object {
     public boolean getUseUnderline() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_view_stack_page_get_use_underline.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_view_stack_page_get_use_underline.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,7 +160,8 @@ public class ViewStackPage extends org.gtk.gobject.Object {
     public boolean getVisible() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_view_stack_page_get_visible.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_view_stack_page_get_visible.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,11 +170,18 @@ public class ViewStackPage extends org.gtk.gobject.Object {
     
     /**
      * Sets the badge number for this page.
+     * <p>
+     * {@link ViewSwitcher} can display it as a badge next to the page icon. It is
+     * commonly used to display a number of unread items within the page.
+     * <p>
+     * It can be used together with {@code ViewStack{age}:needs-attention}.
      * @param badgeNumber the new value to set
      */
     public void setBadgeNumber(int badgeNumber) {
         try {
-            DowncallHandles.adw_view_stack_page_set_badge_number.invokeExact(handle(), badgeNumber);
+            DowncallHandles.adw_view_stack_page_set_badge_number.invokeExact(
+                    handle(),
+                    badgeNumber);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -164,9 +192,10 @@ public class ViewStackPage extends org.gtk.gobject.Object {
      * @param iconName the icon name
      */
     public void setIconName(@Nullable java.lang.String iconName) {
-        java.util.Objects.requireNonNullElse(iconName, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_view_stack_page_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName));
+            DowncallHandles.adw_view_stack_page_set_icon_name.invokeExact(
+                    handle(),
+                    (Addressable) (iconName == null ? MemoryAddress.NULL : Interop.allocateNativeString(iconName)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,21 +206,26 @@ public class ViewStackPage extends org.gtk.gobject.Object {
      * @param name the page name
      */
     public void setName(@Nullable java.lang.String name) {
-        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_view_stack_page_set_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.adw_view_stack_page_set_name.invokeExact(
+                    handle(),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     /**
-     * Sets whether the page is marked as “needs attention”.
+     * Sets whether the page requires the user attention.
+     * <p>
+     * {@link ViewSwitcher} will display it as a dot next to the page icon.
      * @param needsAttention the new value to set
      */
     public void setNeedsAttention(boolean needsAttention) {
         try {
-            DowncallHandles.adw_view_stack_page_set_needs_attention.invokeExact(handle(), needsAttention ? 1 : 0);
+            DowncallHandles.adw_view_stack_page_set_needs_attention.invokeExact(
+                    handle(),
+                    needsAttention ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,9 +236,10 @@ public class ViewStackPage extends org.gtk.gobject.Object {
      * @param title the page title
      */
     public void setTitle(@Nullable java.lang.String title) {
-        java.util.Objects.requireNonNullElse(title, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_view_stack_page_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
+            DowncallHandles.adw_view_stack_page_set_title.invokeExact(
+                    handle(),
+                    (Addressable) (title == null ? MemoryAddress.NULL : Interop.allocateNativeString(title)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -216,7 +251,9 @@ public class ViewStackPage extends org.gtk.gobject.Object {
      */
     public void setUseUnderline(boolean useUnderline) {
         try {
-            DowncallHandles.adw_view_stack_page_set_use_underline.invokeExact(handle(), useUnderline ? 1 : 0);
+            DowncallHandles.adw_view_stack_page_set_use_underline.invokeExact(
+                    handle(),
+                    useUnderline ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -224,11 +261,16 @@ public class ViewStackPage extends org.gtk.gobject.Object {
     
     /**
      * Sets whether {@code page} is visible in its {@code AdwViewStack}.
+     * <p>
+     * This is independent from the {@code Gtk.Widget:visible} property of
+     * {@code ViewStackPage:child}.
      * @param visible whether {@code self} is visible
      */
     public void setVisible(boolean visible) {
         try {
-            DowncallHandles.adw_view_stack_page_set_visible.invokeExact(handle(), visible ? 1 : 0);
+            DowncallHandles.adw_view_stack_page_set_visible.invokeExact(
+                    handle(),
+                    visible ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -14,31 +14,45 @@ public class LeafletPage extends org.gtk.gobject.Object {
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwLeafletPage";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public LeafletPage(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to LeafletPage */
+    /**
+     * Cast object to LeafletPage if its GType is a (or inherits from) "AdwLeafletPage".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "LeafletPage" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwLeafletPage", a ClassCastException will be thrown.
+     */
     public static LeafletPage castFrom(org.gtk.gobject.Object gobject) {
-        return new LeafletPage(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwLeafletPage"))) {
+            return new LeafletPage(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwLeafletPage");
+        }
     }
     
     /**
-     * Gets the leaflet child th which {@code self} belongs.
+     * Gets the leaflet child to which {@code self} belongs.
      * @return the child to which {@code self} belongs
      */
     public @NotNull org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_leaflet_page_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_leaflet_page_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -52,11 +66,12 @@ public class LeafletPage extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_leaflet_page_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_leaflet_page_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -66,7 +81,8 @@ public class LeafletPage extends org.gtk.gobject.Object {
     public boolean getNavigatable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_leaflet_page_get_navigatable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_leaflet_page_get_navigatable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -78,9 +94,10 @@ public class LeafletPage extends org.gtk.gobject.Object {
      * @param name the new value to set
      */
     public void setName(@Nullable java.lang.String name) {
-        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_leaflet_page_set_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.adw_leaflet_page_set_name.invokeExact(
+                    handle(),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,11 +105,18 @@ public class LeafletPage extends org.gtk.gobject.Object {
     
     /**
      * Sets whether {@code self} can be navigated to when folded.
+     * <p>
+     * If {@code FALSE}, the child will be ignored by {@code Leaflet#getAdjacentChild},
+     * {@code Leaflet#navigate}, and swipe gestures.
+     * <p>
+     * This can be used used to prevent switching to widgets like separators.
      * @param navigatable whether {@code self} can be navigated to when folded
      */
     public void setNavigatable(boolean navigatable) {
         try {
-            DowncallHandles.adw_leaflet_page_set_navigatable.invokeExact(handle(), navigatable ? 1 : 0);
+            DowncallHandles.adw_leaflet_page_set_navigatable.invokeExact(
+                    handle(),
+                    navigatable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -16,28 +16,42 @@ public class BytesIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ico
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GBytesIcon";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public BytesIcon(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to BytesIcon */
+    /**
+     * Cast object to BytesIcon if its GType is a (or inherits from) "GBytesIcon".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "BytesIcon" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GBytesIcon", a ClassCastException will be thrown.
+     */
     public static BytesIcon castFrom(org.gtk.gobject.Object gobject) {
-        return new BytesIcon(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GBytesIcon"))) {
+            return new BytesIcon(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GBytesIcon");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.glib.Bytes bytes) {
         java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_bytes_icon_new.invokeExact(bytes.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_bytes_icon_new.invokeExact(
+                    bytes.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -62,7 +76,8 @@ public class BytesIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ico
     public @NotNull org.gtk.glib.Bytes getBytes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bytes_icon_get_bytes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_bytes_icon_get_bytes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

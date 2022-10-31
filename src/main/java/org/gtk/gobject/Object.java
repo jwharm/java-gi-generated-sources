@@ -25,27 +25,50 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GObject";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.TypeInstance.getMemoryLayout().withName("g_type_instance"),
         ValueLayout.JAVA_INT.withName("ref_count"),
-        org.gtk.glib.Data.getMemoryLayout().withName("qdata")
-    ).withName("GObject");
+        MemoryLayout.paddingLayout(32),
+        Interop.valueLayout.ADDRESS.withName("qdata")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code g_type_instance}
+     * @return The value of the field {@code g_type_instance}
+     */
+    public org.gtk.gobject.TypeInstance g_type_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_type_instance"));
+        return new org.gtk.gobject.TypeInstance(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Object(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Object */
+    /**
+     * Cast object to Object if its GType is a (or inherits from) "GObject".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Object" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GObject", a ClassCastException will be thrown.
+     */
     public static Object castFrom(org.gtk.gobject.Object gobject) {
-        return new Object(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GObject"))) {
+            return new Object(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GObject");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.glib.Type objectType, @NotNull java.lang.String firstPropertyName) {
@@ -93,7 +116,10 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_object_new_valist.invokeExact(objectType.getValue(), Interop.allocateNativeString(firstPropertyName), varArgs), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_object_new_valist.invokeExact(
+                    objectType.getValue().longValue(),
+                    Interop.allocateNativeString(firstPropertyName),
+                    varArgs), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,7 +147,11 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_object_new_with_properties.invokeExact(objectType.getValue(), nProperties, Interop.allocateNativeArray(names, false), Interop.allocateNativeArray(values, false)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_object_new_with_properties.invokeExact(
+                    objectType.getValue().longValue(),
+                    nProperties,
+                    Interop.allocateNativeArray(names, false),
+                    Interop.allocateNativeArray(values, false)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,7 +181,10 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(parameters, "Parameter 'parameters' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_object_newv.invokeExact(objectType.getValue(), nParameters, Interop.allocateNativeArray(parameters, false)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_object_newv.invokeExact(
+                    objectType.getValue().longValue(),
+                    nParameters,
+                    Interop.allocateNativeArray(parameters, false)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -212,13 +245,14 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public void addToggleRef(@NotNull org.gtk.gobject.ToggleNotify notify) {
         java.util.Objects.requireNonNull(notify, "Parameter 'notify' must not be null");
         try {
-            DowncallHandles.g_object_add_toggle_ref.invokeExact(handle(), 
+            DowncallHandles.g_object_add_toggle_ref.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbToggleNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(notify)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(notify)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -241,7 +275,9 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(weakPointerLocation, "Parameter 'weakPointerLocation' must not be null");
         MemorySegment weakPointerLocationPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.g_object_add_weak_pointer.invokeExact(handle(), (Addressable) weakPointerLocationPOINTER.address());
+            DowncallHandles.g_object_add_weak_pointer.invokeExact(
+                    handle(),
+                    (Addressable) weakPointerLocationPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -294,7 +330,12 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_object_bind_property.invokeExact(handle(), Interop.allocateNativeString(sourceProperty), target.handle(), Interop.allocateNativeString(targetProperty), flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_object_bind_property.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(sourceProperty),
+                    target.handle(),
+                    Interop.allocateNativeString(targetProperty),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -344,22 +385,25 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
         java.util.Objects.requireNonNull(targetProperty, "Parameter 'targetProperty' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNullElse(transformTo, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(transformFrom, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_object_bind_property_full.invokeExact(handle(), Interop.allocateNativeString(sourceProperty), target.handle(), Interop.allocateNativeString(targetProperty), flags.getValue(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            RESULT = (MemoryAddress) DowncallHandles.g_object_bind_property_full.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(sourceProperty),
+                    target.handle(),
+                    Interop.allocateNativeString(targetProperty),
+                    flags.getValue(),
+                    (Addressable) (transformTo == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbBindingTransformFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+                        Interop.getScope())),
+                    (Addressable) (transformFrom == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbBindingTransformFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (transformTo == null ? MemoryAddress.NULL : Interop.registerCallback(transformTo)), 
+                        Interop.getScope())),
+                    (Addressable) (transformTo == null ? MemoryAddress.NULL : Interop.registerCallback(transformTo)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -396,7 +440,14 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(transformFrom, "Parameter 'transformFrom' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_object_bind_property_with_closures.invokeExact(handle(), Interop.allocateNativeString(sourceProperty), target.handle(), Interop.allocateNativeString(targetProperty), flags.getValue(), transformTo.handle(), transformFrom.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_object_bind_property_with_closures.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(sourceProperty),
+                    target.handle(),
+                    Interop.allocateNativeString(targetProperty),
+                    flags.getValue(),
+                    transformTo.handle(),
+                    transformFrom.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -472,16 +523,17 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public @Nullable java.lang.foreign.MemoryAddress dupData(@NotNull java.lang.String key, @Nullable org.gtk.glib.DuplicateFunc dupFunc) {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNullElse(dupFunc, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_object_dup_data.invokeExact(handle(), Interop.allocateNativeString(key), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            RESULT = (MemoryAddress) DowncallHandles.g_object_dup_data.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    (Addressable) (dupFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbDuplicateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (dupFunc == null ? MemoryAddress.NULL : Interop.registerCallback(dupFunc)));
+                        Interop.getScope())),
+                    (Addressable) (dupFunc == null ? MemoryAddress.NULL : Interop.registerCallback(dupFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -512,16 +564,17 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public @Nullable java.lang.foreign.MemoryAddress dupQdata(@NotNull org.gtk.glib.Quark quark, @Nullable org.gtk.glib.DuplicateFunc dupFunc) {
         java.util.Objects.requireNonNull(quark, "Parameter 'quark' must not be null");
-        java.util.Objects.requireNonNullElse(dupFunc, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_object_dup_qdata.invokeExact(handle(), quark.getValue(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            RESULT = (MemoryAddress) DowncallHandles.g_object_dup_qdata.invokeExact(
+                    handle(),
+                    quark.getValue().intValue(),
+                    (Addressable) (dupFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbDuplicateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (dupFunc == null ? MemoryAddress.NULL : Interop.registerCallback(dupFunc)));
+                        Interop.getScope())),
+                    (Addressable) (dupFunc == null ? MemoryAddress.NULL : Interop.registerCallback(dupFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -536,7 +589,8 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public void forceFloating() {
         try {
-            DowncallHandles.g_object_force_floating.invokeExact(handle());
+            DowncallHandles.g_object_force_floating.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -555,7 +609,8 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public void freezeNotify() {
         try {
-            DowncallHandles.g_object_freeze_notify.invokeExact(handle());
+            DowncallHandles.g_object_freeze_notify.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -604,7 +659,9 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_object_get_data.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (MemoryAddress) DowncallHandles.g_object_get_data.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -636,7 +693,10 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(propertyName, "Parameter 'propertyName' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.g_object_get_property.invokeExact(handle(), Interop.allocateNativeString(propertyName), value.handle());
+            DowncallHandles.g_object_get_property.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(propertyName),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -652,7 +712,9 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(quark, "Parameter 'quark' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_object_get_qdata.invokeExact(handle(), quark.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_object_get_qdata.invokeExact(
+                    handle(),
+                    quark.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -675,7 +737,10 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(firstPropertyName, "Parameter 'firstPropertyName' must not be null");
         java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
         try {
-            DowncallHandles.g_object_get_valist.invokeExact(handle(), Interop.allocateNativeString(firstPropertyName), varArgs);
+            DowncallHandles.g_object_get_valist.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(firstPropertyName),
+                    varArgs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -694,7 +759,11 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(names, "Parameter 'names' must not be null");
         java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
         try {
-            DowncallHandles.g_object_getv.invokeExact(handle(), nProperties, Interop.allocateNativeArray(names, false), Interop.allocateNativeArray(values, false));
+            DowncallHandles.g_object_getv.invokeExact(
+                    handle(),
+                    nProperties,
+                    Interop.allocateNativeArray(names, false),
+                    Interop.allocateNativeArray(values, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -707,7 +776,8 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public boolean isFloating() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_object_is_floating.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_object_is_floating.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -730,7 +800,9 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public void notify(@NotNull java.lang.String propertyName) {
         java.util.Objects.requireNonNull(propertyName, "Parameter 'propertyName' must not be null");
         try {
-            DowncallHandles.g_object_notify.invokeExact(handle(), Interop.allocateNativeString(propertyName));
+            DowncallHandles.g_object_notify.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(propertyName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -778,7 +850,9 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public void notifyByPspec(@NotNull org.gtk.gobject.ParamSpec pspec) {
         java.util.Objects.requireNonNull(pspec, "Parameter 'pspec' must not be null");
         try {
-            DowncallHandles.g_object_notify_by_pspec.invokeExact(handle(), pspec.handle());
+            DowncallHandles.g_object_notify_by_pspec.invokeExact(
+                    handle(),
+                    pspec.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -796,7 +870,8 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gobject.Object ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_object_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_object_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -820,7 +895,8 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gobject.Object refSink() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_object_ref_sink.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_object_ref_sink.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -837,13 +913,14 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public void removeToggleRef(@NotNull org.gtk.gobject.ToggleNotify notify) {
         java.util.Objects.requireNonNull(notify, "Parameter 'notify' must not be null");
         try {
-            DowncallHandles.g_object_remove_toggle_ref.invokeExact(handle(), 
+            DowncallHandles.g_object_remove_toggle_ref.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbToggleNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(notify)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(notify)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -860,7 +937,9 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(weakPointerLocation, "Parameter 'weakPointerLocation' must not be null");
         MemorySegment weakPointerLocationPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.g_object_remove_weak_pointer.invokeExact(handle(), (Addressable) weakPointerLocationPOINTER.address());
+            DowncallHandles.g_object_remove_weak_pointer.invokeExact(
+                    handle(),
+                    (Addressable) weakPointerLocationPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -930,7 +1009,8 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public void runDispose() {
         try {
-            DowncallHandles.g_object_run_dispose.invokeExact(handle());
+            DowncallHandles.g_object_run_dispose.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -970,7 +1050,10 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public void setData(@NotNull java.lang.String key, @Nullable java.lang.foreign.MemoryAddress data) {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         try {
-            DowncallHandles.g_object_set_data.invokeExact(handle(), Interop.allocateNativeString(key), data);
+            DowncallHandles.g_object_set_data.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -989,7 +1072,10 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public void setDataFull(@NotNull java.lang.String key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.gtk.glib.DestroyNotify destroy) {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         try {
-            DowncallHandles.g_object_set_data_full.invokeExact(handle(), Interop.allocateNativeString(key), data, 
+            DowncallHandles.g_object_set_data_full.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    data,
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1005,7 +1091,10 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(propertyName, "Parameter 'propertyName' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.g_object_set_property.invokeExact(handle(), Interop.allocateNativeString(propertyName), value.handle());
+            DowncallHandles.g_object_set_property.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(propertyName),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1026,7 +1115,10 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public void setQdata(@NotNull org.gtk.glib.Quark quark, @Nullable java.lang.foreign.MemoryAddress data) {
         java.util.Objects.requireNonNull(quark, "Parameter 'quark' must not be null");
         try {
-            DowncallHandles.g_object_set_qdata.invokeExact(handle(), quark.getValue(), data);
+            DowncallHandles.g_object_set_qdata.invokeExact(
+                    handle(),
+                    quark.getValue().intValue(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1046,7 +1138,10 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public void setQdataFull(@NotNull org.gtk.glib.Quark quark, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.gtk.glib.DestroyNotify destroy) {
         java.util.Objects.requireNonNull(quark, "Parameter 'quark' must not be null");
         try {
-            DowncallHandles.g_object_set_qdata_full.invokeExact(handle(), quark.getValue(), data, 
+            DowncallHandles.g_object_set_qdata_full.invokeExact(
+                    handle(),
+                    quark.getValue().intValue(),
+                    data,
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1063,7 +1158,10 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(firstPropertyName, "Parameter 'firstPropertyName' must not be null");
         java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
         try {
-            DowncallHandles.g_object_set_valist.invokeExact(handle(), Interop.allocateNativeString(firstPropertyName), varArgs);
+            DowncallHandles.g_object_set_valist.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(firstPropertyName),
+                    varArgs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1082,7 +1180,11 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(names, "Parameter 'names' must not be null");
         java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
         try {
-            DowncallHandles.g_object_setv.invokeExact(handle(), nProperties, Interop.allocateNativeArray(names, false), Interop.allocateNativeArray(values, false));
+            DowncallHandles.g_object_setv.invokeExact(
+                    handle(),
+                    nProperties,
+                    Interop.allocateNativeArray(names, false),
+                    Interop.allocateNativeArray(values, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1099,7 +1201,9 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_object_steal_data.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (MemoryAddress) DowncallHandles.g_object_steal_data.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1149,7 +1253,9 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(quark, "Parameter 'quark' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_object_steal_qdata.invokeExact(handle(), quark.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_object_steal_qdata.invokeExact(
+                    handle(),
+                    quark.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1197,7 +1303,8 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gobject.Object takeRef() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_object_take_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_object_take_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1217,7 +1324,8 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public void thawNotify() {
         try {
-            DowncallHandles.g_object_thaw_notify.invokeExact(handle());
+            DowncallHandles.g_object_thaw_notify.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1234,7 +1342,8 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_object_unref.invokeExact(handle());
+            DowncallHandles.g_object_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1255,7 +1364,9 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public void watchClosure(@NotNull org.gtk.gobject.Closure closure) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         try {
-            DowncallHandles.g_object_watch_closure.invokeExact(handle(), closure.handle());
+            DowncallHandles.g_object_watch_closure.invokeExact(
+                    handle(),
+                    closure.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1277,13 +1388,14 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public void weakRef(@NotNull org.gtk.gobject.WeakNotify notify) {
         java.util.Objects.requireNonNull(notify, "Parameter 'notify' must not be null");
         try {
-            DowncallHandles.g_object_weak_ref.invokeExact(handle(), 
+            DowncallHandles.g_object_weak_ref.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbWeakNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(notify)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(notify)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1296,13 +1408,14 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public void weakUnref(@NotNull org.gtk.gobject.WeakNotify notify) {
         java.util.Objects.requireNonNull(notify, "Parameter 'notify' must not be null");
         try {
-            DowncallHandles.g_object_weak_unref.invokeExact(handle(), 
+            DowncallHandles.g_object_weak_unref.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbWeakNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(notify)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(notify)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1311,7 +1424,9 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public static long compatControl(long what, @Nullable java.lang.foreign.MemoryAddress data) {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_object_compat_control.invokeExact(what, data);
+            RESULT = (long) DowncallHandles.g_object_compat_control.invokeExact(
+                    what,
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1336,7 +1451,9 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(propertyName, "Parameter 'propertyName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_object_interface_find_property.invokeExact(gIface.handle(), Interop.allocateNativeString(propertyName));
+            RESULT = (MemoryAddress) DowncallHandles.g_object_interface_find_property.invokeExact(
+                    gIface.handle(),
+                    Interop.allocateNativeString(propertyName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1369,7 +1486,9 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(gIface, "Parameter 'gIface' must not be null");
         java.util.Objects.requireNonNull(pspec, "Parameter 'pspec' must not be null");
         try {
-            DowncallHandles.g_object_interface_install_property.invokeExact(gIface.handle(), pspec.handle());
+            DowncallHandles.g_object_interface_install_property.invokeExact(
+                    gIface.handle(),
+                    pspec.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1395,7 +1514,9 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment nPropertiesPPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_object_interface_list_properties.invokeExact(gIface.handle(), (Addressable) nPropertiesPPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_object_interface_list_properties.invokeExact(
+                    gIface.handle(),
+                    (Addressable) nPropertiesPPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

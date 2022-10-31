@@ -15,19 +15,73 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GFileAttributeInfoList";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gio.FileAttributeInfo.getMemoryLayout().withName("infos"),
+        Interop.valueLayout.ADDRESS.withName("infos"),
         ValueLayout.JAVA_INT.withName("n_infos")
-    ).withName("GFileAttributeInfoList");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static FileAttributeInfoList allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        FileAttributeInfoList newInstance = new FileAttributeInfoList(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code infos}
+     * @return The value of the field {@code infos}
+     */
+    public org.gtk.gio.FileAttributeInfo infos$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("infos"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.gio.FileAttributeInfo(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Change the value of the field {@code infos}
+     * @param infos The new value of the field {@code infos}
+     */
+    public void infos$set(org.gtk.gio.FileAttributeInfo infos) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("infos"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), infos.handle());
+    }
+    
+    /**
+     * Get the value of the field {@code n_infos}
+     * @return The value of the field {@code n_infos}
+     */
+    public int n_infos$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("n_infos"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code n_infos}
+     * @param n_infos The new value of the field {@code n_infos}
+     */
+    public void n_infos$set(int n_infos) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("n_infos"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_infos);
+    }
+    
+    @ApiStatus.Internal
     public FileAttributeInfoList(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -61,7 +115,11 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            DowncallHandles.g_file_attribute_info_list_add.invokeExact(handle(), Interop.allocateNativeString(name), type.getValue(), flags.getValue());
+            DowncallHandles.g_file_attribute_info_list_add.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name),
+                    type.getValue(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,7 +132,8 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
     public @NotNull org.gtk.gio.FileAttributeInfoList dup() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_info_list_dup.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_info_list_dup.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,7 +150,9 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_info_list_lookup.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_info_list_lookup.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,7 +166,8 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
     public @NotNull org.gtk.gio.FileAttributeInfoList ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_info_list_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_info_list_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,7 +180,8 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
      */
     public void unref() {
         try {
-            DowncallHandles.g_file_attribute_info_list_unref.invokeExact(handle());
+            DowncallHandles.g_file_attribute_info_list_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

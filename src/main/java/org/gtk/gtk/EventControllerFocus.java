@@ -22,21 +22,34 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkEventControllerFocus";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public EventControllerFocus(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to EventControllerFocus */
+    /**
+     * Cast object to EventControllerFocus if its GType is a (or inherits from) "GtkEventControllerFocus".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "EventControllerFocus" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkEventControllerFocus", a ClassCastException will be thrown.
+     */
     public static EventControllerFocus castFrom(org.gtk.gobject.Object gobject) {
-        return new EventControllerFocus(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEventControllerFocus"))) {
+            return new EventControllerFocus(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEventControllerFocus");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -63,7 +76,8 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
     public boolean containsFocus() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_event_controller_focus_contains_focus.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_event_controller_focus_contains_focus.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,7 +91,8 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
     public boolean isFocus() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_event_controller_focus_is_focus.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_event_controller_focus_is_focus.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

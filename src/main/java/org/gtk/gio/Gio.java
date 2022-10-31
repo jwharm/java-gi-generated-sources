@@ -1026,7 +1026,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_action_name_is_valid.invokeExact(Interop.allocateNativeString(actionName));
+            RESULT = (int) DowncallHandles.g_action_name_is_valid.invokeExact(
+                    Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1064,24 +1065,25 @@ public final class Gio {
      * @return {@code true} if successful, else {@code false} with {@code error} set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean actionParseDetailedName(@NotNull java.lang.String detailedName, @NotNull Out<java.lang.String> actionName, @NotNull Out<org.gtk.glib.Variant> targetValue) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean actionParseDetailedName(@NotNull java.lang.String detailedName, @NotNull Out<java.lang.String> actionName, @NotNull PointerProxy<org.gtk.glib.Variant> targetValue) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(detailedName, "Parameter 'detailedName' must not be null");
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         java.util.Objects.requireNonNull(targetValue, "Parameter 'targetValue' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment actionNamePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment targetValuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_action_parse_detailed_name.invokeExact(Interop.allocateNativeString(detailedName), (Addressable) actionNamePOINTER.address(), (Addressable) targetValuePOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_action_parse_detailed_name.invokeExact(
+                    Interop.allocateNativeString(detailedName),
+                    (Addressable) actionNamePOINTER.address(),
+                    targetValue.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        actionName.set(actionNamePOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
-        targetValue.set(new org.gtk.glib.Variant(Refcounted.get(targetValuePOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        actionName.set(Interop.getStringFrom(actionNamePOINTER.get(ValueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -1102,14 +1104,15 @@ public final class Gio {
      */
     public static @NotNull java.lang.String actionPrintDetailedName(@NotNull java.lang.String actionName, @Nullable org.gtk.glib.Variant targetValue) {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
-        java.util.Objects.requireNonNullElse(targetValue, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_action_print_detailed_name.invokeExact(Interop.allocateNativeString(actionName), targetValue.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_action_print_detailed_name.invokeExact(
+                    Interop.allocateNativeString(actionName),
+                    (Addressable) (targetValue == null ? MemoryAddress.NULL : targetValue.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -1128,12 +1131,14 @@ public final class Gio {
      */
     public static @NotNull org.gtk.gio.AppInfo appInfoCreateFromCommandline(@NotNull java.lang.String commandline, @Nullable java.lang.String applicationName, @NotNull org.gtk.gio.AppInfoCreateFlags flags) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(commandline, "Parameter 'commandline' must not be null");
-        java.util.Objects.requireNonNullElse(applicationName, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_info_create_from_commandline.invokeExact(Interop.allocateNativeString(commandline), Interop.allocateNativeString(applicationName), flags.getValue(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_create_from_commandline.invokeExact(
+                    Interop.allocateNativeString(commandline),
+                    (Addressable) (applicationName == null ? MemoryAddress.NULL : Interop.allocateNativeString(applicationName)),
+                    flags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1177,7 +1182,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_all_for_type.invokeExact(Interop.allocateNativeString(contentType));
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_all_for_type.invokeExact(
+                    Interop.allocateNativeString(contentType));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1196,7 +1202,9 @@ public final class Gio {
         java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_default_for_type.invokeExact(Interop.allocateNativeString(contentType), mustSupportUris ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_default_for_type.invokeExact(
+                    Interop.allocateNativeString(contentType),
+                    mustSupportUris ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1216,7 +1224,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(uriScheme, "Parameter 'uriScheme' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_default_for_uri_scheme.invokeExact(Interop.allocateNativeString(uriScheme));
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_default_for_uri_scheme.invokeExact(
+                    Interop.allocateNativeString(uriScheme));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1235,7 +1244,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_fallback_for_type.invokeExact(Interop.allocateNativeString(contentType));
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_fallback_for_type.invokeExact(
+                    Interop.allocateNativeString(contentType));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1257,7 +1267,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_recommended_for_type.invokeExact(Interop.allocateNativeString(contentType));
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_recommended_for_type.invokeExact(
+                    Interop.allocateNativeString(contentType));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1280,11 +1291,12 @@ public final class Gio {
      */
     public static boolean appInfoLaunchDefaultForUri(@NotNull java.lang.String uri, @Nullable org.gtk.gio.AppLaunchContext context) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNullElse(context, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_app_info_launch_default_for_uri.invokeExact(Interop.allocateNativeString(uri), context.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_app_info_launch_default_for_uri.invokeExact(
+                    Interop.allocateNativeString(uri),
+                    (Addressable) (context == null ? MemoryAddress.NULL : context.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1312,17 +1324,17 @@ public final class Gio {
      */
     public static void appInfoLaunchDefaultForUriAsync(@NotNull java.lang.String uri, @Nullable org.gtk.gio.AppLaunchContext context, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNullElse(context, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_app_info_launch_default_for_uri_async.invokeExact(Interop.allocateNativeString(uri), context.handle(), cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_app_info_launch_default_for_uri_async.invokeExact(
+                    Interop.allocateNativeString(uri),
+                    (Addressable) (context == null ? MemoryAddress.NULL : context.handle()),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1339,7 +1351,8 @@ public final class Gio {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_app_info_launch_default_for_uri_finish.invokeExact(result.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_app_info_launch_default_for_uri_finish.invokeExact(
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1360,7 +1373,8 @@ public final class Gio {
     public static void appInfoResetTypeAssociations(@NotNull java.lang.String contentType) {
         java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
         try {
-            DowncallHandles.g_app_info_reset_type_associations.invokeExact(Interop.allocateNativeString(contentType));
+            DowncallHandles.g_app_info_reset_type_associations.invokeExact(
+                    Interop.allocateNativeString(contentType));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1387,16 +1401,19 @@ public final class Gio {
     public static void asyncInitableNewvAsync(@NotNull org.gtk.glib.Type objectType, int nParameters, @NotNull org.gtk.gobject.Parameter parameters, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(objectType, "Parameter 'objectType' must not be null");
         java.util.Objects.requireNonNull(parameters, "Parameter 'parameters' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_async_initable_newv_async.invokeExact(objectType.getValue(), nParameters, parameters.handle(), ioPriority, cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_async_initable_newv_async.invokeExact(
+                    objectType.getValue().longValue(),
+                    nParameters,
+                    parameters.handle(),
+                    ioPriority,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1416,16 +1433,16 @@ public final class Gio {
      */
     public static void busGet(@NotNull org.gtk.gio.BusType busType, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(busType, "Parameter 'busType' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_bus_get.invokeExact(busType.getValue(), cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_bus_get.invokeExact(
+                    busType.getValue(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1455,7 +1472,8 @@ public final class Gio {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bus_get_finish.invokeExact(res.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_bus_get_finish.invokeExact(
+                    res.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1492,11 +1510,12 @@ public final class Gio {
      */
     public static @NotNull org.gtk.gio.DBusConnection busGetSync(@NotNull org.gtk.gio.BusType busType, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(busType, "Parameter 'busType' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bus_get_sync.invokeExact(busType.getValue(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_bus_get_sync.invokeExact(
+                    busType.getValue(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1572,28 +1591,28 @@ public final class Gio {
         java.util.Objects.requireNonNull(busType, "Parameter 'busType' must not be null");
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNullElse(busAcquiredHandler, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(nameAcquiredHandler, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(nameLostHandler, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_bus_own_name.invokeExact(busType.getValue(), Interop.allocateNativeString(name), flags.getValue(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            RESULT = (int) DowncallHandles.g_bus_own_name.invokeExact(
+                    busType.getValue(),
+                    Interop.allocateNativeString(name),
+                    flags.getValue(),
+                    (Addressable) (busAcquiredHandler == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbBusAcquiredCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+                        Interop.getScope())),
+                    (Addressable) (nameAcquiredHandler == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbBusNameAcquiredCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+                        Interop.getScope())),
+                    (Addressable) (nameLostHandler == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbBusNameLostCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (busAcquiredHandler == null ? MemoryAddress.NULL : Interop.registerCallback(busAcquiredHandler)), 
+                        Interop.getScope())),
+                    (Addressable) (busAcquiredHandler == null ? MemoryAddress.NULL : Interop.registerCallback(busAcquiredHandler)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1616,22 +1635,23 @@ public final class Gio {
         java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNullElse(nameAcquiredHandler, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(nameLostHandler, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_bus_own_name_on_connection.invokeExact(connection.handle(), Interop.allocateNativeString(name), flags.getValue(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            RESULT = (int) DowncallHandles.g_bus_own_name_on_connection.invokeExact(
+                    connection.handle(),
+                    Interop.allocateNativeString(name),
+                    flags.getValue(),
+                    (Addressable) (nameAcquiredHandler == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbBusNameAcquiredCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+                        Interop.getScope())),
+                    (Addressable) (nameLostHandler == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbBusNameLostCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (nameAcquiredHandler == null ? MemoryAddress.NULL : Interop.registerCallback(nameAcquiredHandler)), 
+                        Interop.getScope())),
+                    (Addressable) (nameAcquiredHandler == null ? MemoryAddress.NULL : Interop.registerCallback(nameAcquiredHandler)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1656,11 +1676,14 @@ public final class Gio {
         java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNullElse(nameAcquiredClosure, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(nameLostClosure, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_bus_own_name_on_connection_with_closures.invokeExact(connection.handle(), Interop.allocateNativeString(name), flags.getValue(), nameAcquiredClosure.handle(), nameLostClosure.handle());
+            RESULT = (int) DowncallHandles.g_bus_own_name_on_connection_with_closures.invokeExact(
+                    connection.handle(),
+                    Interop.allocateNativeString(name),
+                    flags.getValue(),
+                    (Addressable) (nameAcquiredClosure == null ? MemoryAddress.NULL : nameAcquiredClosure.handle()),
+                    (Addressable) (nameLostClosure == null ? MemoryAddress.NULL : nameLostClosure.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1686,12 +1709,15 @@ public final class Gio {
         java.util.Objects.requireNonNull(busType, "Parameter 'busType' must not be null");
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNullElse(busAcquiredClosure, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(nameAcquiredClosure, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(nameLostClosure, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_bus_own_name_with_closures.invokeExact(busType.getValue(), Interop.allocateNativeString(name), flags.getValue(), busAcquiredClosure.handle(), nameAcquiredClosure.handle(), nameLostClosure.handle());
+            RESULT = (int) DowncallHandles.g_bus_own_name_with_closures.invokeExact(
+                    busType.getValue(),
+                    Interop.allocateNativeString(name),
+                    flags.getValue(),
+                    (Addressable) (busAcquiredClosure == null ? MemoryAddress.NULL : busAcquiredClosure.handle()),
+                    (Addressable) (nameAcquiredClosure == null ? MemoryAddress.NULL : nameAcquiredClosure.handle()),
+                    (Addressable) (nameLostClosure == null ? MemoryAddress.NULL : nameLostClosure.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1711,7 +1737,8 @@ public final class Gio {
      */
     public static void busUnownName(int ownerId) {
         try {
-            DowncallHandles.g_bus_unown_name.invokeExact(ownerId);
+            DowncallHandles.g_bus_unown_name.invokeExact(
+                    ownerId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1730,7 +1757,8 @@ public final class Gio {
      */
     public static void busUnwatchName(int watcherId) {
         try {
-            DowncallHandles.g_bus_unwatch_name.invokeExact(watcherId);
+            DowncallHandles.g_bus_unwatch_name.invokeExact(
+                    watcherId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1778,22 +1806,23 @@ public final class Gio {
         java.util.Objects.requireNonNull(busType, "Parameter 'busType' must not be null");
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNullElse(nameAppearedHandler, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(nameVanishedHandler, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_bus_watch_name.invokeExact(busType.getValue(), Interop.allocateNativeString(name), flags.getValue(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            RESULT = (int) DowncallHandles.g_bus_watch_name.invokeExact(
+                    busType.getValue(),
+                    Interop.allocateNativeString(name),
+                    flags.getValue(),
+                    (Addressable) (nameAppearedHandler == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbBusNameAppearedCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+                        Interop.getScope())),
+                    (Addressable) (nameVanishedHandler == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbBusNameVanishedCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (nameAppearedHandler == null ? MemoryAddress.NULL : Interop.registerCallback(nameAppearedHandler)), 
+                        Interop.getScope())),
+                    (Addressable) (nameAppearedHandler == null ? MemoryAddress.NULL : Interop.registerCallback(nameAppearedHandler)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1816,22 +1845,23 @@ public final class Gio {
         java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNullElse(nameAppearedHandler, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(nameVanishedHandler, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_bus_watch_name_on_connection.invokeExact(connection.handle(), Interop.allocateNativeString(name), flags.getValue(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            RESULT = (int) DowncallHandles.g_bus_watch_name_on_connection.invokeExact(
+                    connection.handle(),
+                    Interop.allocateNativeString(name),
+                    flags.getValue(),
+                    (Addressable) (nameAppearedHandler == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbBusNameAppearedCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+                        Interop.getScope())),
+                    (Addressable) (nameVanishedHandler == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbBusNameVanishedCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (nameAppearedHandler == null ? MemoryAddress.NULL : Interop.registerCallback(nameAppearedHandler)), 
+                        Interop.getScope())),
+                    (Addressable) (nameAppearedHandler == null ? MemoryAddress.NULL : Interop.registerCallback(nameAppearedHandler)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1856,11 +1886,14 @@ public final class Gio {
         java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNullElse(nameAppearedClosure, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(nameVanishedClosure, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_bus_watch_name_on_connection_with_closures.invokeExact(connection.handle(), Interop.allocateNativeString(name), flags.getValue(), nameAppearedClosure.handle(), nameVanishedClosure.handle());
+            RESULT = (int) DowncallHandles.g_bus_watch_name_on_connection_with_closures.invokeExact(
+                    connection.handle(),
+                    Interop.allocateNativeString(name),
+                    flags.getValue(),
+                    (Addressable) (nameAppearedClosure == null ? MemoryAddress.NULL : nameAppearedClosure.handle()),
+                    (Addressable) (nameVanishedClosure == null ? MemoryAddress.NULL : nameVanishedClosure.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1884,11 +1917,14 @@ public final class Gio {
         java.util.Objects.requireNonNull(busType, "Parameter 'busType' must not be null");
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNullElse(nameAppearedClosure, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(nameVanishedClosure, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_bus_watch_name_with_closures.invokeExact(busType.getValue(), Interop.allocateNativeString(name), flags.getValue(), nameAppearedClosure.handle(), nameVanishedClosure.handle());
+            RESULT = (int) DowncallHandles.g_bus_watch_name_with_closures.invokeExact(
+                    busType.getValue(),
+                    Interop.allocateNativeString(name),
+                    flags.getValue(),
+                    (Addressable) (nameAppearedClosure == null ? MemoryAddress.NULL : nameAppearedClosure.handle()),
+                    (Addressable) (nameVanishedClosure == null ? MemoryAddress.NULL : nameVanishedClosure.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1906,7 +1942,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_content_type_can_be_executable.invokeExact(Interop.allocateNativeString(type));
+            RESULT = (int) DowncallHandles.g_content_type_can_be_executable.invokeExact(
+                    Interop.allocateNativeString(type));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1925,7 +1962,9 @@ public final class Gio {
         java.util.Objects.requireNonNull(type2, "Parameter 'type2' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_content_type_equals.invokeExact(Interop.allocateNativeString(type1), Interop.allocateNativeString(type2));
+            RESULT = (int) DowncallHandles.g_content_type_equals.invokeExact(
+                    Interop.allocateNativeString(type1),
+                    Interop.allocateNativeString(type2));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1942,11 +1981,12 @@ public final class Gio {
         java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_content_type_from_mime_type.invokeExact(Interop.allocateNativeString(mimeType));
+            RESULT = (MemoryAddress) DowncallHandles.g_content_type_from_mime_type.invokeExact(
+                    Interop.allocateNativeString(mimeType));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -1959,11 +1999,12 @@ public final class Gio {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_content_type_get_description.invokeExact(Interop.allocateNativeString(type));
+            RESULT = (MemoryAddress) DowncallHandles.g_content_type_get_description.invokeExact(
+                    Interop.allocateNativeString(type));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -1980,11 +2021,12 @@ public final class Gio {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_content_type_get_generic_icon_name.invokeExact(Interop.allocateNativeString(type));
+            RESULT = (MemoryAddress) DowncallHandles.g_content_type_get_generic_icon_name.invokeExact(
+                    Interop.allocateNativeString(type));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -1997,7 +2039,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_content_type_get_icon.invokeExact(Interop.allocateNativeString(type));
+            RESULT = (MemoryAddress) DowncallHandles.g_content_type_get_icon.invokeExact(
+                    Interop.allocateNativeString(type));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2031,11 +2074,12 @@ public final class Gio {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_content_type_get_mime_type.invokeExact(Interop.allocateNativeString(type));
+            RESULT = (MemoryAddress) DowncallHandles.g_content_type_get_mime_type.invokeExact(
+                    Interop.allocateNativeString(type));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -2048,7 +2092,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_content_type_get_symbolic_icon.invokeExact(Interop.allocateNativeString(type));
+            RESULT = (MemoryAddress) DowncallHandles.g_content_type_get_symbolic_icon.invokeExact(
+                    Interop.allocateNativeString(type));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2069,18 +2114,20 @@ public final class Gio {
      *     given data. Free with g_free()
      */
     public static @NotNull java.lang.String contentTypeGuess(@Nullable java.lang.String filename, byte[] data, long dataSize, Out<Boolean> resultUncertain) {
-        java.util.Objects.requireNonNullElse(filename, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(data, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(resultUncertain, "Parameter 'resultUncertain' must not be null");
         MemorySegment resultUncertainPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_content_type_guess.invokeExact(Interop.allocateNativeString(filename), Interop.allocateNativeArray(data, false), dataSize, (Addressable) resultUncertainPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_content_type_guess.invokeExact(
+                    (Addressable) (filename == null ? MemoryAddress.NULL : Interop.allocateNativeString(filename)),
+                    (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)),
+                    dataSize,
+                    (Addressable) resultUncertainPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         resultUncertain.set(resultUncertainPOINTER.get(ValueLayout.JAVA_INT, 0) != 0);
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -2104,7 +2151,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(root, "Parameter 'root' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_content_type_guess_for_tree.invokeExact(root.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_content_type_guess_for_tree.invokeExact(
+                    root.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2123,7 +2171,9 @@ public final class Gio {
         java.util.Objects.requireNonNull(supertype, "Parameter 'supertype' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_content_type_is_a.invokeExact(Interop.allocateNativeString(type), Interop.allocateNativeString(supertype));
+            RESULT = (int) DowncallHandles.g_content_type_is_a.invokeExact(
+                    Interop.allocateNativeString(type),
+                    Interop.allocateNativeString(supertype));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2143,7 +2193,9 @@ public final class Gio {
         java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_content_type_is_mime_type.invokeExact(Interop.allocateNativeString(type), Interop.allocateNativeString(mimeType));
+            RESULT = (int) DowncallHandles.g_content_type_is_mime_type.invokeExact(
+                    Interop.allocateNativeString(type),
+                    Interop.allocateNativeString(mimeType));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2162,7 +2214,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_content_type_is_unknown.invokeExact(Interop.allocateNativeString(type));
+            RESULT = (int) DowncallHandles.g_content_type_is_unknown.invokeExact(
+                    Interop.allocateNativeString(type));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2198,9 +2251,9 @@ public final class Gio {
      *    and with the first directory to try listed first
      */
     public static void contentTypeSetMimeDirs(java.lang.String[] dirs) {
-        java.util.Objects.requireNonNullElse(dirs, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_content_type_set_mime_dirs.invokeExact(Interop.allocateNativeArray(dirs, false));
+            DowncallHandles.g_content_type_set_mime_dirs.invokeExact(
+                    (Addressable) (dirs == null ? MemoryAddress.NULL : Interop.allocateNativeArray(dirs, false)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2240,11 +2293,12 @@ public final class Gio {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_address_escape_value.invokeExact(Interop.allocateNativeString(string));
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_address_escape_value.invokeExact(
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -2262,18 +2316,19 @@ public final class Gio {
      */
     public static @NotNull java.lang.String dbusAddressGetForBusSync(@NotNull org.gtk.gio.BusType busType, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(busType, "Parameter 'busType' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_address_get_for_bus_sync.invokeExact(busType.getValue(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_address_get_for_bus_sync.invokeExact(
+                    busType.getValue(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -2294,16 +2349,16 @@ public final class Gio {
      */
     public static void dbusAddressGetStream(@NotNull java.lang.String address, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_dbus_address_get_stream.invokeExact(Interop.allocateNativeString(address), cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_dbus_address_get_stream.invokeExact(
+                    Interop.allocateNativeString(address),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2321,19 +2376,20 @@ public final class Gio {
      */
     public static @NotNull org.gtk.gio.IOStream dbusAddressGetStreamFinish(@NotNull org.gtk.gio.AsyncResult res, @Nullable Out<java.lang.String> outGuid) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        java.util.Objects.requireNonNullElse(outGuid, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment outGuidPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_address_get_stream_finish.invokeExact(res.handle(), (Addressable) outGuidPOINTER.address(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_address_get_stream_finish.invokeExact(
+                    res.handle(),
+                    (Addressable) (outGuid == null ? MemoryAddress.NULL : (Addressable) outGuidPOINTER.address()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        outGuid.set(outGuidPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        if (outGuid != null) outGuid.set(Interop.getStringFrom(outGuidPOINTER.get(ValueLayout.ADDRESS, 0)));
         return new org.gtk.gio.IOStream(Refcounted.get(RESULT, true));
     }
     
@@ -2356,20 +2412,21 @@ public final class Gio {
      */
     public static @NotNull org.gtk.gio.IOStream dbusAddressGetStreamSync(@NotNull java.lang.String address, @Nullable Out<java.lang.String> outGuid, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
-        java.util.Objects.requireNonNullElse(outGuid, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment outGuidPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_address_get_stream_sync.invokeExact(Interop.allocateNativeString(address), (Addressable) outGuidPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_address_get_stream_sync.invokeExact(
+                    Interop.allocateNativeString(address),
+                    (Addressable) (outGuid == null ? MemoryAddress.NULL : (Addressable) outGuidPOINTER.address()),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        outGuid.set(outGuidPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        if (outGuid != null) outGuid.set(Interop.getStringFrom(outGuidPOINTER.get(ValueLayout.ADDRESS, 0)));
         return new org.gtk.gio.IOStream(Refcounted.get(RESULT, true));
     }
     
@@ -2382,15 +2439,16 @@ public final class Gio {
      * @return The value or {@code null} if not found. Do not free, it is owned by {@code annotations}.
      */
     public static @Nullable java.lang.String dbusAnnotationInfoLookup(org.gtk.gio.DBusAnnotationInfo[] annotations, @NotNull java.lang.String name) {
-        java.util.Objects.requireNonNullElse(annotations, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_annotation_info_lookup.invokeExact(Interop.allocateNativeArray(annotations, false), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_annotation_info_lookup.invokeExact(
+                    (Addressable) (annotations == null ? MemoryAddress.NULL : Interop.allocateNativeArray(annotations, false)),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -2413,11 +2471,12 @@ public final class Gio {
         java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_error_encode_gerror.invokeExact(error.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_error_encode_gerror.invokeExact(
+                    error.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -2435,11 +2494,12 @@ public final class Gio {
         java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_error_get_remote_error.invokeExact(error.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_error_get_remote_error.invokeExact(
+                    error.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -2453,7 +2513,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_error_is_remote_error.invokeExact(error.handle());
+            RESULT = (int) DowncallHandles.g_dbus_error_is_remote_error.invokeExact(
+                    error.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2496,7 +2557,9 @@ public final class Gio {
         java.util.Objects.requireNonNull(dbusErrorMessage, "Parameter 'dbusErrorMessage' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_error_new_for_dbus_error.invokeExact(Interop.allocateNativeString(dbusErrorName), Interop.allocateNativeString(dbusErrorMessage));
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_error_new_for_dbus_error.invokeExact(
+                    Interop.allocateNativeString(dbusErrorName),
+                    Interop.allocateNativeString(dbusErrorMessage));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2530,7 +2593,10 @@ public final class Gio {
         java.util.Objects.requireNonNull(dbusErrorName, "Parameter 'dbusErrorName' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_error_register_error.invokeExact(errorDomain.getValue(), errorCode, Interop.allocateNativeString(dbusErrorName));
+            RESULT = (int) DowncallHandles.g_dbus_error_register_error.invokeExact(
+                    errorDomain.getValue().intValue(),
+                    errorCode,
+                    Interop.allocateNativeString(dbusErrorName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2552,7 +2618,11 @@ public final class Gio {
         java.util.Objects.requireNonNull(quarkVolatile, "Parameter 'quarkVolatile' must not be null");
         java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
         try {
-            DowncallHandles.g_dbus_error_register_error_domain.invokeExact(Interop.allocateNativeString(errorDomainQuarkName), quarkVolatile.handle(), Interop.allocateNativeArray(entries, false), numEntries);
+            DowncallHandles.g_dbus_error_register_error_domain.invokeExact(
+                    Interop.allocateNativeString(errorDomainQuarkName),
+                    quarkVolatile.handle(),
+                    Interop.allocateNativeArray(entries, false),
+                    numEntries);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2572,7 +2642,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_error_strip_remote_error.invokeExact(error.handle());
+            RESULT = (int) DowncallHandles.g_dbus_error_strip_remote_error.invokeExact(
+                    error.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2591,7 +2662,10 @@ public final class Gio {
         java.util.Objects.requireNonNull(dbusErrorName, "Parameter 'dbusErrorName' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_error_unregister_error.invokeExact(errorDomain.getValue(), errorCode, Interop.allocateNativeString(dbusErrorName));
+            RESULT = (int) DowncallHandles.g_dbus_error_unregister_error.invokeExact(
+                    errorDomain.getValue().intValue(),
+                    errorCode,
+                    Interop.allocateNativeString(dbusErrorName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2607,11 +2681,12 @@ public final class Gio {
         java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_escape_object_path.invokeExact(Interop.allocateNativeString(s));
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_escape_object_path.invokeExact(
+                    Interop.allocateNativeString(s));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -2638,11 +2713,12 @@ public final class Gio {
         java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_escape_object_path_bytestring.invokeExact(Interop.allocateNativeArray(bytes, false));
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_escape_object_path_bytestring.invokeExact(
+                    Interop.allocateNativeArray(bytes, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -2666,7 +2742,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -2710,7 +2786,9 @@ public final class Gio {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_gvalue_to_gvariant.invokeExact(gvalue.handle(), type.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_gvalue_to_gvariant.invokeExact(
+                    gvalue.handle(),
+                    type.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2732,16 +2810,16 @@ public final class Gio {
      * @param value A {@link org.gtk.glib.Variant}.
      * @param outGvalue Return location pointing to a zero-filled (uninitialized) {@link org.gtk.gobject.Value}.
      */
-    public static void dbusGvariantToGvalue(@NotNull org.gtk.glib.Variant value, @NotNull Out<org.gtk.gobject.Value> outGvalue) {
+    public static void dbusGvariantToGvalue(@NotNull org.gtk.glib.Variant value, @NotNull org.gtk.gobject.Value outGvalue) {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         java.util.Objects.requireNonNull(outGvalue, "Parameter 'outGvalue' must not be null");
-        MemorySegment outGvaluePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.g_dbus_gvariant_to_gvalue.invokeExact(value.handle(), (Addressable) outGvaluePOINTER.address());
+            DowncallHandles.g_dbus_gvariant_to_gvalue.invokeExact(
+                    value.handle(),
+                    outGvalue.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        outGvalue.set(new org.gtk.gobject.Value(Refcounted.get(outGvaluePOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -2758,7 +2836,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_is_address.invokeExact(Interop.allocateNativeString(string));
+            RESULT = (int) DowncallHandles.g_dbus_is_address.invokeExact(
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2778,7 +2857,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_is_error_name.invokeExact(Interop.allocateNativeString(string));
+            RESULT = (int) DowncallHandles.g_dbus_is_error_name.invokeExact(
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2797,7 +2877,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_is_guid.invokeExact(Interop.allocateNativeString(string));
+            RESULT = (int) DowncallHandles.g_dbus_is_guid.invokeExact(
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2813,7 +2894,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_is_interface_name.invokeExact(Interop.allocateNativeString(string));
+            RESULT = (int) DowncallHandles.g_dbus_is_interface_name.invokeExact(
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2829,7 +2911,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_is_member_name.invokeExact(Interop.allocateNativeString(string));
+            RESULT = (int) DowncallHandles.g_dbus_is_member_name.invokeExact(
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2845,7 +2928,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_is_name.invokeExact(Interop.allocateNativeString(string));
+            RESULT = (int) DowncallHandles.g_dbus_is_name.invokeExact(
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2867,7 +2951,8 @@ public final class Gio {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_is_supported_address.invokeExact(Interop.allocateNativeString(string), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_dbus_is_supported_address.invokeExact(
+                    Interop.allocateNativeString(string), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2886,7 +2971,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_is_unique_name.invokeExact(Interop.allocateNativeString(string));
+            RESULT = (int) DowncallHandles.g_dbus_is_unique_name.invokeExact(
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2911,7 +2997,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_unescape_object_path.invokeExact(Interop.allocateNativeString(s));
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_unescape_object_path.invokeExact(
+                    Interop.allocateNativeString(s));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2929,11 +3016,12 @@ public final class Gio {
      */
     public static @NotNull org.gtk.gio.DtlsClientConnection dtlsClientConnectionNew(@NotNull org.gtk.gio.DatagramBased baseSocket, @Nullable org.gtk.gio.SocketConnectable serverIdentity) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(baseSocket, "Parameter 'baseSocket' must not be null");
-        java.util.Objects.requireNonNullElse(serverIdentity, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dtls_client_connection_new.invokeExact(baseSocket.handle(), serverIdentity.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_dtls_client_connection_new.invokeExact(
+                    baseSocket.handle(),
+                    (Addressable) (serverIdentity == null ? MemoryAddress.NULL : serverIdentity.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2953,11 +3041,12 @@ public final class Gio {
      */
     public static @NotNull org.gtk.gio.DtlsServerConnection dtlsServerConnectionNew(@NotNull org.gtk.gio.DatagramBased baseSocket, @Nullable org.gtk.gio.TlsCertificate certificate) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(baseSocket, "Parameter 'baseSocket' must not be null");
-        java.util.Objects.requireNonNullElse(certificate, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dtls_server_connection_new.invokeExact(baseSocket.handle(), certificate.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_dtls_server_connection_new.invokeExact(
+                    baseSocket.handle(),
+                    (Addressable) (certificate == null ? MemoryAddress.NULL : certificate.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2990,7 +3079,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(arg, "Parameter 'arg' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_new_for_commandline_arg.invokeExact(Interop.allocateNativeString(arg));
+            RESULT = (MemoryAddress) DowncallHandles.g_file_new_for_commandline_arg.invokeExact(
+                    Interop.allocateNativeString(arg));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3018,7 +3108,9 @@ public final class Gio {
         java.util.Objects.requireNonNull(cwd, "Parameter 'cwd' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_new_for_commandline_arg_and_cwd.invokeExact(Interop.allocateNativeString(arg), Interop.allocateNativeString(cwd));
+            RESULT = (MemoryAddress) DowncallHandles.g_file_new_for_commandline_arg_and_cwd.invokeExact(
+                    Interop.allocateNativeString(arg),
+                    Interop.allocateNativeString(cwd));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3038,7 +3130,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_new_for_path.invokeExact(Interop.allocateNativeString(path));
+            RESULT = (MemoryAddress) DowncallHandles.g_file_new_for_path.invokeExact(
+                    Interop.allocateNativeString(path));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3058,7 +3151,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_new_for_uri.invokeExact(Interop.allocateNativeString(uri));
+            RESULT = (MemoryAddress) DowncallHandles.g_file_new_for_uri.invokeExact(
+                    Interop.allocateNativeString(uri));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3083,21 +3177,20 @@ public final class Gio {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.gio.File fileNewTmp(@Nullable java.lang.String tmpl, @NotNull Out<org.gtk.gio.FileIOStream> iostream) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(tmpl, MemoryAddress.NULL);
+    public static @NotNull org.gtk.gio.File fileNewTmp(@Nullable java.lang.String tmpl, @NotNull PointerProxy<org.gtk.gio.FileIOStream> iostream) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(iostream, "Parameter 'iostream' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment iostreamPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_new_tmp.invokeExact(Interop.allocateNativeString(tmpl), (Addressable) iostreamPOINTER.address(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_file_new_tmp.invokeExact(
+                    (Addressable) (tmpl == null ? MemoryAddress.NULL : Interop.allocateNativeString(tmpl)),
+                    iostream.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        iostream.set(new org.gtk.gio.FileIOStream(Refcounted.get(iostreamPOINTER.get(ValueLayout.ADDRESS, 0), true)));
         return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, true));
     }
     
@@ -3113,7 +3206,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(parseName, "Parameter 'parseName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_parse_name.invokeExact(Interop.allocateNativeString(parseName));
+            RESULT = (MemoryAddress) DowncallHandles.g_file_parse_name.invokeExact(
+                    Interop.allocateNativeString(parseName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3129,7 +3223,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_icon_deserialize.invokeExact(value.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_icon_deserialize.invokeExact(
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3146,7 +3241,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(icon, "Parameter 'icon' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_icon_hash.invokeExact(icon);
+            RESULT = (int) DowncallHandles.g_icon_hash.invokeExact(
+                    icon);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3170,7 +3266,8 @@ public final class Gio {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_icon_new_for_string.invokeExact(Interop.allocateNativeString(str), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_icon_new_for_string.invokeExact(
+                    Interop.allocateNativeString(str), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3198,11 +3295,14 @@ public final class Gio {
     public static @NotNull org.gtk.gobject.Object initableNewv(@NotNull org.gtk.glib.Type objectType, int nParameters, org.gtk.gobject.Parameter[] parameters, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(objectType, "Parameter 'objectType' must not be null");
         java.util.Objects.requireNonNull(parameters, "Parameter 'parameters' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_initable_newv.invokeExact(objectType.getValue(), nParameters, Interop.allocateNativeArray(parameters, false), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_initable_newv.invokeExact(
+                    objectType.getValue().longValue(),
+                    nParameters,
+                    Interop.allocateNativeArray(parameters, false),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3226,7 +3326,8 @@ public final class Gio {
     public static @NotNull org.gtk.gio.IOErrorEnum ioErrorFromErrno(int errNo) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_error_from_errno.invokeExact(errNo);
+            RESULT = (int) DowncallHandles.g_io_error_from_errno.invokeExact(
+                    errNo);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3265,7 +3366,11 @@ public final class Gio {
         java.util.Objects.requireNonNull(extensionName, "Parameter 'extensionName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_implement.invokeExact(Interop.allocateNativeString(extensionPointName), type.getValue(), Interop.allocateNativeString(extensionName), priority);
+            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_implement.invokeExact(
+                    Interop.allocateNativeString(extensionPointName),
+                    type.getValue().longValue(),
+                    Interop.allocateNativeString(extensionName),
+                    priority);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3282,7 +3387,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_lookup.invokeExact(Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_lookup.invokeExact(
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3299,7 +3405,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_register.invokeExact(Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_register.invokeExact(
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3325,7 +3432,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(dirname, "Parameter 'dirname' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_modules_load_all_in_directory.invokeExact(Interop.allocateNativeString(dirname));
+            RESULT = (MemoryAddress) DowncallHandles.g_io_modules_load_all_in_directory.invokeExact(
+                    Interop.allocateNativeString(dirname));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3353,7 +3461,9 @@ public final class Gio {
         java.util.Objects.requireNonNull(scope, "Parameter 'scope' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_modules_load_all_in_directory_with_scope.invokeExact(Interop.allocateNativeString(dirname), scope.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_io_modules_load_all_in_directory_with_scope.invokeExact(
+                    Interop.allocateNativeString(dirname),
+                    scope.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3378,7 +3488,8 @@ public final class Gio {
     public static void ioModulesScanAllInDirectory(@NotNull java.lang.String dirname) {
         java.util.Objects.requireNonNull(dirname, "Parameter 'dirname' must not be null");
         try {
-            DowncallHandles.g_io_modules_scan_all_in_directory.invokeExact(Interop.allocateNativeString(dirname));
+            DowncallHandles.g_io_modules_scan_all_in_directory.invokeExact(
+                    Interop.allocateNativeString(dirname));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3404,7 +3515,9 @@ public final class Gio {
         java.util.Objects.requireNonNull(dirname, "Parameter 'dirname' must not be null");
         java.util.Objects.requireNonNull(scope, "Parameter 'scope' must not be null");
         try {
-            DowncallHandles.g_io_modules_scan_all_in_directory_with_scope.invokeExact(Interop.allocateNativeString(dirname), scope.handle());
+            DowncallHandles.g_io_modules_scan_all_in_directory_with_scope.invokeExact(
+                    Interop.allocateNativeString(dirname),
+                    scope.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3446,16 +3559,17 @@ public final class Gio {
     @Deprecated
     public static void ioSchedulerPushJob(@NotNull org.gtk.gio.IOSchedulerJobFunc jobFunc, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable) {
         java.util.Objects.requireNonNull(jobFunc, "Parameter 'jobFunc' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         try {
             DowncallHandles.g_io_scheduler_push_job.invokeExact(
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbIOSchedulerJobFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(jobFunc)), 
-                    Interop.cbDestroyNotifySymbol(), ioPriority, cancellable.handle());
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(jobFunc)),
+                    Interop.cbDestroyNotifySymbol(),
+                    ioPriority,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3518,10 +3632,12 @@ public final class Gio {
     public static @NotNull org.gtk.gio.SettingsBackend keyfileSettingsBackendNew(@NotNull java.lang.String filename, @NotNull java.lang.String rootPath, @Nullable java.lang.String rootGroup) {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
         java.util.Objects.requireNonNull(rootPath, "Parameter 'rootPath' must not be null");
-        java.util.Objects.requireNonNullElse(rootGroup, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_keyfile_settings_backend_new.invokeExact(Interop.allocateNativeString(filename), Interop.allocateNativeString(rootPath), Interop.allocateNativeString(rootGroup));
+            RESULT = (MemoryAddress) DowncallHandles.g_keyfile_settings_backend_new.invokeExact(
+                    Interop.allocateNativeString(filename),
+                    Interop.allocateNativeString(rootPath),
+                    (Addressable) (rootGroup == null ? MemoryAddress.NULL : Interop.allocateNativeString(rootGroup)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3619,7 +3735,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(pollableStream, "Parameter 'pollableStream' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_pollable_source_new.invokeExact(pollableStream.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_pollable_source_new.invokeExact(
+                    pollableStream.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3639,11 +3756,12 @@ public final class Gio {
      */
     public static @NotNull org.gtk.glib.Source pollableSourceNewFull(@NotNull org.gtk.gobject.Object pollableStream, @Nullable org.gtk.glib.Source childSource, @Nullable org.gtk.gio.Cancellable cancellable) {
         java.util.Objects.requireNonNull(pollableStream, "Parameter 'pollableStream' must not be null");
-        java.util.Objects.requireNonNullElse(childSource, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_pollable_source_new_full.invokeExact(pollableStream.handle(), childSource.handle(), cancellable.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_pollable_source_new_full.invokeExact(
+                    pollableStream.handle(),
+                    (Addressable) (childSource == null ? MemoryAddress.NULL : childSource.handle()),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3672,11 +3790,15 @@ public final class Gio {
     public static long pollableStreamRead(@NotNull org.gtk.gio.InputStream stream, byte[] buffer, long count, boolean blocking, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_pollable_stream_read.invokeExact(stream.handle(), Interop.allocateNativeArray(buffer, false), count, blocking ? 1 : 0, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_pollable_stream_read.invokeExact(
+                    stream.handle(),
+                    Interop.allocateNativeArray(buffer, false),
+                    count,
+                    blocking ? 1 : 0,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3709,11 +3831,15 @@ public final class Gio {
     public static long pollableStreamWrite(@NotNull org.gtk.gio.OutputStream stream, byte[] buffer, long count, boolean blocking, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_pollable_stream_write.invokeExact(stream.handle(), Interop.allocateNativeArray(buffer, false), count, blocking ? 1 : 0, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_pollable_stream_write.invokeExact(
+                    stream.handle(),
+                    Interop.allocateNativeArray(buffer, false),
+                    count,
+                    blocking ? 1 : 0,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3757,12 +3883,17 @@ public final class Gio {
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_pollable_stream_write_all.invokeExact(stream.handle(), Interop.allocateNativeArray(buffer, false), count, blocking ? 1 : 0, (Addressable) bytesWrittenPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_pollable_stream_write_all.invokeExact(
+                    stream.handle(),
+                    Interop.allocateNativeArray(buffer, false),
+                    count,
+                    blocking ? 1 : 0,
+                    (Addressable) bytesWrittenPOINTER.address(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3798,7 +3929,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_proxy_get_default_for_protocol.invokeExact(Interop.allocateNativeString(protocol));
+            RESULT = (MemoryAddress) DowncallHandles.g_proxy_get_default_for_protocol.invokeExact(
+                    Interop.allocateNativeString(protocol));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3868,7 +4000,8 @@ public final class Gio {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_resource_load.invokeExact(Interop.allocateNativeString(filename), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_resource_load.invokeExact(
+                    Interop.allocateNativeString(filename), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3896,7 +4029,9 @@ public final class Gio {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_resources_enumerate_children.invokeExact(Interop.allocateNativeString(path), lookupFlags.getValue(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_resources_enumerate_children.invokeExact(
+                    Interop.allocateNativeString(path),
+                    lookupFlags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3930,7 +4065,11 @@ public final class Gio {
         MemorySegment flagsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_resources_get_info.invokeExact(Interop.allocateNativeString(path), lookupFlags.getValue(), (Addressable) sizePOINTER.address(), (Addressable) flagsPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_resources_get_info.invokeExact(
+                    Interop.allocateNativeString(path),
+                    lookupFlags.getValue(),
+                    (Addressable) sizePOINTER.address(),
+                    (Addressable) flagsPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3969,7 +4108,9 @@ public final class Gio {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_resources_lookup_data.invokeExact(Interop.allocateNativeString(path), lookupFlags.getValue(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_resources_lookup_data.invokeExact(
+                    Interop.allocateNativeString(path),
+                    lookupFlags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3997,7 +4138,9 @@ public final class Gio {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_resources_open_stream.invokeExact(Interop.allocateNativeString(path), lookupFlags.getValue(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_resources_open_stream.invokeExact(
+                    Interop.allocateNativeString(path),
+                    lookupFlags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4016,7 +4159,8 @@ public final class Gio {
     public static void resourcesRegister(@NotNull org.gtk.gio.Resource resource) {
         java.util.Objects.requireNonNull(resource, "Parameter 'resource' must not be null");
         try {
-            DowncallHandles.g_resources_register.invokeExact(resource.handle());
+            DowncallHandles.g_resources_register.invokeExact(
+                    resource.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4029,7 +4173,8 @@ public final class Gio {
     public static void resourcesUnregister(@NotNull org.gtk.gio.Resource resource) {
         java.util.Objects.requireNonNull(resource, "Parameter 'resource' must not be null");
         try {
-            DowncallHandles.g_resources_unregister.invokeExact(resource.handle());
+            DowncallHandles.g_resources_unregister.invokeExact(
+                    resource.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4088,17 +4233,17 @@ public final class Gio {
      */
     @Deprecated
     public static void simpleAsyncReportGerrorInIdle(@Nullable org.gtk.gobject.Object object, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Error error) {
-        java.util.Objects.requireNonNullElse(object, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
         try {
-            DowncallHandles.g_simple_async_report_gerror_in_idle.invokeExact(object.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_simple_async_report_gerror_in_idle.invokeExact(
+                    (Addressable) (object == null ? MemoryAddress.NULL : object.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)), error.handle());
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)),
+                    error.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4115,17 +4260,17 @@ public final class Gio {
      */
     @Deprecated
     public static void simpleAsyncReportTakeGerrorInIdle(@Nullable org.gtk.gobject.Object object, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Error error) {
-        java.util.Objects.requireNonNullElse(object, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
         try {
-            DowncallHandles.g_simple_async_report_take_gerror_in_idle.invokeExact(object.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.g_simple_async_report_take_gerror_in_idle.invokeExact(
+                    (Addressable) (object == null ? MemoryAddress.NULL : object.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)), error.handle());
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)),
+                    error.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4140,7 +4285,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(targets, "Parameter 'targets' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_srv_target_list_sort.invokeExact(targets.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_srv_target_list_sort.invokeExact(
+                    targets.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4192,11 +4338,12 @@ public final class Gio {
      */
     public static @NotNull org.gtk.gio.TlsClientConnection tlsClientConnectionNew(@NotNull org.gtk.gio.IOStream baseIoStream, @Nullable org.gtk.gio.SocketConnectable serverIdentity) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(baseIoStream, "Parameter 'baseIoStream' must not be null");
-        java.util.Objects.requireNonNullElse(serverIdentity, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_client_connection_new.invokeExact(baseIoStream.handle(), serverIdentity.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_client_connection_new.invokeExact(
+                    baseIoStream.handle(),
+                    (Addressable) (serverIdentity == null ? MemoryAddress.NULL : serverIdentity.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4235,7 +4382,8 @@ public final class Gio {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_file_database_new.invokeExact(Interop.allocateNativeString(anchors), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_file_database_new.invokeExact(
+                    Interop.allocateNativeString(anchors), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4260,11 +4408,12 @@ public final class Gio {
      */
     public static @NotNull org.gtk.gio.TlsServerConnection tlsServerConnectionNew(@NotNull org.gtk.gio.IOStream baseIoStream, @Nullable org.gtk.gio.TlsCertificate certificate) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(baseIoStream, "Parameter 'baseIoStream' must not be null");
-        java.util.Objects.requireNonNullElse(certificate, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_server_connection_new.invokeExact(baseIoStream.handle(), certificate.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_server_connection_new.invokeExact(
+                    baseIoStream.handle(),
+                    (Addressable) (certificate == null ? MemoryAddress.NULL : certificate.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4287,7 +4436,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(mountPath, "Parameter 'mountPath' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_is_mount_path_system_internal.invokeExact(Interop.allocateNativeString(mountPath));
+            RESULT = (int) DowncallHandles.g_unix_is_mount_path_system_internal.invokeExact(
+                    Interop.allocateNativeString(mountPath));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4310,7 +4460,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(devicePath, "Parameter 'devicePath' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_is_system_device_path.invokeExact(Interop.allocateNativeString(devicePath));
+            RESULT = (int) DowncallHandles.g_unix_is_system_device_path.invokeExact(
+                    Interop.allocateNativeString(devicePath));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4332,7 +4483,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(fsType, "Parameter 'fsType' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_is_system_fs_type.invokeExact(Interop.allocateNativeString(fsType));
+            RESULT = (int) DowncallHandles.g_unix_is_system_fs_type.invokeExact(
+                    Interop.allocateNativeString(fsType));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4358,7 +4510,9 @@ public final class Gio {
         MemorySegment timeReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_at.invokeExact(Interop.allocateNativeString(mountPath), (Addressable) timeReadPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_at.invokeExact(
+                    Interop.allocateNativeString(mountPath),
+                    (Addressable) timeReadPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4378,7 +4532,9 @@ public final class Gio {
         java.util.Objects.requireNonNull(mount2, "Parameter 'mount2' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_mount_compare.invokeExact(mount1.handle(), mount2.handle());
+            RESULT = (int) DowncallHandles.g_unix_mount_compare.invokeExact(
+                    mount1.handle(),
+                    mount2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4394,7 +4550,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(mountEntry, "Parameter 'mountEntry' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_copy.invokeExact(mountEntry.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_copy.invokeExact(
+                    mountEntry.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4421,7 +4578,9 @@ public final class Gio {
         MemorySegment timeReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_for.invokeExact(Interop.allocateNativeString(filePath), (Addressable) timeReadPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_for.invokeExact(
+                    Interop.allocateNativeString(filePath),
+                    (Addressable) timeReadPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4436,7 +4595,8 @@ public final class Gio {
     public static void unixMountFree(@NotNull org.gtk.gio.UnixMountEntry mountEntry) {
         java.util.Objects.requireNonNull(mountEntry, "Parameter 'mountEntry' must not be null");
         try {
-            DowncallHandles.g_unix_mount_free.invokeExact(mountEntry.handle());
+            DowncallHandles.g_unix_mount_free.invokeExact(
+                    mountEntry.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4451,11 +4611,12 @@ public final class Gio {
         java.util.Objects.requireNonNull(mountEntry, "Parameter 'mountEntry' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_get_device_path.invokeExact(mountEntry.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_get_device_path.invokeExact(
+                    mountEntry.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -4467,11 +4628,12 @@ public final class Gio {
         java.util.Objects.requireNonNull(mountEntry, "Parameter 'mountEntry' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_get_fs_type.invokeExact(mountEntry.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_get_fs_type.invokeExact(
+                    mountEntry.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -4483,11 +4645,12 @@ public final class Gio {
         java.util.Objects.requireNonNull(mountEntry, "Parameter 'mountEntry' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_get_mount_path.invokeExact(mountEntry.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_get_mount_path.invokeExact(
+                    mountEntry.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -4504,11 +4667,12 @@ public final class Gio {
         java.util.Objects.requireNonNull(mountEntry, "Parameter 'mountEntry' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_get_options.invokeExact(mountEntry.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_get_options.invokeExact(
+                    mountEntry.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -4525,11 +4689,12 @@ public final class Gio {
         java.util.Objects.requireNonNull(mountEntry, "Parameter 'mountEntry' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_get_root_path.invokeExact(mountEntry.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_get_root_path.invokeExact(
+                    mountEntry.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -4541,7 +4706,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(mountEntry, "Parameter 'mountEntry' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_mount_guess_can_eject.invokeExact(mountEntry.handle());
+            RESULT = (int) DowncallHandles.g_unix_mount_guess_can_eject.invokeExact(
+                    mountEntry.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4557,7 +4723,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(mountEntry, "Parameter 'mountEntry' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_guess_icon.invokeExact(mountEntry.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_guess_icon.invokeExact(
+                    mountEntry.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4575,11 +4742,12 @@ public final class Gio {
         java.util.Objects.requireNonNull(mountEntry, "Parameter 'mountEntry' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_guess_name.invokeExact(mountEntry.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_guess_name.invokeExact(
+                    mountEntry.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -4591,7 +4759,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(mountEntry, "Parameter 'mountEntry' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_mount_guess_should_display.invokeExact(mountEntry.handle());
+            RESULT = (int) DowncallHandles.g_unix_mount_guess_should_display.invokeExact(
+                    mountEntry.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4607,7 +4776,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(mountEntry, "Parameter 'mountEntry' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_guess_symbolic_icon.invokeExact(mountEntry.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_guess_symbolic_icon.invokeExact(
+                    mountEntry.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4623,7 +4793,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(mountEntry, "Parameter 'mountEntry' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_mount_is_readonly.invokeExact(mountEntry.handle());
+            RESULT = (int) DowncallHandles.g_unix_mount_is_readonly.invokeExact(
+                    mountEntry.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4644,7 +4815,8 @@ public final class Gio {
         java.util.Objects.requireNonNull(mountEntry, "Parameter 'mountEntry' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_mount_is_system_internal.invokeExact(mountEntry.handle());
+            RESULT = (int) DowncallHandles.g_unix_mount_is_system_internal.invokeExact(
+                    mountEntry.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4669,7 +4841,9 @@ public final class Gio {
         MemorySegment timeReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_at.invokeExact(Interop.allocateNativeString(mountPath), (Addressable) timeReadPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_at.invokeExact(
+                    Interop.allocateNativeString(mountPath),
+                    (Addressable) timeReadPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4685,7 +4859,8 @@ public final class Gio {
     public static boolean unixMountPointsChangedSince(long time) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_mount_points_changed_since.invokeExact(time);
+            RESULT = (int) DowncallHandles.g_unix_mount_points_changed_since.invokeExact(
+                    time);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4705,7 +4880,8 @@ public final class Gio {
         MemorySegment timeReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_points_get.invokeExact((Addressable) timeReadPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_points_get.invokeExact(
+                    (Addressable) timeReadPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4721,7 +4897,8 @@ public final class Gio {
     public static boolean unixMountsChangedSince(long time) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_mounts_changed_since.invokeExact(time);
+            RESULT = (int) DowncallHandles.g_unix_mounts_changed_since.invokeExact(
+                    time);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4741,7 +4918,8 @@ public final class Gio {
         MemorySegment timeReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mounts_get.invokeExact((Addressable) timeReadPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mounts_get.invokeExact(
+                    (Addressable) timeReadPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5533,13 +5711,13 @@ public final class Gio {
         public static void cbBusNameVanishedCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (BusNameVanishedCallback) Interop.signalRegistry.get(HASH);
-            HANDLER.onBusNameVanishedCallback(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), name.getUtf8String(0));
+            HANDLER.onBusNameVanishedCallback(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(name));
         }
         
         public static void cbBusNameAppearedCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress nameOwner, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (BusNameAppearedCallback) Interop.signalRegistry.get(HASH);
-            HANDLER.onBusNameAppearedCallback(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), name.getUtf8String(0), nameOwner.getUtf8String(0));
+            HANDLER.onBusNameAppearedCallback(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(name), Interop.getStringFrom(nameOwner));
         }
         
         public static void cbFileMeasureProgressCallback(int reporting, long currentSize, long numDirs, long numFiles, MemoryAddress userData) {
@@ -5567,14 +5745,14 @@ public final class Gio {
         public static org.gtk.glib.Variant cbDBusInterfaceGetPropertyFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress propertyName, MemoryAddress error, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusInterfaceGetPropertyFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onDBusInterfaceGetPropertyFunc(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), propertyName.getUtf8String(0), new PointerProxy<org.gtk.glib.Error>(error, org.gtk.glib.Error.class));
+            var RESULT = HANDLER.onDBusInterfaceGetPropertyFunc(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName), Interop.getStringFrom(propertyName), new PointerProxy<org.gtk.glib.Error>(error, org.gtk.glib.Error.class));
             return RESULT;
         }
         
         public static void cbBusAcquiredCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (BusAcquiredCallback) Interop.signalRegistry.get(HASH);
-            HANDLER.onBusAcquiredCallback(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), name.getUtf8String(0));
+            HANDLER.onBusAcquiredCallback(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(name));
         }
         
         public static org.gtk.glib.Variant cbSettingsBindSetMapping(MemoryAddress value, MemoryAddress expectedType, MemoryAddress userData) {
@@ -5601,20 +5779,20 @@ public final class Gio {
         public static boolean cbDBusInterfaceSetPropertyFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress propertyName, MemoryAddress value, MemoryAddress error, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusInterfaceSetPropertyFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onDBusInterfaceSetPropertyFunc(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), propertyName.getUtf8String(0), new org.gtk.glib.Variant(Refcounted.get(value, false)), new PointerProxy<org.gtk.glib.Error>(error, org.gtk.glib.Error.class));
+            var RESULT = HANDLER.onDBusInterfaceSetPropertyFunc(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName), Interop.getStringFrom(propertyName), new org.gtk.glib.Variant(Refcounted.get(value, false)), new PointerProxy<org.gtk.glib.Error>(error, org.gtk.glib.Error.class));
             return RESULT;
         }
         
         public static void cbBusNameLostCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (BusNameLostCallback) Interop.signalRegistry.get(HASH);
-            HANDLER.onBusNameLostCallback(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), name.getUtf8String(0));
+            HANDLER.onBusNameLostCallback(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(name));
         }
         
         public static boolean cbFileReadMoreCallback(MemoryAddress fileContents, long fileSize, MemoryAddress callbackData) {
             int HASH = callbackData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FileReadMoreCallback) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onFileReadMoreCallback(fileContents.getUtf8String(0), fileSize);
+            var RESULT = HANDLER.onFileReadMoreCallback(Interop.getStringFrom(fileContents), fileSize);
             return RESULT;
         }
         
@@ -5654,14 +5832,14 @@ public final class Gio {
         public static org.gtk.gio.DBusInterfaceVTable cbDBusSubtreeDispatchFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress node, MemoryAddress outUserData, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusSubtreeDispatchFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onDBusSubtreeDispatchFunc(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), node.getUtf8String(0), outUserData);
+            var RESULT = HANDLER.onDBusSubtreeDispatchFunc(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName), Interop.getStringFrom(node), outUserData);
             return RESULT;
         }
         
         public static void cbDBusSignalCallback(MemoryAddress connection, MemoryAddress senderName, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress signalName, MemoryAddress parameters, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusSignalCallback) Interop.signalRegistry.get(HASH);
-            HANDLER.onDBusSignalCallback(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), senderName.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), signalName.getUtf8String(0), new org.gtk.glib.Variant(Refcounted.get(parameters, false)));
+            HANDLER.onDBusSignalCallback(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(senderName), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName), Interop.getStringFrom(signalName), new org.gtk.glib.Variant(Refcounted.get(parameters, false)));
         }
         
         public static void cbFileProgressCallback(long currentNumBytes, long totalNumBytes, MemoryAddress userData) {
@@ -5673,20 +5851,20 @@ public final class Gio {
         public static org.gtk.gio.File cbVfsFileLookupFunc(MemoryAddress vfs, MemoryAddress identifier, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (VfsFileLookupFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onVfsFileLookupFunc(new org.gtk.gio.Vfs(Refcounted.get(vfs, false)), identifier.getUtf8String(0));
+            var RESULT = HANDLER.onVfsFileLookupFunc(new org.gtk.gio.Vfs(Refcounted.get(vfs, false)), Interop.getStringFrom(identifier));
             return RESULT;
         }
         
         public static void cbDBusInterfaceMethodCallFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress methodName, MemoryAddress parameters, MemoryAddress invocation, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusInterfaceMethodCallFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onDBusInterfaceMethodCallFunc(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), methodName.getUtf8String(0), new org.gtk.glib.Variant(Refcounted.get(parameters, false)), new org.gtk.gio.DBusMethodInvocation(Refcounted.get(invocation, true)));
+            HANDLER.onDBusInterfaceMethodCallFunc(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName), Interop.getStringFrom(methodName), new org.gtk.glib.Variant(Refcounted.get(parameters, false)), new org.gtk.gio.DBusMethodInvocation(Refcounted.get(invocation, true)));
         }
         
         public static void cbDBusSubtreeEnumerateFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusSubtreeEnumerateFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onDBusSubtreeEnumerateFunc(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0));
+            HANDLER.onDBusSubtreeEnumerateFunc(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath));
         }
         
         public static org.gtk.gio.DBusMessage cbDBusMessageFilterFunction(MemoryAddress connection, MemoryAddress message, int incoming, MemoryAddress userData) {
@@ -5699,13 +5877,13 @@ public final class Gio {
         public static void cbDBusSubtreeIntrospectFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress node, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusSubtreeIntrospectFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onDBusSubtreeIntrospectFunc(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), node.getUtf8String(0));
+            HANDLER.onDBusSubtreeIntrospectFunc(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath), Interop.getStringFrom(node));
         }
         
         public static org.gtk.glib.Type cbDBusProxyTypeFunc(MemoryAddress manager, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusProxyTypeFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onDBusProxyTypeFunc(new org.gtk.gio.DBusObjectManagerClient(Refcounted.get(manager, false)), objectPath.getUtf8String(0), interfaceName.getUtf8String(0));
+            var RESULT = HANDLER.onDBusProxyTypeFunc(new org.gtk.gio.DBusObjectManagerClient(Refcounted.get(manager, false)), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName));
             return RESULT;
         }
         
@@ -5718,7 +5896,7 @@ public final class Gio {
         public static void cbBusNameAcquiredCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (BusNameAcquiredCallback) Interop.signalRegistry.get(HASH);
-            HANDLER.onBusNameAcquiredCallback(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), name.getUtf8String(0));
+            HANDLER.onBusNameAcquiredCallback(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(name));
         }
         
         public static boolean cbIOSchedulerJobFunc(MemoryAddress job, MemoryAddress cancellable, MemoryAddress userData) {

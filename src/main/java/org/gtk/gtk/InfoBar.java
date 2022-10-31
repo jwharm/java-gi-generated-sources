@@ -84,21 +84,34 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkInfoBar";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public InfoBar(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to InfoBar */
+    /**
+     * Cast object to InfoBar if its GType is a (or inherits from) "GtkInfoBar".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "InfoBar" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkInfoBar", a ClassCastException will be thrown.
+     */
     public static InfoBar castFrom(org.gtk.gobject.Object gobject) {
-        return new InfoBar(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkInfoBar"))) {
+            return new InfoBar(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkInfoBar");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -151,7 +164,10 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void addActionWidget(@NotNull org.gtk.gtk.Widget child, int responseId) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_info_bar_add_action_widget.invokeExact(handle(), child.handle(), responseId);
+            DowncallHandles.gtk_info_bar_add_action_widget.invokeExact(
+                    handle(),
+                    child.handle(),
+                    responseId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -173,7 +189,10 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         java.util.Objects.requireNonNull(buttonText, "Parameter 'buttonText' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_info_bar_add_button.invokeExact(handle(), Interop.allocateNativeString(buttonText), responseId);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_info_bar_add_button.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(buttonText),
+                    responseId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -200,7 +219,9 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void addChild(@NotNull org.gtk.gtk.Widget widget) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            DowncallHandles.gtk_info_bar_add_child.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_info_bar_add_child.invokeExact(
+                    handle(),
+                    widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -213,7 +234,8 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public @NotNull org.gtk.gtk.MessageType getMessageType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_info_bar_get_message_type.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_info_bar_get_message_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -227,7 +249,8 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public boolean getRevealed() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_info_bar_get_revealed.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_info_bar_get_revealed.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -241,7 +264,8 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public boolean getShowCloseButton() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_info_bar_get_show_close_button.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_info_bar_get_show_close_button.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -258,7 +282,9 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void removeActionWidget(@NotNull org.gtk.gtk.Widget widget) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            DowncallHandles.gtk_info_bar_remove_action_widget.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_info_bar_remove_action_widget.invokeExact(
+                    handle(),
+                    widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -271,7 +297,9 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void removeChild(@NotNull org.gtk.gtk.Widget widget) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            DowncallHandles.gtk_info_bar_remove_child.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_info_bar_remove_child.invokeExact(
+                    handle(),
+                    widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -283,7 +311,9 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void response(int responseId) {
         try {
-            DowncallHandles.gtk_info_bar_response.invokeExact(handle(), responseId);
+            DowncallHandles.gtk_info_bar_response.invokeExact(
+                    handle(),
+                    responseId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -301,7 +331,9 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void setDefaultResponse(int responseId) {
         try {
-            DowncallHandles.gtk_info_bar_set_default_response.invokeExact(handle(), responseId);
+            DowncallHandles.gtk_info_bar_set_default_response.invokeExact(
+                    handle(),
+                    responseId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -316,7 +348,9 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void setMessageType(@NotNull org.gtk.gtk.MessageType messageType) {
         java.util.Objects.requireNonNull(messageType, "Parameter 'messageType' must not be null");
         try {
-            DowncallHandles.gtk_info_bar_set_message_type.invokeExact(handle(), messageType.getValue());
+            DowncallHandles.gtk_info_bar_set_message_type.invokeExact(
+                    handle(),
+                    messageType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -333,7 +367,10 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void setResponseSensitive(int responseId, boolean setting) {
         try {
-            DowncallHandles.gtk_info_bar_set_response_sensitive.invokeExact(handle(), responseId, setting ? 1 : 0);
+            DowncallHandles.gtk_info_bar_set_response_sensitive.invokeExact(
+                    handle(),
+                    responseId,
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -352,7 +389,9 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void setRevealed(boolean revealed) {
         try {
-            DowncallHandles.gtk_info_bar_set_revealed.invokeExact(handle(), revealed ? 1 : 0);
+            DowncallHandles.gtk_info_bar_set_revealed.invokeExact(
+                    handle(),
+                    revealed ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -366,7 +405,9 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void setShowCloseButton(boolean setting) {
         try {
-            DowncallHandles.gtk_info_bar_set_show_close_button.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_info_bar_set_show_close_button.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

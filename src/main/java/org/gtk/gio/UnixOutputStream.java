@@ -22,32 +22,56 @@ public class UnixOutputStream extends org.gtk.gio.OutputStream implements org.gt
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GUnixOutputStream";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.OutputStream.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.UnixOutputStreamPrivate.getMemoryLayout().withName("priv")
-    ).withName("GUnixOutputStream");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gio.OutputStream parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gio.OutputStream(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public UnixOutputStream(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to UnixOutputStream */
+    /**
+     * Cast object to UnixOutputStream if its GType is a (or inherits from) "GUnixOutputStream".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "UnixOutputStream" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GUnixOutputStream", a ClassCastException will be thrown.
+     */
     public static UnixOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new UnixOutputStream(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GUnixOutputStream"))) {
+            return new UnixOutputStream(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GUnixOutputStream");
+        }
     }
     
     private static Refcounted constructNew(int fd, boolean closeFd) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_unix_output_stream_new.invokeExact(fd, closeFd ? 1 : 0), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_unix_output_stream_new.invokeExact(
+                    fd,
+                    closeFd ? 1 : 0), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,7 +98,8 @@ public class UnixOutputStream extends org.gtk.gio.OutputStream implements org.gt
     public boolean getCloseFd() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_output_stream_get_close_fd.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_unix_output_stream_get_close_fd.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,7 +113,8 @@ public class UnixOutputStream extends org.gtk.gio.OutputStream implements org.gt
     public int getFd() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_output_stream_get_fd.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_unix_output_stream_get_fd.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,7 +128,9 @@ public class UnixOutputStream extends org.gtk.gio.OutputStream implements org.gt
      */
     public void setCloseFd(boolean closeFd) {
         try {
-            DowncallHandles.g_unix_output_stream_set_close_fd.invokeExact(handle(), closeFd ? 1 : 0);
+            DowncallHandles.g_unix_output_stream_set_close_fd.invokeExact(
+                    handle(),
+                    closeFd ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

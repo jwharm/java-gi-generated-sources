@@ -88,21 +88,34 @@ public class Binding extends org.gtk.gobject.Object {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GBinding";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Binding(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Binding */
+    /**
+     * Cast object to Binding if its GType is a (or inherits from) "GBinding".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Binding" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GBinding", a ClassCastException will be thrown.
+     */
     public static Binding castFrom(org.gtk.gobject.Object gobject) {
-        return new Binding(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GBinding"))) {
+            return new Binding(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GBinding");
+        }
     }
     
     /**
@@ -117,7 +130,8 @@ public class Binding extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gobject.Object dupSource() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_binding_dup_source.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_binding_dup_source.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,7 +150,8 @@ public class Binding extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gobject.Object dupTarget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_binding_dup_target.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_binding_dup_target.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -150,7 +165,8 @@ public class Binding extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gobject.BindingFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_binding_get_flags.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_binding_get_flags.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -176,7 +192,8 @@ public class Binding extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gobject.Object getSource() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_binding_get_source.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_binding_get_source.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -191,11 +208,12 @@ public class Binding extends org.gtk.gobject.Object {
     public @NotNull java.lang.String getSourceProperty() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_binding_get_source_property.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_binding_get_source_property.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -217,7 +235,8 @@ public class Binding extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gobject.Object getTarget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_binding_get_target.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_binding_get_target.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -232,11 +251,12 @@ public class Binding extends org.gtk.gobject.Object {
     public @NotNull java.lang.String getTargetProperty() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_binding_get_target_property.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_binding_get_target_property.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -254,7 +274,8 @@ public class Binding extends org.gtk.gobject.Object {
      */
     public void unbind() {
         try {
-            DowncallHandles.g_binding_unbind.invokeExact(handle());
+            DowncallHandles.g_binding_unbind.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -15,20 +15,95 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoColor";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_SHORT.withName("red"),
         ValueLayout.JAVA_SHORT.withName("green"),
         ValueLayout.JAVA_SHORT.withName("blue")
-    ).withName("PangoColor");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Color allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Color newInstance = new Color(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code red}
+     * @return The value of the field {@code red}
+     */
+    public short red$get() {
+        var RESULT = (short) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("red"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code red}
+     * @param red The new value of the field {@code red}
+     */
+    public void red$set(short red) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("red"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), red);
+    }
+    
+    /**
+     * Get the value of the field {@code green}
+     * @return The value of the field {@code green}
+     */
+    public short green$get() {
+        var RESULT = (short) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("green"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code green}
+     * @param green The new value of the field {@code green}
+     */
+    public void green$set(short green) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("green"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), green);
+    }
+    
+    /**
+     * Get the value of the field {@code blue}
+     * @return The value of the field {@code blue}
+     */
+    public short blue$get() {
+        var RESULT = (short) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("blue"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code blue}
+     * @param blue The new value of the field {@code blue}
+     */
+    public void blue$set(short blue) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("blue"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), blue);
+    }
+    
+    @ApiStatus.Internal
     public Color(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -46,7 +121,8 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.pango.Color copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_color_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_color_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -58,7 +134,8 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.pango_color_free.invokeExact(handle());
+            DowncallHandles.pango_color_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +159,9 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(spec, "Parameter 'spec' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_color_parse.invokeExact(handle(), Interop.allocateNativeString(spec));
+            RESULT = (int) DowncallHandles.pango_color_parse.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(spec));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,7 +195,10 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment alphaPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_SHORT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_color_parse_with_alpha.invokeExact(handle(), (Addressable) alphaPOINTER.address(), Interop.allocateNativeString(spec));
+            RESULT = (int) DowncallHandles.pango_color_parse_with_alpha.invokeExact(
+                    handle(),
+                    (Addressable) alphaPOINTER.address(),
+                    Interop.allocateNativeString(spec));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,11 +218,12 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_color_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_color_to_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     private static class DowncallHandles {

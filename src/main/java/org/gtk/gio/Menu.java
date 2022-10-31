@@ -22,21 +22,34 @@ public class Menu extends org.gtk.gio.MenuModel {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GMenu";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Menu(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Menu */
+    /**
+     * Cast object to Menu if its GType is a (or inherits from) "GMenu".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Menu" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GMenu", a ClassCastException will be thrown.
+     */
     public static Menu castFrom(org.gtk.gobject.Object gobject) {
-        return new Menu(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GMenu"))) {
+            return new Menu(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GMenu");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -66,10 +79,11 @@ public class Menu extends org.gtk.gio.MenuModel {
      * @param detailedAction the detailed action string, or {@code null}
      */
     public void append(@Nullable java.lang.String label, @Nullable java.lang.String detailedAction) {
-        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(detailedAction, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_menu_append.invokeExact(handle(), Interop.allocateNativeString(label), Interop.allocateNativeString(detailedAction));
+            DowncallHandles.g_menu_append.invokeExact(
+                    handle(),
+                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)),
+                    (Addressable) (detailedAction == null ? MemoryAddress.NULL : Interop.allocateNativeString(detailedAction)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,7 +98,9 @@ public class Menu extends org.gtk.gio.MenuModel {
     public void appendItem(@NotNull org.gtk.gio.MenuItem item) {
         java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
         try {
-            DowncallHandles.g_menu_append_item.invokeExact(handle(), item.handle());
+            DowncallHandles.g_menu_append_item.invokeExact(
+                    handle(),
+                    item.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -98,10 +114,12 @@ public class Menu extends org.gtk.gio.MenuModel {
      * @param section a {@link MenuModel} with the items of the section
      */
     public void appendSection(@Nullable java.lang.String label, @NotNull org.gtk.gio.MenuModel section) {
-        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(section, "Parameter 'section' must not be null");
         try {
-            DowncallHandles.g_menu_append_section.invokeExact(handle(), Interop.allocateNativeString(label), section.handle());
+            DowncallHandles.g_menu_append_section.invokeExact(
+                    handle(),
+                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)),
+                    section.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,10 +133,12 @@ public class Menu extends org.gtk.gio.MenuModel {
      * @param submenu a {@link MenuModel} with the items of the submenu
      */
     public void appendSubmenu(@Nullable java.lang.String label, @NotNull org.gtk.gio.MenuModel submenu) {
-        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(submenu, "Parameter 'submenu' must not be null");
         try {
-            DowncallHandles.g_menu_append_submenu.invokeExact(handle(), Interop.allocateNativeString(label), submenu.handle());
+            DowncallHandles.g_menu_append_submenu.invokeExact(
+                    handle(),
+                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)),
+                    submenu.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,7 +156,8 @@ public class Menu extends org.gtk.gio.MenuModel {
      */
     public void freeze() {
         try {
-            DowncallHandles.g_menu_freeze.invokeExact(handle());
+            DowncallHandles.g_menu_freeze.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,10 +172,12 @@ public class Menu extends org.gtk.gio.MenuModel {
      * @param detailedAction the detailed action string, or {@code null}
      */
     public void insert(int position, @Nullable java.lang.String label, @Nullable java.lang.String detailedAction) {
-        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(detailedAction, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_menu_insert.invokeExact(handle(), position, Interop.allocateNativeString(label), Interop.allocateNativeString(detailedAction));
+            DowncallHandles.g_menu_insert.invokeExact(
+                    handle(),
+                    position,
+                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)),
+                    (Addressable) (detailedAction == null ? MemoryAddress.NULL : Interop.allocateNativeString(detailedAction)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,7 +207,10 @@ public class Menu extends org.gtk.gio.MenuModel {
     public void insertItem(int position, @NotNull org.gtk.gio.MenuItem item) {
         java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
         try {
-            DowncallHandles.g_menu_insert_item.invokeExact(handle(), position, item.handle());
+            DowncallHandles.g_menu_insert_item.invokeExact(
+                    handle(),
+                    position,
+                    item.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -199,10 +225,13 @@ public class Menu extends org.gtk.gio.MenuModel {
      * @param section a {@link MenuModel} with the items of the section
      */
     public void insertSection(int position, @Nullable java.lang.String label, @NotNull org.gtk.gio.MenuModel section) {
-        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(section, "Parameter 'section' must not be null");
         try {
-            DowncallHandles.g_menu_insert_section.invokeExact(handle(), position, Interop.allocateNativeString(label), section.handle());
+            DowncallHandles.g_menu_insert_section.invokeExact(
+                    handle(),
+                    position,
+                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)),
+                    section.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -217,10 +246,13 @@ public class Menu extends org.gtk.gio.MenuModel {
      * @param submenu a {@link MenuModel} with the items of the submenu
      */
     public void insertSubmenu(int position, @Nullable java.lang.String label, @NotNull org.gtk.gio.MenuModel submenu) {
-        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(submenu, "Parameter 'submenu' must not be null");
         try {
-            DowncallHandles.g_menu_insert_submenu.invokeExact(handle(), position, Interop.allocateNativeString(label), submenu.handle());
+            DowncallHandles.g_menu_insert_submenu.invokeExact(
+                    handle(),
+                    position,
+                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)),
+                    submenu.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -234,10 +266,11 @@ public class Menu extends org.gtk.gio.MenuModel {
      * @param detailedAction the detailed action string, or {@code null}
      */
     public void prepend(@Nullable java.lang.String label, @Nullable java.lang.String detailedAction) {
-        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(detailedAction, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_menu_prepend.invokeExact(handle(), Interop.allocateNativeString(label), Interop.allocateNativeString(detailedAction));
+            DowncallHandles.g_menu_prepend.invokeExact(
+                    handle(),
+                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)),
+                    (Addressable) (detailedAction == null ? MemoryAddress.NULL : Interop.allocateNativeString(detailedAction)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -252,7 +285,9 @@ public class Menu extends org.gtk.gio.MenuModel {
     public void prependItem(@NotNull org.gtk.gio.MenuItem item) {
         java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
         try {
-            DowncallHandles.g_menu_prepend_item.invokeExact(handle(), item.handle());
+            DowncallHandles.g_menu_prepend_item.invokeExact(
+                    handle(),
+                    item.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -266,10 +301,12 @@ public class Menu extends org.gtk.gio.MenuModel {
      * @param section a {@link MenuModel} with the items of the section
      */
     public void prependSection(@Nullable java.lang.String label, @NotNull org.gtk.gio.MenuModel section) {
-        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(section, "Parameter 'section' must not be null");
         try {
-            DowncallHandles.g_menu_prepend_section.invokeExact(handle(), Interop.allocateNativeString(label), section.handle());
+            DowncallHandles.g_menu_prepend_section.invokeExact(
+                    handle(),
+                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)),
+                    section.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -283,10 +320,12 @@ public class Menu extends org.gtk.gio.MenuModel {
      * @param submenu a {@link MenuModel} with the items of the submenu
      */
     public void prependSubmenu(@Nullable java.lang.String label, @NotNull org.gtk.gio.MenuModel submenu) {
-        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(submenu, "Parameter 'submenu' must not be null");
         try {
-            DowncallHandles.g_menu_prepend_submenu.invokeExact(handle(), Interop.allocateNativeString(label), submenu.handle());
+            DowncallHandles.g_menu_prepend_submenu.invokeExact(
+                    handle(),
+                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)),
+                    submenu.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -307,7 +346,9 @@ public class Menu extends org.gtk.gio.MenuModel {
      */
     public void remove(int position) {
         try {
-            DowncallHandles.g_menu_remove.invokeExact(handle(), position);
+            DowncallHandles.g_menu_remove.invokeExact(
+                    handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -318,7 +359,8 @@ public class Menu extends org.gtk.gio.MenuModel {
      */
     public void removeAll() {
         try {
-            DowncallHandles.g_menu_remove_all.invokeExact(handle());
+            DowncallHandles.g_menu_remove_all.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

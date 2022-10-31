@@ -14,14 +14,26 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkTreePath";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static TreePath allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        TreePath newInstance = new TreePath(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public TreePath(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -81,7 +93,9 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(indices, "Parameter 'indices' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_path_new_from_indicesv.invokeExact(Interop.allocateNativeArray(indices, false), length), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_path_new_from_indicesv.invokeExact(
+                    Interop.allocateNativeArray(indices, false),
+                    length), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,7 +116,8 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_path_new_from_string.invokeExact(Interop.allocateNativeString(path)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_path_new_from_string.invokeExact(
+                    Interop.allocateNativeString(path)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,7 +147,9 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      */
     public void appendIndex(int index) {
         try {
-            DowncallHandles.gtk_tree_path_append_index.invokeExact(handle(), index);
+            DowncallHandles.gtk_tree_path_append_index.invokeExact(
+                    handle(),
+                    index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,7 +168,9 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_path_compare.invokeExact(handle(), b.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_path_compare.invokeExact(
+                    handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -165,7 +184,8 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gtk.TreePath copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,7 +197,8 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      */
     public void down() {
         try {
-            DowncallHandles.gtk_tree_path_down.invokeExact(handle());
+            DowncallHandles.gtk_tree_path_down.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -188,7 +209,8 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.gtk_tree_path_free.invokeExact(handle());
+            DowncallHandles.gtk_tree_path_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -201,7 +223,8 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     public int getDepth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_path_get_depth.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_path_get_depth.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -220,7 +243,8 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     public PointerInteger getIndices() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_get_indices.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_get_indices.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -243,7 +267,9 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment depthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_get_indices_with_depth.invokeExact(handle(), (Addressable) depthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_get_indices_with_depth.invokeExact(
+                    handle(),
+                    (Addressable) depthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -261,7 +287,9 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(descendant, "Parameter 'descendant' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_path_is_ancestor.invokeExact(handle(), descendant.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_path_is_ancestor.invokeExact(
+                    handle(),
+                    descendant.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -277,7 +305,9 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(ancestor, "Parameter 'ancestor' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_path_is_descendant.invokeExact(handle(), ancestor.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_path_is_descendant.invokeExact(
+                    handle(),
+                    ancestor.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -289,7 +319,8 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      */
     public void next() {
         try {
-            DowncallHandles.gtk_tree_path_next.invokeExact(handle());
+            DowncallHandles.gtk_tree_path_next.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -303,7 +334,9 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      */
     public void prependIndex(int index) {
         try {
-            DowncallHandles.gtk_tree_path_prepend_index.invokeExact(handle(), index);
+            DowncallHandles.gtk_tree_path_prepend_index.invokeExact(
+                    handle(),
+                    index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -318,7 +351,8 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     public boolean prev() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_path_prev.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_path_prev.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -337,11 +371,12 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_to_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -351,7 +386,8 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     public boolean up() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_path_up.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_path_up.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

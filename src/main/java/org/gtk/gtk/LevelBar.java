@@ -106,21 +106,34 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkLevelBar";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public LevelBar(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to LevelBar */
+    /**
+     * Cast object to LevelBar if its GType is a (or inherits from) "GtkLevelBar".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "LevelBar" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkLevelBar", a ClassCastException will be thrown.
+     */
     public static LevelBar castFrom(org.gtk.gobject.Object gobject) {
-        return new LevelBar(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkLevelBar"))) {
+            return new LevelBar(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkLevelBar");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -143,7 +156,9 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     private static Refcounted constructNewForInterval(double minValue, double maxValue) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_level_bar_new_for_interval.invokeExact(minValue, maxValue), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_level_bar_new_for_interval.invokeExact(
+                    minValue,
+                    maxValue), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -176,7 +191,10 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public void addOffsetValue(@NotNull java.lang.String name, double value) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            DowncallHandles.gtk_level_bar_add_offset_value.invokeExact(handle(), Interop.allocateNativeString(name), value);
+            DowncallHandles.gtk_level_bar_add_offset_value.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -189,7 +207,8 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getInverted() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_level_bar_get_inverted.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_level_bar_get_inverted.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -203,7 +222,8 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public double getMaxValue() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_level_bar_get_max_value.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_level_bar_get_max_value.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -217,7 +237,8 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public double getMinValue() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_level_bar_get_min_value.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_level_bar_get_min_value.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -231,7 +252,8 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @NotNull org.gtk.gtk.LevelBarMode getMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_level_bar_get_mode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_level_bar_get_mode.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -245,12 +267,14 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return {@code true} if the specified offset is found
      */
     public boolean getOffsetValue(@Nullable java.lang.String name, Out<Double> value) {
-        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_level_bar_get_offset_value.invokeExact(handle(), Interop.allocateNativeString(name), (Addressable) valuePOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_level_bar_get_offset_value.invokeExact(
+                    handle(),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
+                    (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -266,7 +290,8 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public double getValue() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_level_bar_get_value.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_level_bar_get_value.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -281,9 +306,10 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param name the name of an offset in the bar
      */
     public void removeOffsetValue(@Nullable java.lang.String name) {
-        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_level_bar_remove_offset_value.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.gtk_level_bar_remove_offset_value.invokeExact(
+                    handle(),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -295,7 +321,9 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setInverted(boolean inverted) {
         try {
-            DowncallHandles.gtk_level_bar_set_inverted.invokeExact(handle(), inverted ? 1 : 0);
+            DowncallHandles.gtk_level_bar_set_inverted.invokeExact(
+                    handle(),
+                    inverted ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -310,7 +338,9 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setMaxValue(double value) {
         try {
-            DowncallHandles.gtk_level_bar_set_max_value.invokeExact(handle(), value);
+            DowncallHandles.gtk_level_bar_set_max_value.invokeExact(
+                    handle(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -325,7 +355,9 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setMinValue(double value) {
         try {
-            DowncallHandles.gtk_level_bar_set_min_value.invokeExact(handle(), value);
+            DowncallHandles.gtk_level_bar_set_min_value.invokeExact(
+                    handle(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -338,7 +370,9 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public void setMode(@NotNull org.gtk.gtk.LevelBarMode mode) {
         java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
         try {
-            DowncallHandles.gtk_level_bar_set_mode.invokeExact(handle(), mode.getValue());
+            DowncallHandles.gtk_level_bar_set_mode.invokeExact(
+                    handle(),
+                    mode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -351,7 +385,9 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setValue(double value) {
         try {
-            DowncallHandles.gtk_level_bar_set_value.invokeExact(handle(), value);
+            DowncallHandles.gtk_level_bar_set_value.invokeExact(
+                    handle(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -473,7 +509,7 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         public static void signalLevelBarOffsetChanged(MemoryAddress source, MemoryAddress name, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (LevelBar.OffsetChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new LevelBar(Refcounted.get(source)), name.getUtf8String(0));
+            HANDLER.signalReceived(new LevelBar(Refcounted.get(source)), Interop.getStringFrom(name));
         }
     }
 }

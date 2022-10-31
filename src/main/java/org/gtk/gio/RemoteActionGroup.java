@@ -32,6 +32,21 @@ import org.jetbrains.annotations.*;
 public interface RemoteActionGroup extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to RemoteActionGroup if its GType is a (or inherits from) "GRemoteActionGroup".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "RemoteActionGroup" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GRemoteActionGroup", a ClassCastException will be thrown.
+     */
+    public static RemoteActionGroup castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GRemoteActionGroup"))) {
+            return new RemoteActionGroupImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GRemoteActionGroup");
+        }
+    }
+    
+    /**
      * Activates the remote action.
      * <p>
      * This is the same as g_action_group_activate_action() except that it
@@ -47,10 +62,13 @@ public interface RemoteActionGroup extends io.github.jwharm.javagi.Proxy {
      */
     default void activateActionFull(@NotNull java.lang.String actionName, @Nullable org.gtk.glib.Variant parameter, @NotNull org.gtk.glib.Variant platformData) {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
-        java.util.Objects.requireNonNullElse(parameter, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(platformData, "Parameter 'platformData' must not be null");
         try {
-            DowncallHandles.g_remote_action_group_activate_action_full.invokeExact(handle(), Interop.allocateNativeString(actionName), parameter.handle(), platformData.handle());
+            DowncallHandles.g_remote_action_group_activate_action_full.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName),
+                    (Addressable) (parameter == null ? MemoryAddress.NULL : parameter.handle()),
+                    platformData.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -75,7 +93,11 @@ public interface RemoteActionGroup extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         java.util.Objects.requireNonNull(platformData, "Parameter 'platformData' must not be null");
         try {
-            DowncallHandles.g_remote_action_group_change_action_state_full.invokeExact(handle(), Interop.allocateNativeString(actionName), value.handle(), platformData.handle());
+            DowncallHandles.g_remote_action_group_change_action_state_full.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName),
+                    value.handle(),
+                    platformData.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

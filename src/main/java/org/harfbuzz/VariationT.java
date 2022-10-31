@@ -17,19 +17,73 @@ public class VariationT extends io.github.jwharm.javagi.ResourceBase {
         HarfBuzz.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "hb_variation_t";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_INT.withName("tag"),
         ValueLayout.JAVA_FLOAT.withName("value")
-    ).withName("hb_variation_t");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static VariationT allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        VariationT newInstance = new VariationT(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code tag}
+     * @return The value of the field {@code tag}
+     */
+    public org.harfbuzz.TagT tag$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("tag"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.harfbuzz.TagT(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code tag}
+     * @param tag The new value of the field {@code tag}
+     */
+    public void tag$set(org.harfbuzz.TagT tag) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("tag"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tag.getValue().intValue());
+    }
+    
+    /**
+     * Get the value of the field {@code value}
+     * @return The value of the field {@code value}
+     */
+    public float value$get() {
+        var RESULT = (float) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("value"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code value}
+     * @param value The new value of the field {@code value}
+     */
+    public void value$set(float value) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("value"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
+    }
+    
+    @ApiStatus.Internal
     public VariationT(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -46,7 +100,10 @@ public class VariationT extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.hb_variation_to_string.invokeExact(handle(), (Addressable) bufPOINTER.address(), (Addressable) sizePOINTER.address());
+            DowncallHandles.hb_variation_to_string.invokeExact(
+                    handle(),
+                    (Addressable) bufPOINTER.address(),
+                    (Addressable) sizePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -54,7 +111,7 @@ public class VariationT extends io.github.jwharm.javagi.ResourceBase {
         java.lang.String[] bufARRAY = new java.lang.String[size.get().intValue()];
         for (int I = 0; I < size.get().intValue(); I++) {
             var OBJ = bufPOINTER.get(ValueLayout.ADDRESS, I);
-            bufARRAY[I] = OBJ.getUtf8String(0);
+            bufARRAY[I] = Interop.getStringFrom(OBJ);
         }
         buf.set(bufARRAY);
     }

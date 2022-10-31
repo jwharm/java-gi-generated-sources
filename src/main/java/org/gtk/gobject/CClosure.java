@@ -14,19 +14,61 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GCClosure";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Closure.getMemoryLayout().withName("closure"),
         Interop.valueLayout.ADDRESS.withName("callback")
-    ).withName("GCClosure");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static CClosure allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        CClosure newInstance = new CClosure(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code closure}
+     * @return The value of the field {@code closure}
+     */
+    public org.gtk.gobject.Closure closure$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("closure"));
+        return new org.gtk.gobject.Closure(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    /**
+     * Get the value of the field {@code callback}
+     * @return The value of the field {@code callback}
+     */
+    public java.lang.foreign.MemoryAddress callback$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("callback"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code callback}
+     * @param callback The new value of the field {@code callback}
+     */
+    public void callback$set(java.lang.foreign.MemoryAddress callback) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("callback"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), callback);
+    }
+    
+    @ApiStatus.Internal
     public CClosure(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -52,9 +94,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_BOOLEAN__BOXED_BOXED.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_BOOLEAN__BOXED_BOXED.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,12 +124,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalBOOLEANBOXEDBOXEDv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_BOOLEAN__BOXED_BOXEDv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_BOOLEAN__BOXED_BOXEDv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,9 +157,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_BOOLEAN__FLAGS.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_BOOLEAN__FLAGS.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,12 +187,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalBOOLEANFLAGSv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_BOOLEAN__FLAGSv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_BOOLEAN__FLAGSv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,9 +219,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_STRING__OBJECT_POINTER.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_STRING__OBJECT_POINTER.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,12 +249,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalSTRINGOBJECTPOINTERv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_STRING__OBJECT_POINTERv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_STRING__OBJECT_POINTERv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -206,9 +281,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__BOOLEAN.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__BOOLEAN.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -231,12 +311,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalVOIDBOOLEANv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__BOOLEANv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_VOID__BOOLEANv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -257,9 +343,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__BOXED.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__BOXED.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -282,12 +373,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalVOIDBOXEDv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__BOXEDv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_VOID__BOXEDv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -308,9 +405,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__CHAR.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__CHAR.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -333,12 +435,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalVOIDCHARv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__CHARv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_VOID__CHARv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -359,9 +467,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__DOUBLE.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__DOUBLE.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -384,12 +497,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalVOIDDOUBLEv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__DOUBLEv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_VOID__DOUBLEv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -410,9 +529,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__ENUM.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__ENUM.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -435,12 +559,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalVOIDENUMv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__ENUMv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_VOID__ENUMv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -461,9 +591,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__FLAGS.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__FLAGS.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -486,12 +621,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalVOIDFLAGSv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__FLAGSv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_VOID__FLAGSv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -512,9 +653,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__FLOAT.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__FLOAT.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -537,12 +683,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalVOIDFLOATv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__FLOATv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_VOID__FLOATv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -563,9 +715,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__INT.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__INT.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -588,12 +745,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalVOIDINTv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__INTv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_VOID__INTv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -614,9 +777,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__LONG.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__LONG.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -639,12 +807,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalVOIDLONGv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__LONGv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_VOID__LONGv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -665,9 +839,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__OBJECT.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__OBJECT.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -690,12 +869,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalVOIDOBJECTv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__OBJECTv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_VOID__OBJECTv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -716,9 +901,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__PARAM.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__PARAM.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -741,12 +931,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalVOIDPARAMv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__PARAMv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_VOID__PARAMv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -767,9 +963,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__POINTER.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__POINTER.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -792,12 +993,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalVOIDPOINTERv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__POINTERv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_VOID__POINTERv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -818,9 +1025,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__STRING.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__STRING.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -843,12 +1055,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalVOIDSTRINGv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__STRINGv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_VOID__STRINGv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -869,9 +1087,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__UCHAR.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__UCHAR.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -894,12 +1117,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalVOIDUCHARv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__UCHARv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_VOID__UCHARv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -920,9 +1149,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__UINT.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__UINT.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -943,9 +1177,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__UINT_POINTER.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__UINT_POINTER.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -968,12 +1207,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalVOIDUINTPOINTERv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__UINT_POINTERv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_VOID__UINT_POINTERv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -996,12 +1241,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalVOIDUINTv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__UINTv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_VOID__UINTv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1022,9 +1273,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__ULONG.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__ULONG.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1047,12 +1303,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalVOIDULONGv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__ULONGv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_VOID__ULONGv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1073,9 +1335,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__VARIANT.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__VARIANT.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1098,12 +1365,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalVOIDVARIANTv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__VARIANTv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_VOID__VARIANTv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1124,9 +1397,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__VOID.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_VOID__VOID.invokeExact(
+                    closure.handle(),
+                    returnValue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1149,12 +1427,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalVOIDVOIDv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_VOID__VOIDv.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), args, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_VOID__VOIDv.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    args,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1182,9 +1466,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(returnGvalue, "Parameter 'returnGvalue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
-        java.util.Objects.requireNonNullElse(invocationHint, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_cclosure_marshal_generic.invokeExact(closure.handle(), returnGvalue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
+            DowncallHandles.g_cclosure_marshal_generic.invokeExact(
+                    closure.handle(),
+                    returnGvalue.handle(),
+                    nParamValues,
+                    paramValues.handle(),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
+                    marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1209,12 +1498,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void marshalGenericVa(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList argsList, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNullElse(returnValue, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(argsList, "Parameter 'argsList' must not be null");
         java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
         try {
-            DowncallHandles.g_cclosure_marshal_generic_va.invokeExact(closure.handle(), returnValue.handle(), instance.handle(), argsList, marshalData, nParams, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
+            DowncallHandles.g_cclosure_marshal_generic_va.invokeExact(
+                    closure.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                    instance.handle(),
+                    argsList,
+                    marshalData,
+                    nParams,
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1230,17 +1525,16 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @return a floating reference to a new {@link CClosure}
      */
     public static @NotNull org.gtk.gobject.Closure new_(@Nullable org.gtk.gobject.Callback callbackFunc, @NotNull org.gtk.gobject.ClosureNotify destroyData) {
-        java.util.Objects.requireNonNullElse(callbackFunc, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(destroyData, "Parameter 'destroyData' must not be null");
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_cclosure_new.invokeExact(
-                    (Addressable) Linker.nativeLinker().upcallStub(
+                    (Addressable) (callbackFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
-                        Interop.getScope()), 
-                   (Addressable) (callbackFunc == null ? MemoryAddress.NULL : Interop.registerCallback(callbackFunc)), 
+                        Interop.getScope())),
+                    (Addressable) (callbackFunc == null ? MemoryAddress.NULL : Interop.registerCallback(callbackFunc)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class)),
@@ -1290,17 +1584,16 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @return a floating reference to a new {@link CClosure}
      */
     public static @NotNull org.gtk.gobject.Closure newSwap(@Nullable org.gtk.gobject.Callback callbackFunc, @NotNull org.gtk.gobject.ClosureNotify destroyData) {
-        java.util.Objects.requireNonNullElse(callbackFunc, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(destroyData, "Parameter 'destroyData' must not be null");
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_cclosure_new_swap.invokeExact(
-                    (Addressable) Linker.nativeLinker().upcallStub(
+                    (Addressable) (callbackFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
-                        Interop.getScope()), 
-                   (Addressable) (callbackFunc == null ? MemoryAddress.NULL : Interop.registerCallback(callbackFunc)), 
+                        Interop.getScope())),
+                    (Addressable) (callbackFunc == null ? MemoryAddress.NULL : Interop.registerCallback(callbackFunc)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class)),

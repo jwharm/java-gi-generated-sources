@@ -16,26 +16,39 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements org.gtk
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSimpleActionGroup";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.SimpleActionGroupPrivate.getMemoryLayout().withName("priv")
-    ).withName("GSimpleActionGroup");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    @ApiStatus.Internal
     public SimpleActionGroup(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to SimpleActionGroup */
+    /**
+     * Cast object to SimpleActionGroup if its GType is a (or inherits from) "GSimpleActionGroup".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "SimpleActionGroup" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GSimpleActionGroup", a ClassCastException will be thrown.
+     */
     public static SimpleActionGroup castFrom(org.gtk.gobject.Object gobject) {
-        return new SimpleActionGroup(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSimpleActionGroup"))) {
+            return new SimpleActionGroup(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSimpleActionGroup");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -68,7 +81,11 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements org.gtk
     public void addEntries(org.gtk.gio.ActionEntry[] entries, int nEntries, @Nullable java.lang.foreign.MemoryAddress userData) {
         java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
         try {
-            DowncallHandles.g_simple_action_group_add_entries.invokeExact(handle(), Interop.allocateNativeArray(entries, false), nEntries, userData);
+            DowncallHandles.g_simple_action_group_add_entries.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(entries, false),
+                    nEntries,
+                    userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,7 +105,9 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements org.gtk
     public void insert(@NotNull org.gtk.gio.Action action) {
         java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
         try {
-            DowncallHandles.g_simple_action_group_insert.invokeExact(handle(), action.handle());
+            DowncallHandles.g_simple_action_group_insert.invokeExact(
+                    handle(),
+                    action.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,7 +126,9 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements org.gtk
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_simple_action_group_lookup.invokeExact(handle(), Interop.allocateNativeString(actionName));
+            RESULT = (MemoryAddress) DowncallHandles.g_simple_action_group_lookup.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,7 +146,9 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements org.gtk
     public void remove(@NotNull java.lang.String actionName) {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         try {
-            DowncallHandles.g_simple_action_group_remove.invokeExact(handle(), Interop.allocateNativeString(actionName));
+            DowncallHandles.g_simple_action_group_remove.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

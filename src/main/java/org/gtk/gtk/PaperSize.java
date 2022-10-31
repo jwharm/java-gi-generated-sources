@@ -24,23 +24,35 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkPaperSize";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static PaperSize allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        PaperSize newInstance = new PaperSize(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public PaperSize(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
     private static Refcounted constructNew(@Nullable java.lang.String name) {
-        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_paper_size_new.invokeExact(Interop.allocateNativeString(name)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_paper_size_new.invokeExact(
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name))), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,7 +78,12 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_paper_size_new_custom.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(displayName), width, height, unit.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_paper_size_new_custom.invokeExact(
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(displayName),
+                    width,
+                    height,
+                    unit.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,7 +109,8 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(variant, "Parameter 'variant' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_paper_size_new_from_gvariant.invokeExact(variant.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_paper_size_new_from_gvariant.invokeExact(
+                    variant.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,7 +133,10 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(ippName, "Parameter 'ippName' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_paper_size_new_from_ipp.invokeExact(Interop.allocateNativeString(ippName), width, height), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_paper_size_new_from_ipp.invokeExact(
+                    Interop.allocateNativeString(ippName),
+                    width,
+                    height), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,11 +162,12 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     
     private static Refcounted constructNewFromKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) throws GErrorException {
         java.util.Objects.requireNonNull(keyFile, "Parameter 'keyFile' must not be null");
-        java.util.Objects.requireNonNullElse(groupName, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_paper_size_new_from_key_file.invokeExact(keyFile.handle(), Interop.allocateNativeString(groupName), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_paper_size_new_from_key_file.invokeExact(
+                    keyFile.handle(),
+                    (Addressable) (groupName == null ? MemoryAddress.NULL : Interop.allocateNativeString(groupName)), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -173,7 +195,11 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(ppdDisplayName, "Parameter 'ppdDisplayName' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_paper_size_new_from_ppd.invokeExact(Interop.allocateNativeString(ppdName), Interop.allocateNativeString(ppdDisplayName), width, height), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_paper_size_new_from_ppd.invokeExact(
+                    Interop.allocateNativeString(ppdName),
+                    Interop.allocateNativeString(ppdDisplayName),
+                    width,
+                    height), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,7 +231,8 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gtk.PaperSize copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -217,7 +244,8 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.gtk_paper_size_free.invokeExact(handle());
+            DowncallHandles.gtk_paper_size_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -232,7 +260,9 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_paper_size_get_default_bottom_margin.invokeExact(handle(), unit.getValue());
+            RESULT = (double) DowncallHandles.gtk_paper_size_get_default_bottom_margin.invokeExact(
+                    handle(),
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -248,7 +278,9 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_paper_size_get_default_left_margin.invokeExact(handle(), unit.getValue());
+            RESULT = (double) DowncallHandles.gtk_paper_size_get_default_left_margin.invokeExact(
+                    handle(),
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -264,7 +296,9 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_paper_size_get_default_right_margin.invokeExact(handle(), unit.getValue());
+            RESULT = (double) DowncallHandles.gtk_paper_size_get_default_right_margin.invokeExact(
+                    handle(),
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -280,7 +314,9 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_paper_size_get_default_top_margin.invokeExact(handle(), unit.getValue());
+            RESULT = (double) DowncallHandles.gtk_paper_size_get_default_top_margin.invokeExact(
+                    handle(),
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -294,11 +330,12 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getDisplayName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_get_display_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_get_display_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -311,7 +348,9 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_paper_size_get_height.invokeExact(handle(), unit.getValue());
+            RESULT = (double) DowncallHandles.gtk_paper_size_get_height.invokeExact(
+                    handle(),
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -325,11 +364,12 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -340,11 +380,12 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getPpdName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_get_ppd_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_get_ppd_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -357,7 +398,9 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_paper_size_get_width.invokeExact(handle(), unit.getValue());
+            RESULT = (double) DowncallHandles.gtk_paper_size_get_width.invokeExact(
+                    handle(),
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -371,7 +414,8 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     public boolean isCustom() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_paper_size_is_custom.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_paper_size_is_custom.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -388,7 +432,9 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(size2, "Parameter 'size2' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_paper_size_is_equal.invokeExact(handle(), size2.handle());
+            RESULT = (int) DowncallHandles.gtk_paper_size_is_equal.invokeExact(
+                    handle(),
+                    size2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -402,7 +448,8 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     public boolean isIpp() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_paper_size_is_ipp.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_paper_size_is_ipp.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -418,7 +465,11 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     public void setSize(double width, double height, @NotNull org.gtk.gtk.Unit unit) {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         try {
-            DowncallHandles.gtk_paper_size_set_size.invokeExact(handle(), width, height, unit.getValue());
+            DowncallHandles.gtk_paper_size_set_size.invokeExact(
+                    handle(),
+                    width,
+                    height,
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -431,7 +482,8 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Variant toGvariant() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_to_gvariant.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_to_gvariant.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -447,7 +499,10 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(keyFile, "Parameter 'keyFile' must not be null");
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         try {
-            DowncallHandles.gtk_paper_size_to_key_file.invokeExact(handle(), keyFile.handle(), Interop.allocateNativeString(groupName));
+            DowncallHandles.gtk_paper_size_to_key_file.invokeExact(
+                    handle(),
+                    keyFile.handle(),
+                    Interop.allocateNativeString(groupName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -466,7 +521,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -479,7 +534,8 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     public static @NotNull org.gtk.glib.List getPaperSizes(boolean includeCustom) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_get_paper_sizes.invokeExact(includeCustom ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_get_paper_sizes.invokeExact(
+                    includeCustom ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

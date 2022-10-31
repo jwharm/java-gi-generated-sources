@@ -58,28 +58,42 @@ public class Notification extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GNotification";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Notification(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Notification */
+    /**
+     * Cast object to Notification if its GType is a (or inherits from) "GNotification".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Notification" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GNotification", a ClassCastException will be thrown.
+     */
     public static Notification castFrom(org.gtk.gobject.Object gobject) {
-        return new Notification(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GNotification"))) {
+            return new Notification(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GNotification");
+        }
     }
     
     private static Refcounted constructNew(@NotNull java.lang.String title) {
         java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_notification_new.invokeExact(Interop.allocateNativeString(title)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_notification_new.invokeExact(
+                    Interop.allocateNativeString(title)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,7 +129,10 @@ public class Notification extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
         java.util.Objects.requireNonNull(detailedAction, "Parameter 'detailedAction' must not be null");
         try {
-            DowncallHandles.g_notification_add_button.invokeExact(handle(), Interop.allocateNativeString(label), Interop.allocateNativeString(detailedAction));
+            DowncallHandles.g_notification_add_button.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(label),
+                    Interop.allocateNativeString(detailedAction));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -150,9 +167,12 @@ public class Notification extends org.gtk.gobject.Object {
     public void addButtonWithTargetValue(@NotNull java.lang.String label, @NotNull java.lang.String action, @Nullable org.gtk.glib.Variant target) {
         java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
         java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
-        java.util.Objects.requireNonNullElse(target, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_notification_add_button_with_target_value.invokeExact(handle(), Interop.allocateNativeString(label), Interop.allocateNativeString(action), target.handle());
+            DowncallHandles.g_notification_add_button_with_target_value.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(label),
+                    Interop.allocateNativeString(action),
+                    (Addressable) (target == null ? MemoryAddress.NULL : target.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -163,9 +183,10 @@ public class Notification extends org.gtk.gobject.Object {
      * @param body the new body for {@code notification}, or {@code null}
      */
     public void setBody(@Nullable java.lang.String body) {
-        java.util.Objects.requireNonNullElse(body, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_notification_set_body.invokeExact(handle(), Interop.allocateNativeString(body));
+            DowncallHandles.g_notification_set_body.invokeExact(
+                    handle(),
+                    (Addressable) (body == null ? MemoryAddress.NULL : Interop.allocateNativeString(body)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,9 +202,10 @@ public class Notification extends org.gtk.gobject.Object {
      * @param category the category for {@code notification}, or {@code null} for no category
      */
     public void setCategory(@Nullable java.lang.String category) {
-        java.util.Objects.requireNonNullElse(category, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_notification_set_category.invokeExact(handle(), Interop.allocateNativeString(category));
+            DowncallHandles.g_notification_set_category.invokeExact(
+                    handle(),
+                    (Addressable) (category == null ? MemoryAddress.NULL : Interop.allocateNativeString(category)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -206,7 +228,9 @@ public class Notification extends org.gtk.gobject.Object {
     public void setDefaultAction(@NotNull java.lang.String detailedAction) {
         java.util.Objects.requireNonNull(detailedAction, "Parameter 'detailedAction' must not be null");
         try {
-            DowncallHandles.g_notification_set_default_action.invokeExact(handle(), Interop.allocateNativeString(detailedAction));
+            DowncallHandles.g_notification_set_default_action.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(detailedAction));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -246,9 +270,11 @@ public class Notification extends org.gtk.gobject.Object {
      */
     public void setDefaultActionAndTargetValue(@NotNull java.lang.String action, @Nullable org.gtk.glib.Variant target) {
         java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
-        java.util.Objects.requireNonNullElse(target, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_notification_set_default_action_and_target_value.invokeExact(handle(), Interop.allocateNativeString(action), target.handle());
+            DowncallHandles.g_notification_set_default_action_and_target_value.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(action),
+                    (Addressable) (target == null ? MemoryAddress.NULL : target.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -261,7 +287,9 @@ public class Notification extends org.gtk.gobject.Object {
     public void setIcon(@NotNull org.gtk.gio.Icon icon) {
         java.util.Objects.requireNonNull(icon, "Parameter 'icon' must not be null");
         try {
-            DowncallHandles.g_notification_set_icon.invokeExact(handle(), icon.handle());
+            DowncallHandles.g_notification_set_icon.invokeExact(
+                    handle(),
+                    icon.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -275,7 +303,9 @@ public class Notification extends org.gtk.gobject.Object {
     public void setPriority(@NotNull org.gtk.gio.NotificationPriority priority) {
         java.util.Objects.requireNonNull(priority, "Parameter 'priority' must not be null");
         try {
-            DowncallHandles.g_notification_set_priority.invokeExact(handle(), priority.getValue());
+            DowncallHandles.g_notification_set_priority.invokeExact(
+                    handle(),
+                    priority.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -288,7 +318,9 @@ public class Notification extends org.gtk.gobject.Object {
     public void setTitle(@NotNull java.lang.String title) {
         java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
         try {
-            DowncallHandles.g_notification_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
+            DowncallHandles.g_notification_set_title.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -303,7 +335,9 @@ public class Notification extends org.gtk.gobject.Object {
     @Deprecated
     public void setUrgent(boolean urgent) {
         try {
-            DowncallHandles.g_notification_set_urgent.invokeExact(handle(), urgent ? 1 : 0);
+            DowncallHandles.g_notification_set_urgent.invokeExact(
+                    handle(),
+                    urgent ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

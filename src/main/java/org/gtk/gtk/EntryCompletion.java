@@ -51,21 +51,34 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkEntryCompletion";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public EntryCompletion(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to EntryCompletion */
+    /**
+     * Cast object to EntryCompletion if its GType is a (or inherits from) "GtkEntryCompletion".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "EntryCompletion" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkEntryCompletion", a ClassCastException will be thrown.
+     */
     public static EntryCompletion castFrom(org.gtk.gobject.Object gobject) {
-        return new EntryCompletion(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEntryCompletion"))) {
+            return new EntryCompletion(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEntryCompletion");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -89,7 +102,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         java.util.Objects.requireNonNull(area, "Parameter 'area' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_entry_completion_new_with_area.invokeExact(area.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_entry_completion_new_with_area.invokeExact(
+                    area.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,7 +131,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      */
     public void complete() {
         try {
-            DowncallHandles.gtk_entry_completion_complete.invokeExact(handle());
+            DowncallHandles.gtk_entry_completion_complete.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,11 +153,13 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_completion_compute_prefix.invokeExact(handle(), Interop.allocateNativeString(key));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_completion_compute_prefix.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -153,11 +170,12 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     public @Nullable java.lang.String getCompletionPrefix() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_completion_get_completion_prefix.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_completion_get_completion_prefix.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -167,7 +185,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     public @NotNull org.gtk.gtk.Widget getEntry() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_completion_get_entry.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_completion_get_entry.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,7 +201,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     public boolean getInlineCompletion() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_completion_get_inline_completion.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_entry_completion_get_inline_completion.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -196,7 +216,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     public boolean getInlineSelection() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_completion_get_inline_selection.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_entry_completion_get_inline_selection.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -210,7 +231,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     public int getMinimumKeyLength() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_completion_get_minimum_key_length.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_entry_completion_get_minimum_key_length.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -226,7 +248,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     public @Nullable org.gtk.gtk.TreeModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_completion_get_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_completion_get_model.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,7 +263,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     public boolean getPopupCompletion() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_completion_get_popup_completion.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_entry_completion_get_popup_completion.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -256,7 +280,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     public boolean getPopupSetWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_completion_get_popup_set_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_entry_completion_get_popup_set_width.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -272,7 +297,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     public boolean getPopupSingleMatch() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_completion_get_popup_single_match.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_entry_completion_get_popup_single_match.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -286,7 +312,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     public int getTextColumn() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_entry_completion_get_text_column.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_entry_completion_get_text_column.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -298,7 +325,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      */
     public void insertPrefix() {
         try {
-            DowncallHandles.gtk_entry_completion_insert_prefix.invokeExact(handle());
+            DowncallHandles.gtk_entry_completion_insert_prefix.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -311,7 +339,9 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      */
     public void setInlineCompletion(boolean inlineCompletion) {
         try {
-            DowncallHandles.gtk_entry_completion_set_inline_completion.invokeExact(handle(), inlineCompletion ? 1 : 0);
+            DowncallHandles.gtk_entry_completion_set_inline_completion.invokeExact(
+                    handle(),
+                    inlineCompletion ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -324,7 +354,9 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      */
     public void setInlineSelection(boolean inlineSelection) {
         try {
-            DowncallHandles.gtk_entry_completion_set_inline_selection.invokeExact(handle(), inlineSelection ? 1 : 0);
+            DowncallHandles.gtk_entry_completion_set_inline_selection.invokeExact(
+                    handle(),
+                    inlineSelection ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -340,13 +372,14 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     public void setMatchFunc(@NotNull org.gtk.gtk.EntryCompletionMatchFunc func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.gtk_entry_completion_set_match_func.invokeExact(handle(), 
+            DowncallHandles.gtk_entry_completion_set_match_func.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbEntryCompletionMatchFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)), 
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -364,7 +397,9 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      */
     public void setMinimumKeyLength(int length) {
         try {
-            DowncallHandles.gtk_entry_completion_set_minimum_key_length.invokeExact(handle(), length);
+            DowncallHandles.gtk_entry_completion_set_minimum_key_length.invokeExact(
+                    handle(),
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -379,9 +414,10 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      * @param model the {@code GtkTreeModel}
      */
     public void setModel(@Nullable org.gtk.gtk.TreeModel model) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_entry_completion_set_model.invokeExact(handle(), model.handle());
+            DowncallHandles.gtk_entry_completion_set_model.invokeExact(
+                    handle(),
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -393,7 +429,9 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      */
     public void setPopupCompletion(boolean popupCompletion) {
         try {
-            DowncallHandles.gtk_entry_completion_set_popup_completion.invokeExact(handle(), popupCompletion ? 1 : 0);
+            DowncallHandles.gtk_entry_completion_set_popup_completion.invokeExact(
+                    handle(),
+                    popupCompletion ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -406,7 +444,9 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      */
     public void setPopupSetWidth(boolean popupSetWidth) {
         try {
-            DowncallHandles.gtk_entry_completion_set_popup_set_width.invokeExact(handle(), popupSetWidth ? 1 : 0);
+            DowncallHandles.gtk_entry_completion_set_popup_set_width.invokeExact(
+                    handle(),
+                    popupSetWidth ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -422,7 +462,9 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      */
     public void setPopupSingleMatch(boolean popupSingleMatch) {
         try {
-            DowncallHandles.gtk_entry_completion_set_popup_single_match.invokeExact(handle(), popupSingleMatch ? 1 : 0);
+            DowncallHandles.gtk_entry_completion_set_popup_single_match.invokeExact(
+                    handle(),
+                    popupSingleMatch ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -444,7 +486,9 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      */
     public void setTextColumn(int column) {
         try {
-            DowncallHandles.gtk_entry_completion_set_text_column.invokeExact(handle(), column);
+            DowncallHandles.gtk_entry_completion_set_text_column.invokeExact(
+                    handle(),
+                    column);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -713,7 +757,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         public static boolean signalEntryCompletionInsertPrefix(MemoryAddress source, MemoryAddress prefix, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EntryCompletion.InsertPrefix) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EntryCompletion(Refcounted.get(source)), prefix.getUtf8String(0));
+            return HANDLER.signalReceived(new EntryCompletion(Refcounted.get(source)), Interop.getStringFrom(prefix));
         }
         
         public static boolean signalEntryCompletionMatchSelected(MemoryAddress source, MemoryAddress model, MemoryAddress iter, MemoryAddress data) {

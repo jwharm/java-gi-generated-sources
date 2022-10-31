@@ -24,21 +24,34 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkDragIcon";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public DragIcon(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DragIcon */
+    /**
+     * Cast object to DragIcon if its GType is a (or inherits from) "GtkDragIcon".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DragIcon" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkDragIcon", a ClassCastException will be thrown.
+     */
     public static DragIcon castFrom(org.gtk.gobject.Object gobject) {
-        return new DragIcon(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkDragIcon"))) {
+            return new DragIcon(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkDragIcon");
+        }
     }
     
     /**
@@ -48,7 +61,8 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_drag_icon_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drag_icon_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -60,9 +74,10 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param child a {@code GtkWidget}
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_drag_icon_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_drag_icon_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,7 +102,8 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_drag_icon_create_widget_for_value.invokeExact(value.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drag_icon_create_widget_for_value.invokeExact(
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,7 +122,8 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(drag, "Parameter 'drag' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_drag_icon_get_for_drag.invokeExact(drag.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drag_icon_get_for_drag.invokeExact(
+                    drag.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -128,7 +145,11 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(drag, "Parameter 'drag' must not be null");
         java.util.Objects.requireNonNull(paintable, "Parameter 'paintable' must not be null");
         try {
-            DowncallHandles.gtk_drag_icon_set_from_paintable.invokeExact(drag.handle(), paintable.handle(), hotX, hotY);
+            DowncallHandles.gtk_drag_icon_set_from_paintable.invokeExact(
+                    drag.handle(),
+                    paintable.handle(),
+                    hotX,
+                    hotY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -46,14 +46,26 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkPopupLayout";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static PopupLayout allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        PopupLayout newInstance = new PopupLayout(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public PopupLayout(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -64,7 +76,10 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(surfaceAnchor, "Parameter 'surfaceAnchor' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_popup_layout_new.invokeExact(anchorRect.handle(), rectAnchor.getValue(), surfaceAnchor.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_popup_layout_new.invokeExact(
+                    anchorRect.handle(),
+                    rectAnchor.getValue(),
+                    surfaceAnchor.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +114,8 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gdk.PopupLayout copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_popup_layout_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_popup_layout_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,7 +132,9 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_popup_layout_equal.invokeExact(handle(), other.handle());
+            RESULT = (int) DowncallHandles.gdk_popup_layout_equal.invokeExact(
+                    handle(),
+                    other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -130,7 +148,8 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gdk.AnchorHints getAnchorHints() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_popup_layout_get_anchor_hints.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_popup_layout_get_anchor_hints.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -144,7 +163,8 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gdk.Rectangle getAnchorRect() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_popup_layout_get_anchor_rect.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_popup_layout_get_anchor_rect.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,7 +182,10 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment dxPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment dyPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gdk_popup_layout_get_offset.invokeExact(handle(), (Addressable) dxPOINTER.address(), (Addressable) dyPOINTER.address());
+            DowncallHandles.gdk_popup_layout_get_offset.invokeExact(
+                    handle(),
+                    (Addressable) dxPOINTER.address(),
+                    (Addressable) dyPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,7 +200,8 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gdk.Gravity getRectAnchor() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_popup_layout_get_rect_anchor.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_popup_layout_get_rect_anchor.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -201,7 +225,12 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment topPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment bottomPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gdk_popup_layout_get_shadow_width.invokeExact(handle(), (Addressable) leftPOINTER.address(), (Addressable) rightPOINTER.address(), (Addressable) topPOINTER.address(), (Addressable) bottomPOINTER.address());
+            DowncallHandles.gdk_popup_layout_get_shadow_width.invokeExact(
+                    handle(),
+                    (Addressable) leftPOINTER.address(),
+                    (Addressable) rightPOINTER.address(),
+                    (Addressable) topPOINTER.address(),
+                    (Addressable) bottomPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +247,8 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gdk.Gravity getSurfaceAnchor() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_popup_layout_get_surface_anchor.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_popup_layout_get_surface_anchor.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -232,7 +262,8 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gdk.PopupLayout ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_popup_layout_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_popup_layout_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -252,7 +283,9 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     public void setAnchorHints(@NotNull org.gtk.gdk.AnchorHints anchorHints) {
         java.util.Objects.requireNonNull(anchorHints, "Parameter 'anchorHints' must not be null");
         try {
-            DowncallHandles.gdk_popup_layout_set_anchor_hints.invokeExact(handle(), anchorHints.getValue());
+            DowncallHandles.gdk_popup_layout_set_anchor_hints.invokeExact(
+                    handle(),
+                    anchorHints.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -265,7 +298,9 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     public void setAnchorRect(@NotNull org.gtk.gdk.Rectangle anchorRect) {
         java.util.Objects.requireNonNull(anchorRect, "Parameter 'anchorRect' must not be null");
         try {
-            DowncallHandles.gdk_popup_layout_set_anchor_rect.invokeExact(handle(), anchorRect.handle());
+            DowncallHandles.gdk_popup_layout_set_anchor_rect.invokeExact(
+                    handle(),
+                    anchorRect.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -278,7 +313,10 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setOffset(int dx, int dy) {
         try {
-            DowncallHandles.gdk_popup_layout_set_offset.invokeExact(handle(), dx, dy);
+            DowncallHandles.gdk_popup_layout_set_offset.invokeExact(
+                    handle(),
+                    dx,
+                    dy);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -291,7 +329,9 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     public void setRectAnchor(@NotNull org.gtk.gdk.Gravity anchor) {
         java.util.Objects.requireNonNull(anchor, "Parameter 'anchor' must not be null");
         try {
-            DowncallHandles.gdk_popup_layout_set_rect_anchor.invokeExact(handle(), anchor.getValue());
+            DowncallHandles.gdk_popup_layout_set_rect_anchor.invokeExact(
+                    handle(),
+                    anchor.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -310,7 +350,12 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setShadowWidth(int left, int right, int top, int bottom) {
         try {
-            DowncallHandles.gdk_popup_layout_set_shadow_width.invokeExact(handle(), left, right, top, bottom);
+            DowncallHandles.gdk_popup_layout_set_shadow_width.invokeExact(
+                    handle(),
+                    left,
+                    right,
+                    top,
+                    bottom);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -323,7 +368,9 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     public void setSurfaceAnchor(@NotNull org.gtk.gdk.Gravity anchor) {
         java.util.Objects.requireNonNull(anchor, "Parameter 'anchor' must not be null");
         try {
-            DowncallHandles.gdk_popup_layout_set_surface_anchor.invokeExact(handle(), anchor.getValue());
+            DowncallHandles.gdk_popup_layout_set_surface_anchor.invokeExact(
+                    handle(),
+                    anchor.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -334,7 +381,8 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.gdk_popup_layout_unref.invokeExact(handle());
+            DowncallHandles.gdk_popup_layout_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

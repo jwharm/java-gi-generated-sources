@@ -24,26 +24,48 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GVolumeMonitor";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName("GVolumeMonitor");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public VolumeMonitor(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to VolumeMonitor */
+    /**
+     * Cast object to VolumeMonitor if its GType is a (or inherits from) "GVolumeMonitor".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "VolumeMonitor" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GVolumeMonitor", a ClassCastException will be thrown.
+     */
     public static VolumeMonitor castFrom(org.gtk.gobject.Object gobject) {
-        return new VolumeMonitor(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GVolumeMonitor"))) {
+            return new VolumeMonitor(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GVolumeMonitor");
+        }
     }
     
     /**
@@ -56,7 +78,8 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     public @NotNull org.gtk.glib.List getConnectedDrives() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_get_connected_drives.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_get_connected_drives.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,7 +96,9 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(uuid, "Parameter 'uuid' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_get_mount_for_uuid.invokeExact(handle(), Interop.allocateNativeString(uuid));
+            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_get_mount_for_uuid.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(uuid));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +115,8 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     public @NotNull org.gtk.glib.List getMounts() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_get_mounts.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_get_mounts.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,7 +133,9 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(uuid, "Parameter 'uuid' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_get_volume_for_uuid.invokeExact(handle(), Interop.allocateNativeString(uuid));
+            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_get_volume_for_uuid.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(uuid));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,7 +152,8 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     public @NotNull org.gtk.glib.List getVolumes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_get_volumes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_get_volumes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,7 +203,8 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(mount, "Parameter 'mount' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_adopt_orphan_mount.invokeExact(mount.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_adopt_orphan_mount.invokeExact(
+                    mount.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

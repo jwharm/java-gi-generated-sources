@@ -60,21 +60,34 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkListBox";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ListBox(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ListBox */
+    /**
+     * Cast object to ListBox if its GType is a (or inherits from) "GtkListBox".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ListBox" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkListBox", a ClassCastException will be thrown.
+     */
     public static ListBox castFrom(org.gtk.gobject.Object gobject) {
-        return new ListBox(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkListBox"))) {
+            return new ListBox(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkListBox");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -104,7 +117,9 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void append(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_list_box_append.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_list_box_append.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -131,16 +146,16 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      *   or {@code null} in case you also passed {@code null} as {@code model}
      */
     public void bindModel(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.ListBoxCreateWidgetFunc createWidgetFunc) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(createWidgetFunc, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_list_box_bind_model.invokeExact(handle(), model.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gtk_list_box_bind_model.invokeExact(
+                    handle(),
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()),
+                    (Addressable) (createWidgetFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbListBoxCreateWidgetFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (createWidgetFunc == null ? MemoryAddress.NULL : Interop.registerCallback(createWidgetFunc)), 
+                        Interop.getScope())),
+                    (Addressable) (createWidgetFunc == null ? MemoryAddress.NULL : Interop.registerCallback(createWidgetFunc)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -162,7 +177,9 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void dragHighlightRow(@NotNull org.gtk.gtk.ListBoxRow row) {
         java.util.Objects.requireNonNull(row, "Parameter 'row' must not be null");
         try {
-            DowncallHandles.gtk_list_box_drag_highlight_row.invokeExact(handle(), row.handle());
+            DowncallHandles.gtk_list_box_drag_highlight_row.invokeExact(
+                    handle(),
+                    row.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,7 +191,8 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void dragUnhighlightRow() {
         try {
-            DowncallHandles.gtk_list_box_drag_unhighlight_row.invokeExact(handle());
+            DowncallHandles.gtk_list_box_drag_unhighlight_row.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,7 +205,8 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public boolean getActivateOnSingleClick() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_box_get_activate_on_single_click.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_list_box_get_activate_on_single_click.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,7 +221,8 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public @Nullable org.gtk.gtk.Adjustment getAdjustment() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_get_adjustment.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_get_adjustment.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -220,7 +240,9 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public @Nullable org.gtk.gtk.ListBoxRow getRowAtIndex(int index) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_get_row_at_index.invokeExact(handle(), index);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_get_row_at_index.invokeExact(
+                    handle(),
+                    index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -235,7 +257,9 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public @Nullable org.gtk.gtk.ListBoxRow getRowAtY(int y) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_get_row_at_y.invokeExact(handle(), y);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_get_row_at_y.invokeExact(
+                    handle(),
+                    y);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -253,7 +277,8 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public @Nullable org.gtk.gtk.ListBoxRow getSelectedRow() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_get_selected_row.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_get_selected_row.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -268,7 +293,8 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public @NotNull org.gtk.glib.List getSelectedRows() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_get_selected_rows.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_get_selected_rows.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -282,7 +308,8 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public @NotNull org.gtk.gtk.SelectionMode getSelectionMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_box_get_selection_mode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_list_box_get_selection_mode.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -297,7 +324,8 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public boolean getShowSeparators() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_box_get_show_separators.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_list_box_get_show_separators.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -318,7 +346,10 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void insert(@NotNull org.gtk.gtk.Widget child, int position) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_list_box_insert.invokeExact(handle(), child.handle(), position);
+            DowncallHandles.gtk_list_box_insert.invokeExact(
+                    handle(),
+                    child.handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -335,7 +366,8 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void invalidateFilter() {
         try {
-            DowncallHandles.gtk_list_box_invalidate_filter.invokeExact(handle());
+            DowncallHandles.gtk_list_box_invalidate_filter.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -350,7 +382,8 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void invalidateHeaders() {
         try {
-            DowncallHandles.gtk_list_box_invalidate_headers.invokeExact(handle());
+            DowncallHandles.gtk_list_box_invalidate_headers.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -365,7 +398,8 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void invalidateSort() {
         try {
-            DowncallHandles.gtk_list_box_invalidate_sort.invokeExact(handle());
+            DowncallHandles.gtk_list_box_invalidate_sort.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -381,7 +415,9 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void prepend(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_list_box_prepend.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_list_box_prepend.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -394,7 +430,9 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void remove(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_list_box_remove.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_list_box_remove.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -405,7 +443,8 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void selectAll() {
         try {
-            DowncallHandles.gtk_list_box_select_all.invokeExact(handle());
+            DowncallHandles.gtk_list_box_select_all.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -416,9 +455,10 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param row The row to select
      */
     public void selectRow(@Nullable org.gtk.gtk.ListBoxRow row) {
-        java.util.Objects.requireNonNullElse(row, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_list_box_select_row.invokeExact(handle(), row.handle());
+            DowncallHandles.gtk_list_box_select_row.invokeExact(
+                    handle(),
+                    (Addressable) (row == null ? MemoryAddress.NULL : row.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -433,13 +473,14 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void selectedForeach(@NotNull org.gtk.gtk.ListBoxForeachFunc func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.gtk_list_box_selected_foreach.invokeExact(handle(), 
+            DowncallHandles.gtk_list_box_selected_foreach.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbListBoxForeachFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -452,7 +493,9 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void setActivateOnSingleClick(boolean single) {
         try {
-            DowncallHandles.gtk_list_box_set_activate_on_single_click.invokeExact(handle(), single ? 1 : 0);
+            DowncallHandles.gtk_list_box_set_activate_on_single_click.invokeExact(
+                    handle(),
+                    single ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -472,9 +515,10 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param adjustment the adjustment
      */
     public void setAdjustment(@Nullable org.gtk.gtk.Adjustment adjustment) {
-        java.util.Objects.requireNonNullElse(adjustment, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_list_box_set_adjustment.invokeExact(handle(), adjustment.handle());
+            DowncallHandles.gtk_list_box_set_adjustment.invokeExact(
+                    handle(),
+                    (Addressable) (adjustment == null ? MemoryAddress.NULL : adjustment.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -497,15 +541,15 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param filterFunc callback that lets you filter which rows to show
      */
     public void setFilterFunc(@Nullable org.gtk.gtk.ListBoxFilterFunc filterFunc) {
-        java.util.Objects.requireNonNullElse(filterFunc, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_list_box_set_filter_func.invokeExact(handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gtk_list_box_set_filter_func.invokeExact(
+                    handle(),
+                    (Addressable) (filterFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbListBoxFilterFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (filterFunc == null ? MemoryAddress.NULL : Interop.registerCallback(filterFunc)), 
+                        Interop.getScope())),
+                    (Addressable) (filterFunc == null ? MemoryAddress.NULL : Interop.registerCallback(filterFunc)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -541,15 +585,15 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param updateHeader callback that lets you add row headers
      */
     public void setHeaderFunc(@Nullable org.gtk.gtk.ListBoxUpdateHeaderFunc updateHeader) {
-        java.util.Objects.requireNonNullElse(updateHeader, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_list_box_set_header_func.invokeExact(handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gtk_list_box_set_header_func.invokeExact(
+                    handle(),
+                    (Addressable) (updateHeader == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbListBoxUpdateHeaderFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (updateHeader == null ? MemoryAddress.NULL : Interop.registerCallback(updateHeader)), 
+                        Interop.getScope())),
+                    (Addressable) (updateHeader == null ? MemoryAddress.NULL : Interop.registerCallback(updateHeader)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -562,9 +606,10 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param placeholder a {@code GtkWidget}
      */
     public void setPlaceholder(@Nullable org.gtk.gtk.Widget placeholder) {
-        java.util.Objects.requireNonNullElse(placeholder, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_list_box_set_placeholder.invokeExact(handle(), placeholder.handle());
+            DowncallHandles.gtk_list_box_set_placeholder.invokeExact(
+                    handle(),
+                    (Addressable) (placeholder == null ? MemoryAddress.NULL : placeholder.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -577,7 +622,9 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void setSelectionMode(@NotNull org.gtk.gtk.SelectionMode mode) {
         java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
         try {
-            DowncallHandles.gtk_list_box_set_selection_mode.invokeExact(handle(), mode.getValue());
+            DowncallHandles.gtk_list_box_set_selection_mode.invokeExact(
+                    handle(),
+                    mode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -590,7 +637,9 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void setShowSeparators(boolean showSeparators) {
         try {
-            DowncallHandles.gtk_list_box_set_show_separators.invokeExact(handle(), showSeparators ? 1 : 0);
+            DowncallHandles.gtk_list_box_set_show_separators.invokeExact(
+                    handle(),
+                    showSeparators ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -612,15 +661,15 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param sortFunc the sort function
      */
     public void setSortFunc(@Nullable org.gtk.gtk.ListBoxSortFunc sortFunc) {
-        java.util.Objects.requireNonNullElse(sortFunc, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_list_box_set_sort_func.invokeExact(handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gtk_list_box_set_sort_func.invokeExact(
+                    handle(),
+                    (Addressable) (sortFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbListBoxSortFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (sortFunc == null ? MemoryAddress.NULL : Interop.registerCallback(sortFunc)), 
+                        Interop.getScope())),
+                    (Addressable) (sortFunc == null ? MemoryAddress.NULL : Interop.registerCallback(sortFunc)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -632,7 +681,8 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void unselectAll() {
         try {
-            DowncallHandles.gtk_list_box_unselect_all.invokeExact(handle());
+            DowncallHandles.gtk_list_box_unselect_all.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -645,7 +695,9 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public void unselectRow(@NotNull org.gtk.gtk.ListBoxRow row) {
         java.util.Objects.requireNonNull(row, "Parameter 'row' must not be null");
         try {
-            DowncallHandles.gtk_list_box_unselect_row.invokeExact(handle(), row.handle());
+            DowncallHandles.gtk_list_box_unselect_row.invokeExact(
+                    handle(),
+                    row.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

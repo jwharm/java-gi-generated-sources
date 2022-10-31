@@ -16,25 +16,38 @@ public class CallbackAnimationTarget extends org.gnome.adw.AnimationTarget {
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwCallbackAnimationTarget";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public CallbackAnimationTarget(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CallbackAnimationTarget */
+    /**
+     * Cast object to CallbackAnimationTarget if its GType is a (or inherits from) "AdwCallbackAnimationTarget".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CallbackAnimationTarget" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwCallbackAnimationTarget", a ClassCastException will be thrown.
+     */
     public static CallbackAnimationTarget castFrom(org.gtk.gobject.Object gobject) {
-        return new CallbackAnimationTarget(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwCallbackAnimationTarget"))) {
+            return new CallbackAnimationTarget(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwCallbackAnimationTarget");
+        }
     }
     
-    private static Refcounted constructNew(@Nullable org.gnome.adw.AnimationTargetFunc callback) {
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
+    private static Refcounted constructNew(@NotNull org.gnome.adw.AnimationTargetFunc callback) {
+        java.util.Objects.requireNonNull(callback, "Parameter 'callback' must not be null");
         Refcounted RESULT;
         try {
             RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_callback_animation_target_new.invokeExact(
@@ -42,8 +55,8 @@ public class CallbackAnimationTarget extends org.gnome.adw.AnimationTarget {
                         MethodHandles.lookup().findStatic(Adw.Callbacks.class, "cbAnimationTargetFunc",
                             MethodType.methodType(void.class, double.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)), 
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(callback)),
                     Interop.cbDestroyNotifySymbol()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -56,7 +69,7 @@ public class CallbackAnimationTarget extends org.gnome.adw.AnimationTarget {
      * the animation.
      * @param callback the callback to call
      */
-    public CallbackAnimationTarget(@Nullable org.gnome.adw.AnimationTargetFunc callback) {
+    public CallbackAnimationTarget(@NotNull org.gnome.adw.AnimationTargetFunc callback) {
         super(constructNew(callback));
     }
     

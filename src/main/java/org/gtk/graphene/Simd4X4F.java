@@ -11,21 +11,33 @@ public class Simd4X4F extends io.github.jwharm.javagi.ResourceBase {
         Graphene.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "graphene_simd4x4f_t";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.graphene.Simd4F.getMemoryLayout().withName("x"),
         org.gtk.graphene.Simd4F.getMemoryLayout().withName("y"),
         org.gtk.graphene.Simd4F.getMemoryLayout().withName("z"),
         org.gtk.graphene.Simd4F.getMemoryLayout().withName("w")
-    ).withName("graphene_simd4x4f_t");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Simd4X4F allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Simd4X4F newInstance = new Simd4X4F(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Simd4X4F(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

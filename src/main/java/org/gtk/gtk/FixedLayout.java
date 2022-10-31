@@ -47,21 +47,34 @@ public class FixedLayout extends org.gtk.gtk.LayoutManager {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkFixedLayout";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public FixedLayout(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to FixedLayout */
+    /**
+     * Cast object to FixedLayout if its GType is a (or inherits from) "GtkFixedLayout".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "FixedLayout" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkFixedLayout", a ClassCastException will be thrown.
+     */
     public static FixedLayout castFrom(org.gtk.gobject.Object gobject) {
-        return new FixedLayout(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFixedLayout"))) {
+            return new FixedLayout(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkFixedLayout");
+        }
     }
     
     private static Refcounted constructNew() {

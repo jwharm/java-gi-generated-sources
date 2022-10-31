@@ -173,26 +173,39 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GApplicationCommandLine";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.ApplicationCommandLinePrivate.getMemoryLayout().withName("priv")
-    ).withName("GApplicationCommandLine");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    @ApiStatus.Internal
     public ApplicationCommandLine(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ApplicationCommandLine */
+    /**
+     * Cast object to ApplicationCommandLine if its GType is a (or inherits from) "GApplicationCommandLine".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ApplicationCommandLine" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GApplicationCommandLine", a ClassCastException will be thrown.
+     */
     public static ApplicationCommandLine castFrom(org.gtk.gobject.Object gobject) {
-        return new ApplicationCommandLine(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GApplicationCommandLine"))) {
+            return new ApplicationCommandLine(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GApplicationCommandLine");
+        }
     }
     
     /**
@@ -209,7 +222,9 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(arg, "Parameter 'arg' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_create_file_for_arg.invokeExact(handle(), Interop.allocateNativeString(arg));
+            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_create_file_for_arg.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(arg));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -236,7 +251,9 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
         MemorySegment argcPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_arguments.invokeExact(handle(), (Addressable) argcPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_arguments.invokeExact(
+                    handle(),
+                    (Addressable) argcPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -244,7 +261,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
         java.lang.String[] resultARRAY = new java.lang.String[argc.get().intValue()];
         for (int I = 0; I < argc.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = OBJ.getUtf8String(0);
+            resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
     }
@@ -263,11 +280,12 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getCwd() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_cwd.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_cwd.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -291,7 +309,8 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
     public @NotNull PointerString getEnviron() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_environ.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_environ.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -306,7 +325,8 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
     public int getExitStatus() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_application_command_line_get_exit_status.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_application_command_line_get_exit_status.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -320,7 +340,8 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
     public boolean getIsRemote() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_application_command_line_get_is_remote.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_application_command_line_get_is_remote.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -342,7 +363,8 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
     public @NotNull org.gtk.glib.VariantDict getOptionsDict() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_options_dict.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_options_dict.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -363,7 +385,8 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
     public @Nullable org.gtk.glib.Variant getPlatformData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_platform_data.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_platform_data.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -386,7 +409,8 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gio.InputStream getStdin() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_stdin.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_stdin.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -412,11 +436,13 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_getenv.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_getenv.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -471,7 +497,9 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      */
     public void setExitStatus(int exitStatus) {
         try {
-            DowncallHandles.g_application_command_line_set_exit_status.invokeExact(handle(), exitStatus);
+            DowncallHandles.g_application_command_line_set_exit_status.invokeExact(
+                    handle(),
+                    exitStatus);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

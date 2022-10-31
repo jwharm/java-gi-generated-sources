@@ -15,28 +15,43 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements org.gtk.gi
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GZlibCompressor";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ZlibCompressor(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ZlibCompressor */
+    /**
+     * Cast object to ZlibCompressor if its GType is a (or inherits from) "GZlibCompressor".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ZlibCompressor" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GZlibCompressor", a ClassCastException will be thrown.
+     */
     public static ZlibCompressor castFrom(org.gtk.gobject.Object gobject) {
-        return new ZlibCompressor(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GZlibCompressor"))) {
+            return new ZlibCompressor(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GZlibCompressor");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gio.ZlibCompressorFormat format, int level) {
         java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_zlib_compressor_new.invokeExact(format.getValue(), level), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_zlib_compressor_new.invokeExact(
+                    format.getValue(),
+                    level), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -59,7 +74,8 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements org.gtk.gi
     public @Nullable org.gtk.gio.FileInfo getFileInfo() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_zlib_compressor_get_file_info.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_zlib_compressor_get_file_info.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -78,9 +94,10 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements org.gtk.gi
      * @param fileInfo a {@link FileInfo}
      */
     public void setFileInfo(@Nullable org.gtk.gio.FileInfo fileInfo) {
-        java.util.Objects.requireNonNullElse(fileInfo, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_zlib_compressor_set_file_info.invokeExact(handle(), fileInfo.handle());
+            DowncallHandles.g_zlib_compressor_set_file_info.invokeExact(
+                    handle(),
+                    (Addressable) (fileInfo == null ? MemoryAddress.NULL : fileInfo.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

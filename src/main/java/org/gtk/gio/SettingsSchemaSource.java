@@ -15,25 +15,39 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSettingsSchemaSource";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static SettingsSchemaSource allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        SettingsSchemaSource newInstance = new SettingsSchemaSource(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public SettingsSchemaSource(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
     private static Refcounted constructNewFromDirectory(@NotNull java.lang.String directory, @Nullable org.gtk.gio.SettingsSchemaSource parent, boolean trusted) throws GErrorException {
         java.util.Objects.requireNonNull(directory, "Parameter 'directory' must not be null");
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_settings_schema_source_new_from_directory.invokeExact(Interop.allocateNativeString(directory), parent.handle(), trusted ? 1 : 0, (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_settings_schema_source_new_from_directory.invokeExact(
+                    Interop.allocateNativeString(directory),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                    trusted ? 1 : 0, (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,7 +140,10 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(schemaId, "Parameter 'schemaId' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_source_lookup.invokeExact(handle(), Interop.allocateNativeString(schemaId), recursive ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_source_lookup.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(schemaId),
+                    recursive ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,7 +157,8 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gio.SettingsSchemaSource ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_source_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_source_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,7 +170,8 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_settings_schema_source_unref.invokeExact(handle());
+            DowncallHandles.g_settings_schema_source_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

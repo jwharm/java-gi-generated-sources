@@ -81,25 +81,38 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkToggleButton";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Button.getMemoryLayout().withName("button")
-    ).withName("GtkToggleButton");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    @ApiStatus.Internal
     public ToggleButton(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ToggleButton */
+    /**
+     * Cast object to ToggleButton if its GType is a (or inherits from) "GtkToggleButton".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ToggleButton" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkToggleButton", a ClassCastException will be thrown.
+     */
     public static ToggleButton castFrom(org.gtk.gobject.Object gobject) {
-        return new ToggleButton(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkToggleButton"))) {
+            return new ToggleButton(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkToggleButton");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -125,7 +138,8 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
         java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_toggle_button_new_with_label.invokeExact(Interop.allocateNativeString(label)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_toggle_button_new_with_label.invokeExact(
+                    Interop.allocateNativeString(label)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,7 +159,8 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
         java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_toggle_button_new_with_mnemonic.invokeExact(Interop.allocateNativeString(label)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_toggle_button_new_with_mnemonic.invokeExact(
+                    Interop.allocateNativeString(label)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,7 +190,8 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
     public boolean getActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_toggle_button_get_active.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_toggle_button_get_active.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -194,7 +210,9 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
      */
     public void setActive(boolean isActive) {
         try {
-            DowncallHandles.gtk_toggle_button_set_active.invokeExact(handle(), isActive ? 1 : 0);
+            DowncallHandles.gtk_toggle_button_set_active.invokeExact(
+                    handle(),
+                    isActive ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -216,9 +234,10 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
      *   form a group with
      */
     public void setGroup(@Nullable org.gtk.gtk.ToggleButton group) {
-        java.util.Objects.requireNonNullElse(group, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_toggle_button_set_group.invokeExact(handle(), group.handle());
+            DowncallHandles.gtk_toggle_button_set_group.invokeExact(
+                    handle(),
+                    (Addressable) (group == null ? MemoryAddress.NULL : group.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -231,7 +250,8 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
      */
     public void toggled() {
         try {
-            DowncallHandles.gtk_toggle_button_toggled.invokeExact(handle());
+            DowncallHandles.gtk_toggle_button_toggled.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

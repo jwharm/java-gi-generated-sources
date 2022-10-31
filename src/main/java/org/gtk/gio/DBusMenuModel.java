@@ -16,21 +16,34 @@ public class DBusMenuModel extends org.gtk.gio.MenuModel {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GDBusMenuModel";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public DBusMenuModel(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DBusMenuModel */
+    /**
+     * Cast object to DBusMenuModel if its GType is a (or inherits from) "GDBusMenuModel".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DBusMenuModel" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GDBusMenuModel", a ClassCastException will be thrown.
+     */
     public static DBusMenuModel castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusMenuModel(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusMenuModel"))) {
+            return new DBusMenuModel(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDBusMenuModel");
+        }
     }
     
     /**
@@ -51,11 +64,13 @@ public class DBusMenuModel extends org.gtk.gio.MenuModel {
      */
     public static @NotNull org.gtk.gio.DBusMenuModel get(@NotNull org.gtk.gio.DBusConnection connection, @Nullable java.lang.String busName, @NotNull java.lang.String objectPath) {
         java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
-        java.util.Objects.requireNonNullElse(busName, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_menu_model_get.invokeExact(connection.handle(), Interop.allocateNativeString(busName), Interop.allocateNativeString(objectPath));
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_menu_model_get.invokeExact(
+                    connection.handle(),
+                    (Addressable) (busName == null ? MemoryAddress.NULL : Interop.allocateNativeString(busName)),
+                    Interop.allocateNativeString(objectPath));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

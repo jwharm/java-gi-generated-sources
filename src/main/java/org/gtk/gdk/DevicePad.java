@@ -27,6 +27,21 @@ import org.jetbrains.annotations.*;
 public interface DevicePad extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to DevicePad if its GType is a (or inherits from) "GdkDevicePad".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DevicePad" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkDevicePad", a ClassCastException will be thrown.
+     */
+    public static DevicePad castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkDevicePad"))) {
+            return new DevicePadImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkDevicePad");
+        }
+    }
+    
+    /**
      * Returns the group the given {@code feature} and {@code idx} belong to.
      * <p>
      * f the feature or index do not exist in {@code pad}, -1 is returned.
@@ -38,7 +53,10 @@ public interface DevicePad extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(feature, "Parameter 'feature' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_pad_get_feature_group.invokeExact(handle(), feature.getValue(), featureIdx);
+            RESULT = (int) DowncallHandles.gdk_device_pad_get_feature_group.invokeExact(
+                    handle(),
+                    feature.getValue(),
+                    featureIdx);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -53,7 +71,9 @@ public interface DevicePad extends io.github.jwharm.javagi.Proxy {
     default int getGroupNModes(int groupIdx) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_pad_get_group_n_modes.invokeExact(handle(), groupIdx);
+            RESULT = (int) DowncallHandles.gdk_device_pad_get_group_n_modes.invokeExact(
+                    handle(),
+                    groupIdx);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,7 +89,9 @@ public interface DevicePad extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(feature, "Parameter 'feature' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_pad_get_n_features.invokeExact(handle(), feature.getValue());
+            RESULT = (int) DowncallHandles.gdk_device_pad_get_n_features.invokeExact(
+                    handle(),
+                    feature.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,7 +109,8 @@ public interface DevicePad extends io.github.jwharm.javagi.Proxy {
     default int getNGroups() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_pad_get_n_groups.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_device_pad_get_n_groups.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

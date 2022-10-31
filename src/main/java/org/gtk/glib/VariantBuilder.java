@@ -20,14 +20,26 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GVariantBuilder";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static VariantBuilder allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        VariantBuilder newInstance = new VariantBuilder(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public VariantBuilder(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -36,7 +48,8 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_builder_new.invokeExact(type.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_builder_new.invokeExact(
+                    type.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -143,7 +156,9 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
     public void addValue(@NotNull org.gtk.glib.Variant value) {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            DowncallHandles.g_variant_builder_add_value.invokeExact(handle(), value.handle());
+            DowncallHandles.g_variant_builder_add_value.invokeExact(
+                    handle(),
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,7 +182,8 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      */
     public void clear() {
         try {
-            DowncallHandles.g_variant_builder_clear.invokeExact(handle());
+            DowncallHandles.g_variant_builder_clear.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,7 +199,8 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      */
     public void close() {
         try {
-            DowncallHandles.g_variant_builder_close.invokeExact(handle());
+            DowncallHandles.g_variant_builder_close.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -212,7 +229,8 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Variant end() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_builder_end.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_builder_end.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -254,7 +272,9 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
     public void init(@NotNull org.gtk.glib.VariantType type) {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         try {
-            DowncallHandles.g_variant_builder_init.invokeExact(handle(), type.handle());
+            DowncallHandles.g_variant_builder_init.invokeExact(
+                    handle(),
+                    type.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -302,7 +322,9 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
     public void open(@NotNull org.gtk.glib.VariantType type) {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         try {
-            DowncallHandles.g_variant_builder_open.invokeExact(handle(), type.handle());
+            DowncallHandles.g_variant_builder_open.invokeExact(
+                    handle(),
+                    type.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -318,7 +340,8 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.VariantBuilder ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_builder_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_builder_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -336,7 +359,8 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_variant_builder_unref.invokeExact(handle());
+            DowncallHandles.g_variant_builder_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

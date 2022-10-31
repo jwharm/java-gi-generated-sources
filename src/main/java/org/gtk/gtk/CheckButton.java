@@ -60,25 +60,47 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkCheckButton";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkCheckButton");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gtk.Widget parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gtk.Widget(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public CheckButton(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CheckButton */
+    /**
+     * Cast object to CheckButton if its GType is a (or inherits from) "GtkCheckButton".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CheckButton" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkCheckButton", a ClassCastException will be thrown.
+     */
     public static CheckButton castFrom(org.gtk.gobject.Object gobject) {
-        return new CheckButton(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCheckButton"))) {
+            return new CheckButton(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCheckButton");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -99,10 +121,10 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     }
     
     private static Refcounted constructNewWithLabel(@Nullable java.lang.String label) {
-        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_check_button_new_with_label.invokeExact(Interop.allocateNativeString(label)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_check_button_new_with_label.invokeExact(
+                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label))), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,10 +141,10 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     }
     
     private static Refcounted constructNewWithMnemonic(@Nullable java.lang.String label) {
-        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_check_button_new_with_mnemonic.invokeExact(Interop.allocateNativeString(label)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_check_button_new_with_mnemonic.invokeExact(
+                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label))), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,7 +168,8 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public boolean getActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_check_button_get_active.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_check_button_get_active.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,7 +183,8 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public boolean getInconsistent() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_check_button_get_inconsistent.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_check_button_get_inconsistent.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,11 +199,12 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public @Nullable java.lang.String getLabel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_check_button_get_label.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_check_button_get_label.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -191,7 +216,8 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public boolean getUseUnderline() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_check_button_get_use_underline.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_check_button_get_use_underline.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,7 +230,9 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public void setActive(boolean setting) {
         try {
-            DowncallHandles.gtk_check_button_set_active.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_check_button_set_active.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,9 +258,10 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      *   form a group with
      */
     public void setGroup(@Nullable org.gtk.gtk.CheckButton group) {
-        java.util.Objects.requireNonNullElse(group, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_check_button_set_group.invokeExact(handle(), group.handle());
+            DowncallHandles.gtk_check_button_set_group.invokeExact(
+                    handle(),
+                    (Addressable) (group == null ? MemoryAddress.NULL : group.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -247,7 +276,9 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public void setInconsistent(boolean inconsistent) {
         try {
-            DowncallHandles.gtk_check_button_set_inconsistent.invokeExact(handle(), inconsistent ? 1 : 0);
+            DowncallHandles.gtk_check_button_set_inconsistent.invokeExact(
+                    handle(),
+                    inconsistent ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -263,9 +294,10 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      *   to show no text
      */
     public void setLabel(@Nullable java.lang.String label) {
-        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_check_button_set_label.invokeExact(handle(), Interop.allocateNativeString(label));
+            DowncallHandles.gtk_check_button_set_label.invokeExact(
+                    handle(),
+                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -281,7 +313,9 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public void setUseUnderline(boolean setting) {
         try {
-            DowncallHandles.gtk_check_button_set_use_underline.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_check_button_set_use_underline.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

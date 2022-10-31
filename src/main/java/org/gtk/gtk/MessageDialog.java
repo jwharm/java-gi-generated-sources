@@ -67,25 +67,47 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkMessageDialog";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Dialog.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkMessageDialog");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gtk.Dialog parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gtk.Dialog(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public MessageDialog(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to MessageDialog */
+    /**
+     * Cast object to MessageDialog if its GType is a (or inherits from) "GtkMessageDialog".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "MessageDialog" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkMessageDialog", a ClassCastException will be thrown.
+     */
     public static MessageDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new MessageDialog(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMessageDialog"))) {
+            return new MessageDialog(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkMessageDialog");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @NotNull org.gtk.gtk.MessageType type, @NotNull org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat) {
@@ -197,7 +219,8 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
     public @NotNull org.gtk.gtk.Widget getMessageArea() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_message_dialog_get_message_area.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_message_dialog_get_message_area.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -211,7 +234,9 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
     public void setMarkup(@NotNull java.lang.String str) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         try {
-            DowncallHandles.gtk_message_dialog_set_markup.invokeExact(handle(), Interop.allocateNativeString(str));
+            DowncallHandles.gtk_message_dialog_set_markup.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(str));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

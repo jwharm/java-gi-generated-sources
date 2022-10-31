@@ -15,6 +15,8 @@ public class AttrShape extends io.github.jwharm.javagi.ResourceBase {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoAttrShape";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.pango.Attribute.getMemoryLayout().withName("attr"),
         org.pango.Rectangle.getMemoryLayout().withName("ink_rect"),
@@ -22,16 +24,96 @@ public class AttrShape extends io.github.jwharm.javagi.ResourceBase {
         Interop.valueLayout.ADDRESS.withName("data"),
         Interop.valueLayout.ADDRESS.withName("copy_func"),
         Interop.valueLayout.ADDRESS.withName("destroy_func")
-    ).withName("PangoAttrShape");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static AttrShape allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        AttrShape newInstance = new AttrShape(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code attr}
+     * @return The value of the field {@code attr}
+     */
+    public org.pango.Attribute attr$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("attr"));
+        return new org.pango.Attribute(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    /**
+     * Get the value of the field {@code ink_rect}
+     * @return The value of the field {@code ink_rect}
+     */
+    public org.pango.Rectangle ink_rect$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("ink_rect"));
+        return new org.pango.Rectangle(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    /**
+     * Get the value of the field {@code logical_rect}
+     * @return The value of the field {@code logical_rect}
+     */
+    public org.pango.Rectangle logical_rect$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("logical_rect"));
+        return new org.pango.Rectangle(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    /**
+     * Get the value of the field {@code data}
+     * @return The value of the field {@code data}
+     */
+    public java.lang.foreign.MemoryAddress data$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code data}
+     * @param data The new value of the field {@code data}
+     */
+    public void data$set(java.lang.foreign.MemoryAddress data) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), data);
+    }
+    
+    /**
+     * Get the value of the field {@code copy_func}
+     * @return The value of the field {@code copy_func}
+     */
+    public org.pango.AttrDataCopyFunc copy_func$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("copy_func"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    /**
+     * Get the value of the field {@code destroy_func}
+     * @return The value of the field {@code destroy_func}
+     */
+    public org.gtk.glib.DestroyNotify destroy_func$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("destroy_func"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    @ApiStatus.Internal
     public AttrShape(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -54,7 +136,9 @@ public class AttrShape extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_shape_new.invokeExact(inkRect.handle(), logicalRect.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_shape_new.invokeExact(
+                    inkRect.handle(),
+                    logicalRect.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,16 +163,17 @@ public class AttrShape extends io.github.jwharm.javagi.ResourceBase {
     public static @NotNull org.pango.Attribute newWithData(@NotNull org.pango.Rectangle inkRect, @NotNull org.pango.Rectangle logicalRect, @Nullable org.pango.AttrDataCopyFunc copyFunc) {
         java.util.Objects.requireNonNull(inkRect, "Parameter 'inkRect' must not be null");
         java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
-        java.util.Objects.requireNonNullElse(copyFunc, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_shape_new_with_data.invokeExact(inkRect.handle(), logicalRect.handle(), 
-                   (Addressable) (copyFunc == null ? MemoryAddress.NULL : Interop.registerCallback(copyFunc)), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_shape_new_with_data.invokeExact(
+                    inkRect.handle(),
+                    logicalRect.handle(),
+                    (Addressable) (copyFunc == null ? MemoryAddress.NULL : Interop.registerCallback(copyFunc)),
+                    (Addressable) (copyFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Pango.Callbacks.class, "cbAttrDataCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
+                        Interop.getScope())),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

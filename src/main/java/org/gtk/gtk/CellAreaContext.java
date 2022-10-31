@@ -25,25 +25,38 @@ public class CellAreaContext extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkCellAreaContext";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkCellAreaContext");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    @ApiStatus.Internal
     public CellAreaContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CellAreaContext */
+    /**
+     * Cast object to CellAreaContext if its GType is a (or inherits from) "GtkCellAreaContext".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CellAreaContext" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkCellAreaContext", a ClassCastException will be thrown.
+     */
     public static CellAreaContext castFrom(org.gtk.gobject.Object gobject) {
-        return new CellAreaContext(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellAreaContext"))) {
+            return new CellAreaContext(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCellAreaContext");
+        }
     }
     
     /**
@@ -64,7 +77,10 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      */
     public void allocate(int width, int height) {
         try {
-            DowncallHandles.gtk_cell_area_context_allocate.invokeExact(handle(), width, height);
+            DowncallHandles.gtk_cell_area_context_allocate.invokeExact(
+                    handle(),
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,7 +101,10 @@ public class CellAreaContext extends org.gtk.gobject.Object {
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_cell_area_context_get_allocation.invokeExact(handle(), (Addressable) widthPOINTER.address(), (Addressable) heightPOINTER.address());
+            DowncallHandles.gtk_cell_area_context_get_allocation.invokeExact(
+                    handle(),
+                    (Addressable) widthPOINTER.address(),
+                    (Addressable) heightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,7 +128,8 @@ public class CellAreaContext extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.CellArea getArea() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_area_context_get_area.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_area_context_get_area.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -131,7 +151,10 @@ public class CellAreaContext extends org.gtk.gobject.Object {
         MemorySegment minimumHeightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment naturalHeightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_cell_area_context_get_preferred_height.invokeExact(handle(), (Addressable) minimumHeightPOINTER.address(), (Addressable) naturalHeightPOINTER.address());
+            DowncallHandles.gtk_cell_area_context_get_preferred_height.invokeExact(
+                    handle(),
+                    (Addressable) minimumHeightPOINTER.address(),
+                    (Addressable) naturalHeightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,7 +178,11 @@ public class CellAreaContext extends org.gtk.gobject.Object {
         MemorySegment minimumHeightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment naturalHeightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_cell_area_context_get_preferred_height_for_width.invokeExact(handle(), width, (Addressable) minimumHeightPOINTER.address(), (Addressable) naturalHeightPOINTER.address());
+            DowncallHandles.gtk_cell_area_context_get_preferred_height_for_width.invokeExact(
+                    handle(),
+                    width,
+                    (Addressable) minimumHeightPOINTER.address(),
+                    (Addressable) naturalHeightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,7 +205,10 @@ public class CellAreaContext extends org.gtk.gobject.Object {
         MemorySegment minimumWidthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment naturalWidthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_cell_area_context_get_preferred_width.invokeExact(handle(), (Addressable) minimumWidthPOINTER.address(), (Addressable) naturalWidthPOINTER.address());
+            DowncallHandles.gtk_cell_area_context_get_preferred_width.invokeExact(
+                    handle(),
+                    (Addressable) minimumWidthPOINTER.address(),
+                    (Addressable) naturalWidthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,7 +232,11 @@ public class CellAreaContext extends org.gtk.gobject.Object {
         MemorySegment minimumWidthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment naturalWidthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_cell_area_context_get_preferred_width_for_height.invokeExact(handle(), height, (Addressable) minimumWidthPOINTER.address(), (Addressable) naturalWidthPOINTER.address());
+            DowncallHandles.gtk_cell_area_context_get_preferred_width_for_height.invokeExact(
+                    handle(),
+                    height,
+                    (Addressable) minimumWidthPOINTER.address(),
+                    (Addressable) naturalWidthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,7 +257,10 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      */
     public void pushPreferredHeight(int minimumHeight, int naturalHeight) {
         try {
-            DowncallHandles.gtk_cell_area_context_push_preferred_height.invokeExact(handle(), minimumHeight, naturalHeight);
+            DowncallHandles.gtk_cell_area_context_push_preferred_height.invokeExact(
+                    handle(),
+                    minimumHeight,
+                    naturalHeight);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -242,7 +279,10 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      */
     public void pushPreferredWidth(int minimumWidth, int naturalWidth) {
         try {
-            DowncallHandles.gtk_cell_area_context_push_preferred_width.invokeExact(handle(), minimumWidth, naturalWidth);
+            DowncallHandles.gtk_cell_area_context_push_preferred_width.invokeExact(
+                    handle(),
+                    minimumWidth,
+                    naturalWidth);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -274,7 +314,8 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      */
     public void reset() {
         try {
-            DowncallHandles.gtk_cell_area_context_reset.invokeExact(handle());
+            DowncallHandles.gtk_cell_area_context_reset.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

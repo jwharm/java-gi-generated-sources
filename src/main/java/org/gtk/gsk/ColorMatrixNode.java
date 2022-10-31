@@ -14,21 +14,34 @@ public class ColorMatrixNode extends org.gtk.gsk.RenderNode {
         Gsk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GskColorMatrixNode";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ColorMatrixNode(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ColorMatrixNode */
+    /**
+     * Cast object to ColorMatrixNode if its GType is a (or inherits from) "GskColorMatrixNode".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ColorMatrixNode" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GskColorMatrixNode", a ClassCastException will be thrown.
+     */
     public static ColorMatrixNode castFrom(org.gtk.gobject.Object gobject) {
-        return new ColorMatrixNode(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskColorMatrixNode"))) {
+            return new ColorMatrixNode(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskColorMatrixNode");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gsk.RenderNode child, @NotNull org.gtk.graphene.Matrix colorMatrix, @NotNull org.gtk.graphene.Vec4 colorOffset) {
@@ -37,7 +50,10 @@ public class ColorMatrixNode extends org.gtk.gsk.RenderNode {
         java.util.Objects.requireNonNull(colorOffset, "Parameter 'colorOffset' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_color_matrix_node_new.invokeExact(child.handle(), colorMatrix.handle(), colorOffset.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_color_matrix_node_new.invokeExact(
+                    child.handle(),
+                    colorMatrix.handle(),
+                    colorOffset.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -68,7 +84,8 @@ public class ColorMatrixNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.gsk.RenderNode getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_color_matrix_node_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_color_matrix_node_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +99,8 @@ public class ColorMatrixNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.graphene.Matrix getColorMatrix() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_color_matrix_node_get_color_matrix.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_color_matrix_node_get_color_matrix.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,7 +114,8 @@ public class ColorMatrixNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.graphene.Vec4 getColorOffset() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_color_matrix_node_get_color_offset.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_color_matrix_node_get_color_offset.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

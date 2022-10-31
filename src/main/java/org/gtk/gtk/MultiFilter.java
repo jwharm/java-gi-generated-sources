@@ -14,21 +14,34 @@ public class MultiFilter extends org.gtk.gtk.Filter implements org.gtk.gio.ListM
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkMultiFilter";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public MultiFilter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to MultiFilter */
+    /**
+     * Cast object to MultiFilter if its GType is a (or inherits from) "GtkMultiFilter".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "MultiFilter" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkMultiFilter", a ClassCastException will be thrown.
+     */
     public static MultiFilter castFrom(org.gtk.gobject.Object gobject) {
-        return new MultiFilter(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMultiFilter"))) {
+            return new MultiFilter(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkMultiFilter");
+        }
     }
     
     /**
@@ -38,7 +51,9 @@ public class MultiFilter extends org.gtk.gtk.Filter implements org.gtk.gio.ListM
     public void append(@NotNull org.gtk.gtk.Filter filter) {
         java.util.Objects.requireNonNull(filter, "Parameter 'filter' must not be null");
         try {
-            DowncallHandles.gtk_multi_filter_append.invokeExact(handle(), filter.refcounted().unowned().handle());
+            DowncallHandles.gtk_multi_filter_append.invokeExact(
+                    handle(),
+                    filter.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -54,7 +69,9 @@ public class MultiFilter extends org.gtk.gtk.Filter implements org.gtk.gio.ListM
      */
     public void remove(int position) {
         try {
-            DowncallHandles.gtk_multi_filter_remove.invokeExact(handle(), position);
+            DowncallHandles.gtk_multi_filter_remove.invokeExact(
+                    handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -35,21 +35,34 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwSqueezer";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Squeezer(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Squeezer */
+    /**
+     * Cast object to Squeezer if its GType is a (or inherits from) "AdwSqueezer".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Squeezer" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwSqueezer", a ClassCastException will be thrown.
+     */
     public static Squeezer castFrom(org.gtk.gobject.Object gobject) {
-        return new Squeezer(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwSqueezer"))) {
+            return new Squeezer(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwSqueezer");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -78,7 +91,9 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_squeezer_add.invokeExact(handle(), child.handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_squeezer_add.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,7 +107,8 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getAllowNone() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_squeezer_get_allow_none.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_squeezer_get_allow_none.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,7 +122,8 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getHomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_squeezer_get_homogeneous.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_squeezer_get_homogeneous.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,7 +137,8 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getInterpolateSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_squeezer_get_interpolate_size.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_squeezer_get_interpolate_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,7 +154,9 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_squeezer_get_page.invokeExact(handle(), child.handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_squeezer_get_page.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,7 +173,8 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @NotNull org.gtk.gtk.SelectionModel getPages() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_squeezer_get_pages.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_squeezer_get_pages.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,12 +182,13 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     }
     
     /**
-     * Gets the fold threshold policy for {@code self}.
+     * Gets the switch threshold policy for {@code self}.
      */
     public @NotNull org.gnome.adw.FoldThresholdPolicy getSwitchThresholdPolicy() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_squeezer_get_switch_threshold_policy.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_squeezer_get_switch_threshold_policy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,7 +202,8 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getTransitionDuration() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_squeezer_get_transition_duration.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_squeezer_get_transition_duration.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -189,12 +212,17 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Gets whether a transition is currently running for {@code self}.
+     * <p>
+     * If a transition is impossible, the property value will be set to {@code TRUE} and
+     * then immediately to {@code FALSE}, so it's possible to rely on its notifications
+     * to know that a transition has happened.
      * @return whether a transition is currently running
      */
     public boolean getTransitionRunning() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_squeezer_get_transition_running.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_squeezer_get_transition_running.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -208,7 +236,8 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @NotNull org.gnome.adw.SqueezerTransitionType getTransitionType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_squeezer_get_transition_type.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_squeezer_get_transition_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -222,7 +251,8 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.Widget getVisibleChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_squeezer_get_visible_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_squeezer_get_visible_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -236,7 +266,8 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public float getXalign() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.adw_squeezer_get_xalign.invokeExact(handle());
+            RESULT = (float) DowncallHandles.adw_squeezer_get_xalign.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -250,7 +281,8 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public float getYalign() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.adw_squeezer_get_yalign.invokeExact(handle());
+            RESULT = (float) DowncallHandles.adw_squeezer_get_yalign.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -264,7 +296,9 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public void remove(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.adw_squeezer_remove.invokeExact(handle(), child.handle());
+            DowncallHandles.adw_squeezer_remove.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -272,11 +306,17 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Sets whether to allow squeezing beyond the last child's minimum size.
+     * <p>
+     * If set to {@code TRUE}, the squeezer can shrink to the point where no child can be
+     * shown. This is functionally equivalent to appending a widget with 0×0 minimum
+     * size.
      * @param allowNone whether {@code self} allows squeezing beyond the last child
      */
     public void setAllowNone(boolean allowNone) {
         try {
-            DowncallHandles.adw_squeezer_set_allow_none.invokeExact(handle(), allowNone ? 1 : 0);
+            DowncallHandles.adw_squeezer_set_allow_none.invokeExact(
+                    handle(),
+                    allowNone ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -284,11 +324,17 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Sets whether all children have the same size for the opposite orientation.
+     * <p>
+     * For example, if a squeezer is horizontal and is homogeneous, it will request
+     * the same height for all its children. If it isn't, the squeezer may change
+     * size when a different child becomes visible.
      * @param homogeneous whether {@code self} is homogeneous
      */
     public void setHomogeneous(boolean homogeneous) {
         try {
-            DowncallHandles.adw_squeezer_set_homogeneous.invokeExact(handle(), homogeneous ? 1 : 0);
+            DowncallHandles.adw_squeezer_set_homogeneous.invokeExact(
+                    handle(),
+                    homogeneous ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -296,24 +342,42 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Sets whether {@code self} interpolates its size when changing the visible child.
+     * <p>
+     * If {@code TRUE}, the squeezer will interpolate its size between the one of the
+     * previous visible child and the one of the new visible child, according to the
+     * set transition duration and the orientation, e.g. if the squeezer is
+     * horizontal, it will interpolate the its height.
      * @param interpolateSize whether to interpolate the size
      */
     public void setInterpolateSize(boolean interpolateSize) {
         try {
-            DowncallHandles.adw_squeezer_set_interpolate_size.invokeExact(handle(), interpolateSize ? 1 : 0);
+            DowncallHandles.adw_squeezer_set_interpolate_size.invokeExact(
+                    handle(),
+                    interpolateSize ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     /**
-     * Sets the fold threshold policy for {@code self}.
+     * Sets the switch threshold policy for {@code self}.
+     * <p>
+     * Determines when the squeezer will switch children.
+     * <p>
+     * If set to {@code ADW_FOLD_THRESHOLD_POLICY_MINIMUM}, it will only switch when the
+     * visible child cannot fit anymore. With {@code ADW_FOLD_THRESHOLD_POLICY_NATURAL},
+     * it will switch as soon as the visible child doesn't get their natural size.
+     * <p>
+     * This can be useful if you have a long ellipsizing label and want to let it
+     * ellipsize instead of immediately switching.
      * @param policy the policy to use
      */
     public void setSwitchThresholdPolicy(@NotNull org.gnome.adw.FoldThresholdPolicy policy) {
         java.util.Objects.requireNonNull(policy, "Parameter 'policy' must not be null");
         try {
-            DowncallHandles.adw_squeezer_set_switch_threshold_policy.invokeExact(handle(), policy.getValue());
+            DowncallHandles.adw_squeezer_set_switch_threshold_policy.invokeExact(
+                    handle(),
+                    policy.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -325,7 +389,9 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void setTransitionDuration(int duration) {
         try {
-            DowncallHandles.adw_squeezer_set_transition_duration.invokeExact(handle(), duration);
+            DowncallHandles.adw_squeezer_set_transition_duration.invokeExact(
+                    handle(),
+                    duration);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -338,7 +404,9 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public void setTransitionType(@NotNull org.gnome.adw.SqueezerTransitionType transition) {
         java.util.Objects.requireNonNull(transition, "Parameter 'transition' must not be null");
         try {
-            DowncallHandles.adw_squeezer_set_transition_type.invokeExact(handle(), transition.getValue());
+            DowncallHandles.adw_squeezer_set_transition_type.invokeExact(
+                    handle(),
+                    transition.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -346,11 +414,19 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Sets the horizontal alignment, from 0 (start) to 1 (end).
+     * <p>
+     * This affects the children allocation during transitions, when they exceed the
+     * size of the squeezer.
+     * <p>
+     * For example, 0.5 means the child will be centered, 0 means it will keep the
+     * start side aligned and overflow the end side, and 1 means the opposite.
      * @param xalign the new alignment value
      */
     public void setXalign(float xalign) {
         try {
-            DowncallHandles.adw_squeezer_set_xalign.invokeExact(handle(), xalign);
+            DowncallHandles.adw_squeezer_set_xalign.invokeExact(
+                    handle(),
+                    xalign);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -358,11 +434,19 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Sets the vertical alignment, from 0 (top) to 1 (bottom).
+     * <p>
+     * This affects the children allocation during transitions, when they exceed the
+     * size of the squeezer.
+     * <p>
+     * For example, 0.5 means the child will be centered, 0 means it will keep the
+     * top side aligned and overflow the bottom side, and 1 means the opposite.
      * @param yalign the new alignment value
      */
     public void setYalign(float yalign) {
         try {
-            DowncallHandles.adw_squeezer_set_yalign.invokeExact(handle(), yalign);
+            DowncallHandles.adw_squeezer_set_yalign.invokeExact(
+                    handle(),
+                    yalign);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

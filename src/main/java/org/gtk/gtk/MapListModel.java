@@ -40,35 +40,47 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkMapListModel";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public MapListModel(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to MapListModel */
+    /**
+     * Cast object to MapListModel if its GType is a (or inherits from) "GtkMapListModel".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "MapListModel" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkMapListModel", a ClassCastException will be thrown.
+     */
     public static MapListModel castFrom(org.gtk.gobject.Object gobject) {
-        return new MapListModel(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMapListModel"))) {
+            return new MapListModel(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkMapListModel");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.MapListModelMapFunc mapFunc) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(mapFunc, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_map_list_model_new.invokeExact(model.refcounted().unowned().handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_map_list_model_new.invokeExact(
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.refcounted().unowned().handle()),
+                    (Addressable) (mapFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbMapListModelMapFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (mapFunc == null ? MemoryAddress.NULL : Interop.registerCallback(mapFunc)), 
+                        Interop.getScope())),
+                    (Addressable) (mapFunc == null ? MemoryAddress.NULL : Interop.registerCallback(mapFunc)),
                     Interop.cbDestroyNotifySymbol()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -92,7 +104,8 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
     public @Nullable org.gtk.gio.ListModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_map_list_model_get_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_map_list_model_get_model.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,7 +119,8 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
     public boolean hasMap() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_map_list_model_has_map.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_map_list_model_has_map.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -128,15 +142,15 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
      * @param mapFunc map function
      */
     public void setMapFunc(@Nullable org.gtk.gtk.MapListModelMapFunc mapFunc) {
-        java.util.Objects.requireNonNullElse(mapFunc, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_map_list_model_set_map_func.invokeExact(handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gtk_map_list_model_set_map_func.invokeExact(
+                    handle(),
+                    (Addressable) (mapFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbMapListModelMapFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (mapFunc == null ? MemoryAddress.NULL : Interop.registerCallback(mapFunc)), 
+                        Interop.getScope())),
+                    (Addressable) (mapFunc == null ? MemoryAddress.NULL : Interop.registerCallback(mapFunc)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -152,9 +166,10 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
      * @param model The model to be mapped
      */
     public void setModel(@Nullable org.gtk.gio.ListModel model) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_map_list_model_set_model.invokeExact(handle(), model.handle());
+            DowncallHandles.gtk_map_list_model_set_model.invokeExact(
+                    handle(),
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

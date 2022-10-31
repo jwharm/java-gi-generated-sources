@@ -45,23 +45,36 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkContentFormats";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static ContentFormats allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        ContentFormats newInstance = new ContentFormats(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public ContentFormats(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
     private static Refcounted constructNew(java.lang.String[] mimeTypes, int nMimeTypes) {
-        java.util.Objects.requireNonNullElse(mimeTypes, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_content_formats_new.invokeExact(Interop.allocateNativeArray(mimeTypes, false), nMimeTypes), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_content_formats_new.invokeExact(
+                    (Addressable) (mimeTypes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(mimeTypes, false)),
+                    nMimeTypes), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -86,7 +99,8 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_content_formats_new_for_gtype.invokeExact(type.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_content_formats_new_for_gtype.invokeExact(
+                    type.getValue().longValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,7 +125,9 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_content_formats_contain_gtype.invokeExact(handle(), type.getValue());
+            RESULT = (int) DowncallHandles.gdk_content_formats_contain_gtype.invokeExact(
+                    handle(),
+                    type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,7 +143,9 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_content_formats_contain_mime_type.invokeExact(handle(), Interop.allocateNativeString(mimeType));
+            RESULT = (int) DowncallHandles.gdk_content_formats_contain_mime_type.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(mimeType));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -148,7 +166,9 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment nGtypesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_get_gtypes.invokeExact(handle(), (Addressable) nGtypesPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_get_gtypes.invokeExact(
+                    handle(),
+                    (Addressable) nGtypesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,7 +197,9 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment nMimeTypesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_get_mime_types.invokeExact(handle(), (Addressable) nMimeTypesPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_get_mime_types.invokeExact(
+                    handle(),
+                    (Addressable) nMimeTypesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -186,7 +208,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         java.lang.String[] resultARRAY = new java.lang.String[nMimeTypes.get().intValue()];
         for (int I = 0; I < nMimeTypes.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = OBJ.getUtf8String(0);
+            resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
     }
@@ -200,7 +222,9 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(second, "Parameter 'second' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_content_formats_match.invokeExact(handle(), second.handle());
+            RESULT = (int) DowncallHandles.gdk_content_formats_match.invokeExact(
+                    handle(),
+                    second.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,7 +243,9 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(second, "Parameter 'second' must not be null");
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gdk_content_formats_match_gtype.invokeExact(handle(), second.handle());
+            RESULT = (long) DowncallHandles.gdk_content_formats_match_gtype.invokeExact(
+                    handle(),
+                    second.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -238,11 +264,13 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(second, "Parameter 'second' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_match_mime_type.invokeExact(handle(), second.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_match_mime_type.invokeExact(
+                    handle(),
+                    second.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -255,7 +283,9 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
     public void print(@NotNull org.gtk.glib.String string) {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         try {
-            DowncallHandles.gdk_content_formats_print.invokeExact(handle(), string.handle());
+            DowncallHandles.gdk_content_formats_print.invokeExact(
+                    handle(),
+                    string.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -268,7 +298,8 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gdk.ContentFormats ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -287,11 +318,12 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_to_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -304,7 +336,9 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(second, "Parameter 'second' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union.invokeExact(handle(), second.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union.invokeExact(
+                    handle(),
+                    second.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -319,7 +353,8 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gdk.ContentFormats unionDeserializeGtypes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union_deserialize_gtypes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union_deserialize_gtypes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -334,7 +369,8 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gdk.ContentFormats unionDeserializeMimeTypes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union_deserialize_mime_types.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union_deserialize_mime_types.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -349,7 +385,8 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gdk.ContentFormats unionSerializeGtypes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union_serialize_gtypes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union_serialize_gtypes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -364,7 +401,8 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gdk.ContentFormats unionSerializeMimeTypes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union_serialize_mime_types.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union_serialize_mime_types.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -378,7 +416,8 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.gdk_content_formats_unref.invokeExact(handle());
+            DowncallHandles.gdk_content_formats_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -400,7 +439,8 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_parse.invokeExact(Interop.allocateNativeString(string));
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_parse.invokeExact(
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

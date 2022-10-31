@@ -43,21 +43,34 @@ public class ActionBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkActionBar";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ActionBar(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ActionBar */
+    /**
+     * Cast object to ActionBar if its GType is a (or inherits from) "GtkActionBar".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ActionBar" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkActionBar", a ClassCastException will be thrown.
+     */
     public static ActionBar castFrom(org.gtk.gobject.Object gobject) {
-        return new ActionBar(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkActionBar"))) {
+            return new ActionBar(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkActionBar");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -84,7 +97,8 @@ public class ActionBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public @Nullable org.gtk.gtk.Widget getCenterWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_action_bar_get_center_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_action_bar_get_center_widget.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +113,8 @@ public class ActionBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public boolean getRevealed() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_action_bar_get_revealed.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_action_bar_get_revealed.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,7 +129,9 @@ public class ActionBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public void packEnd(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_action_bar_pack_end.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_action_bar_pack_end.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -128,7 +145,9 @@ public class ActionBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public void packStart(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_action_bar_pack_start.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_action_bar_pack_start.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,7 +160,9 @@ public class ActionBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public void remove(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_action_bar_remove.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_action_bar_remove.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,9 +173,10 @@ public class ActionBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @param centerWidget a widget to use for the center
      */
     public void setCenterWidget(@Nullable org.gtk.gtk.Widget centerWidget) {
-        java.util.Objects.requireNonNullElse(centerWidget, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_action_bar_set_center_widget.invokeExact(handle(), centerWidget.handle());
+            DowncallHandles.gtk_action_bar_set_center_widget.invokeExact(
+                    handle(),
+                    (Addressable) (centerWidget == null ? MemoryAddress.NULL : centerWidget.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,7 +192,9 @@ public class ActionBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public void setRevealed(boolean revealed) {
         try {
-            DowncallHandles.gtk_action_bar_set_revealed.invokeExact(handle(), revealed ? 1 : 0);
+            DowncallHandles.gtk_action_bar_set_revealed.invokeExact(
+                    handle(),
+                    revealed ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

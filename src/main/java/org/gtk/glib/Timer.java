@@ -14,14 +14,26 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTimer";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Timer allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Timer newInstance = new Timer(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Timer(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -33,7 +45,8 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
      */
     public void continue_() {
         try {
-            DowncallHandles.g_timer_continue.invokeExact(handle());
+            DowncallHandles.g_timer_continue.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -44,7 +57,8 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
      */
     public void destroy() {
         try {
-            DowncallHandles.g_timer_destroy.invokeExact(handle());
+            DowncallHandles.g_timer_destroy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,7 +81,9 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(microseconds, "Parameter 'microseconds' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.g_timer_elapsed.invokeExact(handle(), microseconds.handle());
+            RESULT = (double) DowncallHandles.g_timer_elapsed.invokeExact(
+                    handle(),
+                    microseconds.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -81,7 +97,8 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
     public boolean isActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_timer_is_active.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_timer_is_active.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,7 +112,8 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
      */
     public void reset() {
         try {
-            DowncallHandles.g_timer_reset.invokeExact(handle());
+            DowncallHandles.g_timer_reset.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,7 +127,8 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
      */
     public void start() {
         try {
-            DowncallHandles.g_timer_start.invokeExact(handle());
+            DowncallHandles.g_timer_start.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,7 +140,8 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
      */
     public void stop() {
         try {
-            DowncallHandles.g_timer_stop.invokeExact(handle());
+            DowncallHandles.g_timer_stop.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

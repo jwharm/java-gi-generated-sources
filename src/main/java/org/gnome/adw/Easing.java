@@ -14,13 +14,7 @@ import org.jetbrains.annotations.*;
  */
 public class Easing extends io.github.jwharm.javagi.Enumeration {
     
-    /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
-     */
-    public static MemoryLayout getMemoryLayout() {
-        return Interop.valueLayout.ADDRESS;
-    }
+    private static final java.lang.String C_TYPE_NAME = "AdwEasing";
     
     /**
      * Linear tweening.
@@ -208,7 +202,9 @@ public class Easing extends io.github.jwharm.javagi.Enumeration {
         java.util.Objects.requireNonNull(self, "Parameter 'self' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_easing_ease.invokeExact(self.getValue(), value);
+            RESULT = (double) DowncallHandles.adw_easing_ease.invokeExact(
+                    self.getValue(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

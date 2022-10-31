@@ -15,13 +15,7 @@ import org.jetbrains.annotations.*;
  */
 public class Ordering extends io.github.jwharm.javagi.Enumeration {
     
-    /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
-     */
-    public static MemoryLayout getMemoryLayout() {
-        return Interop.valueLayout.ADDRESS;
-    }
+    private static final java.lang.String C_TYPE_NAME = "GtkOrdering";
     
     /**
      * the first value is smaller than the second
@@ -51,7 +45,8 @@ public class Ordering extends io.github.jwharm.javagi.Enumeration {
     public static @NotNull org.gtk.gtk.Ordering fromCmpfunc(int cmpfuncResult) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_ordering_from_cmpfunc.invokeExact(cmpfuncResult);
+            RESULT = (int) DowncallHandles.gtk_ordering_from_cmpfunc.invokeExact(
+                    cmpfuncResult);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

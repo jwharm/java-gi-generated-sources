@@ -56,21 +56,34 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkStack";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Stack(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Stack */
+    /**
+     * Cast object to Stack if its GType is a (or inherits from) "GtkStack".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Stack" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkStack", a ClassCastException will be thrown.
+     */
     public static Stack castFrom(org.gtk.gobject.Object gobject) {
-        return new Stack(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkStack"))) {
+            return new Stack(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkStack");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -99,7 +112,9 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_add_child.invokeExact(handle(), child.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_add_child.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,10 +131,12 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public @NotNull org.gtk.gtk.StackPage addNamed(@NotNull org.gtk.gtk.Widget child, @Nullable java.lang.String name) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_add_named.invokeExact(handle(), child.handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_add_named.invokeExact(
+                    handle(),
+                    child.handle(),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,11 +156,14 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public @NotNull org.gtk.gtk.StackPage addTitled(@NotNull org.gtk.gtk.Widget child, @Nullable java.lang.String name, @NotNull java.lang.String title) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_add_titled.invokeExact(handle(), child.handle(), Interop.allocateNativeString(name), Interop.allocateNativeString(title));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_add_titled.invokeExact(
+                    handle(),
+                    child.handle(),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
+                    Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,7 +182,9 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_child_by_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_child_by_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -176,7 +198,8 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getHhomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_stack_get_hhomogeneous.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_stack_get_hhomogeneous.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -191,7 +214,8 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getInterpolateSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_stack_get_interpolate_size.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_stack_get_interpolate_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -209,7 +233,9 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_page.invokeExact(handle(), child.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_page.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -227,7 +253,8 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @NotNull org.gtk.gtk.SelectionModel getPages() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_pages.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_pages.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -242,7 +269,8 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public int getTransitionDuration() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_stack_get_transition_duration.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_stack_get_transition_duration.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -257,7 +285,8 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getTransitionRunning() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_stack_get_transition_running.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_stack_get_transition_running.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -272,7 +301,8 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @NotNull org.gtk.gtk.StackTransitionType getTransitionType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_stack_get_transition_type.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_stack_get_transition_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -286,7 +316,8 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getVhomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_stack_get_vhomogeneous.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_stack_get_vhomogeneous.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -302,7 +333,8 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable org.gtk.gtk.Widget getVisibleChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_visible_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_visible_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -319,11 +351,12 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable java.lang.String getVisibleChildName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_visible_child_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_visible_child_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -333,7 +366,9 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void remove(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_stack_remove.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_stack_remove.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -349,7 +384,9 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setHhomogeneous(boolean hhomogeneous) {
         try {
-            DowncallHandles.gtk_stack_set_hhomogeneous.invokeExact(handle(), hhomogeneous ? 1 : 0);
+            DowncallHandles.gtk_stack_set_hhomogeneous.invokeExact(
+                    handle(),
+                    hhomogeneous ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -367,7 +404,9 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setInterpolateSize(boolean interpolateSize) {
         try {
-            DowncallHandles.gtk_stack_set_interpolate_size.invokeExact(handle(), interpolateSize ? 1 : 0);
+            DowncallHandles.gtk_stack_set_interpolate_size.invokeExact(
+                    handle(),
+                    interpolateSize ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -380,7 +419,9 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setTransitionDuration(int duration) {
         try {
-            DowncallHandles.gtk_stack_set_transition_duration.invokeExact(handle(), duration);
+            DowncallHandles.gtk_stack_set_transition_duration.invokeExact(
+                    handle(),
+                    duration);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -400,7 +441,9 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void setTransitionType(@NotNull org.gtk.gtk.StackTransitionType transition) {
         java.util.Objects.requireNonNull(transition, "Parameter 'transition' must not be null");
         try {
-            DowncallHandles.gtk_stack_set_transition_type.invokeExact(handle(), transition.getValue());
+            DowncallHandles.gtk_stack_set_transition_type.invokeExact(
+                    handle(),
+                    transition.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -416,7 +459,9 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setVhomogeneous(boolean vhomogeneous) {
         try {
-            DowncallHandles.gtk_stack_set_vhomogeneous.invokeExact(handle(), vhomogeneous ? 1 : 0);
+            DowncallHandles.gtk_stack_set_vhomogeneous.invokeExact(
+                    handle(),
+                    vhomogeneous ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -437,7 +482,9 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void setVisibleChild(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_stack_set_visible_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_stack_set_visible_child.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -456,7 +503,10 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(transition, "Parameter 'transition' must not be null");
         try {
-            DowncallHandles.gtk_stack_set_visible_child_full.invokeExact(handle(), Interop.allocateNativeString(name), transition.getValue());
+            DowncallHandles.gtk_stack_set_visible_child_full.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name),
+                    transition.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -477,7 +527,9 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void setVisibleChildName(@NotNull java.lang.String name) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            DowncallHandles.gtk_stack_set_visible_child_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.gtk_stack_set_visible_child_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

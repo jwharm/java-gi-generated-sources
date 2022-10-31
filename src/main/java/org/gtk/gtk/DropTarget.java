@@ -83,21 +83,34 @@ public class DropTarget extends org.gtk.gtk.EventController {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkDropTarget";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public DropTarget(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DropTarget */
+    /**
+     * Cast object to DropTarget if its GType is a (or inherits from) "GtkDropTarget".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DropTarget" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkDropTarget", a ClassCastException will be thrown.
+     */
     public static DropTarget castFrom(org.gtk.gobject.Object gobject) {
-        return new DropTarget(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkDropTarget"))) {
+            return new DropTarget(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkDropTarget");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.glib.Type type, @NotNull org.gtk.gdk.DragAction actions) {
@@ -105,7 +118,9 @@ public class DropTarget extends org.gtk.gtk.EventController {
         java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_drop_target_new.invokeExact(type.getValue(), actions.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_drop_target_new.invokeExact(
+                    type.getValue().longValue(),
+                    actions.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,7 +147,8 @@ public class DropTarget extends org.gtk.gtk.EventController {
     public @NotNull org.gtk.gdk.DragAction getActions() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_drop_target_get_actions.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_drop_target_get_actions.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -148,7 +164,8 @@ public class DropTarget extends org.gtk.gtk.EventController {
     public @Nullable org.gtk.gdk.Drop getCurrentDrop() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_target_get_current_drop.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_target_get_current_drop.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -166,7 +183,8 @@ public class DropTarget extends org.gtk.gtk.EventController {
     public @Nullable org.gtk.gdk.Drop getDrop() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_target_get_drop.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_target_get_drop.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,7 +200,8 @@ public class DropTarget extends org.gtk.gtk.EventController {
     public @Nullable org.gtk.gdk.ContentFormats getFormats() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_target_get_formats.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_target_get_formats.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -203,7 +222,9 @@ public class DropTarget extends org.gtk.gtk.EventController {
         MemorySegment nTypesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_target_get_gtypes.invokeExact(handle(), (Addressable) nTypesPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_target_get_gtypes.invokeExact(
+                    handle(),
+                    (Addressable) nTypesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -224,7 +245,8 @@ public class DropTarget extends org.gtk.gtk.EventController {
     public boolean getPreload() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_drop_target_get_preload.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_drop_target_get_preload.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -238,7 +260,8 @@ public class DropTarget extends org.gtk.gtk.EventController {
     public @Nullable org.gtk.gobject.Value getValue() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_target_get_value.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_target_get_value.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -257,7 +280,8 @@ public class DropTarget extends org.gtk.gtk.EventController {
      */
     public void reject() {
         try {
-            DowncallHandles.gtk_drop_target_reject.invokeExact(handle());
+            DowncallHandles.gtk_drop_target_reject.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -270,7 +294,9 @@ public class DropTarget extends org.gtk.gtk.EventController {
     public void setActions(@NotNull org.gtk.gdk.DragAction actions) {
         java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
         try {
-            DowncallHandles.gtk_drop_target_set_actions.invokeExact(handle(), actions.getValue());
+            DowncallHandles.gtk_drop_target_set_actions.invokeExact(
+                    handle(),
+                    actions.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -283,9 +309,11 @@ public class DropTarget extends org.gtk.gtk.EventController {
      * @param nTypes number of {@code types}
      */
     public void setGtypes(org.gtk.glib.Type[] types, long nTypes) {
-        java.util.Objects.requireNonNullElse(types, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_drop_target_set_gtypes.invokeExact(handle(), Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false), nTypes);
+            DowncallHandles.gtk_drop_target_set_gtypes.invokeExact(
+                    handle(),
+                    (Addressable) (types == null ? MemoryAddress.NULL : Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false)),
+                    nTypes);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -297,7 +325,9 @@ public class DropTarget extends org.gtk.gtk.EventController {
      */
     public void setPreload(boolean preload) {
         try {
-            DowncallHandles.gtk_drop_target_set_preload.invokeExact(handle(), preload ? 1 : 0);
+            DowncallHandles.gtk_drop_target_set_preload.invokeExact(
+                    handle(),
+                    preload ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

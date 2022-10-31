@@ -179,21 +179,34 @@ public class FileChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkFileChooserDialog";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public FileChooserDialog(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to FileChooserDialog */
+    /**
+     * Cast object to FileChooserDialog if its GType is a (or inherits from) "GtkFileChooserDialog".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "FileChooserDialog" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkFileChooserDialog", a ClassCastException will be thrown.
+     */
     public static FileChooserDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new FileChooserDialog(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFileChooserDialog"))) {
+            return new FileChooserDialog(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkFileChooserDialog");
+        }
     }
     
     private static Refcounted constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.FileChooserAction action, @Nullable java.lang.String firstButtonText) {

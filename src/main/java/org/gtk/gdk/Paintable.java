@@ -55,6 +55,21 @@ import org.jetbrains.annotations.*;
 public interface Paintable extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to Paintable if its GType is a (or inherits from) "GdkPaintable".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Paintable" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkPaintable", a ClassCastException will be thrown.
+     */
+    public static Paintable castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkPaintable"))) {
+            return new PaintableImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkPaintable");
+        }
+    }
+    
+    /**
      * Compute a concrete size for the {@code GdkPaintable}.
      * <p>
      * Applies the sizing algorithm outlined in the
@@ -82,7 +97,14 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
         MemorySegment concreteWidthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         MemorySegment concreteHeightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         try {
-            DowncallHandles.gdk_paintable_compute_concrete_size.invokeExact(handle(), specifiedWidth, specifiedHeight, defaultWidth, defaultHeight, (Addressable) concreteWidthPOINTER.address(), (Addressable) concreteHeightPOINTER.address());
+            DowncallHandles.gdk_paintable_compute_concrete_size.invokeExact(
+                    handle(),
+                    specifiedWidth,
+                    specifiedHeight,
+                    defaultWidth,
+                    defaultHeight,
+                    (Addressable) concreteWidthPOINTER.address(),
+                    (Addressable) concreteHeightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,7 +125,8 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.gdk.Paintable getCurrentImage() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_paintable_get_current_image.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_paintable_get_current_image.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,7 +144,8 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.gdk.PaintableFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_paintable_get_flags.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_paintable_get_flags.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,7 +175,8 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
     default double getIntrinsicAspectRatio() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gdk_paintable_get_intrinsic_aspect_ratio.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gdk_paintable_get_intrinsic_aspect_ratio.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,7 +199,8 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
     default int getIntrinsicHeight() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_paintable_get_intrinsic_height.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_paintable_get_intrinsic_height.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -197,7 +223,8 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
     default int getIntrinsicWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_paintable_get_intrinsic_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_paintable_get_intrinsic_width.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +245,8 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
      */
     default void invalidateContents() {
         try {
-            DowncallHandles.gdk_paintable_invalidate_contents.invokeExact(handle());
+            DowncallHandles.gdk_paintable_invalidate_contents.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -238,7 +266,8 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
      */
     default void invalidateSize() {
         try {
-            DowncallHandles.gdk_paintable_invalidate_size.invokeExact(handle());
+            DowncallHandles.gdk_paintable_invalidate_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -257,7 +286,11 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
     default void snapshot(@NotNull org.gtk.gdk.Snapshot snapshot, double width, double height) {
         java.util.Objects.requireNonNull(snapshot, "Parameter 'snapshot' must not be null");
         try {
-            DowncallHandles.gdk_paintable_snapshot.invokeExact(handle(), snapshot.handle(), width, height);
+            DowncallHandles.gdk_paintable_snapshot.invokeExact(
+                    handle(),
+                    snapshot.handle(),
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -277,7 +310,9 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
     public static @NotNull org.gtk.gdk.Paintable newEmpty(int intrinsicWidth, int intrinsicHeight) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_paintable_new_empty.invokeExact(intrinsicWidth, intrinsicHeight);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_paintable_new_empty.invokeExact(
+                    intrinsicWidth,
+                    intrinsicHeight);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

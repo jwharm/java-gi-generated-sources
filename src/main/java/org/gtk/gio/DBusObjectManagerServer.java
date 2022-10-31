@@ -36,33 +36,47 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GDBusObjectManagerServer";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.DBusObjectManagerServerPrivate.getMemoryLayout().withName("priv")
-    ).withName("GDBusObjectManagerServer");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    @ApiStatus.Internal
     public DBusObjectManagerServer(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DBusObjectManagerServer */
+    /**
+     * Cast object to DBusObjectManagerServer if its GType is a (or inherits from) "GDBusObjectManagerServer".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DBusObjectManagerServer" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GDBusObjectManagerServer", a ClassCastException will be thrown.
+     */
     public static DBusObjectManagerServer castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusObjectManagerServer(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusObjectManagerServer"))) {
+            return new DBusObjectManagerServer(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDBusObjectManagerServer");
+        }
     }
     
     private static Refcounted constructNew(@NotNull java.lang.String objectPath) {
         java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_object_manager_server_new.invokeExact(Interop.allocateNativeString(objectPath)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_object_manager_server_new.invokeExact(
+                    Interop.allocateNativeString(objectPath)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +113,9 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
     public void export(@NotNull org.gtk.gio.DBusObjectSkeleton object) {
         java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
         try {
-            DowncallHandles.g_dbus_object_manager_server_export.invokeExact(handle(), object.handle());
+            DowncallHandles.g_dbus_object_manager_server_export.invokeExact(
+                    handle(),
+                    object.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,7 +131,9 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
     public void exportUniquely(@NotNull org.gtk.gio.DBusObjectSkeleton object) {
         java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
         try {
-            DowncallHandles.g_dbus_object_manager_server_export_uniquely.invokeExact(handle(), object.handle());
+            DowncallHandles.g_dbus_object_manager_server_export_uniquely.invokeExact(
+                    handle(),
+                    object.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -130,7 +148,8 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
     public @Nullable org.gtk.gio.DBusConnection getConnection() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_manager_server_get_connection.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_manager_server_get_connection.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,7 +165,9 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
         java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_object_manager_server_is_exported.invokeExact(handle(), object.handle());
+            RESULT = (int) DowncallHandles.g_dbus_object_manager_server_is_exported.invokeExact(
+                    handle(),
+                    object.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,9 +180,10 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
      * @param connection A {@link DBusConnection} or {@code null}.
      */
     public void setConnection(@Nullable org.gtk.gio.DBusConnection connection) {
-        java.util.Objects.requireNonNullElse(connection, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_dbus_object_manager_server_set_connection.invokeExact(handle(), connection.handle());
+            DowncallHandles.g_dbus_object_manager_server_set_connection.invokeExact(
+                    handle(),
+                    (Addressable) (connection == null ? MemoryAddress.NULL : connection.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,7 +202,9 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
         java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_object_manager_server_unexport.invokeExact(handle(), Interop.allocateNativeString(objectPath));
+            RESULT = (int) DowncallHandles.g_dbus_object_manager_server_unexport.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(objectPath));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

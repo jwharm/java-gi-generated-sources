@@ -33,28 +33,42 @@ public class SignalGroup extends org.gtk.gobject.Object {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSignalGroup";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public SignalGroup(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to SignalGroup */
+    /**
+     * Cast object to SignalGroup if its GType is a (or inherits from) "GSignalGroup".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "SignalGroup" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GSignalGroup", a ClassCastException will be thrown.
+     */
     public static SignalGroup castFrom(org.gtk.gobject.Object gobject) {
-        return new SignalGroup(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSignalGroup"))) {
+            return new SignalGroup(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSignalGroup");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.glib.Type targetType) {
         java.util.Objects.requireNonNull(targetType, "Parameter 'targetType' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_signal_group_new.invokeExact(targetType.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_signal_group_new.invokeExact(
+                    targetType.getValue().longValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -78,7 +92,8 @@ public class SignalGroup extends org.gtk.gobject.Object {
      */
     public void block() {
         try {
-            DowncallHandles.g_signal_group_block.invokeExact(handle());
+            DowncallHandles.g_signal_group_block.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,13 +111,15 @@ public class SignalGroup extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(detailedSignal, "Parameter 'detailedSignal' must not be null");
         java.util.Objects.requireNonNull(cHandler, "Parameter 'cHandler' must not be null");
         try {
-            DowncallHandles.g_signal_group_connect.invokeExact(handle(), Interop.allocateNativeString(detailedSignal), 
+            DowncallHandles.g_signal_group_connect.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(detailedSignal),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(cHandler)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(cHandler)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -122,13 +139,15 @@ public class SignalGroup extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(detailedSignal, "Parameter 'detailedSignal' must not be null");
         java.util.Objects.requireNonNull(cHandler, "Parameter 'cHandler' must not be null");
         try {
-            DowncallHandles.g_signal_group_connect_after.invokeExact(handle(), Interop.allocateNativeString(detailedSignal), 
+            DowncallHandles.g_signal_group_connect_after.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(detailedSignal),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(cHandler)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(cHandler)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -150,18 +169,21 @@ public class SignalGroup extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(notify, "Parameter 'notify' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            DowncallHandles.g_signal_group_connect_data.invokeExact(handle(), Interop.allocateNativeString(detailedSignal), 
+            DowncallHandles.g_signal_group_connect_data.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(detailedSignal),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(cHandler)), 
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(cHandler)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
-                        Interop.getScope()), flags.getValue());
+                        Interop.getScope()),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -199,13 +221,15 @@ public class SignalGroup extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(detailedSignal, "Parameter 'detailedSignal' must not be null");
         java.util.Objects.requireNonNull(cHandler, "Parameter 'cHandler' must not be null");
         try {
-            DowncallHandles.g_signal_group_connect_swapped.invokeExact(handle(), Interop.allocateNativeString(detailedSignal), 
+            DowncallHandles.g_signal_group_connect_swapped.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(detailedSignal),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(cHandler)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(cHandler)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +242,8 @@ public class SignalGroup extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gobject.Object dupTarget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_signal_group_dup_target.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_signal_group_dup_target.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -236,9 +261,10 @@ public class SignalGroup extends org.gtk.gobject.Object {
      *     when connecting signals.
      */
     public void setTarget(@Nullable org.gtk.gobject.Object target) {
-        java.util.Objects.requireNonNullElse(target, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_signal_group_set_target.invokeExact(handle(), target.handle());
+            DowncallHandles.g_signal_group_set_target.invokeExact(
+                    handle(),
+                    (Addressable) (target == null ? MemoryAddress.NULL : target.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -252,7 +278,8 @@ public class SignalGroup extends org.gtk.gobject.Object {
      */
     public void unblock() {
         try {
-            DowncallHandles.g_signal_group_unblock.invokeExact(handle());
+            DowncallHandles.g_signal_group_unblock.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

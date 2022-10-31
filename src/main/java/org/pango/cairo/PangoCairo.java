@@ -28,7 +28,8 @@ public final class PangoCairo {
         java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_cairo_context_get_font_options.invokeExact(context.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_cairo_context_get_font_options.invokeExact(
+                    context.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -47,7 +48,8 @@ public final class PangoCairo {
         java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.pango_cairo_context_get_resolution.invokeExact(context.handle());
+            RESULT = (double) DowncallHandles.pango_cairo_context_get_resolution.invokeExact(
+                    context.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,9 +86,10 @@ public final class PangoCairo {
      */
     public static void contextSetFontOptions(@NotNull org.pango.Context context, @Nullable org.cairographics.FontOptions options) {
         java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNullElse(options, MemoryAddress.NULL);
         try {
-            DowncallHandles.pango_cairo_context_set_font_options.invokeExact(context.handle(), options.handle());
+            DowncallHandles.pango_cairo_context_set_font_options.invokeExact(
+                    context.handle(),
+                    (Addressable) (options == null ? MemoryAddress.NULL : options.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,7 +109,9 @@ public final class PangoCairo {
     public static void contextSetResolution(@NotNull org.pango.Context context, double dpi) {
         java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
         try {
-            DowncallHandles.pango_cairo_context_set_resolution.invokeExact(context.handle(), dpi);
+            DowncallHandles.pango_cairo_context_set_resolution.invokeExact(
+                    context.handle(),
+                    dpi);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,15 +128,15 @@ public final class PangoCairo {
      */
     public static void contextSetShapeRenderer(@NotNull org.pango.Context context, @Nullable org.pango.cairo.ShapeRendererFunc func) {
         java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNullElse(func, MemoryAddress.NULL);
         try {
-            DowncallHandles.pango_cairo_context_set_shape_renderer.invokeExact(context.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.pango_cairo_context_set_shape_renderer.invokeExact(
+                    context.handle(),
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(PangoCairo.Callbacks.class, "cbShapeRendererFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)), 
+                        Interop.getScope())),
+                    (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -156,7 +161,8 @@ public final class PangoCairo {
         java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_cairo_create_context.invokeExact(cr.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_cairo_create_context.invokeExact(
+                    cr.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,7 +189,8 @@ public final class PangoCairo {
         java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_cairo_create_layout.invokeExact(cr.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_cairo_create_layout.invokeExact(
+                    cr.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -206,7 +213,12 @@ public final class PangoCairo {
     public static void errorUnderlinePath(@NotNull org.cairographics.Context cr, double x, double y, double width, double height) {
         java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
         try {
-            DowncallHandles.pango_cairo_error_underline_path.invokeExact(cr.handle(), x, y, width, height);
+            DowncallHandles.pango_cairo_error_underline_path.invokeExact(
+                    cr.handle(),
+                    x,
+                    y,
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -290,7 +302,8 @@ public final class PangoCairo {
         java.util.Objects.requireNonNull(fonttype, "Parameter 'fonttype' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_cairo_font_map_new_for_font_type.invokeExact(fonttype.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_cairo_font_map_new_for_font_type.invokeExact(
+                    fonttype.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -312,7 +325,10 @@ public final class PangoCairo {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
         try {
-            DowncallHandles.pango_cairo_glyph_string_path.invokeExact(cr.handle(), font.handle(), glyphs.handle());
+            DowncallHandles.pango_cairo_glyph_string_path.invokeExact(
+                    cr.handle(),
+                    font.handle(),
+                    glyphs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -331,7 +347,9 @@ public final class PangoCairo {
         java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
         java.util.Objects.requireNonNull(line, "Parameter 'line' must not be null");
         try {
-            DowncallHandles.pango_cairo_layout_line_path.invokeExact(cr.handle(), line.handle());
+            DowncallHandles.pango_cairo_layout_line_path.invokeExact(
+                    cr.handle(),
+                    line.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -350,7 +368,9 @@ public final class PangoCairo {
         java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
         java.util.Objects.requireNonNull(layout, "Parameter 'layout' must not be null");
         try {
-            DowncallHandles.pango_cairo_layout_path.invokeExact(cr.handle(), layout.handle());
+            DowncallHandles.pango_cairo_layout_path.invokeExact(
+                    cr.handle(),
+                    layout.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -373,7 +393,12 @@ public final class PangoCairo {
     public static void showErrorUnderline(@NotNull org.cairographics.Context cr, double x, double y, double width, double height) {
         java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
         try {
-            DowncallHandles.pango_cairo_show_error_underline.invokeExact(cr.handle(), x, y, width, height);
+            DowncallHandles.pango_cairo_show_error_underline.invokeExact(
+                    cr.handle(),
+                    x,
+                    y,
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -400,7 +425,10 @@ public final class PangoCairo {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         java.util.Objects.requireNonNull(glyphItem, "Parameter 'glyphItem' must not be null");
         try {
-            DowncallHandles.pango_cairo_show_glyph_item.invokeExact(cr.handle(), Interop.allocateNativeString(text), glyphItem.handle());
+            DowncallHandles.pango_cairo_show_glyph_item.invokeExact(
+                    cr.handle(),
+                    Interop.allocateNativeString(text),
+                    glyphItem.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -420,7 +448,10 @@ public final class PangoCairo {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
         try {
-            DowncallHandles.pango_cairo_show_glyph_string.invokeExact(cr.handle(), font.handle(), glyphs.handle());
+            DowncallHandles.pango_cairo_show_glyph_string.invokeExact(
+                    cr.handle(),
+                    font.handle(),
+                    glyphs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -438,7 +469,9 @@ public final class PangoCairo {
         java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
         java.util.Objects.requireNonNull(layout, "Parameter 'layout' must not be null");
         try {
-            DowncallHandles.pango_cairo_show_layout.invokeExact(cr.handle(), layout.handle());
+            DowncallHandles.pango_cairo_show_layout.invokeExact(
+                    cr.handle(),
+                    layout.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -456,7 +489,9 @@ public final class PangoCairo {
         java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
         java.util.Objects.requireNonNull(line, "Parameter 'line' must not be null");
         try {
-            DowncallHandles.pango_cairo_show_layout_line.invokeExact(cr.handle(), line.handle());
+            DowncallHandles.pango_cairo_show_layout_line.invokeExact(
+                    cr.handle(),
+                    line.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -476,7 +511,9 @@ public final class PangoCairo {
         java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
         java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
         try {
-            DowncallHandles.pango_cairo_update_context.invokeExact(cr.handle(), context.handle());
+            DowncallHandles.pango_cairo_update_context.invokeExact(
+                    cr.handle(),
+                    context.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -493,7 +530,9 @@ public final class PangoCairo {
         java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
         java.util.Objects.requireNonNull(layout, "Parameter 'layout' must not be null");
         try {
-            DowncallHandles.pango_cairo_update_layout.invokeExact(cr.handle(), layout.handle());
+            DowncallHandles.pango_cairo_update_layout.invokeExact(
+                    cr.handle(),
+                    layout.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

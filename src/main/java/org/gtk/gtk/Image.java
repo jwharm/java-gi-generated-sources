@@ -49,21 +49,34 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkImage";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Image(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Image */
+    /**
+     * Cast object to Image if its GType is a (or inherits from) "GtkImage".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Image" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkImage", a ClassCastException will be thrown.
+     */
     public static Image castFrom(org.gtk.gobject.Object gobject) {
-        return new Image(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkImage"))) {
+            return new Image(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkImage");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -87,7 +100,8 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_image_new_from_file.invokeExact(Interop.allocateNativeString(filename)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_image_new_from_file.invokeExact(
+                    Interop.allocateNativeString(filename)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,7 +133,8 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         java.util.Objects.requireNonNull(icon, "Parameter 'icon' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_image_new_from_gicon.invokeExact(icon.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_image_new_from_gicon.invokeExact(
+                    icon.handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,10 +155,10 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     }
     
     private static Refcounted constructNewFromIconName(@Nullable java.lang.String iconName) {
-        java.util.Objects.requireNonNullElse(iconName, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_image_new_from_icon_name.invokeExact(Interop.allocateNativeString(iconName)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_image_new_from_icon_name.invokeExact(
+                    (Addressable) (iconName == null ? MemoryAddress.NULL : Interop.allocateNativeString(iconName))), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -164,10 +179,10 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     }
     
     private static Refcounted constructNewFromPaintable(@Nullable org.gtk.gdk.Paintable paintable) {
-        java.util.Objects.requireNonNullElse(paintable, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_image_new_from_paintable.invokeExact(paintable.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_image_new_from_paintable.invokeExact(
+                    (Addressable) (paintable == null ? MemoryAddress.NULL : paintable.handle())), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -191,10 +206,10 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     }
     
     private static Refcounted constructNewFromPixbuf(@Nullable org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        java.util.Objects.requireNonNullElse(pixbuf, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_image_new_from_pixbuf.invokeExact(pixbuf.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_image_new_from_pixbuf.invokeExact(
+                    (Addressable) (pixbuf == null ? MemoryAddress.NULL : pixbuf.handle())), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -225,7 +240,8 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         java.util.Objects.requireNonNull(resourcePath, "Parameter 'resourcePath' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_image_new_from_resource.invokeExact(Interop.allocateNativeString(resourcePath)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_image_new_from_resource.invokeExact(
+                    Interop.allocateNativeString(resourcePath)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -258,7 +274,8 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void clear() {
         try {
-            DowncallHandles.gtk_image_clear.invokeExact(handle());
+            DowncallHandles.gtk_image_clear.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -276,7 +293,8 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable org.gtk.gio.Icon getGicon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_image_get_gicon.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_image_get_gicon.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -295,11 +313,12 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_image_get_icon_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_image_get_icon_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -309,7 +328,8 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @NotNull org.gtk.gtk.IconSize getIconSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_image_get_icon_size.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_image_get_icon_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -328,7 +348,8 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable org.gtk.gdk.Paintable getPaintable() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_image_get_paintable.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_image_get_paintable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -342,7 +363,8 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public int getPixelSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_image_get_pixel_size.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_image_get_pixel_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -360,7 +382,8 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @NotNull org.gtk.gtk.ImageType getStorageType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_image_get_storage_type.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_image_get_storage_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -374,9 +397,10 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param filename a filename
      */
     public void setFromFile(@Nullable java.lang.String filename) {
-        java.util.Objects.requireNonNullElse(filename, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_image_set_from_file.invokeExact(handle(), Interop.allocateNativeString(filename));
+            DowncallHandles.gtk_image_set_from_file.invokeExact(
+                    handle(),
+                    (Addressable) (filename == null ? MemoryAddress.NULL : Interop.allocateNativeString(filename)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -391,7 +415,9 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void setFromGicon(@NotNull org.gtk.gio.Icon icon) {
         java.util.Objects.requireNonNull(icon, "Parameter 'icon' must not be null");
         try {
-            DowncallHandles.gtk_image_set_from_gicon.invokeExact(handle(), icon.handle());
+            DowncallHandles.gtk_image_set_from_gicon.invokeExact(
+                    handle(),
+                    icon.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -404,9 +430,10 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param iconName an icon name
      */
     public void setFromIconName(@Nullable java.lang.String iconName) {
-        java.util.Objects.requireNonNullElse(iconName, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_image_set_from_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName));
+            DowncallHandles.gtk_image_set_from_icon_name.invokeExact(
+                    handle(),
+                    (Addressable) (iconName == null ? MemoryAddress.NULL : Interop.allocateNativeString(iconName)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -419,9 +446,10 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param paintable a {@code GdkPaintable}
      */
     public void setFromPaintable(@Nullable org.gtk.gdk.Paintable paintable) {
-        java.util.Objects.requireNonNullElse(paintable, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_image_set_from_paintable.invokeExact(handle(), paintable.handle());
+            DowncallHandles.gtk_image_set_from_paintable.invokeExact(
+                    handle(),
+                    (Addressable) (paintable == null ? MemoryAddress.NULL : paintable.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -438,9 +466,10 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param pixbuf a {@code GdkPixbuf} or {@code NULL}
      */
     public void setFromPixbuf(@Nullable org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        java.util.Objects.requireNonNullElse(pixbuf, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_image_set_from_pixbuf.invokeExact(handle(), pixbuf.handle());
+            DowncallHandles.gtk_image_set_from_pixbuf.invokeExact(
+                    handle(),
+                    (Addressable) (pixbuf == null ? MemoryAddress.NULL : pixbuf.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -453,9 +482,10 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param resourcePath a resource path
      */
     public void setFromResource(@Nullable java.lang.String resourcePath) {
-        java.util.Objects.requireNonNullElse(resourcePath, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_image_set_from_resource.invokeExact(handle(), Interop.allocateNativeString(resourcePath));
+            DowncallHandles.gtk_image_set_from_resource.invokeExact(
+                    handle(),
+                    (Addressable) (resourcePath == null ? MemoryAddress.NULL : Interop.allocateNativeString(resourcePath)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -468,7 +498,9 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void setIconSize(@NotNull org.gtk.gtk.IconSize iconSize) {
         java.util.Objects.requireNonNull(iconSize, "Parameter 'iconSize' must not be null");
         try {
-            DowncallHandles.gtk_image_set_icon_size.invokeExact(handle(), iconSize.getValue());
+            DowncallHandles.gtk_image_set_icon_size.invokeExact(
+                    handle(),
+                    iconSize.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -483,7 +515,9 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public void setPixelSize(int pixelSize) {
         try {
-            DowncallHandles.gtk_image_set_pixel_size.invokeExact(handle(), pixelSize);
+            DowncallHandles.gtk_image_set_pixel_size.invokeExact(
+                    handle(),
+                    pixelSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

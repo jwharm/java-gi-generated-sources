@@ -15,14 +15,26 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GIOExtensionPoint";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static IOExtensionPoint allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        IOExtensionPoint newInstance = new IOExtensionPoint(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public IOExtensionPoint(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -37,7 +49,9 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_get_extension_by_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_get_extension_by_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -54,7 +68,8 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.List getExtensions() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_get_extensions.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_get_extensions.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,7 +84,8 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.Type getRequiredType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_io_extension_point_get_required_type.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_io_extension_point_get_required_type.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,7 +100,9 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
     public void setRequiredType(@NotNull org.gtk.glib.Type type) {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         try {
-            DowncallHandles.g_io_extension_point_set_required_type.invokeExact(handle(), type.getValue());
+            DowncallHandles.g_io_extension_point_set_required_type.invokeExact(
+                    handle(),
+                    type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,7 +126,11 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(extensionName, "Parameter 'extensionName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_implement.invokeExact(Interop.allocateNativeString(extensionPointName), type.getValue(), Interop.allocateNativeString(extensionName), priority);
+            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_implement.invokeExact(
+                    Interop.allocateNativeString(extensionPointName),
+                    type.getValue().longValue(),
+                    Interop.allocateNativeString(extensionName),
+                    priority);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,7 +147,8 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_lookup.invokeExact(Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_lookup.invokeExact(
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,7 +165,8 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_register.invokeExact(Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_register.invokeExact(
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

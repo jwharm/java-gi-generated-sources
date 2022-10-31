@@ -96,25 +96,47 @@ public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkDrawingArea";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("widget")
-    ).withName("GtkDrawingArea");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code widget}
+     * @return The value of the field {@code widget}
+     */
+    public org.gtk.gtk.Widget widget$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("widget"));
+        return new org.gtk.gtk.Widget(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public DrawingArea(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DrawingArea */
+    /**
+     * Cast object to DrawingArea if its GType is a (or inherits from) "GtkDrawingArea".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DrawingArea" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkDrawingArea", a ClassCastException will be thrown.
+     */
     public static DrawingArea castFrom(org.gtk.gobject.Object gobject) {
-        return new DrawingArea(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkDrawingArea"))) {
+            return new DrawingArea(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkDrawingArea");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -141,7 +163,8 @@ public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public int getContentHeight() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_drawing_area_get_content_height.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_drawing_area_get_content_height.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,7 +178,8 @@ public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public int getContentWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_drawing_area_get_content_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_drawing_area_get_content_width.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,7 +199,9 @@ public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public void setContentHeight(int height) {
         try {
-            DowncallHandles.gtk_drawing_area_set_content_height.invokeExact(handle(), height);
+            DowncallHandles.gtk_drawing_area_set_content_height.invokeExact(
+                    handle(),
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -194,7 +220,9 @@ public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public void setContentWidth(int width) {
         try {
-            DowncallHandles.gtk_drawing_area_set_content_width.invokeExact(handle(), width);
+            DowncallHandles.gtk_drawing_area_set_content_width.invokeExact(
+                    handle(),
+                    width);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,15 +247,15 @@ public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      *   the drawing area's contents
      */
     public void setDrawFunc(@Nullable org.gtk.gtk.DrawingAreaDrawFunc drawFunc) {
-        java.util.Objects.requireNonNullElse(drawFunc, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_drawing_area_set_draw_func.invokeExact(handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gtk_drawing_area_set_draw_func.invokeExact(
+                    handle(),
+                    (Addressable) (drawFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbDrawingAreaDrawFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (drawFunc == null ? MemoryAddress.NULL : Interop.registerCallback(drawFunc)), 
+                        Interop.getScope())),
+                    (Addressable) (drawFunc == null ? MemoryAddress.NULL : Interop.registerCallback(drawFunc)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

@@ -38,21 +38,34 @@ public class TreeSelection extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkTreeSelection";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public TreeSelection(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TreeSelection */
+    /**
+     * Cast object to TreeSelection if its GType is a (or inherits from) "GtkTreeSelection".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TreeSelection" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkTreeSelection", a ClassCastException will be thrown.
+     */
     public static TreeSelection castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeSelection(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeSelection"))) {
+            return new TreeSelection(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTreeSelection");
+        }
     }
     
     /**
@@ -62,7 +75,8 @@ public class TreeSelection extends org.gtk.gobject.Object {
     public int countSelectedRows() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_selection_count_selected_rows.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_selection_count_selected_rows.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,7 +91,8 @@ public class TreeSelection extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.SelectionMode getMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_selection_get_mode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_selection_get_mode.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,19 +117,18 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * @param iter The {@code GtkTreeIter}
      * @return TRUE, if there is a selected node.
      */
-    public boolean getSelected(@NotNull Out<org.gtk.gtk.TreeModel> model, @NotNull Out<org.gtk.gtk.TreeIter> iter) {
+    public boolean getSelected(@NotNull PointerProxy<org.gtk.gtk.TreeModel> model, @NotNull org.gtk.gtk.TreeIter iter) {
         java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        MemorySegment modelPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_selection_get_selected.invokeExact(handle(), (Addressable) modelPOINTER.address(), (Addressable) iterPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_tree_selection_get_selected.invokeExact(
+                    handle(),
+                    model.handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        model.set(new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(modelPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -131,16 +145,16 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * @param model A pointer to set to the {@code GtkTreeModel}
      * @return A {@code GList} containing a {@code GtkTreePath} for each selected row.
      */
-    public @NotNull org.gtk.glib.List getSelectedRows(@NotNull Out<org.gtk.gtk.TreeModel> model) {
+    public @NotNull org.gtk.glib.List getSelectedRows(@NotNull PointerProxy<org.gtk.gtk.TreeModel> model) {
         java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
-        MemorySegment modelPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_selection_get_selected_rows.invokeExact(handle(), (Addressable) modelPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_selection_get_selected_rows.invokeExact(
+                    handle(),
+                    model.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        model.set(new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(modelPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
@@ -151,7 +165,8 @@ public class TreeSelection extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.TreeView getTreeView() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_selection_get_tree_view.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_selection_get_tree_view.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -165,7 +180,8 @@ public class TreeSelection extends org.gtk.gobject.Object {
     public @Nullable java.lang.foreign.MemoryAddress getUserData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_selection_get_user_data.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_selection_get_user_data.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,7 +197,9 @@ public class TreeSelection extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_selection_iter_is_selected.invokeExact(handle(), iter.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_selection_iter_is_selected.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -198,7 +216,9 @@ public class TreeSelection extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_selection_path_is_selected.invokeExact(handle(), path.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_selection_path_is_selected.invokeExact(
+                    handle(),
+                    path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -211,7 +231,8 @@ public class TreeSelection extends org.gtk.gobject.Object {
      */
     public void selectAll() {
         try {
-            DowncallHandles.gtk_tree_selection_select_all.invokeExact(handle());
+            DowncallHandles.gtk_tree_selection_select_all.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -224,7 +245,9 @@ public class TreeSelection extends org.gtk.gobject.Object {
     public void selectIter(@NotNull org.gtk.gtk.TreeIter iter) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         try {
-            DowncallHandles.gtk_tree_selection_select_iter.invokeExact(handle(), iter.handle());
+            DowncallHandles.gtk_tree_selection_select_iter.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -237,7 +260,9 @@ public class TreeSelection extends org.gtk.gobject.Object {
     public void selectPath(@NotNull org.gtk.gtk.TreePath path) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         try {
-            DowncallHandles.gtk_tree_selection_select_path.invokeExact(handle(), path.handle());
+            DowncallHandles.gtk_tree_selection_select_path.invokeExact(
+                    handle(),
+                    path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -253,7 +278,10 @@ public class TreeSelection extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(startPath, "Parameter 'startPath' must not be null");
         java.util.Objects.requireNonNull(endPath, "Parameter 'endPath' must not be null");
         try {
-            DowncallHandles.gtk_tree_selection_select_range.invokeExact(handle(), startPath.handle(), endPath.handle());
+            DowncallHandles.gtk_tree_selection_select_range.invokeExact(
+                    handle(),
+                    startPath.handle(),
+                    endPath.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -268,13 +296,14 @@ public class TreeSelection extends org.gtk.gobject.Object {
     public void selectedForeach(@NotNull org.gtk.gtk.TreeSelectionForeachFunc func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.gtk_tree_selection_selected_foreach.invokeExact(handle(), 
+            DowncallHandles.gtk_tree_selection_selected_foreach.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTreeSelectionForeachFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -289,7 +318,9 @@ public class TreeSelection extends org.gtk.gobject.Object {
     public void setMode(@NotNull org.gtk.gtk.SelectionMode type) {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         try {
-            DowncallHandles.gtk_tree_selection_set_mode.invokeExact(handle(), type.getValue());
+            DowncallHandles.gtk_tree_selection_set_mode.invokeExact(
+                    handle(),
+                    type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -305,15 +336,15 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * @param func The selection function. May be {@code null}
      */
     public void setSelectFunction(@Nullable org.gtk.gtk.TreeSelectionFunc func) {
-        java.util.Objects.requireNonNullElse(func, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_tree_selection_set_select_function.invokeExact(handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gtk_tree_selection_set_select_function.invokeExact(
+                    handle(),
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTreeSelectionFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)), 
+                        Interop.getScope())),
+                    (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -325,7 +356,8 @@ public class TreeSelection extends org.gtk.gobject.Object {
      */
     public void unselectAll() {
         try {
-            DowncallHandles.gtk_tree_selection_unselect_all.invokeExact(handle());
+            DowncallHandles.gtk_tree_selection_unselect_all.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -338,7 +370,9 @@ public class TreeSelection extends org.gtk.gobject.Object {
     public void unselectIter(@NotNull org.gtk.gtk.TreeIter iter) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         try {
-            DowncallHandles.gtk_tree_selection_unselect_iter.invokeExact(handle(), iter.handle());
+            DowncallHandles.gtk_tree_selection_unselect_iter.invokeExact(
+                    handle(),
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -351,7 +385,9 @@ public class TreeSelection extends org.gtk.gobject.Object {
     public void unselectPath(@NotNull org.gtk.gtk.TreePath path) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         try {
-            DowncallHandles.gtk_tree_selection_unselect_path.invokeExact(handle(), path.handle());
+            DowncallHandles.gtk_tree_selection_unselect_path.invokeExact(
+                    handle(),
+                    path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -367,7 +403,10 @@ public class TreeSelection extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(startPath, "Parameter 'startPath' must not be null");
         java.util.Objects.requireNonNull(endPath, "Parameter 'endPath' must not be null");
         try {
-            DowncallHandles.gtk_tree_selection_unselect_range.invokeExact(handle(), startPath.handle(), endPath.handle());
+            DowncallHandles.gtk_tree_selection_unselect_range.invokeExact(
+                    handle(),
+                    startPath.handle(),
+                    endPath.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

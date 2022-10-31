@@ -48,25 +48,47 @@ public class StyleContext extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkStyleContext";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_object")
-    ).withName("GtkStyleContext");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_object}
+     * @return The value of the field {@code parent_object}
+     */
+    public org.gtk.gobject.Object parent_object$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_object"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public StyleContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to StyleContext */
+    /**
+     * Cast object to StyleContext if its GType is a (or inherits from) "GtkStyleContext".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "StyleContext" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkStyleContext", a ClassCastException will be thrown.
+     */
     public static StyleContext castFrom(org.gtk.gobject.Object gobject) {
-        return new StyleContext(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkStyleContext"))) {
+            return new StyleContext(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkStyleContext");
+        }
     }
     
     /**
@@ -89,7 +111,9 @@ public class StyleContext extends org.gtk.gobject.Object {
     public void addClass(@NotNull java.lang.String className) {
         java.util.Objects.requireNonNull(className, "Parameter 'className' must not be null");
         try {
-            DowncallHandles.gtk_style_context_add_class.invokeExact(handle(), Interop.allocateNativeString(className));
+            DowncallHandles.gtk_style_context_add_class.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(className));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,7 +140,10 @@ public class StyleContext extends org.gtk.gobject.Object {
     public void addProvider(@NotNull org.gtk.gtk.StyleProvider provider, int priority) {
         java.util.Objects.requireNonNull(provider, "Parameter 'provider' must not be null");
         try {
-            DowncallHandles.gtk_style_context_add_provider.invokeExact(handle(), provider.handle(), priority);
+            DowncallHandles.gtk_style_context_add_provider.invokeExact(
+                    handle(),
+                    provider.handle(),
+                    priority);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,30 +153,30 @@ public class StyleContext extends org.gtk.gobject.Object {
      * Gets the border for a given state as a {@code GtkBorder}.
      * @param border return value for the border settings
      */
-    public void getBorder(@NotNull Out<org.gtk.gtk.Border> border) {
+    public void getBorder(@NotNull org.gtk.gtk.Border border) {
         java.util.Objects.requireNonNull(border, "Parameter 'border' must not be null");
-        MemorySegment borderPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_style_context_get_border.invokeExact(handle(), (Addressable) borderPOINTER.address());
+            DowncallHandles.gtk_style_context_get_border.invokeExact(
+                    handle(),
+                    border.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        border.set(new org.gtk.gtk.Border(Refcounted.get(borderPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
      * Gets the foreground color for a given state.
      * @param color return value for the foreground color
      */
-    public void getColor(@NotNull Out<org.gtk.gdk.RGBA> color) {
+    public void getColor(@NotNull org.gtk.gdk.RGBA color) {
         java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
-        MemorySegment colorPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_style_context_get_color.invokeExact(handle(), (Addressable) colorPOINTER.address());
+            DowncallHandles.gtk_style_context_get_color.invokeExact(
+                    handle(),
+                    color.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        color.set(new org.gtk.gdk.RGBA(Refcounted.get(colorPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -159,7 +186,8 @@ public class StyleContext extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_style_context_get_display.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_style_context_get_display.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,30 +198,30 @@ public class StyleContext extends org.gtk.gobject.Object {
      * Gets the margin for a given state as a {@code GtkBorder}.
      * @param margin return value for the margin settings
      */
-    public void getMargin(@NotNull Out<org.gtk.gtk.Border> margin) {
+    public void getMargin(@NotNull org.gtk.gtk.Border margin) {
         java.util.Objects.requireNonNull(margin, "Parameter 'margin' must not be null");
-        MemorySegment marginPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_style_context_get_margin.invokeExact(handle(), (Addressable) marginPOINTER.address());
+            DowncallHandles.gtk_style_context_get_margin.invokeExact(
+                    handle(),
+                    margin.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        margin.set(new org.gtk.gtk.Border(Refcounted.get(marginPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
      * Gets the padding for a given state as a {@code GtkBorder}.
      * @param padding return value for the padding settings
      */
-    public void getPadding(@NotNull Out<org.gtk.gtk.Border> padding) {
+    public void getPadding(@NotNull org.gtk.gtk.Border padding) {
         java.util.Objects.requireNonNull(padding, "Parameter 'padding' must not be null");
-        MemorySegment paddingPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_style_context_get_padding.invokeExact(handle(), (Addressable) paddingPOINTER.address());
+            DowncallHandles.gtk_style_context_get_padding.invokeExact(
+                    handle(),
+                    padding.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        padding.set(new org.gtk.gtk.Border(Refcounted.get(paddingPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -203,7 +231,8 @@ public class StyleContext extends org.gtk.gobject.Object {
     public int getScale() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_style_context_get_scale.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_style_context_get_scale.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,7 +252,8 @@ public class StyleContext extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gtk.StateFlags getState() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_style_context_get_state.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_style_context_get_state.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,7 +270,9 @@ public class StyleContext extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(className, "Parameter 'className' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_style_context_has_class.invokeExact(handle(), Interop.allocateNativeString(className));
+            RESULT = (int) DowncallHandles.gtk_style_context_has_class.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(className));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -253,17 +285,18 @@ public class StyleContext extends org.gtk.gobject.Object {
      * @param color Return location for the looked up color
      * @return {@code true} if {@code color_name} was found and resolved, {@code false} otherwise
      */
-    public boolean lookupColor(@NotNull java.lang.String colorName, @NotNull Out<org.gtk.gdk.RGBA> color) {
+    public boolean lookupColor(@NotNull java.lang.String colorName, @NotNull org.gtk.gdk.RGBA color) {
         java.util.Objects.requireNonNull(colorName, "Parameter 'colorName' must not be null");
         java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
-        MemorySegment colorPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_style_context_lookup_color.invokeExact(handle(), Interop.allocateNativeString(colorName), (Addressable) colorPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_style_context_lookup_color.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(colorName),
+                    color.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        color.set(new org.gtk.gdk.RGBA(Refcounted.get(colorPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -274,7 +307,9 @@ public class StyleContext extends org.gtk.gobject.Object {
     public void removeClass(@NotNull java.lang.String className) {
         java.util.Objects.requireNonNull(className, "Parameter 'className' must not be null");
         try {
-            DowncallHandles.gtk_style_context_remove_class.invokeExact(handle(), Interop.allocateNativeString(className));
+            DowncallHandles.gtk_style_context_remove_class.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(className));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -287,7 +322,9 @@ public class StyleContext extends org.gtk.gobject.Object {
     public void removeProvider(@NotNull org.gtk.gtk.StyleProvider provider) {
         java.util.Objects.requireNonNull(provider, "Parameter 'provider' must not be null");
         try {
-            DowncallHandles.gtk_style_context_remove_provider.invokeExact(handle(), provider.handle());
+            DowncallHandles.gtk_style_context_remove_provider.invokeExact(
+                    handle(),
+                    provider.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -300,7 +337,8 @@ public class StyleContext extends org.gtk.gobject.Object {
      */
     public void restore() {
         try {
-            DowncallHandles.gtk_style_context_restore.invokeExact(handle());
+            DowncallHandles.gtk_style_context_restore.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -320,7 +358,8 @@ public class StyleContext extends org.gtk.gobject.Object {
      */
     public void save() {
         try {
-            DowncallHandles.gtk_style_context_save.invokeExact(handle());
+            DowncallHandles.gtk_style_context_save.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -340,7 +379,9 @@ public class StyleContext extends org.gtk.gobject.Object {
     public void setDisplay(@NotNull org.gtk.gdk.Display display) {
         java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
         try {
-            DowncallHandles.gtk_style_context_set_display.invokeExact(handle(), display.handle());
+            DowncallHandles.gtk_style_context_set_display.invokeExact(
+                    handle(),
+                    display.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -352,7 +393,9 @@ public class StyleContext extends org.gtk.gobject.Object {
      */
     public void setScale(int scale) {
         try {
-            DowncallHandles.gtk_style_context_set_scale.invokeExact(handle(), scale);
+            DowncallHandles.gtk_style_context_set_scale.invokeExact(
+                    handle(),
+                    scale);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -365,7 +408,9 @@ public class StyleContext extends org.gtk.gobject.Object {
     public void setState(@NotNull org.gtk.gtk.StateFlags flags) {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            DowncallHandles.gtk_style_context_set_state.invokeExact(handle(), flags.getValue());
+            DowncallHandles.gtk_style_context_set_state.invokeExact(
+                    handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -389,11 +434,13 @@ public class StyleContext extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_style_context_to_string.invokeExact(handle(), flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_style_context_to_string.invokeExact(
+                    handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -418,7 +465,10 @@ public class StyleContext extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
         java.util.Objects.requireNonNull(provider, "Parameter 'provider' must not be null");
         try {
-            DowncallHandles.gtk_style_context_add_provider_for_display.invokeExact(display.handle(), provider.handle(), priority);
+            DowncallHandles.gtk_style_context_add_provider_for_display.invokeExact(
+                    display.handle(),
+                    provider.handle(),
+                    priority);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -433,7 +483,9 @@ public class StyleContext extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
         java.util.Objects.requireNonNull(provider, "Parameter 'provider' must not be null");
         try {
-            DowncallHandles.gtk_style_context_remove_provider_for_display.invokeExact(display.handle(), provider.handle());
+            DowncallHandles.gtk_style_context_remove_provider_for_display.invokeExact(
+                    display.handle(),
+                    provider.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

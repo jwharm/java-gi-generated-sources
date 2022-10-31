@@ -15,33 +15,56 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GDataOutputStream";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.FilterOutputStream.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.DataOutputStreamPrivate.getMemoryLayout().withName("priv")
-    ).withName("GDataOutputStream");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gio.FilterOutputStream parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gio.FilterOutputStream(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public DataOutputStream(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DataOutputStream */
+    /**
+     * Cast object to DataOutputStream if its GType is a (or inherits from) "GDataOutputStream".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DataOutputStream" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GDataOutputStream", a ClassCastException will be thrown.
+     */
     public static DataOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new DataOutputStream(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDataOutputStream"))) {
+            return new DataOutputStream(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDataOutputStream");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gio.OutputStream baseStream) {
         java.util.Objects.requireNonNull(baseStream, "Parameter 'baseStream' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_data_output_stream_new.invokeExact(baseStream.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_data_output_stream_new.invokeExact(
+                    baseStream.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -63,7 +86,8 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
     public @NotNull org.gtk.gio.DataStreamByteOrder getByteOrder() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_data_output_stream_get_byte_order.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_data_output_stream_get_byte_order.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -78,11 +102,13 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean putByte(byte data, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_data_output_stream_put_byte.invokeExact(handle(), data, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_data_output_stream_put_byte.invokeExact(
+                    handle(),
+                    data,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,11 +126,13 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean putInt16(short data, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_data_output_stream_put_int16.invokeExact(handle(), data, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_data_output_stream_put_int16.invokeExact(
+                    handle(),
+                    data,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -122,11 +150,13 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean putInt32(int data, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_data_output_stream_put_int32.invokeExact(handle(), data, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_data_output_stream_put_int32.invokeExact(
+                    handle(),
+                    data,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -144,11 +174,13 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean putInt64(long data, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_data_output_stream_put_int64.invokeExact(handle(), data, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_data_output_stream_put_int64.invokeExact(
+                    handle(),
+                    data,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,11 +199,13 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
      */
     public boolean putString(@NotNull java.lang.String str, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_data_output_stream_put_string.invokeExact(handle(), Interop.allocateNativeString(str), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_data_output_stream_put_string.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(str),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -189,11 +223,13 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean putUint16(short data, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_data_output_stream_put_uint16.invokeExact(handle(), data, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_data_output_stream_put_uint16.invokeExact(
+                    handle(),
+                    data,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -211,11 +247,13 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean putUint32(int data, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_data_output_stream_put_uint32.invokeExact(handle(), data, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_data_output_stream_put_uint32.invokeExact(
+                    handle(),
+                    data,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -233,11 +271,13 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean putUint64(long data, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_data_output_stream_put_uint64.invokeExact(handle(), data, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_data_output_stream_put_uint64.invokeExact(
+                    handle(),
+                    data,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -254,7 +294,9 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
     public void setByteOrder(@NotNull org.gtk.gio.DataStreamByteOrder order) {
         java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
         try {
-            DowncallHandles.g_data_output_stream_set_byte_order.invokeExact(handle(), order.getValue());
+            DowncallHandles.g_data_output_stream_set_byte_order.invokeExact(
+                    handle(),
+                    order.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

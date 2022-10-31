@@ -60,28 +60,42 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkWindowControls";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public WindowControls(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to WindowControls */
+    /**
+     * Cast object to WindowControls if its GType is a (or inherits from) "GtkWindowControls".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "WindowControls" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkWindowControls", a ClassCastException will be thrown.
+     */
     public static WindowControls castFrom(org.gtk.gobject.Object gobject) {
-        return new WindowControls(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkWindowControls"))) {
+            return new WindowControls(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkWindowControls");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gtk.PackType side) {
         java.util.Objects.requireNonNull(side, "Parameter 'side' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_window_controls_new.invokeExact(side.getValue()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_window_controls_new.invokeExact(
+                    side.getValue()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,11 +117,12 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public @Nullable java.lang.String getDecorationLayout() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_window_controls_get_decoration_layout.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_window_controls_get_decoration_layout.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -117,7 +132,8 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public boolean getEmpty() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_window_controls_get_empty.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_window_controls_get_empty.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -131,7 +147,8 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public @NotNull org.gtk.gtk.PackType getSide() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_window_controls_get_side.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_window_controls_get_side.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -157,9 +174,10 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * @param layout a decoration layout, or {@code null} to unset the layout
      */
     public void setDecorationLayout(@Nullable java.lang.String layout) {
-        java.util.Objects.requireNonNullElse(layout, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_window_controls_set_decoration_layout.invokeExact(handle(), Interop.allocateNativeString(layout));
+            DowncallHandles.gtk_window_controls_set_decoration_layout.invokeExact(
+                    handle(),
+                    (Addressable) (layout == null ? MemoryAddress.NULL : Interop.allocateNativeString(layout)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,7 +192,9 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public void setSide(@NotNull org.gtk.gtk.PackType side) {
         java.util.Objects.requireNonNull(side, "Parameter 'side' must not be null");
         try {
-            DowncallHandles.gtk_window_controls_set_side.invokeExact(handle(), side.getValue());
+            DowncallHandles.gtk_window_controls_set_side.invokeExact(
+                    handle(),
+                    side.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

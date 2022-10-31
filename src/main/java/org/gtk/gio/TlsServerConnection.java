@@ -13,6 +13,21 @@ import org.jetbrains.annotations.*;
 public interface TlsServerConnection extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to TlsServerConnection if its GType is a (or inherits from) "GTlsServerConnection".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TlsServerConnection" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GTlsServerConnection", a ClassCastException will be thrown.
+     */
+    public static TlsServerConnection castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTlsServerConnection"))) {
+            return new TlsServerConnectionImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GTlsServerConnection");
+        }
+    }
+    
+    /**
      * Creates a new {@link TlsServerConnection} wrapping {@code base_io_stream} (which
      * must have pollable input and output streams).
      * <p>
@@ -27,11 +42,12 @@ public interface TlsServerConnection extends io.github.jwharm.javagi.Proxy {
      */
     public static @NotNull org.gtk.gio.TlsServerConnection new_(@NotNull org.gtk.gio.IOStream baseIoStream, @Nullable org.gtk.gio.TlsCertificate certificate) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(baseIoStream, "Parameter 'baseIoStream' must not be null");
-        java.util.Objects.requireNonNullElse(certificate, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_server_connection_new.invokeExact(baseIoStream.handle(), certificate.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_server_connection_new.invokeExact(
+                    baseIoStream.handle(),
+                    (Addressable) (certificate == null ? MemoryAddress.NULL : certificate.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

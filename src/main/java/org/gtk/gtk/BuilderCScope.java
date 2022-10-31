@@ -29,25 +29,47 @@ public class BuilderCScope extends org.gtk.gobject.Object implements org.gtk.gtk
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkBuilderCScope";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkBuilderCScope");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public BuilderCScope(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to BuilderCScope */
+    /**
+     * Cast object to BuilderCScope if its GType is a (or inherits from) "GtkBuilderCScope".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "BuilderCScope" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkBuilderCScope", a ClassCastException will be thrown.
+     */
     public static BuilderCScope castFrom(org.gtk.gobject.Object gobject) {
-        return new BuilderCScope(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkBuilderCScope"))) {
+            return new BuilderCScope(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkBuilderCScope");
+        }
     }
     
     private static Refcounted constructNew() {

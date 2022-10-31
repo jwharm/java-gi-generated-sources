@@ -20,14 +20,26 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoAttrIterator";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static AttrIterator allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        AttrIterator newInstance = new AttrIterator(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public AttrIterator(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -41,7 +53,8 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.pango.AttrIterator copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_iterator_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_iterator_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -53,7 +66,8 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
      */
     public void destroy() {
         try {
-            DowncallHandles.pango_attr_iterator_destroy.invokeExact(handle());
+            DowncallHandles.pango_attr_iterator_destroy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -75,7 +89,9 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_iterator_get.invokeExact(handle(), type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_iterator_get.invokeExact(
+                    handle(),
+                    type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,7 +108,8 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.SList getAttrs() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_iterator_get_attrs.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_iterator_get_attrs.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,19 +134,19 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
      *   order to free this value, you must call
      *   {@link Attribute#destroy} on each member.
      */
-    public void getFont(@NotNull org.pango.FontDescription desc, @NotNull Out<org.pango.Language> language, @NotNull Out<org.gtk.glib.SList> extraAttrs) {
+    public void getFont(@NotNull org.pango.FontDescription desc, @NotNull PointerProxy<org.pango.Language> language, @NotNull PointerProxy<org.gtk.glib.SList> extraAttrs) {
         java.util.Objects.requireNonNull(desc, "Parameter 'desc' must not be null");
         java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
         java.util.Objects.requireNonNull(extraAttrs, "Parameter 'extraAttrs' must not be null");
-        MemorySegment languagePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment extraAttrsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.pango_attr_iterator_get_font.invokeExact(handle(), desc.handle(), (Addressable) languagePOINTER.address(), (Addressable) extraAttrsPOINTER.address());
+            DowncallHandles.pango_attr_iterator_get_font.invokeExact(
+                    handle(),
+                    desc.handle(),
+                    language.handle(),
+                    extraAttrs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        language.set(new org.pango.Language(Refcounted.get(languagePOINTER.get(ValueLayout.ADDRESS, 0), true)));
-        extraAttrs.set(new org.gtk.glib.SList(Refcounted.get(extraAttrsPOINTER.get(ValueLayout.ADDRESS, 0), true)));
     }
     
     /**
@@ -140,7 +157,8 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
     public boolean next() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_attr_iterator_next.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_attr_iterator_next.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -163,7 +181,10 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment startPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment endPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.pango_attr_iterator_range.invokeExact(handle(), (Addressable) startPOINTER.address(), (Addressable) endPOINTER.address());
+            DowncallHandles.pango_attr_iterator_range.invokeExact(
+                    handle(),
+                    (Addressable) startPOINTER.address(),
+                    (Addressable) endPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

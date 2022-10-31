@@ -66,21 +66,34 @@ public class ComboBoxText extends org.gtk.gtk.ComboBox implements org.gtk.gtk.Ac
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkComboBoxText";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ComboBoxText(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ComboBoxText */
+    /**
+     * Cast object to ComboBoxText if its GType is a (or inherits from) "GtkComboBoxText".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ComboBoxText" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkComboBoxText", a ClassCastException will be thrown.
+     */
     public static ComboBoxText castFrom(org.gtk.gobject.Object gobject) {
-        return new ComboBoxText(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkComboBoxText"))) {
+            return new ComboBoxText(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkComboBoxText");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -129,10 +142,12 @@ public class ComboBoxText extends org.gtk.gtk.ComboBox implements org.gtk.gtk.Ac
      * @param text A string
      */
     public void append(@Nullable java.lang.String id, @NotNull java.lang.String text) {
-        java.util.Objects.requireNonNullElse(id, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            DowncallHandles.gtk_combo_box_text_append.invokeExact(handle(), Interop.allocateNativeString(id), Interop.allocateNativeString(text));
+            DowncallHandles.gtk_combo_box_text_append.invokeExact(
+                    handle(),
+                    (Addressable) (id == null ? MemoryAddress.NULL : Interop.allocateNativeString(id)),
+                    Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -148,7 +163,9 @@ public class ComboBoxText extends org.gtk.gtk.ComboBox implements org.gtk.gtk.Ac
     public void appendText(@NotNull java.lang.String text) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            DowncallHandles.gtk_combo_box_text_append_text.invokeExact(handle(), Interop.allocateNativeString(text));
+            DowncallHandles.gtk_combo_box_text_append_text.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -168,11 +185,12 @@ public class ComboBoxText extends org.gtk.gtk.ComboBox implements org.gtk.gtk.Ac
     public @Nullable java.lang.String getActiveText() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_text_get_active_text.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_text_get_active_text.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -187,10 +205,13 @@ public class ComboBoxText extends org.gtk.gtk.ComboBox implements org.gtk.gtk.Ac
      * @param text A string to display
      */
     public void insert(int position, @Nullable java.lang.String id, @NotNull java.lang.String text) {
-        java.util.Objects.requireNonNullElse(id, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            DowncallHandles.gtk_combo_box_text_insert.invokeExact(handle(), position, Interop.allocateNativeString(id), Interop.allocateNativeString(text));
+            DowncallHandles.gtk_combo_box_text_insert.invokeExact(
+                    handle(),
+                    position,
+                    (Addressable) (id == null ? MemoryAddress.NULL : Interop.allocateNativeString(id)),
+                    Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -209,7 +230,10 @@ public class ComboBoxText extends org.gtk.gtk.ComboBox implements org.gtk.gtk.Ac
     public void insertText(int position, @NotNull java.lang.String text) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            DowncallHandles.gtk_combo_box_text_insert_text.invokeExact(handle(), position, Interop.allocateNativeString(text));
+            DowncallHandles.gtk_combo_box_text_insert_text.invokeExact(
+                    handle(),
+                    position,
+                    Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -226,10 +250,12 @@ public class ComboBoxText extends org.gtk.gtk.ComboBox implements org.gtk.gtk.Ac
      * @param text a string
      */
     public void prepend(@Nullable java.lang.String id, @NotNull java.lang.String text) {
-        java.util.Objects.requireNonNullElse(id, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            DowncallHandles.gtk_combo_box_text_prepend.invokeExact(handle(), Interop.allocateNativeString(id), Interop.allocateNativeString(text));
+            DowncallHandles.gtk_combo_box_text_prepend.invokeExact(
+                    handle(),
+                    (Addressable) (id == null ? MemoryAddress.NULL : Interop.allocateNativeString(id)),
+                    Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -245,7 +271,9 @@ public class ComboBoxText extends org.gtk.gtk.ComboBox implements org.gtk.gtk.Ac
     public void prependText(@NotNull java.lang.String text) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            DowncallHandles.gtk_combo_box_text_prepend_text.invokeExact(handle(), Interop.allocateNativeString(text));
+            DowncallHandles.gtk_combo_box_text_prepend_text.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -257,7 +285,9 @@ public class ComboBoxText extends org.gtk.gtk.ComboBox implements org.gtk.gtk.Ac
      */
     public void remove(int position) {
         try {
-            DowncallHandles.gtk_combo_box_text_remove.invokeExact(handle(), position);
+            DowncallHandles.gtk_combo_box_text_remove.invokeExact(
+                    handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -268,7 +298,8 @@ public class ComboBoxText extends org.gtk.gtk.ComboBox implements org.gtk.gtk.Ac
      */
     public void removeAll() {
         try {
-            DowncallHandles.gtk_combo_box_text_remove_all.invokeExact(handle());
+            DowncallHandles.gtk_combo_box_text_remove_all.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

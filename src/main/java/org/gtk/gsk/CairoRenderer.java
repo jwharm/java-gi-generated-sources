@@ -17,21 +17,34 @@ public class CairoRenderer extends org.gtk.gsk.Renderer {
         Gsk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GskCairoRenderer";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public CairoRenderer(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CairoRenderer */
+    /**
+     * Cast object to CairoRenderer if its GType is a (or inherits from) "GskCairoRenderer".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CairoRenderer" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GskCairoRenderer", a ClassCastException will be thrown.
+     */
     public static CairoRenderer castFrom(org.gtk.gobject.Object gobject) {
-        return new CairoRenderer(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskCairoRenderer"))) {
+            return new CairoRenderer(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskCairoRenderer");
+        }
     }
     
     private static Refcounted constructNew() {

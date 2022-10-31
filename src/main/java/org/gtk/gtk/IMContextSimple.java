@@ -47,26 +47,48 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkIMContextSimple";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.IMContext.getMemoryLayout().withName("object"),
-        org.gtk.gtk.IMContextSimplePrivate.getMemoryLayout().withName("priv")
-    ).withName("GtkIMContextSimple");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code object}
+     * @return The value of the field {@code object}
+     */
+    public org.gtk.gtk.IMContext object$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("object"));
+        return new org.gtk.gtk.IMContext(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public IMContextSimple(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to IMContextSimple */
+    /**
+     * Cast object to IMContextSimple if its GType is a (or inherits from) "GtkIMContextSimple".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "IMContextSimple" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkIMContextSimple", a ClassCastException will be thrown.
+     */
     public static IMContextSimple castFrom(org.gtk.gobject.Object gobject) {
-        return new IMContextSimple(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkIMContextSimple"))) {
+            return new IMContextSimple(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkIMContextSimple");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -93,7 +115,9 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
     public void addComposeFile(@NotNull java.lang.String composeFile) {
         java.util.Objects.requireNonNull(composeFile, "Parameter 'composeFile' must not be null");
         try {
-            DowncallHandles.gtk_im_context_simple_add_compose_file.invokeExact(handle(), Interop.allocateNativeString(composeFile));
+            DowncallHandles.gtk_im_context_simple_add_compose_file.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(composeFile));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,7 +142,11 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
     public void addTable(short[] data, int maxSeqLen, int nSeqs) {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         try {
-            DowncallHandles.gtk_im_context_simple_add_table.invokeExact(handle(), Interop.allocateNativeArray(data, false), maxSeqLen, nSeqs);
+            DowncallHandles.gtk_im_context_simple_add_table.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(data, false),
+                    maxSeqLen,
+                    nSeqs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -114,28 +114,41 @@ public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Acce
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkPopoverMenu";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public PopoverMenu(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to PopoverMenu */
+    /**
+     * Cast object to PopoverMenu if its GType is a (or inherits from) "GtkPopoverMenu".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "PopoverMenu" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkPopoverMenu", a ClassCastException will be thrown.
+     */
     public static PopoverMenu castFrom(org.gtk.gobject.Object gobject) {
-        return new PopoverMenu(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPopoverMenu"))) {
+            return new PopoverMenu(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkPopoverMenu");
+        }
     }
     
     private static Refcounted constructNewFromModel(@Nullable org.gtk.gio.MenuModel model) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_popover_menu_new_from_model.invokeExact(model.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_popover_menu_new_from_model.invokeExact(
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle())), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -168,7 +181,9 @@ public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Acce
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_popover_menu_new_from_model_full.invokeExact(model.handle(), flags.getValue()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_popover_menu_new_from_model_full.invokeExact(
+                    model.handle(),
+                    flags.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -209,7 +224,10 @@ public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Acce
         java.util.Objects.requireNonNull(id, "Parameter 'id' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_popover_menu_add_child.invokeExact(handle(), child.handle(), Interop.allocateNativeString(id));
+            RESULT = (int) DowncallHandles.gtk_popover_menu_add_child.invokeExact(
+                    handle(),
+                    child.handle(),
+                    Interop.allocateNativeString(id));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,7 +241,8 @@ public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Acce
     public @Nullable org.gtk.gio.MenuModel getMenuModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_popover_menu_get_menu_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_popover_menu_get_menu_model.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,7 +259,9 @@ public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Acce
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_popover_menu_remove_child.invokeExact(handle(), child.handle());
+            RESULT = (int) DowncallHandles.gtk_popover_menu_remove_child.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -256,9 +277,10 @@ public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Acce
      * @param model a {@code GMenuModel}
      */
     public void setMenuModel(@Nullable org.gtk.gio.MenuModel model) {
-        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_popover_menu_set_menu_model.invokeExact(handle(), model.handle());
+            DowncallHandles.gtk_popover_menu_set_menu_model.invokeExact(
+                    handle(),
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

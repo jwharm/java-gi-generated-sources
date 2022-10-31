@@ -16,18 +16,23 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GIOChannel";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_INT.withName("ref_count"),
-        org.gtk.glib.IOFuncs.getMemoryLayout().withName("funcs"),
+        MemoryLayout.paddingLayout(32),
+        Interop.valueLayout.ADDRESS.withName("funcs"),
         Interop.valueLayout.ADDRESS.withName("encoding"),
         org.gtk.glib.IConv.getMemoryLayout().withName("read_cd"),
         org.gtk.glib.IConv.getMemoryLayout().withName("write_cd"),
         Interop.valueLayout.ADDRESS.withName("line_term"),
         ValueLayout.JAVA_INT.withName("line_term_len"),
+        MemoryLayout.paddingLayout(32),
         ValueLayout.JAVA_LONG.withName("buf_size"),
-        org.gtk.glib.String.getMemoryLayout().withName("read_buf"),
-        org.gtk.glib.String.getMemoryLayout().withName("encoded_read_buf"),
-        org.gtk.glib.String.getMemoryLayout().withName("write_buf"),
+        Interop.valueLayout.ADDRESS.withName("read_buf"),
+        Interop.valueLayout.ADDRESS.withName("encoded_read_buf"),
+        Interop.valueLayout.ADDRESS.withName("write_buf"),
+        MemoryLayout.paddingLayout(16),
         MemoryLayout.sequenceLayout(6, ValueLayout.JAVA_BYTE).withName("partial_write_buf"),
         ValueLayout.JAVA_INT.withName("use_buffer"),
         ValueLayout.JAVA_INT.withName("do_encode"),
@@ -37,16 +42,26 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         ValueLayout.JAVA_INT.withName("is_seekable"),
         Interop.valueLayout.ADDRESS.withName("reserved1"),
         Interop.valueLayout.ADDRESS.withName("reserved2")
-    ).withName("GIOChannel");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static IOChannel allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        IOChannel newInstance = new IOChannel(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public IOChannel(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -57,7 +72,9 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_io_channel_new_file.invokeExact(Interop.allocateNativeString(filename), Interop.allocateNativeString(mode), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_io_channel_new_file.invokeExact(
+                    Interop.allocateNativeString(filename),
+                    Interop.allocateNativeString(mode), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -86,7 +103,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructUnixNew(int fd) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_io_channel_unix_new.invokeExact(fd), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_io_channel_unix_new.invokeExact(
+                    fd), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,7 +150,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     @Deprecated
     public void close() {
         try {
-            DowncallHandles.g_io_channel_close.invokeExact(handle());
+            DowncallHandles.g_io_channel_close.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,7 +168,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_channel_flush.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_io_channel_flush.invokeExact(
+                    handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -168,7 +188,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.IOCondition getBufferCondition() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_channel_get_buffer_condition.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_io_channel_get_buffer_condition.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,7 +203,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     public long getBufferSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_io_channel_get_buffer_size.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_io_channel_get_buffer_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -196,7 +218,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     public boolean getBuffered() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_channel_get_buffered.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_io_channel_get_buffered.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -213,7 +236,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     public boolean getCloseOnUnref() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_channel_get_close_on_unref.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_io_channel_get_close_on_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,11 +254,12 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getEncoding() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_channel_get_encoding.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_io_channel_get_encoding.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -252,7 +277,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.IOFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_channel_get_flags.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_io_channel_get_flags.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -271,11 +297,13 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_channel_get_line_term.invokeExact(handle(), length.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_io_channel_get_line_term.invokeExact(
+                    handle(),
+                    length.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -287,7 +315,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      */
     public void init() {
         try {
-            DowncallHandles.g_io_channel_init.invokeExact(handle());
+            DowncallHandles.g_io_channel_init.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -308,7 +337,11 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_channel_read.invokeExact(handle(), Interop.allocateNativeString(buf), count, bytesRead.handle());
+            RESULT = (int) DowncallHandles.g_io_channel_read.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(buf),
+                    count,
+                    bytesRead.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -336,7 +369,11 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_channel_read_chars.invokeExact(handle(), (Addressable) bufPOINTER.address(), count, (Addressable) bytesReadPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_io_channel_read_chars.invokeExact(
+                    handle(),
+                    (Addressable) bufPOINTER.address(),
+                    count,
+                    (Addressable) bytesReadPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -372,14 +409,18 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment terminatorPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_channel_read_line.invokeExact(handle(), (Addressable) strReturnPOINTER.address(), (Addressable) lengthPOINTER.address(), (Addressable) terminatorPosPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_io_channel_read_line.invokeExact(
+                    handle(),
+                    (Addressable) strReturnPOINTER.address(),
+                    (Addressable) lengthPOINTER.address(),
+                    (Addressable) terminatorPosPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        strReturn.set(strReturnPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        strReturn.set(Interop.getStringFrom(strReturnPOINTER.get(ValueLayout.ADDRESS, 0)));
         length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
         terminatorPos.set(terminatorPosPOINTER.get(ValueLayout.JAVA_LONG, 0));
         return new org.gtk.glib.IOStatus(RESULT);
@@ -396,11 +437,13 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      */
     public @NotNull org.gtk.glib.IOStatus readLineString(@NotNull org.gtk.glib.String buffer, PointerLong terminatorPos) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNullElse(terminatorPos, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_channel_read_line_string.invokeExact(handle(), buffer.handle(), terminatorPos.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_io_channel_read_line_string.invokeExact(
+                    handle(),
+                    buffer.handle(),
+                    (Addressable) (terminatorPos == null ? MemoryAddress.NULL : terminatorPos.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -430,7 +473,10 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_channel_read_to_end.invokeExact(handle(), (Addressable) strReturnPOINTER.address(), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_io_channel_read_to_end.invokeExact(
+                    handle(),
+                    (Addressable) strReturnPOINTER.address(),
+                    (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -455,7 +501,9 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment thecharPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_channel_read_unichar.invokeExact(handle(), (Addressable) thecharPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_io_channel_read_unichar.invokeExact(
+                    handle(),
+                    (Addressable) thecharPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -473,7 +521,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.IOChannel ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_channel_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_io_channel_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -496,7 +545,10 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_channel_seek.invokeExact(handle(), offset, type.getValue());
+            RESULT = (int) DowncallHandles.g_io_channel_seek.invokeExact(
+                    handle(),
+                    offset,
+                    type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -518,7 +570,10 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_channel_seek_position.invokeExact(handle(), offset, type.getValue(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_io_channel_seek_position.invokeExact(
+                    handle(),
+                    offset,
+                    type.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -534,7 +589,9 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setBufferSize(long size) {
         try {
-            DowncallHandles.g_io_channel_set_buffer_size.invokeExact(handle(), size);
+            DowncallHandles.g_io_channel_set_buffer_size.invokeExact(
+                    handle(),
+                    size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -564,7 +621,9 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setBuffered(boolean buffered) {
         try {
-            DowncallHandles.g_io_channel_set_buffered.invokeExact(handle(), buffered ? 1 : 0);
+            DowncallHandles.g_io_channel_set_buffered.invokeExact(
+                    handle(),
+                    buffered ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -582,7 +641,9 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setCloseOnUnref(boolean doClose) {
         try {
-            DowncallHandles.g_io_channel_set_close_on_unref.invokeExact(handle(), doClose ? 1 : 0);
+            DowncallHandles.g_io_channel_set_close_on_unref.invokeExact(
+                    handle(),
+                    doClose ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -634,11 +695,12 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @NotNull org.gtk.glib.IOStatus setEncoding(@Nullable java.lang.String encoding) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNullElse(encoding, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_channel_set_encoding.invokeExact(handle(), Interop.allocateNativeString(encoding), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_io_channel_set_encoding.invokeExact(
+                    handle(),
+                    (Addressable) (encoding == null ? MemoryAddress.NULL : Interop.allocateNativeString(encoding)), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -659,7 +721,9 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_channel_set_flags.invokeExact(handle(), flags.getValue(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_io_channel_set_flags.invokeExact(
+                    handle(),
+                    flags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -681,9 +745,11 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      *          termination strings with embedded nuls.
      */
     public void setLineTerm(@Nullable java.lang.String lineTerm, int length) {
-        java.util.Objects.requireNonNullElse(lineTerm, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_io_channel_set_line_term.invokeExact(handle(), Interop.allocateNativeString(lineTerm), length);
+            DowncallHandles.g_io_channel_set_line_term.invokeExact(
+                    handle(),
+                    (Addressable) (lineTerm == null ? MemoryAddress.NULL : Interop.allocateNativeString(lineTerm)),
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -701,7 +767,9 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_channel_shutdown.invokeExact(handle(), flush ? 1 : 0, (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_io_channel_shutdown.invokeExact(
+                    handle(),
+                    flush ? 1 : 0, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -721,7 +789,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     public int unixGetFd() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_channel_unix_get_fd.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_io_channel_unix_get_fd.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -733,7 +802,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_io_channel_unref.invokeExact(handle());
+            DowncallHandles.g_io_channel_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -753,7 +823,11 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_channel_write.invokeExact(handle(), Interop.allocateNativeString(buf), count, bytesWritten.handle());
+            RESULT = (int) DowncallHandles.g_io_channel_write.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(buf),
+                    count,
+                    bytesWritten.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -785,7 +859,11 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_channel_write_chars.invokeExact(handle(), Interop.allocateNativeArray(buf, false), count, (Addressable) bytesWrittenPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_io_channel_write_chars.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(buf, false),
+                    count,
+                    (Addressable) bytesWrittenPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -807,7 +885,9 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_channel_write_unichar.invokeExact(handle(), thechar, (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_io_channel_write_unichar.invokeExact(
+                    handle(),
+                    thechar, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -826,7 +906,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     public static @NotNull org.gtk.glib.IOChannelError errorFromErrno(int en) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_channel_error_from_errno.invokeExact(en);
+            RESULT = (int) DowncallHandles.g_io_channel_error_from_errno.invokeExact(
+                    en);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

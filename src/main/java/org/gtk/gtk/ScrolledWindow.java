@@ -92,21 +92,34 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkScrolledWindow";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ScrolledWindow(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ScrolledWindow */
+    /**
+     * Cast object to ScrolledWindow if its GType is a (or inherits from) "GtkScrolledWindow".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ScrolledWindow" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkScrolledWindow", a ClassCastException will be thrown.
+     */
     public static ScrolledWindow castFrom(org.gtk.gobject.Object gobject) {
-        return new ScrolledWindow(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkScrolledWindow"))) {
+            return new ScrolledWindow(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkScrolledWindow");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -133,7 +146,8 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_scrolled_window_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scrolled_window_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -150,7 +164,8 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public @NotNull org.gtk.gtk.Adjustment getHadjustment() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_scrolled_window_get_hadjustment.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scrolled_window_get_hadjustment.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -164,7 +179,8 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public boolean getHasFrame() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_has_frame.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_has_frame.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,7 +194,8 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public @NotNull org.gtk.gtk.Widget getHscrollbar() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_scrolled_window_get_hscrollbar.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scrolled_window_get_hscrollbar.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -192,7 +209,8 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public boolean getKineticScrolling() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_kinetic_scrolling.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_kinetic_scrolling.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -206,7 +224,8 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public int getMaxContentHeight() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_max_content_height.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_max_content_height.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -220,7 +239,8 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public int getMaxContentWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_max_content_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_max_content_width.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -234,7 +254,8 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public int getMinContentHeight() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_min_content_height.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_min_content_height.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -248,7 +269,8 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public int getMinContentWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_min_content_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_min_content_width.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -262,7 +284,8 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public boolean getOverlayScrolling() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_overlay_scrolling.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_overlay_scrolling.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -276,7 +299,8 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public @NotNull org.gtk.gtk.CornerType getPlacement() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_placement.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_placement.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -299,7 +323,10 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         MemorySegment hscrollbarPolicyPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment vscrollbarPolicyPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_scrolled_window_get_policy.invokeExact(handle(), (Addressable) hscrollbarPolicyPOINTER.address(), (Addressable) vscrollbarPolicyPOINTER.address());
+            DowncallHandles.gtk_scrolled_window_get_policy.invokeExact(
+                    handle(),
+                    (Addressable) hscrollbarPolicyPOINTER.address(),
+                    (Addressable) vscrollbarPolicyPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -315,7 +342,8 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public boolean getPropagateNaturalHeight() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_propagate_natural_height.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_propagate_natural_height.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -330,7 +358,8 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public boolean getPropagateNaturalWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_propagate_natural_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_propagate_natural_width.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -347,7 +376,8 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public @NotNull org.gtk.gtk.Adjustment getVadjustment() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_scrolled_window_get_vadjustment.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scrolled_window_get_vadjustment.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -361,7 +391,8 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public @NotNull org.gtk.gtk.Widget getVscrollbar() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_scrolled_window_get_vscrollbar.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scrolled_window_get_vscrollbar.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -373,9 +404,10 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * @param child the child widget
      */
     public void setChild(@Nullable org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_scrolled_window_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_scrolled_window_set_child.invokeExact(
+                    handle(),
+                    (Addressable) (child == null ? MemoryAddress.NULL : child.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -386,9 +418,10 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * @param hadjustment the {@code GtkAdjustment} to use, or {@code null} to create a new one
      */
     public void setHadjustment(@Nullable org.gtk.gtk.Adjustment hadjustment) {
-        java.util.Objects.requireNonNullElse(hadjustment, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_scrolled_window_set_hadjustment.invokeExact(handle(), hadjustment.handle());
+            DowncallHandles.gtk_scrolled_window_set_hadjustment.invokeExact(
+                    handle(),
+                    (Addressable) (hadjustment == null ? MemoryAddress.NULL : hadjustment.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -400,7 +433,9 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      */
     public void setHasFrame(boolean hasFrame) {
         try {
-            DowncallHandles.gtk_scrolled_window_set_has_frame.invokeExact(handle(), hasFrame ? 1 : 0);
+            DowncallHandles.gtk_scrolled_window_set_has_frame.invokeExact(
+                    handle(),
+                    hasFrame ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -415,7 +450,9 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      */
     public void setKineticScrolling(boolean kineticScrolling) {
         try {
-            DowncallHandles.gtk_scrolled_window_set_kinetic_scrolling.invokeExact(handle(), kineticScrolling ? 1 : 0);
+            DowncallHandles.gtk_scrolled_window_set_kinetic_scrolling.invokeExact(
+                    handle(),
+                    kineticScrolling ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -433,7 +470,9 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      */
     public void setMaxContentHeight(int height) {
         try {
-            DowncallHandles.gtk_scrolled_window_set_max_content_height.invokeExact(handle(), height);
+            DowncallHandles.gtk_scrolled_window_set_max_content_height.invokeExact(
+                    handle(),
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -451,7 +490,9 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      */
     public void setMaxContentWidth(int width) {
         try {
-            DowncallHandles.gtk_scrolled_window_set_max_content_width.invokeExact(handle(), width);
+            DowncallHandles.gtk_scrolled_window_set_max_content_width.invokeExact(
+                    handle(),
+                    width);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -469,7 +510,9 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      */
     public void setMinContentHeight(int height) {
         try {
-            DowncallHandles.gtk_scrolled_window_set_min_content_height.invokeExact(handle(), height);
+            DowncallHandles.gtk_scrolled_window_set_min_content_height.invokeExact(
+                    handle(),
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -487,7 +530,9 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      */
     public void setMinContentWidth(int width) {
         try {
-            DowncallHandles.gtk_scrolled_window_set_min_content_width.invokeExact(handle(), width);
+            DowncallHandles.gtk_scrolled_window_set_min_content_width.invokeExact(
+                    handle(),
+                    width);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -499,7 +544,9 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      */
     public void setOverlayScrolling(boolean overlayScrolling) {
         try {
-            DowncallHandles.gtk_scrolled_window_set_overlay_scrolling.invokeExact(handle(), overlayScrolling ? 1 : 0);
+            DowncallHandles.gtk_scrolled_window_set_overlay_scrolling.invokeExact(
+                    handle(),
+                    overlayScrolling ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -521,7 +568,9 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public void setPlacement(@NotNull org.gtk.gtk.CornerType windowPlacement) {
         java.util.Objects.requireNonNull(windowPlacement, "Parameter 'windowPlacement' must not be null");
         try {
-            DowncallHandles.gtk_scrolled_window_set_placement.invokeExact(handle(), windowPlacement.getValue());
+            DowncallHandles.gtk_scrolled_window_set_placement.invokeExact(
+                    handle(),
+                    windowPlacement.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -543,7 +592,10 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         java.util.Objects.requireNonNull(hscrollbarPolicy, "Parameter 'hscrollbarPolicy' must not be null");
         java.util.Objects.requireNonNull(vscrollbarPolicy, "Parameter 'vscrollbarPolicy' must not be null");
         try {
-            DowncallHandles.gtk_scrolled_window_set_policy.invokeExact(handle(), hscrollbarPolicy.getValue(), vscrollbarPolicy.getValue());
+            DowncallHandles.gtk_scrolled_window_set_policy.invokeExact(
+                    handle(),
+                    hscrollbarPolicy.getValue(),
+                    vscrollbarPolicy.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -556,7 +608,9 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      */
     public void setPropagateNaturalHeight(boolean propagate) {
         try {
-            DowncallHandles.gtk_scrolled_window_set_propagate_natural_height.invokeExact(handle(), propagate ? 1 : 0);
+            DowncallHandles.gtk_scrolled_window_set_propagate_natural_height.invokeExact(
+                    handle(),
+                    propagate ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -569,7 +623,9 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      */
     public void setPropagateNaturalWidth(boolean propagate) {
         try {
-            DowncallHandles.gtk_scrolled_window_set_propagate_natural_width.invokeExact(handle(), propagate ? 1 : 0);
+            DowncallHandles.gtk_scrolled_window_set_propagate_natural_width.invokeExact(
+                    handle(),
+                    propagate ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -580,9 +636,10 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * @param vadjustment the {@code GtkAdjustment} to use, or {@code null} to create a new one
      */
     public void setVadjustment(@Nullable org.gtk.gtk.Adjustment vadjustment) {
-        java.util.Objects.requireNonNullElse(vadjustment, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_scrolled_window_set_vadjustment.invokeExact(handle(), vadjustment.handle());
+            DowncallHandles.gtk_scrolled_window_set_vadjustment.invokeExact(
+                    handle(),
+                    (Addressable) (vadjustment == null ? MemoryAddress.NULL : vadjustment.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -596,7 +653,8 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      */
     public void unsetPlacement() {
         try {
-            DowncallHandles.gtk_scrolled_window_unset_placement.invokeExact(handle());
+            DowncallHandles.gtk_scrolled_window_unset_placement.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

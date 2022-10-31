@@ -11,23 +11,45 @@ public class SettingsClass extends io.github.jwharm.javagi.ResourceBase {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSettingsClass";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("writable_changed"),
         Interop.valueLayout.ADDRESS.withName("changed"),
         Interop.valueLayout.ADDRESS.withName("writable_change_event"),
         Interop.valueLayout.ADDRESS.withName("change_event"),
+        MemoryLayout.paddingLayout(960),
         MemoryLayout.sequenceLayout(20, ValueLayout.ADDRESS).withName("padding")
-    ).withName("GSettingsClass");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static SettingsClass allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        SettingsClass newInstance = new SettingsClass(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code parent_class}
+     * @return The value of the field {@code parent_class}
+     */
+    public org.gtk.gobject.ObjectClass parent_class$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
+        return new org.gtk.gobject.ObjectClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public SettingsClass(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

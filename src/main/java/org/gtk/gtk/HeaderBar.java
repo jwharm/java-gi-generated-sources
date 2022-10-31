@@ -80,21 +80,34 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkHeaderBar";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public HeaderBar(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to HeaderBar */
+    /**
+     * Cast object to HeaderBar if its GType is a (or inherits from) "GtkHeaderBar".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "HeaderBar" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkHeaderBar", a ClassCastException will be thrown.
+     */
     public static HeaderBar castFrom(org.gtk.gobject.Object gobject) {
-        return new HeaderBar(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkHeaderBar"))) {
+            return new HeaderBar(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkHeaderBar");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -121,11 +134,12 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public @Nullable java.lang.String getDecorationLayout() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_header_bar_get_decoration_layout.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_header_bar_get_decoration_layout.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -136,7 +150,8 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public boolean getShowTitleButtons() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_header_bar_get_show_title_buttons.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_header_bar_get_show_title_buttons.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,7 +167,8 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public @Nullable org.gtk.gtk.Widget getTitleWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_header_bar_get_title_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_header_bar_get_title_widget.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,7 +183,9 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public void packEnd(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_header_bar_pack_end.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_header_bar_pack_end.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,7 +199,9 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public void packStart(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_header_bar_pack_start.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_header_bar_pack_start.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -199,7 +219,9 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public void remove(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.gtk_header_bar_remove.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_header_bar_remove.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -226,9 +248,10 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @param layout a decoration layout, or {@code null} to unset the layout
      */
     public void setDecorationLayout(@Nullable java.lang.String layout) {
-        java.util.Objects.requireNonNullElse(layout, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_header_bar_set_decoration_layout.invokeExact(handle(), Interop.allocateNativeString(layout));
+            DowncallHandles.gtk_header_bar_set_decoration_layout.invokeExact(
+                    handle(),
+                    (Addressable) (layout == null ? MemoryAddress.NULL : Interop.allocateNativeString(layout)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -241,7 +264,9 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public void setShowTitleButtons(boolean setting) {
         try {
-            DowncallHandles.gtk_header_bar_set_show_title_buttons.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_header_bar_set_show_title_buttons.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -262,9 +287,10 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @param titleWidget a widget to use for a title
      */
     public void setTitleWidget(@Nullable org.gtk.gtk.Widget titleWidget) {
-        java.util.Objects.requireNonNullElse(titleWidget, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_header_bar_set_title_widget.invokeExact(handle(), titleWidget.handle());
+            DowncallHandles.gtk_header_bar_set_title_widget.invokeExact(
+                    handle(),
+                    (Addressable) (titleWidget == null ? MemoryAddress.NULL : titleWidget.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -4657,7 +4657,16 @@ public final class Gdk {
         java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
         java.util.Objects.requireNonNull(surface, "Parameter 'surface' must not be null");
         try {
-            DowncallHandles.gdk_cairo_draw_from_gl.invokeExact(cr.handle(), surface.handle(), source, sourceType, bufferScale, x, y, width, height);
+            DowncallHandles.gdk_cairo_draw_from_gl.invokeExact(
+                    cr.handle(),
+                    surface.handle(),
+                    source,
+                    sourceType,
+                    bufferScale,
+                    x,
+                    y,
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4672,7 +4681,9 @@ public final class Gdk {
         java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
         java.util.Objects.requireNonNull(rectangle, "Parameter 'rectangle' must not be null");
         try {
-            DowncallHandles.gdk_cairo_rectangle.invokeExact(cr.handle(), rectangle.handle());
+            DowncallHandles.gdk_cairo_rectangle.invokeExact(
+                    cr.handle(),
+                    rectangle.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4687,7 +4698,9 @@ public final class Gdk {
         java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
         java.util.Objects.requireNonNull(region, "Parameter 'region' must not be null");
         try {
-            DowncallHandles.gdk_cairo_region.invokeExact(cr.handle(), region.handle());
+            DowncallHandles.gdk_cairo_region.invokeExact(
+                    cr.handle(),
+                    region.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4706,7 +4719,8 @@ public final class Gdk {
         java.util.Objects.requireNonNull(surface, "Parameter 'surface' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_cairo_region_create_from_surface.invokeExact(surface.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_cairo_region_create_from_surface.invokeExact(
+                    surface.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4727,7 +4741,11 @@ public final class Gdk {
         java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
         java.util.Objects.requireNonNull(pixbuf, "Parameter 'pixbuf' must not be null");
         try {
-            DowncallHandles.gdk_cairo_set_source_pixbuf.invokeExact(cr.handle(), pixbuf.handle(), pixbufX, pixbufY);
+            DowncallHandles.gdk_cairo_set_source_pixbuf.invokeExact(
+                    cr.handle(),
+                    pixbuf.handle(),
+                    pixbufX,
+                    pixbufY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4742,7 +4760,9 @@ public final class Gdk {
         java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
         java.util.Objects.requireNonNull(rgba, "Parameter 'rgba' must not be null");
         try {
-            DowncallHandles.gdk_cairo_set_source_rgba.invokeExact(cr.handle(), rgba.handle());
+            DowncallHandles.gdk_cairo_set_source_rgba.invokeExact(
+                    cr.handle(),
+                    rgba.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4767,16 +4787,19 @@ public final class Gdk {
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
         java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.gdk_content_deserialize_async.invokeExact(stream.handle(), Interop.allocateNativeString(mimeType), type.getValue(), ioPriority, cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gdk_content_deserialize_async.invokeExact(
+                    stream.handle(),
+                    Interop.allocateNativeString(mimeType),
+                    type.getValue().longValue(),
+                    ioPriority,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gdk.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4791,21 +4814,21 @@ public final class Gdk {
      *   {@code error} is set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean contentDeserializeFinish(@NotNull org.gtk.gio.AsyncResult result, @NotNull Out<org.gtk.gobject.Value> value) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean contentDeserializeFinish(@NotNull org.gtk.gio.AsyncResult result, @NotNull org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_content_deserialize_finish.invokeExact(result.handle(), (Addressable) valuePOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gdk_content_deserialize_finish.invokeExact(
+                    result.handle(),
+                    value.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        value.set(new org.gtk.gobject.Value(Refcounted.get(valuePOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -4825,7 +4848,8 @@ public final class Gdk {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_parse.invokeExact(Interop.allocateNativeString(string));
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_parse.invokeExact(
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4843,13 +4867,15 @@ public final class Gdk {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         java.util.Objects.requireNonNull(deserialize, "Parameter 'deserialize' must not be null");
         try {
-            DowncallHandles.gdk_content_register_deserializer.invokeExact(Interop.allocateNativeString(mimeType), type.getValue(), 
+            DowncallHandles.gdk_content_register_deserializer.invokeExact(
+                    Interop.allocateNativeString(mimeType),
+                    type.getValue().longValue(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gdk.Callbacks.class, "cbContentDeserializeFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(deserialize)), 
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(deserialize)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4867,13 +4893,15 @@ public final class Gdk {
         java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
         java.util.Objects.requireNonNull(serialize, "Parameter 'serialize' must not be null");
         try {
-            DowncallHandles.gdk_content_register_serializer.invokeExact(type.getValue(), Interop.allocateNativeString(mimeType), 
+            DowncallHandles.gdk_content_register_serializer.invokeExact(
+                    type.getValue().longValue(),
+                    Interop.allocateNativeString(mimeType),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gdk.Callbacks.class, "cbContentSerializeFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(serialize)), 
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(serialize)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4899,16 +4927,19 @@ public final class Gdk {
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
         java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            DowncallHandles.gdk_content_serialize_async.invokeExact(stream.handle(), Interop.allocateNativeString(mimeType), value.handle(), ioPriority, cancellable.handle(), 
-                    (Addressable) Linker.nativeLinker().upcallStub(
+            DowncallHandles.gdk_content_serialize_async.invokeExact(
+                    stream.handle(),
+                    Interop.allocateNativeString(mimeType),
+                    value.handle(),
+                    ioPriority,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gdk.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4926,7 +4957,8 @@ public final class Gdk {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_content_serialize_finish.invokeExact(result.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gdk_content_serialize_finish.invokeExact(
+                    result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4949,7 +4981,8 @@ public final class Gdk {
         java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_drag_action_is_unique.invokeExact(action.getValue());
+            RESULT = (int) DowncallHandles.gdk_drag_action_is_unique.invokeExact(
+                    action.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4977,7 +5010,10 @@ public final class Gdk {
         MemorySegment anglePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_events_get_angle.invokeExact(event1.handle(), event2.handle(), (Addressable) anglePOINTER.address());
+            RESULT = (int) DowncallHandles.gdk_events_get_angle.invokeExact(
+                    event1.handle(),
+                    event2.handle(),
+                    (Addressable) anglePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5005,7 +5041,11 @@ public final class Gdk {
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_events_get_center.invokeExact(event1.handle(), event2.handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            RESULT = (int) DowncallHandles.gdk_events_get_center.invokeExact(
+                    event1.handle(),
+                    event2.handle(),
+                    (Addressable) xPOINTER.address(),
+                    (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5031,7 +5071,10 @@ public final class Gdk {
         MemorySegment distancePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_events_get_distance.invokeExact(event1.handle(), event2.handle(), (Addressable) distancePOINTER.address());
+            RESULT = (int) DowncallHandles.gdk_events_get_distance.invokeExact(
+                    event1.handle(),
+                    event2.handle(),
+                    (Addressable) distancePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5062,11 +5105,12 @@ public final class Gdk {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_intern_mime_type.invokeExact(Interop.allocateNativeString(string));
+            RESULT = (MemoryAddress) DowncallHandles.gdk_intern_mime_type.invokeExact(
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -5083,7 +5127,10 @@ public final class Gdk {
         MemorySegment lowerPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment upperPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gdk_keyval_convert_case.invokeExact(symbol, (Addressable) lowerPOINTER.address(), (Addressable) upperPOINTER.address());
+            DowncallHandles.gdk_keyval_convert_case.invokeExact(
+                    symbol,
+                    (Addressable) lowerPOINTER.address(),
+                    (Addressable) upperPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5105,7 +5152,8 @@ public final class Gdk {
         java.util.Objects.requireNonNull(keyvalName, "Parameter 'keyvalName' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_keyval_from_name.invokeExact(Interop.allocateNativeString(keyvalName));
+            RESULT = (int) DowncallHandles.gdk_keyval_from_name.invokeExact(
+                    Interop.allocateNativeString(keyvalName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5121,7 +5169,8 @@ public final class Gdk {
     public static boolean keyvalIsLower(int keyval) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_keyval_is_lower.invokeExact(keyval);
+            RESULT = (int) DowncallHandles.gdk_keyval_is_lower.invokeExact(
+                    keyval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5137,7 +5186,8 @@ public final class Gdk {
     public static boolean keyvalIsUpper(int keyval) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_keyval_is_upper.invokeExact(keyval);
+            RESULT = (int) DowncallHandles.gdk_keyval_is_upper.invokeExact(
+                    keyval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5157,11 +5207,12 @@ public final class Gdk {
     public static @Nullable java.lang.String keyvalName(int keyval) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_keyval_name.invokeExact(keyval);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_keyval_name.invokeExact(
+                    keyval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -5173,7 +5224,8 @@ public final class Gdk {
     public static int keyvalToLower(int keyval) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_keyval_to_lower.invokeExact(keyval);
+            RESULT = (int) DowncallHandles.gdk_keyval_to_lower.invokeExact(
+                    keyval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5194,7 +5246,8 @@ public final class Gdk {
     public static int keyvalToUnicode(int keyval) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_keyval_to_unicode.invokeExact(keyval);
+            RESULT = (int) DowncallHandles.gdk_keyval_to_unicode.invokeExact(
+                    keyval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5210,7 +5263,8 @@ public final class Gdk {
     public static int keyvalToUpper(int keyval) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_keyval_to_upper.invokeExact(keyval);
+            RESULT = (int) DowncallHandles.gdk_keyval_to_upper.invokeExact(
+                    keyval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5231,7 +5285,9 @@ public final class Gdk {
     public static @NotNull org.gtk.gdk.Paintable paintableNewEmpty(int intrinsicWidth, int intrinsicHeight) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_paintable_new_empty.invokeExact(intrinsicWidth, intrinsicHeight);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_paintable_new_empty.invokeExact(
+                    intrinsicWidth,
+                    intrinsicHeight);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5261,7 +5317,12 @@ public final class Gdk {
         java.util.Objects.requireNonNull(indexRanges, "Parameter 'indexRanges' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pango_layout_get_clip_region.invokeExact(layout.handle(), xOrigin, yOrigin, indexRanges.handle(), nRanges);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pango_layout_get_clip_region.invokeExact(
+                    layout.handle(),
+                    xOrigin,
+                    yOrigin,
+                    indexRanges.handle(),
+                    nRanges);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5297,7 +5358,12 @@ public final class Gdk {
         java.util.Objects.requireNonNull(indexRanges, "Parameter 'indexRanges' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pango_layout_line_get_clip_region.invokeExact(line.handle(), xOrigin, yOrigin, Interop.allocateNativeArray(indexRanges, false), nRanges);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pango_layout_line_get_clip_region.invokeExact(
+                    line.handle(),
+                    xOrigin,
+                    yOrigin,
+                    Interop.allocateNativeArray(indexRanges, false),
+                    nRanges);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5324,7 +5390,12 @@ public final class Gdk {
         java.util.Objects.requireNonNull(surface, "Parameter 'surface' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_get_from_surface.invokeExact(surface.handle(), srcX, srcY, width, height);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_get_from_surface.invokeExact(
+                    surface.handle(),
+                    srcX,
+                    srcY,
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5344,7 +5415,8 @@ public final class Gdk {
         java.util.Objects.requireNonNull(texture, "Parameter 'texture' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_get_from_texture.invokeExact(texture.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_get_from_texture.invokeExact(
+                    texture.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5390,7 +5462,8 @@ public final class Gdk {
     public static void setAllowedBackends(@NotNull java.lang.String backends) {
         java.util.Objects.requireNonNull(backends, "Parameter 'backends' must not be null");
         try {
-            DowncallHandles.gdk_set_allowed_backends.invokeExact(Interop.allocateNativeString(backends));
+            DowncallHandles.gdk_set_allowed_backends.invokeExact(
+                    Interop.allocateNativeString(backends));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5425,7 +5498,8 @@ public final class Gdk {
     public static int unicodeToKeyval(int wc) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_unicode_to_keyval.invokeExact(wc);
+            RESULT = (int) DowncallHandles.gdk_unicode_to_keyval.invokeExact(
+                    wc);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

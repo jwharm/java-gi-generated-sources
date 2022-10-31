@@ -14,18 +14,30 @@ public class TypeInstance extends io.github.jwharm.javagi.ResourceBase {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTypeInstance";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.TypeClass.getMemoryLayout().withName("g_class")
-    ).withName("GTypeInstance");
+        Interop.valueLayout.ADDRESS.withName("g_class")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static TypeInstance allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        TypeInstance newInstance = new TypeInstance(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public TypeInstance(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -34,7 +46,9 @@ public class TypeInstance extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(privateType, "Parameter 'privateType' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_instance_get_private.invokeExact(handle(), privateType.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_instance_get_private.invokeExact(
+                    handle(),
+                    privateType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

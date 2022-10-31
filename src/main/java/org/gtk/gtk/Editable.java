@@ -131,13 +131,29 @@ import org.jetbrains.annotations.*;
 public interface Editable extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to Editable if its GType is a (or inherits from) "GtkEditable".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Editable" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkEditable", a ClassCastException will be thrown.
+     */
+    public static Editable castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEditable"))) {
+            return new EditableImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEditable");
+        }
+    }
+    
+    /**
      * Deletes the currently selected text of the editable.
      * <p>
      * This call doesn’t do anything if there is no selected text.
      */
     default void deleteSelection() {
         try {
-            DowncallHandles.gtk_editable_delete_selection.invokeExact(handle());
+            DowncallHandles.gtk_editable_delete_selection.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -157,7 +173,10 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      */
     default void deleteText(int startPos, int endPos) {
         try {
-            DowncallHandles.gtk_editable_delete_text.invokeExact(handle(), startPos, endPos);
+            DowncallHandles.gtk_editable_delete_text.invokeExact(
+                    handle(),
+                    startPos,
+                    endPos);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,7 +190,8 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      */
     default void finishDelegate() {
         try {
-            DowncallHandles.gtk_editable_finish_delegate.invokeExact(handle());
+            DowncallHandles.gtk_editable_finish_delegate.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,7 +204,8 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     default float getAlignment() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gtk_editable_get_alignment.invokeExact(handle());
+            RESULT = (float) DowncallHandles.gtk_editable_get_alignment.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -209,11 +230,14 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     default @NotNull java.lang.String getChars(int startPos, int endPos) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_editable_get_chars.invokeExact(handle(), startPos, endPos);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_editable_get_chars.invokeExact(
+                    handle(),
+                    startPos,
+                    endPos);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -226,7 +250,8 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gtk.Editable getDelegate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_editable_get_delegate.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_editable_get_delegate.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,7 +265,8 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     default boolean getEditable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_editable_get_editable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_editable_get_editable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -254,7 +280,8 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     default boolean getEnableUndo() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_editable_get_enable_undo.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_editable_get_enable_undo.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -268,7 +295,8 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     default int getMaxWidthChars() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_editable_get_max_width_chars.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_editable_get_max_width_chars.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -285,7 +313,8 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     default int getPosition() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_editable_get_position.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_editable_get_position.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -311,7 +340,10 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         MemorySegment endPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_editable_get_selection_bounds.invokeExact(handle(), (Addressable) startPosPOINTER.address(), (Addressable) endPosPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_editable_get_selection_bounds.invokeExact(
+                    handle(),
+                    (Addressable) startPosPOINTER.address(),
+                    (Addressable) endPosPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -329,11 +361,12 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     default @NotNull java.lang.String getText() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_editable_get_text.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_editable_get_text.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -344,7 +377,8 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     default int getWidthChars() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_editable_get_width_chars.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_editable_get_width_chars.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -362,7 +396,8 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      */
     default void initDelegate() {
         try {
-            DowncallHandles.gtk_editable_init_delegate.invokeExact(handle());
+            DowncallHandles.gtk_editable_init_delegate.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -384,7 +419,11 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
         MemorySegment positionPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_editable_insert_text.invokeExact(handle(), Interop.allocateNativeString(text), length, (Addressable) positionPOINTER.address());
+            DowncallHandles.gtk_editable_insert_text.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(text),
+                    length,
+                    (Addressable) positionPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -405,7 +444,10 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      */
     default void selectRegion(int startPos, int endPos) {
         try {
-            DowncallHandles.gtk_editable_select_region.invokeExact(handle(), startPos, endPos);
+            DowncallHandles.gtk_editable_select_region.invokeExact(
+                    handle(),
+                    startPos,
+                    endPos);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -421,7 +463,9 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      */
     default void setAlignment(float xalign) {
         try {
-            DowncallHandles.gtk_editable_set_alignment.invokeExact(handle(), xalign);
+            DowncallHandles.gtk_editable_set_alignment.invokeExact(
+                    handle(),
+                    xalign);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -434,7 +478,9 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      */
     default void setEditable(boolean isEditable) {
         try {
-            DowncallHandles.gtk_editable_set_editable.invokeExact(handle(), isEditable ? 1 : 0);
+            DowncallHandles.gtk_editable_set_editable.invokeExact(
+                    handle(),
+                    isEditable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -451,7 +497,9 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      */
     default void setEnableUndo(boolean enableUndo) {
         try {
-            DowncallHandles.gtk_editable_set_enable_undo.invokeExact(handle(), enableUndo ? 1 : 0);
+            DowncallHandles.gtk_editable_set_enable_undo.invokeExact(
+                    handle(),
+                    enableUndo ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -463,7 +511,9 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      */
     default void setMaxWidthChars(int nChars) {
         try {
-            DowncallHandles.gtk_editable_set_max_width_chars.invokeExact(handle(), nChars);
+            DowncallHandles.gtk_editable_set_max_width_chars.invokeExact(
+                    handle(),
+                    nChars);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -481,7 +531,9 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      */
     default void setPosition(int position) {
         try {
-            DowncallHandles.gtk_editable_set_position.invokeExact(handle(), position);
+            DowncallHandles.gtk_editable_set_position.invokeExact(
+                    handle(),
+                    position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -496,7 +548,9 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     default void setText(@NotNull java.lang.String text) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            DowncallHandles.gtk_editable_set_text.invokeExact(handle(), Interop.allocateNativeString(text));
+            DowncallHandles.gtk_editable_set_text.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -513,7 +567,9 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      */
     default void setWidthChars(int nChars) {
         try {
-            DowncallHandles.gtk_editable_set_width_chars.invokeExact(handle(), nChars);
+            DowncallHandles.gtk_editable_set_width_chars.invokeExact(
+                    handle(),
+                    nChars);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -537,7 +593,11 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(pspec, "Parameter 'pspec' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_editable_delegate_get_property.invokeExact(object.handle(), propId, value.handle(), pspec.handle());
+            RESULT = (int) DowncallHandles.gtk_editable_delegate_get_property.invokeExact(
+                    object.handle(),
+                    propId,
+                    value.handle(),
+                    pspec.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -562,7 +622,11 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(pspec, "Parameter 'pspec' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_editable_delegate_set_property.invokeExact(object.handle(), propId, value.handle(), pspec.handle());
+            RESULT = (int) DowncallHandles.gtk_editable_delegate_set_property.invokeExact(
+                    object.handle(),
+                    propId,
+                    value.handle(),
+                    pspec.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -593,7 +657,9 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(objectClass, "Parameter 'objectClass' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_editable_install_properties.invokeExact(objectClass.handle(), firstProp);
+            RESULT = (int) DowncallHandles.gtk_editable_install_properties.invokeExact(
+                    objectClass.handle(),
+                    firstProp);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

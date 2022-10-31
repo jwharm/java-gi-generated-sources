@@ -42,25 +42,47 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwPreferencesGroup";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName("AdwPreferencesGroup");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gtk.Widget parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gtk.Widget(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public PreferencesGroup(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to PreferencesGroup */
+    /**
+     * Cast object to PreferencesGroup if its GType is a (or inherits from) "AdwPreferencesGroup".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "PreferencesGroup" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwPreferencesGroup", a ClassCastException will be thrown.
+     */
     public static PreferencesGroup castFrom(org.gtk.gobject.Object gobject) {
-        return new PreferencesGroup(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwPreferencesGroup"))) {
+            return new PreferencesGroup(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwPreferencesGroup");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -87,7 +109,9 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public void add(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.adw_preferences_group_add.invokeExact(handle(), child.handle());
+            DowncallHandles.adw_preferences_group_add.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,11 +124,12 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public @Nullable java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_group_get_description.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_group_get_description.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -114,7 +139,8 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public @Nullable org.gtk.gtk.Widget getHeaderSuffix() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_group_get_header_suffix.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_group_get_header_suffix.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -128,11 +154,12 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public @NotNull java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_group_get_title.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_group_get_title.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -142,7 +169,9 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public void remove(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            DowncallHandles.adw_preferences_group_remove.invokeExact(handle(), child.handle());
+            DowncallHandles.adw_preferences_group_remove.invokeExact(
+                    handle(),
+                    child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,9 +182,10 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * @param description the description
      */
     public void setDescription(@Nullable java.lang.String description) {
-        java.util.Objects.requireNonNullElse(description, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_preferences_group_set_description.invokeExact(handle(), Interop.allocateNativeString(description));
+            DowncallHandles.adw_preferences_group_set_description.invokeExact(
+                    handle(),
+                    (Addressable) (description == null ? MemoryAddress.NULL : Interop.allocateNativeString(description)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -163,12 +193,17 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     
     /**
      * Sets the suffix for {@code self}'s header.
+     * <p>
+     * Displayed above the list, next to the title and description.
+     * <p>
+     * Suffixes are commonly used to show a button or a spinner for the whole group.
      * @param suffix the suffix to set
      */
     public void setHeaderSuffix(@Nullable org.gtk.gtk.Widget suffix) {
-        java.util.Objects.requireNonNullElse(suffix, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_preferences_group_set_header_suffix.invokeExact(handle(), suffix.handle());
+            DowncallHandles.adw_preferences_group_set_header_suffix.invokeExact(
+                    handle(),
+                    (Addressable) (suffix == null ? MemoryAddress.NULL : suffix.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,7 +216,9 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public void setTitle(@NotNull java.lang.String title) {
         java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
         try {
-            DowncallHandles.adw_preferences_group_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
+            DowncallHandles.adw_preferences_group_set_title.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

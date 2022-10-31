@@ -14,21 +14,34 @@ public class MemoryTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Pa
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkMemoryTexture";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public MemoryTexture(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to MemoryTexture */
+    /**
+     * Cast object to MemoryTexture if its GType is a (or inherits from) "GdkMemoryTexture".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "MemoryTexture" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkMemoryTexture", a ClassCastException will be thrown.
+     */
     public static MemoryTexture castFrom(org.gtk.gobject.Object gobject) {
-        return new MemoryTexture(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkMemoryTexture"))) {
+            return new MemoryTexture(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkMemoryTexture");
+        }
     }
     
     private static Refcounted constructNew(int width, int height, @NotNull org.gtk.gdk.MemoryFormat format, @NotNull org.gtk.glib.Bytes bytes, long stride) {
@@ -36,7 +49,12 @@ public class MemoryTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Pa
         java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_memory_texture_new.invokeExact(width, height, format.getValue(), bytes.handle(), stride), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_memory_texture_new.invokeExact(
+                    width,
+                    height,
+                    format.getValue(),
+                    bytes.handle(),
+                    stride), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

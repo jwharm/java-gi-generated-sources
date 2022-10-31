@@ -15,21 +15,34 @@ public class EnumListItem extends org.gtk.gobject.Object {
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwEnumListItem";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public EnumListItem(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to EnumListItem */
+    /**
+     * Cast object to EnumListItem if its GType is a (or inherits from) "AdwEnumListItem".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "EnumListItem" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwEnumListItem", a ClassCastException will be thrown.
+     */
     public static EnumListItem castFrom(org.gtk.gobject.Object gobject) {
-        return new EnumListItem(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwEnumListItem"))) {
+            return new EnumListItem(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwEnumListItem");
+        }
     }
     
     /**
@@ -39,11 +52,12 @@ public class EnumListItem extends org.gtk.gobject.Object {
     public @NotNull java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_enum_list_item_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_enum_list_item_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -53,11 +67,12 @@ public class EnumListItem extends org.gtk.gobject.Object {
     public @NotNull java.lang.String getNick() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_enum_list_item_get_nick.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_enum_list_item_get_nick.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -67,7 +82,8 @@ public class EnumListItem extends org.gtk.gobject.Object {
     public int getValue() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_enum_list_item_get_value.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_enum_list_item_get_value.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

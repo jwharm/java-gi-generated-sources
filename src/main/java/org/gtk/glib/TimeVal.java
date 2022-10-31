@@ -23,19 +23,73 @@ public class TimeVal extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTimeVal";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_LONG.withName("tv_sec"),
         ValueLayout.JAVA_LONG.withName("tv_usec")
-    ).withName("GTimeVal");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static TimeVal allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        TimeVal newInstance = new TimeVal(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code tv_sec}
+     * @return The value of the field {@code tv_sec}
+     */
+    public long tv_sec$get() {
+        var RESULT = (long) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("tv_sec"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code tv_sec}
+     * @param tv_sec The new value of the field {@code tv_sec}
+     */
+    public void tv_sec$set(long tv_sec) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("tv_sec"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tv_sec);
+    }
+    
+    /**
+     * Get the value of the field {@code tv_usec}
+     * @return The value of the field {@code tv_usec}
+     */
+    public long tv_usec$get() {
+        var RESULT = (long) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("tv_usec"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code tv_usec}
+     * @param tv_usec The new value of the field {@code tv_usec}
+     */
+    public void tv_usec$set(long tv_usec) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("tv_usec"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tv_usec);
+    }
+    
+    @ApiStatus.Internal
     public TimeVal(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -50,7 +104,9 @@ public class TimeVal extends io.github.jwharm.javagi.ResourceBase {
     @Deprecated
     public void add(long microseconds) {
         try {
-            DowncallHandles.g_time_val_add.invokeExact(handle(), microseconds);
+            DowncallHandles.g_time_val_add.invokeExact(
+                    handle(),
+                    microseconds);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,11 +156,12 @@ public class TimeVal extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.String toIso8601() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_time_val_to_iso8601.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_time_val_to_iso8601.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -132,17 +189,17 @@ public class TimeVal extends io.github.jwharm.javagi.ResourceBase {
      *    g_date_time_new_from_iso8601() instead.
      */
     @Deprecated
-    public static boolean fromIso8601(@NotNull java.lang.String isoDate, @NotNull Out<org.gtk.glib.TimeVal> time) {
+    public static boolean fromIso8601(@NotNull java.lang.String isoDate, @NotNull org.gtk.glib.TimeVal time) {
         java.util.Objects.requireNonNull(isoDate, "Parameter 'isoDate' must not be null");
         java.util.Objects.requireNonNull(time, "Parameter 'time' must not be null");
-        MemorySegment timePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_time_val_from_iso8601.invokeExact(Interop.allocateNativeString(isoDate), (Addressable) timePOINTER.address());
+            RESULT = (int) DowncallHandles.g_time_val_from_iso8601.invokeExact(
+                    Interop.allocateNativeString(isoDate),
+                    time.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        time.set(new org.gtk.glib.TimeVal(Refcounted.get(timePOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     

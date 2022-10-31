@@ -15,14 +15,26 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GSequence";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Sequence allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Sequence newInstance = new Sequence(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Sequence(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -35,7 +47,9 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.SequenceIter append(@Nullable java.lang.foreign.MemoryAddress data) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_append.invokeExact(handle(), data);
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_append.invokeExact(
+                    handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -50,13 +64,14 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public void foreach(@NotNull org.gtk.glib.Func func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.g_sequence_foreach.invokeExact(handle(), 
+            DowncallHandles.g_sequence_foreach.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,7 +84,8 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.g_sequence_free.invokeExact(handle());
+            DowncallHandles.g_sequence_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +98,8 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.SequenceIter getBeginIter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_get_begin_iter.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_get_begin_iter.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,7 +113,8 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.SequenceIter getEndIter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_get_end_iter.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_get_end_iter.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,7 +130,9 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.SequenceIter getIterAtPos(int pos) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_get_iter_at_pos.invokeExact(handle(), pos);
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_get_iter_at_pos.invokeExact(
+                    handle(),
+                    pos);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -128,7 +148,8 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public int getLength() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_sequence_get_length.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_sequence_get_length.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,14 +176,15 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(cmpFunc, "Parameter 'cmpFunc' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_insert_sorted.invokeExact(handle(), 
-                   (Addressable) (Interop.registerCallback(cmpFunc)), 
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_insert_sorted.invokeExact(
+                    handle(),
+                    (Addressable) (Interop.registerCallback(cmpFunc)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(cmpFunc)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(cmpFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -189,14 +211,15 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(iterCmp, "Parameter 'iterCmp' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_insert_sorted_iter.invokeExact(handle(), 
-                   (Addressable) (Interop.registerCallback(iterCmp)), 
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_insert_sorted_iter.invokeExact(
+                    handle(),
+                    (Addressable) (Interop.registerCallback(iterCmp)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSequenceIterCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(iterCmp)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(iterCmp)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -214,7 +237,8 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public boolean isEmpty() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_sequence_is_empty.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_sequence_is_empty.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -244,14 +268,15 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(cmpFunc, "Parameter 'cmpFunc' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_lookup.invokeExact(handle(), 
-                   (Addressable) (Interop.registerCallback(cmpFunc)), 
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_lookup.invokeExact(
+                    handle(),
+                    (Addressable) (Interop.registerCallback(cmpFunc)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(cmpFunc)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(cmpFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -278,14 +303,15 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(iterCmp, "Parameter 'iterCmp' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_lookup_iter.invokeExact(handle(), 
-                   (Addressable) (Interop.registerCallback(iterCmp)), 
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_lookup_iter.invokeExact(
+                    handle(),
+                    (Addressable) (Interop.registerCallback(iterCmp)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSequenceIterCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(iterCmp)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(iterCmp)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -300,7 +326,9 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.SequenceIter prepend(@Nullable java.lang.foreign.MemoryAddress data) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_prepend.invokeExact(handle(), data);
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_prepend.invokeExact(
+                    handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -329,14 +357,15 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(cmpFunc, "Parameter 'cmpFunc' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_search.invokeExact(handle(), 
-                   (Addressable) (Interop.registerCallback(cmpFunc)), 
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_search.invokeExact(
+                    handle(),
+                    (Addressable) (Interop.registerCallback(cmpFunc)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(cmpFunc)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(cmpFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -366,14 +395,15 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(iterCmp, "Parameter 'iterCmp' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_search_iter.invokeExact(handle(), 
-                   (Addressable) (Interop.registerCallback(iterCmp)), 
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_search_iter.invokeExact(
+                    handle(),
+                    (Addressable) (Interop.registerCallback(iterCmp)),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSequenceIterCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(iterCmp)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(iterCmp)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -392,13 +422,14 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public void sort(@NotNull org.gtk.glib.CompareDataFunc cmpFunc) {
         java.util.Objects.requireNonNull(cmpFunc, "Parameter 'cmpFunc' must not be null");
         try {
-            DowncallHandles.g_sequence_sort.invokeExact(handle(), 
+            DowncallHandles.g_sequence_sort.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(cmpFunc)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(cmpFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -417,13 +448,14 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public void sortIter(@NotNull org.gtk.glib.SequenceIterCompareFunc cmpFunc) {
         java.util.Objects.requireNonNull(cmpFunc, "Parameter 'cmpFunc' must not be null");
         try {
-            DowncallHandles.g_sequence_sort_iter.invokeExact(handle(), 
+            DowncallHandles.g_sequence_sort_iter.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSequenceIterCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(cmpFunc)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(cmpFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -442,13 +474,15 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.g_sequence_foreach_range.invokeExact(begin.handle(), end.handle(), 
+            DowncallHandles.g_sequence_foreach_range.invokeExact(
+                    begin.handle(),
+                    end.handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -463,7 +497,8 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_get.invokeExact(iter.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_get.invokeExact(
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -480,7 +515,9 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_insert_before.invokeExact(iter.handle(), data);
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_insert_before.invokeExact(
+                    iter.handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -500,7 +537,9 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
         try {
-            DowncallHandles.g_sequence_move.invokeExact(src.handle(), dest.handle());
+            DowncallHandles.g_sequence_move.invokeExact(
+                    src.handle(),
+                    dest.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -524,7 +563,10 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(begin, "Parameter 'begin' must not be null");
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         try {
-            DowncallHandles.g_sequence_move_range.invokeExact(dest.handle(), begin.handle(), end.handle());
+            DowncallHandles.g_sequence_move_range.invokeExact(
+                    dest.handle(),
+                    begin.handle(),
+                    end.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -558,7 +600,9 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_range_get_midpoint.invokeExact(begin.handle(), end.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_range_get_midpoint.invokeExact(
+                    begin.handle(),
+                    end.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -576,7 +620,8 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public static void remove(@NotNull org.gtk.glib.SequenceIter iter) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         try {
-            DowncallHandles.g_sequence_remove.invokeExact(iter.handle());
+            DowncallHandles.g_sequence_remove.invokeExact(
+                    iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -594,7 +639,9 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(begin, "Parameter 'begin' must not be null");
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         try {
-            DowncallHandles.g_sequence_remove_range.invokeExact(begin.handle(), end.handle());
+            DowncallHandles.g_sequence_remove_range.invokeExact(
+                    begin.handle(),
+                    end.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -610,7 +657,9 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public static void set(@NotNull org.gtk.glib.SequenceIter iter, @Nullable java.lang.foreign.MemoryAddress data) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         try {
-            DowncallHandles.g_sequence_set.invokeExact(iter.handle(), data);
+            DowncallHandles.g_sequence_set.invokeExact(
+                    iter.handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -634,13 +683,14 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(cmpFunc, "Parameter 'cmpFunc' must not be null");
         try {
-            DowncallHandles.g_sequence_sort_changed.invokeExact(iter.handle(), 
+            DowncallHandles.g_sequence_sort_changed.invokeExact(
+                    iter.handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(cmpFunc)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(cmpFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -663,13 +713,14 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(iterCmp, "Parameter 'iterCmp' must not be null");
         try {
-            DowncallHandles.g_sequence_sort_changed_iter.invokeExact(iter.handle(), 
+            DowncallHandles.g_sequence_sort_changed_iter.invokeExact(
+                    iter.handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSequenceIterCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(iterCmp)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(iterCmp)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -685,7 +736,9 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         try {
-            DowncallHandles.g_sequence_swap.invokeExact(a.handle(), b.handle());
+            DowncallHandles.g_sequence_swap.invokeExact(
+                    a.handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

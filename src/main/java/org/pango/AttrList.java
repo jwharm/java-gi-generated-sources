@@ -24,14 +24,26 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoAttrList";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static AttrList allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        AttrList newInstance = new AttrList(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public AttrList(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -72,7 +84,9 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
     public void change(@NotNull org.pango.Attribute attr) {
         java.util.Objects.requireNonNull(attr, "Parameter 'attr' must not be null");
         try {
-            DowncallHandles.pango_attr_list_change.invokeExact(handle(), attr.refcounted().unowned().handle());
+            DowncallHandles.pango_attr_list_change.invokeExact(
+                    handle(),
+                    attr.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,7 +102,8 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable org.pango.AttrList copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,7 +125,9 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(otherList, "Parameter 'otherList' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_attr_list_equal.invokeExact(handle(), otherList.handle());
+            RESULT = (int) DowncallHandles.pango_attr_list_equal.invokeExact(
+                    handle(),
+                    otherList.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -131,13 +148,14 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_filter.invokeExact(handle(), 
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_filter.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Pango.Callbacks.class, "cbAttrFilterFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,7 +171,8 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.glib.SList getAttributes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_get_attributes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_get_attributes.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,7 +190,8 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.pango.AttrIterator getIterator() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_get_iterator.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_get_iterator.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -188,7 +208,9 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
     public void insert(@NotNull org.pango.Attribute attr) {
         java.util.Objects.requireNonNull(attr, "Parameter 'attr' must not be null");
         try {
-            DowncallHandles.pango_attr_list_insert.invokeExact(handle(), attr.refcounted().unowned().handle());
+            DowncallHandles.pango_attr_list_insert.invokeExact(
+                    handle(),
+                    attr.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,7 +226,9 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
     public void insertBefore(@NotNull org.pango.Attribute attr) {
         java.util.Objects.requireNonNull(attr, "Parameter 'attr' must not be null");
         try {
-            DowncallHandles.pango_attr_list_insert_before.invokeExact(handle(), attr.refcounted().unowned().handle());
+            DowncallHandles.pango_attr_list_insert_before.invokeExact(
+                    handle(),
+                    attr.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +242,8 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.pango.AttrList ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -253,7 +278,11 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
     public void splice(@NotNull org.pango.AttrList other, int pos, int len) {
         java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         try {
-            DowncallHandles.pango_attr_list_splice.invokeExact(handle(), other.handle(), pos, len);
+            DowncallHandles.pango_attr_list_splice.invokeExact(
+                    handle(),
+                    other.handle(),
+                    pos,
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -273,11 +302,12 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_to_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -289,7 +319,8 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.pango_attr_list_unref.invokeExact(handle());
+            DowncallHandles.pango_attr_list_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -316,7 +347,11 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      */
     public void update(int pos, int remove, int add) {
         try {
-            DowncallHandles.pango_attr_list_update.invokeExact(handle(), pos, remove, add);
+            DowncallHandles.pango_attr_list_update.invokeExact(
+                    handle(),
+                    pos,
+                    remove,
+                    add);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -334,7 +369,8 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_from_string.invokeExact(Interop.allocateNativeString(text));
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_from_string.invokeExact(
+                    Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

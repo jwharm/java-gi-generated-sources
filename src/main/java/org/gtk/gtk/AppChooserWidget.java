@@ -35,28 +35,42 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkAppChooserWidget";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public AppChooserWidget(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to AppChooserWidget */
+    /**
+     * Cast object to AppChooserWidget if its GType is a (or inherits from) "GtkAppChooserWidget".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "AppChooserWidget" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkAppChooserWidget", a ClassCastException will be thrown.
+     */
     public static AppChooserWidget castFrom(org.gtk.gobject.Object gobject) {
-        return new AppChooserWidget(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkAppChooserWidget"))) {
+            return new AppChooserWidget(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkAppChooserWidget");
+        }
     }
     
     private static Refcounted constructNew(@NotNull java.lang.String contentType) {
         java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_app_chooser_widget_new.invokeExact(Interop.allocateNativeString(contentType)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_app_chooser_widget_new.invokeExact(
+                    Interop.allocateNativeString(contentType)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,11 +94,12 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public @Nullable java.lang.String getDefaultText() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_widget_get_default_text.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_widget_get_default_text.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -95,7 +110,8 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public boolean getShowAll() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_app_chooser_widget_get_show_all.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_app_chooser_widget_get_show_all.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,7 +126,8 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public boolean getShowDefault() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_app_chooser_widget_get_show_default.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_app_chooser_widget_get_show_default.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,7 +142,8 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public boolean getShowFallback() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_app_chooser_widget_get_show_fallback.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_app_chooser_widget_get_show_fallback.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,7 +158,8 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public boolean getShowOther() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_app_chooser_widget_get_show_other.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_app_chooser_widget_get_show_other.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,7 +174,8 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public boolean getShowRecommended() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_app_chooser_widget_get_show_recommended.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_app_chooser_widget_get_show_recommended.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,7 +190,9 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public void setDefaultText(@NotNull java.lang.String text) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            DowncallHandles.gtk_app_chooser_widget_set_default_text.invokeExact(handle(), Interop.allocateNativeString(text));
+            DowncallHandles.gtk_app_chooser_widget_set_default_text.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,7 +205,9 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
      */
     public void setShowAll(boolean setting) {
         try {
-            DowncallHandles.gtk_app_chooser_widget_set_show_all.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_app_chooser_widget_set_show_all.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -196,7 +220,9 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
      */
     public void setShowDefault(boolean setting) {
         try {
-            DowncallHandles.gtk_app_chooser_widget_set_show_default.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_app_chooser_widget_set_show_default.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -209,7 +235,9 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
      */
     public void setShowFallback(boolean setting) {
         try {
-            DowncallHandles.gtk_app_chooser_widget_set_show_fallback.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_app_chooser_widget_set_show_fallback.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -222,7 +250,9 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
      */
     public void setShowOther(boolean setting) {
         try {
-            DowncallHandles.gtk_app_chooser_widget_set_show_other.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_app_chooser_widget_set_show_other.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -235,7 +265,9 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
      */
     public void setShowRecommended(boolean setting) {
         try {
-            DowncallHandles.gtk_app_chooser_widget_set_show_recommended.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_app_chooser_widget_set_show_recommended.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

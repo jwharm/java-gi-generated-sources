@@ -93,6 +93,21 @@ import org.jetbrains.annotations.*;
 public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to AsyncResult if its GType is a (or inherits from) "GAsyncResult".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "AsyncResult" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GAsyncResult", a ClassCastException will be thrown.
+     */
+    public static AsyncResult castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GAsyncResult"))) {
+            return new AsyncResultImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GAsyncResult");
+        }
+    }
+    
+    /**
      * Gets the source object from a {@link AsyncResult}.
      * @return a new reference to the source
      *    object for the {@code res}, or {@code null} if there is none.
@@ -100,7 +115,8 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gobject.Object getSourceObject() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_async_result_get_source_object.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_async_result_get_source_object.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,7 +130,8 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
     default @Nullable java.lang.foreign.MemoryAddress getUserData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_async_result_get_user_data.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_async_result_get_user_data.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,10 +146,11 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
      *   not.
      */
     default boolean isTagged(@Nullable java.lang.foreign.MemoryAddress sourceTag) {
-        java.util.Objects.requireNonNullElse(sourceTag, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_async_result_is_tagged.invokeExact(handle(), sourceTag);
+            RESULT = (int) DowncallHandles.g_async_result_is_tagged.invokeExact(
+                    handle(),
+                    (Addressable) (sourceTag == null ? MemoryAddress.NULL : sourceTag));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -158,7 +176,8 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_async_result_legacy_propagate_error.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_async_result_legacy_propagate_error.invokeExact(
+                    handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

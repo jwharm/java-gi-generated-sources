@@ -14,21 +14,34 @@ public class CrossFadeNode extends org.gtk.gsk.RenderNode {
         Gsk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GskCrossFadeNode";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public CrossFadeNode(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CrossFadeNode */
+    /**
+     * Cast object to CrossFadeNode if its GType is a (or inherits from) "GskCrossFadeNode".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CrossFadeNode" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GskCrossFadeNode", a ClassCastException will be thrown.
+     */
     public static CrossFadeNode castFrom(org.gtk.gobject.Object gobject) {
-        return new CrossFadeNode(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskCrossFadeNode"))) {
+            return new CrossFadeNode(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskCrossFadeNode");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gsk.RenderNode start, @NotNull org.gtk.gsk.RenderNode end, float progress) {
@@ -36,7 +49,10 @@ public class CrossFadeNode extends org.gtk.gsk.RenderNode {
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_cross_fade_node_new.invokeExact(start.handle(), end.handle(), progress), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_cross_fade_node_new.invokeExact(
+                    start.handle(),
+                    end.handle(),
+                    progress), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -61,7 +77,8 @@ public class CrossFadeNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.gsk.RenderNode getEndChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_cross_fade_node_get_end_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_cross_fade_node_get_end_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -75,7 +92,8 @@ public class CrossFadeNode extends org.gtk.gsk.RenderNode {
     public float getProgress() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gsk_cross_fade_node_get_progress.invokeExact(handle());
+            RESULT = (float) DowncallHandles.gsk_cross_fade_node_get_progress.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -89,7 +107,8 @@ public class CrossFadeNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.gsk.RenderNode getStartChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_cross_fade_node_get_start_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_cross_fade_node_get_start_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

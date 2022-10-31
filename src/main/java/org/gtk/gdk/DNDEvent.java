@@ -14,21 +14,34 @@ public class DNDEvent extends org.gtk.gdk.Event {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkDNDEvent";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public DNDEvent(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DNDEvent */
+    /**
+     * Cast object to DNDEvent if its GType is a (or inherits from) "GdkDNDEvent".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DNDEvent" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkDNDEvent", a ClassCastException will be thrown.
+     */
     public static DNDEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new DNDEvent(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkDNDEvent"))) {
+            return new DNDEvent(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkDNDEvent");
+        }
     }
     
     /**
@@ -38,7 +51,8 @@ public class DNDEvent extends org.gtk.gdk.Event {
     public @Nullable org.gtk.gdk.Drop getDrop() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_dnd_event_get_drop.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_dnd_event_get_drop.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

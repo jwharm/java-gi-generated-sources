@@ -17,26 +17,48 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkTextChildAnchor";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("segment")
-    ).withName("GtkTextChildAnchor");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public TextChildAnchor(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TextChildAnchor */
+    /**
+     * Cast object to TextChildAnchor if its GType is a (or inherits from) "GtkTextChildAnchor".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TextChildAnchor" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkTextChildAnchor", a ClassCastException will be thrown.
+     */
     public static TextChildAnchor castFrom(org.gtk.gobject.Object gobject) {
-        return new TextChildAnchor(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTextChildAnchor"))) {
+            return new TextChildAnchor(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTextChildAnchor");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -65,7 +87,8 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(character, "Parameter 'character' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_text_child_anchor_new_with_replacement.invokeExact(Interop.allocateNativeString(character)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_text_child_anchor_new_with_replacement.invokeExact(
+                    Interop.allocateNativeString(character)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,7 +120,8 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
     public boolean getDeleted() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_child_anchor_get_deleted.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_child_anchor_get_deleted.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,7 +141,9 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
         MemorySegment outLenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_child_anchor_get_widgets.invokeExact(handle(), (Addressable) outLenPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_child_anchor_get_widgets.invokeExact(
+                    handle(),
+                    (Addressable) outLenPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

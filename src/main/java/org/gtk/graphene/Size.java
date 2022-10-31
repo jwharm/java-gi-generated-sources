@@ -15,19 +15,73 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
         Graphene.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "graphene_size_t";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_FLOAT.withName("width"),
         ValueLayout.JAVA_FLOAT.withName("height")
-    ).withName("graphene_size_t");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Size allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Size newInstance = new Size(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code width}
+     * @return The value of the field {@code width}
+     */
+    public float width$get() {
+        var RESULT = (float) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("width"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code width}
+     * @param width The new value of the field {@code width}
+     */
+    public void width$set(float width) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("width"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
+    }
+    
+    /**
+     * Get the value of the field {@code height}
+     * @return The value of the field {@code height}
+     */
+    public float height$get() {
+        var RESULT = (float) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("height"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code height}
+     * @param height The new value of the field {@code height}
+     */
+    public void height$set(float height) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("height"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
+    }
+    
+    @ApiStatus.Internal
     public Size(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -61,7 +115,9 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_size_equal.invokeExact(handle(), b.handle());
+            RESULT = (boolean) DowncallHandles.graphene_size_equal.invokeExact(
+                    handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,7 +129,8 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_size_free.invokeExact(handle());
+            DowncallHandles.graphene_size_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,7 +145,10 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Size init(float width, float height) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_size_init.invokeExact(handle(), width, height);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_size_init.invokeExact(
+                    handle(),
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,7 +165,9 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_size_init_from_size.invokeExact(handle(), src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_size_init_from_size.invokeExact(
+                    handle(),
+                    src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,16 +181,18 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
      * @param factor the linear interpolation factor
      * @param res return location for the interpolated size
      */
-    public void interpolate(@NotNull org.gtk.graphene.Size b, double factor, @NotNull Out<org.gtk.graphene.Size> res) {
+    public void interpolate(@NotNull org.gtk.graphene.Size b, double factor, @NotNull org.gtk.graphene.Size res) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_size_interpolate.invokeExact(handle(), b.handle(), factor, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_size_interpolate.invokeExact(
+                    handle(),
+                    b.handle(),
+                    factor,
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Size(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -136,15 +200,16 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
      * @param factor the scaling factor
      * @param res return location for the scaled size
      */
-    public void scale(float factor, @NotNull Out<org.gtk.graphene.Size> res) {
+    public void scale(float factor, @NotNull org.gtk.graphene.Size res) {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_size_scale.invokeExact(handle(), factor, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_size_scale.invokeExact(
+                    handle(),
+                    factor,
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Size(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**

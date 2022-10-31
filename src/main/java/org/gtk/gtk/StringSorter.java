@@ -21,28 +21,41 @@ public class StringSorter extends org.gtk.gtk.Sorter {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkStringSorter";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public StringSorter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to StringSorter */
+    /**
+     * Cast object to StringSorter if its GType is a (or inherits from) "GtkStringSorter".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "StringSorter" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkStringSorter", a ClassCastException will be thrown.
+     */
     public static StringSorter castFrom(org.gtk.gobject.Object gobject) {
-        return new StringSorter(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkStringSorter"))) {
+            return new StringSorter(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkStringSorter");
+        }
     }
     
     private static Refcounted constructNew(@Nullable org.gtk.gtk.Expression expression) {
-        java.util.Objects.requireNonNullElse(expression, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_string_sorter_new.invokeExact(expression.refcounted().unowned().handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_string_sorter_new.invokeExact(
+                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.refcounted().unowned().handle())), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -68,7 +81,8 @@ public class StringSorter extends org.gtk.gtk.Sorter {
     public @Nullable org.gtk.gtk.Expression getExpression() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_string_sorter_get_expression.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_string_sorter_get_expression.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +96,8 @@ public class StringSorter extends org.gtk.gtk.Sorter {
     public boolean getIgnoreCase() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_string_sorter_get_ignore_case.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_string_sorter_get_ignore_case.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,9 +111,10 @@ public class StringSorter extends org.gtk.gtk.Sorter {
      * @param expression a {@code GtkExpression}
      */
     public void setExpression(@Nullable org.gtk.gtk.Expression expression) {
-        java.util.Objects.requireNonNullElse(expression, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_string_sorter_set_expression.invokeExact(handle(), expression.handle());
+            DowncallHandles.gtk_string_sorter_set_expression.invokeExact(
+                    handle(),
+                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,7 +126,9 @@ public class StringSorter extends org.gtk.gtk.Sorter {
      */
     public void setIgnoreCase(boolean ignoreCase) {
         try {
-            DowncallHandles.gtk_string_sorter_set_ignore_case.invokeExact(handle(), ignoreCase ? 1 : 0);
+            DowncallHandles.gtk_string_sorter_set_ignore_case.invokeExact(
+                    handle(),
+                    ignoreCase ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

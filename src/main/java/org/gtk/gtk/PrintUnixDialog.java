@@ -67,29 +67,42 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkPrintUnixDialog";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public PrintUnixDialog(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to PrintUnixDialog */
+    /**
+     * Cast object to PrintUnixDialog if its GType is a (or inherits from) "GtkPrintUnixDialog".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "PrintUnixDialog" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkPrintUnixDialog", a ClassCastException will be thrown.
+     */
     public static PrintUnixDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new PrintUnixDialog(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPrintUnixDialog"))) {
+            return new PrintUnixDialog(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkPrintUnixDialog");
+        }
     }
     
     private static Refcounted constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {
-        java.util.Objects.requireNonNullElse(title, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_print_unix_dialog_new.invokeExact(Interop.allocateNativeString(title), parent.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_print_unix_dialog_new.invokeExact(
+                    (Addressable) (title == null ? MemoryAddress.NULL : Interop.allocateNativeString(title)),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle())), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,7 +127,10 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         java.util.Objects.requireNonNull(tabLabel, "Parameter 'tabLabel' must not be null");
         try {
-            DowncallHandles.gtk_print_unix_dialog_add_custom_tab.invokeExact(handle(), child.handle(), tabLabel.handle());
+            DowncallHandles.gtk_print_unix_dialog_add_custom_tab.invokeExact(
+                    handle(),
+                    child.handle(),
+                    tabLabel.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,7 +143,8 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
     public int getCurrentPage() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_unix_dialog_get_current_page.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_unix_dialog_get_current_page.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,7 +158,8 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
     public boolean getEmbedPageSetup() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_unix_dialog_get_embed_page_setup.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_unix_dialog_get_embed_page_setup.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,7 +173,8 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
     public boolean getHasSelection() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_unix_dialog_get_has_selection.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_unix_dialog_get_has_selection.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,7 +188,8 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
     public @NotNull org.gtk.gtk.PrintCapabilities getManualCapabilities() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_unix_dialog_get_manual_capabilities.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_unix_dialog_get_manual_capabilities.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,7 +203,8 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
     public @NotNull org.gtk.gtk.PageSetup getPageSetup() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_unix_dialog_get_page_setup.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_unix_dialog_get_page_setup.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -197,7 +218,8 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
     public boolean getPageSetupSet() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_unix_dialog_get_page_setup_set.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_unix_dialog_get_page_setup_set.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -211,7 +233,8 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
     public @Nullable org.gtk.gtk.Printer getSelectedPrinter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_unix_dialog_get_selected_printer.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_unix_dialog_get_selected_printer.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -229,7 +252,8 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
     public @NotNull org.gtk.gtk.PrintSettings getPrintSettings() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_unix_dialog_get_settings.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_unix_dialog_get_settings.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -243,7 +267,8 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
     public boolean getSupportSelection() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_unix_dialog_get_support_selection.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_unix_dialog_get_support_selection.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -259,7 +284,9 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
      */
     public void setCurrentPage(int currentPage) {
         try {
-            DowncallHandles.gtk_print_unix_dialog_set_current_page.invokeExact(handle(), currentPage);
+            DowncallHandles.gtk_print_unix_dialog_set_current_page.invokeExact(
+                    handle(),
+                    currentPage);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -271,7 +298,9 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
      */
     public void setEmbedPageSetup(boolean embed) {
         try {
-            DowncallHandles.gtk_print_unix_dialog_set_embed_page_setup.invokeExact(handle(), embed ? 1 : 0);
+            DowncallHandles.gtk_print_unix_dialog_set_embed_page_setup.invokeExact(
+                    handle(),
+                    embed ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -283,7 +312,9 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
      */
     public void setHasSelection(boolean hasSelection) {
         try {
-            DowncallHandles.gtk_print_unix_dialog_set_has_selection.invokeExact(handle(), hasSelection ? 1 : 0);
+            DowncallHandles.gtk_print_unix_dialog_set_has_selection.invokeExact(
+                    handle(),
+                    hasSelection ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -302,7 +333,9 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
     public void setManualCapabilities(@NotNull org.gtk.gtk.PrintCapabilities capabilities) {
         java.util.Objects.requireNonNull(capabilities, "Parameter 'capabilities' must not be null");
         try {
-            DowncallHandles.gtk_print_unix_dialog_set_manual_capabilities.invokeExact(handle(), capabilities.getValue());
+            DowncallHandles.gtk_print_unix_dialog_set_manual_capabilities.invokeExact(
+                    handle(),
+                    capabilities.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -315,7 +348,9 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
     public void setPageSetup(@NotNull org.gtk.gtk.PageSetup pageSetup) {
         java.util.Objects.requireNonNull(pageSetup, "Parameter 'pageSetup' must not be null");
         try {
-            DowncallHandles.gtk_print_unix_dialog_set_page_setup.invokeExact(handle(), pageSetup.handle());
+            DowncallHandles.gtk_print_unix_dialog_set_page_setup.invokeExact(
+                    handle(),
+                    pageSetup.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -330,9 +365,10 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
      * @param settings a {@code GtkPrintSettings}
      */
     public void setSettings(@Nullable org.gtk.gtk.PrintSettings settings) {
-        java.util.Objects.requireNonNullElse(settings, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_print_unix_dialog_set_settings.invokeExact(handle(), settings.handle());
+            DowncallHandles.gtk_print_unix_dialog_set_settings.invokeExact(
+                    handle(),
+                    (Addressable) (settings == null ? MemoryAddress.NULL : settings.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -344,7 +380,9 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
      */
     public void setSupportSelection(boolean supportSelection) {
         try {
-            DowncallHandles.gtk_print_unix_dialog_set_support_selection.invokeExact(handle(), supportSelection ? 1 : 0);
+            DowncallHandles.gtk_print_unix_dialog_set_support_selection.invokeExact(
+                    handle(),
+                    supportSelection ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

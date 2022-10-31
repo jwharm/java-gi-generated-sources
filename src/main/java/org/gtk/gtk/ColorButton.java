@@ -30,21 +30,34 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkColorButton";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ColorButton(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ColorButton */
+    /**
+     * Cast object to ColorButton if its GType is a (or inherits from) "GtkColorButton".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ColorButton" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkColorButton", a ClassCastException will be thrown.
+     */
     public static ColorButton castFrom(org.gtk.gobject.Object gobject) {
-        return new ColorButton(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkColorButton"))) {
+            return new ColorButton(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkColorButton");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -74,7 +87,8 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         java.util.Objects.requireNonNull(rgba, "Parameter 'rgba' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_color_button_new_with_rgba.invokeExact(rgba.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_color_button_new_with_rgba.invokeExact(
+                    rgba.handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,7 +111,8 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public boolean getModal() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_color_button_get_modal.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_color_button_get_modal.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,11 +126,12 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public @NotNull java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_color_button_get_title.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_color_button_get_title.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -124,7 +140,9 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public void setModal(boolean modal) {
         try {
-            DowncallHandles.gtk_color_button_set_modal.invokeExact(handle(), modal ? 1 : 0);
+            DowncallHandles.gtk_color_button_set_modal.invokeExact(
+                    handle(),
+                    modal ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -137,7 +155,9 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public void setTitle(@NotNull java.lang.String title) {
         java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
         try {
-            DowncallHandles.gtk_color_button_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
+            DowncallHandles.gtk_color_button_set_title.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -15,19 +15,73 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
         Graphene.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "graphene_point_t";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         ValueLayout.JAVA_FLOAT.withName("x"),
         ValueLayout.JAVA_FLOAT.withName("y")
-    ).withName("graphene_point_t");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Point allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Point newInstance = new Point(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code x}
+     * @return The value of the field {@code x}
+     */
+    public float x$get() {
+        var RESULT = (float) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("x"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code x}
+     * @param x The new value of the field {@code x}
+     */
+    public void x$set(float x) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("x"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
+    }
+    
+    /**
+     * Get the value of the field {@code y}
+     * @return The value of the field {@code y}
+     */
+    public float y$get() {
+        var RESULT = (float) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("y"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code y}
+     * @param y The new value of the field {@code y}
+     */
+    public void y$set(float y) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("y"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
+    }
+    
+    @ApiStatus.Internal
     public Point(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -85,7 +139,11 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment dYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_point_distance.invokeExact(handle(), b.handle(), (Addressable) dXPOINTER.address(), (Addressable) dYPOINTER.address());
+            RESULT = (float) DowncallHandles.graphene_point_distance.invokeExact(
+                    handle(),
+                    b.handle(),
+                    (Addressable) dXPOINTER.address(),
+                    (Addressable) dYPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,7 +166,9 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_point_equal.invokeExact(handle(), b.handle());
+            RESULT = (boolean) DowncallHandles.graphene_point_equal.invokeExact(
+                    handle(),
+                    b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,7 +180,8 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_point_free.invokeExact(handle());
+            DowncallHandles.graphene_point_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -137,7 +198,10 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Point init(float x, float y) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_point_init.invokeExact(handle(), x, y);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_point_init.invokeExact(
+                    handle(),
+                    x,
+                    y);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,7 +217,9 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_point_init_from_point.invokeExact(handle(), src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_point_init_from_point.invokeExact(
+                    handle(),
+                    src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,7 +235,9 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_point_init_from_vec2.invokeExact(handle(), src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_point_init_from_vec2.invokeExact(
+                    handle(),
+                    src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,16 +252,18 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
      * @param res return location for the interpolated
      *   point
      */
-    public void interpolate(@NotNull org.gtk.graphene.Point b, double factor, @NotNull Out<org.gtk.graphene.Point> res) {
+    public void interpolate(@NotNull org.gtk.graphene.Point b, double factor, @NotNull org.gtk.graphene.Point res) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_point_interpolate.invokeExact(handle(), b.handle(), factor, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_point_interpolate.invokeExact(
+                    handle(),
+                    b.handle(),
+                    factor,
+                    res.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gtk.graphene.Point(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -207,7 +277,10 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_point_near.invokeExact(handle(), b.handle(), epsilon);
+            RESULT = (boolean) DowncallHandles.graphene_point_near.invokeExact(
+                    handle(),
+                    b.handle(),
+                    epsilon);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,15 +292,15 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
      * {@link Vec2}.
      * @param v return location for the vertex
      */
-    public void toVec2(@NotNull Out<org.gtk.graphene.Vec2> v) {
+    public void toVec2(@NotNull org.gtk.graphene.Vec2 v) {
         java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
-        MemorySegment vPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_point_to_vec2.invokeExact(handle(), (Addressable) vPOINTER.address());
+            DowncallHandles.graphene_point_to_vec2.invokeExact(
+                    handle(),
+                    v.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        v.set(new org.gtk.graphene.Vec2(Refcounted.get(vPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**

@@ -26,26 +26,48 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GUnixFDMessage";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.SocketControlMessage.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.UnixFDMessagePrivate.getMemoryLayout().withName("priv")
-    ).withName("GUnixFDMessage");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gio.SocketControlMessage parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gio.SocketControlMessage(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public UnixFDMessage(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to UnixFDMessage */
+    /**
+     * Cast object to UnixFDMessage if its GType is a (or inherits from) "GUnixFDMessage".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "UnixFDMessage" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GUnixFDMessage", a ClassCastException will be thrown.
+     */
     public static UnixFDMessage castFrom(org.gtk.gobject.Object gobject) {
-        return new UnixFDMessage(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GUnixFDMessage"))) {
+            return new UnixFDMessage(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GUnixFDMessage");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -70,7 +92,8 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
         java.util.Objects.requireNonNull(fdList, "Parameter 'fdList' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_unix_fd_message_new_with_fd_list.invokeExact(fdList.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_unix_fd_message_new_with_fd_list.invokeExact(
+                    fdList.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,7 +126,9 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_fd_message_append_fd.invokeExact(handle(), fd, (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_unix_fd_message_append_fd.invokeExact(
+                    handle(),
+                    fd, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -122,7 +147,8 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
     public @NotNull org.gtk.gio.UnixFDList getFdList() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_message_get_fd_list.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_message_get_fd_list.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -157,7 +183,9 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_message_steal_fds.invokeExact(handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_message_steal_fds.invokeExact(
+                    handle(),
+                    (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

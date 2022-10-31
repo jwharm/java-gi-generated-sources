@@ -19,9 +19,11 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
         GdkPixbuf.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkPixbufFormat";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("name"),
-        org.gtk.gdkpixbuf.PixbufModulePattern.getMemoryLayout().withName("signature"),
+        Interop.valueLayout.ADDRESS.withName("signature"),
         Interop.valueLayout.ADDRESS.withName("domain"),
         Interop.valueLayout.ADDRESS.withName("description"),
         Interop.valueLayout.ADDRESS.withName("mime_types"),
@@ -29,16 +31,173 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
         ValueLayout.JAVA_INT.withName("flags"),
         ValueLayout.JAVA_INT.withName("disabled"),
         Interop.valueLayout.ADDRESS.withName("license")
-    ).withName("GdkPixbufFormat");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static PixbufFormat allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        PixbufFormat newInstance = new PixbufFormat(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code name}
+     * @return The value of the field {@code name}
+     */
+    public java.lang.String name$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("name"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringFrom(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code name}
+     * @param name The new value of the field {@code name}
+     */
+    public void name$set(java.lang.String name) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("name"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(name));
+    }
+    
+    /**
+     * Get the value of the field {@code signature}
+     * @return The value of the field {@code signature}
+     */
+    public org.gtk.gdkpixbuf.PixbufModulePattern signature$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("signature"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.gdkpixbuf.PixbufModulePattern(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Change the value of the field {@code signature}
+     * @param signature The new value of the field {@code signature}
+     */
+    public void signature$set(org.gtk.gdkpixbuf.PixbufModulePattern signature) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("signature"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), signature.handle());
+    }
+    
+    /**
+     * Get the value of the field {@code domain}
+     * @return The value of the field {@code domain}
+     */
+    public java.lang.String domain$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("domain"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringFrom(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code domain}
+     * @param domain The new value of the field {@code domain}
+     */
+    public void domain$set(java.lang.String domain) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("domain"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(domain));
+    }
+    
+    /**
+     * Get the value of the field {@code description}
+     * @return The value of the field {@code description}
+     */
+    public java.lang.String description$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("description"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringFrom(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code description}
+     * @param description The new value of the field {@code description}
+     */
+    public void description$set(java.lang.String description) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("description"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(description));
+    }
+    
+    /**
+     * Get the value of the field {@code flags}
+     * @return The value of the field {@code flags}
+     */
+    public int flags$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code flags}
+     * @param flags The new value of the field {@code flags}
+     */
+    public void flags$set(int flags) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
+    }
+    
+    /**
+     * Get the value of the field {@code disabled}
+     * @return The value of the field {@code disabled}
+     */
+    public boolean disabled$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("disabled"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT != 0;
+    }
+    
+    /**
+     * Change the value of the field {@code disabled}
+     * @param disabled The new value of the field {@code disabled}
+     */
+    public void disabled$set(boolean disabled) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("disabled"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), disabled ? 1 : 0);
+    }
+    
+    /**
+     * Get the value of the field {@code license}
+     * @return The value of the field {@code license}
+     */
+    public java.lang.String license$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("license"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringFrom(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code license}
+     * @param license The new value of the field {@code license}
+     */
+    public void license$set(java.lang.String license) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("license"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(license));
+    }
+    
+    @ApiStatus.Internal
     public PixbufFormat(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -51,7 +210,8 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gdkpixbuf.PixbufFormat copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_format_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_format_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,7 +224,8 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.gdk_pixbuf_format_free.invokeExact(handle());
+            DowncallHandles.gdk_pixbuf_format_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,11 +238,12 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_format_get_description.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_format_get_description.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -93,7 +255,8 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull PointerString getExtensions() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_format_get_extensions.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_format_get_extensions.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,11 +273,12 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getLicense() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_format_get_license.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_format_get_license.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -124,7 +288,8 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull PointerString getMimeTypes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_format_get_mime_types.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_format_get_mime_types.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,11 +303,12 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_format_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_format_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -154,7 +320,8 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     public boolean isDisabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_format_is_disabled.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_format_is_disabled.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -173,7 +340,9 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(optionKey, "Parameter 'optionKey' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_format_is_save_option_supported.invokeExact(handle(), Interop.allocateNativeString(optionKey));
+            RESULT = (int) DowncallHandles.gdk_pixbuf_format_is_save_option_supported.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(optionKey));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -191,7 +360,8 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     public boolean isScalable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_format_is_scalable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_format_is_scalable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,7 +375,8 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     public boolean isWritable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_format_is_writable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_format_is_writable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -224,7 +395,9 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setDisabled(boolean disabled) {
         try {
-            DowncallHandles.gdk_pixbuf_format_set_disabled.invokeExact(handle(), disabled ? 1 : 0);
+            DowncallHandles.gdk_pixbuf_format_set_disabled.invokeExact(
+                    handle(),
+                    disabled ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

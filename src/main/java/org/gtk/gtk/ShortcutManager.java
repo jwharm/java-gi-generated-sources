@@ -21,6 +21,21 @@ import org.jetbrains.annotations.*;
  */
 public interface ShortcutManager extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * Cast object to ShortcutManager if its GType is a (or inherits from) "GtkShortcutManager".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ShortcutManager" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkShortcutManager", a ClassCastException will be thrown.
+     */
+    public static ShortcutManager castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkShortcutManager"))) {
+            return new ShortcutManagerImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkShortcutManager");
+        }
+    }
+    
     class ShortcutManagerImpl extends org.gtk.gobject.Object implements ShortcutManager {
         
         static {

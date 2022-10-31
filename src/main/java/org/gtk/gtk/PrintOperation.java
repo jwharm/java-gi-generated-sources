@@ -74,26 +74,48 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkPrintOperation";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gtk.PrintOperationPrivate.getMemoryLayout().withName("priv")
-    ).withName("GtkPrintOperation");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public PrintOperation(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to PrintOperation */
+    /**
+     * Cast object to PrintOperation if its GType is a (or inherits from) "GtkPrintOperation".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "PrintOperation" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkPrintOperation", a ClassCastException will be thrown.
+     */
     public static PrintOperation castFrom(org.gtk.gobject.Object gobject) {
-        return new PrintOperation(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPrintOperation"))) {
+            return new PrintOperation(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkPrintOperation");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -122,7 +144,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      */
     public void cancel() {
         try {
-            DowncallHandles.gtk_print_operation_cancel.invokeExact(handle());
+            DowncallHandles.gtk_print_operation_cancel.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,7 +161,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      */
     public void drawPageFinish() {
         try {
-            DowncallHandles.gtk_print_operation_draw_page_finish.invokeExact(handle());
+            DowncallHandles.gtk_print_operation_draw_page_finish.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,7 +175,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public @NotNull org.gtk.gtk.PageSetup getDefaultPageSetup() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_operation_get_default_page_setup.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_operation_get_default_page_setup.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -165,7 +190,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public boolean getEmbedPageSetup() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_operation_get_embed_page_setup.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_operation_get_embed_page_setup.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -186,7 +212,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public void getError() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_print_operation_get_error.invokeExact(handle(), (Addressable) GERROR);
+            DowncallHandles.gtk_print_operation_get_error.invokeExact(
+                    handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,7 +229,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public boolean getHasSelection() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_operation_get_has_selection.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_operation_get_has_selection.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -225,7 +253,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public int getNPagesToPrint() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_operation_get_n_pages_to_print.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_operation_get_n_pages_to_print.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -243,7 +272,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public @Nullable org.gtk.gtk.PrintSettings getPrintSettings() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_operation_get_print_settings.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_operation_get_print_settings.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -259,7 +289,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public @NotNull org.gtk.gtk.PrintStatus getStatus() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_operation_get_status.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_operation_get_status.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -281,11 +312,12 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public @NotNull java.lang.String getStatusString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_operation_get_status_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_operation_get_status_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -295,7 +327,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public boolean getSupportSelection() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_operation_get_support_selection.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_operation_get_support_selection.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -317,7 +350,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public boolean isFinished() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_operation_is_finished.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_print_operation_is_finished.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -394,11 +428,13 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      */
     public @NotNull org.gtk.gtk.PrintOperationResult run(@NotNull org.gtk.gtk.PrintOperationAction action, @Nullable org.gtk.gtk.Window parent) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
-        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_operation_run.invokeExact(handle(), action.getValue(), parent.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_print_operation_run.invokeExact(
+                    handle(),
+                    action.getValue(),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -418,7 +454,9 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      */
     public void setAllowAsync(boolean allowAsync) {
         try {
-            DowncallHandles.gtk_print_operation_set_allow_async.invokeExact(handle(), allowAsync ? 1 : 0);
+            DowncallHandles.gtk_print_operation_set_allow_async.invokeExact(
+                    handle(),
+                    allowAsync ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -435,7 +473,9 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      */
     public void setCurrentPage(int currentPage) {
         try {
-            DowncallHandles.gtk_print_operation_set_current_page.invokeExact(handle(), currentPage);
+            DowncallHandles.gtk_print_operation_set_current_page.invokeExact(
+                    handle(),
+                    currentPage);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -446,9 +486,10 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      * @param label the label to use, or {@code null} to use the default label
      */
     public void setCustomTabLabel(@Nullable java.lang.String label) {
-        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_print_operation_set_custom_tab_label.invokeExact(handle(), Interop.allocateNativeString(label));
+            DowncallHandles.gtk_print_operation_set_custom_tab_label.invokeExact(
+                    handle(),
+                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -463,9 +504,10 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      * @param defaultPageSetup a {@code GtkPageSetup}
      */
     public void setDefaultPageSetup(@Nullable org.gtk.gtk.PageSetup defaultPageSetup) {
-        java.util.Objects.requireNonNullElse(defaultPageSetup, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_print_operation_set_default_page_setup.invokeExact(handle(), defaultPageSetup.handle());
+            DowncallHandles.gtk_print_operation_set_default_page_setup.invokeExact(
+                    handle(),
+                    (Addressable) (defaultPageSetup == null ? MemoryAddress.NULL : defaultPageSetup.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -482,7 +524,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      */
     public void setDeferDrawing() {
         try {
-            DowncallHandles.gtk_print_operation_set_defer_drawing.invokeExact(handle());
+            DowncallHandles.gtk_print_operation_set_defer_drawing.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -496,7 +539,9 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      */
     public void setEmbedPageSetup(boolean embed) {
         try {
-            DowncallHandles.gtk_print_operation_set_embed_page_setup.invokeExact(handle(), embed ? 1 : 0);
+            DowncallHandles.gtk_print_operation_set_embed_page_setup.invokeExact(
+                    handle(),
+                    embed ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -518,7 +563,9 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public void setExportFilename(@NotNull java.lang.String filename) {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
         try {
-            DowncallHandles.gtk_print_operation_set_export_filename.invokeExact(handle(), Interop.allocateNativeString(filename));
+            DowncallHandles.gtk_print_operation_set_export_filename.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(filename));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -534,7 +581,9 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      */
     public void setHasSelection(boolean hasSelection) {
         try {
-            DowncallHandles.gtk_print_operation_set_has_selection.invokeExact(handle(), hasSelection ? 1 : 0);
+            DowncallHandles.gtk_print_operation_set_has_selection.invokeExact(
+                    handle(),
+                    hasSelection ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -553,7 +602,9 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public void setJobName(@NotNull java.lang.String jobName) {
         java.util.Objects.requireNonNull(jobName, "Parameter 'jobName' must not be null");
         try {
-            DowncallHandles.gtk_print_operation_set_job_name.invokeExact(handle(), Interop.allocateNativeString(jobName));
+            DowncallHandles.gtk_print_operation_set_job_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(jobName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -575,7 +626,9 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      */
     public void setNPages(int nPages) {
         try {
-            DowncallHandles.gtk_print_operation_set_n_pages.invokeExact(handle(), nPages);
+            DowncallHandles.gtk_print_operation_set_n_pages.invokeExact(
+                    handle(),
+                    nPages);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -589,9 +642,10 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      * @param printSettings {@code GtkPrintSettings}
      */
     public void setPrintSettings(@Nullable org.gtk.gtk.PrintSettings printSettings) {
-        java.util.Objects.requireNonNullElse(printSettings, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_print_operation_set_print_settings.invokeExact(handle(), printSettings.handle());
+            DowncallHandles.gtk_print_operation_set_print_settings.invokeExact(
+                    handle(),
+                    (Addressable) (printSettings == null ? MemoryAddress.NULL : printSettings.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -604,7 +658,9 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      */
     public void setShowProgress(boolean showProgress) {
         try {
-            DowncallHandles.gtk_print_operation_set_show_progress.invokeExact(handle(), showProgress ? 1 : 0);
+            DowncallHandles.gtk_print_operation_set_show_progress.invokeExact(
+                    handle(),
+                    showProgress ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -616,7 +672,9 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      */
     public void setSupportSelection(boolean supportSelection) {
         try {
-            DowncallHandles.gtk_print_operation_set_support_selection.invokeExact(handle(), supportSelection ? 1 : 0);
+            DowncallHandles.gtk_print_operation_set_support_selection.invokeExact(
+                    handle(),
+                    supportSelection ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -635,7 +693,9 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      */
     public void setTrackPrintStatus(boolean trackStatus) {
         try {
-            DowncallHandles.gtk_print_operation_set_track_print_status.invokeExact(handle(), trackStatus ? 1 : 0);
+            DowncallHandles.gtk_print_operation_set_track_print_status.invokeExact(
+                    handle(),
+                    trackStatus ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -650,7 +710,9 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public void setUnit(@NotNull org.gtk.gtk.Unit unit) {
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
         try {
-            DowncallHandles.gtk_print_operation_set_unit.invokeExact(handle(), unit.getValue());
+            DowncallHandles.gtk_print_operation_set_unit.invokeExact(
+                    handle(),
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -668,7 +730,9 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      */
     public void setUseFullPage(boolean fullPage) {
         try {
-            DowncallHandles.gtk_print_operation_set_use_full_page.invokeExact(handle(), fullPage ? 1 : 0);
+            DowncallHandles.gtk_print_operation_set_use_full_page.invokeExact(
+                    handle(),
+                    fullPage ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -16,28 +16,42 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GIOModule";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public IOModule(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to IOModule */
+    /**
+     * Cast object to IOModule if its GType is a (or inherits from) "GIOModule".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "IOModule" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GIOModule", a ClassCastException will be thrown.
+     */
     public static IOModule castFrom(org.gtk.gobject.Object gobject) {
-        return new IOModule(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GIOModule"))) {
+            return new IOModule(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GIOModule");
+        }
     }
     
     private static Refcounted constructNew(@NotNull java.lang.String filename) {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_io_module_new.invokeExact(Interop.allocateNativeString(filename)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_io_module_new.invokeExact(
+                    Interop.allocateNativeString(filename)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,7 +84,8 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      */
     public void load() {
         try {
-            DowncallHandles.g_io_module_load.invokeExact(handle());
+            DowncallHandles.g_io_module_load.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,7 +107,8 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      */
     public void unload() {
         try {
-            DowncallHandles.g_io_module_unload.invokeExact(handle());
+            DowncallHandles.g_io_module_unload.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

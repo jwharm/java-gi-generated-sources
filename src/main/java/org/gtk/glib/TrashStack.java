@@ -15,18 +15,51 @@ public class TrashStack extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTrashStack";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.glib.TrashStack.getMemoryLayout().withName("next")
-    ).withName("GTrashStack");
+        Interop.valueLayout.ADDRESS.withName("next")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static TrashStack allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        TrashStack newInstance = new TrashStack(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code next}
+     * @return The value of the field {@code next}
+     */
+    public org.gtk.glib.TrashStack next$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("next"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.glib.TrashStack(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Change the value of the field {@code next}
+     * @param next The new value of the field {@code next}
+     */
+    public void next$set(org.gtk.glib.TrashStack next) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("next"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), next.handle());
+    }
+    
+    @ApiStatus.Internal
     public TrashStack(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -45,7 +78,8 @@ public class TrashStack extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(stackP, "Parameter 'stackP' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_trash_stack_height.invokeExact(stackP.handle());
+            RESULT = (int) DowncallHandles.g_trash_stack_height.invokeExact(
+                    stackP.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,7 +98,8 @@ public class TrashStack extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(stackP, "Parameter 'stackP' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_trash_stack_peek.invokeExact(stackP.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_trash_stack_peek.invokeExact(
+                    stackP.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +117,8 @@ public class TrashStack extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(stackP, "Parameter 'stackP' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_trash_stack_pop.invokeExact(stackP.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_trash_stack_pop.invokeExact(
+                    stackP.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,7 +136,9 @@ public class TrashStack extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(stackP, "Parameter 'stackP' must not be null");
         java.util.Objects.requireNonNull(dataP, "Parameter 'dataP' must not be null");
         try {
-            DowncallHandles.g_trash_stack_push.invokeExact(stackP.handle(), dataP);
+            DowncallHandles.g_trash_stack_push.invokeExact(
+                    stackP.handle(),
+                    dataP);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

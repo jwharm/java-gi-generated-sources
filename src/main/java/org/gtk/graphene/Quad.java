@@ -18,18 +18,30 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
         Graphene.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "graphene_quad_t";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         MemoryLayout.sequenceLayout(4, ValueLayout.ADDRESS).withName("points")
-    ).withName("graphene_quad_t");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Quad allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Quad newInstance = new Quad(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Quad(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -58,15 +70,15 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
      * Computes the bounding rectangle of {@code q} and places it into {@code r}.
      * @param r return location for a {@link Rect}
      */
-    public void bounds(@NotNull Out<org.gtk.graphene.Rect> r) {
+    public void bounds(@NotNull org.gtk.graphene.Rect r) {
         java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
-        MemorySegment rPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.graphene_quad_bounds.invokeExact(handle(), (Addressable) rPOINTER.address());
+            DowncallHandles.graphene_quad_bounds.invokeExact(
+                    handle(),
+                    r.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        r.set(new org.gtk.graphene.Rect(Refcounted.get(rPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -78,7 +90,9 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_quad_contains.invokeExact(handle(), p.handle());
+            RESULT = (boolean) DowncallHandles.graphene_quad_contains.invokeExact(
+                    handle(),
+                    p.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +104,8 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_quad_free.invokeExact(handle());
+            DowncallHandles.graphene_quad_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,7 +119,9 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.graphene.Point getPoint(int index) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_quad_get_point.invokeExact(handle(), index);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_quad_get_point.invokeExact(
+                    handle(),
+                    index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,7 +143,12 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(p4, "Parameter 'p4' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_quad_init.invokeExact(handle(), p1.handle(), p2.handle(), p3.handle(), p4.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_quad_init.invokeExact(
+                    handle(),
+                    p1.handle(),
+                    p2.handle(),
+                    p3.handle(),
+                    p4.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,7 +164,9 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(points, "Parameter 'points' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_quad_init_from_points.invokeExact(handle(), Interop.allocateNativeArray(points, false));
+            RESULT = (MemoryAddress) DowncallHandles.graphene_quad_init_from_points.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(points, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,7 +183,9 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_quad_init_from_rect.invokeExact(handle(), r.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_quad_init_from_rect.invokeExact(
+                    handle(),
+                    r.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -6,41 +6,32 @@ import java.util.HashMap;
 
 public class Interop {
 
-    private static boolean initialized = false;
-    private static MemorySession session;
-    private static SegmentAllocator allocator;
-    private static MemorySegment cbDestroyNotify_nativeSymbol;
+    private final static MemorySession session;
+    private final static SegmentAllocator implicitAllocator, sessionAllocator;
+    private final static MemorySegment cbDestroyNotify_nativeSymbol;
     private final static SymbolLookup symbolLookup;
     private final static Linker linker = Linker.nativeLinker();
+    
+    public final static Layout_x86_64 valueLayout = new Layout_x86_64();
 
+    /**
+     * This map contains the callbacks used in g_signal_connect. The 
+     * keys are the hashcodes of the callback objects. This hashcode is 
+     * passed to g_signal_connect in the user_data parameter and passed 
+     * as a parameter to the static callback functions. The static 
+     * callback functions use the hashcode to retrieve the user-defined 
+     * callback function from the signalRegistry map, and run it.
+     */
     public final static HashMap<Integer, Object> signalRegistry = new HashMap<>();
-
+    
     static {
-        System.loadLibrary("adwaita-1");
-        System.loadLibrary("gtk-4");
-        System.loadLibrary("pangocairo-1.0");
-        System.loadLibrary("pango-1.0");
-        System.loadLibrary("harfbuzz");
-        System.loadLibrary("gdk_pixbuf-2.0");
-        System.loadLibrary("cairo-gobject");
-        System.loadLibrary("cairo");
-        System.loadLibrary("graphene-1.0");
-        System.loadLibrary("gio-2.0");
-        System.loadLibrary("gobject-2.0");
-        System.loadLibrary("glib-2.0");
         SymbolLookup loaderLookup = SymbolLookup.loaderLookup();
         symbolLookup = name -> loaderLookup.lookup(name).or(() -> linker.defaultLookup().lookup(name));
-    }
-
-    public static final MethodHandle g_signal_connect_data = Interop.downcallHandle(
-            "g_signal_connect_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-
-    private static void initialize() {
+        
+        // Initialize the memory session and an implicit allocator
         session = MemorySession.openConfined();
-        allocator = SegmentAllocator.implicitAllocator();
-        initialized = true;
+        implicitAllocator = SegmentAllocator.implicitAllocator();
+        sessionAllocator = SegmentAllocator.newNativeArena(session);
 
         // Initialize upcall stub for DestroyNotify callback
         try {
@@ -53,176 +44,278 @@ public class Interop {
         }
     }
 
+    /**
+     * The method handle for g_signal_connect_data is used by all
+     * generated signal methods.
+     */
+    public static final MethodHandle g_signal_connect_data = Interop.downcallHandle(
+            "g_signal_connect_data",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+
+    /**
+     * Get the active memory session
+     * @return The memory session
+     */
     public static MemorySession getScope() {
-        if (!initialized) {
-            initialize();
-        }
         return session;
     }
 
+    /**
+     * Get the memory allocator (ImplicitAllocator).
+     * @return An instance of SegmentAllocator.implicitAllocator(). Memory segments 
+     *         allocated by this allocator register a Cleaner, that automatically 
+     *         frees the native memory segment when it runs.
+     */
     public static SegmentAllocator getAllocator() {
-        if (!initialized) {
-            initialize();
-        }
-        return allocator;
+        return implicitAllocator;
+    }
+    
+    /**
+     * Get a NativeArena memory allocator. This allocator allocates a new memory 
+     * segment in the current memory session every time it is called. The memory 
+     * segments are not released until the app is closed.
+     * @return The NativeArena memory allocator.
+     */
+    public static SegmentAllocator getSessionAllocator() {
+    	return sessionAllocator;
     }
 
+    /**
+     * Creates a method handle that is used to call the native function with 
+     * the provided name and function descriptor.
+     * @param name Name of the native function
+     * @param fdesc Function descriptor of the native function
+     * @return the MethodHandle
+     */
     public static MethodHandle downcallHandle(String name, FunctionDescriptor fdesc) {
         return symbolLookup.lookup(name).
                 map(addr -> linker.downcallHandle(addr, fdesc)).
                 orElse(null);
     }
 
-    public static int registerCallback(Object callback) {
-    	int hash = callback.hashCode();
+    /**
+     * Register a callback in the signalRegistry map. The key is 
+     * the hashcode of the callback.
+     * @param callback Callback to save in the signalRegistry map
+     * @return a native memory segment with the calculated hashcode.
+     *         The memory segment is not automatically released.
+     */
+    public static Addressable registerCallback(Object callback) {
+        int hash = callback.hashCode();
         signalRegistry.put(hash, callback);
-        return hash;
-    }
-    
-    public static MemoryAddress dereference(MemorySegment pointer) {
-    	return pointer.get(ValueLayout.ADDRESS, 0);
+        return sessionAllocator.allocate(ValueLayout.JAVA_INT, hash);
     }
 
+    /**
+     * Retrieves a memory address from the provided memory segment
+     * @param pointer The memory segment that contains an address
+     * @return the memory address
+     */
+    public static MemoryAddress dereference(MemorySegment pointer) {
+        return pointer.get(ValueLayout.ADDRESS, 0);
+    }
+
+    /**
+     * This callback function will remove a signal callback from the 
+     * signalRegistry map.
+     * @param data The hashcode of the callback
+     */
     public static void cbDestroyNotify(MemoryAddress data) {
         int hash = data.get(ValueLayout.JAVA_INT, 0);
         signalRegistry.remove(hash);
     }
 
+    /**
+     * Return the cached native symbol for cbDestroyNotify(MemoryAddress).
+     * @return the native symbol for cbDestroyNotify(MemoryAddress)
+     */
     public static MemorySegment cbDestroyNotifySymbol() {
-        if (!initialized) {
-            initialize();
-        }
         return cbDestroyNotify_nativeSymbol;
     }
 
+    /**
+     * Allocate a native string using SegmentAllocator.allocateUtf8String(String).
+     * @param string the string to allocate as a native string (utf8 char*)
+     * @return the allocated MemorySegment
+     */
     public static Addressable allocateNativeString(String string) {
-        if (!initialized) {
-            initialize();
-        }
-        return allocator.allocateUtf8String(string);
+        return implicitAllocator.allocateUtf8String(string);
+    }
+    
+    /**
+     * Returns a Java string from native memory using {@code MemoryAddress.getUtf8String()}.
+     * If an error occurs or when the native address is NULL, null is returned.
+     * @param address The memory address of the native String (\0-terminated char*).
+     * @return A String or null
+     */
+    public static String getStringFrom(MemoryAddress address) {
+    	try {
+    		if (! MemoryAddress.NULL.equals(address)) {
+            	return address.getUtf8String(0);
+    		}
+    	} catch (Throwable t) {
+    	}
+		return null;
     }
 
     /**
-     * Allocates and initializes a NULL-terminated array of strings (NUL-terminated utf8 char*).
+     * Allocates and initializes an (optionally NULL-terminated) array 
+     * of strings (NUL-terminated utf8 char*).
+     * @param strings Array of Strings
+     * @param zeroTerminated Whether to add a NUL at the end the array
+     * @return The memory segment of the native array
      */
-    public static Addressable allocateNativeArray(String[] strings) {
-        if (!initialized) {
-            initialize();
-        }
-        var memorySegment = allocator.allocateArray(ValueLayout.ADDRESS, strings.length + 1);
+    public static Addressable allocateNativeArray(String[] strings, boolean zeroTerminated) {
+        int length = zeroTerminated ? strings.length : strings.length + 1;
+        var memorySegment = implicitAllocator.allocateArray(ValueLayout.ADDRESS, length);
         for (int i = 0; i < strings.length; i++) {
-            var cString = allocator.allocateUtf8String(strings[i]);
+            var cString = implicitAllocator.allocateUtf8String(strings[i]);
             memorySegment.setAtIndex(ValueLayout.ADDRESS, i, cString);
         }
-        memorySegment.setAtIndex(ValueLayout.ADDRESS, strings.length, MemoryAddress.NULL);
+        if (zeroTerminated) {
+            memorySegment.setAtIndex(ValueLayout.ADDRESS, strings.length, MemoryAddress.NULL);
+        }
         return memorySegment;
     }
 
-    public static Addressable allocateNativeArray(boolean[] array) {
+    /**
+     * Converts the boolean[] array into an int[] array, and calls allocateNativeArray(int, boolean).
+     * Each boolean value "true" is converted 1, boolean value "false" to 0.
+     * @param array Array of booleans
+     * @param zeroTerminated TODO currently ignored
+     * @return The memory segment of the native array
+     */
+    public static Addressable allocateNativeArray(boolean[] array, boolean zeroTerminated) {
         int[] intArray = new int[array.length];
         for (int i = 0; i < array.length; i++) {
             intArray[i] = array[i] ? 1 : 0;
         }
-        return allocateNativeArray(intArray);
-    }
-
-    public static Addressable allocateNativeArray(byte[] array) {
-        if (!initialized) {
-            initialize();
-        }
-        if (array == null || array.length == 0) {
-            return null;
-        }
-        return allocator.allocateArray(ValueLayout.JAVA_BYTE, array);
-    }
-
-    public static Addressable allocateNativeArray(char[] array) {
-        if (!initialized) {
-            initialize();
-        }
-        if (array == null || array.length == 0) {
-            return null;
-        }
-        return allocator.allocateArray(ValueLayout.JAVA_CHAR, array);
-    }
-
-    public static Addressable allocateNativeArray(double[] array) {
-        if (!initialized) {
-            initialize();
-        }
-        if (array == null || array.length == 0) {
-            return null;
-        }
-        return allocator.allocateArray(ValueLayout.JAVA_DOUBLE, array);
-    }
-
-    public static Addressable allocateNativeArray(float[] array) {
-        if (!initialized) {
-            initialize();
-        }
-        if (array == null || array.length == 0) {
-            return null;
-        }
-        return allocator.allocateArray(ValueLayout.JAVA_FLOAT, array);
-    }
-
-    public static Addressable allocateNativeArray(int[] array) {
-        if (!initialized) {
-            initialize();
-        }
-        if (array == null || array.length == 0) {
-            return null;
-        }
-        return allocator.allocateArray(ValueLayout.JAVA_INT, array);
-    }
-
-    public static Addressable allocateNativeArray(long[] array) {
-        if (!initialized) {
-            initialize();
-        }
-        if (array == null || array.length == 0) {
-            return null;
-        }
-        return allocator.allocateArray(ValueLayout.JAVA_LONG, array);
-    }
-
-    public static Addressable allocateNativeArray(short[] array) {
-        if (!initialized) {
-            initialize();
-        }
-        if (array == null || array.length == 0) {
-            return null;
-        }
-        return allocator.allocateArray(ValueLayout.JAVA_SHORT, array);
+        return allocateNativeArray(intArray, zeroTerminated);
     }
 
     /**
-     * Allocates and initializes a NULL-terminated array of pointers (from NativeAddress instances).
+     * Allocates and initializes an (optionally NULL-terminated) array of bytes.
+     * @param array The array of bytes
+     * @param zeroTerminated TODO currently ignored
+     * @return The memory segment of the native array
      */
-    public static Addressable allocateNativeArray(Proxy[] array) {
-        if (!initialized) {
-            initialize();
+    public static Addressable allocateNativeArray(byte[] array, boolean zeroTerminated) {
+        if (array == null || array.length == 0) {
+            return null;
         }
-        var memorySegment = allocator.allocateArray(ValueLayout.ADDRESS, array.length + 1);
+        return implicitAllocator.allocateArray(ValueLayout.JAVA_BYTE, array);
+    }
+
+    /**
+     * Allocates and initializes an (optionally NULL-terminated) array of chars.
+     * @param array The array of chars
+     * @param zeroTerminated TODO currently ignored
+     * @return The memory segment of the native array
+     */
+    public static Addressable allocateNativeArray(char[] array, boolean zeroTerminated) {
+        if (array == null || array.length == 0) {
+            return null;
+        }
+        return implicitAllocator.allocateArray(ValueLayout.JAVA_CHAR, array);
+    }
+
+    /**
+     * Allocates and initializes an (optionally NULL-terminated) array of doubles.
+     * @param array The array of doubles
+     * @param zeroTerminated TODO currently ignored
+     * @return The memory segment of the native array
+     */
+    public static Addressable allocateNativeArray(double[] array, boolean zeroTerminated) {
+        if (array == null || array.length == 0) {
+            return null;
+        }
+        return implicitAllocator.allocateArray(ValueLayout.JAVA_DOUBLE, array);
+    }
+
+    /**
+     * Allocates and initializes an (optionally NULL-terminated) array of floats.
+     * @param array The array of floats
+     * @param zeroTerminated TODO currently ignored
+     * @return The memory segment of the native array
+     */
+    public static Addressable allocateNativeArray(float[] array, boolean zeroTerminated) {
+        if (array == null || array.length == 0) {
+            return null;
+        }
+        return implicitAllocator.allocateArray(ValueLayout.JAVA_FLOAT, array);
+    }
+
+    /**
+     * Allocates and initializes an (optionally NULL-terminated) array of floats.
+     * @param array The array of floats
+     * @param zeroTerminated TODO currently ignored
+     * @return The memory segment of the native array
+     */
+    public static Addressable allocateNativeArray(int[] array, boolean zeroTerminated) {
+        if (array == null || array.length == 0) {
+            return null;
+        }
+        return implicitAllocator.allocateArray(ValueLayout.JAVA_INT, array);
+    }
+
+    /**
+     * Allocates and initializes an (optionally NULL-terminated) array of longs.
+     * @param array The array of longs
+     * @param zeroTerminated TODO currently ignored
+     * @return The memory segment of the native array
+     */
+    public static Addressable allocateNativeArray(long[] array, boolean zeroTerminated) {
+        if (array == null || array.length == 0) {
+            return null;
+        }
+        return implicitAllocator.allocateArray(ValueLayout.JAVA_LONG, array);
+    }
+
+    /**
+     * Allocates and initializes an (optionally NULL-terminated) array of shorts.
+     * @param array The array of shorts
+     * @param zeroTerminated TODO currently ignored
+     * @return The memory segment of the native array
+     */
+    public static Addressable allocateNativeArray(short[] array, boolean zeroTerminated) {
+        if (array == null || array.length == 0) {
+            return null;
+        }
+        return implicitAllocator.allocateArray(ValueLayout.JAVA_SHORT, array);
+    }
+
+    /**
+     * Allocates and initializes an (optionally NULL-terminated) array 
+     * of pointers (from Proxy instances).
+     * @param array The array of Proxy instances
+     * @param zeroTerminated Whether to add an additional NUL to the array
+     * @return The memory segment of the native array
+     */
+    public static Addressable allocateNativeArray(Proxy[] array, boolean zeroTerminated) {
+        Addressable[] addressArray = new Addressable[array.length];
         for (int i = 0; i < array.length; i++) {
-            memorySegment.setAtIndex(ValueLayout.ADDRESS, i, array[i].handle());
+            addressArray[i] = array[i].handle();
         }
-        memorySegment.setAtIndex(ValueLayout.ADDRESS, array.length, MemoryAddress.NULL);
-        return memorySegment;
+        return allocateNativeArray(addressArray, zeroTerminated);
     }
 
     /**
-     * Allocates and initializes a NULL-terminated array of pointers (MemoryAddress instances).
+     * Allocates and initializes an (optionally NULL-terminated) array 
+     * of memory addresses.
+     * @param array The array of addresses
+     * @param zeroTerminated Whether to add an additional NUL to the array
+     * @return The memory segment of the native array
      */
-    public static Addressable allocateNativeArray(MemoryAddress[] array) {
-        if (!initialized) {
-            initialize();
-        }
-        var memorySegment = allocator.allocateArray(ValueLayout.ADDRESS, array.length + 1);
+    public static Addressable allocateNativeArray(Addressable[] array, boolean zeroTerminated) {
+        int length = zeroTerminated ? array.length : array.length + 1;
+        var memorySegment = implicitAllocator.allocateArray(ValueLayout.ADDRESS, length);
         for (int i = 0; i < array.length; i++) {
             memorySegment.setAtIndex(ValueLayout.ADDRESS, i, array[i]);
         }
-        memorySegment.setAtIndex(ValueLayout.ADDRESS, array.length, MemoryAddress.NULL);
+        if (zeroTerminated) {
+            memorySegment.setAtIndex(ValueLayout.ADDRESS, array.length, MemoryAddress.NULL);
+        }
         return memorySegment;
     }
 }

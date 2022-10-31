@@ -18,14 +18,26 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoTabArray";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static TabArray allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        TabArray newInstance = new TabArray(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public TabArray(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -33,7 +45,9 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     private static Refcounted constructNew(int initialSize, boolean positionsInPixels) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.pango_tab_array_new.invokeExact(initialSize, positionsInPixels ? 1 : 0), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.pango_tab_array_new.invokeExact(
+                    initialSize,
+                    positionsInPixels ? 1 : 0), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +94,8 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.pango.TabArray copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_tab_array_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_tab_array_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,7 +107,8 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free() {
         try {
-            DowncallHandles.pango_tab_array_free.invokeExact(handle());
+            DowncallHandles.pango_tab_array_free.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,7 +128,9 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     public int getDecimalPoint(int tabIndex) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_tab_array_get_decimal_point.invokeExact(handle(), tabIndex);
+            RESULT = (int) DowncallHandles.pango_tab_array_get_decimal_point.invokeExact(
+                    handle(),
+                    tabIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,7 +145,8 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     public boolean getPositionsInPixels() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_tab_array_get_positions_in_pixels.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_tab_array_get_positions_in_pixels.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,7 +160,8 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     public int getSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_tab_array_get_size.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_tab_array_get_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,7 +180,11 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment alignmentPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment locationPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.pango_tab_array_get_tab.invokeExact(handle(), tabIndex, (Addressable) alignmentPOINTER.address(), (Addressable) locationPOINTER.address());
+            DowncallHandles.pango_tab_array_get_tab.invokeExact(
+                    handle(),
+                    tabIndex,
+                    (Addressable) alignmentPOINTER.address(),
+                    (Addressable) locationPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -192,7 +216,9 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
      */
     public void resize(int newSize) {
         try {
-            DowncallHandles.pango_tab_array_resize.invokeExact(handle(), newSize);
+            DowncallHandles.pango_tab_array_resize.invokeExact(
+                    handle(),
+                    newSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -212,7 +238,10 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setDecimalPoint(int tabIndex, int decimalPoint) {
         try {
-            DowncallHandles.pango_tab_array_set_decimal_point.invokeExact(handle(), tabIndex, decimalPoint);
+            DowncallHandles.pango_tab_array_set_decimal_point.invokeExact(
+                    handle(),
+                    tabIndex,
+                    decimalPoint);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -225,7 +254,9 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setPositionsInPixels(boolean positionsInPixels) {
         try {
-            DowncallHandles.pango_tab_array_set_positions_in_pixels.invokeExact(handle(), positionsInPixels ? 1 : 0);
+            DowncallHandles.pango_tab_array_set_positions_in_pixels.invokeExact(
+                    handle(),
+                    positionsInPixels ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,7 +271,11 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     public void setTab(int tabIndex, @NotNull org.pango.TabAlign alignment, int location) {
         java.util.Objects.requireNonNull(alignment, "Parameter 'alignment' must not be null");
         try {
-            DowncallHandles.pango_tab_array_set_tab.invokeExact(handle(), tabIndex, alignment.getValue(), location);
+            DowncallHandles.pango_tab_array_set_tab.invokeExact(
+                    handle(),
+                    tabIndex,
+                    alignment.getValue(),
+                    location);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -251,7 +286,8 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
      */
     public void sort() {
         try {
-            DowncallHandles.pango_tab_array_sort.invokeExact(handle());
+            DowncallHandles.pango_tab_array_sort.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -271,11 +307,12 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_tab_array_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_tab_array_to_string.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -290,7 +327,8 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_tab_array_from_string.invokeExact(Interop.allocateNativeString(text));
+            RESULT = (MemoryAddress) DowncallHandles.pango_tab_array_from_string.invokeExact(
+                    Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

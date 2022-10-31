@@ -21,14 +21,26 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkFrameTimings";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static FrameTimings allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        FrameTimings newInstance = new FrameTimings(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public FrameTimings(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -53,7 +65,8 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
     public boolean getComplete() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_frame_timings_get_complete.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_frame_timings_get_complete.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -68,7 +81,8 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
     public long getFrameCounter() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gdk_frame_timings_get_frame_counter.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gdk_frame_timings_get_frame_counter.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -86,7 +100,8 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
     public long getFrameTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gdk_frame_timings_get_frame_time.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gdk_frame_timings_get_frame_time.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -113,7 +128,8 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
     public long getPredictedPresentationTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gdk_frame_timings_get_predicted_presentation_time.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gdk_frame_timings_get_predicted_presentation_time.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -131,7 +147,8 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
     public long getPresentationTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gdk_frame_timings_get_presentation_time.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gdk_frame_timings_get_presentation_time.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,7 +168,8 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
     public long getRefreshInterval() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gdk_frame_timings_get_refresh_interval.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gdk_frame_timings_get_refresh_interval.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -165,7 +183,8 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gdk.FrameTimings ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_frame_timings_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_frame_timings_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -179,7 +198,8 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.gdk_frame_timings_unref.invokeExact(handle());
+            DowncallHandles.gdk_frame_timings_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

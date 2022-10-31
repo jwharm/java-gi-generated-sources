@@ -15,21 +15,34 @@ public class DebugNode extends org.gtk.gsk.RenderNode {
         Gsk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GskDebugNode";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public DebugNode(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DebugNode */
+    /**
+     * Cast object to DebugNode if its GType is a (or inherits from) "GskDebugNode".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DebugNode" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GskDebugNode", a ClassCastException will be thrown.
+     */
     public static DebugNode castFrom(org.gtk.gobject.Object gobject) {
-        return new DebugNode(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskDebugNode"))) {
+            return new DebugNode(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskDebugNode");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gsk.RenderNode child, @NotNull java.lang.String message) {
@@ -37,7 +50,9 @@ public class DebugNode extends org.gtk.gsk.RenderNode {
         java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_debug_node_new.invokeExact(child.handle(), Interop.allocateNativeString(message)), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_debug_node_new.invokeExact(
+                    child.handle(),
+                    Interop.allocateNativeString(message)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -63,7 +78,8 @@ public class DebugNode extends org.gtk.gsk.RenderNode {
     public @NotNull org.gtk.gsk.RenderNode getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_debug_node_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_debug_node_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,11 +93,12 @@ public class DebugNode extends org.gtk.gsk.RenderNode {
     public @NotNull java.lang.String getMessage() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_debug_node_get_message.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_debug_node_get_message.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     private static class DowncallHandles {

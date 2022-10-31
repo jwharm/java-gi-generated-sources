@@ -50,26 +50,48 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkCellRenderer";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.InitiallyUnowned.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gtk.CellRendererPrivate.getMemoryLayout().withName("priv")
-    ).withName("GtkCellRenderer");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.InitiallyUnowned parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.InitiallyUnowned(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public CellRenderer(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to CellRenderer */
+    /**
+     * Cast object to CellRenderer if its GType is a (or inherits from) "GtkCellRenderer".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "CellRenderer" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkCellRenderer", a ClassCastException will be thrown.
+     */
     public static CellRenderer castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRenderer(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellRenderer"))) {
+            return new CellRenderer(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCellRenderer");
+        }
     }
     
     /**
@@ -94,7 +116,14 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_cell_renderer_activate.invokeExact(handle(), event.handle(), widget.handle(), Interop.allocateNativeString(path), backgroundArea.handle(), cellArea.handle(), flags.getValue());
+            RESULT = (int) DowncallHandles.gtk_cell_renderer_activate.invokeExact(
+                    handle(),
+                    event.handle(),
+                    widget.handle(),
+                    Interop.allocateNativeString(path),
+                    backgroundArea.handle(),
+                    cellArea.handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,18 +139,21 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * @param alignedArea the return location for the space inside {@code cell_area}
      *                that would actually be used to render.
      */
-    public void getAlignedArea(@NotNull org.gtk.gtk.Widget widget, @NotNull org.gtk.gtk.CellRendererState flags, @NotNull org.gtk.gdk.Rectangle cellArea, @NotNull Out<org.gtk.gdk.Rectangle> alignedArea) {
+    public void getAlignedArea(@NotNull org.gtk.gtk.Widget widget, @NotNull org.gtk.gtk.CellRendererState flags, @NotNull org.gtk.gdk.Rectangle cellArea, @NotNull org.gtk.gdk.Rectangle alignedArea) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         java.util.Objects.requireNonNull(cellArea, "Parameter 'cellArea' must not be null");
         java.util.Objects.requireNonNull(alignedArea, "Parameter 'alignedArea' must not be null");
-        MemorySegment alignedAreaPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_cell_renderer_get_aligned_area.invokeExact(handle(), widget.handle(), flags.getValue(), cellArea.handle(), (Addressable) alignedAreaPOINTER.address());
+            DowncallHandles.gtk_cell_renderer_get_aligned_area.invokeExact(
+                    handle(),
+                    widget.handle(),
+                    flags.getValue(),
+                    cellArea.handle(),
+                    alignedArea.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        alignedArea.set(new org.gtk.gdk.Rectangle(Refcounted.get(alignedAreaPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -135,7 +167,10 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         MemorySegment xalignPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
         MemorySegment yalignPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
         try {
-            DowncallHandles.gtk_cell_renderer_get_alignment.invokeExact(handle(), (Addressable) xalignPOINTER.address(), (Addressable) yalignPOINTER.address());
+            DowncallHandles.gtk_cell_renderer_get_alignment.invokeExact(
+                    handle(),
+                    (Addressable) xalignPOINTER.address(),
+                    (Addressable) yalignPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,7 +189,10 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_cell_renderer_get_fixed_size.invokeExact(handle(), (Addressable) widthPOINTER.address(), (Addressable) heightPOINTER.address());
+            DowncallHandles.gtk_cell_renderer_get_fixed_size.invokeExact(
+                    handle(),
+                    (Addressable) widthPOINTER.address(),
+                    (Addressable) heightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,7 +207,8 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     public boolean getIsExpanded() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_cell_renderer_get_is_expanded.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_cell_renderer_get_is_expanded.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,7 +222,8 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     public boolean getIsExpander() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_cell_renderer_get_is_expander.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_cell_renderer_get_is_expander.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -201,7 +241,10 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         MemorySegment xpadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment ypadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_cell_renderer_get_padding.invokeExact(handle(), (Addressable) xpadPOINTER.address(), (Addressable) ypadPOINTER.address());
+            DowncallHandles.gtk_cell_renderer_get_padding.invokeExact(
+                    handle(),
+                    (Addressable) xpadPOINTER.address(),
+                    (Addressable) ypadPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -222,7 +265,11 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         MemorySegment minimumSizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment naturalSizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_cell_renderer_get_preferred_height.invokeExact(handle(), widget.handle(), (Addressable) minimumSizePOINTER.address(), (Addressable) naturalSizePOINTER.address());
+            DowncallHandles.gtk_cell_renderer_get_preferred_height.invokeExact(
+                    handle(),
+                    widget.handle(),
+                    (Addressable) minimumSizePOINTER.address(),
+                    (Addressable) naturalSizePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -245,7 +292,12 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         MemorySegment minimumHeightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment naturalHeightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_cell_renderer_get_preferred_height_for_width.invokeExact(handle(), widget.handle(), width, (Addressable) minimumHeightPOINTER.address(), (Addressable) naturalHeightPOINTER.address());
+            DowncallHandles.gtk_cell_renderer_get_preferred_height_for_width.invokeExact(
+                    handle(),
+                    widget.handle(),
+                    width,
+                    (Addressable) minimumHeightPOINTER.address(),
+                    (Addressable) naturalHeightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -260,19 +312,19 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * @param minimumSize location for storing the minimum size
      * @param naturalSize location for storing the natural size
      */
-    public void getPreferredSize(@NotNull org.gtk.gtk.Widget widget, @NotNull Out<org.gtk.gtk.Requisition> minimumSize, @NotNull Out<org.gtk.gtk.Requisition> naturalSize) {
+    public void getPreferredSize(@NotNull org.gtk.gtk.Widget widget, @NotNull org.gtk.gtk.Requisition minimumSize, @NotNull org.gtk.gtk.Requisition naturalSize) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         java.util.Objects.requireNonNull(minimumSize, "Parameter 'minimumSize' must not be null");
         java.util.Objects.requireNonNull(naturalSize, "Parameter 'naturalSize' must not be null");
-        MemorySegment minimumSizePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment naturalSizePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            DowncallHandles.gtk_cell_renderer_get_preferred_size.invokeExact(handle(), widget.handle(), (Addressable) minimumSizePOINTER.address(), (Addressable) naturalSizePOINTER.address());
+            DowncallHandles.gtk_cell_renderer_get_preferred_size.invokeExact(
+                    handle(),
+                    widget.handle(),
+                    minimumSize.handle(),
+                    naturalSize.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        minimumSize.set(new org.gtk.gtk.Requisition(Refcounted.get(minimumSizePOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        naturalSize.set(new org.gtk.gtk.Requisition(Refcounted.get(naturalSizePOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
     /**
@@ -288,7 +340,11 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         MemorySegment minimumSizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment naturalSizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_cell_renderer_get_preferred_width.invokeExact(handle(), widget.handle(), (Addressable) minimumSizePOINTER.address(), (Addressable) naturalSizePOINTER.address());
+            DowncallHandles.gtk_cell_renderer_get_preferred_width.invokeExact(
+                    handle(),
+                    widget.handle(),
+                    (Addressable) minimumSizePOINTER.address(),
+                    (Addressable) naturalSizePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -311,7 +367,12 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         MemorySegment minimumWidthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment naturalWidthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gtk_cell_renderer_get_preferred_width_for_height.invokeExact(handle(), widget.handle(), height, (Addressable) minimumWidthPOINTER.address(), (Addressable) naturalWidthPOINTER.address());
+            DowncallHandles.gtk_cell_renderer_get_preferred_width_for_height.invokeExact(
+                    handle(),
+                    widget.handle(),
+                    height,
+                    (Addressable) minimumWidthPOINTER.address(),
+                    (Addressable) naturalWidthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -327,7 +388,8 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     public @NotNull org.gtk.gtk.SizeRequestMode getRequestMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_cell_renderer_get_request_mode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_cell_renderer_get_request_mode.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -341,7 +403,8 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     public boolean getSensitive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_cell_renderer_get_sensitive.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_cell_renderer_get_sensitive.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -357,11 +420,13 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * @return the widget state flags applying to {@code cell}
      */
     public @NotNull org.gtk.gtk.StateFlags getState(@Nullable org.gtk.gtk.Widget widget, @NotNull org.gtk.gtk.CellRendererState cellState) {
-        java.util.Objects.requireNonNullElse(widget, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(cellState, "Parameter 'cellState' must not be null");
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_cell_renderer_get_state.invokeExact(handle(), widget.handle(), cellState.getValue());
+            RESULT = (int) DowncallHandles.gtk_cell_renderer_get_state.invokeExact(
+                    handle(),
+                    (Addressable) (widget == null ? MemoryAddress.NULL : widget.handle()),
+                    cellState.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -375,7 +440,8 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     public boolean getVisible() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_cell_renderer_get_visible.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_cell_renderer_get_visible.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -389,7 +455,8 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     public boolean isActivatable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_cell_renderer_is_activatable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_cell_renderer_is_activatable.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -403,7 +470,10 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public void setAlignment(float xalign, float yalign) {
         try {
-            DowncallHandles.gtk_cell_renderer_set_alignment.invokeExact(handle(), xalign, yalign);
+            DowncallHandles.gtk_cell_renderer_set_alignment.invokeExact(
+                    handle(),
+                    xalign,
+                    yalign);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -416,7 +486,10 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public void setFixedSize(int width, int height) {
         try {
-            DowncallHandles.gtk_cell_renderer_set_fixed_size.invokeExact(handle(), width, height);
+            DowncallHandles.gtk_cell_renderer_set_fixed_size.invokeExact(
+                    handle(),
+                    width,
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -428,7 +501,9 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public void setIsExpanded(boolean isExpanded) {
         try {
-            DowncallHandles.gtk_cell_renderer_set_is_expanded.invokeExact(handle(), isExpanded ? 1 : 0);
+            DowncallHandles.gtk_cell_renderer_set_is_expanded.invokeExact(
+                    handle(),
+                    isExpanded ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -440,7 +515,9 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public void setIsExpander(boolean isExpander) {
         try {
-            DowncallHandles.gtk_cell_renderer_set_is_expander.invokeExact(handle(), isExpander ? 1 : 0);
+            DowncallHandles.gtk_cell_renderer_set_is_expander.invokeExact(
+                    handle(),
+                    isExpander ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -453,7 +530,10 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public void setPadding(int xpad, int ypad) {
         try {
-            DowncallHandles.gtk_cell_renderer_set_padding.invokeExact(handle(), xpad, ypad);
+            DowncallHandles.gtk_cell_renderer_set_padding.invokeExact(
+                    handle(),
+                    xpad,
+                    ypad);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -465,7 +545,9 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public void setSensitive(boolean sensitive) {
         try {
-            DowncallHandles.gtk_cell_renderer_set_sensitive.invokeExact(handle(), sensitive ? 1 : 0);
+            DowncallHandles.gtk_cell_renderer_set_sensitive.invokeExact(
+                    handle(),
+                    sensitive ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -477,7 +559,9 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public void setVisible(boolean visible) {
         try {
-            DowncallHandles.gtk_cell_renderer_set_visible.invokeExact(handle(), visible ? 1 : 0);
+            DowncallHandles.gtk_cell_renderer_set_visible.invokeExact(
+                    handle(),
+                    visible ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -505,7 +589,13 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         java.util.Objects.requireNonNull(cellArea, "Parameter 'cellArea' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            DowncallHandles.gtk_cell_renderer_snapshot.invokeExact(handle(), snapshot.handle(), widget.handle(), backgroundArea.handle(), cellArea.handle(), flags.getValue());
+            DowncallHandles.gtk_cell_renderer_snapshot.invokeExact(
+                    handle(),
+                    snapshot.handle(),
+                    widget.handle(),
+                    backgroundArea.handle(),
+                    cellArea.handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -525,7 +615,6 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      *   {@code cell}, or {@code null} if editing is not possible
      */
     public @Nullable org.gtk.gtk.CellEditable startEditing(@Nullable org.gtk.gdk.Event event, @NotNull org.gtk.gtk.Widget widget, @NotNull java.lang.String path, @NotNull org.gtk.gdk.Rectangle backgroundArea, @NotNull org.gtk.gdk.Rectangle cellArea, @NotNull org.gtk.gtk.CellRendererState flags) {
-        java.util.Objects.requireNonNullElse(event, MemoryAddress.NULL);
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         java.util.Objects.requireNonNull(backgroundArea, "Parameter 'backgroundArea' must not be null");
@@ -533,7 +622,14 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_renderer_start_editing.invokeExact(handle(), event.handle(), widget.handle(), Interop.allocateNativeString(path), backgroundArea.handle(), cellArea.handle(), flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_renderer_start_editing.invokeExact(
+                    handle(),
+                    (Addressable) (event == null ? MemoryAddress.NULL : event.handle()),
+                    widget.handle(),
+                    Interop.allocateNativeString(path),
+                    backgroundArea.handle(),
+                    cellArea.handle(),
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -552,7 +648,9 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public void stopEditing(boolean canceled) {
         try {
-            DowncallHandles.gtk_cell_renderer_stop_editing.invokeExact(handle(), canceled ? 1 : 0);
+            DowncallHandles.gtk_cell_renderer_stop_editing.invokeExact(
+                    handle(),
+                    canceled ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -791,7 +889,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         public static void signalCellRendererEditingStarted(MemoryAddress source, MemoryAddress editable, MemoryAddress path, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (CellRenderer.EditingStarted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellRenderer(Refcounted.get(source)), new org.gtk.gtk.CellEditable.CellEditableImpl(Refcounted.get(editable, false)), path.getUtf8String(0));
+            HANDLER.signalReceived(new CellRenderer(Refcounted.get(source)), new org.gtk.gtk.CellEditable.CellEditableImpl(Refcounted.get(editable, false)), Interop.getStringFrom(path));
         }
     }
 }

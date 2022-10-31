@@ -30,20 +30,32 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GPrivate";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("p"),
         Interop.valueLayout.ADDRESS.withName("notify"),
         MemoryLayout.sequenceLayout(2, ValueLayout.ADDRESS).withName("future")
-    ).withName("GPrivate");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Private allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Private newInstance = new Private(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Private(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -59,7 +71,8 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
     public @Nullable java.lang.foreign.MemoryAddress get() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_private_get.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_private_get.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,9 +89,10 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
      * @param value the new value
      */
     public void replace(@Nullable java.lang.foreign.MemoryAddress value) {
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_private_replace.invokeExact(handle(), value);
+            DowncallHandles.g_private_replace.invokeExact(
+                    handle(),
+                    (Addressable) (value == null ? MemoryAddress.NULL : value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,9 +107,10 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
      * @param value the new value
      */
     public void set(@Nullable java.lang.foreign.MemoryAddress value) {
-        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_private_set.invokeExact(handle(), value);
+            DowncallHandles.g_private_set.invokeExact(
+                    handle(),
+                    (Addressable) (value == null ? MemoryAddress.NULL : value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

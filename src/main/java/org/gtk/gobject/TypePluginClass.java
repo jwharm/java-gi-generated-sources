@@ -15,22 +15,78 @@ public class TypePluginClass extends io.github.jwharm.javagi.ResourceBase {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTypePluginClass";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.TypeInterface.getMemoryLayout().withName("base_iface"),
         Interop.valueLayout.ADDRESS.withName("use_plugin"),
         Interop.valueLayout.ADDRESS.withName("unuse_plugin"),
         Interop.valueLayout.ADDRESS.withName("complete_type_info"),
         Interop.valueLayout.ADDRESS.withName("complete_interface_info")
-    ).withName("GTypePluginClass");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static TypePluginClass allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        TypePluginClass newInstance = new TypePluginClass(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code use_plugin}
+     * @return The value of the field {@code use_plugin}
+     */
+    public org.gtk.gobject.TypePluginUse use_plugin$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("use_plugin"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    /**
+     * Get the value of the field {@code unuse_plugin}
+     * @return The value of the field {@code unuse_plugin}
+     */
+    public org.gtk.gobject.TypePluginUnuse unuse_plugin$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("unuse_plugin"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    /**
+     * Get the value of the field {@code complete_type_info}
+     * @return The value of the field {@code complete_type_info}
+     */
+    public org.gtk.gobject.TypePluginCompleteTypeInfo complete_type_info$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("complete_type_info"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    /**
+     * Get the value of the field {@code complete_interface_info}
+     * @return The value of the field {@code complete_interface_info}
+     */
+    public org.gtk.gobject.TypePluginCompleteInterfaceInfo complete_interface_info$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("complete_interface_info"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    @ApiStatus.Internal
     public TypePluginClass(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

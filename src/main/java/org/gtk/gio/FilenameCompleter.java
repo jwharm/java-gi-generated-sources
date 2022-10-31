@@ -16,21 +16,34 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GFilenameCompleter";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public FilenameCompleter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to FilenameCompleter */
+    /**
+     * Cast object to FilenameCompleter if its GType is a (or inherits from) "GFilenameCompleter".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "FilenameCompleter" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GFilenameCompleter", a ClassCastException will be thrown.
+     */
     public static FilenameCompleter castFrom(org.gtk.gobject.Object gobject) {
-        return new FilenameCompleter(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GFilenameCompleter"))) {
+            return new FilenameCompleter(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GFilenameCompleter");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -61,11 +74,13 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(initialText, "Parameter 'initialText' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_filename_completer_get_completion_suffix.invokeExact(handle(), Interop.allocateNativeString(initialText));
+            RESULT = (MemoryAddress) DowncallHandles.g_filename_completer_get_completion_suffix.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(initialText));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -78,7 +93,9 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(initialText, "Parameter 'initialText' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_filename_completer_get_completions.invokeExact(handle(), Interop.allocateNativeString(initialText));
+            RESULT = (MemoryAddress) DowncallHandles.g_filename_completer_get_completions.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(initialText));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,7 +109,9 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
      */
     public void setDirsOnly(boolean dirsOnly) {
         try {
-            DowncallHandles.g_filename_completer_set_dirs_only.invokeExact(handle(), dirsOnly ? 1 : 0);
+            DowncallHandles.g_filename_completer_set_dirs_only.invokeExact(
+                    handle(),
+                    dirsOnly ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -21,21 +21,34 @@ public class Coverage extends org.gtk.gobject.Object {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoCoverage";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Coverage(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Coverage */
+    /**
+     * Cast object to Coverage if its GType is a (or inherits from) "PangoCoverage".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Coverage" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "PangoCoverage", a ClassCastException will be thrown.
+     */
     public static Coverage castFrom(org.gtk.gobject.Object gobject) {
-        return new Coverage(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoCoverage"))) {
+            return new Coverage(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of PangoCoverage");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -64,7 +77,8 @@ public class Coverage extends org.gtk.gobject.Object {
     public @NotNull org.pango.Coverage copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_coverage_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_coverage_copy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,7 +93,9 @@ public class Coverage extends org.gtk.gobject.Object {
     public @NotNull org.pango.CoverageLevel get(int index) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_coverage_get.invokeExact(handle(), index);
+            RESULT = (int) DowncallHandles.pango_coverage_get.invokeExact(
+                    handle(),
+                    index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,7 +113,9 @@ public class Coverage extends org.gtk.gobject.Object {
     public void max(@NotNull org.pango.Coverage other) {
         java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         try {
-            DowncallHandles.pango_coverage_max.invokeExact(handle(), other.handle());
+            DowncallHandles.pango_coverage_max.invokeExact(
+                    handle(),
+                    other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,7 +130,8 @@ public class Coverage extends org.gtk.gobject.Object {
     public @NotNull org.pango.Coverage ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_coverage_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_coverage_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,7 +146,10 @@ public class Coverage extends org.gtk.gobject.Object {
     public void set(int index, @NotNull org.pango.CoverageLevel level) {
         java.util.Objects.requireNonNull(level, "Parameter 'level' must not be null");
         try {
-            DowncallHandles.pango_coverage_set.invokeExact(handle(), index, level.getValue());
+            DowncallHandles.pango_coverage_set.invokeExact(
+                    handle(),
+                    index,
+                    level.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,7 +168,10 @@ public class Coverage extends org.gtk.gobject.Object {
         MemorySegment bytesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment nBytesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.pango_coverage_to_bytes.invokeExact(handle(), (Addressable) bytesPOINTER.address(), (Addressable) nBytesPOINTER.address());
+            DowncallHandles.pango_coverage_to_bytes.invokeExact(
+                    handle(),
+                    (Addressable) bytesPOINTER.address(),
+                    (Addressable) nBytesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -163,7 +188,8 @@ public class Coverage extends org.gtk.gobject.Object {
     @Deprecated
     public void unref() {
         try {
-            DowncallHandles.pango_coverage_unref.invokeExact(handle());
+            DowncallHandles.pango_coverage_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,7 +209,9 @@ public class Coverage extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_coverage_from_bytes.invokeExact(Interop.allocateNativeArray(bytes, false), nBytes);
+            RESULT = (MemoryAddress) DowncallHandles.pango_coverage_from_bytes.invokeExact(
+                    Interop.allocateNativeArray(bytes, false),
+                    nBytes);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

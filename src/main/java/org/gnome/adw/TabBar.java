@@ -33,21 +33,34 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwTabBar";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public TabBar(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TabBar */
+    /**
+     * Cast object to TabBar if its GType is a (or inherits from) "AdwTabBar".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TabBar" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwTabBar", a ClassCastException will be thrown.
+     */
     public static TabBar castFrom(org.gtk.gobject.Object gobject) {
-        return new TabBar(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwTabBar"))) {
+            return new TabBar(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwTabBar");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -74,7 +87,8 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getAutohide() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_tab_bar_get_autohide.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_tab_bar_get_autohide.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,7 +102,8 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public @Nullable org.gtk.gtk.Widget getEndActionWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_tab_bar_get_end_action_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_tab_bar_get_end_action_widget.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,7 +117,8 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getExpandTabs() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_tab_bar_get_expand_tabs.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_tab_bar_get_expand_tabs.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,7 +132,8 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getInverted() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_tab_bar_get_inverted.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_tab_bar_get_inverted.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,12 +142,15 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     /**
      * Gets whether {@code self} is overflowing.
+     * <p>
+     * If {@code TRUE}, all tabs cannot be displayed at once and require scrolling.
      * @return whether {@code self} is overflowing
      */
     public boolean getIsOverflowing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_tab_bar_get_is_overflowing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_tab_bar_get_is_overflowing.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -144,7 +164,8 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public @Nullable org.gtk.gtk.Widget getStartActionWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_tab_bar_get_start_action_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_tab_bar_get_start_action_widget.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,12 +174,15 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     /**
      * Gets whether the tabs are currently revealed.
+     * <p>
+     * See {@code TabBar:autohide}.
      * @return whether the tabs are currently revealed
      */
     public boolean getTabsRevealed() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_tab_bar_get_tabs_revealed.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_tab_bar_get_tabs_revealed.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -172,7 +196,8 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public @Nullable org.gnome.adw.TabView getView() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_tab_bar_get_view.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_tab_bar_get_view.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,11 +206,18 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     /**
      * Sets whether the tabs automatically hide.
+     * <p>
+     * If set to {@code TRUE}, the tab bar disappears when {@code TabBar:view} has 0
+     * or 1 tab, no pinned tabs, and no tab is being transferred.
+     * <p>
+     * See {@code TabBar:tabs-revealed}.
      * @param autohide whether the tabs automatically hide
      */
     public void setAutohide(boolean autohide) {
         try {
-            DowncallHandles.adw_tab_bar_set_autohide.invokeExact(handle(), autohide ? 1 : 0);
+            DowncallHandles.adw_tab_bar_set_autohide.invokeExact(
+                    handle(),
+                    autohide ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -196,9 +228,10 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @param widget the widget to show after the tabs
      */
     public void setEndActionWidget(@Nullable org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNullElse(widget, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_tab_bar_set_end_action_widget.invokeExact(handle(), widget.handle());
+            DowncallHandles.adw_tab_bar_set_end_action_widget.invokeExact(
+                    handle(),
+                    (Addressable) (widget == null ? MemoryAddress.NULL : widget.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -206,11 +239,16 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     /**
      * Sets whether tabs expand to full width.
+     * <p>
+     * If set to {@code TRUE}, the tabs will always vary width filling the whole width
+     * when possible, otherwise tabs will always have the minimum possible size.
      * @param expandTabs whether to expand tabs
      */
     public void setExpandTabs(boolean expandTabs) {
         try {
-            DowncallHandles.adw_tab_bar_set_expand_tabs.invokeExact(handle(), expandTabs ? 1 : 0);
+            DowncallHandles.adw_tab_bar_set_expand_tabs.invokeExact(
+                    handle(),
+                    expandTabs ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,11 +256,16 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     /**
      * Sets whether tabs tabs use inverted layout.
+     * <p>
+     * If set to {@code TRUE}, non-pinned tabs will have the close button at the beginning
+     * and the indicator at the end rather than the opposite.
      * @param inverted whether tabs use inverted layout
      */
     public void setInverted(boolean inverted) {
         try {
-            DowncallHandles.adw_tab_bar_set_inverted.invokeExact(handle(), inverted ? 1 : 0);
+            DowncallHandles.adw_tab_bar_set_inverted.invokeExact(
+                    handle(),
+                    inverted ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -233,9 +276,10 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @param widget the widget to show before the tabs
      */
     public void setStartActionWidget(@Nullable org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNullElse(widget, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_tab_bar_set_start_action_widget.invokeExact(handle(), widget.handle());
+            DowncallHandles.adw_tab_bar_set_start_action_widget.invokeExact(
+                    handle(),
+                    (Addressable) (widget == null ? MemoryAddress.NULL : widget.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -246,9 +290,10 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @param view a tab view
      */
     public void setView(@Nullable org.gnome.adw.TabView view) {
-        java.util.Objects.requireNonNullElse(view, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_tab_bar_set_view.invokeExact(handle(), view.handle());
+            DowncallHandles.adw_tab_bar_set_view.invokeExact(
+                    handle(),
+                    (Addressable) (view == null ? MemoryAddress.NULL : view.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -272,9 +317,12 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void setupExtraDropTarget(@NotNull org.gtk.gdk.DragAction actions, org.gtk.glib.Type[] types, long nTypes) {
         java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
-        java.util.Objects.requireNonNullElse(types, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_tab_bar_setup_extra_drop_target.invokeExact(handle(), actions.getValue(), Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false), nTypes);
+            DowncallHandles.adw_tab_bar_setup_extra_drop_target.invokeExact(
+                    handle(),
+                    actions.getValue(),
+                    (Addressable) (types == null ? MemoryAddress.NULL : Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false)),
+                    nTypes);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

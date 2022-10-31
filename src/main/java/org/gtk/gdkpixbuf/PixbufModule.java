@@ -57,11 +57,13 @@ public class PixbufModule extends io.github.jwharm.javagi.ResourceBase {
         GdkPixbuf.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkPixbufModule";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("module_name"),
         Interop.valueLayout.ADDRESS.withName("module_path"),
-        org.gtk.gmodule.Module.getMemoryLayout().withName("module"),
-        org.gtk.gdkpixbuf.PixbufFormat.getMemoryLayout().withName("info"),
+        Interop.valueLayout.ADDRESS.withName("module"),
+        Interop.valueLayout.ADDRESS.withName("info"),
         Interop.valueLayout.ADDRESS.withName("load"),
         Interop.valueLayout.ADDRESS.withName("load_xpm_data"),
         Interop.valueLayout.ADDRESS.withName("begin_load"),
@@ -75,16 +77,188 @@ public class PixbufModule extends io.github.jwharm.javagi.ResourceBase {
         Interop.valueLayout.ADDRESS.withName("_reserved2"),
         Interop.valueLayout.ADDRESS.withName("_reserved3"),
         Interop.valueLayout.ADDRESS.withName("_reserved4")
-    ).withName("GdkPixbufModule");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static PixbufModule allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        PixbufModule newInstance = new PixbufModule(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code module_name}
+     * @return The value of the field {@code module_name}
+     */
+    public java.lang.String module_name$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("module_name"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringFrom(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code module_name}
+     * @param module_name The new value of the field {@code module_name}
+     */
+    public void module_name$set(java.lang.String module_name) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("module_name"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(module_name));
+    }
+    
+    /**
+     * Get the value of the field {@code module_path}
+     * @return The value of the field {@code module_path}
+     */
+    public java.lang.String module_path$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("module_path"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringFrom(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code module_path}
+     * @param module_path The new value of the field {@code module_path}
+     */
+    public void module_path$set(java.lang.String module_path) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("module_path"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(module_path));
+    }
+    
+    /**
+     * Get the value of the field {@code info}
+     * @return The value of the field {@code info}
+     */
+    public org.gtk.gdkpixbuf.PixbufFormat info$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("info"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.gdkpixbuf.PixbufFormat(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Change the value of the field {@code info}
+     * @param info The new value of the field {@code info}
+     */
+    public void info$set(org.gtk.gdkpixbuf.PixbufFormat info) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("info"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), info.handle());
+    }
+    
+    /**
+     * Get the value of the field {@code load}
+     * @return The value of the field {@code load}
+     */
+    public org.gtk.gdkpixbuf.PixbufModuleLoadFunc load$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("load"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    /**
+     * Get the value of the field {@code load_xpm_data}
+     * @return The value of the field {@code load_xpm_data}
+     */
+    public org.gtk.gdkpixbuf.PixbufModuleLoadXpmDataFunc load_xpm_data$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("load_xpm_data"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    /**
+     * Get the value of the field {@code begin_load}
+     * @return The value of the field {@code begin_load}
+     */
+    public org.gtk.gdkpixbuf.PixbufModuleBeginLoadFunc begin_load$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("begin_load"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    /**
+     * Get the value of the field {@code stop_load}
+     * @return The value of the field {@code stop_load}
+     */
+    public org.gtk.gdkpixbuf.PixbufModuleStopLoadFunc stop_load$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("stop_load"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    /**
+     * Get the value of the field {@code load_increment}
+     * @return The value of the field {@code load_increment}
+     */
+    public org.gtk.gdkpixbuf.PixbufModuleIncrementLoadFunc load_increment$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("load_increment"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    /**
+     * Get the value of the field {@code load_animation}
+     * @return The value of the field {@code load_animation}
+     */
+    public org.gtk.gdkpixbuf.PixbufModuleLoadAnimationFunc load_animation$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("load_animation"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    /**
+     * Get the value of the field {@code save}
+     * @return The value of the field {@code save}
+     */
+    public org.gtk.gdkpixbuf.PixbufModuleSaveFunc save$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("save"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    /**
+     * Get the value of the field {@code save_to_callback}
+     * @return The value of the field {@code save_to_callback}
+     */
+    public org.gtk.gdkpixbuf.PixbufModuleSaveCallbackFunc save_to_callback$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("save_to_callback"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    /**
+     * Get the value of the field {@code is_save_option_supported}
+     * @return The value of the field {@code is_save_option_supported}
+     */
+    public org.gtk.gdkpixbuf.PixbufModuleSaveOptionSupportedFunc is_save_option_supported$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("is_save_option_supported"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    @ApiStatus.Internal
     public PixbufModule(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

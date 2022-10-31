@@ -16,20 +16,85 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
         GLib.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GThreadPool";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("func"),
         Interop.valueLayout.ADDRESS.withName("user_data"),
         ValueLayout.JAVA_INT.withName("exclusive")
-    ).withName("GThreadPool");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static ThreadPool allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        ThreadPool newInstance = new ThreadPool(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code func}
+     * @return The value of the field {@code func}
+     */
+    public org.gtk.glib.Func func$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("func"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return null /* Unsupported parameter type */;
+    }
+    
+    /**
+     * Get the value of the field {@code user_data}
+     * @return The value of the field {@code user_data}
+     */
+    public java.lang.foreign.MemoryAddress user_data$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT;
+    }
+    
+    /**
+     * Change the value of the field {@code user_data}
+     * @param user_data The new value of the field {@code user_data}
+     */
+    public void user_data$set(java.lang.foreign.MemoryAddress user_data) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), user_data);
+    }
+    
+    /**
+     * Get the value of the field {@code exclusive}
+     * @return The value of the field {@code exclusive}
+     */
+    public boolean exclusive$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("exclusive"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return RESULT != 0;
+    }
+    
+    /**
+     * Change the value of the field {@code exclusive}
+     * @param exclusive The new value of the field {@code exclusive}
+     */
+    public void exclusive$set(boolean exclusive) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("exclusive"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), exclusive ? 1 : 0);
+    }
+    
+    @ApiStatus.Internal
     public ThreadPool(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -54,7 +119,10 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      */
     public void free(boolean immediate, boolean wait) {
         try {
-            DowncallHandles.g_thread_pool_free.invokeExact(handle(), immediate ? 1 : 0, wait ? 1 : 0);
+            DowncallHandles.g_thread_pool_free.invokeExact(
+                    handle(),
+                    immediate ? 1 : 0,
+                    wait ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,7 +135,8 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
     public int getMaxThreads() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_thread_pool_get_max_threads.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_thread_pool_get_max_threads.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -81,7 +150,8 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
     public int getNumThreads() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_thread_pool_get_num_threads.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_thread_pool_get_num_threads.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,7 +167,9 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
     public boolean moveToFront(@Nullable java.lang.foreign.MemoryAddress data) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_thread_pool_move_to_front.invokeExact(handle(), data);
+            RESULT = (int) DowncallHandles.g_thread_pool_move_to_front.invokeExact(
+                    handle(),
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,7 +199,9 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_thread_pool_push.invokeExact(handle(), data, (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_thread_pool_push.invokeExact(
+                    handle(),
+                    data, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,7 +241,9 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_thread_pool_set_max_threads.invokeExact(handle(), maxThreads, (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_thread_pool_set_max_threads.invokeExact(
+                    handle(),
+                    maxThreads, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -197,13 +273,14 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
     public void setSortFunction(@NotNull org.gtk.glib.CompareDataFunc func) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            DowncallHandles.g_thread_pool_set_sort_function.invokeExact(handle(), 
+            DowncallHandles.g_thread_pool_set_sort_function.invokeExact(
+                    handle(),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)));
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -216,7 +293,8 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
     public int unprocessed() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_thread_pool_unprocessed.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_thread_pool_unprocessed.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -321,8 +399,10 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)), maxThreads, exclusive ? 1 : 0, (Addressable) GERROR);
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)),
+                    maxThreads,
+                    exclusive ? 1 : 0, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -354,9 +434,11 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                   (Addressable) (Interop.registerCallback(func)), 
-                    Interop.cbDestroyNotifySymbol(), maxThreads, exclusive ? 1 : 0, (Addressable) GERROR);
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(func)),
+                    Interop.cbDestroyNotifySymbol(),
+                    maxThreads,
+                    exclusive ? 1 : 0, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -381,7 +463,8 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void setMaxIdleTime(int interval) {
         try {
-            DowncallHandles.g_thread_pool_set_max_idle_time.invokeExact(interval);
+            DowncallHandles.g_thread_pool_set_max_idle_time.invokeExact(
+                    interval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -397,7 +480,8 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void setMaxUnusedThreads(int maxThreads) {
         try {
-            DowncallHandles.g_thread_pool_set_max_unused_threads.invokeExact(maxThreads);
+            DowncallHandles.g_thread_pool_set_max_unused_threads.invokeExact(
+                    maxThreads);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

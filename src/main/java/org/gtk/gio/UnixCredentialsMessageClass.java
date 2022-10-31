@@ -15,20 +15,41 @@ public class UnixCredentialsMessageClass extends io.github.jwharm.javagi.Resourc
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GUnixCredentialsMessageClass";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.SocketControlMessageClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("_g_reserved1"),
         Interop.valueLayout.ADDRESS.withName("_g_reserved2")
-    ).withName("GUnixCredentialsMessageClass");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static UnixCredentialsMessageClass allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        UnixCredentialsMessageClass newInstance = new UnixCredentialsMessageClass(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code parent_class}
+     * @return The value of the field {@code parent_class}
+     */
+    public org.gtk.gio.SocketControlMessageClass parent_class$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
+        return new org.gtk.gio.SocketControlMessageClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public UnixCredentialsMessageClass(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

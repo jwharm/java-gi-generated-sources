@@ -28,32 +28,55 @@ public class ApplicationWindow extends org.gtk.gtk.ApplicationWindow implements 
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwApplicationWindow";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.ApplicationWindow.getMemoryLayout().withName("parent_instance")
-    ).withName("AdwApplicationWindow");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gtk.ApplicationWindow parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gtk.ApplicationWindow(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public ApplicationWindow(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ApplicationWindow */
+    /**
+     * Cast object to ApplicationWindow if its GType is a (or inherits from) "AdwApplicationWindow".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ApplicationWindow" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwApplicationWindow", a ClassCastException will be thrown.
+     */
     public static ApplicationWindow castFrom(org.gtk.gobject.Object gobject) {
-        return new ApplicationWindow(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwApplicationWindow"))) {
+            return new ApplicationWindow(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwApplicationWindow");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gtk.Application app) {
         java.util.Objects.requireNonNull(app, "Parameter 'app' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_application_window_new.invokeExact(app.handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_application_window_new.invokeExact(
+                    app.handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,7 +100,8 @@ public class ApplicationWindow extends org.gtk.gtk.ApplicationWindow implements 
     public @Nullable org.gtk.gtk.Widget getContent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_application_window_get_content.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_application_window_get_content.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,9 +115,10 @@ public class ApplicationWindow extends org.gtk.gtk.ApplicationWindow implements 
      * @param content the content widget
      */
     public void setContent(@Nullable org.gtk.gtk.Widget content) {
-        java.util.Objects.requireNonNullElse(content, MemoryAddress.NULL);
         try {
-            DowncallHandles.adw_application_window_set_content.invokeExact(handle(), content.handle());
+            DowncallHandles.adw_application_window_set_content.invokeExact(
+                    handle(),
+                    (Addressable) (content == null ? MemoryAddress.NULL : content.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

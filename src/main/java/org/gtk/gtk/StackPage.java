@@ -14,21 +14,34 @@ public class StackPage extends org.gtk.gobject.Object implements org.gtk.gtk.Acc
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkStackPage";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public StackPage(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to StackPage */
+    /**
+     * Cast object to StackPage if its GType is a (or inherits from) "GtkStackPage".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "StackPage" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkStackPage", a ClassCastException will be thrown.
+     */
     public static StackPage castFrom(org.gtk.gobject.Object gobject) {
-        return new StackPage(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkStackPage"))) {
+            return new StackPage(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkStackPage");
+        }
     }
     
     /**
@@ -38,7 +51,8 @@ public class StackPage extends org.gtk.gobject.Object implements org.gtk.gtk.Acc
     public @NotNull org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_page_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_page_get_child.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -52,11 +66,12 @@ public class StackPage extends org.gtk.gobject.Object implements org.gtk.gtk.Acc
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_page_get_icon_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_page_get_icon_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -66,11 +81,12 @@ public class StackPage extends org.gtk.gobject.Object implements org.gtk.gtk.Acc
     public @Nullable java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_page_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_page_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -81,7 +97,8 @@ public class StackPage extends org.gtk.gobject.Object implements org.gtk.gtk.Acc
     public boolean getNeedsAttention() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_stack_page_get_needs_attention.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_stack_page_get_needs_attention.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,11 +112,12 @@ public class StackPage extends org.gtk.gobject.Object implements org.gtk.gtk.Acc
     public @Nullable java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_page_get_title.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_page_get_title.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -109,7 +127,8 @@ public class StackPage extends org.gtk.gobject.Object implements org.gtk.gtk.Acc
     public boolean getUseUnderline() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_stack_page_get_use_underline.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_stack_page_get_use_underline.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,7 +145,8 @@ public class StackPage extends org.gtk.gobject.Object implements org.gtk.gtk.Acc
     public boolean getVisible() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_stack_page_get_visible.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_stack_page_get_visible.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,7 +160,9 @@ public class StackPage extends org.gtk.gobject.Object implements org.gtk.gtk.Acc
     public void setIconName(@NotNull java.lang.String setting) {
         java.util.Objects.requireNonNull(setting, "Parameter 'setting' must not be null");
         try {
-            DowncallHandles.gtk_stack_page_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(setting));
+            DowncallHandles.gtk_stack_page_set_icon_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(setting));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,7 +175,9 @@ public class StackPage extends org.gtk.gobject.Object implements org.gtk.gtk.Acc
     public void setName(@NotNull java.lang.String setting) {
         java.util.Objects.requireNonNull(setting, "Parameter 'setting' must not be null");
         try {
-            DowncallHandles.gtk_stack_page_set_name.invokeExact(handle(), Interop.allocateNativeString(setting));
+            DowncallHandles.gtk_stack_page_set_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(setting));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -165,7 +189,9 @@ public class StackPage extends org.gtk.gobject.Object implements org.gtk.gtk.Acc
      */
     public void setNeedsAttention(boolean setting) {
         try {
-            DowncallHandles.gtk_stack_page_set_needs_attention.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_stack_page_set_needs_attention.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,7 +204,9 @@ public class StackPage extends org.gtk.gobject.Object implements org.gtk.gtk.Acc
     public void setTitle(@NotNull java.lang.String setting) {
         java.util.Objects.requireNonNull(setting, "Parameter 'setting' must not be null");
         try {
-            DowncallHandles.gtk_stack_page_set_title.invokeExact(handle(), Interop.allocateNativeString(setting));
+            DowncallHandles.gtk_stack_page_set_title.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(setting));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -190,7 +218,9 @@ public class StackPage extends org.gtk.gobject.Object implements org.gtk.gtk.Acc
      */
     public void setUseUnderline(boolean setting) {
         try {
-            DowncallHandles.gtk_stack_page_set_use_underline.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_stack_page_set_use_underline.invokeExact(
+                    handle(),
+                    setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,7 +232,9 @@ public class StackPage extends org.gtk.gobject.Object implements org.gtk.gtk.Acc
      */
     public void setVisible(boolean visible) {
         try {
-            DowncallHandles.gtk_stack_page_set_visible.invokeExact(handle(), visible ? 1 : 0);
+            DowncallHandles.gtk_stack_page_set_visible.invokeExact(
+                    handle(),
+                    visible ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

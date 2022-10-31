@@ -149,14 +149,26 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GResource";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static Resource allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Resource newInstance = new Resource(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    @ApiStatus.Internal
     public Resource(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -166,7 +178,8 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_resource_new_from_data.invokeExact(data.handle(), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_resource_new_from_data.invokeExact(
+                    data.handle(), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,7 +217,8 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      */
     public void Register() {
         try {
-            DowncallHandles.g_resources_register.invokeExact(handle());
+            DowncallHandles.g_resources_register.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -215,7 +229,8 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      */
     public void Unregister() {
         try {
-            DowncallHandles.g_resources_unregister.invokeExact(handle());
+            DowncallHandles.g_resources_unregister.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -241,7 +256,10 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_resource_enumerate_children.invokeExact(handle(), Interop.allocateNativeString(path), lookupFlags.getValue(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_resource_enumerate_children.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(path),
+                    lookupFlags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -275,7 +293,12 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment flagsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_resource_get_info.invokeExact(handle(), Interop.allocateNativeString(path), lookupFlags.getValue(), (Addressable) sizePOINTER.address(), (Addressable) flagsPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_resource_get_info.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(path),
+                    lookupFlags.getValue(),
+                    (Addressable) sizePOINTER.address(),
+                    (Addressable) flagsPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -314,7 +337,10 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_resource_lookup_data.invokeExact(handle(), Interop.allocateNativeString(path), lookupFlags.getValue(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_resource_lookup_data.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(path),
+                    lookupFlags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -341,7 +367,10 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_resource_open_stream.invokeExact(handle(), Interop.allocateNativeString(path), lookupFlags.getValue(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_resource_open_stream.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(path),
+                    lookupFlags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -359,7 +388,8 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull org.gtk.gio.Resource ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_resource_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_resource_ref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -374,7 +404,8 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         try {
-            DowncallHandles.g_resource_unref.invokeExact(handle());
+            DowncallHandles.g_resource_unref.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -400,7 +431,8 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_resource_load.invokeExact(Interop.allocateNativeString(filename), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_resource_load.invokeExact(
+                    Interop.allocateNativeString(filename), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

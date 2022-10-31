@@ -15,13 +15,29 @@ import org.jetbrains.annotations.*;
 public interface Orientable extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to Orientable if its GType is a (or inherits from) "GtkOrientable".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Orientable" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkOrientable", a ClassCastException will be thrown.
+     */
+    public static Orientable castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkOrientable"))) {
+            return new OrientableImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkOrientable");
+        }
+    }
+    
+    /**
      * Retrieves the orientation of the {@code orientable}.
      * @return the orientation of the {@code orientable}
      */
     default @NotNull org.gtk.gtk.Orientation getOrientation() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_orientable_get_orientation.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_orientable_get_orientation.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -35,7 +51,9 @@ public interface Orientable extends io.github.jwharm.javagi.Proxy {
     default void setOrientation(@NotNull org.gtk.gtk.Orientation orientation) {
         java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
         try {
-            DowncallHandles.gtk_orientable_set_orientation.invokeExact(handle(), orientation.getValue());
+            DowncallHandles.gtk_orientable_set_orientation.invokeExact(
+                    handle(),
+                    orientation.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

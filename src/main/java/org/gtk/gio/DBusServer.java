@@ -32,33 +32,49 @@ public class DBusServer extends org.gtk.gobject.Object implements org.gtk.gio.In
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GDBusServer";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public DBusServer(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to DBusServer */
+    /**
+     * Cast object to DBusServer if its GType is a (or inherits from) "GDBusServer".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DBusServer" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GDBusServer", a ClassCastException will be thrown.
+     */
     public static DBusServer castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusServer(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusServer"))) {
+            return new DBusServer(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDBusServer");
+        }
     }
     
     private static Refcounted constructNewSync(@NotNull java.lang.String address, @NotNull org.gtk.gio.DBusServerFlags flags, @NotNull java.lang.String guid, @Nullable org.gtk.gio.DBusAuthObserver observer, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
         java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         java.util.Objects.requireNonNull(guid, "Parameter 'guid' must not be null");
-        java.util.Objects.requireNonNullElse(observer, MemoryAddress.NULL);
-        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_server_new_sync.invokeExact(Interop.allocateNativeString(address), flags.getValue(), Interop.allocateNativeString(guid), observer.handle(), cancellable.handle(), (Addressable) GERROR), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_server_new_sync.invokeExact(
+                    Interop.allocateNativeString(address),
+                    flags.getValue(),
+                    Interop.allocateNativeString(guid),
+                    (Addressable) (observer == null ? MemoryAddress.NULL : observer.handle()),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,11 +130,12 @@ public class DBusServer extends org.gtk.gobject.Object implements org.gtk.gio.In
     public @NotNull java.lang.String getClientAddress() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_server_get_client_address.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_server_get_client_address.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -128,7 +145,8 @@ public class DBusServer extends org.gtk.gobject.Object implements org.gtk.gio.In
     public @NotNull org.gtk.gio.DBusServerFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_server_get_flags.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_dbus_server_get_flags.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,11 +160,12 @@ public class DBusServer extends org.gtk.gobject.Object implements org.gtk.gio.In
     public @NotNull java.lang.String getGuid() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_server_get_guid.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_server_get_guid.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -156,7 +175,8 @@ public class DBusServer extends org.gtk.gobject.Object implements org.gtk.gio.In
     public boolean isActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_server_is_active.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_dbus_server_is_active.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -168,7 +188,8 @@ public class DBusServer extends org.gtk.gobject.Object implements org.gtk.gio.In
      */
     public void start() {
         try {
-            DowncallHandles.g_dbus_server_start.invokeExact(handle());
+            DowncallHandles.g_dbus_server_start.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -179,7 +200,8 @@ public class DBusServer extends org.gtk.gobject.Object implements org.gtk.gio.In
      */
     public void stop() {
         try {
-            DowncallHandles.g_dbus_server_stop.invokeExact(handle());
+            DowncallHandles.g_dbus_server_stop.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -168,21 +168,34 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkConstraintLayout";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public ConstraintLayout(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ConstraintLayout */
+    /**
+     * Cast object to ConstraintLayout if its GType is a (or inherits from) "GtkConstraintLayout".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ConstraintLayout" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkConstraintLayout", a ClassCastException will be thrown.
+     */
     public static ConstraintLayout castFrom(org.gtk.gobject.Object gobject) {
-        return new ConstraintLayout(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkConstraintLayout"))) {
+            return new ConstraintLayout(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkConstraintLayout");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -222,7 +235,9 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
     public void addConstraint(@NotNull org.gtk.gtk.Constraint constraint) {
         java.util.Objects.requireNonNull(constraint, "Parameter 'constraint' must not be null");
         try {
-            DowncallHandles.gtk_constraint_layout_add_constraint.invokeExact(handle(), constraint.refcounted().unowned().handle());
+            DowncallHandles.gtk_constraint_layout_add_constraint.invokeExact(
+                    handle(),
+                    constraint.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -344,7 +359,13 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_layout_add_constraints_from_descriptionv.invokeExact(handle(), Interop.allocateNativeArray(lines, false), nLines, hspacing, vspacing, views.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_layout_add_constraints_from_descriptionv.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(lines, false),
+                    nLines,
+                    hspacing,
+                    vspacing,
+                    views.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -367,7 +388,9 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
     public void addGuide(@NotNull org.gtk.gtk.ConstraintGuide guide) {
         java.util.Objects.requireNonNull(guide, "Parameter 'guide' must not be null");
         try {
-            DowncallHandles.gtk_constraint_layout_add_guide.invokeExact(handle(), guide.refcounted().unowned().handle());
+            DowncallHandles.gtk_constraint_layout_add_guide.invokeExact(
+                    handle(),
+                    guide.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -389,7 +412,8 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
     public @NotNull org.gtk.gio.ListModel observeConstraints() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_layout_observe_constraints.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_layout_observe_constraints.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -412,7 +436,8 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
     public @NotNull org.gtk.gio.ListModel observeGuides() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_layout_observe_guides.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_layout_observe_guides.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -424,7 +449,8 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
      */
     public void removeAllConstraints() {
         try {
-            DowncallHandles.gtk_constraint_layout_remove_all_constraints.invokeExact(handle());
+            DowncallHandles.gtk_constraint_layout_remove_all_constraints.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -438,7 +464,9 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
     public void removeConstraint(@NotNull org.gtk.gtk.Constraint constraint) {
         java.util.Objects.requireNonNull(constraint, "Parameter 'constraint' must not be null");
         try {
-            DowncallHandles.gtk_constraint_layout_remove_constraint.invokeExact(handle(), constraint.handle());
+            DowncallHandles.gtk_constraint_layout_remove_constraint.invokeExact(
+                    handle(),
+                    constraint.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -452,7 +480,9 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
     public void removeGuide(@NotNull org.gtk.gtk.ConstraintGuide guide) {
         java.util.Objects.requireNonNull(guide, "Parameter 'guide' must not be null");
         try {
-            DowncallHandles.gtk_constraint_layout_remove_guide.invokeExact(handle(), guide.handle());
+            DowncallHandles.gtk_constraint_layout_remove_guide.invokeExact(
+                    handle(),
+                    guide.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -29,26 +29,48 @@ public class WindowGroup extends org.gtk.gobject.Object {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkWindowGroup";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gtk.WindowGroupPrivate.getMemoryLayout().withName("priv")
-    ).withName("GtkWindowGroup");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.Object parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public WindowGroup(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to WindowGroup */
+    /**
+     * Cast object to WindowGroup if its GType is a (or inherits from) "GtkWindowGroup".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "WindowGroup" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkWindowGroup", a ClassCastException will be thrown.
+     */
     public static WindowGroup castFrom(org.gtk.gobject.Object gobject) {
-        return new WindowGroup(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkWindowGroup"))) {
+            return new WindowGroup(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkWindowGroup");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -78,7 +100,9 @@ public class WindowGroup extends org.gtk.gobject.Object {
     public void addWindow(@NotNull org.gtk.gtk.Window window) {
         java.util.Objects.requireNonNull(window, "Parameter 'window' must not be null");
         try {
-            DowncallHandles.gtk_window_group_add_window.invokeExact(handle(), window.handle());
+            DowncallHandles.gtk_window_group_add_window.invokeExact(
+                    handle(),
+                    window.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,7 +116,8 @@ public class WindowGroup extends org.gtk.gobject.Object {
     public @NotNull org.gtk.glib.List listWindows() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_window_group_list_windows.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_window_group_list_windows.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,7 +131,9 @@ public class WindowGroup extends org.gtk.gobject.Object {
     public void removeWindow(@NotNull org.gtk.gtk.Window window) {
         java.util.Objects.requireNonNull(window, "Parameter 'window' must not be null");
         try {
-            DowncallHandles.gtk_window_group_remove_window.invokeExact(handle(), window.handle());
+            DowncallHandles.gtk_window_group_remove_window.invokeExact(
+                    handle(),
+                    window.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

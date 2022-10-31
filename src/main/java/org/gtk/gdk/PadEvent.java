@@ -14,21 +14,34 @@ public class PadEvent extends org.gtk.gdk.Event {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkPadEvent";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public PadEvent(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to PadEvent */
+    /**
+     * Cast object to PadEvent if its GType is a (or inherits from) "GdkPadEvent".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "PadEvent" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkPadEvent", a ClassCastException will be thrown.
+     */
     public static PadEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new PadEvent(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkPadEvent"))) {
+            return new PadEvent(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkPadEvent");
+        }
     }
     
     /**
@@ -42,7 +55,10 @@ public class PadEvent extends org.gtk.gdk.Event {
         MemorySegment indexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         try {
-            DowncallHandles.gdk_pad_event_get_axis_value.invokeExact(handle(), (Addressable) indexPOINTER.address(), (Addressable) valuePOINTER.address());
+            DowncallHandles.gdk_pad_event_get_axis_value.invokeExact(
+                    handle(),
+                    (Addressable) indexPOINTER.address(),
+                    (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -58,7 +74,8 @@ public class PadEvent extends org.gtk.gdk.Event {
     public int getButton() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pad_event_get_button.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_pad_event_get_button.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,7 +93,10 @@ public class PadEvent extends org.gtk.gdk.Event {
         MemorySegment groupPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment modePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            DowncallHandles.gdk_pad_event_get_group_mode.invokeExact(handle(), (Addressable) groupPOINTER.address(), (Addressable) modePOINTER.address());
+            DowncallHandles.gdk_pad_event_get_group_mode.invokeExact(
+                    handle(),
+                    (Addressable) groupPOINTER.address(),
+                    (Addressable) modePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

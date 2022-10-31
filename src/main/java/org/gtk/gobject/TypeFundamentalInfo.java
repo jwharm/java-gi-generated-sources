@@ -15,18 +15,51 @@ public class TypeFundamentalInfo extends io.github.jwharm.javagi.ResourceBase {
         GObject.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GTypeFundamentalInfo";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.TypeFundamentalFlags.getMemoryLayout().withName("type_flags")
-    ).withName("GTypeFundamentalInfo");
+        Interop.valueLayout.C_INT.withName("type_flags")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    private MemorySegment allocatedMemorySegment;
+    
+    public static TypeFundamentalInfo allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        TypeFundamentalInfo newInstance = new TypeFundamentalInfo(Refcounted.get(segment.address()));
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code type_flags}
+     * @return The value of the field {@code type_flags}
+     */
+    public org.gtk.gobject.TypeFundamentalFlags type_flags$get() {
+        var RESULT = (int) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("type_flags"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gtk.gobject.TypeFundamentalFlags(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code type_flags}
+     * @param type_flags The new value of the field {@code type_flags}
+     */
+    public void type_flags$set(org.gtk.gobject.TypeFundamentalFlags type_flags) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("type_flags"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type_flags.getValue());
+    }
+    
+    @ApiStatus.Internal
     public TypeFundamentalInfo(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }

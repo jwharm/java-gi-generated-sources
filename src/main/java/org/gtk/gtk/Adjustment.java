@@ -24,31 +24,59 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkAdjustment";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.InitiallyUnowned.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkAdjustment");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gobject.InitiallyUnowned parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gobject.InitiallyUnowned(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public Adjustment(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Adjustment */
+    /**
+     * Cast object to Adjustment if its GType is a (or inherits from) "GtkAdjustment".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Adjustment" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkAdjustment", a ClassCastException will be thrown.
+     */
     public static Adjustment castFrom(org.gtk.gobject.Object gobject) {
-        return new Adjustment(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkAdjustment"))) {
+            return new Adjustment(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkAdjustment");
+        }
     }
     
     private static Refcounted constructNew(double value, double lower, double upper, double stepIncrement, double pageIncrement, double pageSize) {
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_adjustment_new.invokeExact(value, lower, upper, stepIncrement, pageIncrement, pageSize), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_adjustment_new.invokeExact(
+                    value,
+                    lower,
+                    upper,
+                    stepIncrement,
+                    pageIncrement,
+                    pageSize), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,7 +111,10 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      */
     public void clampPage(double lower, double upper) {
         try {
-            DowncallHandles.gtk_adjustment_clamp_page.invokeExact(handle(), lower, upper);
+            DowncallHandles.gtk_adjustment_clamp_page.invokeExact(
+                    handle(),
+                    lower,
+                    upper);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,7 +137,14 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      */
     public void configure(double value, double lower, double upper, double stepIncrement, double pageIncrement, double pageSize) {
         try {
-            DowncallHandles.gtk_adjustment_configure.invokeExact(handle(), value, lower, upper, stepIncrement, pageIncrement, pageSize);
+            DowncallHandles.gtk_adjustment_configure.invokeExact(
+                    handle(),
+                    value,
+                    lower,
+                    upper,
+                    stepIncrement,
+                    pageIncrement,
+                    pageSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,7 +157,8 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     public double getLower() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_adjustment_get_lower.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_adjustment_get_lower.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -133,7 +172,8 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     public double getMinimumIncrement() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_adjustment_get_minimum_increment.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_adjustment_get_minimum_increment.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -147,7 +187,8 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     public double getPageIncrement() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_adjustment_get_page_increment.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_adjustment_get_page_increment.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,7 +202,8 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     public double getPageSize() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_adjustment_get_page_size.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_adjustment_get_page_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,7 +217,8 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     public double getStepIncrement() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_adjustment_get_step_increment.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_adjustment_get_step_increment.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -189,7 +232,8 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     public double getUpper() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_adjustment_get_upper.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_adjustment_get_upper.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -203,7 +247,8 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     public double getValue() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_adjustment_get_value.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_adjustment_get_value.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -228,7 +273,9 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      */
     public void setLower(double lower) {
         try {
-            DowncallHandles.gtk_adjustment_set_lower.invokeExact(handle(), lower);
+            DowncallHandles.gtk_adjustment_set_lower.invokeExact(
+                    handle(),
+                    lower);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -244,7 +291,9 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      */
     public void setPageIncrement(double pageIncrement) {
         try {
-            DowncallHandles.gtk_adjustment_set_page_increment.invokeExact(handle(), pageIncrement);
+            DowncallHandles.gtk_adjustment_set_page_increment.invokeExact(
+                    handle(),
+                    pageIncrement);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -260,7 +309,9 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      */
     public void setPageSize(double pageSize) {
         try {
-            DowncallHandles.gtk_adjustment_set_page_size.invokeExact(handle(), pageSize);
+            DowncallHandles.gtk_adjustment_set_page_size.invokeExact(
+                    handle(),
+                    pageSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -276,7 +327,9 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      */
     public void setStepIncrement(double stepIncrement) {
         try {
-            DowncallHandles.gtk_adjustment_set_step_increment.invokeExact(handle(), stepIncrement);
+            DowncallHandles.gtk_adjustment_set_step_increment.invokeExact(
+                    handle(),
+                    stepIncrement);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -295,7 +348,9 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      */
     public void setUpper(double upper) {
         try {
-            DowncallHandles.gtk_adjustment_set_upper.invokeExact(handle(), upper);
+            DowncallHandles.gtk_adjustment_set_upper.invokeExact(
+                    handle(),
+                    upper);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -315,7 +370,9 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      */
     public void setValue(double value) {
         try {
-            DowncallHandles.gtk_adjustment_set_value.invokeExact(handle(), value);
+            DowncallHandles.gtk_adjustment_set_value.invokeExact(
+                    handle(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

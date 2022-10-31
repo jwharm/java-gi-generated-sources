@@ -18,28 +18,42 @@ public class FontsetSimple extends org.pango.Fontset {
         Pango.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "PangoFontsetSimple";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public FontsetSimple(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to FontsetSimple */
+    /**
+     * Cast object to FontsetSimple if its GType is a (or inherits from) "PangoFontsetSimple".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "FontsetSimple" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "PangoFontsetSimple", a ClassCastException will be thrown.
+     */
     public static FontsetSimple castFrom(org.gtk.gobject.Object gobject) {
-        return new FontsetSimple(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoFontsetSimple"))) {
+            return new FontsetSimple(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of PangoFontsetSimple");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.pango.Language language) {
         java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.pango_fontset_simple_new.invokeExact(language.handle()), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.pango_fontset_simple_new.invokeExact(
+                    language.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -63,7 +77,9 @@ public class FontsetSimple extends org.pango.Fontset {
     public void append(@NotNull org.pango.Font font) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            DowncallHandles.pango_fontset_simple_append.invokeExact(handle(), font.refcounted().unowned().handle());
+            DowncallHandles.pango_fontset_simple_append.invokeExact(
+                    handle(),
+                    font.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,7 +92,8 @@ public class FontsetSimple extends org.pango.Fontset {
     public int size() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_fontset_simple_size.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_fontset_simple_size.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

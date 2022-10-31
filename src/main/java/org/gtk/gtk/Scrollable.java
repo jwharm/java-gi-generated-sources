@@ -41,6 +41,21 @@ import org.jetbrains.annotations.*;
 public interface Scrollable extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to Scrollable if its GType is a (or inherits from) "GtkScrollable".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Scrollable" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkScrollable", a ClassCastException will be thrown.
+     */
+    public static Scrollable castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkScrollable"))) {
+            return new ScrollableImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkScrollable");
+        }
+    }
+    
+    /**
      * Returns the size of a non-scrolling border around the
      * outside of the scrollable.
      * <p>
@@ -50,16 +65,16 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
      * @param border return location for the results
      * @return {@code true} if {@code border} has been set
      */
-    default boolean getBorder(@NotNull Out<org.gtk.gtk.Border> border) {
+    default boolean getBorder(@NotNull org.gtk.gtk.Border border) {
         java.util.Objects.requireNonNull(border, "Parameter 'border' must not be null");
-        MemorySegment borderPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_scrollable_get_border.invokeExact(handle(), (Addressable) borderPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_scrollable_get_border.invokeExact(
+                    handle(),
+                    border.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        border.set(new org.gtk.gtk.Border(Refcounted.get(borderPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
     
@@ -70,7 +85,8 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gtk.Adjustment getHadjustment() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_scrollable_get_hadjustment.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scrollable_get_hadjustment.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,7 +100,8 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.gtk.ScrollablePolicy getHscrollPolicy() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_scrollable_get_hscroll_policy.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrollable_get_hscroll_policy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -98,7 +115,8 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gtk.Adjustment getVadjustment() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_scrollable_get_vadjustment.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scrollable_get_vadjustment.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,7 +130,8 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.gtk.ScrollablePolicy getVscrollPolicy() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_scrollable_get_vscroll_policy.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrollable_get_vscroll_policy.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,9 +143,10 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
      * @param hadjustment a {@code GtkAdjustment}
      */
     default void setHadjustment(@Nullable org.gtk.gtk.Adjustment hadjustment) {
-        java.util.Objects.requireNonNullElse(hadjustment, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_scrollable_set_hadjustment.invokeExact(handle(), hadjustment.handle());
+            DowncallHandles.gtk_scrollable_set_hadjustment.invokeExact(
+                    handle(),
+                    (Addressable) (hadjustment == null ? MemoryAddress.NULL : hadjustment.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,7 +162,9 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
     default void setHscrollPolicy(@NotNull org.gtk.gtk.ScrollablePolicy policy) {
         java.util.Objects.requireNonNull(policy, "Parameter 'policy' must not be null");
         try {
-            DowncallHandles.gtk_scrollable_set_hscroll_policy.invokeExact(handle(), policy.getValue());
+            DowncallHandles.gtk_scrollable_set_hscroll_policy.invokeExact(
+                    handle(),
+                    policy.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,9 +175,10 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
      * @param vadjustment a {@code GtkAdjustment}
      */
     default void setVadjustment(@Nullable org.gtk.gtk.Adjustment vadjustment) {
-        java.util.Objects.requireNonNullElse(vadjustment, MemoryAddress.NULL);
         try {
-            DowncallHandles.gtk_scrollable_set_vadjustment.invokeExact(handle(), vadjustment.handle());
+            DowncallHandles.gtk_scrollable_set_vadjustment.invokeExact(
+                    handle(),
+                    (Addressable) (vadjustment == null ? MemoryAddress.NULL : vadjustment.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,7 +194,9 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
     default void setVscrollPolicy(@NotNull org.gtk.gtk.ScrollablePolicy policy) {
         java.util.Objects.requireNonNull(policy, "Parameter 'policy' must not be null");
         try {
-            DowncallHandles.gtk_scrollable_set_vscroll_policy.invokeExact(handle(), policy.getValue());
+            DowncallHandles.gtk_scrollable_set_vscroll_policy.invokeExact(
+                    handle(),
+                    policy.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

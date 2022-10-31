@@ -22,25 +22,38 @@ public class ProxyAddressEnumerator extends org.gtk.gio.SocketAddressEnumerator 
         Gio.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GProxyAddressEnumerator";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.SocketAddressEnumerator.getMemoryLayout().withName("parent_instance"),
-        org.gtk.gio.ProxyAddressEnumeratorPrivate.getMemoryLayout().withName("priv")
-    ).withName("GProxyAddressEnumerator");
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    @ApiStatus.Internal
     public ProxyAddressEnumerator(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ProxyAddressEnumerator */
+    /**
+     * Cast object to ProxyAddressEnumerator if its GType is a (or inherits from) "GProxyAddressEnumerator".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ProxyAddressEnumerator" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GProxyAddressEnumerator", a ClassCastException will be thrown.
+     */
     public static ProxyAddressEnumerator castFrom(org.gtk.gobject.Object gobject) {
-        return new ProxyAddressEnumerator(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GProxyAddressEnumerator"))) {
+            return new ProxyAddressEnumerator(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GProxyAddressEnumerator");
+        }
     }
 }

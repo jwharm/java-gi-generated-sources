@@ -30,21 +30,34 @@ public class TimedAnimation extends org.gnome.adw.Animation {
         Adw.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "AdwTimedAnimation";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public TimedAnimation(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to TimedAnimation */
+    /**
+     * Cast object to TimedAnimation if its GType is a (or inherits from) "AdwTimedAnimation".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TimedAnimation" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "AdwTimedAnimation", a ClassCastException will be thrown.
+     */
     public static TimedAnimation castFrom(org.gtk.gobject.Object gobject) {
-        return new TimedAnimation(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwTimedAnimation"))) {
+            return new TimedAnimation(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwTimedAnimation");
+        }
     }
     
     private static Refcounted constructNew(@NotNull org.gtk.gtk.Widget widget, double from, double to, int duration, @NotNull org.gnome.adw.AnimationTarget target) {
@@ -52,7 +65,12 @@ public class TimedAnimation extends org.gnome.adw.Animation {
         java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_timed_animation_new.invokeExact(widget.handle(), from, to, duration, target.refcounted().unowned().handle()), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_timed_animation_new.invokeExact(
+                    widget.handle(),
+                    from,
+                    to,
+                    duration,
+                    target.refcounted().unowned().handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,7 +97,8 @@ public class TimedAnimation extends org.gnome.adw.Animation {
     public boolean getAlternate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_timed_animation_get_alternate.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_timed_animation_get_alternate.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,7 +112,8 @@ public class TimedAnimation extends org.gnome.adw.Animation {
     public int getDuration() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_timed_animation_get_duration.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_timed_animation_get_duration.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,7 +127,8 @@ public class TimedAnimation extends org.gnome.adw.Animation {
     public @NotNull org.gnome.adw.Easing getEasing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_timed_animation_get_easing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_timed_animation_get_easing.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,7 +142,8 @@ public class TimedAnimation extends org.gnome.adw.Animation {
     public int getRepeatCount() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_timed_animation_get_repeat_count.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_timed_animation_get_repeat_count.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,7 +157,8 @@ public class TimedAnimation extends org.gnome.adw.Animation {
     public boolean getReverse() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_timed_animation_get_reverse.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_timed_animation_get_reverse.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,7 +172,8 @@ public class TimedAnimation extends org.gnome.adw.Animation {
     public double getValueFrom() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_timed_animation_get_value_from.invokeExact(handle());
+            RESULT = (double) DowncallHandles.adw_timed_animation_get_value_from.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -163,7 +187,8 @@ public class TimedAnimation extends org.gnome.adw.Animation {
     public double getValueTo() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_timed_animation_get_value_to.invokeExact(handle());
+            RESULT = (double) DowncallHandles.adw_timed_animation_get_value_to.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -176,7 +201,9 @@ public class TimedAnimation extends org.gnome.adw.Animation {
      */
     public void setAlternate(boolean alternate) {
         try {
-            DowncallHandles.adw_timed_animation_set_alternate.invokeExact(handle(), alternate ? 1 : 0);
+            DowncallHandles.adw_timed_animation_set_alternate.invokeExact(
+                    handle(),
+                    alternate ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -190,7 +217,9 @@ public class TimedAnimation extends org.gnome.adw.Animation {
      */
     public void setDuration(int duration) {
         try {
-            DowncallHandles.adw_timed_animation_set_duration.invokeExact(handle(), duration);
+            DowncallHandles.adw_timed_animation_set_duration.invokeExact(
+                    handle(),
+                    duration);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,7 +234,9 @@ public class TimedAnimation extends org.gnome.adw.Animation {
     public void setEasing(@NotNull org.gnome.adw.Easing easing) {
         java.util.Objects.requireNonNull(easing, "Parameter 'easing' must not be null");
         try {
-            DowncallHandles.adw_timed_animation_set_easing.invokeExact(handle(), easing.getValue());
+            DowncallHandles.adw_timed_animation_set_easing.invokeExact(
+                    handle(),
+                    easing.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,7 +250,9 @@ public class TimedAnimation extends org.gnome.adw.Animation {
      */
     public void setRepeatCount(int repeatCount) {
         try {
-            DowncallHandles.adw_timed_animation_set_repeat_count.invokeExact(handle(), repeatCount);
+            DowncallHandles.adw_timed_animation_set_repeat_count.invokeExact(
+                    handle(),
+                    repeatCount);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -231,7 +264,9 @@ public class TimedAnimation extends org.gnome.adw.Animation {
      */
     public void setReverse(boolean reverse) {
         try {
-            DowncallHandles.adw_timed_animation_set_reverse.invokeExact(handle(), reverse ? 1 : 0);
+            DowncallHandles.adw_timed_animation_set_reverse.invokeExact(
+                    handle(),
+                    reverse ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -239,11 +274,19 @@ public class TimedAnimation extends org.gnome.adw.Animation {
     
     /**
      * Sets the value {@code self} will animate from.
+     * <p>
+     * The animation will start at this value and end at
+     * {@code TimedAnimation:value-to}.
+     * <p>
+     * If {@code TimedAnimation:reverse} is {@code TRUE}, the animation will end at
+     * this value instead.
      * @param value the value to animate from
      */
     public void setValueFrom(double value) {
         try {
-            DowncallHandles.adw_timed_animation_set_value_from.invokeExact(handle(), value);
+            DowncallHandles.adw_timed_animation_set_value_from.invokeExact(
+                    handle(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -251,11 +294,19 @@ public class TimedAnimation extends org.gnome.adw.Animation {
     
     /**
      * Sets the value {@code self} will animate to.
+     * <p>
+     * The animation will start at {@code TimedAnimation:value-from} and end at
+     * this value.
+     * <p>
+     * If {@code TimedAnimation:reverse} is {@code TRUE}, the animation will start
+     * at this value instead.
      * @param value the value to animate to
      */
     public void setValueTo(double value) {
         try {
-            DowncallHandles.adw_timed_animation_set_value_to.invokeExact(handle(), value);
+            DowncallHandles.adw_timed_animation_set_value_to.invokeExact(
+                    handle(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

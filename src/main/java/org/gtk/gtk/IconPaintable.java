@@ -16,28 +16,44 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkIconPaintable";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public IconPaintable(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to IconPaintable */
+    /**
+     * Cast object to IconPaintable if its GType is a (or inherits from) "GtkIconPaintable".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "IconPaintable" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkIconPaintable", a ClassCastException will be thrown.
+     */
     public static IconPaintable castFrom(org.gtk.gobject.Object gobject) {
-        return new IconPaintable(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkIconPaintable"))) {
+            return new IconPaintable(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkIconPaintable");
+        }
     }
     
     private static Refcounted constructNewForFile(@NotNull org.gtk.gio.File file, int size, int scale) {
         java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_icon_paintable_new_for_file.invokeExact(file.handle(), size, scale), true);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_icon_paintable_new_for_file.invokeExact(
+                    file.handle(),
+                    size,
+                    scale), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,7 +83,8 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
     public @Nullable org.gtk.gio.File getFile() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_paintable_get_file.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_paintable_get_file.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,11 +107,12 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_paintable_get_icon_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_paintable_get_icon_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -110,7 +128,8 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
     public boolean isSymbolic() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_paintable_is_symbolic.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_icon_paintable_is_symbolic.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

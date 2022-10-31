@@ -18,21 +18,34 @@ public class Device extends org.gtk.gobject.Object {
         Gdk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GdkDevice";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Device(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Device */
+    /**
+     * Cast object to Device if its GType is a (or inherits from) "GdkDevice".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Device" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GdkDevice", a ClassCastException will be thrown.
+     */
     public static Device castFrom(org.gtk.gobject.Object gobject) {
-        return new Device(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkDevice"))) {
+            return new Device(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkDevice");
+        }
     }
     
     /**
@@ -44,7 +57,8 @@ public class Device extends org.gtk.gobject.Object {
     public boolean getCapsLockState() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_get_caps_lock_state.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_device_get_caps_lock_state.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -58,7 +72,8 @@ public class Device extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gdk.DeviceTool getDeviceTool() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_device_tool.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_device_tool.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,7 +94,8 @@ public class Device extends org.gtk.gobject.Object {
     public @NotNull org.pango.Direction getDirection() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_get_direction.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_device_get_direction.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,7 +109,8 @@ public class Device extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_display.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_display.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,7 +127,8 @@ public class Device extends org.gtk.gobject.Object {
     public boolean getHasCursor() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_get_has_cursor.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_device_get_has_cursor.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,7 +144,8 @@ public class Device extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.ModifierType getModifierState() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_get_modifier_state.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_device_get_modifier_state.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,11 +159,12 @@ public class Device extends org.gtk.gobject.Object {
     public @NotNull java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_name.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -156,7 +176,8 @@ public class Device extends org.gtk.gobject.Object {
     public boolean getNumLockState() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_get_num_lock_state.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_device_get_num_lock_state.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,7 +191,8 @@ public class Device extends org.gtk.gobject.Object {
     public int getNumTouches() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_get_num_touches.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_device_get_num_touches.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,11 +209,12 @@ public class Device extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getProductId() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_product_id.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_product_id.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -203,7 +226,8 @@ public class Device extends org.gtk.gobject.Object {
     public boolean getScrollLockState() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_get_scroll_lock_state.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_device_get_scroll_lock_state.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -217,7 +241,8 @@ public class Device extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.Seat getSeat() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_seat.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_seat.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -231,7 +256,8 @@ public class Device extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gdk.InputSource getSource() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_get_source.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_device_get_source.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -258,7 +284,10 @@ public class Device extends org.gtk.gobject.Object {
         MemorySegment winYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_surface_at_position.invokeExact(handle(), (Addressable) winXPOINTER.address(), (Addressable) winYPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_surface_at_position.invokeExact(
+                    handle(),
+                    (Addressable) winXPOINTER.address(),
+                    (Addressable) winYPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -279,7 +308,8 @@ public class Device extends org.gtk.gobject.Object {
     public int getTimestamp() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_get_timestamp.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_device_get_timestamp.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -318,11 +348,12 @@ public class Device extends org.gtk.gobject.Object {
     public @Nullable java.lang.String getVendorId() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_vendor_id.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_vendor_id.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -335,7 +366,8 @@ public class Device extends org.gtk.gobject.Object {
     public boolean hasBidiLayouts() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_has_bidi_layouts.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_device_has_bidi_layouts.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

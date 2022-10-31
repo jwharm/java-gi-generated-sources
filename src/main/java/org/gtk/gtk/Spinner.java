@@ -27,21 +27,34 @@ public class Spinner extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkSpinner";
+    
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
      */
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    @ApiStatus.Internal
     public Spinner(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to Spinner */
+    /**
+     * Cast object to Spinner if its GType is a (or inherits from) "GtkSpinner".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "Spinner" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkSpinner", a ClassCastException will be thrown.
+     */
     public static Spinner castFrom(org.gtk.gobject.Object gobject) {
-        return new Spinner(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSpinner"))) {
+            return new Spinner(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkSpinner");
+        }
     }
     
     private static Refcounted constructNew() {
@@ -68,7 +81,8 @@ public class Spinner extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public boolean getSpinning() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_spinner_get_spinning.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_spinner_get_spinning.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -81,7 +95,9 @@ public class Spinner extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void setSpinning(boolean spinning) {
         try {
-            DowncallHandles.gtk_spinner_set_spinning.invokeExact(handle(), spinning ? 1 : 0);
+            DowncallHandles.gtk_spinner_set_spinning.invokeExact(
+                    handle(),
+                    spinning ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,7 +108,8 @@ public class Spinner extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void start() {
         try {
-            DowncallHandles.gtk_spinner_start.invokeExact(handle());
+            DowncallHandles.gtk_spinner_start.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,7 +120,8 @@ public class Spinner extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void stop() {
         try {
-            DowncallHandles.gtk_spinner_stop.invokeExact(handle());
+            DowncallHandles.gtk_spinner_stop.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

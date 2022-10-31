@@ -11,13 +11,7 @@ import org.jetbrains.annotations.*;
  */
 public class OtVarAxisFlagsT extends io.github.jwharm.javagi.Bitfield {
     
-    /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
-     */
-    public static MemoryLayout getMemoryLayout() {
-        return Interop.valueLayout.ADDRESS;
-    }
+    private static final java.lang.String C_TYPE_NAME = "hb_ot_var_axis_flags_t";
     
     /**
      * The axis should not be exposed directly in user interfaces.

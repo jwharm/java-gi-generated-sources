@@ -14,6 +14,21 @@ import org.jetbrains.annotations.*;
 public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to DBusInterface if its GType is a (or inherits from) "GDBusInterface".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "DBusInterface" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GDBusInterface", a ClassCastException will be thrown.
+     */
+    public static DBusInterface castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusInterface"))) {
+            return new DBusInterfaceImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDBusInterface");
+        }
+    }
+    
+    /**
      * Gets the {@link DBusObject} that {@code interface_} belongs to, if any.
      * @return A {@link DBusObject} or {@code null}. The returned
      * reference should be freed with g_object_unref().
@@ -21,7 +36,8 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gio.DBusObject dupObject() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_dup_object.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_dup_object.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -36,7 +52,8 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.gio.DBusInterfaceInfo getInfo() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_get_info.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_get_info.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -55,7 +72,8 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gio.DBusObject getObject() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_get_object.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_get_object.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,9 +87,10 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
      * @param object A {@link DBusObject} or {@code null}.
      */
     default void setObject(@Nullable org.gtk.gio.DBusObject object) {
-        java.util.Objects.requireNonNullElse(object, MemoryAddress.NULL);
         try {
-            DowncallHandles.g_dbus_interface_set_object.invokeExact(handle(), object.handle());
+            DowncallHandles.g_dbus_interface_set_object.invokeExact(
+                    handle(),
+                    (Addressable) (object == null ? MemoryAddress.NULL : object.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

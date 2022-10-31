@@ -58,6 +58,21 @@ import org.jetbrains.annotations.*;
 public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
     
     /**
+     * Cast object to TypePlugin if its GType is a (or inherits from) "GTypePlugin".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "TypePlugin" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GTypePlugin", a ClassCastException will be thrown.
+     */
+    public static TypePlugin castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTypePlugin"))) {
+            return new TypePluginImpl(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GTypePlugin");
+        }
+    }
+    
+    /**
      * Calls the {@code complete_interface_info} function from the
      * {@link TypePluginClass} of {@code plugin}. There should be no need to use this
      * function outside of the GObject type system itself.
@@ -71,7 +86,11 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(interfaceType, "Parameter 'interfaceType' must not be null");
         java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
         try {
-            DowncallHandles.g_type_plugin_complete_interface_info.invokeExact(handle(), instanceType.getValue(), interfaceType.getValue(), info.handle());
+            DowncallHandles.g_type_plugin_complete_interface_info.invokeExact(
+                    handle(),
+                    instanceType.getValue().longValue(),
+                    interfaceType.getValue().longValue(),
+                    info.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +109,11 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
         java.util.Objects.requireNonNull(valueTable, "Parameter 'valueTable' must not be null");
         try {
-            DowncallHandles.g_type_plugin_complete_type_info.invokeExact(handle(), gType.getValue(), info.handle(), valueTable.handle());
+            DowncallHandles.g_type_plugin_complete_type_info.invokeExact(
+                    handle(),
+                    gType.getValue().longValue(),
+                    info.handle(),
+                    valueTable.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,7 +126,8 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
      */
     default void unuse() {
         try {
-            DowncallHandles.g_type_plugin_unuse.invokeExact(handle());
+            DowncallHandles.g_type_plugin_unuse.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,7 +140,8 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
      */
     default void use() {
         try {
-            DowncallHandles.g_type_plugin_use.invokeExact(handle());
+            DowncallHandles.g_type_plugin_use.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -22,32 +22,57 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         Gtk.javagi$ensureInitialized();
     }
     
+    private static final java.lang.String C_TYPE_NAME = "GtkScaleButton";
+    
     private static GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName("GtkScaleButton");
+    ).withName(C_TYPE_NAME);
     
     /**
-     * Memory layout of the native struct is unknown (no fields in the GIR file).
-     * @return always {code Interop.valueLayout.ADDRESS}
+     * The memory layout of the native struct.
+     * @return the memory layout
      */
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Get the value of the field {@code parent_instance}
+     * @return The value of the field {@code parent_instance}
+     */
+    public org.gtk.gtk.Widget parent_instance$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
+        return new org.gtk.gtk.Widget(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+    }
+    
+    @ApiStatus.Internal
     public ScaleButton(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    /** Cast object to ScaleButton */
+    /**
+     * Cast object to ScaleButton if its GType is a (or inherits from) "GtkScaleButton".
+     * @param  gobject            An object that inherits from GObject
+     * @return                    An instance of "ScaleButton" that points to the memory address of the provided GObject.
+     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
+     * @throws ClassCastException If the GType is not derived from "GtkScaleButton", a ClassCastException will be thrown.
+     */
     public static ScaleButton castFrom(org.gtk.gobject.Object gobject) {
-        return new ScaleButton(gobject.refcounted());
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkScaleButton"))) {
+            return new ScaleButton(gobject.refcounted());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkScaleButton");
+        }
     }
     
     private static Refcounted constructNew(double min, double max, double step, java.lang.String[] icons) {
-        java.util.Objects.requireNonNullElse(icons, MemoryAddress.NULL);
         Refcounted RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_scale_button_new.invokeExact(min, max, step, Interop.allocateNativeArray(icons, false)), false);
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_scale_button_new.invokeExact(
+                    min,
+                    max,
+                    step,
+                    (Addressable) (icons == null ? MemoryAddress.NULL : Interop.allocateNativeArray(icons, false))), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +105,8 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public @NotNull org.gtk.gtk.Adjustment getAdjustment() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_scale_button_get_adjustment.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scale_button_get_adjustment.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,7 +121,8 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public @NotNull org.gtk.gtk.Button getMinusButton() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_scale_button_get_minus_button.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scale_button_get_minus_button.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,7 +137,8 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public @NotNull org.gtk.gtk.Button getPlusButton() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_scale_button_get_plus_button.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scale_button_get_plus_button.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,7 +152,8 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public @NotNull org.gtk.gtk.Widget getPopup() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_scale_button_get_popup.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scale_button_get_popup.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,7 +167,8 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public double getValue() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_scale_button_get_value.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_scale_button_get_value.invokeExact(
+                    handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,7 +185,9 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public void setAdjustment(@NotNull org.gtk.gtk.Adjustment adjustment) {
         java.util.Objects.requireNonNull(adjustment, "Parameter 'adjustment' must not be null");
         try {
-            DowncallHandles.gtk_scale_button_set_adjustment.invokeExact(handle(), adjustment.handle());
+            DowncallHandles.gtk_scale_button_set_adjustment.invokeExact(
+                    handle(),
+                    adjustment.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -168,7 +200,9 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public void setIcons(java.lang.String[] icons) {
         java.util.Objects.requireNonNull(icons, "Parameter 'icons' must not be null");
         try {
-            DowncallHandles.gtk_scale_button_set_icons.invokeExact(handle(), Interop.allocateNativeArray(icons, false));
+            DowncallHandles.gtk_scale_button_set_icons.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(icons, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -186,7 +220,9 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public void setValue(double value) {
         try {
-            DowncallHandles.gtk_scale_button_set_value.invokeExact(handle(), value);
+            DowncallHandles.gtk_scale_button_set_value.invokeExact(
+                    handle(),
+                    value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
