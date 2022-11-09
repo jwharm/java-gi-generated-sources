@@ -21,7 +21,7 @@ public interface DtlsServerConnection extends io.github.jwharm.javagi.Proxy {
      */
     public static DtlsServerConnection castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDtlsServerConnection"))) {
-            return new DtlsServerConnectionImpl(gobject.refcounted());
+            return new DtlsServerConnectionImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDtlsServerConnection");
         }
@@ -42,14 +42,15 @@ public interface DtlsServerConnection extends io.github.jwharm.javagi.Proxy {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dtls_server_connection_new.invokeExact(
                     baseSocket.handle(),
-                    (Addressable) (certificate == null ? MemoryAddress.NULL : certificate.handle()), (Addressable) GERROR);
+                    (Addressable) (certificate == null ? MemoryAddress.NULL : certificate.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.DtlsServerConnection.DtlsServerConnectionImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.DtlsServerConnection.DtlsServerConnectionImpl(RESULT, Ownership.FULL);
     }
     
     @ApiStatus.Internal
@@ -58,7 +59,8 @@ public interface DtlsServerConnection extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_dtls_server_connection_new = Interop.downcallHandle(
             "g_dtls_server_connection_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -68,8 +70,8 @@ public interface DtlsServerConnection extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public DtlsServerConnectionImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public DtlsServerConnectionImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

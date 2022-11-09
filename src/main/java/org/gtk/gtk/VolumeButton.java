@@ -27,6 +27,7 @@ public class VolumeButton extends org.gtk.gtk.ScaleButton implements org.gtk.gtk
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -37,12 +38,17 @@ public class VolumeButton extends org.gtk.gtk.ScaleButton implements org.gtk.gtk
      */
     public org.gtk.gtk.ScaleButton parent$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return new org.gtk.gtk.ScaleButton(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.ScaleButton(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a VolumeButton proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public VolumeButton(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public VolumeButton(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -54,16 +60,16 @@ public class VolumeButton extends org.gtk.gtk.ScaleButton implements org.gtk.gtk
      */
     public static VolumeButton castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkVolumeButton"))) {
-            return new VolumeButton(gobject.refcounted());
+            return new VolumeButton(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkVolumeButton");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_volume_button_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_volume_button_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -78,14 +84,15 @@ public class VolumeButton extends org.gtk.gtk.ScaleButton implements org.gtk.gtk
      * {@link ScaleButton}.
      */
     public VolumeButton() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_volume_button_new = Interop.downcallHandle(
             "gtk_volume_button_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

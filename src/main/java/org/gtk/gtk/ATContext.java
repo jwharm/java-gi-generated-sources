@@ -25,13 +25,19 @@ public class ATContext extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ATContext proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ATContext(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ATContext(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -43,22 +49,22 @@ public class ATContext extends org.gtk.gobject.Object {
      */
     public static ATContext castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkATContext"))) {
-            return new ATContext(gobject.refcounted());
+            return new ATContext(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkATContext");
         }
     }
     
-    private static Refcounted constructCreate(@NotNull org.gtk.gtk.AccessibleRole accessibleRole, @NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gdk.Display display) {
+    private static Addressable constructCreate(@NotNull org.gtk.gtk.AccessibleRole accessibleRole, @NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gdk.Display display) {
         java.util.Objects.requireNonNull(accessibleRole, "Parameter 'accessibleRole' must not be null");
         java.util.Objects.requireNonNull(accessible, "Parameter 'accessible' must not be null");
         java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_at_context_create.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_at_context_create.invokeExact(
                     accessibleRole.getValue(),
                     accessible.handle(),
-                    display.handle()), true);
+                    display.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,7 +83,7 @@ public class ATContext extends org.gtk.gobject.Object {
      * @return the {@code GtkATContext}
      */
     public static ATContext create(@NotNull org.gtk.gtk.AccessibleRole accessibleRole, @NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gdk.Display display) {
-        return new ATContext(constructCreate(accessibleRole, accessible, display));
+        return new ATContext(constructCreate(accessibleRole, accessible, display), Ownership.FULL);
     }
     
     /**
@@ -92,7 +98,7 @@ public class ATContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Accessible.AccessibleImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Accessible.AccessibleImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -118,6 +124,8 @@ public class ATContext extends org.gtk.gobject.Object {
     /**
      * Emitted when the attributes of the accessible for the
      * {@code GtkATContext} instance change.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ATContext.StateChange> onStateChange(ATContext.StateChange handler) {
         try {
@@ -141,17 +149,20 @@ public class ATContext extends org.gtk.gobject.Object {
         
         private static final MethodHandle gtk_at_context_create = Interop.downcallHandle(
             "gtk_at_context_create",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_at_context_get_accessible = Interop.downcallHandle(
             "gtk_at_context_get_accessible",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_at_context_get_accessible_role = Interop.downcallHandle(
             "gtk_at_context_get_accessible_role",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -160,7 +171,7 @@ public class ATContext extends org.gtk.gobject.Object {
         public static void signalATContextStateChange(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ATContext.StateChange) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ATContext(Refcounted.get(source)));
+            HANDLER.signalReceived(new ATContext(source, Ownership.UNKNOWN));
         }
     }
 }

@@ -29,6 +29,7 @@ public class Once extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -37,7 +38,7 @@ public class Once extends io.github.jwharm.javagi.ResourceBase {
     
     public static Once allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Once newInstance = new Once(Refcounted.get(segment.address()));
+        Once newInstance = new Once(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -84,9 +85,14 @@ public class Once extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), retval);
     }
     
+    /**
+     * Create a Once proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Once(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Once(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     public @Nullable java.lang.foreign.MemoryAddress impl(@NotNull org.gtk.glib.ThreadFunc func, @Nullable java.lang.foreign.MemoryAddress arg) {
@@ -163,17 +169,20 @@ public class Once extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_once_impl = Interop.downcallHandle(
             "g_once_impl",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_once_init_enter = Interop.downcallHandle(
             "g_once_init_enter",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_once_init_leave = Interop.downcallHandle(
             "g_once_init_leave",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
     }
 }

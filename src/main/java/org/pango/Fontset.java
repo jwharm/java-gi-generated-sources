@@ -29,6 +29,7 @@ public class Fontset extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -39,12 +40,17 @@ public class Fontset extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a Fontset proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Fontset(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Fontset(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -56,7 +62,7 @@ public class Fontset extends org.gtk.gobject.Object {
      */
     public static Fontset castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoFontset"))) {
-            return new Fontset(gobject.refcounted());
+            return new Fontset(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of PangoFontset");
         }
@@ -100,7 +106,7 @@ public class Fontset extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Font(Refcounted.get(RESULT, true));
+        return new org.pango.Font(RESULT, Ownership.FULL);
     }
     
     /**
@@ -115,24 +121,27 @@ public class Fontset extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontMetrics(Refcounted.get(RESULT, true));
+        return new org.pango.FontMetrics(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_fontset_foreach = Interop.downcallHandle(
             "pango_fontset_foreach",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_fontset_get_font = Interop.downcallHandle(
             "pango_fontset_get_font",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_fontset_get_metrics = Interop.downcallHandle(
             "pango_fontset_get_metrics",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

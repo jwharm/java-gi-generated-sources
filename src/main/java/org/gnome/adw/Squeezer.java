@@ -41,13 +41,19 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Squeezer proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Squeezer(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Squeezer(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -59,16 +65,16 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public static Squeezer castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwSqueezer"))) {
-            return new Squeezer(gobject.refcounted());
+            return new Squeezer(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwSqueezer");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_squeezer_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.adw_squeezer_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,7 +85,7 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Creates a new {@code AdwSqueezer}.
      */
     public Squeezer() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -97,7 +103,7 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.SqueezerPage(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.SqueezerPage(RESULT, Ownership.NONE);
     }
     
     /**
@@ -160,7 +166,7 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.SqueezerPage(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.SqueezerPage(RESULT, Ownership.NONE);
     }
     
     /**
@@ -178,7 +184,7 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -256,7 +262,7 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -456,117 +462,140 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         
         private static final MethodHandle adw_squeezer_new = Interop.downcallHandle(
             "adw_squeezer_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_squeezer_add = Interop.downcallHandle(
             "adw_squeezer_add",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_squeezer_get_allow_none = Interop.downcallHandle(
             "adw_squeezer_get_allow_none",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_squeezer_get_homogeneous = Interop.downcallHandle(
             "adw_squeezer_get_homogeneous",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_squeezer_get_interpolate_size = Interop.downcallHandle(
             "adw_squeezer_get_interpolate_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_squeezer_get_page = Interop.downcallHandle(
             "adw_squeezer_get_page",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_squeezer_get_pages = Interop.downcallHandle(
             "adw_squeezer_get_pages",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_squeezer_get_switch_threshold_policy = Interop.downcallHandle(
             "adw_squeezer_get_switch_threshold_policy",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_squeezer_get_transition_duration = Interop.downcallHandle(
             "adw_squeezer_get_transition_duration",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_squeezer_get_transition_running = Interop.downcallHandle(
             "adw_squeezer_get_transition_running",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_squeezer_get_transition_type = Interop.downcallHandle(
             "adw_squeezer_get_transition_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_squeezer_get_visible_child = Interop.downcallHandle(
             "adw_squeezer_get_visible_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_squeezer_get_xalign = Interop.downcallHandle(
             "adw_squeezer_get_xalign",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_squeezer_get_yalign = Interop.downcallHandle(
             "adw_squeezer_get_yalign",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_squeezer_remove = Interop.downcallHandle(
             "adw_squeezer_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_squeezer_set_allow_none = Interop.downcallHandle(
             "adw_squeezer_set_allow_none",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_squeezer_set_homogeneous = Interop.downcallHandle(
             "adw_squeezer_set_homogeneous",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_squeezer_set_interpolate_size = Interop.downcallHandle(
             "adw_squeezer_set_interpolate_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_squeezer_set_switch_threshold_policy = Interop.downcallHandle(
             "adw_squeezer_set_switch_threshold_policy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_squeezer_set_transition_duration = Interop.downcallHandle(
             "adw_squeezer_set_transition_duration",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_squeezer_set_transition_type = Interop.downcallHandle(
             "adw_squeezer_set_transition_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_squeezer_set_xalign = Interop.downcallHandle(
             "adw_squeezer_set_xalign",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle adw_squeezer_set_yalign = Interop.downcallHandle(
             "adw_squeezer_set_yalign",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            false
         );
     }
 }

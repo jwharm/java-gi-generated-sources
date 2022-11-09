@@ -20,13 +20,19 @@ public class FixedLayoutChild extends org.gtk.gtk.LayoutChild {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a FixedLayoutChild proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FixedLayoutChild(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FixedLayoutChild(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,7 +44,7 @@ public class FixedLayoutChild extends org.gtk.gtk.LayoutChild {
      */
     public static FixedLayoutChild castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFixedLayoutChild"))) {
-            return new FixedLayoutChild(gobject.refcounted());
+            return new FixedLayoutChild(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkFixedLayoutChild");
         }
@@ -56,7 +62,7 @@ public class FixedLayoutChild extends org.gtk.gtk.LayoutChild {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.Transform(Refcounted.get(RESULT, false));
+        return new org.gtk.gsk.Transform(RESULT, Ownership.NONE);
     }
     
     /**
@@ -78,12 +84,14 @@ public class FixedLayoutChild extends org.gtk.gtk.LayoutChild {
         
         private static final MethodHandle gtk_fixed_layout_child_get_transform = Interop.downcallHandle(
             "gtk_fixed_layout_child_get_transform",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_fixed_layout_child_set_transform = Interop.downcallHandle(
             "gtk_fixed_layout_child_set_transform",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

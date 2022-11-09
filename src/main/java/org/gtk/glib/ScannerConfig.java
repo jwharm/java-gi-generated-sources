@@ -52,6 +52,7 @@ public class ScannerConfig extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -60,7 +61,7 @@ public class ScannerConfig extends io.github.jwharm.javagi.ResourceBase {
     
     public static ScannerConfig allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ScannerConfig newInstance = new ScannerConfig(Refcounted.get(segment.address()));
+        ScannerConfig newInstance = new ScannerConfig(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -611,8 +612,13 @@ public class ScannerConfig extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), store_int64);
     }
     
+    /**
+     * Create a ScannerConfig proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ScannerConfig(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ScannerConfig(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

@@ -35,13 +35,19 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a FontButton proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FontButton(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FontButton(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -53,16 +59,16 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public static FontButton castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFontButton"))) {
-            return new FontButton(gobject.refcounted());
+            return new FontButton(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkFontButton");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_font_button_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_font_button_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,15 +79,15 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * Creates a new font picker widget.
      */
     public FontButton() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
-    private static Refcounted constructNewWithFont(@NotNull java.lang.String fontname) {
+    private static Addressable constructNewWithFont(@NotNull java.lang.String fontname) {
         java.util.Objects.requireNonNull(fontname, "Parameter 'fontname' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_font_button_new_with_font.invokeExact(
-                    Interop.allocateNativeString(fontname)), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_font_button_new_with_font.invokeExact(
+                    Interop.allocateNativeString(fontname));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,7 +100,7 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @return a new font picker widget.
      */
     public static FontButton newWithFont(@NotNull java.lang.String fontname) {
-        return new FontButton(constructNewWithFont(fontname));
+        return new FontButton(constructNewWithFont(fontname), Ownership.NONE);
     }
     
     /**
@@ -228,6 +234,8 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * <p>
      * The {@code ::activate} signal on {@code GtkFontButton} is an action signal and
      * emitting it causes the button to present its dialog.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FontButton.Activate> onActivate(FontButton.Activate handler) {
         try {
@@ -261,6 +269,8 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * Note that this signal is only emitted when the user changes the font.
      * If you need to react to programmatic font changes as well, use
      * the notify::font signal.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FontButton.FontSet> onFontSet(FontButton.FontSet handler) {
         try {
@@ -284,52 +294,62 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         
         private static final MethodHandle gtk_font_button_new = Interop.downcallHandle(
             "gtk_font_button_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_font_button_new_with_font = Interop.downcallHandle(
             "gtk_font_button_new_with_font",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_font_button_get_modal = Interop.downcallHandle(
             "gtk_font_button_get_modal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_font_button_get_title = Interop.downcallHandle(
             "gtk_font_button_get_title",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_font_button_get_use_font = Interop.downcallHandle(
             "gtk_font_button_get_use_font",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_font_button_get_use_size = Interop.downcallHandle(
             "gtk_font_button_get_use_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_font_button_set_modal = Interop.downcallHandle(
             "gtk_font_button_set_modal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_font_button_set_title = Interop.downcallHandle(
             "gtk_font_button_set_title",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_font_button_set_use_font = Interop.downcallHandle(
             "gtk_font_button_set_use_font",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_font_button_set_use_size = Interop.downcallHandle(
             "gtk_font_button_set_use_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -338,13 +358,13 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         public static void signalFontButtonActivate(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FontButton.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FontButton(Refcounted.get(source)));
+            HANDLER.signalReceived(new FontButton(source, Ownership.UNKNOWN));
         }
         
         public static void signalFontButtonFontSet(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FontButton.FontSet) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FontButton(Refcounted.get(source)));
+            HANDLER.signalReceived(new FontButton(source, Ownership.UNKNOWN));
         }
     }
 }

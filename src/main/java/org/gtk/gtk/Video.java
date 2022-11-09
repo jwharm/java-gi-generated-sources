@@ -33,13 +33,19 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Video proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Video(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Video(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -51,16 +57,16 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public static Video castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkVideo"))) {
-            return new Video(gobject.refcounted());
+            return new Video(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkVideo");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_video_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_video_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -71,14 +77,14 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Creates a new empty {@code GtkVideo}.
      */
     public Video() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
-    private static Refcounted constructNewForFile(@Nullable org.gtk.gio.File file) {
-        Refcounted RESULT;
+    private static Addressable constructNewForFile(@Nullable org.gtk.gio.File file) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_video_new_for_file.invokeExact(
-                    (Addressable) (file == null ? MemoryAddress.NULL : file.handle())), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_video_new_for_file.invokeExact(
+                    (Addressable) (file == null ? MemoryAddress.NULL : file.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,14 +97,14 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @return a new {@code GtkVideo}
      */
     public static Video newForFile(@Nullable org.gtk.gio.File file) {
-        return new Video(constructNewForFile(file));
+        return new Video(constructNewForFile(file), Ownership.NONE);
     }
     
-    private static Refcounted constructNewForFilename(@Nullable java.lang.String filename) {
-        Refcounted RESULT;
+    private static Addressable constructNewForFilename(@Nullable java.lang.String filename) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_video_new_for_filename.invokeExact(
-                    (Addressable) (filename == null ? MemoryAddress.NULL : Interop.allocateNativeString(filename))), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_video_new_for_filename.invokeExact(
+                    (Addressable) (filename == null ? MemoryAddress.NULL : Interop.allocateNativeString(filename)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,14 +120,14 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @return a new {@code GtkVideo}
      */
     public static Video newForFilename(@Nullable java.lang.String filename) {
-        return new Video(constructNewForFilename(filename));
+        return new Video(constructNewForFilename(filename), Ownership.NONE);
     }
     
-    private static Refcounted constructNewForMediaStream(@Nullable org.gtk.gtk.MediaStream stream) {
-        Refcounted RESULT;
+    private static Addressable constructNewForMediaStream(@Nullable org.gtk.gtk.MediaStream stream) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_video_new_for_media_stream.invokeExact(
-                    (Addressable) (stream == null ? MemoryAddress.NULL : stream.handle())), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_video_new_for_media_stream.invokeExact(
+                    (Addressable) (stream == null ? MemoryAddress.NULL : stream.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,14 +140,14 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @return a new {@code GtkVideo}
      */
     public static Video newForMediaStream(@Nullable org.gtk.gtk.MediaStream stream) {
-        return new Video(constructNewForMediaStream(stream));
+        return new Video(constructNewForMediaStream(stream), Ownership.NONE);
     }
     
-    private static Refcounted constructNewForResource(@Nullable java.lang.String resourcePath) {
-        Refcounted RESULT;
+    private static Addressable constructNewForResource(@Nullable java.lang.String resourcePath) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_video_new_for_resource.invokeExact(
-                    (Addressable) (resourcePath == null ? MemoryAddress.NULL : Interop.allocateNativeString(resourcePath))), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_video_new_for_resource.invokeExact(
+                    (Addressable) (resourcePath == null ? MemoryAddress.NULL : Interop.allocateNativeString(resourcePath)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -157,7 +163,7 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @return a new {@code GtkVideo}
      */
     public static Video newForResource(@Nullable java.lang.String resourcePath) {
-        return new Video(constructNewForResource(resourcePath));
+        return new Video(constructNewForResource(resourcePath), Ownership.NONE);
     }
     
     /**
@@ -188,7 +194,7 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -218,7 +224,7 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.MediaStream(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.MediaStream(RESULT, Ownership.NONE);
     }
     
     /**
@@ -321,77 +327,92 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         
         private static final MethodHandle gtk_video_new = Interop.downcallHandle(
             "gtk_video_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_video_new_for_file = Interop.downcallHandle(
             "gtk_video_new_for_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_video_new_for_filename = Interop.downcallHandle(
             "gtk_video_new_for_filename",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_video_new_for_media_stream = Interop.downcallHandle(
             "gtk_video_new_for_media_stream",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_video_new_for_resource = Interop.downcallHandle(
             "gtk_video_new_for_resource",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_video_get_autoplay = Interop.downcallHandle(
             "gtk_video_get_autoplay",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_video_get_file = Interop.downcallHandle(
             "gtk_video_get_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_video_get_loop = Interop.downcallHandle(
             "gtk_video_get_loop",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_video_get_media_stream = Interop.downcallHandle(
             "gtk_video_get_media_stream",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_video_set_autoplay = Interop.downcallHandle(
             "gtk_video_set_autoplay",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_video_set_file = Interop.downcallHandle(
             "gtk_video_set_file",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_video_set_filename = Interop.downcallHandle(
             "gtk_video_set_filename",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_video_set_loop = Interop.downcallHandle(
             "gtk_video_set_loop",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_video_set_media_stream = Interop.downcallHandle(
             "gtk_video_set_media_stream",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_video_set_resource = Interop.downcallHandle(
             "gtk_video_set_resource",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

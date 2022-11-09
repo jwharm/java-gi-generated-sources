@@ -26,6 +26,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -34,7 +35,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     
     public static String allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        String newInstance = new String(Refcounted.get(segment.address()));
+        String newInstance = new String(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -102,16 +103,21 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), allocated_len);
     }
     
+    /**
+     * Create a String proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public String(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public String(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew(@Nullable java.lang.String init) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable java.lang.String init) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_string_new.invokeExact(
-                    (Addressable) (init == null ? MemoryAddress.NULL : Interop.allocateNativeString(init))), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_string_new.invokeExact(
+                    (Addressable) (init == null ? MemoryAddress.NULL : Interop.allocateNativeString(init)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,16 +130,16 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      *   start with an empty string
      */
     public String(@Nullable java.lang.String init) {
-        super(constructNew(init));
+        super(constructNew(init), Ownership.FULL);
     }
     
-    private static Refcounted constructNewLen(@NotNull java.lang.String init, long len) {
+    private static Addressable constructNewLen(@NotNull java.lang.String init, long len) {
         java.util.Objects.requireNonNull(init, "Parameter 'init' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_string_new_len.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_string_new_len.invokeExact(
                     Interop.allocateNativeString(init),
-                    len), true);
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,14 +159,14 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      * @return a new {@link String}
      */
     public static String newLen(@NotNull java.lang.String init, long len) {
-        return new String(constructNewLen(init, len));
+        return new String(constructNewLen(init, len), Ownership.FULL);
     }
     
-    private static Refcounted constructSizedNew(long dflSize) {
-        Refcounted RESULT;
+    private static Addressable constructSizedNew(long dflSize) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_string_sized_new.invokeExact(
-                    dflSize), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_string_sized_new.invokeExact(
+                    dflSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -176,7 +182,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      * @return the new {@link String}
      */
     public static String sizedNew(long dflSize) {
-        return new String(constructSizedNew(dflSize));
+        return new String(constructSizedNew(dflSize), Ownership.FULL);
     }
     
     /**
@@ -195,7 +201,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -213,7 +219,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -241,7 +247,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -249,9 +255,18 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      * This function is similar to g_string_printf() except
      * that the text is appended to the {@link String}.
      * @param format the string format. See the printf() documentation
+     * @param varargs the parameters to insert into the format string
      */
-    public void appendPrintf(@NotNull java.lang.String format) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void appendPrintf(@NotNull java.lang.String format, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+        try {
+            DowncallHandles.g_string_append_printf.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(format),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -269,7 +284,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -294,7 +309,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -332,7 +347,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -349,7 +364,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -370,7 +385,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -389,7 +404,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -430,7 +445,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -473,7 +488,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
     }
     
     /**
@@ -509,7 +524,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -528,7 +543,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -560,7 +575,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -581,7 +596,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -601,7 +616,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -624,7 +639,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -643,7 +658,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -661,7 +676,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -689,7 +704,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -707,7 +722,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -717,9 +732,18 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      * to contain the results. The previous contents of the
      * {@link String} are destroyed.
      * @param format the string format. See the printf() documentation
+     * @param varargs the parameters to insert into the format string
      */
-    public void printf(@NotNull java.lang.String format) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void printf(@NotNull java.lang.String format, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+        try {
+            DowncallHandles.g_string_printf.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(format),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -772,7 +796,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -789,7 +813,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -808,7 +832,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.String(RESULT, Ownership.NONE);
     }
     
     /**
@@ -835,177 +859,212 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_string_new = Interop.downcallHandle(
             "g_string_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_string_new_len = Interop.downcallHandle(
             "g_string_new_len",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_string_sized_new = Interop.downcallHandle(
             "g_string_sized_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_string_append = Interop.downcallHandle(
             "g_string_append",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_string_append_c = Interop.downcallHandle(
             "g_string_append_c",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE),
+            false
         );
         
         private static final MethodHandle g_string_append_len = Interop.downcallHandle(
             "g_string_append_len",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_string_append_printf = Interop.downcallHandle(
             "g_string_append_printf",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_string_append_unichar = Interop.downcallHandle(
             "g_string_append_unichar",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_string_append_uri_escaped = Interop.downcallHandle(
             "g_string_append_uri_escaped",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_string_append_vprintf = Interop.downcallHandle(
             "g_string_append_vprintf",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_string_ascii_down = Interop.downcallHandle(
             "g_string_ascii_down",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_string_ascii_up = Interop.downcallHandle(
             "g_string_ascii_up",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_string_assign = Interop.downcallHandle(
             "g_string_assign",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_string_down = Interop.downcallHandle(
             "g_string_down",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_string_equal = Interop.downcallHandle(
             "g_string_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_string_erase = Interop.downcallHandle(
             "g_string_erase",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_string_free = Interop.downcallHandle(
             "g_string_free",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_string_free_to_bytes = Interop.downcallHandle(
             "g_string_free_to_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_string_hash = Interop.downcallHandle(
             "g_string_hash",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_string_insert = Interop.downcallHandle(
             "g_string_insert",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_string_insert_c = Interop.downcallHandle(
             "g_string_insert_c",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_BYTE)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_BYTE),
+            false
         );
         
         private static final MethodHandle g_string_insert_len = Interop.downcallHandle(
             "g_string_insert_len",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_string_insert_unichar = Interop.downcallHandle(
             "g_string_insert_unichar",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_string_overwrite = Interop.downcallHandle(
             "g_string_overwrite",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_string_overwrite_len = Interop.downcallHandle(
             "g_string_overwrite_len",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_string_prepend = Interop.downcallHandle(
             "g_string_prepend",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_string_prepend_c = Interop.downcallHandle(
             "g_string_prepend_c",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE),
+            false
         );
         
         private static final MethodHandle g_string_prepend_len = Interop.downcallHandle(
             "g_string_prepend_len",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_string_prepend_unichar = Interop.downcallHandle(
             "g_string_prepend_unichar",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_string_printf = Interop.downcallHandle(
             "g_string_printf",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_string_replace = Interop.downcallHandle(
             "g_string_replace",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_string_set_size = Interop.downcallHandle(
             "g_string_set_size",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_string_truncate = Interop.downcallHandle(
             "g_string_truncate",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_string_up = Interop.downcallHandle(
             "g_string_up",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_string_vprintf = Interop.downcallHandle(
             "g_string_vprintf",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

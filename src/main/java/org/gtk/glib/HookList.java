@@ -31,6 +31,7 @@ public class HookList extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -39,7 +40,7 @@ public class HookList extends io.github.jwharm.javagi.ResourceBase {
     
     public static HookList allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        HookList newInstance = new HookList(Refcounted.get(segment.address()));
+        HookList newInstance = new HookList(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -115,7 +116,7 @@ public class HookList extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("hooks"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Hook(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -160,9 +161,14 @@ public class HookList extends io.github.jwharm.javagi.ResourceBase {
         return null /* Unsupported parameter type */;
     }
     
+    /**
+     * Create a HookList proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public HookList(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public HookList(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -279,32 +285,38 @@ public class HookList extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_hook_list_clear = Interop.downcallHandle(
             "g_hook_list_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hook_list_init = Interop.downcallHandle(
             "g_hook_list_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_hook_list_invoke = Interop.downcallHandle(
             "g_hook_list_invoke",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_hook_list_invoke_check = Interop.downcallHandle(
             "g_hook_list_invoke_check",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_hook_list_marshal = Interop.downcallHandle(
             "g_hook_list_marshal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hook_list_marshal_check = Interop.downcallHandle(
             "g_hook_list_marshal_check",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -10,5 +10,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PixbufModuleLoadXpmDataFunc {
-        org.gtk.gdkpixbuf.Pixbuf onPixbufModuleLoadXpmDataFunc(PointerString data);
+        org.gtk.gdkpixbuf.Pixbuf onPixbufModuleLoadXpmDataFunc(@NotNull PointerString data);
 }

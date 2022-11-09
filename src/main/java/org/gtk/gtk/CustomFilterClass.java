@@ -21,6 +21,7 @@ public class CustomFilterClass extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -29,7 +30,7 @@ public class CustomFilterClass extends io.github.jwharm.javagi.ResourceBase {
     
     public static CustomFilterClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CustomFilterClass newInstance = new CustomFilterClass(Refcounted.get(segment.address()));
+        CustomFilterClass newInstance = new CustomFilterClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -40,11 +41,16 @@ public class CustomFilterClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gtk.FilterClass parent_class$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gtk.FilterClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.FilterClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a CustomFilterClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CustomFilterClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CustomFilterClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

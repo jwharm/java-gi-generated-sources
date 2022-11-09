@@ -25,6 +25,7 @@ public class TypeFundamentalInfo extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -33,7 +34,7 @@ public class TypeFundamentalInfo extends io.github.jwharm.javagi.ResourceBase {
     
     public static TypeFundamentalInfo allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TypeFundamentalInfo newInstance = new TypeFundamentalInfo(Refcounted.get(segment.address()));
+        TypeFundamentalInfo newInstance = new TypeFundamentalInfo(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -59,8 +60,13 @@ public class TypeFundamentalInfo extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type_flags.getValue());
     }
     
+    /**
+     * Create a TypeFundamentalInfo proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TypeFundamentalInfo(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TypeFundamentalInfo(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

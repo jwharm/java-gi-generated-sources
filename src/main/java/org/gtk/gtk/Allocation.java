@@ -11,9 +11,14 @@ import org.jetbrains.annotations.*;
 public class Allocation extends org.gtk.gdk.Rectangle {
 
     
+    /**
+     * Create a Allocation proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Allocation(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Allocation(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -25,7 +30,7 @@ public class Allocation extends org.gtk.gdk.Rectangle {
      */
     public static Allocation castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkAllocation"))) {
-            return new Allocation(gobject.refcounted());
+            return new Allocation(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkAllocation");
         }

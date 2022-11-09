@@ -29,13 +29,19 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements org.gtk.g
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Create a DBusObjectProxy proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DBusObjectProxy(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DBusObjectProxy(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -47,20 +53,20 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements org.gtk.g
      */
     public static DBusObjectProxy castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusObjectProxy"))) {
-            return new DBusObjectProxy(gobject.refcounted());
+            return new DBusObjectProxy(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDBusObjectProxy");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gio.DBusConnection connection, @NotNull java.lang.String objectPath) {
+    private static Addressable constructNew(@NotNull org.gtk.gio.DBusConnection connection, @NotNull java.lang.String objectPath) {
         java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
         java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_object_proxy_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_proxy_new.invokeExact(
                     connection.handle(),
-                    Interop.allocateNativeString(objectPath)), true);
+                    Interop.allocateNativeString(objectPath));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,7 +80,7 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements org.gtk.g
      * @param objectPath the object path
      */
     public DBusObjectProxy(@NotNull org.gtk.gio.DBusConnection connection, @NotNull java.lang.String objectPath) {
-        super(constructNew(connection, objectPath));
+        super(constructNew(connection, objectPath), Ownership.FULL);
     }
     
     /**
@@ -90,19 +96,21 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusConnection(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.DBusConnection(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_dbus_object_proxy_new = Interop.downcallHandle(
             "g_dbus_object_proxy_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_object_proxy_get_connection = Interop.downcallHandle(
             "g_dbus_object_proxy_get_connection",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

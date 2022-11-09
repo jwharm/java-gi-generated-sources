@@ -27,6 +27,7 @@ public class AttrFontFeatures extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -35,7 +36,7 @@ public class AttrFontFeatures extends io.github.jwharm.javagi.ResourceBase {
     
     public static AttrFontFeatures allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AttrFontFeatures newInstance = new AttrFontFeatures(Refcounted.get(segment.address()));
+        AttrFontFeatures newInstance = new AttrFontFeatures(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,7 +47,7 @@ public class AttrFontFeatures extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.pango.Attribute attr$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("attr"));
-        return new org.pango.Attribute(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.pango.Attribute(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
     /**
@@ -70,9 +71,14 @@ public class AttrFontFeatures extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(features));
     }
     
+    /**
+     * Create a AttrFontFeatures proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public AttrFontFeatures(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public AttrFontFeatures(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -95,14 +101,15 @@ public class AttrFontFeatures extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_attr_font_features_new = Interop.downcallHandle(
             "pango_attr_font_features_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

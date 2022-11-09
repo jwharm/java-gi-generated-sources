@@ -30,13 +30,19 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a SwipeTracker proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SwipeTracker(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SwipeTracker(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -48,18 +54,18 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
      */
     public static SwipeTracker castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwSwipeTracker"))) {
-            return new SwipeTracker(gobject.refcounted());
+            return new SwipeTracker(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwSwipeTracker");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gnome.adw.Swipeable swipeable) {
+    private static Addressable constructNew(@NotNull org.gnome.adw.Swipeable swipeable) {
         java.util.Objects.requireNonNull(swipeable, "Parameter 'swipeable' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_swipe_tracker_new.invokeExact(
-                    swipeable.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.adw_swipe_tracker_new.invokeExact(
+                    swipeable.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -71,7 +77,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
      * @param swipeable a widget to add the tracker on
      */
     public SwipeTracker(@NotNull org.gnome.adw.Swipeable swipeable) {
-        super(constructNew(swipeable));
+        super(constructNew(swipeable), Ownership.FULL);
     }
     
     /**
@@ -146,7 +152,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.Swipeable.SwipeableImpl(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.Swipeable.SwipeableImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -239,6 +245,8 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     /**
      * This signal is emitted right before a swipe will be started, after the
      * drag threshold has been passed.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SwipeTracker.BeginSwipe> onBeginSwipe(SwipeTracker.BeginSwipe handler) {
         try {
@@ -270,6 +278,8 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
      * value to {@code to} with an animation using {@code velocity} as the initial velocity,
      * provided in pixels per second. {@link SpringAnimation} is usually a good
      * fit for this.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SwipeTracker.EndSwipe> onEndSwipe(SwipeTracker.EndSwipe handler) {
         try {
@@ -299,6 +309,8 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
      * <p>
      * The {@code direction} value can be used to restrict the swipe to a certain
      * direction.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SwipeTracker.Prepare> onPrepare(SwipeTracker.Prepare handler) {
         try {
@@ -325,6 +337,8 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     
     /**
      * This signal is emitted every time the progress value changes.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SwipeTracker.UpdateSwipe> onUpdateSwipe(SwipeTracker.UpdateSwipe handler) {
         try {
@@ -348,57 +362,68 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
         
         private static final MethodHandle adw_swipe_tracker_new = Interop.downcallHandle(
             "adw_swipe_tracker_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_swipe_tracker_get_allow_long_swipes = Interop.downcallHandle(
             "adw_swipe_tracker_get_allow_long_swipes",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_swipe_tracker_get_allow_mouse_drag = Interop.downcallHandle(
             "adw_swipe_tracker_get_allow_mouse_drag",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_swipe_tracker_get_enabled = Interop.downcallHandle(
             "adw_swipe_tracker_get_enabled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_swipe_tracker_get_reversed = Interop.downcallHandle(
             "adw_swipe_tracker_get_reversed",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_swipe_tracker_get_swipeable = Interop.downcallHandle(
             "adw_swipe_tracker_get_swipeable",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_swipe_tracker_set_allow_long_swipes = Interop.downcallHandle(
             "adw_swipe_tracker_set_allow_long_swipes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_swipe_tracker_set_allow_mouse_drag = Interop.downcallHandle(
             "adw_swipe_tracker_set_allow_mouse_drag",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_swipe_tracker_set_enabled = Interop.downcallHandle(
             "adw_swipe_tracker_set_enabled",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_swipe_tracker_set_reversed = Interop.downcallHandle(
             "adw_swipe_tracker_set_reversed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_swipe_tracker_shift_position = Interop.downcallHandle(
             "adw_swipe_tracker_shift_position",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            false
         );
     }
     
@@ -407,25 +432,25 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
         public static void signalSwipeTrackerBeginSwipe(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SwipeTracker.BeginSwipe) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SwipeTracker(Refcounted.get(source)));
+            HANDLER.signalReceived(new SwipeTracker(source, Ownership.UNKNOWN));
         }
         
         public static void signalSwipeTrackerEndSwipe(MemoryAddress source, double velocity, double to, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SwipeTracker.EndSwipe) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SwipeTracker(Refcounted.get(source)), velocity, to);
+            HANDLER.signalReceived(new SwipeTracker(source, Ownership.UNKNOWN), velocity, to);
         }
         
         public static void signalSwipeTrackerPrepare(MemoryAddress source, int direction, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SwipeTracker.Prepare) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SwipeTracker(Refcounted.get(source)), new org.gnome.adw.NavigationDirection(direction));
+            HANDLER.signalReceived(new SwipeTracker(source, Ownership.UNKNOWN), new org.gnome.adw.NavigationDirection(direction));
         }
         
         public static void signalSwipeTrackerUpdateSwipe(MemoryAddress source, double progress, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SwipeTracker.UpdateSwipe) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SwipeTracker(Refcounted.get(source)), progress);
+            HANDLER.signalReceived(new SwipeTracker(source, Ownership.UNKNOWN), progress);
         }
     }
 }

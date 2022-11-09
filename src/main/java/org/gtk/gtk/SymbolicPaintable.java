@@ -31,7 +31,7 @@ public interface SymbolicPaintable extends io.github.jwharm.javagi.Proxy {
      */
     public static SymbolicPaintable castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSymbolicPaintable"))) {
-            return new SymbolicPaintableImpl(gobject.refcounted());
+            return new SymbolicPaintableImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkSymbolicPaintable");
         }
@@ -48,7 +48,7 @@ public interface SymbolicPaintable extends io.github.jwharm.javagi.Proxy {
      * @param colors a pointer to an array of colors
      * @param nColors The number of colors
      */
-    default void snapshotSymbolic(@NotNull org.gtk.gdk.Snapshot snapshot, double width, double height, org.gtk.gdk.RGBA[] colors, long nColors) {
+    default void snapshotSymbolic(@NotNull org.gtk.gdk.Snapshot snapshot, double width, double height, @NotNull org.gtk.gdk.RGBA[] colors, long nColors) {
         java.util.Objects.requireNonNull(snapshot, "Parameter 'snapshot' must not be null");
         java.util.Objects.requireNonNull(colors, "Parameter 'colors' must not be null");
         try {
@@ -70,7 +70,8 @@ public interface SymbolicPaintable extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_symbolic_paintable_snapshot_symbolic = Interop.downcallHandle(
             "gtk_symbolic_paintable_snapshot_symbolic",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
     }
     
@@ -80,8 +81,8 @@ public interface SymbolicPaintable extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public SymbolicPaintableImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public SymbolicPaintableImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

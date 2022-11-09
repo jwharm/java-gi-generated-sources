@@ -26,6 +26,7 @@ public class SocketAddress extends org.gtk.gobject.Object implements org.gtk.gio
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -36,12 +37,17 @@ public class SocketAddress extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a SocketAddress proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SocketAddress(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SocketAddress(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -53,19 +59,19 @@ public class SocketAddress extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public static SocketAddress castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSocketAddress"))) {
-            return new SocketAddress(gobject.refcounted());
+            return new SocketAddress(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSocketAddress");
         }
     }
     
-    private static Refcounted constructNewFromNative(@NotNull java.lang.foreign.MemoryAddress native_, long len) {
+    private static Addressable constructNewFromNative(@NotNull java.lang.foreign.MemoryAddress native_, long len) {
         java.util.Objects.requireNonNull(native_, "Parameter 'native_' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_socket_address_new_from_native.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_address_new_from_native.invokeExact(
                     native_,
-                    len), true);
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -81,7 +87,7 @@ public class SocketAddress extends org.gtk.gobject.Object implements org.gtk.gio
      *     be converted, otherwise {@code null}
      */
     public static SocketAddress newFromNative(@NotNull java.lang.foreign.MemoryAddress native_, long len) {
-        return new SocketAddress(constructNewFromNative(native_, len));
+        return new SocketAddress(constructNewFromNative(native_, len), Ownership.FULL);
     }
     
     /**
@@ -138,7 +144,8 @@ public class SocketAddress extends org.gtk.gobject.Object implements org.gtk.gio
             RESULT = (int) DowncallHandles.g_socket_address_to_native.invokeExact(
                     handle(),
                     (Addressable) (dest == null ? MemoryAddress.NULL : dest),
-                    destlen, (Addressable) GERROR);
+                    destlen,
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,22 +159,26 @@ public class SocketAddress extends org.gtk.gobject.Object implements org.gtk.gio
         
         private static final MethodHandle g_socket_address_new_from_native = Interop.downcallHandle(
             "g_socket_address_new_from_native",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_socket_address_get_family = Interop.downcallHandle(
             "g_socket_address_get_family",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_socket_address_get_native_size = Interop.downcallHandle(
             "g_socket_address_get_native_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_socket_address_to_native = Interop.downcallHandle(
             "g_socket_address_to_native",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
     }
 }

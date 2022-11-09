@@ -83,6 +83,7 @@ public class PixbufModule extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -91,7 +92,7 @@ public class PixbufModule extends io.github.jwharm.javagi.ResourceBase {
     
     public static PixbufModule allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PixbufModule newInstance = new PixbufModule(Refcounted.get(segment.address()));
+        PixbufModule newInstance = new PixbufModule(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -146,7 +147,7 @@ public class PixbufModule extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("info"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gdkpixbuf.PixbufFormat(Refcounted.get(RESULT, false));
+        return new org.gtk.gdkpixbuf.PixbufFormat(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -258,8 +259,13 @@ public class PixbufModule extends io.github.jwharm.javagi.ResourceBase {
         return null /* Unsupported parameter type */;
     }
     
+    /**
+     * Create a PixbufModule proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PixbufModule(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PixbufModule(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

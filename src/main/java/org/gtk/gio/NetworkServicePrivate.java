@@ -17,6 +17,7 @@ public class NetworkServicePrivate extends io.github.jwharm.javagi.ResourceBase 
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -25,13 +26,18 @@ public class NetworkServicePrivate extends io.github.jwharm.javagi.ResourceBase 
     
     public static NetworkServicePrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        NetworkServicePrivate newInstance = new NetworkServicePrivate(Refcounted.get(segment.address()));
+        NetworkServicePrivate newInstance = new NetworkServicePrivate(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a NetworkServicePrivate proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public NetworkServicePrivate(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public NetworkServicePrivate(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

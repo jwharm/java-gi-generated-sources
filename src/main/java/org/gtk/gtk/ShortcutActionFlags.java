@@ -24,4 +24,27 @@ public class ShortcutActionFlags extends io.github.jwharm.javagi.Bitfield {
     public ShortcutActionFlags(int value) {
         super(value);
     }
+    
+    /**
+     * Combine (bitwise OR) operation
+     * @param mask the value to combine with
+     * @return the combined value by calculating {@code this | mask} 
+     */
+    public ShortcutActionFlags combined(ShortcutActionFlags mask) {
+        this.setValue(this.getValue() | mask.getValue());
+        return this;
+    }
+    
+    /**
+     * Combine (bitwise OR) operation
+     * @param mask the first value to combine
+     * @param masks the other values to combine
+     * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
+     */
+    public static ShortcutActionFlags combined(ShortcutActionFlags mask, ShortcutActionFlags... masks) {
+        for (ShortcutActionFlags arg : masks) {
+            mask.setValue(mask.getValue() | arg.getValue());
+        }
+        return mask;
+    }
 }

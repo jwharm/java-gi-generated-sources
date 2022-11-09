@@ -35,6 +35,7 @@ public class ParamSpecVariant extends org.gtk.gobject.ParamSpec {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -45,7 +46,7 @@ public class ParamSpecVariant extends org.gtk.gobject.ParamSpec {
      */
     public org.gtk.gobject.ParamSpec parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.ParamSpec(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.ParamSpec(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
     /**
@@ -56,7 +57,7 @@ public class ParamSpecVariant extends org.gtk.gobject.ParamSpec {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.VariantType(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -77,7 +78,7 @@ public class ParamSpecVariant extends org.gtk.gobject.ParamSpec {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("default_value"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Variant(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -90,9 +91,14 @@ public class ParamSpecVariant extends org.gtk.gobject.ParamSpec {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), default_value.handle());
     }
     
+    /**
+     * Create a ParamSpecVariant proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ParamSpecVariant(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ParamSpecVariant(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -104,7 +110,7 @@ public class ParamSpecVariant extends org.gtk.gobject.ParamSpec {
      */
     public static ParamSpecVariant castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GParamSpecVariant"))) {
-            return new ParamSpecVariant(gobject.refcounted());
+            return new ParamSpecVariant(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GParamSpecVariant");
         }

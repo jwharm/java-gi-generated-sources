@@ -48,13 +48,19 @@ public class CenterBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a CenterBox proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CenterBox(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CenterBox(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -66,16 +72,16 @@ public class CenterBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public static CenterBox castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCenterBox"))) {
-            return new CenterBox(gobject.refcounted());
+            return new CenterBox(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCenterBox");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_center_box_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_center_box_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -86,7 +92,7 @@ public class CenterBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * Creates a new {@code GtkCenterBox}.
      */
     public CenterBox() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -116,7 +122,7 @@ public class CenterBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -131,7 +137,7 @@ public class CenterBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -146,7 +152,7 @@ public class CenterBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -222,47 +228,56 @@ public class CenterBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         
         private static final MethodHandle gtk_center_box_new = Interop.downcallHandle(
             "gtk_center_box_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_center_box_get_baseline_position = Interop.downcallHandle(
             "gtk_center_box_get_baseline_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_center_box_get_center_widget = Interop.downcallHandle(
             "gtk_center_box_get_center_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_center_box_get_end_widget = Interop.downcallHandle(
             "gtk_center_box_get_end_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_center_box_get_start_widget = Interop.downcallHandle(
             "gtk_center_box_get_start_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_center_box_set_baseline_position = Interop.downcallHandle(
             "gtk_center_box_set_baseline_position",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_center_box_set_center_widget = Interop.downcallHandle(
             "gtk_center_box_set_center_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_center_box_set_end_widget = Interop.downcallHandle(
             "gtk_center_box_set_end_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_center_box_set_start_widget = Interop.downcallHandle(
             "gtk_center_box_set_start_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

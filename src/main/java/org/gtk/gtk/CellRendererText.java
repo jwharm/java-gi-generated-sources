@@ -31,6 +31,7 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -41,12 +42,17 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
      */
     public org.gtk.gtk.CellRenderer parent$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return new org.gtk.gtk.CellRenderer(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.CellRenderer(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a CellRendererText proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CellRendererText(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CellRendererText(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -58,16 +64,16 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
      */
     public static CellRendererText castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellRendererText"))) {
-            return new CellRendererText(gobject.refcounted());
+            return new CellRendererText(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCellRendererText");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_renderer_text_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_renderer_text_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,7 +90,7 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
      * of the {@code GtkTreeView}.
      */
     public CellRendererText() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -117,6 +123,8 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
      * <p>
      * It is the responsibility of the application to update the model
      * and store {@code new_text} at the position indicated by {@code path}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<CellRendererText.Edited> onEdited(CellRendererText.Edited handler) {
         try {
@@ -140,12 +148,14 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
         
         private static final MethodHandle gtk_cell_renderer_text_new = Interop.downcallHandle(
             "gtk_cell_renderer_text_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_renderer_text_set_fixed_height_from_font = Interop.downcallHandle(
             "gtk_cell_renderer_text_set_fixed_height_from_font",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -154,7 +164,7 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
         public static void signalCellRendererTextEdited(MemoryAddress source, MemoryAddress path, MemoryAddress newText, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (CellRendererText.Edited) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellRendererText(Refcounted.get(source)), Interop.getStringFrom(path), Interop.getStringFrom(newText));
+            HANDLER.signalReceived(new CellRendererText(source, Ownership.UNKNOWN), Interop.getStringFrom(path), Interop.getStringFrom(newText));
         }
     }
 }

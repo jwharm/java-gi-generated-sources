@@ -688,19 +688,21 @@ public class Script extends io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Language(Refcounted.get(RESULT, true));
+        return new org.pango.Language(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_script_for_unichar = Interop.downcallHandle(
             "pango_script_for_unichar",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_script_get_sample_language = Interop.downcallHandle(
             "pango_script_get_sample_language",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

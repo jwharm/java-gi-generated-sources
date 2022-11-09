@@ -24,6 +24,7 @@ public class CellEditableIface extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -32,13 +33,18 @@ public class CellEditableIface extends io.github.jwharm.javagi.ResourceBase {
     
     public static CellEditableIface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CellEditableIface newInstance = new CellEditableIface(Refcounted.get(segment.address()));
+        CellEditableIface newInstance = new CellEditableIface(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a CellEditableIface proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CellEditableIface(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CellEditableIface(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

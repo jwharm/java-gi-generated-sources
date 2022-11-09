@@ -47,7 +47,8 @@ public class SerializationError extends io.github.jwharm.javagi.Enumeration {
         
         private static final MethodHandle gsk_serialization_error_quark = Interop.downcallHandle(
             "gsk_serialization_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
     }
 }

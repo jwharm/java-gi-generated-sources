@@ -185,13 +185,19 @@ public class FileChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a FileChooserDialog proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FileChooserDialog(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FileChooserDialog(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -203,14 +209,26 @@ public class FileChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk
      */
     public static FileChooserDialog castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFileChooserDialog"))) {
-            return new FileChooserDialog(gobject.refcounted());
+            return new FileChooserDialog(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkFileChooserDialog");
         }
     }
     
-    private static Refcounted constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.FileChooserAction action, @Nullable java.lang.String firstButtonText) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    private static Addressable constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.FileChooserAction action, @Nullable java.lang.String firstButtonText, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
+        Addressable RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gtk_file_chooser_dialog_new.invokeExact(
+                    (Addressable) (title == null ? MemoryAddress.NULL : Interop.allocateNativeString(title)),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                    action.getValue(),
+                    (Addressable) (firstButtonText == null ? MemoryAddress.NULL : Interop.allocateNativeString(firstButtonText)),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
     }
     
     /**
@@ -221,17 +239,18 @@ public class FileChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk
      * @param parent Transient parent of the dialog
      * @param action Open or save mode for the dialog
      * @param firstButtonText text to go in the first button
+     * @param varargs response ID for the first button, then additional (button, id) pairs, ending with {@code null}
      */
-    public FileChooserDialog(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.FileChooserAction action, @Nullable java.lang.String firstButtonText) {
-        this(Refcounted.get(null)); // avoid compiler error
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public FileChooserDialog(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.FileChooserAction action, @Nullable java.lang.String firstButtonText, java.lang.Object... varargs) {
+        super(constructNew(title, parent, action, firstButtonText, varargs), Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_file_chooser_dialog_new = Interop.downcallHandle(
             "gtk_file_chooser_dialog_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            true
         );
     }
 }

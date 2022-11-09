@@ -61,11 +61,35 @@ public class DragAction extends io.github.jwharm.javagi.Bitfield {
         return RESULT != 0;
     }
     
+    /**
+     * Combine (bitwise OR) operation
+     * @param mask the value to combine with
+     * @return the combined value by calculating {@code this | mask} 
+     */
+    public DragAction combined(DragAction mask) {
+        this.setValue(this.getValue() | mask.getValue());
+        return this;
+    }
+    
+    /**
+     * Combine (bitwise OR) operation
+     * @param mask the first value to combine
+     * @param masks the other values to combine
+     * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
+     */
+    public static DragAction combined(DragAction mask, DragAction... masks) {
+        for (DragAction arg : masks) {
+            mask.setValue(mask.getValue() | arg.getValue());
+        }
+        return mask;
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_drag_action_is_unique = Interop.downcallHandle(
             "gdk_drag_action_is_unique",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

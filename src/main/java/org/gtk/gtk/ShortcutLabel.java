@@ -22,13 +22,19 @@ public class ShortcutLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ShortcutLabel proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ShortcutLabel(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ShortcutLabel(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -40,18 +46,18 @@ public class ShortcutLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      */
     public static ShortcutLabel castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkShortcutLabel"))) {
-            return new ShortcutLabel(gobject.refcounted());
+            return new ShortcutLabel(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkShortcutLabel");
         }
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String accelerator) {
+    private static Addressable constructNew(@NotNull java.lang.String accelerator) {
         java.util.Objects.requireNonNull(accelerator, "Parameter 'accelerator' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_shortcut_label_new.invokeExact(
-                    Interop.allocateNativeString(accelerator)), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_label_new.invokeExact(
+                    Interop.allocateNativeString(accelerator));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -63,7 +69,7 @@ public class ShortcutLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * @param accelerator the initial accelerator
      */
     public ShortcutLabel(@NotNull java.lang.String accelerator) {
-        super(constructNew(accelerator));
+        super(constructNew(accelerator), Ownership.NONE);
     }
     
     /**
@@ -131,27 +137,32 @@ public class ShortcutLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         
         private static final MethodHandle gtk_shortcut_label_new = Interop.downcallHandle(
             "gtk_shortcut_label_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_shortcut_label_get_accelerator = Interop.downcallHandle(
             "gtk_shortcut_label_get_accelerator",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_shortcut_label_get_disabled_text = Interop.downcallHandle(
             "gtk_shortcut_label_get_disabled_text",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_shortcut_label_set_accelerator = Interop.downcallHandle(
             "gtk_shortcut_label_set_accelerator",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_shortcut_label_set_disabled_text = Interop.downcallHandle(
             "gtk_shortcut_label_set_disabled_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

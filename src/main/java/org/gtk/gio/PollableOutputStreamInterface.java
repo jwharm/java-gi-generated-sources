@@ -45,6 +45,7 @@ public class PollableOutputStreamInterface extends io.github.jwharm.javagi.Resou
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -53,7 +54,7 @@ public class PollableOutputStreamInterface extends io.github.jwharm.javagi.Resou
     
     public static PollableOutputStreamInterface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PollableOutputStreamInterface newInstance = new PollableOutputStreamInterface(Refcounted.get(segment.address()));
+        PollableOutputStreamInterface newInstance = new PollableOutputStreamInterface(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -64,11 +65,16 @@ public class PollableOutputStreamInterface extends io.github.jwharm.javagi.Resou
      */
     public org.gtk.gobject.TypeInterface g_iface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return new org.gtk.gobject.TypeInterface(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a PollableOutputStreamInterface proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PollableOutputStreamInterface(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PollableOutputStreamInterface(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

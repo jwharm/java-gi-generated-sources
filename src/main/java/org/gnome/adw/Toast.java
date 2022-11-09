@@ -133,13 +133,19 @@ public class Toast extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Toast proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Toast(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Toast(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -151,18 +157,18 @@ public class Toast extends org.gtk.gobject.Object {
      */
     public static Toast castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwToast"))) {
-            return new Toast(gobject.refcounted());
+            return new Toast(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwToast");
         }
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String title) {
+    private static Addressable constructNew(@NotNull java.lang.String title) {
         java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_toast_new.invokeExact(
-                    Interop.allocateNativeString(title)), true);
+            RESULT = (MemoryAddress) DowncallHandles.adw_toast_new.invokeExact(
+                    Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,11 +184,20 @@ public class Toast extends org.gtk.gobject.Object {
      * @param title the title to be displayed
      */
     public Toast(@NotNull java.lang.String title) {
-        super(constructNew(title));
+        super(constructNew(title), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFormat(@NotNull java.lang.String format) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    private static Addressable constructNewFormat(@NotNull java.lang.String format, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+        Addressable RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.adw_toast_new_format.invokeExact(
+                    Interop.allocateNativeString(format),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
     }
     
     /**
@@ -192,10 +207,11 @@ public class Toast extends org.gtk.gobject.Object {
      * <p>
      * See also: {@link Toast#Toast}
      * @param format the formatted string for the toast title
+     * @param varargs the parameters to insert into the format string
      * @return the newly created toast object
      */
-    public static Toast newFormat(@NotNull java.lang.String format) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static Toast newFormat(@NotNull java.lang.String format, java.lang.Object... varargs) {
+        return new Toast(constructNewFormat(format, varargs), Ownership.FULL);
     }
     
     /**
@@ -240,7 +256,7 @@ public class Toast extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Variant(RESULT, Ownership.NONE);
     }
     
     /**
@@ -270,7 +286,7 @@ public class Toast extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -350,9 +366,17 @@ public class Toast extends org.gtk.gobject.Object {
      * the action name at the same time, you can use
      * {@code Toast#setDetailedActionName}.
      * @param formatString a variant format string
+     * @param varargs arguments appropriate for {@code target_format}
      */
-    public void setActionTarget(@Nullable java.lang.String formatString) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void setActionTarget(@Nullable java.lang.String formatString, java.lang.Object... varargs) {
+        try {
+            DowncallHandles.adw_toast_set_action_target.invokeExact(
+                    handle(),
+                    (Addressable) (formatString == null ? MemoryAddress.NULL : Interop.allocateNativeString(formatString)),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -501,6 +525,8 @@ public class Toast extends org.gtk.gobject.Object {
      * Emitted after the button has been clicked.
      * <p>
      * It can be used as an alternative to setting an action.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Toast.ButtonClicked> onButtonClicked(Toast.ButtonClicked handler) {
         try {
@@ -527,6 +553,8 @@ public class Toast extends org.gtk.gobject.Object {
     
     /**
      * Emitted when the toast has been dismissed.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Toast.Dismissed> onDismissed(Toast.Dismissed handler) {
         try {
@@ -550,97 +578,116 @@ public class Toast extends org.gtk.gobject.Object {
         
         private static final MethodHandle adw_toast_new = Interop.downcallHandle(
             "adw_toast_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_toast_new_format = Interop.downcallHandle(
             "adw_toast_new_format",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle adw_toast_dismiss = Interop.downcallHandle(
             "adw_toast_dismiss",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_toast_get_action_name = Interop.downcallHandle(
             "adw_toast_get_action_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_toast_get_action_target_value = Interop.downcallHandle(
             "adw_toast_get_action_target_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_toast_get_button_label = Interop.downcallHandle(
             "adw_toast_get_button_label",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_toast_get_custom_title = Interop.downcallHandle(
             "adw_toast_get_custom_title",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_toast_get_priority = Interop.downcallHandle(
             "adw_toast_get_priority",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_toast_get_timeout = Interop.downcallHandle(
             "adw_toast_get_timeout",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_toast_get_title = Interop.downcallHandle(
             "adw_toast_get_title",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_toast_set_action_name = Interop.downcallHandle(
             "adw_toast_set_action_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_toast_set_action_target = Interop.downcallHandle(
             "adw_toast_set_action_target",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle adw_toast_set_action_target_value = Interop.downcallHandle(
             "adw_toast_set_action_target_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_toast_set_button_label = Interop.downcallHandle(
             "adw_toast_set_button_label",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_toast_set_custom_title = Interop.downcallHandle(
             "adw_toast_set_custom_title",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_toast_set_detailed_action_name = Interop.downcallHandle(
             "adw_toast_set_detailed_action_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_toast_set_priority = Interop.downcallHandle(
             "adw_toast_set_priority",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_toast_set_timeout = Interop.downcallHandle(
             "adw_toast_set_timeout",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_toast_set_title = Interop.downcallHandle(
             "adw_toast_set_title",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -649,13 +696,13 @@ public class Toast extends org.gtk.gobject.Object {
         public static void signalToastButtonClicked(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Toast.ButtonClicked) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Toast(Refcounted.get(source)));
+            HANDLER.signalReceived(new Toast(source, Ownership.UNKNOWN));
         }
         
         public static void signalToastDismissed(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Toast.Dismissed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Toast(Refcounted.get(source)));
+            HANDLER.signalReceived(new Toast(source, Ownership.UNKNOWN));
         }
     }
 }

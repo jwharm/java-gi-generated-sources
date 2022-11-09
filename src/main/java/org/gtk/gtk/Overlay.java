@@ -49,13 +49,19 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Overlay proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Overlay(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Overlay(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -67,16 +73,16 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public static Overlay castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkOverlay"))) {
-            return new Overlay(gobject.refcounted());
+            return new Overlay(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkOverlay");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_overlay_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_overlay_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,7 +93,7 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Creates a new {@code GtkOverlay}.
      */
     public Overlay() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -124,7 +130,7 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -251,6 +257,8 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * be full-width/height). If the main child is a
      * {@code GtkScrolledWindow}, the overlays are placed relative
      * to its contents.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Overlay.GetChildPosition> onGetChildPosition(Overlay.GetChildPosition handler) {
         try {
@@ -274,47 +282,56 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         
         private static final MethodHandle gtk_overlay_new = Interop.downcallHandle(
             "gtk_overlay_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_overlay_add_overlay = Interop.downcallHandle(
             "gtk_overlay_add_overlay",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_overlay_get_child = Interop.downcallHandle(
             "gtk_overlay_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_overlay_get_clip_overlay = Interop.downcallHandle(
             "gtk_overlay_get_clip_overlay",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_overlay_get_measure_overlay = Interop.downcallHandle(
             "gtk_overlay_get_measure_overlay",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_overlay_remove_overlay = Interop.downcallHandle(
             "gtk_overlay_remove_overlay",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_overlay_set_child = Interop.downcallHandle(
             "gtk_overlay_set_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_overlay_set_clip_overlay = Interop.downcallHandle(
             "gtk_overlay_set_clip_overlay",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_overlay_set_measure_overlay = Interop.downcallHandle(
             "gtk_overlay_set_measure_overlay",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -323,7 +340,7 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         public static boolean signalOverlayGetChildPosition(MemoryAddress source, MemoryAddress widget, MemoryAddress allocation, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Overlay.GetChildPosition) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Overlay(Refcounted.get(source)), new org.gtk.gtk.Widget(Refcounted.get(widget, false)), new org.gtk.gdk.Rectangle(Refcounted.get(allocation, false)));
+            return HANDLER.signalReceived(new Overlay(source, Ownership.UNKNOWN), new org.gtk.gtk.Widget(widget, Ownership.NONE), new org.gtk.gdk.Rectangle(allocation, Ownership.NONE));
         }
     }
 }

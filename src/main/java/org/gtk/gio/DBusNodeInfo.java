@@ -30,6 +30,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -38,7 +39,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
     
     public static DBusNodeInfo allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DBusNodeInfo newInstance = new DBusNodeInfo(Refcounted.get(segment.address()));
+        DBusNodeInfo newInstance = new DBusNodeInfo(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -85,18 +86,24 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(path));
     }
     
+    /**
+     * Create a DBusNodeInfo proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DBusNodeInfo(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DBusNodeInfo(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNewForXml(@NotNull java.lang.String xmlData) throws GErrorException {
+    private static Addressable constructNewForXml(@NotNull java.lang.String xmlData) throws GErrorException {
         java.util.Objects.requireNonNull(xmlData, "Parameter 'xmlData' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_node_info_new_for_xml.invokeExact(
-                    Interop.allocateNativeString(xmlData), (Addressable) GERROR), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_node_info_new_for_xml.invokeExact(
+                    Interop.allocateNativeString(xmlData),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,7 +128,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static DBusNodeInfo newForXml(@NotNull java.lang.String xmlData) throws GErrorException {
-        return new DBusNodeInfo(constructNewForXml(xmlData));
+        return new DBusNodeInfo(constructNewForXml(xmlData), Ownership.FULL);
     }
     
     /**
@@ -161,7 +168,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusInterfaceInfo(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.DBusInterfaceInfo(RESULT, Ownership.NONE);
     }
     
     /**
@@ -177,7 +184,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusNodeInfo(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.DBusNodeInfo(RESULT, Ownership.FULL);
     }
     
     /**
@@ -198,27 +205,32 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_dbus_node_info_new_for_xml = Interop.downcallHandle(
             "g_dbus_node_info_new_for_xml",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_node_info_generate_xml = Interop.downcallHandle(
             "g_dbus_node_info_generate_xml",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_node_info_lookup_interface = Interop.downcallHandle(
             "g_dbus_node_info_lookup_interface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_node_info_ref = Interop.downcallHandle(
             "g_dbus_node_info_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_node_info_unref = Interop.downcallHandle(
             "g_dbus_node_info_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

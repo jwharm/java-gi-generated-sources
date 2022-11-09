@@ -21,6 +21,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -29,28 +30,33 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     
     public static DateTime allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DateTime newInstance = new DateTime(Refcounted.get(segment.address()));
+        DateTime newInstance = new DateTime(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a DateTime proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DateTime(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DateTime(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.glib.TimeZone tz, int year, int month, int day, int hour, int minute, double seconds) {
+    private static Addressable constructNew(@NotNull org.gtk.glib.TimeZone tz, int year, int month, int day, int hour, int minute, double seconds) {
         java.util.Objects.requireNonNull(tz, "Parameter 'tz' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_new.invokeExact(
                     tz.handle(),
                     year,
                     month,
                     day,
                     hour,
                     minute,
-                    seconds), true);
+                    seconds);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,16 +101,16 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * @param seconds the number of seconds past the minute
      */
     public DateTime(@NotNull org.gtk.glib.TimeZone tz, int year, int month, int day, int hour, int minute, double seconds) {
-        super(constructNew(tz, year, month, day, hour, minute, seconds));
+        super(constructNew(tz, year, month, day, hour, minute, seconds), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromIso8601(@NotNull java.lang.String text, @Nullable org.gtk.glib.TimeZone defaultTz) {
+    private static Addressable constructNewFromIso8601(@NotNull java.lang.String text, @Nullable org.gtk.glib.TimeZone defaultTz) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_from_iso8601.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_new_from_iso8601.invokeExact(
                     Interop.allocateNativeString(text),
-                    (Addressable) (defaultTz == null ? MemoryAddress.NULL : defaultTz.handle())), true);
+                    (Addressable) (defaultTz == null ? MemoryAddress.NULL : defaultTz.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -164,15 +170,15 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * @return a new {@link DateTime}, or {@code null}
      */
     public static DateTime newFromIso8601(@NotNull java.lang.String text, @Nullable org.gtk.glib.TimeZone defaultTz) {
-        return new DateTime(constructNewFromIso8601(text, defaultTz));
+        return new DateTime(constructNewFromIso8601(text, defaultTz), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromTimevalLocal(@NotNull org.gtk.glib.TimeVal tv) {
+    private static Addressable constructNewFromTimevalLocal(@NotNull org.gtk.glib.TimeVal tv) {
         java.util.Objects.requireNonNull(tv, "Parameter 'tv' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_from_timeval_local.invokeExact(
-                    tv.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_new_from_timeval_local.invokeExact(
+                    tv.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -199,15 +205,15 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      */
     @Deprecated
     public static DateTime newFromTimevalLocal(@NotNull org.gtk.glib.TimeVal tv) {
-        return new DateTime(constructNewFromTimevalLocal(tv));
+        return new DateTime(constructNewFromTimevalLocal(tv), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromTimevalUtc(@NotNull org.gtk.glib.TimeVal tv) {
+    private static Addressable constructNewFromTimevalUtc(@NotNull org.gtk.glib.TimeVal tv) {
         java.util.Objects.requireNonNull(tv, "Parameter 'tv' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_from_timeval_utc.invokeExact(
-                    tv.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_new_from_timeval_utc.invokeExact(
+                    tv.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -232,14 +238,14 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      */
     @Deprecated
     public static DateTime newFromTimevalUtc(@NotNull org.gtk.glib.TimeVal tv) {
-        return new DateTime(constructNewFromTimevalUtc(tv));
+        return new DateTime(constructNewFromTimevalUtc(tv), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromUnixLocal(long t) {
-        Refcounted RESULT;
+    private static Addressable constructNewFromUnixLocal(long t) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_from_unix_local.invokeExact(
-                    t), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_new_from_unix_local.invokeExact(
+                    t);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -262,14 +268,14 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * @return a new {@link DateTime}, or {@code null}
      */
     public static DateTime newFromUnixLocal(long t) {
-        return new DateTime(constructNewFromUnixLocal(t));
+        return new DateTime(constructNewFromUnixLocal(t), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromUnixUtc(long t) {
-        Refcounted RESULT;
+    private static Addressable constructNewFromUnixUtc(long t) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_from_unix_utc.invokeExact(
-                    t), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_new_from_unix_utc.invokeExact(
+                    t);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -291,19 +297,19 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * @return a new {@link DateTime}, or {@code null}
      */
     public static DateTime newFromUnixUtc(long t) {
-        return new DateTime(constructNewFromUnixUtc(t));
+        return new DateTime(constructNewFromUnixUtc(t), Ownership.FULL);
     }
     
-    private static Refcounted constructNewLocal(int year, int month, int day, int hour, int minute, double seconds) {
-        Refcounted RESULT;
+    private static Addressable constructNewLocal(int year, int month, int day, int hour, int minute, double seconds) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_local.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_new_local.invokeExact(
                     year,
                     month,
                     day,
                     hour,
                     minute,
-                    seconds), true);
+                    seconds);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -325,15 +331,15 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * @return a {@link DateTime}, or {@code null}
      */
     public static DateTime newLocal(int year, int month, int day, int hour, int minute, double seconds) {
-        return new DateTime(constructNewLocal(year, month, day, hour, minute, seconds));
+        return new DateTime(constructNewLocal(year, month, day, hour, minute, seconds), Ownership.FULL);
     }
     
-    private static Refcounted constructNewNow(@NotNull org.gtk.glib.TimeZone tz) {
+    private static Addressable constructNewNow(@NotNull org.gtk.glib.TimeZone tz) {
         java.util.Objects.requireNonNull(tz, "Parameter 'tz' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_now.invokeExact(
-                    tz.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_new_now.invokeExact(
+                    tz.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -354,13 +360,13 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * @return a new {@link DateTime}, or {@code null}
      */
     public static DateTime newNow(@NotNull org.gtk.glib.TimeZone tz) {
-        return new DateTime(constructNewNow(tz));
+        return new DateTime(constructNewNow(tz), Ownership.FULL);
     }
     
-    private static Refcounted constructNewNowLocal() {
-        Refcounted RESULT;
+    private static Addressable constructNewNowLocal() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_now_local.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_new_now_local.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -376,13 +382,13 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * @return a new {@link DateTime}, or {@code null}
      */
     public static DateTime newNowLocal() {
-        return new DateTime(constructNewNowLocal());
+        return new DateTime(constructNewNowLocal(), Ownership.FULL);
     }
     
-    private static Refcounted constructNewNowUtc() {
-        Refcounted RESULT;
+    private static Addressable constructNewNowUtc() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_now_utc.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_new_now_utc.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -397,19 +403,19 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * @return a new {@link DateTime}, or {@code null}
      */
     public static DateTime newNowUtc() {
-        return new DateTime(constructNewNowUtc());
+        return new DateTime(constructNewNowUtc(), Ownership.FULL);
     }
     
-    private static Refcounted constructNewUtc(int year, int month, int day, int hour, int minute, double seconds) {
-        Refcounted RESULT;
+    private static Addressable constructNewUtc(int year, int month, int day, int hour, int minute, double seconds) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_date_time_new_utc.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_date_time_new_utc.invokeExact(
                     year,
                     month,
                     day,
                     hour,
                     minute,
-                    seconds), true);
+                    seconds);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -431,7 +437,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * @return a {@link DateTime}, or {@code null}
      */
     public static DateTime newUtc(int year, int month, int day, int hour, int minute, double seconds) {
-        return new DateTime(constructNewUtc(year, month, day, hour, minute, seconds));
+        return new DateTime(constructNewUtc(year, month, day, hour, minute, seconds), Ownership.FULL);
     }
     
     /**
@@ -450,7 +456,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
     }
     
     /**
@@ -469,7 +475,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
     }
     
     /**
@@ -498,7 +504,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
     }
     
     /**
@@ -517,7 +523,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
     }
     
     /**
@@ -536,7 +542,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
     }
     
     /**
@@ -560,7 +566,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
     }
     
     /**
@@ -579,7 +585,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
     }
     
     /**
@@ -598,7 +604,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
     }
     
     /**
@@ -620,7 +626,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
     }
     
     /**
@@ -980,7 +986,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TimeZone(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.TimeZone(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1187,7 +1193,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1207,7 +1213,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1264,7 +1270,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1303,7 +1309,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1325,252 +1331,302 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_date_time_new = Interop.downcallHandle(
             "g_date_time_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle g_date_time_new_from_iso8601 = Interop.downcallHandle(
             "g_date_time_new_from_iso8601",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_new_from_timeval_local = Interop.downcallHandle(
             "g_date_time_new_from_timeval_local",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_new_from_timeval_utc = Interop.downcallHandle(
             "g_date_time_new_from_timeval_utc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_new_from_unix_local = Interop.downcallHandle(
             "g_date_time_new_from_unix_local",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_date_time_new_from_unix_utc = Interop.downcallHandle(
             "g_date_time_new_from_unix_utc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_date_time_new_local = Interop.downcallHandle(
             "g_date_time_new_local",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle g_date_time_new_now = Interop.downcallHandle(
             "g_date_time_new_now",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_new_now_local = Interop.downcallHandle(
             "g_date_time_new_now_local",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_new_now_utc = Interop.downcallHandle(
             "g_date_time_new_now_utc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_new_utc = Interop.downcallHandle(
             "g_date_time_new_utc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle g_date_time_add = Interop.downcallHandle(
             "g_date_time_add",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_date_time_add_days = Interop.downcallHandle(
             "g_date_time_add_days",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_date_time_add_full = Interop.downcallHandle(
             "g_date_time_add_full",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle g_date_time_add_hours = Interop.downcallHandle(
             "g_date_time_add_hours",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_date_time_add_minutes = Interop.downcallHandle(
             "g_date_time_add_minutes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_date_time_add_months = Interop.downcallHandle(
             "g_date_time_add_months",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_date_time_add_seconds = Interop.downcallHandle(
             "g_date_time_add_seconds",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle g_date_time_add_weeks = Interop.downcallHandle(
             "g_date_time_add_weeks",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_date_time_add_years = Interop.downcallHandle(
             "g_date_time_add_years",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_date_time_compare = Interop.downcallHandle(
             "g_date_time_compare",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_difference = Interop.downcallHandle(
             "g_date_time_difference",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_equal = Interop.downcallHandle(
             "g_date_time_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_format = Interop.downcallHandle(
             "g_date_time_format",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_format_iso8601 = Interop.downcallHandle(
             "g_date_time_format_iso8601",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_get_day_of_month = Interop.downcallHandle(
             "g_date_time_get_day_of_month",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_get_day_of_week = Interop.downcallHandle(
             "g_date_time_get_day_of_week",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_get_day_of_year = Interop.downcallHandle(
             "g_date_time_get_day_of_year",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_get_hour = Interop.downcallHandle(
             "g_date_time_get_hour",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_get_microsecond = Interop.downcallHandle(
             "g_date_time_get_microsecond",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_get_minute = Interop.downcallHandle(
             "g_date_time_get_minute",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_get_month = Interop.downcallHandle(
             "g_date_time_get_month",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_get_second = Interop.downcallHandle(
             "g_date_time_get_second",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_get_seconds = Interop.downcallHandle(
             "g_date_time_get_seconds",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_get_timezone = Interop.downcallHandle(
             "g_date_time_get_timezone",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_get_timezone_abbreviation = Interop.downcallHandle(
             "g_date_time_get_timezone_abbreviation",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_get_utc_offset = Interop.downcallHandle(
             "g_date_time_get_utc_offset",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_get_week_numbering_year = Interop.downcallHandle(
             "g_date_time_get_week_numbering_year",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_get_week_of_year = Interop.downcallHandle(
             "g_date_time_get_week_of_year",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_get_year = Interop.downcallHandle(
             "g_date_time_get_year",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_get_ymd = Interop.downcallHandle(
             "g_date_time_get_ymd",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_hash = Interop.downcallHandle(
             "g_date_time_hash",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_is_daylight_savings = Interop.downcallHandle(
             "g_date_time_is_daylight_savings",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_ref = Interop.downcallHandle(
             "g_date_time_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_to_local = Interop.downcallHandle(
             "g_date_time_to_local",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_to_timeval = Interop.downcallHandle(
             "g_date_time_to_timeval",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_to_timezone = Interop.downcallHandle(
             "g_date_time_to_timezone",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_to_unix = Interop.downcallHandle(
             "g_date_time_to_unix",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_to_utc = Interop.downcallHandle(
             "g_date_time_to_utc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_date_time_unref = Interop.downcallHandle(
             "g_date_time_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

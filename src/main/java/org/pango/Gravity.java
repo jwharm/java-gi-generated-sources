@@ -167,22 +167,26 @@ public class Gravity extends io.github.jwharm.javagi.Enumeration {
         
         private static final MethodHandle pango_gravity_get_for_matrix = Interop.downcallHandle(
             "pango_gravity_get_for_matrix",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_gravity_get_for_script = Interop.downcallHandle(
             "pango_gravity_get_for_script",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_gravity_get_for_script_and_width = Interop.downcallHandle(
             "pango_gravity_get_for_script_and_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_gravity_to_rotation = Interop.downcallHandle(
             "pango_gravity_to_rotation",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

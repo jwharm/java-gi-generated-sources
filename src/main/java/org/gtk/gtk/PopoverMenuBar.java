@@ -46,13 +46,19 @@ public class PopoverMenuBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a PopoverMenuBar proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PopoverMenuBar(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PopoverMenuBar(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -64,17 +70,17 @@ public class PopoverMenuBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      */
     public static PopoverMenuBar castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPopoverMenuBar"))) {
-            return new PopoverMenuBar(gobject.refcounted());
+            return new PopoverMenuBar(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkPopoverMenuBar");
         }
     }
     
-    private static Refcounted constructNewFromModel(@Nullable org.gtk.gio.MenuModel model) {
-        Refcounted RESULT;
+    private static Addressable constructNewFromModel(@Nullable org.gtk.gio.MenuModel model) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_popover_menu_bar_new_from_model.invokeExact(
-                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle())), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_popover_menu_bar_new_from_model.invokeExact(
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,7 +93,7 @@ public class PopoverMenuBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * @return a new {@code GtkPopoverMenuBar}
      */
     public static PopoverMenuBar newFromModel(@Nullable org.gtk.gio.MenuModel model) {
-        return new PopoverMenuBar(constructNewFromModel(model));
+        return new PopoverMenuBar(constructNewFromModel(model), Ownership.NONE);
     }
     
     /**
@@ -126,7 +132,7 @@ public class PopoverMenuBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(RESULT, Ownership.NONE);
     }
     
     /**
@@ -167,27 +173,32 @@ public class PopoverMenuBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         
         private static final MethodHandle gtk_popover_menu_bar_new_from_model = Interop.downcallHandle(
             "gtk_popover_menu_bar_new_from_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_popover_menu_bar_add_child = Interop.downcallHandle(
             "gtk_popover_menu_bar_add_child",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_popover_menu_bar_get_menu_model = Interop.downcallHandle(
             "gtk_popover_menu_bar_get_menu_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_popover_menu_bar_remove_child = Interop.downcallHandle(
             "gtk_popover_menu_bar_remove_child",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_popover_menu_bar_set_menu_model = Interop.downcallHandle(
             "gtk_popover_menu_bar_set_menu_model",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -32,7 +32,7 @@ public interface BuilderScope extends io.github.jwharm.javagi.Proxy {
      */
     public static BuilderScope castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkBuilderScope"))) {
-            return new BuilderScopeImpl(gobject.refcounted());
+            return new BuilderScopeImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkBuilderScope");
         }
@@ -44,8 +44,8 @@ public interface BuilderScope extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public BuilderScopeImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public BuilderScopeImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

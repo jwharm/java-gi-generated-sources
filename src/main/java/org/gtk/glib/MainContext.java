@@ -21,6 +21,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -29,20 +30,25 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     
     public static MainContext allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MainContext newInstance = new MainContext(Refcounted.get(segment.address()));
+        MainContext newInstance = new MainContext(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a MainContext proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public MainContext(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public MainContext(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_main_context_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_main_context_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -53,15 +59,15 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * Creates a new {@link MainContext} structure.
      */
     public MainContext() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
-    private static Refcounted constructNewWithFlags(@NotNull org.gtk.glib.MainContextFlags flags) {
+    private static Addressable constructNewWithFlags(@NotNull org.gtk.glib.MainContextFlags flags) {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_main_context_new_with_flags.invokeExact(
-                    flags.getValue()), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_main_context_new_with_flags.invokeExact(
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -75,7 +81,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * @return the new {@link MainContext}
      */
     public static MainContext newWithFlags(@NotNull org.gtk.glib.MainContextFlags flags) {
-        return new MainContext(constructNewWithFlags(flags));
+        return new MainContext(constructNewWithFlags(flags), Ownership.FULL);
     }
     
     /**
@@ -139,7 +145,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * @param nFds return value of g_main_context_query()
      * @return {@code true} if some sources are ready to be dispatched.
      */
-    public boolean check(int maxPriority, org.gtk.glib.PollFD[] fds, int nFds) {
+    public boolean check(int maxPriority, @NotNull org.gtk.glib.PollFD[] fds, int nFds) {
         java.util.Objects.requireNonNull(fds, "Parameter 'fds' must not be null");
         int RESULT;
         try {
@@ -188,7 +194,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Source(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Source(RESULT, Ownership.NONE);
     }
     
     /**
@@ -216,7 +222,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Source(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Source(RESULT, Ownership.NONE);
     }
     
     /**
@@ -235,7 +241,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Source(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Source(RESULT, Ownership.NONE);
     }
     
     /**
@@ -483,7 +489,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      *   or, if more than {@code n_fds} records need to be stored, the number
      *   of records that need to be stored.
      */
-    public int query(int maxPriority, Out<Integer> timeout, Out<org.gtk.glib.PollFD[]> fds, int nFds) {
+    public int query(int maxPriority, Out<Integer> timeout, @NotNull Out<org.gtk.glib.PollFD[]> fds, int nFds) {
         java.util.Objects.requireNonNull(timeout, "Parameter 'timeout' must not be null");
         java.util.Objects.requireNonNull(fds, "Parameter 'fds' must not be null");
         MemorySegment timeoutPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
@@ -503,7 +509,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         org.gtk.glib.PollFD[] fdsARRAY = new org.gtk.glib.PollFD[nFds];
         for (int I = 0; I < nFds; I++) {
             var OBJ = fdsPOINTER.get(ValueLayout.ADDRESS, I);
-            fdsARRAY[I] = new org.gtk.glib.PollFD(Refcounted.get(OBJ, false));
+            fdsARRAY[I] = new org.gtk.glib.PollFD(OBJ, Ownership.NONE);
         }
         fds.set(fdsARRAY);
         return RESULT;
@@ -521,7 +527,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.MainContext(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.MainContext(RESULT, Ownership.FULL);
     }
     
     /**
@@ -662,7 +668,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.MainContext(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.MainContext(RESULT, Ownership.NONE);
     }
     
     /**
@@ -687,7 +693,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.MainContext(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.MainContext(RESULT, Ownership.NONE);
     }
     
     /**
@@ -707,154 +713,183 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.MainContext(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.MainContext(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_main_context_new = Interop.downcallHandle(
             "g_main_context_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_new_with_flags = Interop.downcallHandle(
             "g_main_context_new_with_flags",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_main_context_acquire = Interop.downcallHandle(
             "g_main_context_acquire",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_add_poll = Interop.downcallHandle(
             "g_main_context_add_poll",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_main_context_check = Interop.downcallHandle(
             "g_main_context_check",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_main_context_dispatch = Interop.downcallHandle(
             "g_main_context_dispatch",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_find_source_by_funcs_user_data = Interop.downcallHandle(
             "g_main_context_find_source_by_funcs_user_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_find_source_by_id = Interop.downcallHandle(
             "g_main_context_find_source_by_id",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_main_context_find_source_by_user_data = Interop.downcallHandle(
             "g_main_context_find_source_by_user_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_get_poll_func = Interop.downcallHandle(
             "g_main_context_get_poll_func",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_invoke = Interop.downcallHandle(
             "g_main_context_invoke",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_invoke_full = Interop.downcallHandle(
             "g_main_context_invoke_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_is_owner = Interop.downcallHandle(
             "g_main_context_is_owner",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_iteration = Interop.downcallHandle(
             "g_main_context_iteration",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_main_context_pending = Interop.downcallHandle(
             "g_main_context_pending",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_pop_thread_default = Interop.downcallHandle(
             "g_main_context_pop_thread_default",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_prepare = Interop.downcallHandle(
             "g_main_context_prepare",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_push_thread_default = Interop.downcallHandle(
             "g_main_context_push_thread_default",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_query = Interop.downcallHandle(
             "g_main_context_query",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_main_context_ref = Interop.downcallHandle(
             "g_main_context_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_release = Interop.downcallHandle(
             "g_main_context_release",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_remove_poll = Interop.downcallHandle(
             "g_main_context_remove_poll",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_set_poll_func = Interop.downcallHandle(
             "g_main_context_set_poll_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_unref = Interop.downcallHandle(
             "g_main_context_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_wait = Interop.downcallHandle(
             "g_main_context_wait",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_wakeup = Interop.downcallHandle(
             "g_main_context_wakeup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_default = Interop.downcallHandle(
             "g_main_context_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_get_thread_default = Interop.downcallHandle(
             "g_main_context_get_thread_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_context_ref_thread_default = Interop.downcallHandle(
             "g_main_context_ref_thread_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

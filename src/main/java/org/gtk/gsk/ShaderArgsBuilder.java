@@ -20,6 +20,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -28,23 +29,28 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     
     public static ShaderArgsBuilder allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ShaderArgsBuilder newInstance = new ShaderArgsBuilder(Refcounted.get(segment.address()));
+        ShaderArgsBuilder newInstance = new ShaderArgsBuilder(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a ShaderArgsBuilder proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ShaderArgsBuilder(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ShaderArgsBuilder(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gsk.GLShader shader, @Nullable org.gtk.glib.Bytes initialValues) {
+    private static Addressable constructNew(@NotNull org.gtk.gsk.GLShader shader, @Nullable org.gtk.glib.Bytes initialValues) {
         java.util.Objects.requireNonNull(shader, "Parameter 'shader' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_shader_args_builder_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gsk_shader_args_builder_new.invokeExact(
                     shader.handle(),
-                    (Addressable) (initialValues == null ? MemoryAddress.NULL : initialValues.handle())), true);
+                    (Addressable) (initialValues == null ? MemoryAddress.NULL : initialValues.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -58,7 +64,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
      * @param initialValues optional {@code GBytes} with initial values
      */
     public ShaderArgsBuilder(@NotNull org.gtk.gsk.GLShader shader, @Nullable org.gtk.glib.Bytes initialValues) {
-        super(constructNew(shader, initialValues));
+        super(constructNew(shader, initialValues), Ownership.FULL);
     }
     
     /**
@@ -78,7 +84,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
     }
     
     /**
@@ -93,7 +99,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.ShaderArgsBuilder(Refcounted.get(RESULT, true));
+        return new org.gtk.gsk.ShaderArgsBuilder(RESULT, Ownership.FULL);
     }
     
     /**
@@ -248,7 +254,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
     }
     
     /**
@@ -269,62 +275,74 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle gsk_shader_args_builder_new = Interop.downcallHandle(
             "gsk_shader_args_builder_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_shader_args_builder_free_to_args = Interop.downcallHandle(
             "gsk_shader_args_builder_free_to_args",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_shader_args_builder_ref = Interop.downcallHandle(
             "gsk_shader_args_builder_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_shader_args_builder_set_bool = Interop.downcallHandle(
             "gsk_shader_args_builder_set_bool",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gsk_shader_args_builder_set_float = Interop.downcallHandle(
             "gsk_shader_args_builder_set_float",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle gsk_shader_args_builder_set_int = Interop.downcallHandle(
             "gsk_shader_args_builder_set_int",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gsk_shader_args_builder_set_uint = Interop.downcallHandle(
             "gsk_shader_args_builder_set_uint",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gsk_shader_args_builder_set_vec2 = Interop.downcallHandle(
             "gsk_shader_args_builder_set_vec2",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_shader_args_builder_set_vec3 = Interop.downcallHandle(
             "gsk_shader_args_builder_set_vec3",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_shader_args_builder_set_vec4 = Interop.downcallHandle(
             "gsk_shader_args_builder_set_vec4",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_shader_args_builder_to_args = Interop.downcallHandle(
             "gsk_shader_args_builder_to_args",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_shader_args_builder_unref = Interop.downcallHandle(
             "gsk_shader_args_builder_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

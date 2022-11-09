@@ -40,6 +40,7 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -50,12 +51,17 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
      */
     public org.gtk.gio.SocketService parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.SocketService(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.SocketService(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a ThreadedSocketService proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ThreadedSocketService(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ThreadedSocketService(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -67,17 +73,17 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
      */
     public static ThreadedSocketService castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GThreadedSocketService"))) {
-            return new ThreadedSocketService(gobject.refcounted());
+            return new ThreadedSocketService(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GThreadedSocketService");
         }
     }
     
-    private static Refcounted constructNew(int maxThreads) {
-        Refcounted RESULT;
+    private static Addressable constructNew(int maxThreads) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_threaded_socket_service_new.invokeExact(
-                    maxThreads), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_threaded_socket_service_new.invokeExact(
+                    maxThreads);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,7 +97,7 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
      *   handling incoming clients, -1 means no limit
      */
     public ThreadedSocketService(int maxThreads) {
-        super(constructNew(maxThreads));
+        super(constructNew(maxThreads), Ownership.FULL);
     }
     
     @FunctionalInterface
@@ -104,6 +110,8 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
      * incoming connection. This thread is dedicated to handling
      * {@code connection} and may perform blocking IO. The signal handler need
      * not return until the connection is closed.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ThreadedSocketService.Run> onRun(ThreadedSocketService.Run handler) {
         try {
@@ -127,7 +135,8 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
         
         private static final MethodHandle g_threaded_socket_service_new = Interop.downcallHandle(
             "g_threaded_socket_service_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -136,7 +145,7 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
         public static boolean signalThreadedSocketServiceRun(MemoryAddress source, MemoryAddress connection, MemoryAddress sourceObject, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ThreadedSocketService.Run) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new ThreadedSocketService(Refcounted.get(source)), new org.gtk.gio.SocketConnection(Refcounted.get(connection, false)), new org.gtk.gobject.Object(Refcounted.get(sourceObject, false)));
+            return HANDLER.signalReceived(new ThreadedSocketService(source, Ownership.UNKNOWN), new org.gtk.gio.SocketConnection(connection, Ownership.NONE), new org.gtk.gobject.Object(sourceObject, Ownership.NONE));
         }
     }
 }

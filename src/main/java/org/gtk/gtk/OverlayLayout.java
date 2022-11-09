@@ -26,13 +26,19 @@ public class OverlayLayout extends org.gtk.gtk.LayoutManager {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a OverlayLayout proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public OverlayLayout(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public OverlayLayout(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -44,16 +50,16 @@ public class OverlayLayout extends org.gtk.gtk.LayoutManager {
      */
     public static OverlayLayout castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkOverlayLayout"))) {
-            return new OverlayLayout(gobject.refcounted());
+            return new OverlayLayout(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkOverlayLayout");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_overlay_layout_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_overlay_layout_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,14 +70,15 @@ public class OverlayLayout extends org.gtk.gtk.LayoutManager {
      * Creates a new {@code GtkOverlayLayout} instance.
      */
     public OverlayLayout() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_overlay_layout_new = Interop.downcallHandle(
             "gtk_overlay_layout_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

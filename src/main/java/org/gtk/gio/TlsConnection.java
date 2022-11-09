@@ -31,6 +31,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -41,12 +42,17 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      */
     public org.gtk.gio.IOStream parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.IOStream(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.IOStream(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a TlsConnection proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TlsConnection(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TlsConnection(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -58,7 +64,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      */
     public static TlsConnection castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTlsConnection"))) {
-            return new TlsConnection(gobject.refcounted());
+            return new TlsConnection(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GTlsConnection");
         }
@@ -100,7 +106,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsCertificate(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.TlsCertificate(RESULT, Ownership.NONE);
     }
     
     /**
@@ -123,7 +129,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      * @return {@code true} on success, {@code false} otherwise
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean getChannelBindingData(@NotNull org.gtk.gio.TlsChannelBindingType type, Out<byte[]> data) throws io.github.jwharm.javagi.GErrorException {
+    public boolean getChannelBindingData(@NotNull org.gtk.gio.TlsChannelBindingType type, @NotNull Out<byte[]> data) throws io.github.jwharm.javagi.GErrorException {
         throw new UnsupportedOperationException("Operation not supported yet");
     }
     
@@ -162,7 +168,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsDatabase(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.TlsDatabase(RESULT, Ownership.NONE);
     }
     
     /**
@@ -179,7 +185,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsInteraction(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.TlsInteraction(RESULT, Ownership.NONE);
     }
     
     /**
@@ -217,7 +223,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsCertificate(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.TlsCertificate(RESULT, Ownership.NONE);
     }
     
     /**
@@ -355,7 +361,8 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         try {
             RESULT = (int) DowncallHandles.g_tls_connection_handshake.invokeExact(
                     handle(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -404,7 +411,8 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         try {
             RESULT = (int) DowncallHandles.g_tls_connection_handshake_finish.invokeExact(
                     handle(),
-                    result.handle(), (Addressable) GERROR);
+                    result.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -428,7 +436,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      * @param protocols a {@code null}-terminated
      *   array of ALPN protocol names (eg, "http/1.1", "h2"), or {@code null}
      */
-    public void setAdvertisedProtocols(java.lang.String[] protocols) {
+    public void setAdvertisedProtocols(@Nullable java.lang.String[] protocols) {
         try {
             DowncallHandles.g_tls_connection_set_advertised_protocols.invokeExact(
                     handle(),
@@ -645,6 +653,8 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      * If you are doing I/O in another thread, you do not
      * need to worry about this, and can simply block in the signal
      * handler until the UI thread returns an answer.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TlsConnection.AcceptCertificate> onAcceptCertificate(TlsConnection.AcceptCertificate handler) {
         try {
@@ -668,117 +678,140 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         
         private static final MethodHandle g_tls_connection_emit_accept_certificate = Interop.downcallHandle(
             "g_tls_connection_emit_accept_certificate",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_tls_connection_get_certificate = Interop.downcallHandle(
             "g_tls_connection_get_certificate",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_connection_get_channel_binding_data = Interop.downcallHandle(
             "g_tls_connection_get_channel_binding_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_connection_get_ciphersuite_name = Interop.downcallHandle(
             "g_tls_connection_get_ciphersuite_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_connection_get_database = Interop.downcallHandle(
             "g_tls_connection_get_database",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_connection_get_interaction = Interop.downcallHandle(
             "g_tls_connection_get_interaction",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_connection_get_negotiated_protocol = Interop.downcallHandle(
             "g_tls_connection_get_negotiated_protocol",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_connection_get_peer_certificate = Interop.downcallHandle(
             "g_tls_connection_get_peer_certificate",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_connection_get_peer_certificate_errors = Interop.downcallHandle(
             "g_tls_connection_get_peer_certificate_errors",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_connection_get_protocol_version = Interop.downcallHandle(
             "g_tls_connection_get_protocol_version",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_connection_get_rehandshake_mode = Interop.downcallHandle(
             "g_tls_connection_get_rehandshake_mode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_connection_get_require_close_notify = Interop.downcallHandle(
             "g_tls_connection_get_require_close_notify",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_connection_get_use_system_certdb = Interop.downcallHandle(
             "g_tls_connection_get_use_system_certdb",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_connection_handshake = Interop.downcallHandle(
             "g_tls_connection_handshake",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_connection_handshake_async = Interop.downcallHandle(
             "g_tls_connection_handshake_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_connection_handshake_finish = Interop.downcallHandle(
             "g_tls_connection_handshake_finish",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_connection_set_advertised_protocols = Interop.downcallHandle(
             "g_tls_connection_set_advertised_protocols",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_connection_set_certificate = Interop.downcallHandle(
             "g_tls_connection_set_certificate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_connection_set_database = Interop.downcallHandle(
             "g_tls_connection_set_database",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_connection_set_interaction = Interop.downcallHandle(
             "g_tls_connection_set_interaction",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_connection_set_rehandshake_mode = Interop.downcallHandle(
             "g_tls_connection_set_rehandshake_mode",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_tls_connection_set_require_close_notify = Interop.downcallHandle(
             "g_tls_connection_set_require_close_notify",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_tls_connection_set_use_system_certdb = Interop.downcallHandle(
             "g_tls_connection_set_use_system_certdb",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -787,7 +820,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         public static boolean signalTlsConnectionAcceptCertificate(MemoryAddress source, MemoryAddress peerCert, int errors, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TlsConnection.AcceptCertificate) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new TlsConnection(Refcounted.get(source)), new org.gtk.gio.TlsCertificate(Refcounted.get(peerCert, false)), new org.gtk.gio.TlsCertificateFlags(errors));
+            return HANDLER.signalReceived(new TlsConnection(source, Ownership.UNKNOWN), new org.gtk.gio.TlsCertificate(peerCert, Ownership.NONE), new org.gtk.gio.TlsCertificateFlags(errors));
         }
     }
 }

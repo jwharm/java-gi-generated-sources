@@ -25,7 +25,7 @@ public interface FileDescriptorBased extends io.github.jwharm.javagi.Proxy {
      */
     public static FileDescriptorBased castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GFileDescriptorBased"))) {
-            return new FileDescriptorBasedImpl(gobject.refcounted());
+            return new FileDescriptorBasedImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GFileDescriptorBased");
         }
@@ -52,7 +52,8 @@ public interface FileDescriptorBased extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_file_descriptor_based_get_fd = Interop.downcallHandle(
             "g_file_descriptor_based_get_fd",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -62,8 +63,8 @@ public interface FileDescriptorBased extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public FileDescriptorBasedImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public FileDescriptorBasedImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

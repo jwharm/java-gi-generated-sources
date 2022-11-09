@@ -20,13 +20,19 @@ public class CustomFilter extends org.gtk.gtk.Filter {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a CustomFilter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CustomFilter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CustomFilter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,23 +44,23 @@ public class CustomFilter extends org.gtk.gtk.Filter {
      */
     public static CustomFilter castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCustomFilter"))) {
-            return new CustomFilter(gobject.refcounted());
+            return new CustomFilter(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCustomFilter");
         }
     }
     
-    private static Refcounted constructNew(@Nullable org.gtk.gtk.CustomFilterFunc matchFunc) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable org.gtk.gtk.CustomFilterFunc matchFunc) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_custom_filter_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_custom_filter_new.invokeExact(
                     (Addressable) (matchFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbCustomFilterFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (matchFunc == null ? MemoryAddress.NULL : Interop.registerCallback(matchFunc)),
-                    Interop.cbDestroyNotifySymbol()), true);
+                    Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -72,7 +78,7 @@ public class CustomFilter extends org.gtk.gtk.Filter {
      * @param matchFunc function to filter items
      */
     public CustomFilter(@Nullable org.gtk.gtk.CustomFilterFunc matchFunc) {
-        super(constructNew(matchFunc));
+        super(constructNew(matchFunc), Ownership.FULL);
     }
     
     /**
@@ -107,12 +113,14 @@ public class CustomFilter extends org.gtk.gtk.Filter {
         
         private static final MethodHandle gtk_custom_filter_new = Interop.downcallHandle(
             "gtk_custom_filter_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_custom_filter_set_filter_func = Interop.downcallHandle(
             "gtk_custom_filter_set_filter_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

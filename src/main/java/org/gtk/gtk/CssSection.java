@@ -23,6 +23,7 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -31,25 +32,30 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
     
     public static CssSection allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CssSection newInstance = new CssSection(Refcounted.get(segment.address()));
+        CssSection newInstance = new CssSection(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a CssSection proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CssSection(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CssSection(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew(@Nullable org.gtk.gio.File file, @NotNull org.gtk.gtk.CssLocation start, @NotNull org.gtk.gtk.CssLocation end) {
+    private static Addressable constructNew(@Nullable org.gtk.gio.File file, @NotNull org.gtk.gtk.CssLocation start, @NotNull org.gtk.gtk.CssLocation end) {
         java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_css_section_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_new.invokeExact(
                     (Addressable) (file == null ? MemoryAddress.NULL : file.handle()),
                     start.handle(),
-                    end.handle()), true);
+                    end.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,7 +71,7 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
      * @param end The end location
      */
     public CssSection(@Nullable org.gtk.gio.File file, @NotNull org.gtk.gtk.CssLocation start, @NotNull org.gtk.gtk.CssLocation end) {
-        super(constructNew(file, start, end));
+        super(constructNew(file, start, end), Ownership.FULL);
     }
     
     /**
@@ -81,7 +87,7 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.CssLocation(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.CssLocation(RESULT, Ownership.NONE);
     }
     
     /**
@@ -100,7 +106,7 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -122,7 +128,7 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.CssSection(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.CssSection(RESULT, Ownership.NONE);
     }
     
     /**
@@ -138,7 +144,7 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.CssLocation(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.CssLocation(RESULT, Ownership.NONE);
     }
     
     /**
@@ -171,7 +177,7 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.CssSection(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.CssSection(RESULT, Ownership.FULL);
     }
     
     /**
@@ -207,47 +213,56 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle gtk_css_section_new = Interop.downcallHandle(
             "gtk_css_section_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_css_section_get_end_location = Interop.downcallHandle(
             "gtk_css_section_get_end_location",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_css_section_get_file = Interop.downcallHandle(
             "gtk_css_section_get_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_css_section_get_parent = Interop.downcallHandle(
             "gtk_css_section_get_parent",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_css_section_get_start_location = Interop.downcallHandle(
             "gtk_css_section_get_start_location",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_css_section_print = Interop.downcallHandle(
             "gtk_css_section_print",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_css_section_ref = Interop.downcallHandle(
             "gtk_css_section_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_css_section_to_string = Interop.downcallHandle(
             "gtk_css_section_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_css_section_unref = Interop.downcallHandle(
             "gtk_css_section_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

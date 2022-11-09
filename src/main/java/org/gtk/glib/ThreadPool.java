@@ -28,6 +28,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -36,7 +37,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
     
     public static ThreadPool allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ThreadPool newInstance = new ThreadPool(Refcounted.get(segment.address()));
+        ThreadPool newInstance = new ThreadPool(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -94,9 +95,14 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), exclusive ? 1 : 0);
     }
     
+    /**
+     * Create a ThreadPool proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ThreadPool(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ThreadPool(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -201,7 +207,8 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
         try {
             RESULT = (int) DowncallHandles.g_thread_pool_push.invokeExact(
                     handle(),
-                    data, (Addressable) GERROR);
+                    data,
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -243,7 +250,8 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
         try {
             RESULT = (int) DowncallHandles.g_thread_pool_set_max_threads.invokeExact(
                     handle(),
-                    maxThreads, (Addressable) GERROR);
+                    maxThreads,
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -402,14 +410,15 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)),
                     maxThreads,
-                    exclusive ? 1 : 0, (Addressable) GERROR);
+                    exclusive ? 1 : 0,
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.ThreadPool(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.ThreadPool(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -438,14 +447,15 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
                     (Addressable) (Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol(),
                     maxThreads,
-                    exclusive ? 1 : 0, (Addressable) GERROR);
+                    exclusive ? 1 : 0,
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.ThreadPool(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.ThreadPool(RESULT, Ownership.FULL);
     }
     
     /**
@@ -504,82 +514,98 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_thread_pool_free = Interop.downcallHandle(
             "g_thread_pool_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_thread_pool_get_max_threads = Interop.downcallHandle(
             "g_thread_pool_get_max_threads",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_thread_pool_get_num_threads = Interop.downcallHandle(
             "g_thread_pool_get_num_threads",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_thread_pool_move_to_front = Interop.downcallHandle(
             "g_thread_pool_move_to_front",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_thread_pool_push = Interop.downcallHandle(
             "g_thread_pool_push",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_thread_pool_set_max_threads = Interop.downcallHandle(
             "g_thread_pool_set_max_threads",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_thread_pool_set_sort_function = Interop.downcallHandle(
             "g_thread_pool_set_sort_function",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_thread_pool_unprocessed = Interop.downcallHandle(
             "g_thread_pool_unprocessed",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_thread_pool_get_max_idle_time = Interop.downcallHandle(
             "g_thread_pool_get_max_idle_time",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_thread_pool_get_max_unused_threads = Interop.downcallHandle(
             "g_thread_pool_get_max_unused_threads",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_thread_pool_get_num_unused_threads = Interop.downcallHandle(
             "g_thread_pool_get_num_unused_threads",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_thread_pool_new = Interop.downcallHandle(
             "g_thread_pool_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_thread_pool_new_full = Interop.downcallHandle(
             "g_thread_pool_new_full",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_thread_pool_set_max_idle_time = Interop.downcallHandle(
             "g_thread_pool_set_max_idle_time",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_thread_pool_set_max_unused_threads = Interop.downcallHandle(
             "g_thread_pool_set_max_unused_threads",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_thread_pool_stop_unused_threads = Interop.downcallHandle(
             "g_thread_pool_stop_unused_threads",
-            FunctionDescriptor.ofVoid()
+            FunctionDescriptor.ofVoid(),
+            false
         );
     }
 }

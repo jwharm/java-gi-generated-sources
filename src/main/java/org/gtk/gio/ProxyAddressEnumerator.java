@@ -33,13 +33,19 @@ public class ProxyAddressEnumerator extends org.gtk.gio.SocketAddressEnumerator 
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Create a ProxyAddressEnumerator proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ProxyAddressEnumerator(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ProxyAddressEnumerator(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -51,7 +57,7 @@ public class ProxyAddressEnumerator extends org.gtk.gio.SocketAddressEnumerator 
      */
     public static ProxyAddressEnumerator castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GProxyAddressEnumerator"))) {
-            return new ProxyAddressEnumerator(gobject.refcounted());
+            return new ProxyAddressEnumerator(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GProxyAddressEnumerator");
         }

@@ -25,6 +25,7 @@ public class Seat extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -35,12 +36,17 @@ public class Seat extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a Seat proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Seat(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Seat(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -52,7 +58,7 @@ public class Seat extends org.gtk.gobject.Object {
      */
     public static Seat castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkSeat"))) {
-            return new Seat(gobject.refcounted());
+            return new Seat(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkSeat");
         }
@@ -90,7 +96,7 @@ public class Seat extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.List(RESULT, Ownership.CONTAINER);
     }
     
     /**
@@ -106,7 +112,7 @@ public class Seat extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
     }
     
     /**
@@ -122,7 +128,7 @@ public class Seat extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Device(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Device(RESULT, Ownership.NONE);
     }
     
     /**
@@ -138,7 +144,7 @@ public class Seat extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Device(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Device(RESULT, Ownership.NONE);
     }
     
     /**
@@ -153,7 +159,7 @@ public class Seat extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.List(RESULT, Ownership.CONTAINER);
     }
     
     @FunctionalInterface
@@ -163,6 +169,8 @@ public class Seat extends org.gtk.gobject.Object {
     
     /**
      * Emitted when a new input device is related to this seat.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Seat.DeviceAdded> onDeviceAdded(Seat.DeviceAdded handler) {
         try {
@@ -189,6 +197,8 @@ public class Seat extends org.gtk.gobject.Object {
     
     /**
      * Emitted when an input device is removed (e.g. unplugged).
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Seat.DeviceRemoved> onDeviceRemoved(Seat.DeviceRemoved handler) {
         try {
@@ -221,6 +231,8 @@ public class Seat extends org.gtk.gobject.Object {
      * {@code Gdk.Device::tool-changed} signal accordingly.
      * <p>
      * A same tool may be used by several devices.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Seat.ToolAdded> onToolAdded(Seat.ToolAdded handler) {
         try {
@@ -247,6 +259,8 @@ public class Seat extends org.gtk.gobject.Object {
     
     /**
      * Emitted whenever a tool is no longer known to this {@code seat}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Seat.ToolRemoved> onToolRemoved(Seat.ToolRemoved handler) {
         try {
@@ -270,32 +284,38 @@ public class Seat extends org.gtk.gobject.Object {
         
         private static final MethodHandle gdk_seat_get_capabilities = Interop.downcallHandle(
             "gdk_seat_get_capabilities",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_seat_get_devices = Interop.downcallHandle(
             "gdk_seat_get_devices",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_seat_get_display = Interop.downcallHandle(
             "gdk_seat_get_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_seat_get_keyboard = Interop.downcallHandle(
             "gdk_seat_get_keyboard",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_seat_get_pointer = Interop.downcallHandle(
             "gdk_seat_get_pointer",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_seat_get_tools = Interop.downcallHandle(
             "gdk_seat_get_tools",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -304,25 +324,25 @@ public class Seat extends org.gtk.gobject.Object {
         public static void signalSeatDeviceAdded(MemoryAddress source, MemoryAddress device, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Seat.DeviceAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Seat(Refcounted.get(source)), new org.gtk.gdk.Device(Refcounted.get(device, false)));
+            HANDLER.signalReceived(new Seat(source, Ownership.UNKNOWN), new org.gtk.gdk.Device(device, Ownership.NONE));
         }
         
         public static void signalSeatDeviceRemoved(MemoryAddress source, MemoryAddress device, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Seat.DeviceRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Seat(Refcounted.get(source)), new org.gtk.gdk.Device(Refcounted.get(device, false)));
+            HANDLER.signalReceived(new Seat(source, Ownership.UNKNOWN), new org.gtk.gdk.Device(device, Ownership.NONE));
         }
         
         public static void signalSeatToolAdded(MemoryAddress source, MemoryAddress tool, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Seat.ToolAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Seat(Refcounted.get(source)), new org.gtk.gdk.DeviceTool(Refcounted.get(tool, false)));
+            HANDLER.signalReceived(new Seat(source, Ownership.UNKNOWN), new org.gtk.gdk.DeviceTool(tool, Ownership.NONE));
         }
         
         public static void signalSeatToolRemoved(MemoryAddress source, MemoryAddress tool, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Seat.ToolRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Seat(Refcounted.get(source)), new org.gtk.gdk.DeviceTool(Refcounted.get(tool, false)));
+            HANDLER.signalReceived(new Seat(source, Ownership.UNKNOWN), new org.gtk.gdk.DeviceTool(tool, Ownership.NONE));
         }
     }
 }

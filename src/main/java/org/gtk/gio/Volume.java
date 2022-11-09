@@ -57,7 +57,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      */
     public static Volume castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GVolume"))) {
-            return new VolumeImpl(gobject.refcounted());
+            return new VolumeImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GVolume");
         }
@@ -137,7 +137,8 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         try {
             RESULT = (int) DowncallHandles.g_volume_eject_finish.invokeExact(
                     handle(),
-                    result.handle(), (Addressable) GERROR);
+                    result.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -190,7 +191,8 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         try {
             RESULT = (int) DowncallHandles.g_volume_eject_with_operation_finish.invokeExact(
                     handle(),
-                    result.handle(), (Addressable) GERROR);
+                    result.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -254,7 +256,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -271,7 +273,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Drive.DriveImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Drive.DriveImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -288,7 +290,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -327,7 +329,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Mount.MountImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Mount.MountImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -375,7 +377,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -446,7 +448,8 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         try {
             RESULT = (int) DowncallHandles.g_volume_mount_finish.invokeExact(
                     handle(),
-                    result.handle(), (Addressable) GERROR);
+                    result.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -478,6 +481,8 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
     
     /**
      * Emitted when the volume has been changed.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<Volume.Changed> onChanged(Volume.Changed handler) {
         try {
@@ -506,6 +511,8 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      * This signal is emitted when the {@link Volume} have been removed. If
      * the recipient is holding references to the object they should
      * release them so the object can be finalized.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<Volume.Removed> onRemoved(Volume.Removed handler) {
         try {
@@ -531,115 +538,134 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_volume_can_eject = Interop.downcallHandle(
             "g_volume_can_eject",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_volume_can_mount = Interop.downcallHandle(
             "g_volume_can_mount",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_volume_eject = Interop.downcallHandle(
             "g_volume_eject",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_volume_eject_finish = Interop.downcallHandle(
             "g_volume_eject_finish",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_volume_eject_with_operation = Interop.downcallHandle(
             "g_volume_eject_with_operation",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_volume_eject_with_operation_finish = Interop.downcallHandle(
             "g_volume_eject_with_operation_finish",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_volume_enumerate_identifiers = Interop.downcallHandle(
             "g_volume_enumerate_identifiers",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_volume_get_activation_root = Interop.downcallHandle(
             "g_volume_get_activation_root",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_volume_get_drive = Interop.downcallHandle(
             "g_volume_get_drive",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_volume_get_icon = Interop.downcallHandle(
             "g_volume_get_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_volume_get_identifier = Interop.downcallHandle(
             "g_volume_get_identifier",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_volume_get_mount = Interop.downcallHandle(
             "g_volume_get_mount",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_volume_get_name = Interop.downcallHandle(
             "g_volume_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_volume_get_sort_key = Interop.downcallHandle(
             "g_volume_get_sort_key",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_volume_get_symbolic_icon = Interop.downcallHandle(
             "g_volume_get_symbolic_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_volume_get_uuid = Interop.downcallHandle(
             "g_volume_get_uuid",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_volume_mount = Interop.downcallHandle(
             "g_volume_mount",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_volume_mount_finish = Interop.downcallHandle(
             "g_volume_mount_finish",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_volume_should_automount = Interop.downcallHandle(
             "g_volume_should_automount",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -649,13 +675,13 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         public static void signalVolumeChanged(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Volume.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Volume.VolumeImpl(Refcounted.get(source)));
+            HANDLER.signalReceived(new Volume.VolumeImpl(source, Ownership.UNKNOWN));
         }
         
         public static void signalVolumeRemoved(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Volume.Removed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Volume.VolumeImpl(Refcounted.get(source)));
+            HANDLER.signalReceived(new Volume.VolumeImpl(source, Ownership.UNKNOWN));
         }
     }
     
@@ -665,8 +691,8 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public VolumeImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public VolumeImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

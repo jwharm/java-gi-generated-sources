@@ -120,7 +120,7 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      */
     public static CellLayout castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellLayout"))) {
-            return new CellLayoutImpl(gobject.refcounted());
+            return new CellLayoutImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCellLayout");
         }
@@ -195,7 +195,7 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.CellArea(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.CellArea(RESULT, Ownership.NONE);
     }
     
     /**
@@ -212,7 +212,7 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.List(RESULT, Ownership.CONTAINER);
     }
     
     /**
@@ -287,9 +287,18 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      * gtk_cell_layout_add_attribute(). All existing attributes are
      * removed, and replaced with the new attributes.
      * @param cell a {@code GtkCellRenderer}
+     * @param varargs a {@code null}-terminated list of attributes
      */
-    default void setAttributes(@NotNull org.gtk.gtk.CellRenderer cell) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    default void setAttributes(@NotNull org.gtk.gtk.CellRenderer cell, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(cell, "Parameter 'cell' must not be null");
+        try {
+            DowncallHandles.gtk_cell_layout_set_attributes.invokeExact(
+                    handle(),
+                    cell.handle(),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -327,61 +336,71 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_layout_add_attribute = Interop.downcallHandle(
             "gtk_cell_layout_add_attribute",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_layout_clear = Interop.downcallHandle(
             "gtk_cell_layout_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_layout_clear_attributes = Interop.downcallHandle(
             "gtk_cell_layout_clear_attributes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_layout_get_area = Interop.downcallHandle(
             "gtk_cell_layout_get_area",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_layout_get_cells = Interop.downcallHandle(
             "gtk_cell_layout_get_cells",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_layout_pack_end = Interop.downcallHandle(
             "gtk_cell_layout_pack_end",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_layout_pack_start = Interop.downcallHandle(
             "gtk_cell_layout_pack_start",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_layout_reorder = Interop.downcallHandle(
             "gtk_cell_layout_reorder",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_layout_set_attributes = Interop.downcallHandle(
             "gtk_cell_layout_set_attributes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_layout_set_cell_data_func = Interop.downcallHandle(
             "gtk_cell_layout_set_cell_data_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -391,8 +410,8 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public CellLayoutImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public CellLayoutImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

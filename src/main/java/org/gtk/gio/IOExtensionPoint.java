@@ -21,6 +21,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -29,14 +30,19 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
     
     public static IOExtensionPoint allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        IOExtensionPoint newInstance = new IOExtensionPoint(Refcounted.get(segment.address()));
+        IOExtensionPoint newInstance = new IOExtensionPoint(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a IOExtensionPoint proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public IOExtensionPoint(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public IOExtensionPoint(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -55,7 +61,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.IOExtension(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.IOExtension(RESULT, Ownership.NONE);
     }
     
     /**
@@ -73,7 +79,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.List(RESULT, Ownership.NONE);
     }
     
     /**
@@ -134,7 +140,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.IOExtension(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.IOExtension(RESULT, Ownership.NONE);
     }
     
     /**
@@ -152,7 +158,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.IOExtensionPoint(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.IOExtensionPoint(RESULT, Ownership.NONE);
     }
     
     /**
@@ -170,44 +176,51 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.IOExtensionPoint(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.IOExtensionPoint(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_io_extension_point_get_extension_by_name = Interop.downcallHandle(
             "g_io_extension_point_get_extension_by_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_extension_point_get_extensions = Interop.downcallHandle(
             "g_io_extension_point_get_extensions",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_extension_point_get_required_type = Interop.downcallHandle(
             "g_io_extension_point_get_required_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_extension_point_set_required_type = Interop.downcallHandle(
             "g_io_extension_point_set_required_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_io_extension_point_implement = Interop.downcallHandle(
             "g_io_extension_point_implement",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_io_extension_point_lookup = Interop.downcallHandle(
             "g_io_extension_point_lookup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_extension_point_register = Interop.downcallHandle(
             "g_io_extension_point_register",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -24,6 +24,7 @@ public class SocketAddressClass extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -32,7 +33,7 @@ public class SocketAddressClass extends io.github.jwharm.javagi.ResourceBase {
     
     public static SocketAddressClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SocketAddressClass newInstance = new SocketAddressClass(Refcounted.get(segment.address()));
+        SocketAddressClass newInstance = new SocketAddressClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,11 +44,16 @@ public class SocketAddressClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gobject.ObjectClass parent_class$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gobject.ObjectClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a SocketAddressClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SocketAddressClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SocketAddressClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

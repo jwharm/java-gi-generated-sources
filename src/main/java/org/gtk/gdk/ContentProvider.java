@@ -32,6 +32,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -42,12 +43,17 @@ public class ContentProvider extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a ContentProvider proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ContentProvider(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ContentProvider(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -59,20 +65,20 @@ public class ContentProvider extends org.gtk.gobject.Object {
      */
     public static ContentProvider castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkContentProvider"))) {
-            return new ContentProvider(gobject.refcounted());
+            return new ContentProvider(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkContentProvider");
         }
     }
     
-    private static Refcounted constructNewForBytes(@NotNull java.lang.String mimeType, @NotNull org.gtk.glib.Bytes bytes) {
+    private static Addressable constructNewForBytes(@NotNull java.lang.String mimeType, @NotNull org.gtk.glib.Bytes bytes) {
         java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
         java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_content_provider_new_for_bytes.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_provider_new_for_bytes.invokeExact(
                     Interop.allocateNativeString(mimeType),
-                    bytes.handle()), true);
+                    bytes.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,15 +93,15 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * @return a new {@code GdkContentProvider}
      */
     public static ContentProvider newForBytes(@NotNull java.lang.String mimeType, @NotNull org.gtk.glib.Bytes bytes) {
-        return new ContentProvider(constructNewForBytes(mimeType, bytes));
+        return new ContentProvider(constructNewForBytes(mimeType, bytes), Ownership.FULL);
     }
     
-    private static Refcounted constructNewForValue(@NotNull org.gtk.gobject.Value value) {
+    private static Addressable constructNewForValue(@NotNull org.gtk.gobject.Value value) {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_content_provider_new_for_value.invokeExact(
-                    value.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_provider_new_for_value.invokeExact(
+                    value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,11 +114,20 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * @return a new {@code GdkContentProvider}
      */
     public static ContentProvider newForValue(@NotNull org.gtk.gobject.Value value) {
-        return new ContentProvider(constructNewForValue(value));
+        return new ContentProvider(constructNewForValue(value), Ownership.FULL);
     }
     
-    private static Refcounted constructNewTyped(@NotNull org.gtk.glib.Type type) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    private static Addressable constructNewTyped(@NotNull org.gtk.glib.Type type, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+        Addressable RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_provider_new_typed.invokeExact(
+                    type.getValue().longValue(),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
     }
     
     /**
@@ -122,18 +137,19 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * The value is provided using G_VALUE_COLLECT(), so the same rules
      * apply as when calling g_object_new() or g_object_set().
      * @param type Type of value to follow
+     * @param varargs value
      * @return a new {@code GdkContentProvider}
      */
-    public static ContentProvider newTyped(@NotNull org.gtk.glib.Type type) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static ContentProvider newTyped(@NotNull org.gtk.glib.Type type, java.lang.Object... varargs) {
+        return new ContentProvider(constructNewTyped(type, varargs), Ownership.FULL);
     }
     
-    private static Refcounted constructNewUnion(org.gtk.gdk.ContentProvider[] providers, long nProviders) {
-        Refcounted RESULT;
+    private static Addressable constructNewUnion(@Nullable org.gtk.gdk.ContentProvider[] providers, long nProviders) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_content_provider_new_union.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_provider_new_union.invokeExact(
                     (Addressable) (providers == null ? MemoryAddress.NULL : Interop.allocateNativeArray(providers, false)),
-                    nProviders), true);
+                    nProviders);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,8 +176,8 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * @param nProviders the number of providers
      * @return a new {@code GdkContentProvider}
      */
-    public static ContentProvider newUnion(org.gtk.gdk.ContentProvider[] providers, long nProviders) {
-        return new ContentProvider(constructNewUnion(providers, nProviders));
+    public static ContentProvider newUnion(@Nullable org.gtk.gdk.ContentProvider[] providers, long nProviders) {
+        return new ContentProvider(constructNewUnion(providers, nProviders), Ownership.FULL);
     }
     
     /**
@@ -196,7 +212,8 @@ public class ContentProvider extends org.gtk.gobject.Object {
         try {
             RESULT = (int) DowncallHandles.gdk_content_provider_get_value.invokeExact(
                     handle(),
-                    value.handle(), (Addressable) GERROR);
+                    value.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +235,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentFormats(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
     }
     
     /**
@@ -238,7 +255,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentFormats(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
     }
     
     /**
@@ -297,7 +314,8 @@ public class ContentProvider extends org.gtk.gobject.Object {
         try {
             RESULT = (int) DowncallHandles.gdk_content_provider_write_mime_type_finish.invokeExact(
                     handle(),
-                    result.handle(), (Addressable) GERROR);
+                    result.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -314,6 +332,8 @@ public class ContentProvider extends org.gtk.gobject.Object {
     
     /**
      * Emitted whenever the content provided by this provider has changed.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ContentProvider.ContentChanged> onContentChanged(ContentProvider.ContentChanged handler) {
         try {
@@ -337,52 +357,62 @@ public class ContentProvider extends org.gtk.gobject.Object {
         
         private static final MethodHandle gdk_content_provider_new_for_bytes = Interop.downcallHandle(
             "gdk_content_provider_new_for_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_provider_new_for_value = Interop.downcallHandle(
             "gdk_content_provider_new_for_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_provider_new_typed = Interop.downcallHandle(
             "gdk_content_provider_new_typed",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            true
         );
         
         private static final MethodHandle gdk_content_provider_new_union = Interop.downcallHandle(
             "gdk_content_provider_new_union",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle gdk_content_provider_content_changed = Interop.downcallHandle(
             "gdk_content_provider_content_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_provider_get_value = Interop.downcallHandle(
             "gdk_content_provider_get_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_provider_ref_formats = Interop.downcallHandle(
             "gdk_content_provider_ref_formats",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_provider_ref_storable_formats = Interop.downcallHandle(
             "gdk_content_provider_ref_storable_formats",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_provider_write_mime_type_async = Interop.downcallHandle(
             "gdk_content_provider_write_mime_type_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_provider_write_mime_type_finish = Interop.downcallHandle(
             "gdk_content_provider_write_mime_type_finish",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -391,7 +421,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
         public static void signalContentProviderContentChanged(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ContentProvider.ContentChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ContentProvider(Refcounted.get(source)));
+            HANDLER.signalReceived(new ContentProvider(source, Ownership.UNKNOWN));
         }
     }
 }

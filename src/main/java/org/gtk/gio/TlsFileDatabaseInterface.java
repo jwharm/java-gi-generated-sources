@@ -26,6 +26,7 @@ public class TlsFileDatabaseInterface extends io.github.jwharm.javagi.ResourceBa
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -34,7 +35,7 @@ public class TlsFileDatabaseInterface extends io.github.jwharm.javagi.ResourceBa
     
     public static TlsFileDatabaseInterface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TlsFileDatabaseInterface newInstance = new TlsFileDatabaseInterface(Refcounted.get(segment.address()));
+        TlsFileDatabaseInterface newInstance = new TlsFileDatabaseInterface(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,11 +46,16 @@ public class TlsFileDatabaseInterface extends io.github.jwharm.javagi.ResourceBa
      */
     public org.gtk.gobject.TypeInterface g_iface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return new org.gtk.gobject.TypeInterface(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a TlsFileDatabaseInterface proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TlsFileDatabaseInterface(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TlsFileDatabaseInterface(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

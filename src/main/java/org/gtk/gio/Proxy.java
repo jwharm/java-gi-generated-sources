@@ -25,7 +25,7 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
      */
     public static Proxy castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GProxy"))) {
-            return new ProxyImpl(gobject.refcounted());
+            return new ProxyImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GProxy");
         }
@@ -54,14 +54,15 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
                     handle(),
                     connection.handle(),
                     proxyAddress.handle(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.IOStream(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.IOStream(RESULT, Ownership.FULL);
     }
     
     /**
@@ -104,14 +105,15 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_proxy_connect_finish.invokeExact(
                     handle(),
-                    result.handle(), (Addressable) GERROR);
+                    result.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.IOStream(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.IOStream(RESULT, Ownership.FULL);
     }
     
     /**
@@ -151,7 +153,7 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Proxy.ProxyImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Proxy.ProxyImpl(RESULT, Ownership.FULL);
     }
     
     @ApiStatus.Internal
@@ -160,31 +162,36 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_proxy_connect = Interop.downcallHandle(
             "g_proxy_connect",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_proxy_connect_async = Interop.downcallHandle(
             "g_proxy_connect_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_proxy_connect_finish = Interop.downcallHandle(
             "g_proxy_connect_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_proxy_supports_hostname = Interop.downcallHandle(
             "g_proxy_supports_hostname",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_proxy_get_default_for_protocol = Interop.downcallHandle(
             "g_proxy_get_default_for_protocol",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -194,8 +201,8 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public ProxyImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public ProxyImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

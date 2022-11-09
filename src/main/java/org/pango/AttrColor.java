@@ -26,6 +26,7 @@ public class AttrColor extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -34,7 +35,7 @@ public class AttrColor extends io.github.jwharm.javagi.ResourceBase {
     
     public static AttrColor allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AttrColor newInstance = new AttrColor(Refcounted.get(segment.address()));
+        AttrColor newInstance = new AttrColor(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,7 +46,7 @@ public class AttrColor extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.pango.Attribute attr$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("attr"));
-        return new org.pango.Attribute(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.pango.Attribute(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
     /**
@@ -54,11 +55,16 @@ public class AttrColor extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.pango.Color color$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("color"));
-        return new org.pango.Color(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.pango.Color(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a AttrColor proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public AttrColor(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public AttrColor(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

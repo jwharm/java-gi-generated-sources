@@ -21,13 +21,19 @@ public class CharsetConverter extends org.gtk.gobject.Object implements org.gtk.
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a CharsetConverter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CharsetConverter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CharsetConverter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -39,21 +45,22 @@ public class CharsetConverter extends org.gtk.gobject.Object implements org.gtk.
      */
     public static CharsetConverter castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GCharsetConverter"))) {
-            return new CharsetConverter(gobject.refcounted());
+            return new CharsetConverter(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GCharsetConverter");
         }
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String toCharset, @NotNull java.lang.String fromCharset) throws GErrorException {
+    private static Addressable constructNew(@NotNull java.lang.String toCharset, @NotNull java.lang.String fromCharset) throws GErrorException {
         java.util.Objects.requireNonNull(toCharset, "Parameter 'toCharset' must not be null");
         java.util.Objects.requireNonNull(fromCharset, "Parameter 'fromCharset' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_charset_converter_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_charset_converter_new.invokeExact(
                     Interop.allocateNativeString(toCharset),
-                    Interop.allocateNativeString(fromCharset), (Addressable) GERROR), true);
+                    Interop.allocateNativeString(fromCharset),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,7 +77,7 @@ public class CharsetConverter extends org.gtk.gobject.Object implements org.gtk.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public CharsetConverter(@NotNull java.lang.String toCharset, @NotNull java.lang.String fromCharset) throws GErrorException {
-        super(constructNew(toCharset, fromCharset));
+        super(constructNew(toCharset, fromCharset), Ownership.FULL);
     }
     
     /**
@@ -121,22 +128,26 @@ public class CharsetConverter extends org.gtk.gobject.Object implements org.gtk.
         
         private static final MethodHandle g_charset_converter_new = Interop.downcallHandle(
             "g_charset_converter_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_charset_converter_get_num_fallbacks = Interop.downcallHandle(
             "g_charset_converter_get_num_fallbacks",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_charset_converter_get_use_fallback = Interop.downcallHandle(
             "g_charset_converter_get_use_fallback",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_charset_converter_set_use_fallback = Interop.downcallHandle(
             "g_charset_converter_set_use_fallback",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

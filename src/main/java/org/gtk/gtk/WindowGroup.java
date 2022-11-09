@@ -40,6 +40,7 @@ public class WindowGroup extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -50,12 +51,17 @@ public class WindowGroup extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a WindowGroup proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public WindowGroup(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public WindowGroup(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -67,16 +73,16 @@ public class WindowGroup extends org.gtk.gobject.Object {
      */
     public static WindowGroup castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkWindowGroup"))) {
-            return new WindowGroup(gobject.refcounted());
+            return new WindowGroup(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkWindowGroup");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_window_group_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_window_group_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +96,7 @@ public class WindowGroup extends org.gtk.gobject.Object {
      * within the same {@code GtkWindowGroup}.
      */
     public WindowGroup() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -121,7 +127,7 @@ public class WindowGroup extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.List(RESULT, Ownership.CONTAINER);
     }
     
     /**
@@ -143,22 +149,26 @@ public class WindowGroup extends org.gtk.gobject.Object {
         
         private static final MethodHandle gtk_window_group_new = Interop.downcallHandle(
             "gtk_window_group_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_window_group_add_window = Interop.downcallHandle(
             "gtk_window_group_add_window",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_window_group_list_windows = Interop.downcallHandle(
             "gtk_window_group_list_windows",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_window_group_remove_window = Interop.downcallHandle(
             "gtk_window_group_remove_window",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

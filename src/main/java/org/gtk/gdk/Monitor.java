@@ -26,13 +26,19 @@ public class Monitor extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Monitor proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Monitor(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Monitor(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -44,7 +50,7 @@ public class Monitor extends org.gtk.gobject.Object {
      */
     public static Monitor castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkMonitor"))) {
-            return new Monitor(gobject.refcounted());
+            return new Monitor(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkMonitor");
         }
@@ -77,7 +83,7 @@ public class Monitor extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
     }
     
     /**
@@ -248,6 +254,8 @@ public class Monitor extends org.gtk.gobject.Object {
     
     /**
      * Emitted when the output represented by {@code monitor} gets disconnected.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Monitor.Invalidate> onInvalidate(Monitor.Invalidate handler) {
         try {
@@ -271,57 +279,68 @@ public class Monitor extends org.gtk.gobject.Object {
         
         private static final MethodHandle gdk_monitor_get_connector = Interop.downcallHandle(
             "gdk_monitor_get_connector",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_monitor_get_display = Interop.downcallHandle(
             "gdk_monitor_get_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_monitor_get_geometry = Interop.downcallHandle(
             "gdk_monitor_get_geometry",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_monitor_get_height_mm = Interop.downcallHandle(
             "gdk_monitor_get_height_mm",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_monitor_get_manufacturer = Interop.downcallHandle(
             "gdk_monitor_get_manufacturer",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_monitor_get_model = Interop.downcallHandle(
             "gdk_monitor_get_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_monitor_get_refresh_rate = Interop.downcallHandle(
             "gdk_monitor_get_refresh_rate",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_monitor_get_scale_factor = Interop.downcallHandle(
             "gdk_monitor_get_scale_factor",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_monitor_get_subpixel_layout = Interop.downcallHandle(
             "gdk_monitor_get_subpixel_layout",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_monitor_get_width_mm = Interop.downcallHandle(
             "gdk_monitor_get_width_mm",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_monitor_is_valid = Interop.downcallHandle(
             "gdk_monitor_is_valid",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -330,7 +349,7 @@ public class Monitor extends org.gtk.gobject.Object {
         public static void signalMonitorInvalidate(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Monitor.Invalidate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Monitor(Refcounted.get(source)));
+            HANDLER.signalReceived(new Monitor(source, Ownership.UNKNOWN));
         }
     }
 }

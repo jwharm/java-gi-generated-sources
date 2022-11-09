@@ -25,6 +25,7 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -35,12 +36,17 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a PixbufAnimationIter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PixbufAnimationIter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PixbufAnimationIter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -52,7 +58,7 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      */
     public static PixbufAnimationIter castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkPixbufAnimationIter"))) {
-            return new PixbufAnimationIter(gobject.refcounted());
+            return new PixbufAnimationIter(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkPixbufAnimationIter");
         }
@@ -144,7 +150,7 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdkpixbuf.Pixbuf(Refcounted.get(RESULT, false));
+        return new org.gtk.gdkpixbuf.Pixbuf(RESULT, Ownership.NONE);
     }
     
     /**
@@ -171,22 +177,26 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
         
         private static final MethodHandle gdk_pixbuf_animation_iter_advance = Interop.downcallHandle(
             "gdk_pixbuf_animation_iter_advance",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_pixbuf_animation_iter_get_delay_time = Interop.downcallHandle(
             "gdk_pixbuf_animation_iter_get_delay_time",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_pixbuf_animation_iter_get_pixbuf = Interop.downcallHandle(
             "gdk_pixbuf_animation_iter_get_pixbuf",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_pixbuf_animation_iter_on_currently_loading_frame = Interop.downcallHandle(
             "gdk_pixbuf_animation_iter_on_currently_loading_frame",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -23,13 +23,19 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a GestureRotate proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public GestureRotate(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public GestureRotate(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -41,16 +47,16 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
      */
     public static GestureRotate castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGestureRotate"))) {
-            return new GestureRotate(gobject.refcounted());
+            return new GestureRotate(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkGestureRotate");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_gesture_rotate_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_rotate_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -62,7 +68,7 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
      * rotation gestures.
      */
     public GestureRotate() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -91,6 +97,8 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
     
     /**
      * Emitted when the angle between both tracked points changes.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureRotate.AngleChanged> onAngleChanged(GestureRotate.AngleChanged handler) {
         try {
@@ -114,12 +122,14 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
         
         private static final MethodHandle gtk_gesture_rotate_new = Interop.downcallHandle(
             "gtk_gesture_rotate_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gesture_rotate_get_angle_delta = Interop.downcallHandle(
             "gtk_gesture_rotate_get_angle_delta",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -128,7 +138,7 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
         public static void signalGestureRotateAngleChanged(MemoryAddress source, double angle, double angleDelta, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (GestureRotate.AngleChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureRotate(Refcounted.get(source)), angle, angleDelta);
+            HANDLER.signalReceived(new GestureRotate(source, Ownership.UNKNOWN), angle, angleDelta);
         }
     }
 }

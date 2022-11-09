@@ -34,6 +34,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -42,7 +43,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
     
     public static LayoutLine allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        LayoutLine newInstance = new LayoutLine(Refcounted.get(segment.address()));
+        LayoutLine newInstance = new LayoutLine(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -55,7 +56,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("layout"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.pango.Layout(Refcounted.get(RESULT, false));
+        return new org.pango.Layout(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -118,7 +119,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("runs"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -173,9 +174,14 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), resolved_dir);
     }
     
+    /**
+     * Create a LayoutLine proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public LayoutLine(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public LayoutLine(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -318,7 +324,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
      *   Pango units.
      * @param nRanges The number of ranges stored in {@code ranges}
      */
-    public void getXRanges(int startIndex, int endIndex, Out<int[]> ranges, Out<Integer> nRanges) {
+    public void getXRanges(int startIndex, int endIndex, @NotNull Out<int[]> ranges, Out<Integer> nRanges) {
         java.util.Objects.requireNonNull(ranges, "Parameter 'ranges' must not be null");
         java.util.Objects.requireNonNull(nRanges, "Parameter 'nRanges' must not be null");
         MemorySegment rangesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -387,7 +393,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.LayoutLine(Refcounted.get(RESULT, true));
+        return new org.pango.LayoutLine(RESULT, Ownership.FULL);
     }
     
     /**
@@ -449,62 +455,74 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle pango_layout_line_get_extents = Interop.downcallHandle(
             "pango_layout_line_get_extents",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_line_get_height = Interop.downcallHandle(
             "pango_layout_line_get_height",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_line_get_length = Interop.downcallHandle(
             "pango_layout_line_get_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_line_get_pixel_extents = Interop.downcallHandle(
             "pango_layout_line_get_pixel_extents",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_line_get_resolved_direction = Interop.downcallHandle(
             "pango_layout_line_get_resolved_direction",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_line_get_start_index = Interop.downcallHandle(
             "pango_layout_line_get_start_index",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_line_get_x_ranges = Interop.downcallHandle(
             "pango_layout_line_get_x_ranges",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_line_index_to_x = Interop.downcallHandle(
             "pango_layout_line_index_to_x",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_line_is_paragraph_start = Interop.downcallHandle(
             "pango_layout_line_is_paragraph_start",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_line_ref = Interop.downcallHandle(
             "pango_layout_line_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_line_unref = Interop.downcallHandle(
             "pango_layout_line_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_line_x_to_index = Interop.downcallHandle(
             "pango_layout_line_x_to_index",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

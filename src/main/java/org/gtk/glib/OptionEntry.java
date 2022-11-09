@@ -34,6 +34,7 @@ public class OptionEntry extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -42,7 +43,7 @@ public class OptionEntry extends io.github.jwharm.javagi.ResourceBase {
     
     public static OptionEntry allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        OptionEntry newInstance = new OptionEntry(Refcounted.get(segment.address()));
+        OptionEntry newInstance = new OptionEntry(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -194,8 +195,13 @@ public class OptionEntry extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(arg_description));
     }
     
+    /**
+     * Create a OptionEntry proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public OptionEntry(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public OptionEntry(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

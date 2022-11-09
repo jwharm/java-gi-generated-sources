@@ -17,6 +17,7 @@ public class BufferedInputStreamPrivate extends io.github.jwharm.javagi.Resource
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -25,13 +26,18 @@ public class BufferedInputStreamPrivate extends io.github.jwharm.javagi.Resource
     
     public static BufferedInputStreamPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BufferedInputStreamPrivate newInstance = new BufferedInputStreamPrivate(Refcounted.get(segment.address()));
+        BufferedInputStreamPrivate newInstance = new BufferedInputStreamPrivate(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a BufferedInputStreamPrivate proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public BufferedInputStreamPrivate(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public BufferedInputStreamPrivate(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

@@ -38,6 +38,7 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -48,12 +49,17 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
      */
     public org.gtk.gio.FilterOutputStream parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.FilterOutputStream(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.FilterOutputStream(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a BufferedOutputStream proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public BufferedOutputStream(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public BufferedOutputStream(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -65,18 +71,18 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
      */
     public static BufferedOutputStream castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GBufferedOutputStream"))) {
-            return new BufferedOutputStream(gobject.refcounted());
+            return new BufferedOutputStream(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GBufferedOutputStream");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gio.OutputStream baseStream) {
+    private static Addressable constructNew(@NotNull org.gtk.gio.OutputStream baseStream) {
         java.util.Objects.requireNonNull(baseStream, "Parameter 'baseStream' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_buffered_output_stream_new.invokeExact(
-                    baseStream.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_buffered_output_stream_new.invokeExact(
+                    baseStream.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,16 +94,16 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
      * @param baseStream a {@link OutputStream}.
      */
     public BufferedOutputStream(@NotNull org.gtk.gio.OutputStream baseStream) {
-        super(constructNew(baseStream));
+        super(constructNew(baseStream), Ownership.FULL);
     }
     
-    private static Refcounted constructNewSized(@NotNull org.gtk.gio.OutputStream baseStream, long size) {
+    private static Addressable constructNewSized(@NotNull org.gtk.gio.OutputStream baseStream, long size) {
         java.util.Objects.requireNonNull(baseStream, "Parameter 'baseStream' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_buffered_output_stream_new_sized.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_buffered_output_stream_new_sized.invokeExact(
                     baseStream.handle(),
-                    size), true);
+                    size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,7 +117,7 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
      * @return a {@link OutputStream} with an internal buffer set to {@code size}.
      */
     public static BufferedOutputStream newSized(@NotNull org.gtk.gio.OutputStream baseStream, long size) {
-        return new BufferedOutputStream(constructNewSized(baseStream, size));
+        return new BufferedOutputStream(constructNewSized(baseStream, size), Ownership.FULL);
     }
     
     /**
@@ -180,32 +186,38 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
         
         private static final MethodHandle g_buffered_output_stream_new = Interop.downcallHandle(
             "g_buffered_output_stream_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_buffered_output_stream_new_sized = Interop.downcallHandle(
             "g_buffered_output_stream_new_sized",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_buffered_output_stream_get_auto_grow = Interop.downcallHandle(
             "g_buffered_output_stream_get_auto_grow",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_buffered_output_stream_get_buffer_size = Interop.downcallHandle(
             "g_buffered_output_stream_get_buffer_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_buffered_output_stream_set_auto_grow = Interop.downcallHandle(
             "g_buffered_output_stream_set_auto_grow",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_buffered_output_stream_set_buffer_size = Interop.downcallHandle(
             "g_buffered_output_stream_set_buffer_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
     }
 }

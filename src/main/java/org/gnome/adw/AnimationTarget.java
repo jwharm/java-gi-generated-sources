@@ -21,13 +21,19 @@ public class AnimationTarget extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a AnimationTarget proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public AnimationTarget(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public AnimationTarget(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -39,7 +45,7 @@ public class AnimationTarget extends org.gtk.gobject.Object {
      */
     public static AnimationTarget castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwAnimationTarget"))) {
-            return new AnimationTarget(gobject.refcounted());
+            return new AnimationTarget(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwAnimationTarget");
         }

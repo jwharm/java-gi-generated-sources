@@ -65,13 +65,19 @@ public class PadController extends org.gtk.gtk.EventController {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a PadController proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PadController(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PadController(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -83,19 +89,19 @@ public class PadController extends org.gtk.gtk.EventController {
      */
     public static PadController castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPadController"))) {
-            return new PadController(gobject.refcounted());
+            return new PadController(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkPadController");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gio.ActionGroup group, @Nullable org.gtk.gdk.Device pad) {
+    private static Addressable constructNew(@NotNull org.gtk.gio.ActionGroup group, @Nullable org.gtk.gdk.Device pad) {
         java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_pad_controller_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_pad_controller_new.invokeExact(
                     group.handle(),
-                    (Addressable) (pad == null ? MemoryAddress.NULL : pad.handle())), true);
+                    (Addressable) (pad == null ? MemoryAddress.NULL : pad.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,7 +127,7 @@ public class PadController extends org.gtk.gtk.EventController {
      * @param pad A {@link org.gtk.gdk.InputSource#TABLET_PAD} device, or {@code null} to handle all pads
      */
     public PadController(@NotNull org.gtk.gio.ActionGroup group, @Nullable org.gtk.gdk.Device pad) {
-        super(constructNew(group, pad));
+        super(constructNew(group, pad), Ownership.FULL);
     }
     
     /**
@@ -166,7 +172,7 @@ public class PadController extends org.gtk.gtk.EventController {
      * @param entries the action entries to set on {@code controller}
      * @param nEntries the number of elements in {@code entries}
      */
-    public void setActionEntries(org.gtk.gtk.PadActionEntry[] entries, int nEntries) {
+    public void setActionEntries(@NotNull org.gtk.gtk.PadActionEntry[] entries, int nEntries) {
         java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
         try {
             DowncallHandles.gtk_pad_controller_set_action_entries.invokeExact(
@@ -182,17 +188,20 @@ public class PadController extends org.gtk.gtk.EventController {
         
         private static final MethodHandle gtk_pad_controller_new = Interop.downcallHandle(
             "gtk_pad_controller_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_pad_controller_set_action = Interop.downcallHandle(
             "gtk_pad_controller_set_action",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_pad_controller_set_action_entries = Interop.downcallHandle(
             "gtk_pad_controller_set_action_entries",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

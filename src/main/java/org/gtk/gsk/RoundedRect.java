@@ -38,6 +38,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -46,7 +47,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     
     public static RoundedRect allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RoundedRect newInstance = new RoundedRect(Refcounted.get(segment.address()));
+        RoundedRect newInstance = new RoundedRect(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -57,12 +58,17 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.graphene.Rect bounds$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("bounds"));
-        return new org.gtk.graphene.Rect(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.graphene.Rect(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a RoundedRect proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public RoundedRect(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public RoundedRect(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -131,7 +137,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RoundedRect(Refcounted.get(RESULT, false));
+        return new org.gtk.gsk.RoundedRect(RESULT, Ownership.NONE);
     }
     
     /**
@@ -152,7 +158,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RoundedRect(Refcounted.get(RESULT, false));
+        return new org.gtk.gsk.RoundedRect(RESULT, Ownership.NONE);
     }
     
     /**
@@ -173,7 +179,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RoundedRect(Refcounted.get(RESULT, false));
+        return new org.gtk.gsk.RoundedRect(RESULT, Ownership.NONE);
     }
     
     /**
@@ -229,7 +235,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RoundedRect(Refcounted.get(RESULT, false));
+        return new org.gtk.gsk.RoundedRect(RESULT, Ownership.NONE);
     }
     
     /**
@@ -250,7 +256,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RoundedRect(Refcounted.get(RESULT, false));
+        return new org.gtk.gsk.RoundedRect(RESULT, Ownership.NONE);
     }
     
     /**
@@ -280,59 +286,69 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RoundedRect(Refcounted.get(RESULT, false));
+        return new org.gtk.gsk.RoundedRect(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_rounded_rect_contains_point = Interop.downcallHandle(
             "gsk_rounded_rect_contains_point",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_rounded_rect_contains_rect = Interop.downcallHandle(
             "gsk_rounded_rect_contains_rect",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_rounded_rect_init = Interop.downcallHandle(
             "gsk_rounded_rect_init",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_rounded_rect_init_copy = Interop.downcallHandle(
             "gsk_rounded_rect_init_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_rounded_rect_init_from_rect = Interop.downcallHandle(
             "gsk_rounded_rect_init_from_rect",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle gsk_rounded_rect_intersects_rect = Interop.downcallHandle(
             "gsk_rounded_rect_intersects_rect",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_rounded_rect_is_rectilinear = Interop.downcallHandle(
             "gsk_rounded_rect_is_rectilinear",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_rounded_rect_normalize = Interop.downcallHandle(
             "gsk_rounded_rect_normalize",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_rounded_rect_offset = Interop.downcallHandle(
             "gsk_rounded_rect_offset",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle gsk_rounded_rect_shrink = Interop.downcallHandle(
             "gsk_rounded_rect_shrink",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            false
         );
     }
 }

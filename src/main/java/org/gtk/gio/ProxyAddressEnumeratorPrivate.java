@@ -17,6 +17,7 @@ public class ProxyAddressEnumeratorPrivate extends io.github.jwharm.javagi.Resou
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -25,13 +26,18 @@ public class ProxyAddressEnumeratorPrivate extends io.github.jwharm.javagi.Resou
     
     public static ProxyAddressEnumeratorPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ProxyAddressEnumeratorPrivate newInstance = new ProxyAddressEnumeratorPrivate(Refcounted.get(segment.address()));
+        ProxyAddressEnumeratorPrivate newInstance = new ProxyAddressEnumeratorPrivate(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a ProxyAddressEnumeratorPrivate proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ProxyAddressEnumeratorPrivate(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ProxyAddressEnumeratorPrivate(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

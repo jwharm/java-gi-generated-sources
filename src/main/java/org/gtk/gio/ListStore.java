@@ -24,13 +24,19 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ListStore proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ListStore(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ListStore(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -42,18 +48,18 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
      */
     public static ListStore castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GListStore"))) {
-            return new ListStore(gobject.refcounted());
+            return new ListStore(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GListStore");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.glib.Type itemType) {
+    private static Addressable constructNew(@NotNull org.gtk.glib.Type itemType) {
         java.util.Objects.requireNonNull(itemType, "Parameter 'itemType' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_list_store_new.invokeExact(
-                    itemType.getValue().longValue()), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_list_store_new.invokeExact(
+                    itemType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,7 +72,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
      * @param itemType the {@link org.gtk.gobject.Type} of items in the list
      */
     public ListStore(@NotNull org.gtk.glib.Type itemType) {
-        super(constructNew(itemType));
+        super(constructNew(itemType), Ownership.FULL);
     }
     
     /**
@@ -259,7 +265,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
      * @param additions the items to add
      * @param nAdditions the number of items to add
      */
-    public void splice(int position, int nRemovals, org.gtk.gobject.Object[] additions, int nAdditions) {
+    public void splice(int position, int nRemovals, @NotNull org.gtk.gobject.Object[] additions, int nAdditions) {
         java.util.Objects.requireNonNull(additions, "Parameter 'additions' must not be null");
         try {
             DowncallHandles.g_list_store_splice.invokeExact(
@@ -277,52 +283,62 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
         
         private static final MethodHandle g_list_store_new = Interop.downcallHandle(
             "g_list_store_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_list_store_append = Interop.downcallHandle(
             "g_list_store_append",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_list_store_find = Interop.downcallHandle(
             "g_list_store_find",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_list_store_find_with_equal_func = Interop.downcallHandle(
             "g_list_store_find_with_equal_func",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_list_store_insert = Interop.downcallHandle(
             "g_list_store_insert",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_list_store_insert_sorted = Interop.downcallHandle(
             "g_list_store_insert_sorted",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_list_store_remove = Interop.downcallHandle(
             "g_list_store_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_list_store_remove_all = Interop.downcallHandle(
             "g_list_store_remove_all",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_list_store_sort = Interop.downcallHandle(
             "g_list_store_sort",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_list_store_splice = Interop.downcallHandle(
             "g_list_store_splice",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

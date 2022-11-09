@@ -33,13 +33,19 @@ public class CellRendererPixbuf extends org.gtk.gtk.CellRenderer {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a CellRendererPixbuf proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CellRendererPixbuf(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CellRendererPixbuf(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -51,16 +57,16 @@ public class CellRendererPixbuf extends org.gtk.gtk.CellRenderer {
      */
     public static CellRendererPixbuf castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellRendererPixbuf"))) {
-            return new CellRendererPixbuf(gobject.refcounted());
+            return new CellRendererPixbuf(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCellRendererPixbuf");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_renderer_pixbuf_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_renderer_pixbuf_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,14 +83,15 @@ public class CellRendererPixbuf extends org.gtk.gtk.CellRenderer {
      * {@code GtkTreeView}.
      */
     public CellRendererPixbuf() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_cell_renderer_pixbuf_new = Interop.downcallHandle(
             "gtk_cell_renderer_pixbuf_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

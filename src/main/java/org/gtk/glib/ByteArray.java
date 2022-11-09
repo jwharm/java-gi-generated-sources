@@ -25,6 +25,7 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -33,7 +34,7 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
     
     public static ByteArray allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ByteArray newInstance = new ByteArray(Refcounted.get(segment.address()));
+        ByteArray newInstance = new ByteArray(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -80,9 +81,14 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
     }
     
+    /**
+     * Create a ByteArray proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ByteArray(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ByteArray(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -93,7 +99,7 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * @param len the number of bytes to add
      * @return the {@link ByteArray}
      */
-    public static @NotNull PointerByte append(byte[] array, PointerByte data, int len) {
+    public static @NotNull PointerByte append(@NotNull byte[] array, PointerByte data, int len) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         MemoryAddress RESULT;
@@ -118,7 +124,7 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * @return the element data if {@code free_segment} is {@code false}, otherwise
      *          {@code null}.  The element data should be freed using g_free().
      */
-    public static PointerByte free(byte[] array, boolean freeSegment) {
+    public static PointerByte free(@NotNull byte[] array, boolean freeSegment) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -144,7 +150,7 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * @return a new immutable {@link Bytes} representing same
      *     byte data that was in the array
      */
-    public static @NotNull org.gtk.glib.Bytes freeToBytes(byte[] array) {
+    public static @NotNull org.gtk.glib.Bytes freeToBytes(@NotNull byte[] array) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -153,7 +159,7 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
     }
     
     /**
@@ -181,7 +187,7 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * @param len length of {@code data}
      * @return a new {@link ByteArray}
      */
-    public static @NotNull PointerByte newTake(byte[] data, long len) {
+    public static @NotNull PointerByte newTake(@NotNull byte[] data, long len) {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         MemoryAddress RESULT;
         try {
@@ -202,7 +208,7 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * @param len the number of bytes to add
      * @return the {@link ByteArray}
      */
-    public static @NotNull PointerByte prepend(byte[] array, PointerByte data, int len) {
+    public static @NotNull PointerByte prepend(@NotNull byte[] array, PointerByte data, int len) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         MemoryAddress RESULT;
@@ -223,7 +229,7 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * @param array A {@link ByteArray}
      * @return The passed in {@link ByteArray}
      */
-    public static @NotNull PointerByte ref(byte[] array) {
+    public static @NotNull PointerByte ref(@NotNull byte[] array) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -242,7 +248,7 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * @param index the index of the byte to remove
      * @return the {@link ByteArray}
      */
-    public static @NotNull PointerByte removeIndex(byte[] array, int index) {
+    public static @NotNull PointerByte removeIndex(@NotNull byte[] array, int index) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -264,7 +270,7 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * @param index the index of the byte to remove
      * @return the {@link ByteArray}
      */
-    public static @NotNull PointerByte removeIndexFast(byte[] array, int index) {
+    public static @NotNull PointerByte removeIndexFast(@NotNull byte[] array, int index) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -285,7 +291,7 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * @param length the number of bytes to remove
      * @return the {@link ByteArray}
      */
-    public static @NotNull PointerByte removeRange(byte[] array, int index, int length) {
+    public static @NotNull PointerByte removeRange(@NotNull byte[] array, int index, int length) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -305,7 +311,7 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * @param length the new size of the {@link ByteArray}
      * @return the {@link ByteArray}
      */
-    public static @NotNull PointerByte setSize(byte[] array, int length) {
+    public static @NotNull PointerByte setSize(@NotNull byte[] array, int length) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -351,7 +357,7 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * @param array a {@link ByteArray}
      * @param compareFunc comparison function
      */
-    public static void sort(byte[] array, @NotNull org.gtk.glib.CompareFunc compareFunc) {
+    public static void sort(@NotNull byte[] array, @NotNull org.gtk.glib.CompareFunc compareFunc) {
         throw new UnsupportedOperationException("Operation not supported yet");
     }
     
@@ -361,7 +367,7 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * @param array a {@link ByteArray}
      * @param compareFunc comparison function
      */
-    public static void sortWithData(byte[] array, @NotNull org.gtk.glib.CompareDataFunc compareFunc) {
+    public static void sortWithData(@NotNull byte[] array, @NotNull org.gtk.glib.CompareDataFunc compareFunc) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
         try {
@@ -388,7 +394,7 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * @return the element data, which should be
      *     freed using g_free().
      */
-    public static PointerByte steal(byte[] array, Out<Long> len) {
+    public static PointerByte steal(@NotNull byte[] array, Out<Long> len) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         java.util.Objects.requireNonNull(len, "Parameter 'len' must not be null");
         MemorySegment lenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
@@ -411,7 +417,7 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * thread.
      * @param array A {@link ByteArray}
      */
-    public static void unref(byte[] array) {
+    public static void unref(@NotNull byte[] array) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         try {
             DowncallHandles.g_byte_array_unref.invokeExact(
@@ -425,82 +431,98 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_byte_array_append = Interop.downcallHandle(
             "g_byte_array_append",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_byte_array_free = Interop.downcallHandle(
             "g_byte_array_free",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_byte_array_free_to_bytes = Interop.downcallHandle(
             "g_byte_array_free_to_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_byte_array_new = Interop.downcallHandle(
             "g_byte_array_new",
-            FunctionDescriptor.ofVoid()
+            FunctionDescriptor.ofVoid(),
+            false
         );
         
         private static final MethodHandle g_byte_array_new_take = Interop.downcallHandle(
             "g_byte_array_new_take",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_byte_array_prepend = Interop.downcallHandle(
             "g_byte_array_prepend",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_byte_array_ref = Interop.downcallHandle(
             "g_byte_array_ref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_byte_array_remove_index = Interop.downcallHandle(
             "g_byte_array_remove_index",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_byte_array_remove_index_fast = Interop.downcallHandle(
             "g_byte_array_remove_index_fast",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_byte_array_remove_range = Interop.downcallHandle(
             "g_byte_array_remove_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_byte_array_set_size = Interop.downcallHandle(
             "g_byte_array_set_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_byte_array_sized_new = Interop.downcallHandle(
             "g_byte_array_sized_new",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_byte_array_sort = Interop.downcallHandle(
             "g_byte_array_sort",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_byte_array_sort_with_data = Interop.downcallHandle(
             "g_byte_array_sort_with_data",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_byte_array_steal = Interop.downcallHandle(
             "g_byte_array_steal",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_byte_array_unref = Interop.downcallHandle(
             "g_byte_array_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

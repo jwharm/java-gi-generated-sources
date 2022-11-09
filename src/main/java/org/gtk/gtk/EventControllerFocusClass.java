@@ -17,6 +17,7 @@ public class EventControllerFocusClass extends io.github.jwharm.javagi.ResourceB
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -25,13 +26,18 @@ public class EventControllerFocusClass extends io.github.jwharm.javagi.ResourceB
     
     public static EventControllerFocusClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        EventControllerFocusClass newInstance = new EventControllerFocusClass(Refcounted.get(segment.address()));
+        EventControllerFocusClass newInstance = new EventControllerFocusClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a EventControllerFocusClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public EventControllerFocusClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public EventControllerFocusClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

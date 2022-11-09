@@ -28,6 +28,7 @@ public class ActionableInterface extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -36,13 +37,18 @@ public class ActionableInterface extends io.github.jwharm.javagi.ResourceBase {
     
     public static ActionableInterface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ActionableInterface newInstance = new ActionableInterface(Refcounted.get(segment.address()));
+        ActionableInterface newInstance = new ActionableInterface(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a ActionableInterface proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ActionableInterface(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ActionableInterface(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

@@ -24,7 +24,7 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
      */
     public static FontChooser castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFontChooser"))) {
-            return new FontChooserImpl(gobject.refcounted());
+            return new FontChooserImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkFontChooser");
         }
@@ -77,7 +77,7 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontDescription(Refcounted.get(RESULT, true));
+        return new org.pango.FontDescription(RESULT, Ownership.FULL);
     }
     
     /**
@@ -96,7 +96,7 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontFace(Refcounted.get(RESULT, false));
+        return new org.pango.FontFace(RESULT, Ownership.NONE);
     }
     
     /**
@@ -116,7 +116,7 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontFamily(Refcounted.get(RESULT, false));
+        return new org.pango.FontFamily(RESULT, Ownership.NONE);
     }
     
     /**
@@ -147,7 +147,7 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontMap(Refcounted.get(RESULT, true));
+        return new org.pango.FontMap(RESULT, Ownership.FULL);
     }
     
     /**
@@ -385,6 +385,8 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
      * This usually happens when the user double clicks an item,
      * or an item is selected and the user presses one of the keys
      * Space, Shift+Space, Return or Enter.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<FontChooser.FontActivated> onFontActivated(FontChooser.FontActivated handler) {
         try {
@@ -410,115 +412,134 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_font_chooser_get_font = Interop.downcallHandle(
             "gtk_font_chooser_get_font",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_font_chooser_get_font_desc = Interop.downcallHandle(
             "gtk_font_chooser_get_font_desc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_font_chooser_get_font_face = Interop.downcallHandle(
             "gtk_font_chooser_get_font_face",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_font_chooser_get_font_family = Interop.downcallHandle(
             "gtk_font_chooser_get_font_family",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_font_chooser_get_font_features = Interop.downcallHandle(
             "gtk_font_chooser_get_font_features",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_font_chooser_get_font_map = Interop.downcallHandle(
             "gtk_font_chooser_get_font_map",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_font_chooser_get_font_size = Interop.downcallHandle(
             "gtk_font_chooser_get_font_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_font_chooser_get_language = Interop.downcallHandle(
             "gtk_font_chooser_get_language",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_font_chooser_get_level = Interop.downcallHandle(
             "gtk_font_chooser_get_level",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_font_chooser_get_preview_text = Interop.downcallHandle(
             "gtk_font_chooser_get_preview_text",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_font_chooser_get_show_preview_entry = Interop.downcallHandle(
             "gtk_font_chooser_get_show_preview_entry",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_font_chooser_set_filter_func = Interop.downcallHandle(
             "gtk_font_chooser_set_filter_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_font_chooser_set_font = Interop.downcallHandle(
             "gtk_font_chooser_set_font",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_font_chooser_set_font_desc = Interop.downcallHandle(
             "gtk_font_chooser_set_font_desc",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_font_chooser_set_font_map = Interop.downcallHandle(
             "gtk_font_chooser_set_font_map",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_font_chooser_set_language = Interop.downcallHandle(
             "gtk_font_chooser_set_language",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_font_chooser_set_level = Interop.downcallHandle(
             "gtk_font_chooser_set_level",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_font_chooser_set_preview_text = Interop.downcallHandle(
             "gtk_font_chooser_set_preview_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_font_chooser_set_show_preview_entry = Interop.downcallHandle(
             "gtk_font_chooser_set_show_preview_entry",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -528,7 +549,7 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
         public static void signalFontChooserFontActivated(MemoryAddress source, MemoryAddress fontname, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FontChooser.FontActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FontChooser.FontChooserImpl(Refcounted.get(source)), Interop.getStringFrom(fontname));
+            HANDLER.signalReceived(new FontChooser.FontChooserImpl(source, Ownership.UNKNOWN), Interop.getStringFrom(fontname));
         }
     }
     
@@ -538,8 +559,8 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public FontChooserImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public FontChooserImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

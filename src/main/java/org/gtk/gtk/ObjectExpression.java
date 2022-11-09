@@ -20,13 +20,19 @@ public class ObjectExpression extends org.gtk.gtk.Expression {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ObjectExpression proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ObjectExpression(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ObjectExpression(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,18 +44,18 @@ public class ObjectExpression extends org.gtk.gtk.Expression {
      */
     public static ObjectExpression castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkObjectExpression"))) {
-            return new ObjectExpression(gobject.refcounted());
+            return new ObjectExpression(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkObjectExpression");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gobject.Object object) {
+    private static Addressable constructNew(@NotNull org.gtk.gobject.Object object) {
         java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_object_expression_new.invokeExact(
-                    object.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_object_expression_new.invokeExact(
+                    object.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,7 +73,7 @@ public class ObjectExpression extends org.gtk.gtk.Expression {
      * @param object object to watch
      */
     public ObjectExpression(@NotNull org.gtk.gobject.Object object) {
-        super(constructNew(object));
+        super(constructNew(object), Ownership.FULL);
     }
     
     /**
@@ -82,19 +88,21 @@ public class ObjectExpression extends org.gtk.gtk.Expression {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.Object(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_object_expression_new = Interop.downcallHandle(
             "gtk_object_expression_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_object_expression_get_object = Interop.downcallHandle(
             "gtk_object_expression_get_object",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

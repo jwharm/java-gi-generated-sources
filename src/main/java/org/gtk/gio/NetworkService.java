@@ -33,6 +33,7 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -43,12 +44,17 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a NetworkService proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public NetworkService(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public NetworkService(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -60,22 +66,22 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
      */
     public static NetworkService castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GNetworkService"))) {
-            return new NetworkService(gobject.refcounted());
+            return new NetworkService(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GNetworkService");
         }
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String service, @NotNull java.lang.String protocol, @NotNull java.lang.String domain) {
+    private static Addressable constructNew(@NotNull java.lang.String service, @NotNull java.lang.String protocol, @NotNull java.lang.String domain) {
         java.util.Objects.requireNonNull(service, "Parameter 'service' must not be null");
         java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
         java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_network_service_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_network_service_new.invokeExact(
                     Interop.allocateNativeString(service),
                     Interop.allocateNativeString(protocol),
-                    Interop.allocateNativeString(domain)), true);
+                    Interop.allocateNativeString(domain));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,7 +97,7 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
      * @param domain the DNS domain to look up the service in
      */
     public NetworkService(@NotNull java.lang.String service, @NotNull java.lang.String protocol, @NotNull java.lang.String domain) {
-        super(constructNew(service, protocol, domain));
+        super(constructNew(service, protocol, domain), Ownership.FULL);
     }
     
     /**
@@ -176,32 +182,38 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
         
         private static final MethodHandle g_network_service_new = Interop.downcallHandle(
             "g_network_service_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_network_service_get_domain = Interop.downcallHandle(
             "g_network_service_get_domain",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_network_service_get_protocol = Interop.downcallHandle(
             "g_network_service_get_protocol",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_network_service_get_scheme = Interop.downcallHandle(
             "g_network_service_get_scheme",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_network_service_get_service = Interop.downcallHandle(
             "g_network_service_get_service",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_network_service_set_scheme = Interop.downcallHandle(
             "g_network_service_set_scheme",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

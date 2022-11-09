@@ -63,7 +63,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      */
     public static ActionGroup castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GActionGroup"))) {
-            return new ActionGroupImpl(gobject.refcounted());
+            return new ActionGroupImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GActionGroup");
         }
@@ -266,7 +266,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.VariantType(RESULT, Ownership.NONE);
     }
     
     /**
@@ -291,7 +291,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
     }
     
     /**
@@ -326,7 +326,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
     }
     
     /**
@@ -359,7 +359,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.VariantType(RESULT, Ownership.NONE);
     }
     
     /**
@@ -469,6 +469,9 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      * Signals that a new action was just added to the group.
      * This signal is emitted after the action has been added
      * and is now visible.
+     * @param detail The signal detail
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<ActionGroup.ActionAdded> onActionAdded(@Nullable String detail, ActionGroup.ActionAdded handler) {
         try {
@@ -495,6 +498,9 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
     
     /**
      * Signals that the enabled status of the named action has changed.
+     * @param detail The signal detail
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<ActionGroup.ActionEnabledChanged> onActionEnabledChanged(@Nullable String detail, ActionGroup.ActionEnabledChanged handler) {
         try {
@@ -523,6 +529,9 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      * Signals that an action is just about to be removed from the group.
      * This signal is emitted before the action is removed, so the action
      * is still visible and can be queried from the signal handler.
+     * @param detail The signal detail
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<ActionGroup.ActionRemoved> onActionRemoved(@Nullable String detail, ActionGroup.ActionRemoved handler) {
         try {
@@ -549,6 +558,9 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
     
     /**
      * Signals that the state of the named action has changed.
+     * @param detail The signal detail
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<ActionGroup.ActionStateChanged> onActionStateChanged(@Nullable String detail, ActionGroup.ActionStateChanged handler) {
         try {
@@ -574,85 +586,99 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_action_group_action_added = Interop.downcallHandle(
             "g_action_group_action_added",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_group_action_enabled_changed = Interop.downcallHandle(
             "g_action_group_action_enabled_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_group_action_removed = Interop.downcallHandle(
             "g_action_group_action_removed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_group_action_state_changed = Interop.downcallHandle(
             "g_action_group_action_state_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_group_activate_action = Interop.downcallHandle(
             "g_action_group_activate_action",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_group_change_action_state = Interop.downcallHandle(
             "g_action_group_change_action_state",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_group_get_action_enabled = Interop.downcallHandle(
             "g_action_group_get_action_enabled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_group_get_action_parameter_type = Interop.downcallHandle(
             "g_action_group_get_action_parameter_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_group_get_action_state = Interop.downcallHandle(
             "g_action_group_get_action_state",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_group_get_action_state_hint = Interop.downcallHandle(
             "g_action_group_get_action_state_hint",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_group_get_action_state_type = Interop.downcallHandle(
             "g_action_group_get_action_state_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_group_has_action = Interop.downcallHandle(
             "g_action_group_has_action",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_group_list_actions = Interop.downcallHandle(
             "g_action_group_list_actions",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_group_query_action = Interop.downcallHandle(
             "g_action_group_query_action",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -662,25 +688,25 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
         public static void signalActionGroupActionAdded(MemoryAddress source, MemoryAddress actionName, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ActionGroup.ActionAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(Refcounted.get(source)), Interop.getStringFrom(actionName));
+            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(source, Ownership.UNKNOWN), Interop.getStringFrom(actionName));
         }
         
         public static void signalActionGroupActionEnabledChanged(MemoryAddress source, MemoryAddress actionName, int enabled, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ActionGroup.ActionEnabledChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(Refcounted.get(source)), Interop.getStringFrom(actionName), enabled != 0);
+            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(source, Ownership.UNKNOWN), Interop.getStringFrom(actionName), enabled != 0);
         }
         
         public static void signalActionGroupActionRemoved(MemoryAddress source, MemoryAddress actionName, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ActionGroup.ActionRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(Refcounted.get(source)), Interop.getStringFrom(actionName));
+            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(source, Ownership.UNKNOWN), Interop.getStringFrom(actionName));
         }
         
         public static void signalActionGroupActionStateChanged(MemoryAddress source, MemoryAddress actionName, MemoryAddress value, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ActionGroup.ActionStateChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(Refcounted.get(source)), Interop.getStringFrom(actionName), new org.gtk.glib.Variant(Refcounted.get(value, false)));
+            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(source, Ownership.UNKNOWN), Interop.getStringFrom(actionName), new org.gtk.glib.Variant(value, Ownership.NONE));
         }
     }
     
@@ -690,8 +716,8 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public ActionGroupImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public ActionGroupImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

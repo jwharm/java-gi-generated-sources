@@ -27,13 +27,19 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a BookmarkList proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public BookmarkList(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public BookmarkList(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -45,18 +51,18 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      */
     public static BookmarkList castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkBookmarkList"))) {
-            return new BookmarkList(gobject.refcounted());
+            return new BookmarkList(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkBookmarkList");
         }
     }
     
-    private static Refcounted constructNew(@Nullable java.lang.String filename, @Nullable java.lang.String attributes) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable java.lang.String filename, @Nullable java.lang.String attributes) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_bookmark_list_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_bookmark_list_new.invokeExact(
                     (Addressable) (filename == null ? MemoryAddress.NULL : Interop.allocateNativeString(filename)),
-                    (Addressable) (attributes == null ? MemoryAddress.NULL : Interop.allocateNativeString(attributes))), true);
+                    (Addressable) (attributes == null ? MemoryAddress.NULL : Interop.allocateNativeString(attributes)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,7 +75,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      * @param attributes The attributes to query
      */
     public BookmarkList(@Nullable java.lang.String filename, @Nullable java.lang.String attributes) {
-        super(constructNew(filename, attributes));
+        super(constructNew(filename, attributes), Ownership.FULL);
     }
     
     /**
@@ -174,37 +180,44 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
         
         private static final MethodHandle gtk_bookmark_list_new = Interop.downcallHandle(
             "gtk_bookmark_list_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_bookmark_list_get_attributes = Interop.downcallHandle(
             "gtk_bookmark_list_get_attributes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_bookmark_list_get_filename = Interop.downcallHandle(
             "gtk_bookmark_list_get_filename",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_bookmark_list_get_io_priority = Interop.downcallHandle(
             "gtk_bookmark_list_get_io_priority",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_bookmark_list_is_loading = Interop.downcallHandle(
             "gtk_bookmark_list_is_loading",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_bookmark_list_set_attributes = Interop.downcallHandle(
             "gtk_bookmark_list_set_attributes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_bookmark_list_set_io_priority = Interop.downcallHandle(
             "gtk_bookmark_list_set_io_priority",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

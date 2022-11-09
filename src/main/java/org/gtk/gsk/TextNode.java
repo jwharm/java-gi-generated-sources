@@ -20,13 +20,19 @@ public class TextNode extends org.gtk.gsk.RenderNode {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a TextNode proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TextNode(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TextNode(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,24 +44,24 @@ public class TextNode extends org.gtk.gsk.RenderNode {
      */
     public static TextNode castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskTextNode"))) {
-            return new TextNode(gobject.refcounted());
+            return new TextNode(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GskTextNode");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.pango.Font font, @NotNull org.pango.GlyphString glyphs, @NotNull org.gtk.gdk.RGBA color, @NotNull org.gtk.graphene.Point offset) {
+    private static Addressable constructNew(@NotNull org.pango.Font font, @NotNull org.pango.GlyphString glyphs, @NotNull org.gtk.gdk.RGBA color, @NotNull org.gtk.graphene.Point offset) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
         java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
         java.util.Objects.requireNonNull(offset, "Parameter 'offset' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_text_node_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gsk_text_node_new.invokeExact(
                     font.handle(),
                     glyphs.handle(),
                     color.handle(),
-                    offset.handle()), true);
+                    offset.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,7 +79,7 @@ public class TextNode extends org.gtk.gsk.RenderNode {
      * @param offset offset of the baseline
      */
     public TextNode(@NotNull org.pango.Font font, @NotNull org.pango.GlyphString glyphs, @NotNull org.gtk.gdk.RGBA color, @NotNull org.gtk.graphene.Point offset) {
-        super(constructNew(font, glyphs, color, offset));
+        super(constructNew(font, glyphs, color, offset), Ownership.FULL);
     }
     
     /**
@@ -88,7 +94,7 @@ public class TextNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.RGBA(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.RGBA(RESULT, Ownership.NONE);
     }
     
     /**
@@ -103,7 +109,7 @@ public class TextNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Font(Refcounted.get(RESULT, false));
+        return new org.pango.Font(RESULT, Ownership.NONE);
     }
     
     /**
@@ -126,7 +132,7 @@ public class TextNode extends org.gtk.gsk.RenderNode {
         org.pango.GlyphInfo[] resultARRAY = new org.pango.GlyphInfo[nGlyphs.get().intValue()];
         for (int I = 0; I < nGlyphs.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = new org.pango.GlyphInfo(Refcounted.get(OBJ, false));
+            resultARRAY[I] = new org.pango.GlyphInfo(OBJ, Ownership.NONE);
         }
         return resultARRAY;
     }
@@ -158,7 +164,7 @@ public class TextNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Point(RESULT, Ownership.NONE);
     }
     
     /**
@@ -180,37 +186,44 @@ public class TextNode extends org.gtk.gsk.RenderNode {
         
         private static final MethodHandle gsk_text_node_new = Interop.downcallHandle(
             "gsk_text_node_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_text_node_get_color = Interop.downcallHandle(
             "gsk_text_node_get_color",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_text_node_get_font = Interop.downcallHandle(
             "gsk_text_node_get_font",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_text_node_get_glyphs = Interop.downcallHandle(
             "gsk_text_node_get_glyphs",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_text_node_get_num_glyphs = Interop.downcallHandle(
             "gsk_text_node_get_num_glyphs",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_text_node_get_offset = Interop.downcallHandle(
             "gsk_text_node_get_offset",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_text_node_has_color_glyphs = Interop.downcallHandle(
             "gsk_text_node_has_color_glyphs",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

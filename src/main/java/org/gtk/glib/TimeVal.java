@@ -34,6 +34,7 @@ public class TimeVal extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -42,7 +43,7 @@ public class TimeVal extends io.github.jwharm.javagi.ResourceBase {
     
     public static TimeVal allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TimeVal newInstance = new TimeVal(Refcounted.get(segment.address()));
+        TimeVal newInstance = new TimeVal(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -89,9 +90,14 @@ public class TimeVal extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tv_usec);
     }
     
+    /**
+     * Create a TimeVal proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TimeVal(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TimeVal(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -207,17 +213,20 @@ public class TimeVal extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_time_val_add = Interop.downcallHandle(
             "g_time_val_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_time_val_to_iso8601 = Interop.downcallHandle(
             "g_time_val_to_iso8601",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_time_val_from_iso8601 = Interop.downcallHandle(
             "g_time_val_from_iso8601",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -123,6 +123,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -131,14 +132,19 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
     
     public static Uri allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Uri newInstance = new Uri(Refcounted.get(segment.address()));
+        Uri newInstance = new Uri(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a Uri proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Uri(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Uri(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -352,14 +358,15 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_parse_relative.invokeExact(
                     handle(),
                     Interop.allocateNativeString(uriRef),
-                    flags.getValue(), (Addressable) GERROR);
+                    flags.getValue(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Uri(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Uri(RESULT, Ownership.FULL);
     }
     
     /**
@@ -374,7 +381,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Uri(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Uri(RESULT, Ownership.FULL);
     }
     
     /**
@@ -472,7 +479,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Uri(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Uri(RESULT, Ownership.FULL);
     }
     
     /**
@@ -516,7 +523,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Uri(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Uri(RESULT, Ownership.FULL);
     }
     
     public static @NotNull org.gtk.glib.Quark errorQuark() {
@@ -548,7 +555,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * @return an escaped version of {@code unescaped}.
      *     The returned string should be freed when no longer needed.
      */
-    public static @NotNull java.lang.String escapeBytes(byte[] unescaped, long length, @Nullable java.lang.String reservedCharsAllowed) {
+    public static @NotNull java.lang.String escapeBytes(@NotNull byte[] unescaped, long length, @Nullable java.lang.String reservedCharsAllowed) {
         java.util.Objects.requireNonNull(unescaped, "Parameter 'unescaped' must not be null");
         MemoryAddress RESULT;
         try {
@@ -614,7 +621,8 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         try {
             RESULT = (int) DowncallHandles.g_uri_is_valid.invokeExact(
                     Interop.allocateNativeString(uriString),
-                    flags.getValue(), (Addressable) GERROR);
+                    flags.getValue(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -753,14 +761,15 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_parse.invokeExact(
                     Interop.allocateNativeString(uriString),
-                    flags.getValue(), (Addressable) GERROR);
+                    flags.getValue(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Uri(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Uri(RESULT, Ownership.FULL);
     }
     
     /**
@@ -812,14 +821,15 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
                     Interop.allocateNativeString(params),
                     length,
                     Interop.allocateNativeString(separators),
-                    flags.getValue(), (Addressable) GERROR);
+                    flags.getValue(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.HashTable(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.HashTable(RESULT, Ownership.FULL);
     }
     
     /**
@@ -898,7 +908,8 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_resolve_relative.invokeExact(
                     (Addressable) (baseUriString == null ? MemoryAddress.NULL : Interop.allocateNativeString(baseUriString)),
                     Interop.allocateNativeString(uriRef),
-                    flags.getValue(), (Addressable) GERROR);
+                    flags.getValue(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -969,7 +980,8 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
                     (Addressable) portPOINTER.address(),
                     (Addressable) pathPOINTER.address(),
                     (Addressable) (query == null ? MemoryAddress.NULL : (Addressable) queryPOINTER.address()),
-                    (Addressable) (fragment == null ? MemoryAddress.NULL : (Addressable) fragmentPOINTER.address()), (Addressable) GERROR);
+                    (Addressable) (fragment == null ? MemoryAddress.NULL : (Addressable) fragmentPOINTER.address()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1020,7 +1032,8 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
                     flags.getValue(),
                     (Addressable) (scheme == null ? MemoryAddress.NULL : (Addressable) schemePOINTER.address()),
                     (Addressable) (host == null ? MemoryAddress.NULL : (Addressable) hostPOINTER.address()),
-                    (Addressable) portPOINTER.address(), (Addressable) GERROR);
+                    (Addressable) portPOINTER.address(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1097,7 +1110,8 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
                     (Addressable) portPOINTER.address(),
                     (Addressable) pathPOINTER.address(),
                     (Addressable) (query == null ? MemoryAddress.NULL : (Addressable) queryPOINTER.address()),
-                    (Addressable) (fragment == null ? MemoryAddress.NULL : (Addressable) fragmentPOINTER.address()), (Addressable) GERROR);
+                    (Addressable) (fragment == null ? MemoryAddress.NULL : (Addressable) fragmentPOINTER.address()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1145,14 +1159,15 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_unescape_bytes.invokeExact(
                     Interop.allocateNativeString(escapedString),
                     length,
-                    (Addressable) (illegalCharacters == null ? MemoryAddress.NULL : Interop.allocateNativeString(illegalCharacters)), (Addressable) GERROR);
+                    (Addressable) (illegalCharacters == null ? MemoryAddress.NULL : Interop.allocateNativeString(illegalCharacters)),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1220,182 +1235,218 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_uri_get_auth_params = Interop.downcallHandle(
             "g_uri_get_auth_params",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_get_flags = Interop.downcallHandle(
             "g_uri_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_get_fragment = Interop.downcallHandle(
             "g_uri_get_fragment",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_get_host = Interop.downcallHandle(
             "g_uri_get_host",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_get_password = Interop.downcallHandle(
             "g_uri_get_password",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_get_path = Interop.downcallHandle(
             "g_uri_get_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_get_port = Interop.downcallHandle(
             "g_uri_get_port",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_get_query = Interop.downcallHandle(
             "g_uri_get_query",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_get_scheme = Interop.downcallHandle(
             "g_uri_get_scheme",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_get_user = Interop.downcallHandle(
             "g_uri_get_user",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_get_userinfo = Interop.downcallHandle(
             "g_uri_get_userinfo",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_parse_relative = Interop.downcallHandle(
             "g_uri_parse_relative",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_ref = Interop.downcallHandle(
             "g_uri_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_to_string = Interop.downcallHandle(
             "g_uri_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_to_string_partial = Interop.downcallHandle(
             "g_uri_to_string_partial",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_uri_unref = Interop.downcallHandle(
             "g_uri_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_build = Interop.downcallHandle(
             "g_uri_build",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_build_with_user = Interop.downcallHandle(
             "g_uri_build_with_user",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_error_quark = Interop.downcallHandle(
             "g_uri_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_uri_escape_bytes = Interop.downcallHandle(
             "g_uri_escape_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_escape_string = Interop.downcallHandle(
             "g_uri_escape_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_uri_is_valid = Interop.downcallHandle(
             "g_uri_is_valid",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_join = Interop.downcallHandle(
             "g_uri_join",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_join_with_user = Interop.downcallHandle(
             "g_uri_join_with_user",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_list_extract_uris = Interop.downcallHandle(
             "g_uri_list_extract_uris",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_parse = Interop.downcallHandle(
             "g_uri_parse",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_parse_params = Interop.downcallHandle(
             "g_uri_parse_params",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_parse_scheme = Interop.downcallHandle(
             "g_uri_parse_scheme",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_peek_scheme = Interop.downcallHandle(
             "g_uri_peek_scheme",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_resolve_relative = Interop.downcallHandle(
             "g_uri_resolve_relative",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_split = Interop.downcallHandle(
             "g_uri_split",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_split_network = Interop.downcallHandle(
             "g_uri_split_network",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_split_with_user = Interop.downcallHandle(
             "g_uri_split_with_user",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_unescape_bytes = Interop.downcallHandle(
             "g_uri_unescape_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_unescape_segment = Interop.downcallHandle(
             "g_uri_unescape_segment",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_uri_unescape_string = Interop.downcallHandle(
             "g_uri_unescape_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

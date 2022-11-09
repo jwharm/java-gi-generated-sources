@@ -28,13 +28,19 @@ public class DrawContext extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a DrawContext proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DrawContext(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DrawContext(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -46,7 +52,7 @@ public class DrawContext extends org.gtk.gobject.Object {
      */
     public static DrawContext castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkDrawContext"))) {
-            return new DrawContext(gobject.refcounted());
+            return new DrawContext(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkDrawContext");
         }
@@ -121,7 +127,7 @@ public class DrawContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
     }
     
     /**
@@ -143,7 +149,7 @@ public class DrawContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.cairographics.Region(Refcounted.get(RESULT, false));
+        return new org.cairographics.Region(RESULT, Ownership.NONE);
     }
     
     /**
@@ -158,7 +164,7 @@ public class DrawContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Surface(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Surface(RESULT, Ownership.NONE);
     }
     
     /**
@@ -185,32 +191,38 @@ public class DrawContext extends org.gtk.gobject.Object {
         
         private static final MethodHandle gdk_draw_context_begin_frame = Interop.downcallHandle(
             "gdk_draw_context_begin_frame",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_draw_context_end_frame = Interop.downcallHandle(
             "gdk_draw_context_end_frame",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_draw_context_get_display = Interop.downcallHandle(
             "gdk_draw_context_get_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_draw_context_get_frame_region = Interop.downcallHandle(
             "gdk_draw_context_get_frame_region",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_draw_context_get_surface = Interop.downcallHandle(
             "gdk_draw_context_get_surface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_draw_context_is_in_frame = Interop.downcallHandle(
             "gdk_draw_context_is_in_frame",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

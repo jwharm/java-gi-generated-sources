@@ -33,13 +33,19 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Texture proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Texture(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Texture(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -51,18 +57,18 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
      */
     public static Texture castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkTexture"))) {
-            return new Texture(gobject.refcounted());
+            return new Texture(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkTexture");
         }
     }
     
-    private static Refcounted constructNewForPixbuf(@NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf) {
+    private static Addressable constructNewForPixbuf(@NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf) {
         java.util.Objects.requireNonNull(pixbuf, "Parameter 'pixbuf' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_texture_new_for_pixbuf.invokeExact(
-                    pixbuf.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_texture_new_for_pixbuf.invokeExact(
+                    pixbuf.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,16 +85,17 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
      * @return a new {@code GdkTexture}
      */
     public static Texture newForPixbuf(@NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        return new Texture(constructNewForPixbuf(pixbuf));
+        return new Texture(constructNewForPixbuf(pixbuf), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromBytes(@NotNull org.gtk.glib.Bytes bytes) throws GErrorException {
+    private static Addressable constructNewFromBytes(@NotNull org.gtk.glib.Bytes bytes) throws GErrorException {
         java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_texture_new_from_bytes.invokeExact(
-                    bytes.handle(), (Addressable) GERROR), true);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_texture_new_from_bytes.invokeExact(
+                    bytes.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,16 +121,17 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static Texture newFromBytes(@NotNull org.gtk.glib.Bytes bytes) throws GErrorException {
-        return new Texture(constructNewFromBytes(bytes));
+        return new Texture(constructNewFromBytes(bytes), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromFile(@NotNull org.gtk.gio.File file) throws GErrorException {
+    private static Addressable constructNewFromFile(@NotNull org.gtk.gio.File file) throws GErrorException {
         java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_texture_new_from_file.invokeExact(
-                    file.handle(), (Addressable) GERROR), true);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_texture_new_from_file.invokeExact(
+                    file.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,16 +157,17 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static Texture newFromFile(@NotNull org.gtk.gio.File file) throws GErrorException {
-        return new Texture(constructNewFromFile(file));
+        return new Texture(constructNewFromFile(file), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromFilename(@NotNull java.lang.String path) throws GErrorException {
+    private static Addressable constructNewFromFilename(@NotNull java.lang.String path) throws GErrorException {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_texture_new_from_filename.invokeExact(
-                    Interop.allocateNativeString(path), (Addressable) GERROR), true);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_texture_new_from_filename.invokeExact(
+                    Interop.allocateNativeString(path),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,15 +193,15 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static Texture newFromFilename(@NotNull java.lang.String path) throws GErrorException {
-        return new Texture(constructNewFromFilename(path));
+        return new Texture(constructNewFromFilename(path), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromResource(@NotNull java.lang.String resourcePath) {
+    private static Addressable constructNewFromResource(@NotNull java.lang.String resourcePath) {
         java.util.Objects.requireNonNull(resourcePath, "Parameter 'resourcePath' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_texture_new_from_resource.invokeExact(
-                    Interop.allocateNativeString(resourcePath)), true);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_texture_new_from_resource.invokeExact(
+                    Interop.allocateNativeString(resourcePath));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -217,7 +226,7 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
      * @return A newly-created {@code GdkTexture}
      */
     public static Texture newFromResource(@NotNull java.lang.String resourcePath) {
-        return new Texture(constructNewFromResource(resourcePath));
+        return new Texture(constructNewFromResource(resourcePath), Ownership.FULL);
     }
     
     /**
@@ -244,7 +253,7 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
      *   downloaded data of {@code texture}
      * @param stride rowstride in bytes
      */
-    public void download(byte[] data, long stride) {
+    public void download(@NotNull byte[] data, long stride) {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         try {
             DowncallHandles.gdk_texture_download.invokeExact(
@@ -335,7 +344,7 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
     }
     
     /**
@@ -381,69 +390,81 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_texture_new_for_pixbuf = Interop.downcallHandle(
             "gdk_texture_new_for_pixbuf",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_texture_new_from_bytes = Interop.downcallHandle(
             "gdk_texture_new_from_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_texture_new_from_file = Interop.downcallHandle(
             "gdk_texture_new_from_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_texture_new_from_filename = Interop.downcallHandle(
             "gdk_texture_new_from_filename",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_texture_new_from_resource = Interop.downcallHandle(
             "gdk_texture_new_from_resource",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_texture_download = Interop.downcallHandle(
             "gdk_texture_download",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle gdk_texture_get_height = Interop.downcallHandle(
             "gdk_texture_get_height",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_texture_get_width = Interop.downcallHandle(
             "gdk_texture_get_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_texture_save_to_png = Interop.downcallHandle(
             "gdk_texture_save_to_png",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_texture_save_to_png_bytes = Interop.downcallHandle(
             "gdk_texture_save_to_png_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_texture_save_to_tiff = Interop.downcallHandle(
             "gdk_texture_save_to_tiff",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_texture_save_to_tiff_bytes = Interop.downcallHandle(
             "gdk_texture_save_to_tiff_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

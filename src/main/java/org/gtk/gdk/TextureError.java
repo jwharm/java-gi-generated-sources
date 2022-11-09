@@ -52,7 +52,8 @@ public class TextureError extends io.github.jwharm.javagi.Enumeration {
         
         private static final MethodHandle gdk_texture_error_quark = Interop.downcallHandle(
             "gdk_texture_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
     }
 }

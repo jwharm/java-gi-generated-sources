@@ -23,7 +23,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
      */
     public static PollableOutputStream castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GPollableOutputStream"))) {
-            return new PollableOutputStreamImpl(gobject.refcounted());
+            return new PollableOutputStreamImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GPollableOutputStream");
         }
@@ -71,7 +71,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Source(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Source(RESULT, Ownership.FULL);
     }
     
     /**
@@ -123,7 +123,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
      *   {@link IOErrorEnum#WOULD_BLOCK}).
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default long writeNonblocking(byte[] buffer, long count, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default long writeNonblocking(@NotNull byte[] buffer, long count, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         long RESULT;
@@ -132,7 +132,8 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
                     handle(),
                     Interop.allocateNativeArray(buffer, false),
                     count,
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,7 +171,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
      * be set.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.PollableReturn writevNonblocking(org.gtk.gio.OutputVector[] vectors, long nVectors, Out<Long> bytesWritten, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull org.gtk.gio.PollableReturn writevNonblocking(@NotNull org.gtk.gio.OutputVector[] vectors, long nVectors, Out<Long> bytesWritten, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(vectors, "Parameter 'vectors' must not be null");
         java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -182,7 +183,8 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
                     Interop.allocateNativeArray(vectors, false),
                     nVectors,
                     (Addressable) bytesWrittenPOINTER.address(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -199,31 +201,36 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_pollable_output_stream_can_poll = Interop.downcallHandle(
             "g_pollable_output_stream_can_poll",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_pollable_output_stream_create_source = Interop.downcallHandle(
             "g_pollable_output_stream_create_source",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_pollable_output_stream_is_writable = Interop.downcallHandle(
             "g_pollable_output_stream_is_writable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_pollable_output_stream_write_nonblocking = Interop.downcallHandle(
             "g_pollable_output_stream_write_nonblocking",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_pollable_output_stream_writev_nonblocking = Interop.downcallHandle(
             "g_pollable_output_stream_writev_nonblocking",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -233,8 +240,8 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public PollableOutputStreamImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public PollableOutputStreamImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

@@ -21,6 +21,7 @@ public class CarouselIndicatorLinesClass extends io.github.jwharm.javagi.Resourc
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -29,7 +30,7 @@ public class CarouselIndicatorLinesClass extends io.github.jwharm.javagi.Resourc
     
     public static CarouselIndicatorLinesClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CarouselIndicatorLinesClass newInstance = new CarouselIndicatorLinesClass(Refcounted.get(segment.address()));
+        CarouselIndicatorLinesClass newInstance = new CarouselIndicatorLinesClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -40,11 +41,16 @@ public class CarouselIndicatorLinesClass extends io.github.jwharm.javagi.Resourc
      */
     public org.gtk.gtk.WidgetClass parent_class$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gtk.WidgetClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.WidgetClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a CarouselIndicatorLinesClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CarouselIndicatorLinesClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CarouselIndicatorLinesClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

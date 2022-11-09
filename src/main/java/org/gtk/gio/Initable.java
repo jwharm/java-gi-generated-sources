@@ -43,7 +43,7 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
      */
     public static Initable castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GInitable"))) {
-            return new InitableImpl(gobject.refcounted());
+            return new InitableImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GInitable");
         }
@@ -99,7 +99,8 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
         try {
             RESULT = (int) DowncallHandles.g_initable_init.invokeExact(
                     handle(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,11 +120,25 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
      *    ignore.
      * @param firstPropertyName the name of the first property, or {@code null} if no
      *     properties
+     * @param varargs the value if the first property, followed by and other property
+     *    value pairs, and ended by {@code null}.
      * @return a newly allocated
      *      {@link org.gtk.gobject.Object}, or {@code null} on error
      */
-    public static @NotNull org.gtk.gobject.Object new_(@NotNull org.gtk.glib.Type objectType, @Nullable org.gtk.gio.Cancellable cancellable, @NotNull PointerProxy<org.gtk.glib.Error> error, @Nullable java.lang.String firstPropertyName) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static @NotNull org.gtk.gobject.Object new_(@NotNull org.gtk.glib.Type objectType, @Nullable org.gtk.gio.Cancellable cancellable, @NotNull PointerProxy<org.gtk.glib.Error> error, @Nullable java.lang.String firstPropertyName, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(objectType, "Parameter 'objectType' must not be null");
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_initable_new.invokeExact(
+                    objectType.getValue().longValue(),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    error.handle(),
+                    (Addressable) (firstPropertyName == null ? MemoryAddress.NULL : Interop.allocateNativeString(firstPropertyName)),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.gobject.Object(RESULT, Ownership.FULL);
     }
     
     /**
@@ -150,14 +165,15 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
                     objectType.getValue().longValue(),
                     Interop.allocateNativeString(firstPropertyName),
                     varArgs,
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
+        return new org.gtk.gobject.Object(RESULT, Ownership.FULL);
     }
     
     /**
@@ -175,7 +191,7 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
      * g_initable_init() instead. See {@link org.gtk.gobject.Parameter} for more information.
      */
     @Deprecated
-    public static @NotNull org.gtk.gobject.Object newv(@NotNull org.gtk.glib.Type objectType, int nParameters, org.gtk.gobject.Parameter[] parameters, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull org.gtk.gobject.Object newv(@NotNull org.gtk.glib.Type objectType, int nParameters, @NotNull org.gtk.gobject.Parameter[] parameters, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(objectType, "Parameter 'objectType' must not be null");
         java.util.Objects.requireNonNull(parameters, "Parameter 'parameters' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -185,14 +201,15 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
                     objectType.getValue().longValue(),
                     nParameters,
                     Interop.allocateNativeArray(parameters, false),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
+        return new org.gtk.gobject.Object(RESULT, Ownership.FULL);
     }
     
     @ApiStatus.Internal
@@ -201,25 +218,29 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_initable_init = Interop.downcallHandle(
             "g_initable_init",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_initable_new = Interop.downcallHandle(
             "g_initable_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_initable_new_valist = Interop.downcallHandle(
             "g_initable_new_valist",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_initable_newv = Interop.downcallHandle(
             "g_initable_newv",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -229,8 +250,8 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public InitableImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public InitableImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

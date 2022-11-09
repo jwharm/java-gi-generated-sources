@@ -25,6 +25,7 @@ public class ProxyAddressClass extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -33,7 +34,7 @@ public class ProxyAddressClass extends io.github.jwharm.javagi.ResourceBase {
     
     public static ProxyAddressClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ProxyAddressClass newInstance = new ProxyAddressClass(Refcounted.get(segment.address()));
+        ProxyAddressClass newInstance = new ProxyAddressClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,11 +45,16 @@ public class ProxyAddressClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gio.InetSocketAddressClass parent_class$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gio.InetSocketAddressClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.InetSocketAddressClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a ProxyAddressClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ProxyAddressClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ProxyAddressClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

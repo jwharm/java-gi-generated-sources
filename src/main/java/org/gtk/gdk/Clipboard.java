@@ -36,13 +36,19 @@ public class Clipboard extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Clipboard proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Clipboard(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Clipboard(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -54,7 +60,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      */
     public static Clipboard castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkClipboard"))) {
-            return new Clipboard(gobject.refcounted());
+            return new Clipboard(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkClipboard");
         }
@@ -76,7 +82,7 @@ public class Clipboard extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentProvider(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.ContentProvider(RESULT, Ownership.NONE);
     }
     
     /**
@@ -91,7 +97,7 @@ public class Clipboard extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
     }
     
     /**
@@ -106,7 +112,7 @@ public class Clipboard extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentFormats(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.NONE);
     }
     
     /**
@@ -144,7 +150,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      * @param cancellable optional {@code GCancellable} object
      * @param callback callback to call when the request is satisfied
      */
-    public void readAsync(java.lang.String[] mimeTypes, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+    public void readAsync(@NotNull java.lang.String[] mimeTypes, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         java.util.Objects.requireNonNull(mimeTypes, "Parameter 'mimeTypes' must not be null");
         try {
             DowncallHandles.gdk_clipboard_read_async.invokeExact(
@@ -183,7 +189,8 @@ public class Clipboard extends org.gtk.gobject.Object {
             RESULT = (MemoryAddress) DowncallHandles.gdk_clipboard_read_finish.invokeExact(
                     handle(),
                     result.handle(),
-                    (Addressable) outMimeTypePOINTER.address(), (Addressable) GERROR);
+                    (Addressable) outMimeTypePOINTER.address(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -191,7 +198,7 @@ public class Clipboard extends org.gtk.gobject.Object {
             throw new GErrorException(GERROR);
         }
         outMimeType.set(Interop.getStringFrom(outMimeTypePOINTER.get(ValueLayout.ADDRESS, 0)));
-        return new org.gtk.gio.InputStream(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.InputStream(RESULT, Ownership.FULL);
     }
     
     /**
@@ -237,7 +244,8 @@ public class Clipboard extends org.gtk.gobject.Object {
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_clipboard_read_text_finish.invokeExact(
                     handle(),
-                    result.handle(), (Addressable) GERROR);
+                    result.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -290,14 +298,15 @@ public class Clipboard extends org.gtk.gobject.Object {
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_clipboard_read_texture_finish.invokeExact(
                     handle(),
-                    result.handle(), (Addressable) GERROR);
+                    result.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gdk.Texture(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.Texture(RESULT, Ownership.FULL);
     }
     
     /**
@@ -349,14 +358,15 @@ public class Clipboard extends org.gtk.gobject.Object {
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_clipboard_read_value_finish.invokeExact(
                     handle(),
-                    result.handle(), (Addressable) GERROR);
+                    result.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gobject.Value(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
     }
     
     /**
@@ -371,9 +381,18 @@ public class Clipboard extends org.gtk.gobject.Object {
      * gdk_clipboard_set (clipboard, GDK_TYPE_TEXTURE, some_texture);
      * }</pre>
      * @param type type of value to set
+     * @param varargs value contents conforming to {@code type}
      */
-    public void set(@NotNull org.gtk.glib.Type type) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void set(@NotNull org.gtk.glib.Type type, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+        try {
+            DowncallHandles.gdk_clipboard_set.invokeExact(
+                    handle(),
+                    type.getValue().longValue(),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -518,7 +537,8 @@ public class Clipboard extends org.gtk.gobject.Object {
         try {
             RESULT = (int) DowncallHandles.gdk_clipboard_store_finish.invokeExact(
                     handle(),
-                    result.handle(), (Addressable) GERROR);
+                    result.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -535,6 +555,8 @@ public class Clipboard extends org.gtk.gobject.Object {
     
     /**
      * Emitted when the clipboard changes ownership.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Clipboard.Changed> onChanged(Clipboard.Changed handler) {
         try {
@@ -558,102 +580,122 @@ public class Clipboard extends org.gtk.gobject.Object {
         
         private static final MethodHandle gdk_clipboard_get_content = Interop.downcallHandle(
             "gdk_clipboard_get_content",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_clipboard_get_display = Interop.downcallHandle(
             "gdk_clipboard_get_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_clipboard_get_formats = Interop.downcallHandle(
             "gdk_clipboard_get_formats",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_clipboard_is_local = Interop.downcallHandle(
             "gdk_clipboard_is_local",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_clipboard_read_async = Interop.downcallHandle(
             "gdk_clipboard_read_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_clipboard_read_finish = Interop.downcallHandle(
             "gdk_clipboard_read_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_clipboard_read_text_async = Interop.downcallHandle(
             "gdk_clipboard_read_text_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_clipboard_read_text_finish = Interop.downcallHandle(
             "gdk_clipboard_read_text_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_clipboard_read_texture_async = Interop.downcallHandle(
             "gdk_clipboard_read_texture_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_clipboard_read_texture_finish = Interop.downcallHandle(
             "gdk_clipboard_read_texture_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_clipboard_read_value_async = Interop.downcallHandle(
             "gdk_clipboard_read_value_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_clipboard_read_value_finish = Interop.downcallHandle(
             "gdk_clipboard_read_value_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_clipboard_set = Interop.downcallHandle(
             "gdk_clipboard_set",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            true
         );
         
         private static final MethodHandle gdk_clipboard_set_content = Interop.downcallHandle(
             "gdk_clipboard_set_content",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_clipboard_set_text = Interop.downcallHandle(
             "gdk_clipboard_set_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_clipboard_set_texture = Interop.downcallHandle(
             "gdk_clipboard_set_texture",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_clipboard_set_valist = Interop.downcallHandle(
             "gdk_clipboard_set_valist",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_clipboard_set_value = Interop.downcallHandle(
             "gdk_clipboard_set_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_clipboard_store_async = Interop.downcallHandle(
             "gdk_clipboard_store_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_clipboard_store_finish = Interop.downcallHandle(
             "gdk_clipboard_store_finish",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -662,7 +704,7 @@ public class Clipboard extends org.gtk.gobject.Object {
         public static void signalClipboardChanged(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Clipboard.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Clipboard(Refcounted.get(source)));
+            HANDLER.signalReceived(new Clipboard(source, Ownership.UNKNOWN));
         }
     }
 }

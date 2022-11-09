@@ -24,6 +24,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -32,22 +33,27 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     
     public static TabArray allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TabArray newInstance = new TabArray(Refcounted.get(segment.address()));
+        TabArray newInstance = new TabArray(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a TabArray proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TabArray(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TabArray(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew(int initialSize, boolean positionsInPixels) {
-        Refcounted RESULT;
+    private static Addressable constructNew(int initialSize, boolean positionsInPixels) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.pango_tab_array_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.pango_tab_array_new.invokeExact(
                     initialSize,
-                    positionsInPixels ? 1 : 0), true);
+                    positionsInPixels ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -63,27 +69,40 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
      * @param positionsInPixels whether positions are in pixel units
      */
     public TabArray(int initialSize, boolean positionsInPixels) {
-        super(constructNew(initialSize, positionsInPixels));
+        super(constructNew(initialSize, positionsInPixels), Ownership.FULL);
     }
     
-    private static Refcounted constructNewWithPositions(int size, boolean positionsInPixels, @NotNull org.pango.TabAlign firstAlignment, int firstPosition) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    private static Addressable constructNewWithPositions(int size, boolean positionsInPixels, @NotNull org.pango.TabAlign firstAlignment, int firstPosition, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(firstAlignment, "Parameter 'firstAlignment' must not be null");
+        Addressable RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.pango_tab_array_new_with_positions.invokeExact(
+                    size,
+                    positionsInPixels ? 1 : 0,
+                    firstAlignment.getValue(),
+                    firstPosition,
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
     }
     
     /**
      * Creates a {@code PangoTabArray} and allows you to specify the alignment
      * and position of each tab stop.
      * <p>
-     * You <em>*must</em>* provide an alignment and position for {@code size} tab stops.
+     * You <strong>must</strong> provide an alignment and position for {@code size} tab stops.
      * @param size number of tab stops in the array
      * @param positionsInPixels whether positions are in pixel units
      * @param firstAlignment alignment of first tab stop
      * @param firstPosition position of first tab stop
+     * @param varargs additional alignment/position pairs
      * @return the newly allocated {@code PangoTabArray}, which should
      *   be freed with {@link TabArray#free}.
      */
-    public static TabArray newWithPositions(int size, boolean positionsInPixels, @NotNull org.pango.TabAlign firstAlignment, int firstPosition) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static TabArray newWithPositions(int size, boolean positionsInPixels, @NotNull org.pango.TabAlign firstAlignment, int firstPosition, java.lang.Object... varargs) {
+        return new TabArray(constructNewWithPositions(size, positionsInPixels, firstAlignment, firstPosition, varargs), Ownership.FULL);
     }
     
     /**
@@ -99,7 +118,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.TabArray(Refcounted.get(RESULT, true));
+        return new org.pango.TabArray(RESULT, Ownership.FULL);
     }
     
     /**
@@ -203,7 +222,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
      * @param locations location to store an array
      *   of tab positions
      */
-    public void getTabs(@NotNull Out<org.pango.TabAlign> alignments, Out<int[]> locations) {
+    public void getTabs(@NotNull Out<org.pango.TabAlign> alignments, @NotNull Out<int[]> locations) {
         throw new UnsupportedOperationException("Operation not supported yet");
     }
     
@@ -332,89 +351,105 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.TabArray(Refcounted.get(RESULT, true));
+        return new org.pango.TabArray(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_tab_array_new = Interop.downcallHandle(
             "pango_tab_array_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_tab_array_new_with_positions = Interop.downcallHandle(
             "pango_tab_array_new_with_positions",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            true
         );
         
         private static final MethodHandle pango_tab_array_copy = Interop.downcallHandle(
             "pango_tab_array_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_tab_array_free = Interop.downcallHandle(
             "pango_tab_array_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_tab_array_get_decimal_point = Interop.downcallHandle(
             "pango_tab_array_get_decimal_point",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_tab_array_get_positions_in_pixels = Interop.downcallHandle(
             "pango_tab_array_get_positions_in_pixels",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_tab_array_get_size = Interop.downcallHandle(
             "pango_tab_array_get_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_tab_array_get_tab = Interop.downcallHandle(
             "pango_tab_array_get_tab",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_tab_array_get_tabs = Interop.downcallHandle(
             "pango_tab_array_get_tabs",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_tab_array_resize = Interop.downcallHandle(
             "pango_tab_array_resize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_tab_array_set_decimal_point = Interop.downcallHandle(
             "pango_tab_array_set_decimal_point",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_tab_array_set_positions_in_pixels = Interop.downcallHandle(
             "pango_tab_array_set_positions_in_pixels",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_tab_array_set_tab = Interop.downcallHandle(
             "pango_tab_array_set_tab",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_tab_array_sort = Interop.downcallHandle(
             "pango_tab_array_sort",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_tab_array_to_string = Interop.downcallHandle(
             "pango_tab_array_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_tab_array_from_string = Interop.downcallHandle(
             "pango_tab_array_from_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

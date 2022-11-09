@@ -27,6 +27,7 @@ public class FontFuncsT extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -35,13 +36,18 @@ public class FontFuncsT extends io.github.jwharm.javagi.ResourceBase {
     
     public static FontFuncsT allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FontFuncsT newInstance = new FontFuncsT(Refcounted.get(segment.address()));
+        FontFuncsT newInstance = new FontFuncsT(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a FontFuncsT proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FontFuncsT(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FontFuncsT(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

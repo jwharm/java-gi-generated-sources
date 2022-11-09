@@ -28,6 +28,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -36,20 +37,25 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     
     public static Transform allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Transform newInstance = new Transform(Refcounted.get(segment.address()));
+        Transform newInstance = new Transform(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a Transform proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Transform(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Transform(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_transform_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gsk_transform_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -57,7 +63,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     }
     
     public Transform() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -110,7 +116,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.Transform(Refcounted.get(RESULT, true));
+        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     
     /**
@@ -128,7 +134,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.Transform(Refcounted.get(RESULT, true));
+        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     
     /**
@@ -152,7 +158,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.Transform(Refcounted.get(RESULT, true));
+        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     
     /**
@@ -186,7 +192,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.Transform(Refcounted.get(RESULT, false));
+        return new org.gtk.gsk.Transform(RESULT, Ownership.NONE);
     }
     
     /**
@@ -203,7 +209,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.Transform(Refcounted.get(RESULT, true));
+        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     
     /**
@@ -225,7 +231,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.Transform(Refcounted.get(RESULT, true));
+        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     
     /**
@@ -246,7 +252,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.Transform(Refcounted.get(RESULT, true));
+        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     
     /**
@@ -267,7 +273,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.Transform(Refcounted.get(RESULT, true));
+        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     
     /**
@@ -286,7 +292,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.Transform(Refcounted.get(RESULT, true));
+        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     
     /**
@@ -547,7 +553,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.Transform(Refcounted.get(RESULT, true));
+        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     
     /**
@@ -605,7 +611,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.Transform(Refcounted.get(RESULT, true));
+        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     
     /**
@@ -623,7 +629,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.Transform(Refcounted.get(RESULT, true));
+        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     
     /**
@@ -672,132 +678,158 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle gsk_transform_new = Interop.downcallHandle(
             "gsk_transform_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_transform_equal = Interop.downcallHandle(
             "gsk_transform_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_transform_get_category = Interop.downcallHandle(
             "gsk_transform_get_category",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_transform_invert = Interop.downcallHandle(
             "gsk_transform_invert",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_transform_matrix = Interop.downcallHandle(
             "gsk_transform_matrix",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_transform_perspective = Interop.downcallHandle(
             "gsk_transform_perspective",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle gsk_transform_print = Interop.downcallHandle(
             "gsk_transform_print",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_transform_ref = Interop.downcallHandle(
             "gsk_transform_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_transform_rotate = Interop.downcallHandle(
             "gsk_transform_rotate",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle gsk_transform_rotate_3d = Interop.downcallHandle(
             "gsk_transform_rotate_3d",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_transform_scale = Interop.downcallHandle(
             "gsk_transform_scale",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle gsk_transform_scale_3d = Interop.downcallHandle(
             "gsk_transform_scale_3d",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle gsk_transform_skew = Interop.downcallHandle(
             "gsk_transform_skew",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle gsk_transform_to_2d = Interop.downcallHandle(
             "gsk_transform_to_2d",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_transform_to_2d_components = Interop.downcallHandle(
             "gsk_transform_to_2d_components",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_transform_to_affine = Interop.downcallHandle(
             "gsk_transform_to_affine",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_transform_to_matrix = Interop.downcallHandle(
             "gsk_transform_to_matrix",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_transform_to_string = Interop.downcallHandle(
             "gsk_transform_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_transform_to_translate = Interop.downcallHandle(
             "gsk_transform_to_translate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_transform_transform = Interop.downcallHandle(
             "gsk_transform_transform",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_transform_transform_bounds = Interop.downcallHandle(
             "gsk_transform_transform_bounds",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_transform_transform_point = Interop.downcallHandle(
             "gsk_transform_transform_point",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_transform_translate = Interop.downcallHandle(
             "gsk_transform_translate",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_transform_translate_3d = Interop.downcallHandle(
             "gsk_transform_translate_3d",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_transform_unref = Interop.downcallHandle(
             "gsk_transform_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_transform_parse = Interop.downcallHandle(
             "gsk_transform_parse",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -37,6 +37,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -45,7 +46,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     
     public static Rect allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Rect newInstance = new Rect(Refcounted.get(segment.address()));
+        Rect newInstance = new Rect(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -56,7 +57,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.graphene.Point origin$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("origin"));
-        return new org.gtk.graphene.Point(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.graphene.Point(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
     /**
@@ -65,12 +66,17 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.graphene.Size size$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("size"));
-        return new org.gtk.graphene.Size(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.graphene.Size(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a Rect proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Rect(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Rect(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -268,7 +274,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * @param vertices return location for an array
      *  of 4 {@link Vec2}
      */
-    public void getVertices(Out<org.gtk.graphene.Vec2[]> vertices) {
+    public void getVertices(@NotNull Out<org.gtk.graphene.Vec2[]> vertices) {
         java.util.Objects.requireNonNull(vertices, "Parameter 'vertices' must not be null");
         MemorySegment verticesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
@@ -281,7 +287,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
         org.gtk.graphene.Vec2[] verticesARRAY = new org.gtk.graphene.Vec2[4];
         for (int I = 0; I < 4; I++) {
             var OBJ = verticesPOINTER.get(ValueLayout.ADDRESS, I);
-            verticesARRAY[I] = new org.gtk.graphene.Vec2(Refcounted.get(OBJ, false));
+            verticesARRAY[I] = new org.gtk.graphene.Vec2(OBJ, Ownership.NONE);
         }
         vertices.set(verticesARRAY);
     }
@@ -356,7 +362,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Rect(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Rect(RESULT, Ownership.NONE);
     }
     
     /**
@@ -377,7 +383,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Rect(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Rect(RESULT, Ownership.NONE);
     }
     
     /**
@@ -409,7 +415,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Rect(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Rect(RESULT, Ownership.NONE);
     }
     
     /**
@@ -511,7 +517,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Rect(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Rect(RESULT, Ownership.NONE);
     }
     
     /**
@@ -552,7 +558,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Rect(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Rect(RESULT, Ownership.NONE);
     }
     
     /**
@@ -655,7 +661,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Rect(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Rect(RESULT, Ownership.NONE);
     }
     
     /**
@@ -714,7 +720,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Rect(Refcounted.get(RESULT, true));
+        return new org.gtk.graphene.Rect(RESULT, Ownership.FULL);
     }
     
     /**
@@ -729,174 +735,207 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Rect(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Rect(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle graphene_rect_contains_point = Interop.downcallHandle(
             "graphene_rect_contains_point",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_contains_rect = Interop.downcallHandle(
             "graphene_rect_contains_rect",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_equal = Interop.downcallHandle(
             "graphene_rect_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_expand = Interop.downcallHandle(
             "graphene_rect_expand",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_free = Interop.downcallHandle(
             "graphene_rect_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_get_area = Interop.downcallHandle(
             "graphene_rect_get_area",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_get_bottom_left = Interop.downcallHandle(
             "graphene_rect_get_bottom_left",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_get_bottom_right = Interop.downcallHandle(
             "graphene_rect_get_bottom_right",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_get_center = Interop.downcallHandle(
             "graphene_rect_get_center",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_get_height = Interop.downcallHandle(
             "graphene_rect_get_height",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_get_top_left = Interop.downcallHandle(
             "graphene_rect_get_top_left",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_get_top_right = Interop.downcallHandle(
             "graphene_rect_get_top_right",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_get_vertices = Interop.downcallHandle(
             "graphene_rect_get_vertices",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_get_width = Interop.downcallHandle(
             "graphene_rect_get_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_get_x = Interop.downcallHandle(
             "graphene_rect_get_x",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_get_y = Interop.downcallHandle(
             "graphene_rect_get_y",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_init = Interop.downcallHandle(
             "graphene_rect_init",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle graphene_rect_init_from_rect = Interop.downcallHandle(
             "graphene_rect_init_from_rect",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_inset = Interop.downcallHandle(
             "graphene_rect_inset",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle graphene_rect_inset_r = Interop.downcallHandle(
             "graphene_rect_inset_r",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_interpolate = Interop.downcallHandle(
             "graphene_rect_interpolate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_intersection = Interop.downcallHandle(
             "graphene_rect_intersection",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_normalize = Interop.downcallHandle(
             "graphene_rect_normalize",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_normalize_r = Interop.downcallHandle(
             "graphene_rect_normalize_r",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_offset = Interop.downcallHandle(
             "graphene_rect_offset",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle graphene_rect_offset_r = Interop.downcallHandle(
             "graphene_rect_offset_r",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_round = Interop.downcallHandle(
             "graphene_rect_round",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_round_extents = Interop.downcallHandle(
             "graphene_rect_round_extents",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_round_to_pixel = Interop.downcallHandle(
             "graphene_rect_round_to_pixel",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_scale = Interop.downcallHandle(
             "graphene_rect_scale",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_union = Interop.downcallHandle(
             "graphene_rect_union",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_alloc = Interop.downcallHandle(
             "graphene_rect_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_zero = Interop.downcallHandle(
             "graphene_rect_zero",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

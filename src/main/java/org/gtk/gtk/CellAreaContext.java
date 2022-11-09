@@ -35,13 +35,19 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Create a CellAreaContext proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CellAreaContext(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CellAreaContext(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -53,7 +59,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      */
     public static CellAreaContext castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellAreaContext"))) {
-            return new CellAreaContext(gobject.refcounted());
+            return new CellAreaContext(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCellAreaContext");
         }
@@ -133,7 +139,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.CellArea(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.CellArea(RESULT, Ownership.NONE);
     }
     
     /**
@@ -325,52 +331,62 @@ public class CellAreaContext extends org.gtk.gobject.Object {
         
         private static final MethodHandle gtk_cell_area_context_allocate = Interop.downcallHandle(
             "gtk_cell_area_context_allocate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_context_get_allocation = Interop.downcallHandle(
             "gtk_cell_area_context_get_allocation",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_context_get_area = Interop.downcallHandle(
             "gtk_cell_area_context_get_area",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_context_get_preferred_height = Interop.downcallHandle(
             "gtk_cell_area_context_get_preferred_height",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_context_get_preferred_height_for_width = Interop.downcallHandle(
             "gtk_cell_area_context_get_preferred_height_for_width",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_context_get_preferred_width = Interop.downcallHandle(
             "gtk_cell_area_context_get_preferred_width",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_context_get_preferred_width_for_height = Interop.downcallHandle(
             "gtk_cell_area_context_get_preferred_width_for_height",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_context_push_preferred_height = Interop.downcallHandle(
             "gtk_cell_area_context_push_preferred_height",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_context_push_preferred_width = Interop.downcallHandle(
             "gtk_cell_area_context_push_preferred_width",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_context_reset = Interop.downcallHandle(
             "gtk_cell_area_context_reset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -10,5 +10,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PixbufModuleIncrementLoadFunc {
-        boolean onPixbufModuleIncrementLoadFunc(@Nullable java.lang.foreign.MemoryAddress context, PointerByte buf, int size);
+        boolean onPixbufModuleIncrementLoadFunc(@Nullable java.lang.foreign.MemoryAddress context, @NotNull PointerByte buf, int size);
 }

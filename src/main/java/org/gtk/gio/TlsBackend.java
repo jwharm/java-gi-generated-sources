@@ -20,7 +20,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
      */
     public static TlsBackend castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTlsBackend"))) {
-            return new TlsBackendImpl(gobject.refcounted());
+            return new TlsBackendImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GTlsBackend");
         }
@@ -71,7 +71,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsDatabase(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.TlsDatabase(RESULT, Ownership.FULL);
     }
     
     /**
@@ -202,7 +202,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsBackend.TlsBackendImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.TlsBackend.TlsBackendImpl(RESULT, Ownership.NONE);
     }
     
     @ApiStatus.Internal
@@ -211,67 +211,78 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_get_certificate_type = Interop.downcallHandle(
             "g_tls_backend_get_certificate_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_get_client_connection_type = Interop.downcallHandle(
             "g_tls_backend_get_client_connection_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_get_default_database = Interop.downcallHandle(
             "g_tls_backend_get_default_database",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_get_dtls_client_connection_type = Interop.downcallHandle(
             "g_tls_backend_get_dtls_client_connection_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_get_dtls_server_connection_type = Interop.downcallHandle(
             "g_tls_backend_get_dtls_server_connection_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_get_file_database_type = Interop.downcallHandle(
             "g_tls_backend_get_file_database_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_get_server_connection_type = Interop.downcallHandle(
             "g_tls_backend_get_server_connection_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_set_default_database = Interop.downcallHandle(
             "g_tls_backend_set_default_database",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_supports_dtls = Interop.downcallHandle(
             "g_tls_backend_supports_dtls",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_supports_tls = Interop.downcallHandle(
             "g_tls_backend_supports_tls",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_get_default = Interop.downcallHandle(
             "g_tls_backend_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -281,8 +292,8 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public TlsBackendImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public TlsBackendImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

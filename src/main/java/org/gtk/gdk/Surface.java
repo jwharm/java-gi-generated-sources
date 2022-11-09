@@ -28,13 +28,19 @@ public class Surface extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Surface proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Surface(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Surface(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -46,19 +52,19 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public static Surface castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkSurface"))) {
-            return new Surface(gobject.refcounted());
+            return new Surface(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkSurface");
         }
     }
     
-    private static Refcounted constructNewPopup(@NotNull org.gtk.gdk.Surface parent, boolean autohide) {
+    private static Addressable constructNewPopup(@NotNull org.gtk.gdk.Surface parent, boolean autohide) {
         java.util.Objects.requireNonNull(parent, "Parameter 'parent' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_surface_new_popup.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_new_popup.invokeExact(
                     parent.handle(),
-                    autohide ? 1 : 0), true);
+                    autohide ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -75,15 +81,15 @@ public class Surface extends org.gtk.gobject.Object {
      * @return a new {@code GdkSurface}
      */
     public static Surface newPopup(@NotNull org.gtk.gdk.Surface parent, boolean autohide) {
-        return new Surface(constructNewPopup(parent, autohide));
+        return new Surface(constructNewPopup(parent, autohide), Ownership.FULL);
     }
     
-    private static Refcounted constructNewToplevel(@NotNull org.gtk.gdk.Display display) {
+    private static Addressable constructNewToplevel(@NotNull org.gtk.gdk.Display display) {
         java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_surface_new_toplevel.invokeExact(
-                    display.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_new_toplevel.invokeExact(
+                    display.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,7 +102,7 @@ public class Surface extends org.gtk.gobject.Object {
      * @return the new {@code GdkSurface}
      */
     public static Surface newToplevel(@NotNull org.gtk.gdk.Display display) {
-        return new Surface(constructNewToplevel(display));
+        return new Surface(constructNewToplevel(display), Ownership.FULL);
     }
     
     /**
@@ -126,7 +132,7 @@ public class Surface extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.CairoContext(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.CairoContext(RESULT, Ownership.FULL);
     }
     
     /**
@@ -144,14 +150,15 @@ public class Surface extends org.gtk.gobject.Object {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_surface_create_gl_context.invokeExact(
-                    handle(), (Addressable) GERROR);
+                    handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gdk.GLContext(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.GLContext(RESULT, Ownership.FULL);
     }
     
     /**
@@ -189,7 +196,7 @@ public class Surface extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.cairographics.Surface(Refcounted.get(RESULT, true));
+        return new org.cairographics.Surface(RESULT, Ownership.FULL);
     }
     
     /**
@@ -205,14 +212,15 @@ public class Surface extends org.gtk.gobject.Object {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_surface_create_vulkan_context.invokeExact(
-                    handle(), (Addressable) GERROR);
+                    handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gdk.VulkanContext(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.VulkanContext(RESULT, Ownership.FULL);
     }
     
     /**
@@ -253,7 +261,7 @@ public class Surface extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Cursor(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Cursor(RESULT, Ownership.NONE);
     }
     
     /**
@@ -277,7 +285,7 @@ public class Surface extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Cursor(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Cursor(RESULT, Ownership.NONE);
     }
     
     /**
@@ -328,7 +336,7 @@ public class Surface extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
     }
     
     /**
@@ -346,7 +354,7 @@ public class Surface extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.FrameClock(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.FrameClock(RESULT, Ownership.NONE);
     }
     
     /**
@@ -630,6 +638,8 @@ public class Surface extends org.gtk.gobject.Object {
     
     /**
      * Emitted when {@code surface} starts being present on the monitor.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Surface.EnterMonitor> onEnterMonitor(Surface.EnterMonitor handler) {
         try {
@@ -656,6 +666,8 @@ public class Surface extends org.gtk.gobject.Object {
     
     /**
      * Emitted when GDK receives an input event for {@code surface}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Surface.Event> onEvent(Surface.Event handler) {
         try {
@@ -686,6 +698,8 @@ public class Surface extends org.gtk.gobject.Object {
      * <p>
      * Surface size is reported in ”application pixels”, not
      * ”device pixels” (see gdk_surface_get_scale_factor()).
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Surface.Layout> onLayout(Surface.Layout handler) {
         try {
@@ -712,6 +726,8 @@ public class Surface extends org.gtk.gobject.Object {
     
     /**
      * Emitted when {@code surface} stops being present on the monitor.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Surface.LeaveMonitor> onLeaveMonitor(Surface.LeaveMonitor handler) {
         try {
@@ -738,6 +754,8 @@ public class Surface extends org.gtk.gobject.Object {
     
     /**
      * Emitted when part of the surface needs to be redrawn.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Surface.Render> onRender(Surface.Render handler) {
         try {
@@ -761,132 +779,158 @@ public class Surface extends org.gtk.gobject.Object {
         
         private static final MethodHandle gdk_surface_new_popup = Interop.downcallHandle(
             "gdk_surface_new_popup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_surface_new_toplevel = Interop.downcallHandle(
             "gdk_surface_new_toplevel",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_beep = Interop.downcallHandle(
             "gdk_surface_beep",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_create_cairo_context = Interop.downcallHandle(
             "gdk_surface_create_cairo_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_create_gl_context = Interop.downcallHandle(
             "gdk_surface_create_gl_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_create_similar_surface = Interop.downcallHandle(
             "gdk_surface_create_similar_surface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_surface_create_vulkan_context = Interop.downcallHandle(
             "gdk_surface_create_vulkan_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_destroy = Interop.downcallHandle(
             "gdk_surface_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_get_cursor = Interop.downcallHandle(
             "gdk_surface_get_cursor",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_get_device_cursor = Interop.downcallHandle(
             "gdk_surface_get_device_cursor",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_get_device_position = Interop.downcallHandle(
             "gdk_surface_get_device_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_surface_get_display = Interop.downcallHandle(
             "gdk_surface_get_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_get_frame_clock = Interop.downcallHandle(
             "gdk_surface_get_frame_clock",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_get_height = Interop.downcallHandle(
             "gdk_surface_get_height",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_get_mapped = Interop.downcallHandle(
             "gdk_surface_get_mapped",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_get_scale_factor = Interop.downcallHandle(
             "gdk_surface_get_scale_factor",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_get_width = Interop.downcallHandle(
             "gdk_surface_get_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_hide = Interop.downcallHandle(
             "gdk_surface_hide",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_is_destroyed = Interop.downcallHandle(
             "gdk_surface_is_destroyed",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_queue_render = Interop.downcallHandle(
             "gdk_surface_queue_render",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_request_layout = Interop.downcallHandle(
             "gdk_surface_request_layout",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_set_cursor = Interop.downcallHandle(
             "gdk_surface_set_cursor",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_set_device_cursor = Interop.downcallHandle(
             "gdk_surface_set_device_cursor",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_set_input_region = Interop.downcallHandle(
             "gdk_surface_set_input_region",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_set_opaque_region = Interop.downcallHandle(
             "gdk_surface_set_opaque_region",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_surface_translate_coordinates = Interop.downcallHandle(
             "gdk_surface_translate_coordinates",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -895,31 +939,31 @@ public class Surface extends org.gtk.gobject.Object {
         public static void signalSurfaceEnterMonitor(MemoryAddress source, MemoryAddress monitor, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Surface.EnterMonitor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Surface(Refcounted.get(source)), new org.gtk.gdk.Monitor(Refcounted.get(monitor, false)));
+            HANDLER.signalReceived(new Surface(source, Ownership.UNKNOWN), new org.gtk.gdk.Monitor(monitor, Ownership.NONE));
         }
         
         public static boolean signalSurfaceEvent(MemoryAddress source, MemoryAddress event, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Surface.Event) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Surface(Refcounted.get(source)), new org.gtk.gdk.Event(Refcounted.get(event, false)));
+            return HANDLER.signalReceived(new Surface(source, Ownership.UNKNOWN), new org.gtk.gdk.Event(event, Ownership.NONE));
         }
         
         public static void signalSurfaceLayout(MemoryAddress source, int width, int height, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Surface.Layout) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Surface(Refcounted.get(source)), width, height);
+            HANDLER.signalReceived(new Surface(source, Ownership.UNKNOWN), width, height);
         }
         
         public static void signalSurfaceLeaveMonitor(MemoryAddress source, MemoryAddress monitor, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Surface.LeaveMonitor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Surface(Refcounted.get(source)), new org.gtk.gdk.Monitor(Refcounted.get(monitor, false)));
+            HANDLER.signalReceived(new Surface(source, Ownership.UNKNOWN), new org.gtk.gdk.Monitor(monitor, Ownership.NONE));
         }
         
         public static boolean signalSurfaceRender(MemoryAddress source, MemoryAddress region, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Surface.Render) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Surface(Refcounted.get(source)), new org.cairographics.Region(Refcounted.get(region, false)));
+            return HANDLER.signalReceived(new Surface(source, Ownership.UNKNOWN), new org.cairographics.Region(region, Ownership.NONE));
         }
     }
 }

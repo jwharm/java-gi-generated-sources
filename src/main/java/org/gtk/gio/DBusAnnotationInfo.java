@@ -29,6 +29,7 @@ public class DBusAnnotationInfo extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -37,7 +38,7 @@ public class DBusAnnotationInfo extends io.github.jwharm.javagi.ResourceBase {
     
     public static DBusAnnotationInfo allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DBusAnnotationInfo newInstance = new DBusAnnotationInfo(Refcounted.get(segment.address()));
+        DBusAnnotationInfo newInstance = new DBusAnnotationInfo(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -105,9 +106,14 @@ public class DBusAnnotationInfo extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(value));
     }
     
+    /**
+     * Create a DBusAnnotationInfo proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DBusAnnotationInfo(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DBusAnnotationInfo(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -123,7 +129,7 @@ public class DBusAnnotationInfo extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusAnnotationInfo(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.DBusAnnotationInfo(RESULT, Ownership.FULL);
     }
     
     /**
@@ -148,7 +154,7 @@ public class DBusAnnotationInfo extends io.github.jwharm.javagi.ResourceBase {
      * @param name The name of the annotation to look up.
      * @return The value or {@code null} if not found. Do not free, it is owned by {@code annotations}.
      */
-    public static @Nullable java.lang.String lookup(org.gtk.gio.DBusAnnotationInfo[] annotations, @NotNull java.lang.String name) {
+    public static @Nullable java.lang.String lookup(@Nullable org.gtk.gio.DBusAnnotationInfo[] annotations, @NotNull java.lang.String name) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
@@ -165,17 +171,20 @@ public class DBusAnnotationInfo extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_dbus_annotation_info_ref = Interop.downcallHandle(
             "g_dbus_annotation_info_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_annotation_info_unref = Interop.downcallHandle(
             "g_dbus_annotation_info_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_annotation_info_lookup = Interop.downcallHandle(
             "g_dbus_annotation_info_lookup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

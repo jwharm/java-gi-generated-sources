@@ -30,6 +30,7 @@ public class PixbufAnimationIterClass extends io.github.jwharm.javagi.ResourceBa
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -38,7 +39,7 @@ public class PixbufAnimationIterClass extends io.github.jwharm.javagi.ResourceBa
     
     public static PixbufAnimationIterClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PixbufAnimationIterClass newInstance = new PixbufAnimationIterClass(Refcounted.get(segment.address()));
+        PixbufAnimationIterClass newInstance = new PixbufAnimationIterClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,11 +50,16 @@ public class PixbufAnimationIterClass extends io.github.jwharm.javagi.ResourceBa
      */
     public org.gtk.gobject.ObjectClass parent_class$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gobject.ObjectClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a PixbufAnimationIterClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PixbufAnimationIterClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PixbufAnimationIterClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

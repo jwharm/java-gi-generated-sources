@@ -21,13 +21,19 @@ public class EnumListItem extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a EnumListItem proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public EnumListItem(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public EnumListItem(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -39,7 +45,7 @@ public class EnumListItem extends org.gtk.gobject.Object {
      */
     public static EnumListItem castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwEnumListItem"))) {
-            return new EnumListItem(gobject.refcounted());
+            return new EnumListItem(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwEnumListItem");
         }
@@ -94,17 +100,20 @@ public class EnumListItem extends org.gtk.gobject.Object {
         
         private static final MethodHandle adw_enum_list_item_get_name = Interop.downcallHandle(
             "adw_enum_list_item_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_enum_list_item_get_nick = Interop.downcallHandle(
             "adw_enum_list_item_get_nick",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_enum_list_item_get_value = Interop.downcallHandle(
             "adw_enum_list_item_get_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

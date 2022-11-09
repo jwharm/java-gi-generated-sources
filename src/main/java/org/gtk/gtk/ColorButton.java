@@ -36,13 +36,19 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ColorButton proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ColorButton(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ColorButton(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -54,16 +60,16 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public static ColorButton castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkColorButton"))) {
-            return new ColorButton(gobject.refcounted());
+            return new ColorButton(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkColorButton");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_color_button_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_color_button_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,15 +86,15 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * color when the user finishes.
      */
     public ColorButton() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
-    private static Refcounted constructNewWithRgba(@NotNull org.gtk.gdk.RGBA rgba) {
+    private static Addressable constructNewWithRgba(@NotNull org.gtk.gdk.RGBA rgba) {
         java.util.Objects.requireNonNull(rgba, "Parameter 'rgba' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_color_button_new_with_rgba.invokeExact(
-                    rgba.handle()), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_color_button_new_with_rgba.invokeExact(
+                    rgba.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -101,7 +107,7 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @return a new color button
      */
     public static ColorButton newWithRgba(@NotNull org.gtk.gdk.RGBA rgba) {
-        return new ColorButton(constructNewWithRgba(rgba));
+        return new ColorButton(constructNewWithRgba(rgba), Ownership.NONE);
     }
     
     /**
@@ -173,6 +179,8 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * <p>
      * The {@code ::activate} signal on {@code GtkMenuButton} is an action signal and
      * emitting it causes the button to pop up its dialog.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ColorButton.Activate> onActivate(ColorButton.Activate handler) {
         try {
@@ -206,6 +214,8 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Note that this signal is only emitted when the user changes the color.
      * If you need to react to programmatic color changes as well, use
      * the notify::rgba signal.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ColorButton.ColorSet> onColorSet(ColorButton.ColorSet handler) {
         try {
@@ -229,32 +239,38 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         
         private static final MethodHandle gtk_color_button_new = Interop.downcallHandle(
             "gtk_color_button_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_color_button_new_with_rgba = Interop.downcallHandle(
             "gtk_color_button_new_with_rgba",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_color_button_get_modal = Interop.downcallHandle(
             "gtk_color_button_get_modal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_color_button_get_title = Interop.downcallHandle(
             "gtk_color_button_get_title",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_color_button_set_modal = Interop.downcallHandle(
             "gtk_color_button_set_modal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_color_button_set_title = Interop.downcallHandle(
             "gtk_color_button_set_title",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -263,13 +279,13 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         public static void signalColorButtonActivate(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ColorButton.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ColorButton(Refcounted.get(source)));
+            HANDLER.signalReceived(new ColorButton(source, Ownership.UNKNOWN));
         }
         
         public static void signalColorButtonColorSet(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ColorButton.ColorSet) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ColorButton(Refcounted.get(source)));
+            HANDLER.signalReceived(new ColorButton(source, Ownership.UNKNOWN));
         }
     }
 }

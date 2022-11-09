@@ -34,4 +34,27 @@ public class DBusCallFlags extends io.github.jwharm.javagi.Bitfield {
     public DBusCallFlags(int value) {
         super(value);
     }
+    
+    /**
+     * Combine (bitwise OR) operation
+     * @param mask the value to combine with
+     * @return the combined value by calculating {@code this | mask} 
+     */
+    public DBusCallFlags combined(DBusCallFlags mask) {
+        this.setValue(this.getValue() | mask.getValue());
+        return this;
+    }
+    
+    /**
+     * Combine (bitwise OR) operation
+     * @param mask the first value to combine
+     * @param masks the other values to combine
+     * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
+     */
+    public static DBusCallFlags combined(DBusCallFlags mask, DBusCallFlags... masks) {
+        for (DBusCallFlags arg : masks) {
+            mask.setValue(mask.getValue() | arg.getValue());
+        }
+        return mask;
+    }
 }

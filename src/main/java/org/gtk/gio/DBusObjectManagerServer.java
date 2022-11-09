@@ -47,13 +47,19 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Create a DBusObjectManagerServer proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DBusObjectManagerServer(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DBusObjectManagerServer(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -65,18 +71,18 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
      */
     public static DBusObjectManagerServer castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusObjectManagerServer"))) {
-            return new DBusObjectManagerServer(gobject.refcounted());
+            return new DBusObjectManagerServer(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDBusObjectManagerServer");
         }
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String objectPath) {
+    private static Addressable constructNew(@NotNull java.lang.String objectPath) {
         java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_object_manager_server_new.invokeExact(
-                    Interop.allocateNativeString(objectPath)), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_manager_server_new.invokeExact(
+                    Interop.allocateNativeString(objectPath));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,7 +100,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
      * @param objectPath The object path to export the manager object at.
      */
     public DBusObjectManagerServer(@NotNull java.lang.String objectPath) {
-        super(constructNew(objectPath));
+        super(constructNew(objectPath), Ownership.FULL);
     }
     
     /**
@@ -153,7 +159,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusConnection(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.DBusConnection(RESULT, Ownership.FULL);
     }
     
     /**
@@ -215,37 +221,44 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
         
         private static final MethodHandle g_dbus_object_manager_server_new = Interop.downcallHandle(
             "g_dbus_object_manager_server_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_object_manager_server_export = Interop.downcallHandle(
             "g_dbus_object_manager_server_export",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_object_manager_server_export_uniquely = Interop.downcallHandle(
             "g_dbus_object_manager_server_export_uniquely",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_object_manager_server_get_connection = Interop.downcallHandle(
             "g_dbus_object_manager_server_get_connection",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_object_manager_server_is_exported = Interop.downcallHandle(
             "g_dbus_object_manager_server_is_exported",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_object_manager_server_set_connection = Interop.downcallHandle(
             "g_dbus_object_manager_server_set_connection",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_object_manager_server_unexport = Interop.downcallHandle(
             "g_dbus_object_manager_server_unexport",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

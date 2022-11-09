@@ -58,6 +58,7 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -68,12 +69,17 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
      */
     public org.gtk.gtk.IMContext object$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("object"));
-        return new org.gtk.gtk.IMContext(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.IMContext(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a IMContextSimple proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public IMContextSimple(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public IMContextSimple(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -85,16 +91,16 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
      */
     public static IMContextSimple castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkIMContextSimple"))) {
-            return new IMContextSimple(gobject.refcounted());
+            return new IMContextSimple(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkIMContextSimple");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_im_context_simple_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_im_context_simple_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,7 +111,7 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
      * Creates a new {@code GtkIMContextSimple}.
      */
     public IMContextSimple() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -139,7 +145,7 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
      * @deprecated Use gtk_im_context_simple_add_compose_file()
      */
     @Deprecated
-    public void addTable(short[] data, int maxSeqLen, int nSeqs) {
+    public void addTable(@NotNull short[] data, int maxSeqLen, int nSeqs) {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         try {
             DowncallHandles.gtk_im_context_simple_add_table.invokeExact(
@@ -156,17 +162,20 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
         
         private static final MethodHandle gtk_im_context_simple_new = Interop.downcallHandle(
             "gtk_im_context_simple_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_im_context_simple_add_compose_file = Interop.downcallHandle(
             "gtk_im_context_simple_add_compose_file",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_im_context_simple_add_table = Interop.downcallHandle(
             "gtk_im_context_simple_add_table",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

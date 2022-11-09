@@ -20,13 +20,19 @@ public class RoundedClipNode extends org.gtk.gsk.RenderNode {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a RoundedClipNode proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public RoundedClipNode(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public RoundedClipNode(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,20 +44,20 @@ public class RoundedClipNode extends org.gtk.gsk.RenderNode {
      */
     public static RoundedClipNode castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskRoundedClipNode"))) {
-            return new RoundedClipNode(gobject.refcounted());
+            return new RoundedClipNode(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GskRoundedClipNode");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gsk.RenderNode child, @NotNull org.gtk.gsk.RoundedRect clip) {
+    private static Addressable constructNew(@NotNull org.gtk.gsk.RenderNode child, @NotNull org.gtk.gsk.RoundedRect clip) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         java.util.Objects.requireNonNull(clip, "Parameter 'clip' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_rounded_clip_node_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_clip_node_new.invokeExact(
                     child.handle(),
-                    clip.handle()), false);
+                    clip.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,7 +71,7 @@ public class RoundedClipNode extends org.gtk.gsk.RenderNode {
      * @param clip The clip to apply
      */
     public RoundedClipNode(@NotNull org.gtk.gsk.RenderNode child, @NotNull org.gtk.gsk.RoundedRect clip) {
-        super(constructNew(child, clip));
+        super(constructNew(child, clip), Ownership.NONE);
     }
     
     /**
@@ -80,7 +86,7 @@ public class RoundedClipNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RenderNode(Refcounted.get(RESULT, false));
+        return new org.gtk.gsk.RenderNode(RESULT, Ownership.NONE);
     }
     
     /**
@@ -95,24 +101,27 @@ public class RoundedClipNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RoundedRect(Refcounted.get(RESULT, false));
+        return new org.gtk.gsk.RoundedRect(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_rounded_clip_node_new = Interop.downcallHandle(
             "gsk_rounded_clip_node_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_rounded_clip_node_get_child = Interop.downcallHandle(
             "gsk_rounded_clip_node_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_rounded_clip_node_get_clip = Interop.downcallHandle(
             "gsk_rounded_clip_node_get_clip",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

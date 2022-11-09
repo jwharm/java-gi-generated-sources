@@ -45,6 +45,7 @@ public class MountOperation extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -55,12 +56,17 @@ public class MountOperation extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a MountOperation proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public MountOperation(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public MountOperation(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -72,16 +78,16 @@ public class MountOperation extends org.gtk.gobject.Object {
      */
     public static MountOperation castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GMountOperation"))) {
-            return new MountOperation(gobject.refcounted());
+            return new MountOperation(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GMountOperation");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_mount_operation_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_mount_operation_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,7 +98,7 @@ public class MountOperation extends org.gtk.gobject.Object {
      * Creates a new mount operation.
      */
     public MountOperation() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -387,6 +393,8 @@ public class MountOperation extends org.gtk.gobject.Object {
      * <p>
      * Implementations of GMountOperation should handle this signal
      * by dismissing open password dialogs.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<MountOperation.Aborted> onAborted(MountOperation.Aborted handler) {
         try {
@@ -417,6 +425,8 @@ public class MountOperation extends org.gtk.gobject.Object {
      * If the message contains a line break, the first line should be
      * presented as a heading. For example, it may be used as the
      * primary text in a {@link org.gtk.gtk.MessageDialog}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<MountOperation.AskPassword> onAskPassword(MountOperation.AskPassword handler) {
         try {
@@ -438,7 +448,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface AskQuestion {
-        void signalReceived(MountOperation source, @NotNull java.lang.String message, java.lang.String[] choices);
+        void signalReceived(MountOperation source, @NotNull java.lang.String message, @NotNull java.lang.String[] choices);
     }
     
     /**
@@ -448,6 +458,8 @@ public class MountOperation extends org.gtk.gobject.Object {
      * If the message contains a line break, the first line should be
      * presented as a heading. For example, it may be used as the
      * primary text in a {@link org.gtk.gtk.MessageDialog}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<MountOperation.AskQuestion> onAskQuestion(MountOperation.AskQuestion handler) {
         throw new UnsupportedOperationException("Operation not supported yet");
@@ -460,6 +472,8 @@ public class MountOperation extends org.gtk.gobject.Object {
     
     /**
      * Emitted when the user has replied to the mount operation.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<MountOperation.Reply> onReply(MountOperation.Reply handler) {
         try {
@@ -481,7 +495,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ShowProcesses {
-        void signalReceived(MountOperation source, @NotNull java.lang.String message, org.gtk.glib.Pid[] processes, java.lang.String[] choices);
+        void signalReceived(MountOperation source, @NotNull java.lang.String message, @NotNull org.gtk.glib.Pid[] processes, @NotNull java.lang.String[] choices);
     }
     
     /**
@@ -497,6 +511,8 @@ public class MountOperation extends org.gtk.gobject.Object {
      * If the message contains a line break, the first line should be
      * presented as a heading. For example, it may be used as the
      * primary text in a {@link org.gtk.gtk.MessageDialog}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<MountOperation.ShowProcesses> onShowProcesses(MountOperation.ShowProcesses handler) {
         throw new UnsupportedOperationException("Operation not supported yet");
@@ -524,6 +540,8 @@ public class MountOperation extends org.gtk.gobject.Object {
      * If the message contains a line break, the first line should be
      * presented as a heading. For example, it may be used as the
      * primary text in a {@link org.gtk.gtk.MessageDialog}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<MountOperation.ShowUnmountProgress> onShowUnmountProgress(MountOperation.ShowUnmountProgress handler) {
         try {
@@ -547,102 +565,122 @@ public class MountOperation extends org.gtk.gobject.Object {
         
         private static final MethodHandle g_mount_operation_new = Interop.downcallHandle(
             "g_mount_operation_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_mount_operation_get_anonymous = Interop.downcallHandle(
             "g_mount_operation_get_anonymous",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_mount_operation_get_choice = Interop.downcallHandle(
             "g_mount_operation_get_choice",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_mount_operation_get_domain = Interop.downcallHandle(
             "g_mount_operation_get_domain",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_mount_operation_get_is_tcrypt_hidden_volume = Interop.downcallHandle(
             "g_mount_operation_get_is_tcrypt_hidden_volume",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_mount_operation_get_is_tcrypt_system_volume = Interop.downcallHandle(
             "g_mount_operation_get_is_tcrypt_system_volume",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_mount_operation_get_password = Interop.downcallHandle(
             "g_mount_operation_get_password",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_mount_operation_get_password_save = Interop.downcallHandle(
             "g_mount_operation_get_password_save",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_mount_operation_get_pim = Interop.downcallHandle(
             "g_mount_operation_get_pim",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_mount_operation_get_username = Interop.downcallHandle(
             "g_mount_operation_get_username",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_mount_operation_reply = Interop.downcallHandle(
             "g_mount_operation_reply",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_mount_operation_set_anonymous = Interop.downcallHandle(
             "g_mount_operation_set_anonymous",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_mount_operation_set_choice = Interop.downcallHandle(
             "g_mount_operation_set_choice",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_mount_operation_set_domain = Interop.downcallHandle(
             "g_mount_operation_set_domain",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_mount_operation_set_is_tcrypt_hidden_volume = Interop.downcallHandle(
             "g_mount_operation_set_is_tcrypt_hidden_volume",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_mount_operation_set_is_tcrypt_system_volume = Interop.downcallHandle(
             "g_mount_operation_set_is_tcrypt_system_volume",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_mount_operation_set_password = Interop.downcallHandle(
             "g_mount_operation_set_password",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_mount_operation_set_password_save = Interop.downcallHandle(
             "g_mount_operation_set_password_save",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_mount_operation_set_pim = Interop.downcallHandle(
             "g_mount_operation_set_pim",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_mount_operation_set_username = Interop.downcallHandle(
             "g_mount_operation_set_username",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -651,13 +689,13 @@ public class MountOperation extends org.gtk.gobject.Object {
         public static void signalMountOperationAborted(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (MountOperation.Aborted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MountOperation(Refcounted.get(source)));
+            HANDLER.signalReceived(new MountOperation(source, Ownership.UNKNOWN));
         }
         
         public static void signalMountOperationAskPassword(MemoryAddress source, MemoryAddress message, MemoryAddress defaultUser, MemoryAddress defaultDomain, int flags, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (MountOperation.AskPassword) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MountOperation(Refcounted.get(source)), Interop.getStringFrom(message), Interop.getStringFrom(defaultUser), Interop.getStringFrom(defaultDomain), new org.gtk.gio.AskPasswordFlags(flags));
+            HANDLER.signalReceived(new MountOperation(source, Ownership.UNKNOWN), Interop.getStringFrom(message), Interop.getStringFrom(defaultUser), Interop.getStringFrom(defaultDomain), new org.gtk.gio.AskPasswordFlags(flags));
         }
         
         public static void signalMountOperationAskQuestion(MemoryAddress source, MemoryAddress message, MemoryAddress choices, MemoryAddress data) {
@@ -667,7 +705,7 @@ public class MountOperation extends org.gtk.gobject.Object {
         public static void signalMountOperationReply(MemoryAddress source, int result, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (MountOperation.Reply) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MountOperation(Refcounted.get(source)), new org.gtk.gio.MountOperationResult(result));
+            HANDLER.signalReceived(new MountOperation(source, Ownership.UNKNOWN), new org.gtk.gio.MountOperationResult(result));
         }
         
         public static void signalMountOperationShowProcesses(MemoryAddress source, MemoryAddress message, MemoryAddress processes, MemoryAddress choices, MemoryAddress data) {
@@ -677,7 +715,7 @@ public class MountOperation extends org.gtk.gobject.Object {
         public static void signalMountOperationShowUnmountProgress(MemoryAddress source, MemoryAddress message, long timeLeft, long bytesLeft, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (MountOperation.ShowUnmountProgress) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MountOperation(Refcounted.get(source)), Interop.getStringFrom(message), timeLeft, bytesLeft);
+            HANDLER.signalReceived(new MountOperation(source, Ownership.UNKNOWN), Interop.getStringFrom(message), timeLeft, bytesLeft);
         }
     }
 }

@@ -31,6 +31,7 @@ public class FeatureT extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -39,7 +40,7 @@ public class FeatureT extends io.github.jwharm.javagi.ResourceBase {
     
     public static FeatureT allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FeatureT newInstance = new FeatureT(Refcounted.get(segment.address()));
+        FeatureT newInstance = new FeatureT(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -128,9 +129,14 @@ public class FeatureT extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), end);
     }
     
+    /**
+     * Create a FeatureT proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FeatureT(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FeatureT(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -140,7 +146,7 @@ public class FeatureT extends io.github.jwharm.javagi.ResourceBase {
      * @param buf output string
      * @param size the allocated size of {@code buf}
      */
-    public void String(Out<java.lang.String[]> buf, Out<Integer> size) {
+    public void String(@NotNull Out<java.lang.String[]> buf, Out<Integer> size) {
         java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
@@ -165,7 +171,8 @@ public class FeatureT extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle hb_feature_to_string = Interop.downcallHandle(
             "hb_feature_to_string",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

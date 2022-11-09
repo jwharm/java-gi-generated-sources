@@ -36,13 +36,19 @@ public class TimedAnimation extends org.gnome.adw.Animation {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a TimedAnimation proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TimedAnimation(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TimedAnimation(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -54,23 +60,23 @@ public class TimedAnimation extends org.gnome.adw.Animation {
      */
     public static TimedAnimation castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwTimedAnimation"))) {
-            return new TimedAnimation(gobject.refcounted());
+            return new TimedAnimation(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwTimedAnimation");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gtk.Widget widget, double from, double to, int duration, @NotNull org.gnome.adw.AnimationTarget target) {
+    private static Addressable constructNew(@NotNull org.gtk.gtk.Widget widget, double from, double to, int duration, @NotNull org.gnome.adw.AnimationTarget target) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_timed_animation_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.adw_timed_animation_new.invokeExact(
                     widget.handle(),
                     from,
                     to,
                     duration,
-                    target.refcounted().unowned().handle()), false);
+                    target.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,7 +93,7 @@ public class TimedAnimation extends org.gnome.adw.Animation {
      * @param target a target value to animate
      */
     public TimedAnimation(@NotNull org.gtk.gtk.Widget widget, double from, double to, int duration, @NotNull org.gnome.adw.AnimationTarget target) {
-        super(constructNew(widget, from, to, duration, target));
+        super(constructNew(widget, from, to, duration, target), Ownership.NONE);
     }
     
     /**
@@ -316,77 +322,92 @@ public class TimedAnimation extends org.gnome.adw.Animation {
         
         private static final MethodHandle adw_timed_animation_new = Interop.downcallHandle(
             "adw_timed_animation_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_timed_animation_get_alternate = Interop.downcallHandle(
             "adw_timed_animation_get_alternate",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_timed_animation_get_duration = Interop.downcallHandle(
             "adw_timed_animation_get_duration",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_timed_animation_get_easing = Interop.downcallHandle(
             "adw_timed_animation_get_easing",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_timed_animation_get_repeat_count = Interop.downcallHandle(
             "adw_timed_animation_get_repeat_count",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_timed_animation_get_reverse = Interop.downcallHandle(
             "adw_timed_animation_get_reverse",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_timed_animation_get_value_from = Interop.downcallHandle(
             "adw_timed_animation_get_value_from",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_timed_animation_get_value_to = Interop.downcallHandle(
             "adw_timed_animation_get_value_to",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_timed_animation_set_alternate = Interop.downcallHandle(
             "adw_timed_animation_set_alternate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_timed_animation_set_duration = Interop.downcallHandle(
             "adw_timed_animation_set_duration",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_timed_animation_set_easing = Interop.downcallHandle(
             "adw_timed_animation_set_easing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_timed_animation_set_repeat_count = Interop.downcallHandle(
             "adw_timed_animation_set_repeat_count",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_timed_animation_set_reverse = Interop.downcallHandle(
             "adw_timed_animation_set_reverse",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_timed_animation_set_value_from = Interop.downcallHandle(
             "adw_timed_animation_set_value_from",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle adw_timed_animation_set_value_to = Interop.downcallHandle(
             "adw_timed_animation_set_value_to",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            false
         );
     }
 }

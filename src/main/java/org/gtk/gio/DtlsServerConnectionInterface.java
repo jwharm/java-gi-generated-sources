@@ -25,6 +25,7 @@ public class DtlsServerConnectionInterface extends io.github.jwharm.javagi.Resou
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -33,7 +34,7 @@ public class DtlsServerConnectionInterface extends io.github.jwharm.javagi.Resou
     
     public static DtlsServerConnectionInterface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DtlsServerConnectionInterface newInstance = new DtlsServerConnectionInterface(Refcounted.get(segment.address()));
+        DtlsServerConnectionInterface newInstance = new DtlsServerConnectionInterface(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,11 +45,16 @@ public class DtlsServerConnectionInterface extends io.github.jwharm.javagi.Resou
      */
     public org.gtk.gobject.TypeInterface g_iface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return new org.gtk.gobject.TypeInterface(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a DtlsServerConnectionInterface proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DtlsServerConnectionInterface(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DtlsServerConnectionInterface(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

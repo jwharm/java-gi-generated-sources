@@ -43,6 +43,7 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -51,14 +52,19 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
     
     public static WeakRef allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        WeakRef newInstance = new WeakRef(Refcounted.get(segment.address()));
+        WeakRef newInstance = new WeakRef(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a WeakRef proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public WeakRef(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public WeakRef(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -98,7 +104,7 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
+        return new org.gtk.gobject.Object(RESULT, Ownership.FULL);
     }
     
     /**
@@ -145,22 +151,26 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_weak_ref_clear = Interop.downcallHandle(
             "g_weak_ref_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_weak_ref_get = Interop.downcallHandle(
             "g_weak_ref_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_weak_ref_init = Interop.downcallHandle(
             "g_weak_ref_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_weak_ref_set = Interop.downcallHandle(
             "g_weak_ref_set",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

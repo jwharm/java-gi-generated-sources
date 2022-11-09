@@ -21,13 +21,19 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements org.gtk.gi
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ZlibCompressor proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ZlibCompressor(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ZlibCompressor(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -39,19 +45,19 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements org.gtk.gi
      */
     public static ZlibCompressor castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GZlibCompressor"))) {
-            return new ZlibCompressor(gobject.refcounted());
+            return new ZlibCompressor(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GZlibCompressor");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gio.ZlibCompressorFormat format, int level) {
+    private static Addressable constructNew(@NotNull org.gtk.gio.ZlibCompressorFormat format, int level) {
         java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_zlib_compressor_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_zlib_compressor_new.invokeExact(
                     format.getValue(),
-                    level), true);
+                    level);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,7 +70,7 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements org.gtk.gi
      * @param level compression level (0-9), -1 for default
      */
     public ZlibCompressor(@NotNull org.gtk.gio.ZlibCompressorFormat format, int level) {
-        super(constructNew(format, level));
+        super(constructNew(format, level), Ownership.FULL);
     }
     
     /**
@@ -79,7 +85,7 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.FileInfo(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.FileInfo(RESULT, Ownership.NONE);
     }
     
     /**
@@ -107,17 +113,20 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements org.gtk.gi
         
         private static final MethodHandle g_zlib_compressor_new = Interop.downcallHandle(
             "g_zlib_compressor_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_zlib_compressor_get_file_info = Interop.downcallHandle(
             "g_zlib_compressor_get_file_info",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_zlib_compressor_set_file_info = Interop.downcallHandle(
             "g_zlib_compressor_set_file_info",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

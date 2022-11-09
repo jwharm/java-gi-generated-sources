@@ -20,13 +20,19 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a GridLayoutChild proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public GridLayoutChild(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public GridLayoutChild(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,7 +44,7 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
      */
     public static GridLayoutChild castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGridLayoutChild"))) {
-            return new GridLayoutChild(gobject.refcounted());
+            return new GridLayoutChild(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkGridLayoutChild");
         }
@@ -164,42 +170,50 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
         
         private static final MethodHandle gtk_grid_layout_child_get_column = Interop.downcallHandle(
             "gtk_grid_layout_child_get_column",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_grid_layout_child_get_column_span = Interop.downcallHandle(
             "gtk_grid_layout_child_get_column_span",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_grid_layout_child_get_row = Interop.downcallHandle(
             "gtk_grid_layout_child_get_row",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_grid_layout_child_get_row_span = Interop.downcallHandle(
             "gtk_grid_layout_child_get_row_span",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_grid_layout_child_set_column = Interop.downcallHandle(
             "gtk_grid_layout_child_set_column",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_grid_layout_child_set_column_span = Interop.downcallHandle(
             "gtk_grid_layout_child_set_column_span",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_grid_layout_child_set_row = Interop.downcallHandle(
             "gtk_grid_layout_child_set_row",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_grid_layout_child_set_row_span = Interop.downcallHandle(
             "gtk_grid_layout_child_set_row_span",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

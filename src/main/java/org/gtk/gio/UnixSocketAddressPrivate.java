@@ -17,6 +17,7 @@ public class UnixSocketAddressPrivate extends io.github.jwharm.javagi.ResourceBa
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -25,13 +26,18 @@ public class UnixSocketAddressPrivate extends io.github.jwharm.javagi.ResourceBa
     
     public static UnixSocketAddressPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        UnixSocketAddressPrivate newInstance = new UnixSocketAddressPrivate(Refcounted.get(segment.address()));
+        UnixSocketAddressPrivate newInstance = new UnixSocketAddressPrivate(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a UnixSocketAddressPrivate proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public UnixSocketAddressPrivate(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public UnixSocketAddressPrivate(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

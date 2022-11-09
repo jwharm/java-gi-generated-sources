@@ -82,13 +82,19 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ColumnView proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ColumnView(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ColumnView(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -100,17 +106,17 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public static ColumnView castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkColumnView"))) {
-            return new ColumnView(gobject.refcounted());
+            return new ColumnView(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkColumnView");
         }
     }
     
-    private static Refcounted constructNew(@Nullable org.gtk.gtk.SelectionModel model) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable org.gtk.gtk.SelectionModel model) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_column_view_new.invokeExact(
-                    (Addressable) (model == null ? MemoryAddress.NULL : model.refcounted().unowned().handle())), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_new.invokeExact(
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.refcounted().unowned().handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,7 +131,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @param model the list model to use
      */
     public ColumnView(@Nullable org.gtk.gtk.SelectionModel model) {
-        super(constructNew(model));
+        super(constructNew(model), Ownership.NONE);
     }
     
     /**
@@ -160,7 +166,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -190,7 +196,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -286,7 +292,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Sorter(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Sorter(RESULT, Ownership.NONE);
     }
     
     /**
@@ -452,6 +458,8 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * This allows for a convenient way to handle activation in a columnview.
      * See {@link ListItem#setActivatable} for details on how to use this
      * signal.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ColumnView.Activate> onActivate(ColumnView.Activate handler) {
         try {
@@ -475,97 +483,116 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         
         private static final MethodHandle gtk_column_view_new = Interop.downcallHandle(
             "gtk_column_view_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_column_view_append_column = Interop.downcallHandle(
             "gtk_column_view_append_column",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_column_view_get_columns = Interop.downcallHandle(
             "gtk_column_view_get_columns",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_column_view_get_enable_rubberband = Interop.downcallHandle(
             "gtk_column_view_get_enable_rubberband",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_column_view_get_model = Interop.downcallHandle(
             "gtk_column_view_get_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_column_view_get_reorderable = Interop.downcallHandle(
             "gtk_column_view_get_reorderable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_column_view_get_show_column_separators = Interop.downcallHandle(
             "gtk_column_view_get_show_column_separators",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_column_view_get_show_row_separators = Interop.downcallHandle(
             "gtk_column_view_get_show_row_separators",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_column_view_get_single_click_activate = Interop.downcallHandle(
             "gtk_column_view_get_single_click_activate",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_column_view_get_sorter = Interop.downcallHandle(
             "gtk_column_view_get_sorter",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_column_view_insert_column = Interop.downcallHandle(
             "gtk_column_view_insert_column",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_column_view_remove_column = Interop.downcallHandle(
             "gtk_column_view_remove_column",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_column_view_set_enable_rubberband = Interop.downcallHandle(
             "gtk_column_view_set_enable_rubberband",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_column_view_set_model = Interop.downcallHandle(
             "gtk_column_view_set_model",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_column_view_set_reorderable = Interop.downcallHandle(
             "gtk_column_view_set_reorderable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_column_view_set_show_column_separators = Interop.downcallHandle(
             "gtk_column_view_set_show_column_separators",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_column_view_set_show_row_separators = Interop.downcallHandle(
             "gtk_column_view_set_show_row_separators",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_column_view_set_single_click_activate = Interop.downcallHandle(
             "gtk_column_view_set_single_click_activate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_column_view_sort_by_column = Interop.downcallHandle(
             "gtk_column_view_sort_by_column",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -574,7 +601,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         public static void signalColumnViewActivate(MemoryAddress source, int position, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ColumnView.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ColumnView(Refcounted.get(source)), position);
+            HANDLER.signalReceived(new ColumnView(source, Ownership.UNKNOWN), position);
         }
     }
 }

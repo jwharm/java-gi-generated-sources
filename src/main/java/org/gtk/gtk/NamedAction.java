@@ -20,13 +20,19 @@ public class NamedAction extends org.gtk.gtk.ShortcutAction {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a NamedAction proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public NamedAction(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public NamedAction(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,18 +44,18 @@ public class NamedAction extends org.gtk.gtk.ShortcutAction {
      */
     public static NamedAction castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkNamedAction"))) {
-            return new NamedAction(gobject.refcounted());
+            return new NamedAction(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkNamedAction");
         }
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String name) {
+    private static Addressable constructNew(@NotNull java.lang.String name) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_named_action_new.invokeExact(
-                    Interop.allocateNativeString(name)), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_named_action_new.invokeExact(
+                    Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,7 +73,7 @@ public class NamedAction extends org.gtk.gtk.ShortcutAction {
      * @param name the detailed name of the action
      */
     public NamedAction(@NotNull java.lang.String name) {
-        super(constructNew(name));
+        super(constructNew(name), Ownership.FULL);
     }
     
     /**
@@ -89,12 +95,14 @@ public class NamedAction extends org.gtk.gtk.ShortcutAction {
         
         private static final MethodHandle gtk_named_action_new = Interop.downcallHandle(
             "gtk_named_action_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_named_action_get_action_name = Interop.downcallHandle(
             "gtk_named_action_get_action_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

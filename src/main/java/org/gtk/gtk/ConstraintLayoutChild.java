@@ -20,13 +20,19 @@ public class ConstraintLayoutChild extends org.gtk.gtk.LayoutChild {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ConstraintLayoutChild proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ConstraintLayoutChild(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ConstraintLayoutChild(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,7 +44,7 @@ public class ConstraintLayoutChild extends org.gtk.gtk.LayoutChild {
      */
     public static ConstraintLayoutChild castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkConstraintLayoutChild"))) {
-            return new ConstraintLayoutChild(gobject.refcounted());
+            return new ConstraintLayoutChild(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkConstraintLayoutChild");
         }

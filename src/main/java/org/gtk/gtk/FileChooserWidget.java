@@ -27,13 +27,19 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a FileChooserWidget proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FileChooserWidget(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FileChooserWidget(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -45,18 +51,18 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
      */
     public static FileChooserWidget castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFileChooserWidget"))) {
-            return new FileChooserWidget(gobject.refcounted());
+            return new FileChooserWidget(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkFileChooserWidget");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gtk.FileChooserAction action) {
+    private static Addressable constructNew(@NotNull org.gtk.gtk.FileChooserAction action) {
         java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_file_chooser_widget_new.invokeExact(
-                    action.getValue()), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_file_chooser_widget_new.invokeExact(
+                    action.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -72,7 +78,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
      * @param action Open or save mode for the widget
      */
     public FileChooserWidget(@NotNull org.gtk.gtk.FileChooserAction action) {
-        super(constructNew(action));
+        super(constructNew(action), Ownership.NONE);
     }
     
     @FunctionalInterface
@@ -89,6 +95,8 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
      * folder in the file list.
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Alt&lt;/kbd&gt;-&lt;kbd&gt;D&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FileChooserWidget.DesktopFolder> onDesktopFolder(FileChooserWidget.DesktopFolder handler) {
         try {
@@ -126,6 +134,8 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
      * switch to the "baz" subfolder.
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Alt&lt;/kbd&gt;-&lt;kbd&gt;Down&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FileChooserWidget.DownFolder> onDownFolder(FileChooserWidget.DownFolder handler) {
         try {
@@ -159,6 +169,8 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
      * folder in the file list.
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Alt&lt;/kbd&gt;-&lt;kbd&gt;Home&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FileChooserWidget.HomeFolder> onHomeFolder(FileChooserWidget.HomeFolder handler) {
         try {
@@ -197,6 +209,8 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
      * type {@code /} and immediately type a path name. On Unix systems, this is
      * bound to &lt;kbd&gt;~&lt;/kbd&gt; (tilde) with a {@code path} string of "~" itself for
      * access to home directories.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FileChooserWidget.LocationPopup> onLocationPopup(FileChooserWidget.LocationPopup handler) {
         try {
@@ -230,6 +244,8 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
      * when the user pastes into a {@code GtkFileChooserWidget}.
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Control&lt;/kbd&gt;-&lt;kbd&gt;V&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FileChooserWidget.LocationPopupOnPaste> onLocationPopupOnPaste(FileChooserWidget.LocationPopupOnPaste handler) {
         try {
@@ -264,6 +280,8 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
      * he wishes to select.
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Control&lt;/kbd&gt;-&lt;kbd&gt;L&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FileChooserWidget.LocationTogglePopup> onLocationTogglePopup(FileChooserWidget.LocationTogglePopup handler) {
         try {
@@ -296,6 +314,8 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
      * This is used to move the focus to the places sidebar.
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Alt&lt;/kbd&gt;-&lt;kbd&gt;P&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FileChooserWidget.PlacesShortcut> onPlacesShortcut(FileChooserWidget.PlacesShortcut handler) {
         try {
@@ -335,6 +355,8 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
      * Note that in the default binding, that &lt;kbd&gt;Alt&lt;/kbd&gt;-&lt;kbd&gt;1&lt;/kbd&gt; is
      * actually defined to switch to the bookmark at index 0, and so on
      * successively.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FileChooserWidget.QuickBookmark> onQuickBookmark(FileChooserWidget.QuickBookmark handler) {
         try {
@@ -367,6 +389,8 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
      * This is used to make the file chooser show the Recent location.
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Alt&lt;/kbd&gt;-&lt;kbd&gt;R&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FileChooserWidget.RecentShortcut> onRecentShortcut(FileChooserWidget.RecentShortcut handler) {
         try {
@@ -399,6 +423,8 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
      * This is used to make the file chooser show the search entry.
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Alt&lt;/kbd&gt;-&lt;kbd&gt;S&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FileChooserWidget.SearchShortcut> onSearchShortcut(FileChooserWidget.SearchShortcut handler) {
         try {
@@ -431,6 +457,8 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
      * This is used to make the file chooser display hidden files.
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Control&lt;/kbd&gt;-&lt;kbd&gt;H&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FileChooserWidget.ShowHidden> onShowHidden(FileChooserWidget.ShowHidden handler) {
         try {
@@ -464,6 +492,8 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
      * of the current folder in the file hierarchy.
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Alt&lt;/kbd&gt;-&lt;kbd&gt;Up&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FileChooserWidget.UpFolder> onUpFolder(FileChooserWidget.UpFolder handler) {
         try {
@@ -487,7 +517,8 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
         
         private static final MethodHandle gtk_file_chooser_widget_new = Interop.downcallHandle(
             "gtk_file_chooser_widget_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -496,73 +527,73 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
         public static void signalFileChooserWidgetDesktopFolder(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FileChooserWidget.DesktopFolder) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN));
         }
         
         public static void signalFileChooserWidgetDownFolder(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FileChooserWidget.DownFolder) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN));
         }
         
         public static void signalFileChooserWidgetHomeFolder(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FileChooserWidget.HomeFolder) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN));
         }
         
         public static void signalFileChooserWidgetLocationPopup(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FileChooserWidget.LocationPopup) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)), Interop.getStringFrom(path));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN), Interop.getStringFrom(path));
         }
         
         public static void signalFileChooserWidgetLocationPopupOnPaste(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FileChooserWidget.LocationPopupOnPaste) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN));
         }
         
         public static void signalFileChooserWidgetLocationTogglePopup(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FileChooserWidget.LocationTogglePopup) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN));
         }
         
         public static void signalFileChooserWidgetPlacesShortcut(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FileChooserWidget.PlacesShortcut) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN));
         }
         
         public static void signalFileChooserWidgetQuickBookmark(MemoryAddress source, int bookmarkIndex, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FileChooserWidget.QuickBookmark) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)), bookmarkIndex);
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN), bookmarkIndex);
         }
         
         public static void signalFileChooserWidgetRecentShortcut(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FileChooserWidget.RecentShortcut) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN));
         }
         
         public static void signalFileChooserWidgetSearchShortcut(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FileChooserWidget.SearchShortcut) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN));
         }
         
         public static void signalFileChooserWidgetShowHidden(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FileChooserWidget.ShowHidden) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN));
         }
         
         public static void signalFileChooserWidgetUpFolder(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FileChooserWidget.UpFolder) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN));
         }
     }
 }

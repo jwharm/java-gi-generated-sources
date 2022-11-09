@@ -23,13 +23,19 @@ public class EnumListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a EnumListModel proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public EnumListModel(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public EnumListModel(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -41,18 +47,18 @@ public class EnumListModel extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public static EnumListModel castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwEnumListModel"))) {
-            return new EnumListModel(gobject.refcounted());
+            return new EnumListModel(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwEnumListModel");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.glib.Type enumType) {
+    private static Addressable constructNew(@NotNull org.gtk.glib.Type enumType) {
         java.util.Objects.requireNonNull(enumType, "Parameter 'enumType' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_enum_list_model_new.invokeExact(
-                    enumType.getValue().longValue()), true);
+            RESULT = (MemoryAddress) DowncallHandles.adw_enum_list_model_new.invokeExact(
+                    enumType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,7 +70,7 @@ public class EnumListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * @param enumType the type of the enum to construct the model from
      */
     public EnumListModel(@NotNull org.gtk.glib.Type enumType) {
-        super(constructNew(enumType));
+        super(constructNew(enumType), Ownership.FULL);
     }
     
     /**
@@ -102,17 +108,20 @@ public class EnumListModel extends org.gtk.gobject.Object implements org.gtk.gio
         
         private static final MethodHandle adw_enum_list_model_new = Interop.downcallHandle(
             "adw_enum_list_model_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle adw_enum_list_model_find_position = Interop.downcallHandle(
             "adw_enum_list_model_find_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_enum_list_model_get_enum_type = Interop.downcallHandle(
             "adw_enum_list_model_get_enum_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
     }
 }

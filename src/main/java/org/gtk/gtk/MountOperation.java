@@ -37,6 +37,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -47,12 +48,17 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      */
     public org.gtk.gio.MountOperation parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.MountOperation(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.MountOperation(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a MountOperation proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public MountOperation(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public MountOperation(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -64,17 +70,17 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      */
     public static MountOperation castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMountOperation"))) {
-            return new MountOperation(gobject.refcounted());
+            return new MountOperation(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkMountOperation");
         }
     }
     
-    private static Refcounted constructNew(@Nullable org.gtk.gtk.Window parent) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable org.gtk.gtk.Window parent) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_mount_operation_new.invokeExact(
-                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle())), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_mount_operation_new.invokeExact(
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -86,7 +92,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      * @param parent transient parent of the window
      */
     public MountOperation(@Nullable org.gtk.gtk.Window parent) {
-        super(constructNew(parent));
+        super(constructNew(parent), Ownership.FULL);
     }
     
     /**
@@ -102,7 +108,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
     }
     
     /**
@@ -117,7 +123,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Window(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Window(RESULT, Ownership.NONE);
     }
     
     /**
@@ -170,32 +176,38 @@ public class MountOperation extends org.gtk.gio.MountOperation {
         
         private static final MethodHandle gtk_mount_operation_new = Interop.downcallHandle(
             "gtk_mount_operation_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_mount_operation_get_display = Interop.downcallHandle(
             "gtk_mount_operation_get_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_mount_operation_get_parent = Interop.downcallHandle(
             "gtk_mount_operation_get_parent",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_mount_operation_is_showing = Interop.downcallHandle(
             "gtk_mount_operation_is_showing",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_mount_operation_set_display = Interop.downcallHandle(
             "gtk_mount_operation_set_display",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_mount_operation_set_parent = Interop.downcallHandle(
             "gtk_mount_operation_set_parent",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

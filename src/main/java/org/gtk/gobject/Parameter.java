@@ -26,6 +26,7 @@ public class Parameter extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -34,7 +35,7 @@ public class Parameter extends io.github.jwharm.javagi.ResourceBase {
     
     public static Parameter allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Parameter newInstance = new Parameter(Refcounted.get(segment.address()));
+        Parameter newInstance = new Parameter(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -66,11 +67,16 @@ public class Parameter extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gobject.Value value$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("value"));
-        return new org.gtk.gobject.Value(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Value(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a Parameter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Parameter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Parameter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

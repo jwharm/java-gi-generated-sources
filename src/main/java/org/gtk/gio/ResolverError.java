@@ -53,7 +53,8 @@ public class ResolverError extends io.github.jwharm.javagi.Enumeration {
         
         private static final MethodHandle g_resolver_error_quark = Interop.downcallHandle(
             "g_resolver_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
     }
 }

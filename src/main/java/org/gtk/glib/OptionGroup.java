@@ -26,6 +26,7 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -34,28 +35,33 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
     
     public static OptionGroup allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        OptionGroup newInstance = new OptionGroup(Refcounted.get(segment.address()));
+        OptionGroup newInstance = new OptionGroup(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a OptionGroup proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public OptionGroup(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public OptionGroup(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String name, @NotNull java.lang.String description, @NotNull java.lang.String helpDescription, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.gtk.glib.DestroyNotify destroy) {
+    private static Addressable constructNew(@NotNull java.lang.String name, @NotNull java.lang.String description, @NotNull java.lang.String helpDescription, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.gtk.glib.DestroyNotify destroy) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(description, "Parameter 'description' must not be null");
         java.util.Objects.requireNonNull(helpDescription, "Parameter 'helpDescription' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_option_group_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_option_group_new.invokeExact(
                     Interop.allocateNativeString(name),
                     Interop.allocateNativeString(description),
                     Interop.allocateNativeString(helpDescription),
                     userData,
-                    Interop.cbDestroyNotifySymbol()), true);
+                    Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,14 +83,14 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
      * @param destroy a function that will be called to free {@code user_data}, or {@code null}
      */
     public OptionGroup(@NotNull java.lang.String name, @NotNull java.lang.String description, @NotNull java.lang.String helpDescription, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.gtk.glib.DestroyNotify destroy) {
-        super(constructNew(name, description, helpDescription, userData, destroy));
+        super(constructNew(name, description, helpDescription, userData, destroy), Ownership.FULL);
     }
     
     /**
      * Adds the options specified in {@code entries} to {@code group}.
      * @param entries a {@code null}-terminated array of {@code GOptionEntrys}
      */
-    public void addEntries(org.gtk.glib.OptionEntry[] entries) {
+    public void addEntries(@NotNull org.gtk.glib.OptionEntry[] entries) {
         java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
         try {
             DowncallHandles.g_option_group_add_entries.invokeExact(
@@ -122,7 +128,7 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.OptionGroup(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.OptionGroup(RESULT, Ownership.FULL);
     }
     
     /**
@@ -211,47 +217,56 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_option_group_new = Interop.downcallHandle(
             "g_option_group_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_group_add_entries = Interop.downcallHandle(
             "g_option_group_add_entries",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_group_free = Interop.downcallHandle(
             "g_option_group_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_group_ref = Interop.downcallHandle(
             "g_option_group_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_group_set_error_hook = Interop.downcallHandle(
             "g_option_group_set_error_hook",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_group_set_parse_hooks = Interop.downcallHandle(
             "g_option_group_set_parse_hooks",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_group_set_translate_func = Interop.downcallHandle(
             "g_option_group_set_translate_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_group_set_translation_domain = Interop.downcallHandle(
             "g_option_group_set_translation_domain",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_group_unref = Interop.downcallHandle(
             "g_option_group_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

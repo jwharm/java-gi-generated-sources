@@ -21,13 +21,19 @@ public class ZlibDecompressor extends org.gtk.gobject.Object implements org.gtk.
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ZlibDecompressor proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ZlibDecompressor(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ZlibDecompressor(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -39,18 +45,18 @@ public class ZlibDecompressor extends org.gtk.gobject.Object implements org.gtk.
      */
     public static ZlibDecompressor castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GZlibDecompressor"))) {
-            return new ZlibDecompressor(gobject.refcounted());
+            return new ZlibDecompressor(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GZlibDecompressor");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gio.ZlibCompressorFormat format) {
+    private static Addressable constructNew(@NotNull org.gtk.gio.ZlibCompressorFormat format) {
         java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_zlib_decompressor_new.invokeExact(
-                    format.getValue()), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_zlib_decompressor_new.invokeExact(
+                    format.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -62,7 +68,7 @@ public class ZlibDecompressor extends org.gtk.gobject.Object implements org.gtk.
      * @param format The format to use for the compressed data
      */
     public ZlibDecompressor(@NotNull org.gtk.gio.ZlibCompressorFormat format) {
-        super(constructNew(format));
+        super(constructNew(format), Ownership.FULL);
     }
     
     /**
@@ -81,19 +87,21 @@ public class ZlibDecompressor extends org.gtk.gobject.Object implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.FileInfo(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.FileInfo(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_zlib_decompressor_new = Interop.downcallHandle(
             "g_zlib_decompressor_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_zlib_decompressor_get_file_info = Interop.downcallHandle(
             "g_zlib_decompressor_get_file_info",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

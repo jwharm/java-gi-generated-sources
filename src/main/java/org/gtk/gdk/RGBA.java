@@ -35,6 +35,7 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -43,7 +44,7 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
     
     public static RGBA allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RGBA newInstance = new RGBA(Refcounted.get(segment.address()));
+        RGBA newInstance = new RGBA(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -132,9 +133,14 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), alpha);
     }
     
+    /**
+     * Create a RGBA proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public RGBA(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public RGBA(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -151,7 +157,7 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.RGBA(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.RGBA(RESULT, Ownership.FULL);
     }
     
     /**
@@ -302,42 +308,50 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle gdk_rgba_copy = Interop.downcallHandle(
             "gdk_rgba_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_rgba_equal = Interop.downcallHandle(
             "gdk_rgba_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_rgba_free = Interop.downcallHandle(
             "gdk_rgba_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_rgba_hash = Interop.downcallHandle(
             "gdk_rgba_hash",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_rgba_is_clear = Interop.downcallHandle(
             "gdk_rgba_is_clear",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_rgba_is_opaque = Interop.downcallHandle(
             "gdk_rgba_is_opaque",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_rgba_parse = Interop.downcallHandle(
             "gdk_rgba_parse",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_rgba_to_string = Interop.downcallHandle(
             "gdk_rgba_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

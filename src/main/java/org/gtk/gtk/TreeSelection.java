@@ -44,13 +44,19 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a TreeSelection proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TreeSelection(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TreeSelection(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -62,7 +68,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      */
     public static TreeSelection castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeSelection"))) {
-            return new TreeSelection(gobject.refcounted());
+            return new TreeSelection(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTreeSelection");
         }
@@ -155,7 +161,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     /**
@@ -170,7 +176,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreeView(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.TreeView(RESULT, Ownership.NONE);
     }
     
     /**
@@ -422,6 +428,8 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * this signal is mostly a hint.  It may only be emitted once when a range
      * of rows are selected, and it may occasionally be emitted when nothing
      * has happened.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TreeSelection.Changed> onChanged(TreeSelection.Changed handler) {
         try {
@@ -445,102 +453,122 @@ public class TreeSelection extends org.gtk.gobject.Object {
         
         private static final MethodHandle gtk_tree_selection_count_selected_rows = Interop.downcallHandle(
             "gtk_tree_selection_count_selected_rows",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_selection_get_mode = Interop.downcallHandle(
             "gtk_tree_selection_get_mode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_selection_get_select_function = Interop.downcallHandle(
             "gtk_tree_selection_get_select_function",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_selection_get_selected = Interop.downcallHandle(
             "gtk_tree_selection_get_selected",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_selection_get_selected_rows = Interop.downcallHandle(
             "gtk_tree_selection_get_selected_rows",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_selection_get_tree_view = Interop.downcallHandle(
             "gtk_tree_selection_get_tree_view",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_selection_get_user_data = Interop.downcallHandle(
             "gtk_tree_selection_get_user_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_selection_iter_is_selected = Interop.downcallHandle(
             "gtk_tree_selection_iter_is_selected",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_selection_path_is_selected = Interop.downcallHandle(
             "gtk_tree_selection_path_is_selected",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_selection_select_all = Interop.downcallHandle(
             "gtk_tree_selection_select_all",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_selection_select_iter = Interop.downcallHandle(
             "gtk_tree_selection_select_iter",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_selection_select_path = Interop.downcallHandle(
             "gtk_tree_selection_select_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_selection_select_range = Interop.downcallHandle(
             "gtk_tree_selection_select_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_selection_selected_foreach = Interop.downcallHandle(
             "gtk_tree_selection_selected_foreach",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_selection_set_mode = Interop.downcallHandle(
             "gtk_tree_selection_set_mode",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_selection_set_select_function = Interop.downcallHandle(
             "gtk_tree_selection_set_select_function",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_selection_unselect_all = Interop.downcallHandle(
             "gtk_tree_selection_unselect_all",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_selection_unselect_iter = Interop.downcallHandle(
             "gtk_tree_selection_unselect_iter",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_selection_unselect_path = Interop.downcallHandle(
             "gtk_tree_selection_unselect_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_selection_unselect_range = Interop.downcallHandle(
             "gtk_tree_selection_unselect_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -549,7 +577,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
         public static void signalTreeSelectionChanged(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TreeSelection.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeSelection(Refcounted.get(source)));
+            HANDLER.signalReceived(new TreeSelection(source, Ownership.UNKNOWN));
         }
     }
 }

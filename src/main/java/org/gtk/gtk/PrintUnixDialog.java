@@ -73,13 +73,19 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a PrintUnixDialog proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PrintUnixDialog(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PrintUnixDialog(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -91,18 +97,18 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
      */
     public static PrintUnixDialog castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPrintUnixDialog"))) {
-            return new PrintUnixDialog(gobject.refcounted());
+            return new PrintUnixDialog(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkPrintUnixDialog");
         }
     }
     
-    private static Refcounted constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_print_unix_dialog_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_unix_dialog_new.invokeExact(
                     (Addressable) (title == null ? MemoryAddress.NULL : Interop.allocateNativeString(title)),
-                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle())), false);
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,7 +121,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
      * @param parent Transient parent of the dialog
      */
     public PrintUnixDialog(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {
-        super(constructNew(title, parent));
+        super(constructNew(title, parent), Ownership.NONE);
     }
     
     /**
@@ -208,7 +214,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PageSetup(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.PageSetup(RESULT, Ownership.NONE);
     }
     
     /**
@@ -238,7 +244,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Printer(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Printer(RESULT, Ownership.NONE);
     }
     
     /**
@@ -257,7 +263,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PrintSettings(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.PrintSettings(RESULT, Ownership.FULL);
     }
     
     /**
@@ -392,92 +398,110 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
         
         private static final MethodHandle gtk_print_unix_dialog_new = Interop.downcallHandle(
             "gtk_print_unix_dialog_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_add_custom_tab = Interop.downcallHandle(
             "gtk_print_unix_dialog_add_custom_tab",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_get_current_page = Interop.downcallHandle(
             "gtk_print_unix_dialog_get_current_page",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_get_embed_page_setup = Interop.downcallHandle(
             "gtk_print_unix_dialog_get_embed_page_setup",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_get_has_selection = Interop.downcallHandle(
             "gtk_print_unix_dialog_get_has_selection",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_get_manual_capabilities = Interop.downcallHandle(
             "gtk_print_unix_dialog_get_manual_capabilities",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_get_page_setup = Interop.downcallHandle(
             "gtk_print_unix_dialog_get_page_setup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_get_page_setup_set = Interop.downcallHandle(
             "gtk_print_unix_dialog_get_page_setup_set",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_get_selected_printer = Interop.downcallHandle(
             "gtk_print_unix_dialog_get_selected_printer",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_get_settings = Interop.downcallHandle(
             "gtk_print_unix_dialog_get_settings",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_get_support_selection = Interop.downcallHandle(
             "gtk_print_unix_dialog_get_support_selection",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_set_current_page = Interop.downcallHandle(
             "gtk_print_unix_dialog_set_current_page",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_set_embed_page_setup = Interop.downcallHandle(
             "gtk_print_unix_dialog_set_embed_page_setup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_set_has_selection = Interop.downcallHandle(
             "gtk_print_unix_dialog_set_has_selection",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_set_manual_capabilities = Interop.downcallHandle(
             "gtk_print_unix_dialog_set_manual_capabilities",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_set_page_setup = Interop.downcallHandle(
             "gtk_print_unix_dialog_set_page_setup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_set_settings = Interop.downcallHandle(
             "gtk_print_unix_dialog_set_settings",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_set_support_selection = Interop.downcallHandle(
             "gtk_print_unix_dialog_set_support_selection",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

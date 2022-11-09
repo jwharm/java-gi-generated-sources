@@ -26,13 +26,19 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Create a DBusInterfaceSkeleton proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DBusInterfaceSkeleton(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DBusInterfaceSkeleton(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -44,7 +50,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
      */
     public static DBusInterfaceSkeleton castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusInterfaceSkeleton"))) {
-            return new DBusInterfaceSkeleton(gobject.refcounted());
+            return new DBusInterfaceSkeleton(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDBusInterfaceSkeleton");
         }
@@ -73,7 +79,8 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
             RESULT = (int) DowncallHandles.g_dbus_interface_skeleton_export.invokeExact(
                     handle(),
                     connection.handle(),
-                    Interop.allocateNativeString(objectPath), (Addressable) GERROR);
+                    Interop.allocateNativeString(objectPath),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,7 +122,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusConnection(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.DBusConnection(RESULT, Ownership.NONE);
     }
     
     /**
@@ -133,7 +140,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     /**
@@ -165,7 +172,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusInterfaceInfo(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.DBusInterfaceInfo(RESULT, Ownership.NONE);
     }
     
     /**
@@ -198,7 +205,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
     }
     
     /**
@@ -215,7 +222,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusInterfaceVTable(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.DBusInterfaceVTable(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -323,6 +330,8 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
      * flags set, no dedicated thread is ever used and the call will be
      * handled in the same thread as the object that {@code interface} belongs
      * to was exported in.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DBusInterfaceSkeleton.GAuthorizeMethod> onGAuthorizeMethod(DBusInterfaceSkeleton.GAuthorizeMethod handler) {
         try {
@@ -346,67 +355,80 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
         
         private static final MethodHandle g_dbus_interface_skeleton_export = Interop.downcallHandle(
             "g_dbus_interface_skeleton_export",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_flush = Interop.downcallHandle(
             "g_dbus_interface_skeleton_flush",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_get_connection = Interop.downcallHandle(
             "g_dbus_interface_skeleton_get_connection",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_get_connections = Interop.downcallHandle(
             "g_dbus_interface_skeleton_get_connections",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_get_flags = Interop.downcallHandle(
             "g_dbus_interface_skeleton_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_get_info = Interop.downcallHandle(
             "g_dbus_interface_skeleton_get_info",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_get_object_path = Interop.downcallHandle(
             "g_dbus_interface_skeleton_get_object_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_get_properties = Interop.downcallHandle(
             "g_dbus_interface_skeleton_get_properties",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_get_vtable = Interop.downcallHandle(
             "g_dbus_interface_skeleton_get_vtable",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_has_connection = Interop.downcallHandle(
             "g_dbus_interface_skeleton_has_connection",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_set_flags = Interop.downcallHandle(
             "g_dbus_interface_skeleton_set_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_unexport = Interop.downcallHandle(
             "g_dbus_interface_skeleton_unexport",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_unexport_from_connection = Interop.downcallHandle(
             "g_dbus_interface_skeleton_unexport_from_connection",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -415,7 +437,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
         public static boolean signalDBusInterfaceSkeletonGAuthorizeMethod(MemoryAddress source, MemoryAddress invocation, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusInterfaceSkeleton.GAuthorizeMethod) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new DBusInterfaceSkeleton(Refcounted.get(source)), new org.gtk.gio.DBusMethodInvocation(Refcounted.get(invocation, false)));
+            return HANDLER.signalReceived(new DBusInterfaceSkeleton(source, Ownership.UNKNOWN), new org.gtk.gio.DBusMethodInvocation(invocation, Ownership.NONE));
         }
     }
 }

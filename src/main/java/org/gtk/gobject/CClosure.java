@@ -25,6 +25,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -33,7 +34,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     
     public static CClosure allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CClosure newInstance = new CClosure(Refcounted.get(segment.address()));
+        CClosure newInstance = new CClosure(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,7 +45,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gobject.Closure closure$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("closure"));
-        return new org.gtk.gobject.Closure(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Closure(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
     /**
@@ -68,9 +69,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), callback);
     }
     
+    /**
+     * Create a CClosure proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CClosure(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CClosure(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -108,7 +114,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_BOOLEAN__BOXED_BOXED().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_BOOLEAN__BOXED_BOXED().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -122,7 +128,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalBOOLEANBOXEDBOXEDv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalBOOLEANBOXEDBOXEDv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -171,7 +177,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_BOOLEAN__FLAGS().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_BOOLEAN__FLAGS().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -185,7 +191,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalBOOLEANFLAGSv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalBOOLEANFLAGSv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -233,7 +239,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_STRING__OBJECT_POINTER().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_STRING__OBJECT_POINTER().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -247,7 +253,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalSTRINGOBJECTPOINTERv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalSTRINGOBJECTPOINTERv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -295,7 +301,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_VOID__BOOLEAN().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_VOID__BOOLEAN().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -309,7 +315,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDBOOLEANv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalVOIDBOOLEANv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -357,7 +363,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_VOID__BOXED().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_VOID__BOXED().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -371,7 +377,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDBOXEDv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalVOIDBOXEDv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -419,7 +425,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_VOID__CHAR().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_VOID__CHAR().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -433,7 +439,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDCHARv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalVOIDCHARv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -481,7 +487,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_VOID__DOUBLE().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_VOID__DOUBLE().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -495,7 +501,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDDOUBLEv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalVOIDDOUBLEv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -543,7 +549,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_VOID__ENUM().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_VOID__ENUM().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -557,7 +563,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDENUMv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalVOIDENUMv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -605,7 +611,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_VOID__FLAGS().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_VOID__FLAGS().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -619,7 +625,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDFLAGSv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalVOIDFLAGSv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -667,7 +673,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_VOID__FLOAT().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_VOID__FLOAT().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -681,7 +687,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDFLOATv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalVOIDFLOATv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -729,7 +735,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_VOID__INT().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_VOID__INT().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -743,7 +749,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDINTv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalVOIDINTv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -791,7 +797,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_VOID__LONG().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_VOID__LONG().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -805,7 +811,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDLONGv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalVOIDLONGv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -853,7 +859,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_VOID__OBJECT().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_VOID__OBJECT().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -867,7 +873,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDOBJECTv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalVOIDOBJECTv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -915,7 +921,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_VOID__PARAM().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_VOID__PARAM().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -929,7 +935,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDPARAMv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalVOIDPARAMv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -977,7 +983,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_VOID__POINTER().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_VOID__POINTER().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -991,7 +997,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDPOINTERv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalVOIDPOINTERv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -1039,7 +1045,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_VOID__STRING().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_VOID__STRING().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -1053,7 +1059,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDSTRINGv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalVOIDSTRINGv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -1101,7 +1107,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_VOID__UCHAR().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_VOID__UCHAR().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -1115,7 +1121,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDUCHARv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalVOIDUCHARv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -1191,7 +1197,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_VOID__UINT_POINTER().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_VOID__UINT_POINTER().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -1205,7 +1211,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDUINTPOINTERv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalVOIDUINTPOINTERv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -1225,7 +1231,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_VOID__UINT().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_VOID__UINT().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -1239,7 +1245,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDUINTv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalVOIDUINTv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -1287,7 +1293,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_VOID__ULONG().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_VOID__ULONG().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -1301,7 +1307,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDULONGv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalVOIDULONGv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -1349,7 +1355,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_VOID__VARIANT().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_VOID__VARIANT().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -1363,7 +1369,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDVARIANTv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalVOIDVARIANTv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -1411,7 +1417,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The {@link VaClosureMarshal} equivalent to g_cclosure_marshal_VOID__VOID().
+     * The {@code GVaClosureMarshal} equivalent to g_cclosure_marshal_VOID__VOID().
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
      *  value. May be {@code null} if the callback of {@code closure} doesn't return a
@@ -1425,7 +1431,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDVOIDv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalVOIDVOIDv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
@@ -1480,7 +1486,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A generic {@link VaClosureMarshal} function implemented via
+     * A generic {@code GVaClosureMarshal} function implemented via
      * <a href="http://sourceware.org/libffi/">libffi</a>.
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue a {@link Value} to store the return
@@ -1496,7 +1502,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * @param paramTypes the {@link Type} of each argument from
      *  {@code args_list}.
      */
-    public static void marshalGenericVa(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList argsList, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, org.gtk.glib.Type[] paramTypes) {
+    public static void marshalGenericVa(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList argsList, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
         java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
         java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         java.util.Objects.requireNonNull(argsList, "Parameter 'argsList' must not be null");
@@ -1543,7 +1549,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Closure(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.Closure(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1602,259 +1608,309 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Closure(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.Closure(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_cclosure_marshal_BOOLEAN__BOXED_BOXED = Interop.downcallHandle(
             "g_cclosure_marshal_BOOLEAN__BOXED_BOXED",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_BOOLEAN__BOXED_BOXEDv = Interop.downcallHandle(
             "g_cclosure_marshal_BOOLEAN__BOXED_BOXEDv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_BOOLEAN__FLAGS = Interop.downcallHandle(
             "g_cclosure_marshal_BOOLEAN__FLAGS",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_BOOLEAN__FLAGSv = Interop.downcallHandle(
             "g_cclosure_marshal_BOOLEAN__FLAGSv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_STRING__OBJECT_POINTER = Interop.downcallHandle(
             "g_cclosure_marshal_STRING__OBJECT_POINTER",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_STRING__OBJECT_POINTERv = Interop.downcallHandle(
             "g_cclosure_marshal_STRING__OBJECT_POINTERv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__BOOLEAN = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__BOOLEAN",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__BOOLEANv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__BOOLEANv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__BOXED = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__BOXED",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__BOXEDv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__BOXEDv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__CHAR = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__CHAR",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__CHARv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__CHARv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__DOUBLE = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__DOUBLE",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__DOUBLEv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__DOUBLEv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__ENUM = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__ENUM",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__ENUMv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__ENUMv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__FLAGS = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__FLAGS",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__FLAGSv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__FLAGSv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__FLOAT = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__FLOAT",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__FLOATv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__FLOATv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__INT = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__INT",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__INTv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__INTv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__LONG = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__LONG",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__LONGv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__LONGv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__OBJECT = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__OBJECT",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__OBJECTv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__OBJECTv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__PARAM = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__PARAM",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__PARAMv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__PARAMv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__POINTER = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__POINTER",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__POINTERv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__POINTERv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__STRING = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__STRING",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__STRINGv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__STRINGv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__UCHAR = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__UCHAR",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__UCHARv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__UCHARv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__UINT = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__UINT",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__UINT_POINTER = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__UINT_POINTER",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__UINT_POINTERv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__UINT_POINTERv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__UINTv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__UINTv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__ULONG = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__ULONG",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__ULONGv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__ULONGv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__VARIANT = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__VARIANT",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__VARIANTv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__VARIANTv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__VOID = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__VOID",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__VOIDv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__VOIDv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_generic = Interop.downcallHandle(
             "g_cclosure_marshal_generic",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_marshal_generic_va = Interop.downcallHandle(
             "g_cclosure_marshal_generic_va",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_new = Interop.downcallHandle(
             "g_cclosure_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_new_object = Interop.downcallHandle(
             "g_cclosure_new_object",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_new_object_swap = Interop.downcallHandle(
             "g_cclosure_new_object_swap",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cclosure_new_swap = Interop.downcallHandle(
             "g_cclosure_new_swap",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

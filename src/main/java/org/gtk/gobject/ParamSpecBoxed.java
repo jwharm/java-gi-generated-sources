@@ -24,6 +24,7 @@ public class ParamSpecBoxed extends org.gtk.gobject.ParamSpec {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -34,12 +35,17 @@ public class ParamSpecBoxed extends org.gtk.gobject.ParamSpec {
      */
     public org.gtk.gobject.ParamSpec parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.ParamSpec(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.ParamSpec(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a ParamSpecBoxed proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ParamSpecBoxed(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ParamSpecBoxed(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -51,7 +57,7 @@ public class ParamSpecBoxed extends org.gtk.gobject.ParamSpec {
      */
     public static ParamSpecBoxed castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GParamSpecBoxed"))) {
-            return new ParamSpecBoxed(gobject.refcounted());
+            return new ParamSpecBoxed(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GParamSpecBoxed");
         }

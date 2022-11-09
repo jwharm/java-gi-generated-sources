@@ -33,6 +33,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -43,12 +44,17 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
      */
     public org.gtk.gtk.ListBoxRow parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gtk.ListBoxRow(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.ListBoxRow(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a PreferencesRow proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PreferencesRow(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PreferencesRow(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -60,16 +66,16 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
      */
     public static PreferencesRow castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwPreferencesRow"))) {
-            return new PreferencesRow(gobject.refcounted());
+            return new PreferencesRow(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwPreferencesRow");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_preferences_row_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_row_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +86,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
      * Creates a new {@code AdwPreferencesRow}.
      */
     public PreferencesRow() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -213,47 +219,56 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
         
         private static final MethodHandle adw_preferences_row_new = Interop.downcallHandle(
             "adw_preferences_row_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_row_get_title = Interop.downcallHandle(
             "adw_preferences_row_get_title",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_row_get_title_selectable = Interop.downcallHandle(
             "adw_preferences_row_get_title_selectable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_row_get_use_markup = Interop.downcallHandle(
             "adw_preferences_row_get_use_markup",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_row_get_use_underline = Interop.downcallHandle(
             "adw_preferences_row_get_use_underline",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_row_set_title = Interop.downcallHandle(
             "adw_preferences_row_set_title",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_row_set_title_selectable = Interop.downcallHandle(
             "adw_preferences_row_set_title_selectable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_preferences_row_set_use_markup = Interop.downcallHandle(
             "adw_preferences_row_set_use_markup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_preferences_row_set_use_underline = Interop.downcallHandle(
             "adw_preferences_row_set_use_underline",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

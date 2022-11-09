@@ -17,6 +17,7 @@ public class SocketControlMessagePrivate extends io.github.jwharm.javagi.Resourc
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -25,13 +26,18 @@ public class SocketControlMessagePrivate extends io.github.jwharm.javagi.Resourc
     
     public static SocketControlMessagePrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SocketControlMessagePrivate newInstance = new SocketControlMessagePrivate(Refcounted.get(segment.address()));
+        SocketControlMessagePrivate newInstance = new SocketControlMessagePrivate(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a SocketControlMessagePrivate proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SocketControlMessagePrivate(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SocketControlMessagePrivate(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

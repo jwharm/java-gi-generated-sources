@@ -27,6 +27,7 @@ public class AatLayoutFeatureSelectorInfoT extends io.github.jwharm.javagi.Resou
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -35,7 +36,7 @@ public class AatLayoutFeatureSelectorInfoT extends io.github.jwharm.javagi.Resou
     
     public static AatLayoutFeatureSelectorInfoT allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AatLayoutFeatureSelectorInfoT newInstance = new AatLayoutFeatureSelectorInfoT(Refcounted.get(segment.address()));
+        AatLayoutFeatureSelectorInfoT newInstance = new AatLayoutFeatureSelectorInfoT(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -103,8 +104,13 @@ public class AatLayoutFeatureSelectorInfoT extends io.github.jwharm.javagi.Resou
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), disable.getValue());
     }
     
+    /**
+     * Create a AatLayoutFeatureSelectorInfoT proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public AatLayoutFeatureSelectorInfoT(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public AatLayoutFeatureSelectorInfoT(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

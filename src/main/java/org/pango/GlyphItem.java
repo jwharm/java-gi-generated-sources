@@ -33,6 +33,7 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -41,7 +42,7 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
     
     public static GlyphItem allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GlyphItem newInstance = new GlyphItem(Refcounted.get(segment.address()));
+        GlyphItem newInstance = new GlyphItem(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -54,7 +55,7 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("item"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.pango.Item(Refcounted.get(RESULT, false));
+        return new org.pango.Item(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -75,7 +76,7 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("glyphs"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.pango.GlyphString(Refcounted.get(RESULT, false));
+        return new org.pango.GlyphString(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -151,9 +152,14 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), end_x_offset);
     }
     
+    /**
+     * Create a GlyphItem proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public GlyphItem(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public GlyphItem(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -193,7 +199,7 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.SList(RESULT, Ownership.FULL);
     }
     
     /**
@@ -208,7 +214,7 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.GlyphItem(Refcounted.get(RESULT, true));
+        return new org.pango.GlyphItem(RESULT, Ownership.FULL);
     }
     
     /**
@@ -238,7 +244,7 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
      *   characters in glyph_item (equal to glyph_item-&gt;item-&gt;num_chars)
      *   to be filled in with the resulting character widths.
      */
-    public void getLogicalWidths(@NotNull java.lang.String text, int[] logicalWidths) {
+    public void getLogicalWidths(@NotNull java.lang.String text, @NotNull int[] logicalWidths) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         java.util.Objects.requireNonNull(logicalWidths, "Parameter 'logicalWidths' must not be null");
         try {
@@ -264,7 +270,7 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
      *   in Pango units. May be negative, though too large
      *   negative values will give ugly results.
      */
-    public void letterSpace(@NotNull java.lang.String text, org.pango.LogAttr[] logAttrs, int letterSpacing) {
+    public void letterSpace(@NotNull java.lang.String text, @NotNull org.pango.LogAttr[] logAttrs, int letterSpacing) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         java.util.Objects.requireNonNull(logAttrs, "Parameter 'logAttrs' must not be null");
         try {
@@ -308,39 +314,45 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.GlyphItem(Refcounted.get(RESULT, true));
+        return new org.pango.GlyphItem(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_glyph_item_apply_attrs = Interop.downcallHandle(
             "pango_glyph_item_apply_attrs",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_glyph_item_copy = Interop.downcallHandle(
             "pango_glyph_item_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_glyph_item_free = Interop.downcallHandle(
             "pango_glyph_item_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_glyph_item_get_logical_widths = Interop.downcallHandle(
             "pango_glyph_item_get_logical_widths",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_glyph_item_letter_space = Interop.downcallHandle(
             "pango_glyph_item_letter_space",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_glyph_item_split = Interop.downcallHandle(
             "pango_glyph_item_split",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

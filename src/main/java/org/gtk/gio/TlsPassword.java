@@ -26,6 +26,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -36,12 +37,17 @@ public class TlsPassword extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a TlsPassword proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TlsPassword(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TlsPassword(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -53,20 +59,20 @@ public class TlsPassword extends org.gtk.gobject.Object {
      */
     public static TlsPassword castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTlsPassword"))) {
-            return new TlsPassword(gobject.refcounted());
+            return new TlsPassword(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GTlsPassword");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gio.TlsPasswordFlags flags, @NotNull java.lang.String description) {
+    private static Addressable constructNew(@NotNull org.gtk.gio.TlsPasswordFlags flags, @NotNull java.lang.String description) {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         java.util.Objects.requireNonNull(description, "Parameter 'description' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_tls_password_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_password_new.invokeExact(
                     flags.getValue(),
-                    Interop.allocateNativeString(description)), true);
+                    Interop.allocateNativeString(description));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,7 +85,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * @param description description of what the password is for
      */
     public TlsPassword(@NotNull org.gtk.gio.TlsPasswordFlags flags, @NotNull java.lang.String description) {
-        super(constructNew(flags, description));
+        super(constructNew(flags, description), Ownership.FULL);
     }
     
     /**
@@ -194,7 +200,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * @param value the new password value
      * @param length the length of the password, or -1
      */
-    public void setValue(byte[] value, long length) {
+    public void setValue(@NotNull byte[] value, long length) {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
             DowncallHandles.g_tls_password_set_value.invokeExact(
@@ -220,7 +226,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * @param length the length of the password, or -1
      * @param destroy a function to use to free the password.
      */
-    public void setValueFull(byte[] value, long length, @Nullable org.gtk.glib.DestroyNotify destroy) {
+    public void setValueFull(@NotNull byte[] value, long length, @Nullable org.gtk.glib.DestroyNotify destroy) {
         throw new UnsupportedOperationException("Operation not supported yet");
     }
     
@@ -245,52 +251,62 @@ public class TlsPassword extends org.gtk.gobject.Object {
         
         private static final MethodHandle g_tls_password_new = Interop.downcallHandle(
             "g_tls_password_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_password_get_description = Interop.downcallHandle(
             "g_tls_password_get_description",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_password_get_flags = Interop.downcallHandle(
             "g_tls_password_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_password_get_value = Interop.downcallHandle(
             "g_tls_password_get_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_password_get_warning = Interop.downcallHandle(
             "g_tls_password_get_warning",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_password_set_description = Interop.downcallHandle(
             "g_tls_password_set_description",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_password_set_flags = Interop.downcallHandle(
             "g_tls_password_set_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_tls_password_set_value = Interop.downcallHandle(
             "g_tls_password_set_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_tls_password_set_value_full = Interop.downcallHandle(
             "g_tls_password_set_value_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_password_set_warning = Interop.downcallHandle(
             "g_tls_password_set_warning",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

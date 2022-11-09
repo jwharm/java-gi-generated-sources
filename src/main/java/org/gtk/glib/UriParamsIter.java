@@ -38,6 +38,7 @@ public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -46,14 +47,19 @@ public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
     
     public static UriParamsIter allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        UriParamsIter newInstance = new UriParamsIter(Refcounted.get(segment.address()));
+        UriParamsIter newInstance = new UriParamsIter(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a UriParamsIter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public UriParamsIter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public UriParamsIter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -142,7 +148,8 @@ public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
             RESULT = (int) DowncallHandles.g_uri_params_iter_next.invokeExact(
                     handle(),
                     (Addressable) (attribute == null ? MemoryAddress.NULL : (Addressable) attributePOINTER.address()),
-                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()), (Addressable) GERROR);
+                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -158,12 +165,14 @@ public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_uri_params_iter_init = Interop.downcallHandle(
             "g_uri_params_iter_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_uri_params_iter_next = Interop.downcallHandle(
             "g_uri_params_iter_next",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

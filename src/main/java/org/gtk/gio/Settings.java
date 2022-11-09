@@ -307,6 +307,7 @@ public class Settings extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -317,12 +318,17 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a Settings proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Settings(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Settings(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -334,18 +340,18 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public static Settings castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSettings"))) {
-            return new Settings(gobject.refcounted());
+            return new Settings(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSettings");
         }
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String schemaId) {
+    private static Addressable constructNew(@NotNull java.lang.String schemaId) {
         java.util.Objects.requireNonNull(schemaId, "Parameter 'schemaId' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_settings_new.invokeExact(
-                    Interop.allocateNativeString(schemaId)), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_new.invokeExact(
+                    Interop.allocateNativeString(schemaId));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -369,17 +375,17 @@ public class Settings extends org.gtk.gobject.Object {
      * @param schemaId the id of the schema
      */
     public Settings(@NotNull java.lang.String schemaId) {
-        super(constructNew(schemaId));
+        super(constructNew(schemaId), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFull(@NotNull org.gtk.gio.SettingsSchema schema, @Nullable org.gtk.gio.SettingsBackend backend, @Nullable java.lang.String path) {
+    private static Addressable constructNewFull(@NotNull org.gtk.gio.SettingsSchema schema, @Nullable org.gtk.gio.SettingsBackend backend, @Nullable java.lang.String path) {
         java.util.Objects.requireNonNull(schema, "Parameter 'schema' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_settings_new_full.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_new_full.invokeExact(
                     schema.handle(),
                     (Addressable) (backend == null ? MemoryAddress.NULL : backend.handle()),
-                    (Addressable) (path == null ? MemoryAddress.NULL : Interop.allocateNativeString(path))), true);
+                    (Addressable) (path == null ? MemoryAddress.NULL : Interop.allocateNativeString(path)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -416,17 +422,17 @@ public class Settings extends org.gtk.gobject.Object {
      * @return a new {@link Settings} object
      */
     public static Settings newFull(@NotNull org.gtk.gio.SettingsSchema schema, @Nullable org.gtk.gio.SettingsBackend backend, @Nullable java.lang.String path) {
-        return new Settings(constructNewFull(schema, backend, path));
+        return new Settings(constructNewFull(schema, backend, path), Ownership.FULL);
     }
     
-    private static Refcounted constructNewWithBackend(@NotNull java.lang.String schemaId, @NotNull org.gtk.gio.SettingsBackend backend) {
+    private static Addressable constructNewWithBackend(@NotNull java.lang.String schemaId, @NotNull org.gtk.gio.SettingsBackend backend) {
         java.util.Objects.requireNonNull(schemaId, "Parameter 'schemaId' must not be null");
         java.util.Objects.requireNonNull(backend, "Parameter 'backend' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_settings_new_with_backend.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_new_with_backend.invokeExact(
                     Interop.allocateNativeString(schemaId),
-                    backend.handle()), true);
+                    backend.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -447,19 +453,19 @@ public class Settings extends org.gtk.gobject.Object {
      * @return a new {@link Settings} object
      */
     public static Settings newWithBackend(@NotNull java.lang.String schemaId, @NotNull org.gtk.gio.SettingsBackend backend) {
-        return new Settings(constructNewWithBackend(schemaId, backend));
+        return new Settings(constructNewWithBackend(schemaId, backend), Ownership.FULL);
     }
     
-    private static Refcounted constructNewWithBackendAndPath(@NotNull java.lang.String schemaId, @NotNull org.gtk.gio.SettingsBackend backend, @NotNull java.lang.String path) {
+    private static Addressable constructNewWithBackendAndPath(@NotNull java.lang.String schemaId, @NotNull org.gtk.gio.SettingsBackend backend, @NotNull java.lang.String path) {
         java.util.Objects.requireNonNull(schemaId, "Parameter 'schemaId' must not be null");
         java.util.Objects.requireNonNull(backend, "Parameter 'backend' must not be null");
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_settings_new_with_backend_and_path.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_new_with_backend_and_path.invokeExact(
                     Interop.allocateNativeString(schemaId),
                     backend.handle(),
-                    Interop.allocateNativeString(path)), true);
+                    Interop.allocateNativeString(path));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -478,17 +484,17 @@ public class Settings extends org.gtk.gobject.Object {
      * @return a new {@link Settings} object
      */
     public static Settings newWithBackendAndPath(@NotNull java.lang.String schemaId, @NotNull org.gtk.gio.SettingsBackend backend, @NotNull java.lang.String path) {
-        return new Settings(constructNewWithBackendAndPath(schemaId, backend, path));
+        return new Settings(constructNewWithBackendAndPath(schemaId, backend, path), Ownership.FULL);
     }
     
-    private static Refcounted constructNewWithPath(@NotNull java.lang.String schemaId, @NotNull java.lang.String path) {
+    private static Addressable constructNewWithPath(@NotNull java.lang.String schemaId, @NotNull java.lang.String path) {
         java.util.Objects.requireNonNull(schemaId, "Parameter 'schemaId' must not be null");
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_settings_new_with_path.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_new_with_path.invokeExact(
                     Interop.allocateNativeString(schemaId),
-                    Interop.allocateNativeString(path)), true);
+                    Interop.allocateNativeString(path));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -514,7 +520,7 @@ public class Settings extends org.gtk.gobject.Object {
      * @return a new {@link Settings} object
      */
     public static Settings newWithPath(@NotNull java.lang.String schemaId, @NotNull java.lang.String path) {
-        return new Settings(constructNewWithPath(schemaId, path));
+        return new Settings(constructNewWithPath(schemaId, path), Ownership.FULL);
     }
     
     /**
@@ -693,7 +699,7 @@ public class Settings extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Action.ActionImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Action.ActionImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -721,9 +727,20 @@ public class Settings extends org.gtk.gobject.Object {
      * the type given in the schema.
      * @param key the key to get the value for
      * @param format a {@link org.gtk.glib.Variant} format string
+     * @param varargs arguments as per {@code format}
      */
-    public void get(@NotNull java.lang.String key, @NotNull java.lang.String format) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void get(@NotNull java.lang.String key, @NotNull java.lang.String format, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+        try {
+            DowncallHandles.g_settings_get.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    Interop.allocateNativeString(format),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -772,7 +789,7 @@ public class Settings extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Settings(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Settings(RESULT, Ownership.FULL);
     }
     
     /**
@@ -810,7 +827,7 @@ public class Settings extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1025,7 +1042,7 @@ public class Settings extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1154,7 +1171,7 @@ public class Settings extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1175,7 +1192,7 @@ public class Settings extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1318,11 +1335,24 @@ public class Settings extends org.gtk.gobject.Object {
      * the type given in the schema.
      * @param key the name of the key to set
      * @param format a {@link org.gtk.glib.Variant} format string
+     * @param varargs arguments as per {@code format}
      * @return {@code true} if setting the key succeeded,
      *     {@code false} if the key was not writable
      */
-    public boolean set(@NotNull java.lang.String key, @NotNull java.lang.String format) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean set(@NotNull java.lang.String key, @NotNull java.lang.String format, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_settings_set.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    Interop.allocateNativeString(format),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT != 0;
     }
     
     /**
@@ -1528,7 +1558,7 @@ public class Settings extends org.gtk.gobject.Object {
      * @return {@code true} if setting the key succeeded,
      *     {@code false} if the key was not writable
      */
-    public boolean setStrv(@NotNull java.lang.String key, java.lang.String[] value) {
+    public boolean setStrv(@NotNull java.lang.String key, @Nullable java.lang.String[] value) {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
@@ -1706,7 +1736,7 @@ public class Settings extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ChangeEvent {
-        boolean signalReceived(Settings source, org.gtk.glib.Quark[] keys, int nKeys);
+        boolean signalReceived(Settings source, @Nullable org.gtk.glib.Quark[] keys, int nKeys);
     }
     
     /**
@@ -1725,6 +1755,8 @@ public class Settings extends org.gtk.gobject.Object {
      * The default handler for this signal invokes the "changed" signal
      * for each affected key.  If any other connected handler returns
      * {@code true} then this default functionality will be suppressed.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Settings.ChangeEvent> onChangeEvent(Settings.ChangeEvent handler) {
         throw new UnsupportedOperationException("Operation not supported yet");
@@ -1746,6 +1778,9 @@ public class Settings extends org.gtk.gobject.Object {
      * <p>
      * Note that {@code settings} only emits this signal if you have read {@code key} at
      * least once while a signal handler was already connected for {@code key}.
+     * @param detail The signal detail
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Settings.Changed> onChanged(@Nullable String detail, Settings.Changed handler) {
         try {
@@ -1789,6 +1824,8 @@ public class Settings extends org.gtk.gobject.Object {
      * example, a new mandatory setting is introduced).  If any other
      * connected handler returns {@code true} then this default functionality
      * will be suppressed.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Settings.WritableChangeEvent> onWritableChangeEvent(Settings.WritableChangeEvent handler) {
         try {
@@ -1821,6 +1858,9 @@ public class Settings extends org.gtk.gobject.Object {
      * This signal supports detailed connections.  You can connect to the
      * detailed signal "writable-changed::x" in order to only receive
      * callbacks when the writability of "x" changes.
+     * @param detail The signal detail
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Settings.WritableChanged> onWritableChanged(@Nullable String detail, Settings.WritableChanged handler) {
         try {
@@ -1844,257 +1884,308 @@ public class Settings extends org.gtk.gobject.Object {
         
         private static final MethodHandle g_settings_new = Interop.downcallHandle(
             "g_settings_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_new_full = Interop.downcallHandle(
             "g_settings_new_full",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_new_with_backend = Interop.downcallHandle(
             "g_settings_new_with_backend",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_new_with_backend_and_path = Interop.downcallHandle(
             "g_settings_new_with_backend_and_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_new_with_path = Interop.downcallHandle(
             "g_settings_new_with_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_apply = Interop.downcallHandle(
             "g_settings_apply",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_bind = Interop.downcallHandle(
             "g_settings_bind",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_settings_bind_with_mapping = Interop.downcallHandle(
             "g_settings_bind_with_mapping",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_bind_writable = Interop.downcallHandle(
             "g_settings_bind_writable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_settings_create_action = Interop.downcallHandle(
             "g_settings_create_action",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_delay = Interop.downcallHandle(
             "g_settings_delay",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_get = Interop.downcallHandle(
             "g_settings_get",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_settings_get_boolean = Interop.downcallHandle(
             "g_settings_get_boolean",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_get_child = Interop.downcallHandle(
             "g_settings_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_get_default_value = Interop.downcallHandle(
             "g_settings_get_default_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_get_double = Interop.downcallHandle(
             "g_settings_get_double",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_get_enum = Interop.downcallHandle(
             "g_settings_get_enum",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_get_flags = Interop.downcallHandle(
             "g_settings_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_get_has_unapplied = Interop.downcallHandle(
             "g_settings_get_has_unapplied",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_get_int = Interop.downcallHandle(
             "g_settings_get_int",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_get_int64 = Interop.downcallHandle(
             "g_settings_get_int64",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_get_mapped = Interop.downcallHandle(
             "g_settings_get_mapped",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_get_range = Interop.downcallHandle(
             "g_settings_get_range",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_get_string = Interop.downcallHandle(
             "g_settings_get_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_get_strv = Interop.downcallHandle(
             "g_settings_get_strv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_get_uint = Interop.downcallHandle(
             "g_settings_get_uint",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_get_uint64 = Interop.downcallHandle(
             "g_settings_get_uint64",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_get_user_value = Interop.downcallHandle(
             "g_settings_get_user_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_get_value = Interop.downcallHandle(
             "g_settings_get_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_is_writable = Interop.downcallHandle(
             "g_settings_is_writable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_list_children = Interop.downcallHandle(
             "g_settings_list_children",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_list_keys = Interop.downcallHandle(
             "g_settings_list_keys",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_range_check = Interop.downcallHandle(
             "g_settings_range_check",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_reset = Interop.downcallHandle(
             "g_settings_reset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_revert = Interop.downcallHandle(
             "g_settings_revert",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_set = Interop.downcallHandle(
             "g_settings_set",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_settings_set_boolean = Interop.downcallHandle(
             "g_settings_set_boolean",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_settings_set_double = Interop.downcallHandle(
             "g_settings_set_double",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle g_settings_set_enum = Interop.downcallHandle(
             "g_settings_set_enum",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_settings_set_flags = Interop.downcallHandle(
             "g_settings_set_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_settings_set_int = Interop.downcallHandle(
             "g_settings_set_int",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_settings_set_int64 = Interop.downcallHandle(
             "g_settings_set_int64",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_settings_set_string = Interop.downcallHandle(
             "g_settings_set_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_set_strv = Interop.downcallHandle(
             "g_settings_set_strv",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_set_uint = Interop.downcallHandle(
             "g_settings_set_uint",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_settings_set_uint64 = Interop.downcallHandle(
             "g_settings_set_uint64",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_settings_set_value = Interop.downcallHandle(
             "g_settings_set_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_list_relocatable_schemas = Interop.downcallHandle(
             "g_settings_list_relocatable_schemas",
-            FunctionDescriptor.ofVoid()
+            FunctionDescriptor.ofVoid(),
+            false
         );
         
         private static final MethodHandle g_settings_list_schemas = Interop.downcallHandle(
             "g_settings_list_schemas",
-            FunctionDescriptor.ofVoid()
+            FunctionDescriptor.ofVoid(),
+            false
         );
         
         private static final MethodHandle g_settings_sync = Interop.downcallHandle(
             "g_settings_sync",
-            FunctionDescriptor.ofVoid()
+            FunctionDescriptor.ofVoid(),
+            false
         );
         
         private static final MethodHandle g_settings_unbind = Interop.downcallHandle(
             "g_settings_unbind",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -2108,19 +2199,19 @@ public class Settings extends org.gtk.gobject.Object {
         public static void signalSettingsChanged(MemoryAddress source, MemoryAddress key, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Settings.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Settings(Refcounted.get(source)), Interop.getStringFrom(key));
+            HANDLER.signalReceived(new Settings(source, Ownership.UNKNOWN), Interop.getStringFrom(key));
         }
         
         public static boolean signalSettingsWritableChangeEvent(MemoryAddress source, int key, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Settings.WritableChangeEvent) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Settings(Refcounted.get(source)), key);
+            return HANDLER.signalReceived(new Settings(source, Ownership.UNKNOWN), key);
         }
         
         public static void signalSettingsWritableChanged(MemoryAddress source, MemoryAddress key, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Settings.WritableChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Settings(Refcounted.get(source)), Interop.getStringFrom(key));
+            HANDLER.signalReceived(new Settings(source, Ownership.UNKNOWN), Interop.getStringFrom(key));
         }
     }
 }

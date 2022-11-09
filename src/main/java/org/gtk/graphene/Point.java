@@ -26,6 +26,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -34,7 +35,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
     
     public static Point allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Point newInstance = new Point(Refcounted.get(segment.address()));
+        Point newInstance = new Point(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -81,15 +82,20 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
     }
     
+    /**
+     * Create a Point proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Point(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Point(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructAlloc() {
-        Refcounted RESULT;
+    private static Addressable constructAlloc() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.graphene_point_alloc.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_point_alloc.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,7 +127,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
      *   this function.
      */
     public static Point alloc() {
-        return new Point(constructAlloc());
+        return new Point(constructAlloc(), Ownership.FULL);
     }
     
     /**
@@ -205,7 +211,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Point(RESULT, Ownership.NONE);
     }
     
     /**
@@ -223,7 +229,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Point(RESULT, Ownership.NONE);
     }
     
     /**
@@ -241,7 +247,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Point(RESULT, Ownership.NONE);
     }
     
     /**
@@ -314,64 +320,75 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Point(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle graphene_point_alloc = Interop.downcallHandle(
             "graphene_point_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_point_distance = Interop.downcallHandle(
             "graphene_point_distance",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_point_equal = Interop.downcallHandle(
             "graphene_point_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_point_free = Interop.downcallHandle(
             "graphene_point_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_point_init = Interop.downcallHandle(
             "graphene_point_init",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle graphene_point_init_from_point = Interop.downcallHandle(
             "graphene_point_init_from_point",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_point_init_from_vec2 = Interop.downcallHandle(
             "graphene_point_init_from_vec2",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_point_interpolate = Interop.downcallHandle(
             "graphene_point_interpolate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_point_near = Interop.downcallHandle(
             "graphene_point_near",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle graphene_point_to_vec2 = Interop.downcallHandle(
             "graphene_point_to_vec2",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_point_zero = Interop.downcallHandle(
             "graphene_point_zero",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

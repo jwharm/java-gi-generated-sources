@@ -11,9 +11,11 @@ import org.jetbrains.annotations.*;
  * If none of these choices are appropriate, simply use
  * {@link ButtonsType#NONE} and call {@link Dialog#addButtons}.
  * <p>
- * &gt; Please note that {@link ButtonsType#OK}, {@link ButtonsType#YES_NO}
- * &gt; and {@link ButtonsType#OK_CANCEL} are discouraged by the
- * &gt; <a href="http://library.gnome.org/devel/hig-book/stable/">GNOME Human Interface Guidelines</a>.
+ * <blockquote>
+ *  Please note that {@link ButtonsType#OK}, {@link ButtonsType#YES_NO}
+ *  and {@link ButtonsType#OK_CANCEL} are discouraged by the
+ *  <a href="http://library.gnome.org/devel/hig-book/stable/">GNOME Human Interface Guidelines</a>.
+ * </blockquote>
  */
 public class ButtonsType extends io.github.jwharm.javagi.Enumeration {
     

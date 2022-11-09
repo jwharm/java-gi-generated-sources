@@ -70,6 +70,7 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -80,12 +81,17 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public org.gtk.gtk.Widget parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gtk.Widget(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.Widget(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a CheckButton proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CheckButton(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CheckButton(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -97,16 +103,16 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public static CheckButton castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCheckButton"))) {
-            return new CheckButton(gobject.refcounted());
+            return new CheckButton(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCheckButton");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_check_button_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_check_button_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,14 +123,14 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Creates a new {@code GtkCheckButton}.
      */
     public CheckButton() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
-    private static Refcounted constructNewWithLabel(@Nullable java.lang.String label) {
-        Refcounted RESULT;
+    private static Addressable constructNewWithLabel(@Nullable java.lang.String label) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_check_button_new_with_label.invokeExact(
-                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label))), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_check_button_new_with_label.invokeExact(
+                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -137,14 +143,14 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @return a new {@code GtkCheckButton}
      */
     public static CheckButton newWithLabel(@Nullable java.lang.String label) {
-        return new CheckButton(constructNewWithLabel(label));
+        return new CheckButton(constructNewWithLabel(label), Ownership.NONE);
     }
     
-    private static Refcounted constructNewWithMnemonic(@Nullable java.lang.String label) {
-        Refcounted RESULT;
+    private static Addressable constructNewWithMnemonic(@Nullable java.lang.String label) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_check_button_new_with_mnemonic.invokeExact(
-                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label))), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_check_button_new_with_mnemonic.invokeExact(
+                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -158,7 +164,7 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @return a new {@code GtkCheckButton}
      */
     public static CheckButton newWithMnemonic(@Nullable java.lang.String label) {
-        return new CheckButton(constructNewWithMnemonic(label));
+        return new CheckButton(constructNewWithMnemonic(label), Ownership.NONE);
     }
     
     /**
@@ -334,6 +340,8 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * <p>
      * Applications should never connect to this signal, but use the
      * {@code Gtk.CheckButton::toggled} signal.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<CheckButton.Activate> onActivate(CheckButton.Activate handler) {
         try {
@@ -361,6 +369,8 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     /**
      * Emitted when the buttons's {@code Gtk.CheckButton:active}
      * property changes.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<CheckButton.Toggled> onToggled(CheckButton.Toggled handler) {
         try {
@@ -384,62 +394,74 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         
         private static final MethodHandle gtk_check_button_new = Interop.downcallHandle(
             "gtk_check_button_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_check_button_new_with_label = Interop.downcallHandle(
             "gtk_check_button_new_with_label",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_check_button_new_with_mnemonic = Interop.downcallHandle(
             "gtk_check_button_new_with_mnemonic",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_check_button_get_active = Interop.downcallHandle(
             "gtk_check_button_get_active",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_check_button_get_inconsistent = Interop.downcallHandle(
             "gtk_check_button_get_inconsistent",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_check_button_get_label = Interop.downcallHandle(
             "gtk_check_button_get_label",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_check_button_get_use_underline = Interop.downcallHandle(
             "gtk_check_button_get_use_underline",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_check_button_set_active = Interop.downcallHandle(
             "gtk_check_button_set_active",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_check_button_set_group = Interop.downcallHandle(
             "gtk_check_button_set_group",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_check_button_set_inconsistent = Interop.downcallHandle(
             "gtk_check_button_set_inconsistent",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_check_button_set_label = Interop.downcallHandle(
             "gtk_check_button_set_label",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_check_button_set_use_underline = Interop.downcallHandle(
             "gtk_check_button_set_use_underline",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -448,13 +470,13 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         public static void signalCheckButtonActivate(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (CheckButton.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CheckButton(Refcounted.get(source)));
+            HANDLER.signalReceived(new CheckButton(source, Ownership.UNKNOWN));
         }
         
         public static void signalCheckButtonToggled(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (CheckButton.Toggled) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CheckButton(Refcounted.get(source)));
+            HANDLER.signalReceived(new CheckButton(source, Ownership.UNKNOWN));
         }
     }
 }

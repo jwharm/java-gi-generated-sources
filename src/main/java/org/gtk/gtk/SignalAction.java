@@ -23,13 +23,19 @@ public class SignalAction extends org.gtk.gtk.ShortcutAction {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a SignalAction proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SignalAction(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SignalAction(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -41,18 +47,18 @@ public class SignalAction extends org.gtk.gtk.ShortcutAction {
      */
     public static SignalAction castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSignalAction"))) {
-            return new SignalAction(gobject.refcounted());
+            return new SignalAction(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkSignalAction");
         }
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String signalName) {
+    private static Addressable constructNew(@NotNull java.lang.String signalName) {
         java.util.Objects.requireNonNull(signalName, "Parameter 'signalName' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_signal_action_new.invokeExact(
-                    Interop.allocateNativeString(signalName)), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_signal_action_new.invokeExact(
+                    Interop.allocateNativeString(signalName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,7 +73,7 @@ public class SignalAction extends org.gtk.gtk.ShortcutAction {
      * @param signalName name of the signal to emit
      */
     public SignalAction(@NotNull java.lang.String signalName) {
-        super(constructNew(signalName));
+        super(constructNew(signalName), Ownership.FULL);
     }
     
     /**
@@ -89,12 +95,14 @@ public class SignalAction extends org.gtk.gtk.ShortcutAction {
         
         private static final MethodHandle gtk_signal_action_new = Interop.downcallHandle(
             "gtk_signal_action_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_signal_action_get_signal_name = Interop.downcallHandle(
             "gtk_signal_action_get_signal_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

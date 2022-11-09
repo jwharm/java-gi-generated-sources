@@ -43,6 +43,7 @@ public class Sorter extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -53,12 +54,17 @@ public class Sorter extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a Sorter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Sorter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Sorter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -70,7 +76,7 @@ public class Sorter extends org.gtk.gobject.Object {
      */
     public static Sorter castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSorter"))) {
-            return new Sorter(gobject.refcounted());
+            return new Sorter(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkSorter");
         }
@@ -172,6 +178,8 @@ public class Sorter extends org.gtk.gobject.Object {
      * Depending on the {@code change} parameter, it may be possible to update
      * the sort order without a full resorting. Refer to the
      * {@code Gtk.SorterChange} documentation for details.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Sorter.Changed> onChanged(Sorter.Changed handler) {
         try {
@@ -195,17 +203,20 @@ public class Sorter extends org.gtk.gobject.Object {
         
         private static final MethodHandle gtk_sorter_changed = Interop.downcallHandle(
             "gtk_sorter_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_sorter_compare = Interop.downcallHandle(
             "gtk_sorter_compare",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_sorter_get_order = Interop.downcallHandle(
             "gtk_sorter_get_order",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -214,7 +225,7 @@ public class Sorter extends org.gtk.gobject.Object {
         public static void signalSorterChanged(MemoryAddress source, int change, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Sorter.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Sorter(Refcounted.get(source)), new org.gtk.gtk.SorterChange(change));
+            HANDLER.signalReceived(new Sorter(source, Ownership.UNKNOWN), new org.gtk.gtk.SorterChange(change));
         }
     }
 }

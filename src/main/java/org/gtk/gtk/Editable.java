@@ -139,7 +139,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      */
     public static Editable castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEditable"))) {
-            return new EditableImpl(gobject.refcounted());
+            return new EditableImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkEditable");
         }
@@ -255,7 +255,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Editable.EditableImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Editable.EditableImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -680,6 +680,8 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * is implemented by first deleting the selection, then inserting
      * the new content, and may cause multiple ::notify::text signals
      * to be emitted).
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<Editable.Changed> onChanged(Editable.Changed handler) {
         try {
@@ -714,6 +716,8 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * <p>
      * The {@code start_pos} and {@code end_pos} parameters are interpreted as for
      * {@link Editable#deleteText}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<Editable.DeleteText> onDeleteText(Editable.DeleteText handler) {
         try {
@@ -745,6 +749,8 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * for inserting the text, so by connecting to this signal and then
      * stopping the signal with g_signal_stop_emission(), it is possible
      * to modify the inserted text, or prevent it from being inserted entirely.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<Editable.InsertText> onInsertText(Editable.InsertText handler) {
         throw new UnsupportedOperationException("Operation not supported yet");
@@ -756,157 +762,183 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_delete_selection = Interop.downcallHandle(
             "gtk_editable_delete_selection",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_delete_text = Interop.downcallHandle(
             "gtk_editable_delete_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_finish_delegate = Interop.downcallHandle(
             "gtk_editable_finish_delegate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_get_alignment = Interop.downcallHandle(
             "gtk_editable_get_alignment",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_get_chars = Interop.downcallHandle(
             "gtk_editable_get_chars",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_get_delegate = Interop.downcallHandle(
             "gtk_editable_get_delegate",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_get_editable = Interop.downcallHandle(
             "gtk_editable_get_editable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_get_enable_undo = Interop.downcallHandle(
             "gtk_editable_get_enable_undo",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_get_max_width_chars = Interop.downcallHandle(
             "gtk_editable_get_max_width_chars",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_get_position = Interop.downcallHandle(
             "gtk_editable_get_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_get_selection_bounds = Interop.downcallHandle(
             "gtk_editable_get_selection_bounds",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_get_text = Interop.downcallHandle(
             "gtk_editable_get_text",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_get_width_chars = Interop.downcallHandle(
             "gtk_editable_get_width_chars",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_init_delegate = Interop.downcallHandle(
             "gtk_editable_init_delegate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_insert_text = Interop.downcallHandle(
             "gtk_editable_insert_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_select_region = Interop.downcallHandle(
             "gtk_editable_select_region",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_set_alignment = Interop.downcallHandle(
             "gtk_editable_set_alignment",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_set_editable = Interop.downcallHandle(
             "gtk_editable_set_editable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_set_enable_undo = Interop.downcallHandle(
             "gtk_editable_set_enable_undo",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_set_max_width_chars = Interop.downcallHandle(
             "gtk_editable_set_max_width_chars",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_set_position = Interop.downcallHandle(
             "gtk_editable_set_position",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_set_text = Interop.downcallHandle(
             "gtk_editable_set_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_set_width_chars = Interop.downcallHandle(
             "gtk_editable_set_width_chars",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_delegate_get_property = Interop.downcallHandle(
             "gtk_editable_delegate_get_property",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_delegate_set_property = Interop.downcallHandle(
             "gtk_editable_delegate_set_property",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_editable_install_properties = Interop.downcallHandle(
             "gtk_editable_install_properties",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -916,13 +948,13 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         public static void signalEditableChanged(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Editable.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Editable.EditableImpl(Refcounted.get(source)));
+            HANDLER.signalReceived(new Editable.EditableImpl(source, Ownership.UNKNOWN));
         }
         
         public static void signalEditableDeleteText(MemoryAddress source, int startPos, int endPos, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Editable.DeleteText) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Editable.EditableImpl(Refcounted.get(source)), startPos, endPos);
+            HANDLER.signalReceived(new Editable.EditableImpl(source, Ownership.UNKNOWN), startPos, endPos);
         }
         
         public static void signalEditableInsertText(MemoryAddress source, MemoryAddress text, int length, int position, MemoryAddress data) {
@@ -936,8 +968,8 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public EditableImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public EditableImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

@@ -20,13 +20,19 @@ public class PadEvent extends org.gtk.gdk.Event {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a PadEvent proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PadEvent(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PadEvent(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,7 +44,7 @@ public class PadEvent extends org.gtk.gdk.Event {
      */
     public static PadEvent castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkPadEvent"))) {
-            return new PadEvent(gobject.refcounted());
+            return new PadEvent(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkPadEvent");
         }
@@ -108,17 +114,20 @@ public class PadEvent extends org.gtk.gdk.Event {
         
         private static final MethodHandle gdk_pad_event_get_axis_value = Interop.downcallHandle(
             "gdk_pad_event_get_axis_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_pad_event_get_button = Interop.downcallHandle(
             "gdk_pad_event_get_button",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_pad_event_get_group_mode = Interop.downcallHandle(
             "gdk_pad_event_get_group_mode",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

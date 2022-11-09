@@ -28,6 +28,7 @@ public class FilterInputStream extends org.gtk.gio.InputStream {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -38,7 +39,7 @@ public class FilterInputStream extends org.gtk.gio.InputStream {
      */
     public org.gtk.gio.InputStream parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.InputStream(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.InputStream(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
     /**
@@ -49,7 +50,7 @@ public class FilterInputStream extends org.gtk.gio.InputStream {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("base_stream"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gio.InputStream(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.InputStream(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -62,9 +63,14 @@ public class FilterInputStream extends org.gtk.gio.InputStream {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), base_stream.handle());
     }
     
+    /**
+     * Create a FilterInputStream proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FilterInputStream(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FilterInputStream(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -76,7 +82,7 @@ public class FilterInputStream extends org.gtk.gio.InputStream {
      */
     public static FilterInputStream castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GFilterInputStream"))) {
-            return new FilterInputStream(gobject.refcounted());
+            return new FilterInputStream(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GFilterInputStream");
         }
@@ -94,7 +100,7 @@ public class FilterInputStream extends org.gtk.gio.InputStream {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.InputStream(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.InputStream(RESULT, Ownership.NONE);
     }
     
     /**
@@ -131,17 +137,20 @@ public class FilterInputStream extends org.gtk.gio.InputStream {
         
         private static final MethodHandle g_filter_input_stream_get_base_stream = Interop.downcallHandle(
             "g_filter_input_stream_get_base_stream",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_filter_input_stream_get_close_base_stream = Interop.downcallHandle(
             "g_filter_input_stream_get_close_base_stream",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_filter_input_stream_set_close_base_stream = Interop.downcallHandle(
             "g_filter_input_stream_set_close_base_stream",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

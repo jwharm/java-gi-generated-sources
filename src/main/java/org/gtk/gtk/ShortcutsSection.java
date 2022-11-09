@@ -32,13 +32,19 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ShortcutsSection proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ShortcutsSection(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ShortcutsSection(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -50,7 +56,7 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
      */
     public static ShortcutsSection castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkShortcutsSection"))) {
-            return new ShortcutsSection(gobject.refcounted());
+            return new ShortcutsSection(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkShortcutsSection");
         }
@@ -84,7 +90,7 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
         public static boolean signalShortcutsSectionChangeCurrentPage(MemoryAddress source, int object, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ShortcutsSection.ChangeCurrentPage) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new ShortcutsSection(Refcounted.get(source)), object);
+            return HANDLER.signalReceived(new ShortcutsSection(source, Ownership.UNKNOWN), object);
         }
     }
 }

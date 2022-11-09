@@ -24,6 +24,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -32,14 +33,19 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
     
     public static TypeClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TypeClass newInstance = new TypeClass(Refcounted.get(segment.address()));
+        TypeClass newInstance = new TypeClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a TypeClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TypeClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TypeClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -174,7 +180,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.TypeClass(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.TypeClass(RESULT, Ownership.NONE);
     }
     
     /**
@@ -238,7 +244,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.TypeClass(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.TypeClass(RESULT, Ownership.NONE);
     }
     
     /**
@@ -258,7 +264,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.TypeClass(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.TypeClass(RESULT, Ownership.NONE);
     }
     
     /**
@@ -278,59 +284,69 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.TypeClass(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.TypeClass(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_type_class_add_private = Interop.downcallHandle(
             "g_type_class_add_private",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_type_class_get_instance_private_offset = Interop.downcallHandle(
             "g_type_class_get_instance_private_offset",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_type_class_get_private = Interop.downcallHandle(
             "g_type_class_get_private",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_type_class_peek_parent = Interop.downcallHandle(
             "g_type_class_peek_parent",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_type_class_unref = Interop.downcallHandle(
             "g_type_class_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_type_class_unref_uncached = Interop.downcallHandle(
             "g_type_class_unref_uncached",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_type_class_adjust_private_offset = Interop.downcallHandle(
             "g_type_class_adjust_private_offset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_type_class_peek = Interop.downcallHandle(
             "g_type_class_peek",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_type_class_peek_static = Interop.downcallHandle(
             "g_type_class_peek_static",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_type_class_ref = Interop.downcallHandle(
             "g_type_class_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
     }
 }

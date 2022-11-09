@@ -60,6 +60,7 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -68,7 +69,7 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
     
     public static ObjectClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ObjectClass newInstance = new ObjectClass(Refcounted.get(segment.address()));
+        ObjectClass newInstance = new ObjectClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -79,12 +80,17 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gobject.TypeClass g_type_class$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_type_class"));
-        return new org.gtk.gobject.TypeClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.TypeClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a ObjectClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ObjectClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ObjectClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -103,7 +109,7 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ParamSpec(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.ParamSpec(RESULT, Ownership.NONE);
     }
     
     /**
@@ -170,7 +176,7 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
      * @param pspecs the {@code GParamSpecs} array
      *   defining the new properties
      */
-    public void installProperties(int nPspecs, org.gtk.gobject.ParamSpec[] pspecs) {
+    public void installProperties(int nPspecs, @NotNull org.gtk.gobject.ParamSpec[] pspecs) {
         java.util.Objects.requireNonNull(pspecs, "Parameter 'pspecs' must not be null");
         try {
             DowncallHandles.g_object_class_install_properties.invokeExact(
@@ -229,7 +235,7 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
         org.gtk.gobject.ParamSpec[] resultARRAY = new org.gtk.gobject.ParamSpec[nProperties.get().intValue()];
         for (int I = 0; I < nProperties.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = new org.gtk.gobject.ParamSpec(Refcounted.get(OBJ, false));
+            resultARRAY[I] = new org.gtk.gobject.ParamSpec(OBJ, Ownership.CONTAINER);
         }
         return resultARRAY;
     }
@@ -271,27 +277,32 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_object_class_find_property = Interop.downcallHandle(
             "g_object_class_find_property",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_class_install_properties = Interop.downcallHandle(
             "g_object_class_install_properties",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_class_install_property = Interop.downcallHandle(
             "g_object_class_install_property",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_class_list_properties = Interop.downcallHandle(
             "g_object_class_list_properties",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_class_override_property = Interop.downcallHandle(
             "g_object_class_override_property",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

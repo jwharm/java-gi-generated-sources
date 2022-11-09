@@ -26,6 +26,7 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -36,12 +37,17 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
      */
     public org.gtk.gio.FilterOutputStream parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.FilterOutputStream(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.FilterOutputStream(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a DataOutputStream proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DataOutputStream(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DataOutputStream(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -53,18 +59,18 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
      */
     public static DataOutputStream castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDataOutputStream"))) {
-            return new DataOutputStream(gobject.refcounted());
+            return new DataOutputStream(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDataOutputStream");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gio.OutputStream baseStream) {
+    private static Addressable constructNew(@NotNull org.gtk.gio.OutputStream baseStream) {
         java.util.Objects.requireNonNull(baseStream, "Parameter 'baseStream' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_data_output_stream_new.invokeExact(
-                    baseStream.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_data_output_stream_new.invokeExact(
+                    baseStream.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,7 +82,7 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
      * @param baseStream a {@link OutputStream}.
      */
     public DataOutputStream(@NotNull org.gtk.gio.OutputStream baseStream) {
-        super(constructNew(baseStream));
+        super(constructNew(baseStream), Ownership.FULL);
     }
     
     /**
@@ -108,7 +114,8 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
             RESULT = (int) DowncallHandles.g_data_output_stream_put_byte.invokeExact(
                     handle(),
                     data,
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,7 +139,8 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
             RESULT = (int) DowncallHandles.g_data_output_stream_put_int16.invokeExact(
                     handle(),
                     data,
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -156,7 +164,8 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
             RESULT = (int) DowncallHandles.g_data_output_stream_put_int32.invokeExact(
                     handle(),
                     data,
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,7 +189,8 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
             RESULT = (int) DowncallHandles.g_data_output_stream_put_int64.invokeExact(
                     handle(),
                     data,
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,7 +215,8 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
             RESULT = (int) DowncallHandles.g_data_output_stream_put_string.invokeExact(
                     handle(),
                     Interop.allocateNativeString(str),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -229,7 +240,8 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
             RESULT = (int) DowncallHandles.g_data_output_stream_put_uint16.invokeExact(
                     handle(),
                     data,
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -253,7 +265,8 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
             RESULT = (int) DowncallHandles.g_data_output_stream_put_uint32.invokeExact(
                     handle(),
                     data,
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -277,7 +290,8 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
             RESULT = (int) DowncallHandles.g_data_output_stream_put_uint64.invokeExact(
                     handle(),
                     data,
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -306,57 +320,68 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
         
         private static final MethodHandle g_data_output_stream_new = Interop.downcallHandle(
             "g_data_output_stream_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_data_output_stream_get_byte_order = Interop.downcallHandle(
             "g_data_output_stream_get_byte_order",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_data_output_stream_put_byte = Interop.downcallHandle(
             "g_data_output_stream_put_byte",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_data_output_stream_put_int16 = Interop.downcallHandle(
             "g_data_output_stream_put_int16",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_data_output_stream_put_int32 = Interop.downcallHandle(
             "g_data_output_stream_put_int32",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_data_output_stream_put_int64 = Interop.downcallHandle(
             "g_data_output_stream_put_int64",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_data_output_stream_put_string = Interop.downcallHandle(
             "g_data_output_stream_put_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_data_output_stream_put_uint16 = Interop.downcallHandle(
             "g_data_output_stream_put_uint16",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_data_output_stream_put_uint32 = Interop.downcallHandle(
             "g_data_output_stream_put_uint32",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_data_output_stream_put_uint64 = Interop.downcallHandle(
             "g_data_output_stream_put_uint64",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_data_output_stream_set_byte_order = Interop.downcallHandle(
             "g_data_output_stream_set_byte_order",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

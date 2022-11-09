@@ -27,6 +27,7 @@ public class LoadableIconIface extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -35,7 +36,7 @@ public class LoadableIconIface extends io.github.jwharm.javagi.ResourceBase {
     
     public static LoadableIconIface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        LoadableIconIface newInstance = new LoadableIconIface(Refcounted.get(segment.address()));
+        LoadableIconIface newInstance = new LoadableIconIface(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,11 +47,16 @@ public class LoadableIconIface extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gobject.TypeInterface g_iface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return new org.gtk.gobject.TypeInterface(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a LoadableIconIface proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public LoadableIconIface(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public LoadableIconIface(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

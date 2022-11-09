@@ -27,13 +27,19 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements org.gtk
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Create a SimpleActionGroup proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SimpleActionGroup(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SimpleActionGroup(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -45,16 +51,16 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements org.gtk
      */
     public static SimpleActionGroup castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSimpleActionGroup"))) {
-            return new SimpleActionGroup(gobject.refcounted());
+            return new SimpleActionGroup(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSimpleActionGroup");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_simple_action_group_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_simple_action_group_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,7 +71,7 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements org.gtk
      * Creates a new, empty, {@link SimpleActionGroup}.
      */
     public SimpleActionGroup() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -78,7 +84,7 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements org.gtk
      * @deprecated Use g_action_map_add_action_entries()
      */
     @Deprecated
-    public void addEntries(org.gtk.gio.ActionEntry[] entries, int nEntries, @Nullable java.lang.foreign.MemoryAddress userData) {
+    public void addEntries(@NotNull org.gtk.gio.ActionEntry[] entries, int nEntries, @Nullable java.lang.foreign.MemoryAddress userData) {
         java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
         try {
             DowncallHandles.g_simple_action_group_add_entries.invokeExact(
@@ -132,7 +138,7 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements org.gtk
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Action.ActionImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.Action.ActionImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -158,27 +164,32 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements org.gtk
         
         private static final MethodHandle g_simple_action_group_new = Interop.downcallHandle(
             "g_simple_action_group_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_action_group_add_entries = Interop.downcallHandle(
             "g_simple_action_group_add_entries",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_action_group_insert = Interop.downcallHandle(
             "g_simple_action_group_insert",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_action_group_lookup = Interop.downcallHandle(
             "g_simple_action_group_lookup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_action_group_remove = Interop.downcallHandle(
             "g_simple_action_group_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -55,7 +55,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
      */
     public static SelectionModel castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSelectionModel"))) {
-            return new SelectionModelImpl(gobject.refcounted());
+            return new SelectionModelImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkSelectionModel");
         }
@@ -79,7 +79,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Bitset(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.Bitset(RESULT, Ownership.FULL);
     }
     
     /**
@@ -106,7 +106,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Bitset(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.Bitset(RESULT, Ownership.FULL);
     }
     
     /**
@@ -323,6 +323,8 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
      * items, they need to be queried manually. It is also not necessary for
      * a model to change the selection state of any of the items in the selection
      * model, though it would be rather useless to emit such a signal.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<SelectionModel.SelectionChanged> onSelectionChanged(SelectionModel.SelectionChanged handler) {
         try {
@@ -348,67 +350,78 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_get_selection = Interop.downcallHandle(
             "gtk_selection_model_get_selection",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_get_selection_in_range = Interop.downcallHandle(
             "gtk_selection_model_get_selection_in_range",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_is_selected = Interop.downcallHandle(
             "gtk_selection_model_is_selected",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_select_all = Interop.downcallHandle(
             "gtk_selection_model_select_all",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_select_item = Interop.downcallHandle(
             "gtk_selection_model_select_item",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_select_range = Interop.downcallHandle(
             "gtk_selection_model_select_range",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_selection_changed = Interop.downcallHandle(
             "gtk_selection_model_selection_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_set_selection = Interop.downcallHandle(
             "gtk_selection_model_set_selection",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_unselect_all = Interop.downcallHandle(
             "gtk_selection_model_unselect_all",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_unselect_item = Interop.downcallHandle(
             "gtk_selection_model_unselect_item",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_unselect_range = Interop.downcallHandle(
             "gtk_selection_model_unselect_range",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -418,7 +431,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
         public static void signalSelectionModelSelectionChanged(MemoryAddress source, int position, int nItems, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SelectionModel.SelectionChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SelectionModel.SelectionModelImpl(Refcounted.get(source)), position, nItems);
+            HANDLER.signalReceived(new SelectionModel.SelectionModelImpl(source, Ownership.UNKNOWN), position, nItems);
         }
     }
     
@@ -428,8 +441,8 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public SelectionModelImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public SelectionModelImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

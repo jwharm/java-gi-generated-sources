@@ -38,13 +38,19 @@ public class CellAreaBox extends org.gtk.gtk.CellArea implements org.gtk.gtk.Bui
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a CellAreaBox proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CellAreaBox(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CellAreaBox(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -56,16 +62,16 @@ public class CellAreaBox extends org.gtk.gtk.CellArea implements org.gtk.gtk.Bui
      */
     public static CellAreaBox castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellAreaBox"))) {
-            return new CellAreaBox(gobject.refcounted());
+            return new CellAreaBox(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCellAreaBox");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_area_box_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_area_box_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,7 +82,7 @@ public class CellAreaBox extends org.gtk.gtk.CellArea implements org.gtk.gtk.Bui
      * Creates a new {@code GtkCellAreaBox}.
      */
     public CellAreaBox() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -162,27 +168,32 @@ public class CellAreaBox extends org.gtk.gtk.CellArea implements org.gtk.gtk.Bui
         
         private static final MethodHandle gtk_cell_area_box_new = Interop.downcallHandle(
             "gtk_cell_area_box_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_box_get_spacing = Interop.downcallHandle(
             "gtk_cell_area_box_get_spacing",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_box_pack_end = Interop.downcallHandle(
             "gtk_cell_area_box_pack_end",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_box_pack_start = Interop.downcallHandle(
             "gtk_cell_area_box_pack_start",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_box_set_spacing = Interop.downcallHandle(
             "gtk_cell_area_box_set_spacing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

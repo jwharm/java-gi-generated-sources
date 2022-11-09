@@ -34,13 +34,19 @@ public class Display extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Display proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Display(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Display(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -52,7 +58,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public static Display castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkDisplay"))) {
-            return new Display(gobject.refcounted());
+            return new Display(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkDisplay");
         }
@@ -102,14 +108,15 @@ public class Display extends org.gtk.gobject.Object {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_display_create_gl_context.invokeExact(
-                    handle(), (Addressable) GERROR);
+                    handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gdk.GLContext(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.GLContext(RESULT, Ownership.FULL);
     }
     
     /**
@@ -164,7 +171,7 @@ public class Display extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.AppLaunchContext(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.AppLaunchContext(RESULT, Ownership.FULL);
     }
     
     /**
@@ -179,7 +186,7 @@ public class Display extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Clipboard(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Clipboard(RESULT, Ownership.NONE);
     }
     
     /**
@@ -197,7 +204,7 @@ public class Display extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Seat(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Seat(RESULT, Ownership.NONE);
     }
     
     /**
@@ -220,7 +227,7 @@ public class Display extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Monitor(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Monitor(RESULT, Ownership.NONE);
     }
     
     /**
@@ -241,7 +248,7 @@ public class Display extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -275,7 +282,7 @@ public class Display extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Clipboard(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Clipboard(RESULT, Ownership.NONE);
     }
     
     /**
@@ -397,7 +404,7 @@ public class Display extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.List(RESULT, Ownership.CONTAINER);
     }
     
     /**
@@ -418,7 +425,7 @@ public class Display extends org.gtk.gobject.Object {
      * @param nEntries length of {@code keys} and {@code keyvals}
      * @return {@code true} if there were any entries
      */
-    public boolean mapKeycode(int keycode, Out<org.gtk.gdk.KeymapKey[]> keys, Out<int[]> keyvals, Out<Integer> nEntries) {
+    public boolean mapKeycode(int keycode, @NotNull Out<org.gtk.gdk.KeymapKey[]> keys, @NotNull Out<int[]> keyvals, Out<Integer> nEntries) {
         java.util.Objects.requireNonNull(keys, "Parameter 'keys' must not be null");
         java.util.Objects.requireNonNull(keyvals, "Parameter 'keyvals' must not be null");
         java.util.Objects.requireNonNull(nEntries, "Parameter 'nEntries' must not be null");
@@ -440,7 +447,7 @@ public class Display extends org.gtk.gobject.Object {
         org.gtk.gdk.KeymapKey[] keysARRAY = new org.gtk.gdk.KeymapKey[nEntries.get().intValue()];
         for (int I = 0; I < nEntries.get().intValue(); I++) {
             var OBJ = keysPOINTER.get(ValueLayout.ADDRESS, I);
-            keysARRAY[I] = new org.gtk.gdk.KeymapKey(Refcounted.get(OBJ, true));
+            keysARRAY[I] = new org.gtk.gdk.KeymapKey(OBJ, Ownership.FULL);
         }
         keys.set(keysARRAY);
         keyvals.set(MemorySegment.ofAddress(keyvalsPOINTER.get(ValueLayout.ADDRESS, 0), nEntries.get().intValue() * ValueLayout.JAVA_INT.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_INT));
@@ -469,7 +476,7 @@ public class Display extends org.gtk.gobject.Object {
      * @param nKeys return location for number of elements in returned array
      * @return {@code true} if keys were found and returned
      */
-    public boolean mapKeyval(int keyval, Out<org.gtk.gdk.KeymapKey[]> keys, Out<Integer> nKeys) {
+    public boolean mapKeyval(int keyval, @NotNull Out<org.gtk.gdk.KeymapKey[]> keys, Out<Integer> nKeys) {
         java.util.Objects.requireNonNull(keys, "Parameter 'keys' must not be null");
         java.util.Objects.requireNonNull(nKeys, "Parameter 'nKeys' must not be null");
         MemorySegment keysPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -488,7 +495,7 @@ public class Display extends org.gtk.gobject.Object {
         org.gtk.gdk.KeymapKey[] keysARRAY = new org.gtk.gdk.KeymapKey[nKeys.get().intValue()];
         for (int I = 0; I < nKeys.get().intValue(); I++) {
             var OBJ = keysPOINTER.get(ValueLayout.ADDRESS, I);
-            keysARRAY[I] = new org.gtk.gdk.KeymapKey(Refcounted.get(OBJ, true));
+            keysARRAY[I] = new org.gtk.gdk.KeymapKey(OBJ, Ownership.FULL);
         }
         keys.set(keysARRAY);
         return RESULT != 0;
@@ -539,7 +546,8 @@ public class Display extends org.gtk.gobject.Object {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_display_prepare_gl.invokeExact(
-                    handle(), (Addressable) GERROR);
+                    handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -686,7 +694,7 @@ public class Display extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
     }
     
     /**
@@ -705,7 +713,7 @@ public class Display extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
     }
     
     @FunctionalInterface
@@ -715,6 +723,8 @@ public class Display extends org.gtk.gobject.Object {
     
     /**
      * Emitted when the connection to the windowing system for {@code display} is closed.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Display.Closed> onClosed(Display.Closed handler) {
         try {
@@ -741,6 +751,8 @@ public class Display extends org.gtk.gobject.Object {
     
     /**
      * Emitted when the connection to the windowing system for {@code display} is opened.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Display.Opened> onOpened(Display.Opened handler) {
         try {
@@ -767,6 +779,8 @@ public class Display extends org.gtk.gobject.Object {
     
     /**
      * Emitted whenever a new seat is made known to the windowing system.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Display.SeatAdded> onSeatAdded(Display.SeatAdded handler) {
         try {
@@ -793,6 +807,8 @@ public class Display extends org.gtk.gobject.Object {
     
     /**
      * Emitted whenever a seat is removed by the windowing system.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Display.SeatRemoved> onSeatRemoved(Display.SeatRemoved handler) {
         try {
@@ -819,6 +835,8 @@ public class Display extends org.gtk.gobject.Object {
     
     /**
      * Emitted whenever a setting changes its value.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Display.SettingChanged> onSettingChanged(Display.SettingChanged handler) {
         try {
@@ -842,142 +860,170 @@ public class Display extends org.gtk.gobject.Object {
         
         private static final MethodHandle gdk_display_beep = Interop.downcallHandle(
             "gdk_display_beep",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_close = Interop.downcallHandle(
             "gdk_display_close",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_create_gl_context = Interop.downcallHandle(
             "gdk_display_create_gl_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_device_is_grabbed = Interop.downcallHandle(
             "gdk_display_device_is_grabbed",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_flush = Interop.downcallHandle(
             "gdk_display_flush",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_get_app_launch_context = Interop.downcallHandle(
             "gdk_display_get_app_launch_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_get_clipboard = Interop.downcallHandle(
             "gdk_display_get_clipboard",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_get_default_seat = Interop.downcallHandle(
             "gdk_display_get_default_seat",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_get_monitor_at_surface = Interop.downcallHandle(
             "gdk_display_get_monitor_at_surface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_get_monitors = Interop.downcallHandle(
             "gdk_display_get_monitors",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_get_name = Interop.downcallHandle(
             "gdk_display_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_get_primary_clipboard = Interop.downcallHandle(
             "gdk_display_get_primary_clipboard",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_get_setting = Interop.downcallHandle(
             "gdk_display_get_setting",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_get_startup_notification_id = Interop.downcallHandle(
             "gdk_display_get_startup_notification_id",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_is_closed = Interop.downcallHandle(
             "gdk_display_is_closed",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_is_composited = Interop.downcallHandle(
             "gdk_display_is_composited",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_is_rgba = Interop.downcallHandle(
             "gdk_display_is_rgba",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_list_seats = Interop.downcallHandle(
             "gdk_display_list_seats",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_map_keycode = Interop.downcallHandle(
             "gdk_display_map_keycode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_map_keyval = Interop.downcallHandle(
             "gdk_display_map_keyval",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_notify_startup_complete = Interop.downcallHandle(
             "gdk_display_notify_startup_complete",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_prepare_gl = Interop.downcallHandle(
             "gdk_display_prepare_gl",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_put_event = Interop.downcallHandle(
             "gdk_display_put_event",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_supports_input_shapes = Interop.downcallHandle(
             "gdk_display_supports_input_shapes",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_sync = Interop.downcallHandle(
             "gdk_display_sync",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_translate_key = Interop.downcallHandle(
             "gdk_display_translate_key",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_display_get_default = Interop.downcallHandle(
             "gdk_display_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_open = Interop.downcallHandle(
             "gdk_display_open",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -986,31 +1032,31 @@ public class Display extends org.gtk.gobject.Object {
         public static void signalDisplayClosed(MemoryAddress source, int isError, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Display.Closed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Display(Refcounted.get(source)), isError != 0);
+            HANDLER.signalReceived(new Display(source, Ownership.UNKNOWN), isError != 0);
         }
         
         public static void signalDisplayOpened(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Display.Opened) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Display(Refcounted.get(source)));
+            HANDLER.signalReceived(new Display(source, Ownership.UNKNOWN));
         }
         
         public static void signalDisplaySeatAdded(MemoryAddress source, MemoryAddress seat, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Display.SeatAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Display(Refcounted.get(source)), new org.gtk.gdk.Seat(Refcounted.get(seat, false)));
+            HANDLER.signalReceived(new Display(source, Ownership.UNKNOWN), new org.gtk.gdk.Seat(seat, Ownership.NONE));
         }
         
         public static void signalDisplaySeatRemoved(MemoryAddress source, MemoryAddress seat, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Display.SeatRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Display(Refcounted.get(source)), new org.gtk.gdk.Seat(Refcounted.get(seat, false)));
+            HANDLER.signalReceived(new Display(source, Ownership.UNKNOWN), new org.gtk.gdk.Seat(seat, Ownership.NONE));
         }
         
         public static void signalDisplaySettingChanged(MemoryAddress source, MemoryAddress setting, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Display.SettingChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Display(Refcounted.get(source)), Interop.getStringFrom(setting));
+            HANDLER.signalReceived(new Display(source, Ownership.UNKNOWN), Interop.getStringFrom(setting));
         }
     }
 }

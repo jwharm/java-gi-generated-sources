@@ -38,6 +38,7 @@ public class ApplicationWindow extends org.gtk.gtk.ApplicationWindow implements 
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -48,12 +49,17 @@ public class ApplicationWindow extends org.gtk.gtk.ApplicationWindow implements 
      */
     public org.gtk.gtk.ApplicationWindow parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gtk.ApplicationWindow(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.ApplicationWindow(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a ApplicationWindow proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ApplicationWindow(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ApplicationWindow(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -65,18 +71,18 @@ public class ApplicationWindow extends org.gtk.gtk.ApplicationWindow implements 
      */
     public static ApplicationWindow castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwApplicationWindow"))) {
-            return new ApplicationWindow(gobject.refcounted());
+            return new ApplicationWindow(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwApplicationWindow");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gtk.Application app) {
+    private static Addressable constructNew(@NotNull org.gtk.gtk.Application app) {
         java.util.Objects.requireNonNull(app, "Parameter 'app' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_application_window_new.invokeExact(
-                    app.handle()), false);
+            RESULT = (MemoryAddress) DowncallHandles.adw_application_window_new.invokeExact(
+                    app.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,7 +94,7 @@ public class ApplicationWindow extends org.gtk.gtk.ApplicationWindow implements 
      * @param app an application instance
      */
     public ApplicationWindow(@NotNull org.gtk.gtk.Application app) {
-        super(constructNew(app));
+        super(constructNew(app), Ownership.NONE);
     }
     
     /**
@@ -105,7 +111,7 @@ public class ApplicationWindow extends org.gtk.gtk.ApplicationWindow implements 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -128,17 +134,20 @@ public class ApplicationWindow extends org.gtk.gtk.ApplicationWindow implements 
         
         private static final MethodHandle adw_application_window_new = Interop.downcallHandle(
             "adw_application_window_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_application_window_get_content = Interop.downcallHandle(
             "adw_application_window_get_content",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_application_window_set_content = Interop.downcallHandle(
             "adw_application_window_set_content",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

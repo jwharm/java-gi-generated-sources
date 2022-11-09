@@ -26,7 +26,7 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
      */
     public static Converter castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GConverter"))) {
-            return new ConverterImpl(gobject.refcounted());
+            return new ConverterImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GConverter");
         }
@@ -127,7 +127,7 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
      * @return a {@link ConverterResult}, {@link ConverterResult#ERROR} on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.ConverterResult convert(byte[] inbuf, long inbufSize, byte[] outbuf, long outbufSize, @NotNull org.gtk.gio.ConverterFlags flags, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull org.gtk.gio.ConverterResult convert(@NotNull byte[] inbuf, long inbufSize, @NotNull byte[] outbuf, long outbufSize, @NotNull org.gtk.gio.ConverterFlags flags, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(inbuf, "Parameter 'inbuf' must not be null");
         java.util.Objects.requireNonNull(outbuf, "Parameter 'outbuf' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
@@ -146,7 +146,8 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
                     outbufSize,
                     flags.getValue(),
                     (Addressable) bytesReadPOINTER.address(),
-                    (Addressable) bytesWrittenPOINTER.address(), (Addressable) GERROR);
+                    (Addressable) bytesWrittenPOINTER.address(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,13 +179,15 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_converter_convert = Interop.downcallHandle(
             "g_converter_convert",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_converter_reset = Interop.downcallHandle(
             "g_converter_reset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -194,8 +197,8 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public ConverterImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public ConverterImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

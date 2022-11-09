@@ -25,6 +25,7 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -33,14 +34,19 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
     
     public static TypeInterface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TypeInterface newInstance = new TypeInterface(Refcounted.get(segment.address()));
+        TypeInterface newInstance = new TypeInterface(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a TypeInterface proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TypeInterface(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TypeInterface(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -61,7 +67,7 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.TypeInterface(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.TypeInterface(RESULT, Ownership.NONE);
     }
     
     /**
@@ -106,7 +112,7 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.TypePlugin.TypePluginImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.TypePlugin.TypePluginImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -151,7 +157,7 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.TypeInterface(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.TypeInterface(RESULT, Ownership.NONE);
     }
     
     /**
@@ -188,32 +194,38 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_type_interface_peek_parent = Interop.downcallHandle(
             "g_type_interface_peek_parent",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_type_interface_add_prerequisite = Interop.downcallHandle(
             "g_type_interface_add_prerequisite",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_type_interface_get_plugin = Interop.downcallHandle(
             "g_type_interface_get_plugin",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_type_interface_instantiatable_prerequisite = Interop.downcallHandle(
             "g_type_interface_instantiatable_prerequisite",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_type_interface_peek = Interop.downcallHandle(
             "g_type_interface_peek",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_type_interface_prerequisites = Interop.downcallHandle(
             "g_type_interface_prerequisites",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
     }
 }

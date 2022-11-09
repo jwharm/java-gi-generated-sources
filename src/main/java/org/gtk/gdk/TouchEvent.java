@@ -20,13 +20,19 @@ public class TouchEvent extends org.gtk.gdk.Event {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a TouchEvent proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TouchEvent(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TouchEvent(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,7 +44,7 @@ public class TouchEvent extends org.gtk.gdk.Event {
      */
     public static TouchEvent castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkTouchEvent"))) {
-            return new TouchEvent(gobject.refcounted());
+            return new TouchEvent(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkTouchEvent");
         }
@@ -63,7 +69,8 @@ public class TouchEvent extends org.gtk.gdk.Event {
         
         private static final MethodHandle gdk_touch_event_get_emulating_pointer = Interop.downcallHandle(
             "gdk_touch_event_get_emulating_pointer",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

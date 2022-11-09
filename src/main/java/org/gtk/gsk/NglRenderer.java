@@ -17,13 +17,19 @@ public class NglRenderer extends org.gtk.gsk.Renderer {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a NglRenderer proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public NglRenderer(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public NglRenderer(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -35,7 +41,7 @@ public class NglRenderer extends org.gtk.gsk.Renderer {
      */
     public static NglRenderer castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("null"))) {
-            return new NglRenderer(gobject.refcounted());
+            return new NglRenderer(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of null");
         }
@@ -45,7 +51,8 @@ public class NglRenderer extends org.gtk.gsk.Renderer {
         
         private static final MethodHandle gsk_ngl_renderer_new = Interop.downcallHandle(
             "gsk_ngl_renderer_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

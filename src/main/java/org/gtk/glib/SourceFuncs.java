@@ -48,6 +48,7 @@ public class SourceFuncs extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -56,13 +57,18 @@ public class SourceFuncs extends io.github.jwharm.javagi.ResourceBase {
     
     public static SourceFuncs allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SourceFuncs newInstance = new SourceFuncs(Refcounted.get(segment.address()));
+        SourceFuncs newInstance = new SourceFuncs(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a SourceFuncs proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SourceFuncs(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SourceFuncs(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

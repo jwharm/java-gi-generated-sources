@@ -31,6 +31,7 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -41,12 +42,17 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
      */
     public org.gtk.gtk.MediaStream parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gtk.MediaStream(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.MediaStream(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a MediaFile proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public MediaFile(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public MediaFile(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -58,16 +64,16 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
      */
     public static MediaFile castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMediaFile"))) {
-            return new MediaFile(gobject.refcounted());
+            return new MediaFile(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkMediaFile");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_media_file_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_media_file_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -78,15 +84,15 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
      * Creates a new empty media file.
      */
     public MediaFile() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
-    private static Refcounted constructNewForFile(@NotNull org.gtk.gio.File file) {
+    private static Addressable constructNewForFile(@NotNull org.gtk.gio.File file) {
         java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_media_file_new_for_file.invokeExact(
-                    file.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_media_file_new_for_file.invokeExact(
+                    file.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,15 +105,15 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
      * @return a new {@code GtkMediaFile} playing {@code file}
      */
     public static MediaFile newForFile(@NotNull org.gtk.gio.File file) {
-        return new MediaFile(constructNewForFile(file));
+        return new MediaFile(constructNewForFile(file), Ownership.FULL);
     }
     
-    private static Refcounted constructNewForFilename(@NotNull java.lang.String filename) {
+    private static Addressable constructNewForFilename(@NotNull java.lang.String filename) {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_media_file_new_for_filename.invokeExact(
-                    Interop.allocateNativeString(filename)), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_media_file_new_for_filename.invokeExact(
+                    Interop.allocateNativeString(filename));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,15 +129,15 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
      * @return a new {@code GtkMediaFile} playing {@code filename}
      */
     public static MediaFile newForFilename(@NotNull java.lang.String filename) {
-        return new MediaFile(constructNewForFilename(filename));
+        return new MediaFile(constructNewForFilename(filename), Ownership.FULL);
     }
     
-    private static Refcounted constructNewForInputStream(@NotNull org.gtk.gio.InputStream stream) {
+    private static Addressable constructNewForInputStream(@NotNull org.gtk.gio.InputStream stream) {
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_media_file_new_for_input_stream.invokeExact(
-                    stream.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_media_file_new_for_input_stream.invokeExact(
+                    stream.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -147,15 +153,15 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
      * @return a new {@code GtkMediaFile}
      */
     public static MediaFile newForInputStream(@NotNull org.gtk.gio.InputStream stream) {
-        return new MediaFile(constructNewForInputStream(stream));
+        return new MediaFile(constructNewForInputStream(stream), Ownership.FULL);
     }
     
-    private static Refcounted constructNewForResource(@NotNull java.lang.String resourcePath) {
+    private static Addressable constructNewForResource(@NotNull java.lang.String resourcePath) {
         java.util.Objects.requireNonNull(resourcePath, "Parameter 'resourcePath' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_media_file_new_for_resource.invokeExact(
-                    Interop.allocateNativeString(resourcePath)), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_media_file_new_for_resource.invokeExact(
+                    Interop.allocateNativeString(resourcePath));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,7 +177,7 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
      * @return a new {@code GtkMediaFile} playing {@code resource_path}
      */
     public static MediaFile newForResource(@NotNull java.lang.String resourcePath) {
-        return new MediaFile(constructNewForResource(resourcePath));
+        return new MediaFile(constructNewForResource(resourcePath), Ownership.FULL);
     }
     
     /**
@@ -201,7 +207,7 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -219,7 +225,7 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.InputStream(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.InputStream(RESULT, Ownership.NONE);
     }
     
     /**
@@ -295,62 +301,74 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
         
         private static final MethodHandle gtk_media_file_new = Interop.downcallHandle(
             "gtk_media_file_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_media_file_new_for_file = Interop.downcallHandle(
             "gtk_media_file_new_for_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_media_file_new_for_filename = Interop.downcallHandle(
             "gtk_media_file_new_for_filename",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_media_file_new_for_input_stream = Interop.downcallHandle(
             "gtk_media_file_new_for_input_stream",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_media_file_new_for_resource = Interop.downcallHandle(
             "gtk_media_file_new_for_resource",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_media_file_clear = Interop.downcallHandle(
             "gtk_media_file_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_media_file_get_file = Interop.downcallHandle(
             "gtk_media_file_get_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_media_file_get_input_stream = Interop.downcallHandle(
             "gtk_media_file_get_input_stream",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_media_file_set_file = Interop.downcallHandle(
             "gtk_media_file_set_file",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_media_file_set_filename = Interop.downcallHandle(
             "gtk_media_file_set_filename",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_media_file_set_input_stream = Interop.downcallHandle(
             "gtk_media_file_set_input_stream",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_media_file_set_resource = Interop.downcallHandle(
             "gtk_media_file_set_resource",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

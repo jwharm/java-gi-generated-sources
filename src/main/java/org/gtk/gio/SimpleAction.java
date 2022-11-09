@@ -24,13 +24,19 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a SimpleAction proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SimpleAction(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SimpleAction(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -42,19 +48,19 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
      */
     public static SimpleAction castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSimpleAction"))) {
-            return new SimpleAction(gobject.refcounted());
+            return new SimpleAction(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSimpleAction");
         }
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType) {
+    private static Addressable constructNew(@NotNull java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_simple_action_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_simple_action_new.invokeExact(
                     Interop.allocateNativeString(name),
-                    (Addressable) (parameterType == null ? MemoryAddress.NULL : parameterType.handle())), true);
+                    (Addressable) (parameterType == null ? MemoryAddress.NULL : parameterType.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -71,18 +77,18 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
      *   handlers for the {@link SimpleAction}::activate signal, or {@code null} for no parameter
      */
     public SimpleAction(@NotNull java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType) {
-        super(constructNew(name, parameterType));
+        super(constructNew(name, parameterType), Ownership.FULL);
     }
     
-    private static Refcounted constructNewStateful(@NotNull java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType, @NotNull org.gtk.glib.Variant state) {
+    private static Addressable constructNewStateful(@NotNull java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType, @NotNull org.gtk.glib.Variant state) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_simple_action_new_stateful.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_simple_action_new_stateful.invokeExact(
                     Interop.allocateNativeString(name),
                     (Addressable) (parameterType == null ? MemoryAddress.NULL : parameterType.handle()),
-                    state.handle()), true);
+                    state.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,7 +109,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
      * @return a new {@link SimpleAction}
      */
     public static SimpleAction newStateful(@NotNull java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType, @NotNull org.gtk.glib.Variant state) {
-        return new SimpleAction(constructNewStateful(name, parameterType, state));
+        return new SimpleAction(constructNewStateful(name, parameterType, state), Ownership.FULL);
     }
     
     /**
@@ -186,6 +192,8 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
      * type, the default is to forward them directly to
      * {@link SimpleAction}::change-state.  This should allow almost all users
      * of {@link SimpleAction} to connect only one handler or the other.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SimpleAction.Activate> onActivate(SimpleAction.Activate handler) {
         try {
@@ -244,6 +252,8 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
      * <p>
      * The handler need not set the state to the requested value.
      * It could set it to any value at all, or take some other action.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SimpleAction.ChangeState> onChangeState(SimpleAction.ChangeState handler) {
         try {
@@ -267,27 +277,32 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
         
         private static final MethodHandle g_simple_action_new = Interop.downcallHandle(
             "g_simple_action_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_action_new_stateful = Interop.downcallHandle(
             "g_simple_action_new_stateful",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_action_set_enabled = Interop.downcallHandle(
             "g_simple_action_set_enabled",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_simple_action_set_state = Interop.downcallHandle(
             "g_simple_action_set_state",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_action_set_state_hint = Interop.downcallHandle(
             "g_simple_action_set_state_hint",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -296,13 +311,13 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
         public static void signalSimpleActionActivate(MemoryAddress source, MemoryAddress parameter, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SimpleAction.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SimpleAction(Refcounted.get(source)), new org.gtk.glib.Variant(Refcounted.get(parameter, false)));
+            HANDLER.signalReceived(new SimpleAction(source, Ownership.UNKNOWN), new org.gtk.glib.Variant(parameter, Ownership.NONE));
         }
         
         public static void signalSimpleActionChangeState(MemoryAddress source, MemoryAddress value, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SimpleAction.ChangeState) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SimpleAction(Refcounted.get(source)), new org.gtk.glib.Variant(Refcounted.get(value, false)));
+            HANDLER.signalReceived(new SimpleAction(source, Ownership.UNKNOWN), new org.gtk.glib.Variant(value, Ownership.NONE));
         }
     }
 }

@@ -107,6 +107,7 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -115,21 +116,26 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
     
     public static VariantDict allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VariantDict newInstance = new VariantDict(Refcounted.get(segment.address()));
+        VariantDict newInstance = new VariantDict(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a VariantDict proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public VariantDict(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public VariantDict(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew(@Nullable org.gtk.glib.Variant fromAsv) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable org.gtk.glib.Variant fromAsv) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_dict_new.invokeExact(
-                    (Addressable) (fromAsv == null ? MemoryAddress.NULL : fromAsv.handle())), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_dict_new.invokeExact(
+                    (Addressable) (fromAsv == null ? MemoryAddress.NULL : fromAsv.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,7 +157,7 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      *   dictionary
      */
     public VariantDict(@Nullable org.gtk.glib.Variant fromAsv) {
-        super(constructNew(fromAsv));
+        super(constructNew(fromAsv), Ownership.FULL);
     }
     
     /**
@@ -215,7 +221,7 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Variant(RESULT, Ownership.NONE);
     }
     
     /**
@@ -254,9 +260,20 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      * calling g_variant_new() followed by g_variant_dict_insert_value().
      * @param key the key to insert a value for
      * @param formatString a {@link Variant} varargs format string
+     * @param varargs arguments, as per {@code format_string}
      */
-    public void insert(@NotNull java.lang.String key, @NotNull java.lang.String formatString) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void insert(@NotNull java.lang.String key, @NotNull java.lang.String formatString, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+        java.util.Objects.requireNonNull(formatString, "Parameter 'formatString' must not be null");
+        try {
+            DowncallHandles.g_variant_dict_insert.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    Interop.allocateNativeString(formatString),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -292,10 +309,23 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      * section on [GVariant format strings][gvariant-format-strings-pointers].
      * @param key the key to look up in the dictionary
      * @param formatString a GVariant format string
+     * @param varargs the arguments to unpack the value into
      * @return {@code true} if a value was unpacked
      */
-    public boolean lookup(@NotNull java.lang.String key, @NotNull java.lang.String formatString) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean lookup(@NotNull java.lang.String key, @NotNull java.lang.String formatString, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+        java.util.Objects.requireNonNull(formatString, "Parameter 'formatString' must not be null");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_variant_dict_lookup.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(key),
+                    Interop.allocateNativeString(formatString),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT != 0;
     }
     
     /**
@@ -325,7 +355,7 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
     }
     
     /**
@@ -343,7 +373,7 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.VariantDict(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.VariantDict(RESULT, Ownership.FULL);
     }
     
     /**
@@ -386,62 +416,74 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_variant_dict_new = Interop.downcallHandle(
             "g_variant_dict_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_variant_dict_clear = Interop.downcallHandle(
             "g_variant_dict_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_variant_dict_contains = Interop.downcallHandle(
             "g_variant_dict_contains",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_variant_dict_end = Interop.downcallHandle(
             "g_variant_dict_end",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_variant_dict_init = Interop.downcallHandle(
             "g_variant_dict_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_variant_dict_insert = Interop.downcallHandle(
             "g_variant_dict_insert",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_variant_dict_insert_value = Interop.downcallHandle(
             "g_variant_dict_insert_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_variant_dict_lookup = Interop.downcallHandle(
             "g_variant_dict_lookup",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_variant_dict_lookup_value = Interop.downcallHandle(
             "g_variant_dict_lookup_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_variant_dict_ref = Interop.downcallHandle(
             "g_variant_dict_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_variant_dict_remove = Interop.downcallHandle(
             "g_variant_dict_remove",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_variant_dict_unref = Interop.downcallHandle(
             "g_variant_dict_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

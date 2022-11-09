@@ -39,13 +39,19 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a WidgetPaintable proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public WidgetPaintable(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public WidgetPaintable(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -57,17 +63,17 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
      */
     public static WidgetPaintable castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkWidgetPaintable"))) {
-            return new WidgetPaintable(gobject.refcounted());
+            return new WidgetPaintable(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkWidgetPaintable");
         }
     }
     
-    private static Refcounted constructNew(@Nullable org.gtk.gtk.Widget widget) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable org.gtk.gtk.Widget widget) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_widget_paintable_new.invokeExact(
-                    (Addressable) (widget == null ? MemoryAddress.NULL : widget.handle())), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_widget_paintable_new.invokeExact(
+                    (Addressable) (widget == null ? MemoryAddress.NULL : widget.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,7 +85,7 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
      * @param widget a {@code GtkWidget}
      */
     public WidgetPaintable(@Nullable org.gtk.gtk.Widget widget) {
-        super(constructNew(widget));
+        super(constructNew(widget), Ownership.FULL);
     }
     
     /**
@@ -94,7 +100,7 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -115,17 +121,20 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
         
         private static final MethodHandle gtk_widget_paintable_new = Interop.downcallHandle(
             "gtk_widget_paintable_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_paintable_get_widget = Interop.downcallHandle(
             "gtk_widget_paintable_get_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_paintable_set_widget = Interop.downcallHandle(
             "gtk_widget_paintable_set_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

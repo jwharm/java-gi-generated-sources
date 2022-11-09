@@ -24,13 +24,19 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Create a FlowBoxChild proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FlowBoxChild(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FlowBoxChild(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -42,16 +48,16 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      */
     public static FlowBoxChild castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFlowBoxChild"))) {
-            return new FlowBoxChild(gobject.refcounted());
+            return new FlowBoxChild(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkFlowBoxChild");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_flow_box_child_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_flow_box_child_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,7 +70,7 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * This should only be used as a child of a {@code GtkFlowBox}.
      */
     public FlowBoxChild() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -109,7 +115,7 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -173,6 +179,8 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * but it can be used by applications for their own purposes.
      * <p>
      * The default bindings are &lt;kbd&gt;Space&lt;/kbd&gt; and &lt;kbd&gt;Enter&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FlowBoxChild.Activate> onActivate(FlowBoxChild.Activate handler) {
         try {
@@ -196,32 +204,38 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         
         private static final MethodHandle gtk_flow_box_child_new = Interop.downcallHandle(
             "gtk_flow_box_child_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_flow_box_child_changed = Interop.downcallHandle(
             "gtk_flow_box_child_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_flow_box_child_get_child = Interop.downcallHandle(
             "gtk_flow_box_child_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_flow_box_child_get_index = Interop.downcallHandle(
             "gtk_flow_box_child_get_index",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_flow_box_child_is_selected = Interop.downcallHandle(
             "gtk_flow_box_child_is_selected",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_flow_box_child_set_child = Interop.downcallHandle(
             "gtk_flow_box_child_set_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -230,7 +244,7 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         public static void signalFlowBoxChildActivate(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FlowBoxChild.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FlowBoxChild(Refcounted.get(source)));
+            HANDLER.signalReceived(new FlowBoxChild(source, Ownership.UNKNOWN));
         }
     }
 }

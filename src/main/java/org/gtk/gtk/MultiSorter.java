@@ -24,13 +24,19 @@ public class MultiSorter extends org.gtk.gtk.Sorter implements org.gtk.gio.ListM
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a MultiSorter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public MultiSorter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public MultiSorter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -42,16 +48,16 @@ public class MultiSorter extends org.gtk.gtk.Sorter implements org.gtk.gio.ListM
      */
     public static MultiSorter castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMultiSorter"))) {
-            return new MultiSorter(gobject.refcounted());
+            return new MultiSorter(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkMultiSorter");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_multi_sorter_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_multi_sorter_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,7 +73,7 @@ public class MultiSorter extends org.gtk.gtk.Sorter implements org.gtk.gio.ListM
      * items as equal.
      */
     public MultiSorter() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -109,17 +115,20 @@ public class MultiSorter extends org.gtk.gtk.Sorter implements org.gtk.gio.ListM
         
         private static final MethodHandle gtk_multi_sorter_new = Interop.downcallHandle(
             "gtk_multi_sorter_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_multi_sorter_append = Interop.downcallHandle(
             "gtk_multi_sorter_append",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_multi_sorter_remove = Interop.downcallHandle(
             "gtk_multi_sorter_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

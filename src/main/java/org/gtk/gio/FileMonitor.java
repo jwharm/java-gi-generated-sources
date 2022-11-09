@@ -38,6 +38,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -48,12 +49,17 @@ public class FileMonitor extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a FileMonitor proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FileMonitor(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FileMonitor(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -65,7 +71,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
      */
     public static FileMonitor castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GFileMonitor"))) {
-            return new FileMonitor(gobject.refcounted());
+            return new FileMonitor(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GFileMonitor");
         }
@@ -178,6 +184,8 @@ public class FileMonitor extends org.gtk.gobject.Object {
      * old path, and {@code other_file} will be set to a {@link File} containing the new path.
      * <p>
      * In all the other cases, {@code other_file} will be set to {@code NULL}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FileMonitor.Changed> onChanged(FileMonitor.Changed handler) {
         try {
@@ -201,22 +209,26 @@ public class FileMonitor extends org.gtk.gobject.Object {
         
         private static final MethodHandle g_file_monitor_cancel = Interop.downcallHandle(
             "g_file_monitor_cancel",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_monitor_emit_event = Interop.downcallHandle(
             "g_file_monitor_emit_event",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_file_monitor_is_cancelled = Interop.downcallHandle(
             "g_file_monitor_is_cancelled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_monitor_set_rate_limit = Interop.downcallHandle(
             "g_file_monitor_set_rate_limit",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -225,7 +237,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
         public static void signalFileMonitorChanged(MemoryAddress source, MemoryAddress file, MemoryAddress otherFile, int eventType, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FileMonitor.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileMonitor(Refcounted.get(source)), new org.gtk.gio.File.FileImpl(Refcounted.get(file, false)), new org.gtk.gio.File.FileImpl(Refcounted.get(otherFile, false)), new org.gtk.gio.FileMonitorEvent(eventType));
+            HANDLER.signalReceived(new FileMonitor(source, Ownership.UNKNOWN), new org.gtk.gio.File.FileImpl(file, Ownership.NONE), new org.gtk.gio.File.FileImpl(otherFile, Ownership.NONE), new org.gtk.gio.FileMonitorEvent(eventType));
         }
     }
 }

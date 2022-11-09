@@ -84,13 +84,19 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Paned proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Paned(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Paned(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -102,18 +108,18 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public static Paned castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPaned"))) {
-            return new Paned(gobject.refcounted());
+            return new Paned(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkPaned");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gtk.Orientation orientation) {
+    private static Addressable constructNew(@NotNull org.gtk.gtk.Orientation orientation) {
         java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_paned_new.invokeExact(
-                    orientation.getValue()), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_paned_new.invokeExact(
+                    orientation.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,7 +131,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param orientation the paned’s orientation.
      */
     public Paned(@NotNull org.gtk.gtk.Orientation orientation) {
-        super(constructNew(orientation));
+        super(constructNew(orientation), Ownership.NONE);
     }
     
     /**
@@ -140,7 +146,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -230,7 +236,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -378,6 +384,8 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Return&lt;/kbd&gt; or
      * &lt;kbd&gt;Space&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Paned.AcceptPosition> onAcceptPosition(Paned.AcceptPosition handler) {
         try {
@@ -412,6 +420,8 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * This is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Escape&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Paned.CancelPosition> onCancelPosition(Paned.CancelPosition handler) {
         try {
@@ -442,6 +452,8 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * This is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
      * The default binding is &lt;kbd&gt;F6&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Paned.CycleChildFocus> onCycleChildFocus(Paned.CycleChildFocus handler) {
         try {
@@ -473,6 +485,8 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * This is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
      * The default binding for this signal is &lt;kbd&gt;F8&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Paned.CycleHandleFocus> onCycleHandleFocus(Paned.CycleHandleFocus handler) {
         try {
@@ -501,6 +515,8 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Emitted to move the handle with key bindings.
      * <p>
      * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Paned.MoveHandle> onMoveHandle(Paned.MoveHandle handler) {
         try {
@@ -532,6 +548,8 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * This is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
      * The default binding is &lt;kbd&gt;Tab&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Paned.ToggleHandleFocus> onToggleHandleFocus(Paned.ToggleHandleFocus handler) {
         try {
@@ -555,87 +573,104 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         
         private static final MethodHandle gtk_paned_new = Interop.downcallHandle(
             "gtk_paned_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_paned_get_end_child = Interop.downcallHandle(
             "gtk_paned_get_end_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paned_get_position = Interop.downcallHandle(
             "gtk_paned_get_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paned_get_resize_end_child = Interop.downcallHandle(
             "gtk_paned_get_resize_end_child",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paned_get_resize_start_child = Interop.downcallHandle(
             "gtk_paned_get_resize_start_child",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paned_get_shrink_end_child = Interop.downcallHandle(
             "gtk_paned_get_shrink_end_child",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paned_get_shrink_start_child = Interop.downcallHandle(
             "gtk_paned_get_shrink_start_child",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paned_get_start_child = Interop.downcallHandle(
             "gtk_paned_get_start_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paned_get_wide_handle = Interop.downcallHandle(
             "gtk_paned_get_wide_handle",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paned_set_end_child = Interop.downcallHandle(
             "gtk_paned_set_end_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paned_set_position = Interop.downcallHandle(
             "gtk_paned_set_position",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_paned_set_resize_end_child = Interop.downcallHandle(
             "gtk_paned_set_resize_end_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_paned_set_resize_start_child = Interop.downcallHandle(
             "gtk_paned_set_resize_start_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_paned_set_shrink_end_child = Interop.downcallHandle(
             "gtk_paned_set_shrink_end_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_paned_set_shrink_start_child = Interop.downcallHandle(
             "gtk_paned_set_shrink_start_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_paned_set_start_child = Interop.downcallHandle(
             "gtk_paned_set_start_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paned_set_wide_handle = Interop.downcallHandle(
             "gtk_paned_set_wide_handle",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -644,37 +679,37 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         public static boolean signalPanedAcceptPosition(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Paned.AcceptPosition) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Paned(Refcounted.get(source)));
+            return HANDLER.signalReceived(new Paned(source, Ownership.UNKNOWN));
         }
         
         public static boolean signalPanedCancelPosition(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Paned.CancelPosition) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Paned(Refcounted.get(source)));
+            return HANDLER.signalReceived(new Paned(source, Ownership.UNKNOWN));
         }
         
         public static boolean signalPanedCycleChildFocus(MemoryAddress source, int reversed, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Paned.CycleChildFocus) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Paned(Refcounted.get(source)), reversed != 0);
+            return HANDLER.signalReceived(new Paned(source, Ownership.UNKNOWN), reversed != 0);
         }
         
         public static boolean signalPanedCycleHandleFocus(MemoryAddress source, int reversed, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Paned.CycleHandleFocus) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Paned(Refcounted.get(source)), reversed != 0);
+            return HANDLER.signalReceived(new Paned(source, Ownership.UNKNOWN), reversed != 0);
         }
         
         public static boolean signalPanedMoveHandle(MemoryAddress source, int scrollType, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Paned.MoveHandle) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Paned(Refcounted.get(source)), new org.gtk.gtk.ScrollType(scrollType));
+            return HANDLER.signalReceived(new Paned(source, Ownership.UNKNOWN), new org.gtk.gtk.ScrollType(scrollType));
         }
         
         public static boolean signalPanedToggleHandleFocus(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Paned.ToggleHandleFocus) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Paned(Refcounted.get(source)));
+            return HANDLER.signalReceived(new Paned(source, Ownership.UNKNOWN));
         }
     }
 }

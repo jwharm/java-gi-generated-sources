@@ -66,13 +66,19 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a WindowControls proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public WindowControls(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public WindowControls(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -84,18 +90,18 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      */
     public static WindowControls castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkWindowControls"))) {
-            return new WindowControls(gobject.refcounted());
+            return new WindowControls(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkWindowControls");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gtk.PackType side) {
+    private static Addressable constructNew(@NotNull org.gtk.gtk.PackType side) {
         java.util.Objects.requireNonNull(side, "Parameter 'side' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_window_controls_new.invokeExact(
-                    side.getValue()), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_window_controls_new.invokeExact(
+                    side.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,7 +113,7 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * @param side the side
      */
     public WindowControls(@NotNull org.gtk.gtk.PackType side) {
-        super(constructNew(side));
+        super(constructNew(side), Ownership.NONE);
     }
     
     /**
@@ -204,32 +210,38 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         
         private static final MethodHandle gtk_window_controls_new = Interop.downcallHandle(
             "gtk_window_controls_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_window_controls_get_decoration_layout = Interop.downcallHandle(
             "gtk_window_controls_get_decoration_layout",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_window_controls_get_empty = Interop.downcallHandle(
             "gtk_window_controls_get_empty",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_window_controls_get_side = Interop.downcallHandle(
             "gtk_window_controls_get_side",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_window_controls_set_decoration_layout = Interop.downcallHandle(
             "gtk_window_controls_set_decoration_layout",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_window_controls_set_side = Interop.downcallHandle(
             "gtk_window_controls_set_side",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

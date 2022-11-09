@@ -28,13 +28,19 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a EventControllerFocus proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public EventControllerFocus(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public EventControllerFocus(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -46,16 +52,16 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
      */
     public static EventControllerFocus castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEventControllerFocus"))) {
-            return new EventControllerFocus(gobject.refcounted());
+            return new EventControllerFocus(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkEventControllerFocus");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_event_controller_focus_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_event_controller_focus_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,7 +72,7 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
      * Creates a new event controller that will handle focus events.
      */
     public EventControllerFocus() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -115,6 +121,8 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
      * in these cases, you can monitor the
      * {@code Gtk.EventControllerFocus:is-focus}
      * property for changes.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EventControllerFocus.Enter> onEnter(EventControllerFocus.Enter handler) {
         try {
@@ -149,6 +157,8 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
      * to a descendent). If you are interested in these cases, you
      * can monitor the {@code Gtk.EventControllerFocus:is-focus}
      * property for changes.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EventControllerFocus.Leave> onLeave(EventControllerFocus.Leave handler) {
         try {
@@ -172,17 +182,20 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
         
         private static final MethodHandle gtk_event_controller_focus_new = Interop.downcallHandle(
             "gtk_event_controller_focus_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_event_controller_focus_contains_focus = Interop.downcallHandle(
             "gtk_event_controller_focus_contains_focus",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_event_controller_focus_is_focus = Interop.downcallHandle(
             "gtk_event_controller_focus_is_focus",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -191,13 +204,13 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
         public static void signalEventControllerFocusEnter(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EventControllerFocus.Enter) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerFocus(Refcounted.get(source)));
+            HANDLER.signalReceived(new EventControllerFocus(source, Ownership.UNKNOWN));
         }
         
         public static void signalEventControllerFocusLeave(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EventControllerFocus.Leave) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerFocus(Refcounted.get(source)));
+            HANDLER.signalReceived(new EventControllerFocus(source, Ownership.UNKNOWN));
         }
     }
 }

@@ -371,6 +371,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -381,12 +382,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      */
     public org.gtk.gobject.InitiallyUnowned parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.InitiallyUnowned(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.InitiallyUnowned(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a Widget proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Widget(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Widget(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -398,7 +404,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      */
     public static Widget castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkWidget"))) {
-            return new Widget(gobject.refcounted());
+            return new Widget(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkWidget");
         }
@@ -459,11 +465,24 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @param name the name of the action to activate
      * @param formatString GVariant format string for arguments or {@code null}
      *   for no arguments
+     * @param varargs arguments, as given by format string
      * @return {@code true} if the action was activated, {@code false} if the action
      *   does not exist
      */
-    public boolean activateAction(@NotNull java.lang.String name, @NotNull java.lang.String formatString) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean activateAction(@NotNull java.lang.String name, @NotNull java.lang.String formatString, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+        java.util.Objects.requireNonNull(formatString, "Parameter 'formatString' must not be null");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gtk_widget_activate_action.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(name),
+                    Interop.allocateNativeString(formatString),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT != 0;
     }
     
     /**
@@ -837,7 +856,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Context(Refcounted.get(RESULT, true));
+        return new org.pango.Context(RESULT, Ownership.FULL);
     }
     
     /**
@@ -861,7 +880,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Layout(Refcounted.get(RESULT, true));
+        return new org.pango.Layout(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1007,7 +1026,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1082,7 +1101,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Clipboard(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Clipboard(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1132,7 +1151,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Cursor(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Cursor(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1173,7 +1192,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1190,7 +1209,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1206,7 +1225,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1259,7 +1278,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontMap(Refcounted.get(RESULT, false));
+        return new org.pango.FontMap(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1277,7 +1296,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.cairographics.FontOptions(Refcounted.get(RESULT, false));
+        return new org.cairographics.FontOptions(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1313,7 +1332,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.FrameClock(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.FrameClock(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1440,7 +1459,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1457,7 +1476,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.LayoutManager(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.LayoutManager(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1570,7 +1589,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Native.NativeImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Native.NativeImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1587,7 +1606,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1642,7 +1661,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Context(Refcounted.get(RESULT, false));
+        return new org.pango.Context(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1657,7 +1676,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1705,7 +1724,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1726,7 +1745,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Clipboard(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Clipboard(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1802,7 +1821,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Root.RootImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Root.RootImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1865,7 +1884,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Settings(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Settings(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1962,7 +1981,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.StyleContext(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.StyleContext(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1993,7 +2012,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.Object(RESULT, Ownership.NONE);
     }
     
     /**
@@ -2552,7 +2571,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.List(RESULT, Ownership.CONTAINER);
     }
     
     /**
@@ -2657,7 +2676,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.ListModel.ListModelImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2680,7 +2699,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.ListModel.ListModelImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2716,7 +2735,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -2959,7 +2978,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * and replace them with {@code classes}.
      * @param classes {@code null}-terminated list of style classes to apply to {@code widget}.
      */
-    public void setCssClasses(java.lang.String[] classes) {
+    public void setCssClasses(@NotNull java.lang.String[] classes) {
         java.util.Objects.requireNonNull(classes, "Parameter 'classes' must not be null");
         try {
             DowncallHandles.gtk_widget_set_css_classes.invokeExact(
@@ -3892,6 +3911,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * May result in finalization of the widget if all references are released.
      * <p>
      * This signal is not suitable for saving widget state.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Widget.Destroy> onDestroy(Widget.Destroy handler) {
         try {
@@ -3918,6 +3939,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     /**
      * Emitted when the text direction of a widget changes.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Widget.DirectionChanged> onDirectionChanged(Widget.DirectionChanged handler) {
         try {
@@ -3944,6 +3967,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     /**
      * Emitted when {@code widget} is hidden.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Widget.Hide> onHide(Widget.Hide handler) {
         try {
@@ -3972,6 +3997,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * Emitted if keyboard navigation fails.
      * <p>
      * See {@link Widget#keynavFailed} for details.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Widget.KeynavFailed> onKeynavFailed(Widget.KeynavFailed handler) {
         try {
@@ -4006,6 +4033,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * The ::map signal can be used to determine whether a widget will be drawn,
      * for instance it can resume an animation that was stopped during the
      * emission of {@code Gtk.Widget::unmap}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Widget.Map> onMap(Widget.Map handler) {
         try {
@@ -4035,6 +4064,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * <p>
      * The default handler for this signal activates {@code widget} if {@code group_cycling}
      * is {@code false}, or just makes {@code widget} grab focus if {@code group_cycling} is {@code true}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Widget.MnemonicActivate> onMnemonicActivate(Widget.MnemonicActivate handler) {
         try {
@@ -4061,6 +4092,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     /**
      * Emitted when the focus is moved.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Widget.MoveFocus> onMoveFocus(Widget.MoveFocus handler) {
         try {
@@ -4100,6 +4133,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * <p>
      * The signal handler is free to manipulate {@code tooltip} with the therefore
      * destined function calls.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Widget.QueryTooltip> onQueryTooltip(Widget.QueryTooltip handler) {
         try {
@@ -4129,6 +4164,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * <p>
      * This means that {@link Widget#realize} has been called
      * or the widget has been mapped (that is, it is going to be drawn).
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Widget.Realize> onRealize(Widget.Realize handler) {
         try {
@@ -4155,6 +4192,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     /**
      * Emitted when {@code widget} is shown.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Widget.Show> onShow(Widget.Show handler) {
         try {
@@ -4183,6 +4222,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * Emitted when the widget state changes.
      * <p>
      * See {@link Widget#getStateFlags}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Widget.StateFlagsChanged> onStateFlagsChanged(Widget.StateFlagsChanged handler) {
         try {
@@ -4215,6 +4256,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * <p>
      * As ::unmap indicates that a widget will not be shown any longer,
      * it can be used to, for example, stop an animation on the widget.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Widget.Unmap> onUnmap(Widget.Unmap handler) {
         try {
@@ -4244,6 +4287,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * <p>
      * This means that {@link Widget#unrealize} has been called
      * or the widget has been unmapped (that is, it is going to be hidden).
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Widget.Unrealize> onUnrealize(Widget.Unrealize handler) {
         try {
@@ -4267,807 +4312,968 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         
         private static final MethodHandle gtk_widget_action_set_enabled = Interop.downcallHandle(
             "gtk_widget_action_set_enabled",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_activate = Interop.downcallHandle(
             "gtk_widget_activate",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_activate_action = Interop.downcallHandle(
             "gtk_widget_activate_action",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle gtk_widget_activate_action_variant = Interop.downcallHandle(
             "gtk_widget_activate_action_variant",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_activate_default = Interop.downcallHandle(
             "gtk_widget_activate_default",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_add_controller = Interop.downcallHandle(
             "gtk_widget_add_controller",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_add_css_class = Interop.downcallHandle(
             "gtk_widget_add_css_class",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_add_mnemonic_label = Interop.downcallHandle(
             "gtk_widget_add_mnemonic_label",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_add_tick_callback = Interop.downcallHandle(
             "gtk_widget_add_tick_callback",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_allocate = Interop.downcallHandle(
             "gtk_widget_allocate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_child_focus = Interop.downcallHandle(
             "gtk_widget_child_focus",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_compute_bounds = Interop.downcallHandle(
             "gtk_widget_compute_bounds",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_compute_expand = Interop.downcallHandle(
             "gtk_widget_compute_expand",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_compute_point = Interop.downcallHandle(
             "gtk_widget_compute_point",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_compute_transform = Interop.downcallHandle(
             "gtk_widget_compute_transform",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_contains = Interop.downcallHandle(
             "gtk_widget_contains",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_widget_create_pango_context = Interop.downcallHandle(
             "gtk_widget_create_pango_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_create_pango_layout = Interop.downcallHandle(
             "gtk_widget_create_pango_layout",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_drag_check_threshold = Interop.downcallHandle(
             "gtk_drag_check_threshold",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_error_bell = Interop.downcallHandle(
             "gtk_widget_error_bell",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_allocated_baseline = Interop.downcallHandle(
             "gtk_widget_get_allocated_baseline",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_allocated_height = Interop.downcallHandle(
             "gtk_widget_get_allocated_height",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_allocated_width = Interop.downcallHandle(
             "gtk_widget_get_allocated_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_allocation = Interop.downcallHandle(
             "gtk_widget_get_allocation",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_ancestor = Interop.downcallHandle(
             "gtk_widget_get_ancestor",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_can_focus = Interop.downcallHandle(
             "gtk_widget_get_can_focus",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_can_target = Interop.downcallHandle(
             "gtk_widget_get_can_target",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_child_visible = Interop.downcallHandle(
             "gtk_widget_get_child_visible",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_clipboard = Interop.downcallHandle(
             "gtk_widget_get_clipboard",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_css_classes = Interop.downcallHandle(
             "gtk_widget_get_css_classes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_css_name = Interop.downcallHandle(
             "gtk_widget_get_css_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_cursor = Interop.downcallHandle(
             "gtk_widget_get_cursor",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_direction = Interop.downcallHandle(
             "gtk_widget_get_direction",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_display = Interop.downcallHandle(
             "gtk_widget_get_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_first_child = Interop.downcallHandle(
             "gtk_widget_get_first_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_focus_child = Interop.downcallHandle(
             "gtk_widget_get_focus_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_focus_on_click = Interop.downcallHandle(
             "gtk_widget_get_focus_on_click",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_focusable = Interop.downcallHandle(
             "gtk_widget_get_focusable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_font_map = Interop.downcallHandle(
             "gtk_widget_get_font_map",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_font_options = Interop.downcallHandle(
             "gtk_widget_get_font_options",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_frame_clock = Interop.downcallHandle(
             "gtk_widget_get_frame_clock",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_halign = Interop.downcallHandle(
             "gtk_widget_get_halign",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_has_tooltip = Interop.downcallHandle(
             "gtk_widget_get_has_tooltip",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_height = Interop.downcallHandle(
             "gtk_widget_get_height",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_hexpand = Interop.downcallHandle(
             "gtk_widget_get_hexpand",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_hexpand_set = Interop.downcallHandle(
             "gtk_widget_get_hexpand_set",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_last_child = Interop.downcallHandle(
             "gtk_widget_get_last_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_layout_manager = Interop.downcallHandle(
             "gtk_widget_get_layout_manager",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_mapped = Interop.downcallHandle(
             "gtk_widget_get_mapped",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_margin_bottom = Interop.downcallHandle(
             "gtk_widget_get_margin_bottom",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_margin_end = Interop.downcallHandle(
             "gtk_widget_get_margin_end",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_margin_start = Interop.downcallHandle(
             "gtk_widget_get_margin_start",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_margin_top = Interop.downcallHandle(
             "gtk_widget_get_margin_top",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_name = Interop.downcallHandle(
             "gtk_widget_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_native = Interop.downcallHandle(
             "gtk_widget_get_native",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_next_sibling = Interop.downcallHandle(
             "gtk_widget_get_next_sibling",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_opacity = Interop.downcallHandle(
             "gtk_widget_get_opacity",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_overflow = Interop.downcallHandle(
             "gtk_widget_get_overflow",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_pango_context = Interop.downcallHandle(
             "gtk_widget_get_pango_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_parent = Interop.downcallHandle(
             "gtk_widget_get_parent",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_preferred_size = Interop.downcallHandle(
             "gtk_widget_get_preferred_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_prev_sibling = Interop.downcallHandle(
             "gtk_widget_get_prev_sibling",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_primary_clipboard = Interop.downcallHandle(
             "gtk_widget_get_primary_clipboard",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_realized = Interop.downcallHandle(
             "gtk_widget_get_realized",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_receives_default = Interop.downcallHandle(
             "gtk_widget_get_receives_default",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_request_mode = Interop.downcallHandle(
             "gtk_widget_get_request_mode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_root = Interop.downcallHandle(
             "gtk_widget_get_root",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_scale_factor = Interop.downcallHandle(
             "gtk_widget_get_scale_factor",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_sensitive = Interop.downcallHandle(
             "gtk_widget_get_sensitive",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_settings = Interop.downcallHandle(
             "gtk_widget_get_settings",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_size = Interop.downcallHandle(
             "gtk_widget_get_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_size_request = Interop.downcallHandle(
             "gtk_widget_get_size_request",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_state_flags = Interop.downcallHandle(
             "gtk_widget_get_state_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_style_context = Interop.downcallHandle(
             "gtk_widget_get_style_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_template_child = Interop.downcallHandle(
             "gtk_widget_get_template_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_tooltip_markup = Interop.downcallHandle(
             "gtk_widget_get_tooltip_markup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_tooltip_text = Interop.downcallHandle(
             "gtk_widget_get_tooltip_text",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_valign = Interop.downcallHandle(
             "gtk_widget_get_valign",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_vexpand = Interop.downcallHandle(
             "gtk_widget_get_vexpand",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_vexpand_set = Interop.downcallHandle(
             "gtk_widget_get_vexpand_set",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_visible = Interop.downcallHandle(
             "gtk_widget_get_visible",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_width = Interop.downcallHandle(
             "gtk_widget_get_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_grab_focus = Interop.downcallHandle(
             "gtk_widget_grab_focus",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_has_css_class = Interop.downcallHandle(
             "gtk_widget_has_css_class",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_has_default = Interop.downcallHandle(
             "gtk_widget_has_default",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_has_focus = Interop.downcallHandle(
             "gtk_widget_has_focus",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_has_visible_focus = Interop.downcallHandle(
             "gtk_widget_has_visible_focus",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_hide = Interop.downcallHandle(
             "gtk_widget_hide",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_in_destruction = Interop.downcallHandle(
             "gtk_widget_in_destruction",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_init_template = Interop.downcallHandle(
             "gtk_widget_init_template",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_insert_action_group = Interop.downcallHandle(
             "gtk_widget_insert_action_group",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_insert_after = Interop.downcallHandle(
             "gtk_widget_insert_after",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_insert_before = Interop.downcallHandle(
             "gtk_widget_insert_before",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_is_ancestor = Interop.downcallHandle(
             "gtk_widget_is_ancestor",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_is_drawable = Interop.downcallHandle(
             "gtk_widget_is_drawable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_is_focus = Interop.downcallHandle(
             "gtk_widget_is_focus",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_is_sensitive = Interop.downcallHandle(
             "gtk_widget_is_sensitive",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_is_visible = Interop.downcallHandle(
             "gtk_widget_is_visible",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_keynav_failed = Interop.downcallHandle(
             "gtk_widget_keynav_failed",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_list_mnemonic_labels = Interop.downcallHandle(
             "gtk_widget_list_mnemonic_labels",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_map = Interop.downcallHandle(
             "gtk_widget_map",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_measure = Interop.downcallHandle(
             "gtk_widget_measure",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_mnemonic_activate = Interop.downcallHandle(
             "gtk_widget_mnemonic_activate",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_observe_children = Interop.downcallHandle(
             "gtk_widget_observe_children",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_observe_controllers = Interop.downcallHandle(
             "gtk_widget_observe_controllers",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_pick = Interop.downcallHandle(
             "gtk_widget_pick",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_queue_allocate = Interop.downcallHandle(
             "gtk_widget_queue_allocate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_queue_draw = Interop.downcallHandle(
             "gtk_widget_queue_draw",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_queue_resize = Interop.downcallHandle(
             "gtk_widget_queue_resize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_realize = Interop.downcallHandle(
             "gtk_widget_realize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_remove_controller = Interop.downcallHandle(
             "gtk_widget_remove_controller",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_remove_css_class = Interop.downcallHandle(
             "gtk_widget_remove_css_class",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_remove_mnemonic_label = Interop.downcallHandle(
             "gtk_widget_remove_mnemonic_label",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_remove_tick_callback = Interop.downcallHandle(
             "gtk_widget_remove_tick_callback",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_can_focus = Interop.downcallHandle(
             "gtk_widget_set_can_focus",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_can_target = Interop.downcallHandle(
             "gtk_widget_set_can_target",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_child_visible = Interop.downcallHandle(
             "gtk_widget_set_child_visible",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_css_classes = Interop.downcallHandle(
             "gtk_widget_set_css_classes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_cursor = Interop.downcallHandle(
             "gtk_widget_set_cursor",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_cursor_from_name = Interop.downcallHandle(
             "gtk_widget_set_cursor_from_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_direction = Interop.downcallHandle(
             "gtk_widget_set_direction",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_focus_child = Interop.downcallHandle(
             "gtk_widget_set_focus_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_focus_on_click = Interop.downcallHandle(
             "gtk_widget_set_focus_on_click",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_focusable = Interop.downcallHandle(
             "gtk_widget_set_focusable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_font_map = Interop.downcallHandle(
             "gtk_widget_set_font_map",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_font_options = Interop.downcallHandle(
             "gtk_widget_set_font_options",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_halign = Interop.downcallHandle(
             "gtk_widget_set_halign",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_has_tooltip = Interop.downcallHandle(
             "gtk_widget_set_has_tooltip",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_hexpand = Interop.downcallHandle(
             "gtk_widget_set_hexpand",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_hexpand_set = Interop.downcallHandle(
             "gtk_widget_set_hexpand_set",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_layout_manager = Interop.downcallHandle(
             "gtk_widget_set_layout_manager",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_margin_bottom = Interop.downcallHandle(
             "gtk_widget_set_margin_bottom",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_margin_end = Interop.downcallHandle(
             "gtk_widget_set_margin_end",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_margin_start = Interop.downcallHandle(
             "gtk_widget_set_margin_start",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_margin_top = Interop.downcallHandle(
             "gtk_widget_set_margin_top",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_name = Interop.downcallHandle(
             "gtk_widget_set_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_opacity = Interop.downcallHandle(
             "gtk_widget_set_opacity",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_overflow = Interop.downcallHandle(
             "gtk_widget_set_overflow",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_parent = Interop.downcallHandle(
             "gtk_widget_set_parent",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_receives_default = Interop.downcallHandle(
             "gtk_widget_set_receives_default",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_sensitive = Interop.downcallHandle(
             "gtk_widget_set_sensitive",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_size_request = Interop.downcallHandle(
             "gtk_widget_set_size_request",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_state_flags = Interop.downcallHandle(
             "gtk_widget_set_state_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_tooltip_markup = Interop.downcallHandle(
             "gtk_widget_set_tooltip_markup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_tooltip_text = Interop.downcallHandle(
             "gtk_widget_set_tooltip_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_valign = Interop.downcallHandle(
             "gtk_widget_set_valign",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_vexpand = Interop.downcallHandle(
             "gtk_widget_set_vexpand",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_vexpand_set = Interop.downcallHandle(
             "gtk_widget_set_vexpand_set",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_visible = Interop.downcallHandle(
             "gtk_widget_set_visible",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_should_layout = Interop.downcallHandle(
             "gtk_widget_should_layout",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_show = Interop.downcallHandle(
             "gtk_widget_show",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_size_allocate = Interop.downcallHandle(
             "gtk_widget_size_allocate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_snapshot_child = Interop.downcallHandle(
             "gtk_widget_snapshot_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_translate_coordinates = Interop.downcallHandle(
             "gtk_widget_translate_coordinates",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_trigger_tooltip_query = Interop.downcallHandle(
             "gtk_widget_trigger_tooltip_query",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_unmap = Interop.downcallHandle(
             "gtk_widget_unmap",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_unparent = Interop.downcallHandle(
             "gtk_widget_unparent",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_unrealize = Interop.downcallHandle(
             "gtk_widget_unrealize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_widget_unset_state_flags = Interop.downcallHandle(
             "gtk_widget_unset_state_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_get_default_direction = Interop.downcallHandle(
             "gtk_widget_get_default_direction",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_widget_set_default_direction = Interop.downcallHandle(
             "gtk_widget_set_default_direction",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -5076,79 +5282,79 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         public static void signalWidgetDestroy(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Widget.Destroy) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(Refcounted.get(source)));
+            HANDLER.signalReceived(new Widget(source, Ownership.UNKNOWN));
         }
         
         public static void signalWidgetDirectionChanged(MemoryAddress source, int previousDirection, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Widget.DirectionChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(Refcounted.get(source)), new org.gtk.gtk.TextDirection(previousDirection));
+            HANDLER.signalReceived(new Widget(source, Ownership.UNKNOWN), new org.gtk.gtk.TextDirection(previousDirection));
         }
         
         public static void signalWidgetHide(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Widget.Hide) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(Refcounted.get(source)));
+            HANDLER.signalReceived(new Widget(source, Ownership.UNKNOWN));
         }
         
         public static boolean signalWidgetKeynavFailed(MemoryAddress source, int direction, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Widget.KeynavFailed) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Widget(Refcounted.get(source)), new org.gtk.gtk.DirectionType(direction));
+            return HANDLER.signalReceived(new Widget(source, Ownership.UNKNOWN), new org.gtk.gtk.DirectionType(direction));
         }
         
         public static void signalWidgetMap(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Widget.Map) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(Refcounted.get(source)));
+            HANDLER.signalReceived(new Widget(source, Ownership.UNKNOWN));
         }
         
         public static boolean signalWidgetMnemonicActivate(MemoryAddress source, int groupCycling, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Widget.MnemonicActivate) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Widget(Refcounted.get(source)), groupCycling != 0);
+            return HANDLER.signalReceived(new Widget(source, Ownership.UNKNOWN), groupCycling != 0);
         }
         
         public static void signalWidgetMoveFocus(MemoryAddress source, int direction, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Widget.MoveFocus) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(Refcounted.get(source)), new org.gtk.gtk.DirectionType(direction));
+            HANDLER.signalReceived(new Widget(source, Ownership.UNKNOWN), new org.gtk.gtk.DirectionType(direction));
         }
         
         public static boolean signalWidgetQueryTooltip(MemoryAddress source, int x, int y, int keyboardMode, MemoryAddress tooltip, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Widget.QueryTooltip) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Widget(Refcounted.get(source)), x, y, keyboardMode != 0, new org.gtk.gtk.Tooltip(Refcounted.get(tooltip, false)));
+            return HANDLER.signalReceived(new Widget(source, Ownership.UNKNOWN), x, y, keyboardMode != 0, new org.gtk.gtk.Tooltip(tooltip, Ownership.NONE));
         }
         
         public static void signalWidgetRealize(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Widget.Realize) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(Refcounted.get(source)));
+            HANDLER.signalReceived(new Widget(source, Ownership.UNKNOWN));
         }
         
         public static void signalWidgetShow(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Widget.Show) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(Refcounted.get(source)));
+            HANDLER.signalReceived(new Widget(source, Ownership.UNKNOWN));
         }
         
         public static void signalWidgetStateFlagsChanged(MemoryAddress source, int flags, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Widget.StateFlagsChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(Refcounted.get(source)), new org.gtk.gtk.StateFlags(flags));
+            HANDLER.signalReceived(new Widget(source, Ownership.UNKNOWN), new org.gtk.gtk.StateFlags(flags));
         }
         
         public static void signalWidgetUnmap(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Widget.Unmap) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(Refcounted.get(source)));
+            HANDLER.signalReceived(new Widget(source, Ownership.UNKNOWN));
         }
         
         public static void signalWidgetUnrealize(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Widget.Unrealize) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(Refcounted.get(source)));
+            HANDLER.signalReceived(new Widget(source, Ownership.UNKNOWN));
         }
     }
 }

@@ -74,7 +74,7 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
      */
     public static SocketConnectable castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSocketConnectable"))) {
-            return new SocketConnectableImpl(gobject.refcounted());
+            return new SocketConnectableImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSocketConnectable");
         }
@@ -92,7 +92,7 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SocketAddressEnumerator(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.SocketAddressEnumerator(RESULT, Ownership.FULL);
     }
     
     /**
@@ -113,7 +113,7 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SocketAddressEnumerator(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.SocketAddressEnumerator(RESULT, Ownership.FULL);
     }
     
     /**
@@ -143,19 +143,22 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_socket_connectable_enumerate = Interop.downcallHandle(
             "g_socket_connectable_enumerate",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_socket_connectable_proxy_enumerate = Interop.downcallHandle(
             "g_socket_connectable_proxy_enumerate",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_socket_connectable_to_string = Interop.downcallHandle(
             "g_socket_connectable_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -165,8 +168,8 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public SocketConnectableImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public SocketConnectableImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

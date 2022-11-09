@@ -17,6 +17,7 @@ public class BuilderListItemFactoryClass extends io.github.jwharm.javagi.Resourc
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -25,13 +26,18 @@ public class BuilderListItemFactoryClass extends io.github.jwharm.javagi.Resourc
     
     public static BuilderListItemFactoryClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BuilderListItemFactoryClass newInstance = new BuilderListItemFactoryClass(Refcounted.get(segment.address()));
+        BuilderListItemFactoryClass newInstance = new BuilderListItemFactoryClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a BuilderListItemFactoryClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public BuilderListItemFactoryClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public BuilderListItemFactoryClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

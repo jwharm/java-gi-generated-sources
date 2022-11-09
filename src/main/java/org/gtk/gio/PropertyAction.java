@@ -71,13 +71,19 @@ public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gi
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a PropertyAction proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PropertyAction(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PropertyAction(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -89,22 +95,22 @@ public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gi
      */
     public static PropertyAction castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GPropertyAction"))) {
-            return new PropertyAction(gobject.refcounted());
+            return new PropertyAction(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GPropertyAction");
         }
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String name, @NotNull org.gtk.gobject.Object object, @NotNull java.lang.String propertyName) {
+    private static Addressable constructNew(@NotNull java.lang.String name, @NotNull org.gtk.gobject.Object object, @NotNull java.lang.String propertyName) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
         java.util.Objects.requireNonNull(propertyName, "Parameter 'propertyName' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_property_action_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_property_action_new.invokeExact(
                     Interop.allocateNativeString(name),
                     object.handle(),
-                    Interop.allocateNativeString(propertyName)), true);
+                    Interop.allocateNativeString(propertyName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,14 +132,15 @@ public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gi
      * @param propertyName the name of the property
      */
     public PropertyAction(@NotNull java.lang.String name, @NotNull org.gtk.gobject.Object object, @NotNull java.lang.String propertyName) {
-        super(constructNew(name, object, propertyName));
+        super(constructNew(name, object, propertyName), Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_property_action_new = Interop.downcallHandle(
             "g_property_action_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

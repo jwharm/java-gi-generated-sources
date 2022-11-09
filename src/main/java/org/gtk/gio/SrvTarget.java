@@ -33,6 +33,7 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -41,25 +42,30 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
     
     public static SrvTarget allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SrvTarget newInstance = new SrvTarget(Refcounted.get(segment.address()));
+        SrvTarget newInstance = new SrvTarget(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a SrvTarget proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SrvTarget(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SrvTarget(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String hostname, short port, short priority, short weight) {
+    private static Addressable constructNew(@NotNull java.lang.String hostname, short port, short priority, short weight) {
         java.util.Objects.requireNonNull(hostname, "Parameter 'hostname' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_srv_target_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_srv_target_new.invokeExact(
                     Interop.allocateNativeString(hostname),
                     port,
                     priority,
-                    weight), true);
+                    weight);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,7 +83,7 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
      * @param weight the target's weight
      */
     public SrvTarget(@NotNull java.lang.String hostname, short port, short priority, short weight) {
-        super(constructNew(hostname, port, priority, weight));
+        super(constructNew(hostname, port, priority, weight), Ownership.FULL);
     }
     
     /**
@@ -92,7 +98,7 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SrvTarget(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.SrvTarget(RESULT, Ownership.FULL);
     }
     
     /**
@@ -188,49 +194,57 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_srv_target_new = Interop.downcallHandle(
             "g_srv_target_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT),
+            false
         );
         
         private static final MethodHandle g_srv_target_copy = Interop.downcallHandle(
             "g_srv_target_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_srv_target_free = Interop.downcallHandle(
             "g_srv_target_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_srv_target_get_hostname = Interop.downcallHandle(
             "g_srv_target_get_hostname",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_srv_target_get_port = Interop.downcallHandle(
             "g_srv_target_get_port",
-            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_srv_target_get_priority = Interop.downcallHandle(
             "g_srv_target_get_priority",
-            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_srv_target_get_weight = Interop.downcallHandle(
             "g_srv_target_get_weight",
-            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_srv_target_list_sort = Interop.downcallHandle(
             "g_srv_target_list_sort",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

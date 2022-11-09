@@ -29,6 +29,7 @@ public class StaticResource extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -37,14 +38,19 @@ public class StaticResource extends io.github.jwharm.javagi.ResourceBase {
     
     public static StaticResource allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        StaticResource newInstance = new StaticResource(Refcounted.get(segment.address()));
+        StaticResource newInstance = new StaticResource(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a StaticResource proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public StaticResource(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public StaticResource(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -79,7 +85,7 @@ public class StaticResource extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Resource(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.Resource(RESULT, Ownership.NONE);
     }
     
     /**
@@ -103,17 +109,20 @@ public class StaticResource extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_static_resource_fini = Interop.downcallHandle(
             "g_static_resource_fini",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_static_resource_get_resource = Interop.downcallHandle(
             "g_static_resource_get_resource",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_static_resource_init = Interop.downcallHandle(
             "g_static_resource_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

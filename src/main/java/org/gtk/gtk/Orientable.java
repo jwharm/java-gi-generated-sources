@@ -23,7 +23,7 @@ public interface Orientable extends io.github.jwharm.javagi.Proxy {
      */
     public static Orientable castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkOrientable"))) {
-            return new OrientableImpl(gobject.refcounted());
+            return new OrientableImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkOrientable");
         }
@@ -65,13 +65,15 @@ public interface Orientable extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_orientable_get_orientation = Interop.downcallHandle(
             "gtk_orientable_get_orientation",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_orientable_set_orientation = Interop.downcallHandle(
             "gtk_orientable_set_orientation",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -81,8 +83,8 @@ public interface Orientable extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public OrientableImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public OrientableImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

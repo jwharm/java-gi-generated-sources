@@ -53,13 +53,19 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a EventControllerScroll proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public EventControllerScroll(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public EventControllerScroll(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -71,18 +77,18 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
      */
     public static EventControllerScroll castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEventControllerScroll"))) {
-            return new EventControllerScroll(gobject.refcounted());
+            return new EventControllerScroll(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkEventControllerScroll");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gtk.EventControllerScrollFlags flags) {
+    private static Addressable constructNew(@NotNull org.gtk.gtk.EventControllerScrollFlags flags) {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_event_controller_scroll_new.invokeExact(
-                    flags.getValue()), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_event_controller_scroll_new.invokeExact(
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,7 +100,7 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
      * @param flags flags affecting the controller behavior
      */
     public EventControllerScroll(@NotNull org.gtk.gtk.EventControllerScrollFlags flags) {
-        super(constructNew(flags));
+        super(constructNew(flags), Ownership.FULL);
     }
     
     /**
@@ -139,6 +145,8 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
      * {@code vel_x} and {@code vel_y} express the initial velocity that was
      * imprinted by the scroll events. {@code vel_x} and {@code vel_y} are expressed in
      * pixels/ms.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EventControllerScroll.Decelerate> onDecelerate(EventControllerScroll.Decelerate handler) {
         try {
@@ -166,6 +174,8 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
     /**
      * Signals that the widget should scroll by the
      * amount specified by {@code dx} and {@code dy}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EventControllerScroll.Scroll> onScroll(EventControllerScroll.Scroll handler) {
         try {
@@ -194,6 +204,8 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
      * Signals that a new scrolling operation has begun.
      * <p>
      * It will only be emitted on devices capable of it.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EventControllerScroll.ScrollBegin> onScrollBegin(EventControllerScroll.ScrollBegin handler) {
         try {
@@ -222,6 +234,8 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
      * Signals that a scrolling operation has finished.
      * <p>
      * It will only be emitted on devices capable of it.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EventControllerScroll.ScrollEnd> onScrollEnd(EventControllerScroll.ScrollEnd handler) {
         try {
@@ -245,17 +259,20 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
         
         private static final MethodHandle gtk_event_controller_scroll_new = Interop.downcallHandle(
             "gtk_event_controller_scroll_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_event_controller_scroll_get_flags = Interop.downcallHandle(
             "gtk_event_controller_scroll_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_event_controller_scroll_set_flags = Interop.downcallHandle(
             "gtk_event_controller_scroll_set_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -264,25 +281,25 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
         public static void signalEventControllerScrollDecelerate(MemoryAddress source, double velX, double velY, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EventControllerScroll.Decelerate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerScroll(Refcounted.get(source)), velX, velY);
+            HANDLER.signalReceived(new EventControllerScroll(source, Ownership.UNKNOWN), velX, velY);
         }
         
         public static boolean signalEventControllerScrollScroll(MemoryAddress source, double dx, double dy, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EventControllerScroll.Scroll) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EventControllerScroll(Refcounted.get(source)), dx, dy);
+            return HANDLER.signalReceived(new EventControllerScroll(source, Ownership.UNKNOWN), dx, dy);
         }
         
         public static void signalEventControllerScrollScrollBegin(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EventControllerScroll.ScrollBegin) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerScroll(Refcounted.get(source)));
+            HANDLER.signalReceived(new EventControllerScroll(source, Ownership.UNKNOWN));
         }
         
         public static void signalEventControllerScrollScrollEnd(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EventControllerScroll.ScrollEnd) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerScroll(Refcounted.get(source)));
+            HANDLER.signalReceived(new EventControllerScroll(source, Ownership.UNKNOWN));
         }
     }
 }

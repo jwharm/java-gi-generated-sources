@@ -52,6 +52,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -62,12 +63,17 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
      */
     public org.gtk.gtk.Widget parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gtk.Widget(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.Widget(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a PreferencesGroup proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PreferencesGroup(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PreferencesGroup(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -79,16 +85,16 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
      */
     public static PreferencesGroup castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwPreferencesGroup"))) {
-            return new PreferencesGroup(gobject.refcounted());
+            return new PreferencesGroup(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwPreferencesGroup");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_preferences_group_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_group_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +105,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * Creates a new {@code AdwPreferencesGroup}.
      */
     public PreferencesGroup() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -144,7 +150,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -228,47 +234,56 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
         
         private static final MethodHandle adw_preferences_group_new = Interop.downcallHandle(
             "adw_preferences_group_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_group_add = Interop.downcallHandle(
             "adw_preferences_group_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_group_get_description = Interop.downcallHandle(
             "adw_preferences_group_get_description",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_group_get_header_suffix = Interop.downcallHandle(
             "adw_preferences_group_get_header_suffix",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_group_get_title = Interop.downcallHandle(
             "adw_preferences_group_get_title",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_group_remove = Interop.downcallHandle(
             "adw_preferences_group_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_group_set_description = Interop.downcallHandle(
             "adw_preferences_group_set_description",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_group_set_header_suffix = Interop.downcallHandle(
             "adw_preferences_group_set_header_suffix",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_group_set_title = Interop.downcallHandle(
             "adw_preferences_group_set_title",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

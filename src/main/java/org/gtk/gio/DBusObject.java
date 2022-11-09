@@ -22,7 +22,7 @@ public interface DBusObject extends io.github.jwharm.javagi.Proxy {
      */
     public static DBusObject castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusObject"))) {
-            return new DBusObjectImpl(gobject.refcounted());
+            return new DBusObjectImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDBusObject");
         }
@@ -45,7 +45,7 @@ public interface DBusObject extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusInterface.DBusInterfaceImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.DBusInterface.DBusInterfaceImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -62,7 +62,7 @@ public interface DBusObject extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     /**
@@ -87,6 +87,8 @@ public interface DBusObject extends io.github.jwharm.javagi.Proxy {
     
     /**
      * Emitted when {@code interface} is added to {@code object}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<DBusObject.InterfaceAdded> onInterfaceAdded(DBusObject.InterfaceAdded handler) {
         try {
@@ -113,6 +115,8 @@ public interface DBusObject extends io.github.jwharm.javagi.Proxy {
     
     /**
      * Emitted when {@code interface} is removed from {@code object}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<DBusObject.InterfaceRemoved> onInterfaceRemoved(DBusObject.InterfaceRemoved handler) {
         try {
@@ -138,19 +142,22 @@ public interface DBusObject extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_dbus_object_get_interface = Interop.downcallHandle(
             "g_dbus_object_get_interface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dbus_object_get_interfaces = Interop.downcallHandle(
             "g_dbus_object_get_interfaces",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dbus_object_get_object_path = Interop.downcallHandle(
             "g_dbus_object_get_object_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -160,13 +167,13 @@ public interface DBusObject extends io.github.jwharm.javagi.Proxy {
         public static void signalDBusObjectInterfaceAdded(MemoryAddress source, MemoryAddress interface_, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusObject.InterfaceAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DBusObject.DBusObjectImpl(Refcounted.get(source)), new org.gtk.gio.DBusInterface.DBusInterfaceImpl(Refcounted.get(interface_, false)));
+            HANDLER.signalReceived(new DBusObject.DBusObjectImpl(source, Ownership.UNKNOWN), new org.gtk.gio.DBusInterface.DBusInterfaceImpl(interface_, Ownership.NONE));
         }
         
         public static void signalDBusObjectInterfaceRemoved(MemoryAddress source, MemoryAddress interface_, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusObject.InterfaceRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DBusObject.DBusObjectImpl(Refcounted.get(source)), new org.gtk.gio.DBusInterface.DBusInterfaceImpl(Refcounted.get(interface_, false)));
+            HANDLER.signalReceived(new DBusObject.DBusObjectImpl(source, Ownership.UNKNOWN), new org.gtk.gio.DBusInterface.DBusInterfaceImpl(interface_, Ownership.NONE));
         }
     }
     
@@ -176,8 +183,8 @@ public interface DBusObject extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public DBusObjectImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public DBusObjectImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

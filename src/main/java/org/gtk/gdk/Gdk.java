@@ -5,6 +5,9 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
+/**
+ * Constants and functions that are declared in the global Gdk namespace.
+ */
 public final class Gdk {
     
     @ApiStatus.Internal static void javagi$ensureInitialized() {}
@@ -4724,7 +4727,7 @@ public final class Gdk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.cairographics.Region(Refcounted.get(RESULT, true));
+        return new org.cairographics.Region(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4822,7 +4825,8 @@ public final class Gdk {
         try {
             RESULT = (int) DowncallHandles.gdk_content_deserialize_finish.invokeExact(
                     result.handle(),
-                    value.handle(), (Addressable) GERROR);
+                    value.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4853,7 +4857,7 @@ public final class Gdk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentFormats(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4958,7 +4962,8 @@ public final class Gdk {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_content_serialize_finish.invokeExact(
-                    result.handle(), (Addressable) GERROR);
+                    result.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5291,7 +5296,7 @@ public final class Gdk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.Paintable.PaintableImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -5326,7 +5331,7 @@ public final class Gdk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.cairographics.Region(Refcounted.get(RESULT, true));
+        return new org.cairographics.Region(RESULT, Ownership.FULL);
     }
     
     /**
@@ -5353,7 +5358,7 @@ public final class Gdk {
      * @param nRanges number of ranges in {@code index_ranges}, i.e. half the size of {@code index_ranges}
      * @return a clip region containing the given ranges
      */
-    public static @NotNull org.cairographics.Region pangoLayoutLineGetClipRegion(@NotNull org.pango.LayoutLine line, int xOrigin, int yOrigin, int[] indexRanges, int nRanges) {
+    public static @NotNull org.cairographics.Region pangoLayoutLineGetClipRegion(@NotNull org.pango.LayoutLine line, int xOrigin, int yOrigin, @NotNull int[] indexRanges, int nRanges) {
         java.util.Objects.requireNonNull(line, "Parameter 'line' must not be null");
         java.util.Objects.requireNonNull(indexRanges, "Parameter 'indexRanges' must not be null");
         MemoryAddress RESULT;
@@ -5367,7 +5372,7 @@ public final class Gdk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.cairographics.Region(Refcounted.get(RESULT, true));
+        return new org.cairographics.Region(RESULT, Ownership.FULL);
     }
     
     /**
@@ -5399,7 +5404,7 @@ public final class Gdk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdkpixbuf.Pixbuf(Refcounted.get(RESULT, true));
+        return new org.gtk.gdkpixbuf.Pixbuf(RESULT, Ownership.FULL);
     }
     
     /**
@@ -5420,7 +5425,7 @@ public final class Gdk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdkpixbuf.Pixbuf(Refcounted.get(RESULT, true));
+        return new org.gtk.gdkpixbuf.Pixbuf(RESULT, Ownership.FULL);
     }
     
     /**
@@ -5520,187 +5525,224 @@ public final class Gdk {
         
         private static final MethodHandle gdk_cairo_draw_from_gl = Interop.downcallHandle(
             "gdk_cairo_draw_from_gl",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_cairo_rectangle = Interop.downcallHandle(
             "gdk_cairo_rectangle",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_cairo_region = Interop.downcallHandle(
             "gdk_cairo_region",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_cairo_region_create_from_surface = Interop.downcallHandle(
             "gdk_cairo_region_create_from_surface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_cairo_set_source_pixbuf = Interop.downcallHandle(
             "gdk_cairo_set_source_pixbuf",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gdk_cairo_set_source_rgba = Interop.downcallHandle(
             "gdk_cairo_set_source_rgba",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_deserialize_async = Interop.downcallHandle(
             "gdk_content_deserialize_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_deserialize_finish = Interop.downcallHandle(
             "gdk_content_deserialize_finish",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_formats_parse = Interop.downcallHandle(
             "gdk_content_formats_parse",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_register_deserializer = Interop.downcallHandle(
             "gdk_content_register_deserializer",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_register_serializer = Interop.downcallHandle(
             "gdk_content_register_serializer",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_serialize_async = Interop.downcallHandle(
             "gdk_content_serialize_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_serialize_finish = Interop.downcallHandle(
             "gdk_content_serialize_finish",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_drag_action_is_unique = Interop.downcallHandle(
             "gdk_drag_action_is_unique",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_events_get_angle = Interop.downcallHandle(
             "gdk_events_get_angle",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_events_get_center = Interop.downcallHandle(
             "gdk_events_get_center",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_events_get_distance = Interop.downcallHandle(
             "gdk_events_get_distance",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_gl_error_quark = Interop.downcallHandle(
             "gdk_gl_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_intern_mime_type = Interop.downcallHandle(
             "gdk_intern_mime_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_keyval_convert_case = Interop.downcallHandle(
             "gdk_keyval_convert_case",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_keyval_from_name = Interop.downcallHandle(
             "gdk_keyval_from_name",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_keyval_is_lower = Interop.downcallHandle(
             "gdk_keyval_is_lower",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_keyval_is_upper = Interop.downcallHandle(
             "gdk_keyval_is_upper",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_keyval_name = Interop.downcallHandle(
             "gdk_keyval_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_keyval_to_lower = Interop.downcallHandle(
             "gdk_keyval_to_lower",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_keyval_to_unicode = Interop.downcallHandle(
             "gdk_keyval_to_unicode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_keyval_to_upper = Interop.downcallHandle(
             "gdk_keyval_to_upper",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_paintable_new_empty = Interop.downcallHandle(
             "gdk_paintable_new_empty",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_pango_layout_get_clip_region = Interop.downcallHandle(
             "gdk_pango_layout_get_clip_region",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_pango_layout_line_get_clip_region = Interop.downcallHandle(
             "gdk_pango_layout_line_get_clip_region",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_pixbuf_get_from_surface = Interop.downcallHandle(
             "gdk_pixbuf_get_from_surface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_pixbuf_get_from_texture = Interop.downcallHandle(
             "gdk_pixbuf_get_from_texture",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_set_allowed_backends = Interop.downcallHandle(
             "gdk_set_allowed_backends",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_texture_error_quark = Interop.downcallHandle(
             "gdk_texture_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_toplevel_size_get_type = Interop.downcallHandle(
             "gdk_toplevel_size_get_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle gdk_unicode_to_keyval = Interop.downcallHandle(
             "gdk_unicode_to_keyval",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_vulkan_error_quark = Interop.downcallHandle(
             "gdk_vulkan_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
     }
     

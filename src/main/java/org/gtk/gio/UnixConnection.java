@@ -37,6 +37,7 @@ public class UnixConnection extends org.gtk.gio.SocketConnection {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -47,12 +48,17 @@ public class UnixConnection extends org.gtk.gio.SocketConnection {
      */
     public org.gtk.gio.SocketConnection parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.SocketConnection(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.SocketConnection(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a UnixConnection proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public UnixConnection(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public UnixConnection(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -64,7 +70,7 @@ public class UnixConnection extends org.gtk.gio.SocketConnection {
      */
     public static UnixConnection castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GUnixConnection"))) {
-            return new UnixConnection(gobject.refcounted());
+            return new UnixConnection(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GUnixConnection");
         }
@@ -101,14 +107,15 @@ public class UnixConnection extends org.gtk.gio.SocketConnection {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_connection_receive_credentials.invokeExact(
                     handle(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.Credentials(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Credentials(RESULT, Ownership.FULL);
     }
     
     /**
@@ -153,14 +160,15 @@ public class UnixConnection extends org.gtk.gio.SocketConnection {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_connection_receive_credentials_finish.invokeExact(
                     handle(),
-                    result.handle(), (Addressable) GERROR);
+                    result.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.Credentials(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Credentials(RESULT, Ownership.FULL);
     }
     
     /**
@@ -181,7 +189,8 @@ public class UnixConnection extends org.gtk.gio.SocketConnection {
         try {
             RESULT = (int) DowncallHandles.g_unix_connection_receive_fd.invokeExact(
                     handle(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -222,7 +231,8 @@ public class UnixConnection extends org.gtk.gio.SocketConnection {
         try {
             RESULT = (int) DowncallHandles.g_unix_connection_send_credentials.invokeExact(
                     handle(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -273,7 +283,8 @@ public class UnixConnection extends org.gtk.gio.SocketConnection {
         try {
             RESULT = (int) DowncallHandles.g_unix_connection_send_credentials_finish.invokeExact(
                     handle(),
-                    result.handle(), (Addressable) GERROR);
+                    result.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -303,7 +314,8 @@ public class UnixConnection extends org.gtk.gio.SocketConnection {
             RESULT = (int) DowncallHandles.g_unix_connection_send_fd.invokeExact(
                     handle(),
                     fd,
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -317,42 +329,50 @@ public class UnixConnection extends org.gtk.gio.SocketConnection {
         
         private static final MethodHandle g_unix_connection_receive_credentials = Interop.downcallHandle(
             "g_unix_connection_receive_credentials",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_connection_receive_credentials_async = Interop.downcallHandle(
             "g_unix_connection_receive_credentials_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_connection_receive_credentials_finish = Interop.downcallHandle(
             "g_unix_connection_receive_credentials_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_connection_receive_fd = Interop.downcallHandle(
             "g_unix_connection_receive_fd",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_connection_send_credentials = Interop.downcallHandle(
             "g_unix_connection_send_credentials",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_connection_send_credentials_async = Interop.downcallHandle(
             "g_unix_connection_send_credentials_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_connection_send_credentials_finish = Interop.downcallHandle(
             "g_unix_connection_send_credentials_finish",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_connection_send_fd = Interop.downcallHandle(
             "g_unix_connection_send_fd",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -33,13 +33,19 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a GestureSingle proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public GestureSingle(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public GestureSingle(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -51,7 +57,7 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
      */
     public static GestureSingle castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGestureSingle"))) {
-            return new GestureSingle(gobject.refcounted());
+            return new GestureSingle(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkGestureSingle");
         }
@@ -105,7 +111,7 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.EventSequence(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.EventSequence(RESULT, Ownership.FULL);
     }
     
     /**
@@ -198,42 +204,50 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
         
         private static final MethodHandle gtk_gesture_single_get_button = Interop.downcallHandle(
             "gtk_gesture_single_get_button",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gesture_single_get_current_button = Interop.downcallHandle(
             "gtk_gesture_single_get_current_button",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gesture_single_get_current_sequence = Interop.downcallHandle(
             "gtk_gesture_single_get_current_sequence",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gesture_single_get_exclusive = Interop.downcallHandle(
             "gtk_gesture_single_get_exclusive",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gesture_single_get_touch_only = Interop.downcallHandle(
             "gtk_gesture_single_get_touch_only",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gesture_single_set_button = Interop.downcallHandle(
             "gtk_gesture_single_set_button",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_gesture_single_set_exclusive = Interop.downcallHandle(
             "gtk_gesture_single_set_exclusive",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_gesture_single_set_touch_only = Interop.downcallHandle(
             "gtk_gesture_single_set_touch_only",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

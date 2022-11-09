@@ -89,6 +89,7 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -97,14 +98,19 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
     
     public static Cond allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Cond newInstance = new Cond(Refcounted.get(segment.address()));
+        Cond newInstance = new Cond(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a Cond proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Cond(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Cond(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -275,32 +281,38 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_cond_broadcast = Interop.downcallHandle(
             "g_cond_broadcast",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cond_clear = Interop.downcallHandle(
             "g_cond_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cond_init = Interop.downcallHandle(
             "g_cond_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cond_signal = Interop.downcallHandle(
             "g_cond_signal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cond_wait = Interop.downcallHandle(
             "g_cond_wait",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cond_wait_until = Interop.downcallHandle(
             "g_cond_wait_until",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
     }
 }

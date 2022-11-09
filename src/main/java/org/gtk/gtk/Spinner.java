@@ -33,13 +33,19 @@ public class Spinner extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Spinner proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Spinner(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Spinner(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -51,16 +57,16 @@ public class Spinner extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public static Spinner castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSpinner"))) {
-            return new Spinner(gobject.refcounted());
+            return new Spinner(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkSpinner");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_spinner_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_spinner_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -71,7 +77,7 @@ public class Spinner extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Returns a new spinner widget. Not yet started.
      */
     public Spinner() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -131,27 +137,32 @@ public class Spinner extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         
         private static final MethodHandle gtk_spinner_new = Interop.downcallHandle(
             "gtk_spinner_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_spinner_get_spinning = Interop.downcallHandle(
             "gtk_spinner_get_spinning",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_spinner_set_spinning = Interop.downcallHandle(
             "gtk_spinner_set_spinning",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_spinner_start = Interop.downcallHandle(
             "gtk_spinner_start",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_spinner_stop = Interop.downcallHandle(
             "gtk_spinner_stop",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -38,13 +38,19 @@ public class PasswordEntryRow extends org.gnome.adw.EntryRow implements org.gtk.
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a PasswordEntryRow proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PasswordEntryRow(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PasswordEntryRow(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -56,16 +62,16 @@ public class PasswordEntryRow extends org.gnome.adw.EntryRow implements org.gtk.
      */
     public static PasswordEntryRow castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwPasswordEntryRow"))) {
-            return new PasswordEntryRow(gobject.refcounted());
+            return new PasswordEntryRow(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwPasswordEntryRow");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_password_entry_row_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.adw_password_entry_row_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,14 +82,15 @@ public class PasswordEntryRow extends org.gnome.adw.EntryRow implements org.gtk.
      * Creates a new {@code AdwPasswordEntryRow}.
      */
     public PasswordEntryRow() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle adw_password_entry_row_new = Interop.downcallHandle(
             "adw_password_entry_row_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

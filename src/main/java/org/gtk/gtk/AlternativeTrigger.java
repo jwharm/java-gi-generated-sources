@@ -24,13 +24,19 @@ public class AlternativeTrigger extends org.gtk.gtk.ShortcutTrigger {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a AlternativeTrigger proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public AlternativeTrigger(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public AlternativeTrigger(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -42,20 +48,20 @@ public class AlternativeTrigger extends org.gtk.gtk.ShortcutTrigger {
      */
     public static AlternativeTrigger castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkAlternativeTrigger"))) {
-            return new AlternativeTrigger(gobject.refcounted());
+            return new AlternativeTrigger(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkAlternativeTrigger");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gtk.ShortcutTrigger first, @NotNull org.gtk.gtk.ShortcutTrigger second) {
+    private static Addressable constructNew(@NotNull org.gtk.gtk.ShortcutTrigger first, @NotNull org.gtk.gtk.ShortcutTrigger second) {
         java.util.Objects.requireNonNull(first, "Parameter 'first' must not be null");
         java.util.Objects.requireNonNull(second, "Parameter 'second' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_alternative_trigger_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_alternative_trigger_new.invokeExact(
                     first.refcounted().unowned().handle(),
-                    second.refcounted().unowned().handle()), true);
+                    second.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -72,7 +78,7 @@ public class AlternativeTrigger extends org.gtk.gtk.ShortcutTrigger {
      * @param second The second trigger that may trigger
      */
     public AlternativeTrigger(@NotNull org.gtk.gtk.ShortcutTrigger first, @NotNull org.gtk.gtk.ShortcutTrigger second) {
-        super(constructNew(first, second));
+        super(constructNew(first, second), Ownership.FULL);
     }
     
     /**
@@ -91,7 +97,7 @@ public class AlternativeTrigger extends org.gtk.gtk.ShortcutTrigger {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.ShortcutTrigger(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.ShortcutTrigger(RESULT, Ownership.NONE);
     }
     
     /**
@@ -110,24 +116,27 @@ public class AlternativeTrigger extends org.gtk.gtk.ShortcutTrigger {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.ShortcutTrigger(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.ShortcutTrigger(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_alternative_trigger_new = Interop.downcallHandle(
             "gtk_alternative_trigger_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_alternative_trigger_get_first = Interop.downcallHandle(
             "gtk_alternative_trigger_get_first",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_alternative_trigger_get_second = Interop.downcallHandle(
             "gtk_alternative_trigger_get_second",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

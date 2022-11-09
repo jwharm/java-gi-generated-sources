@@ -27,13 +27,19 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a DropControllerMotion proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DropControllerMotion(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DropControllerMotion(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -45,16 +51,16 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
      */
     public static DropControllerMotion castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkDropControllerMotion"))) {
-            return new DropControllerMotion(gobject.refcounted());
+            return new DropControllerMotion(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkDropControllerMotion");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_drop_controller_motion_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_controller_motion_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,7 +72,7 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
      * events during drag and drop.
      */
     public DropControllerMotion() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -99,7 +105,7 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Drop(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Drop(RESULT, Ownership.NONE);
     }
     
     /**
@@ -126,6 +132,8 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
     
     /**
      * Signals that the pointer has entered the widget.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DropControllerMotion.Enter> onEnter(DropControllerMotion.Enter handler) {
         try {
@@ -152,6 +160,8 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
     
     /**
      * Signals that the pointer has left the widget.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DropControllerMotion.Leave> onLeave(DropControllerMotion.Leave handler) {
         try {
@@ -178,6 +188,8 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
     
     /**
      * Emitted when the pointer moves inside the widget.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DropControllerMotion.Motion> onMotion(DropControllerMotion.Motion handler) {
         try {
@@ -201,22 +213,26 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
         
         private static final MethodHandle gtk_drop_controller_motion_new = Interop.downcallHandle(
             "gtk_drop_controller_motion_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_drop_controller_motion_contains_pointer = Interop.downcallHandle(
             "gtk_drop_controller_motion_contains_pointer",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_drop_controller_motion_get_drop = Interop.downcallHandle(
             "gtk_drop_controller_motion_get_drop",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_drop_controller_motion_is_pointer = Interop.downcallHandle(
             "gtk_drop_controller_motion_is_pointer",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -225,19 +241,19 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
         public static void signalDropControllerMotionEnter(MemoryAddress source, double x, double y, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DropControllerMotion.Enter) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DropControllerMotion(Refcounted.get(source)), x, y);
+            HANDLER.signalReceived(new DropControllerMotion(source, Ownership.UNKNOWN), x, y);
         }
         
         public static void signalDropControllerMotionLeave(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DropControllerMotion.Leave) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DropControllerMotion(Refcounted.get(source)));
+            HANDLER.signalReceived(new DropControllerMotion(source, Ownership.UNKNOWN));
         }
         
         public static void signalDropControllerMotionMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DropControllerMotion.Motion) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DropControllerMotion(Refcounted.get(source)), x, y);
+            HANDLER.signalReceived(new DropControllerMotion(source, Ownership.UNKNOWN), x, y);
         }
     }
 }

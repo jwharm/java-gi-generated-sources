@@ -35,6 +35,7 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -43,14 +44,19 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
     
     public static HashTableIter allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        HashTableIter newInstance = new HashTableIter(Refcounted.get(segment.address()));
+        HashTableIter newInstance = new HashTableIter(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a HashTableIter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public HashTableIter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public HashTableIter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -65,7 +71,7 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.HashTable(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.HashTable(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -191,32 +197,38 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_hash_table_iter_get_hash_table = Interop.downcallHandle(
             "g_hash_table_iter_get_hash_table",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hash_table_iter_init = Interop.downcallHandle(
             "g_hash_table_iter_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hash_table_iter_next = Interop.downcallHandle(
             "g_hash_table_iter_next",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hash_table_iter_remove = Interop.downcallHandle(
             "g_hash_table_iter_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hash_table_iter_replace = Interop.downcallHandle(
             "g_hash_table_iter_replace",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hash_table_iter_steal = Interop.downcallHandle(
             "g_hash_table_iter_steal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

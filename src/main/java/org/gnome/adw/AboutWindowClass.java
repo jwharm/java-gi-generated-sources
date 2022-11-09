@@ -21,6 +21,7 @@ public class AboutWindowClass extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -29,7 +30,7 @@ public class AboutWindowClass extends io.github.jwharm.javagi.ResourceBase {
     
     public static AboutWindowClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AboutWindowClass newInstance = new AboutWindowClass(Refcounted.get(segment.address()));
+        AboutWindowClass newInstance = new AboutWindowClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -40,11 +41,16 @@ public class AboutWindowClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gnome.adw.WindowClass parent_class$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gnome.adw.WindowClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gnome.adw.WindowClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a AboutWindowClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public AboutWindowClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public AboutWindowClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

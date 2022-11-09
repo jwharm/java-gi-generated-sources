@@ -31,7 +31,7 @@ public interface Buildable extends io.github.jwharm.javagi.Proxy {
      */
     public static Buildable castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkBuildable"))) {
-            return new BuildableImpl(gobject.refcounted());
+            return new BuildableImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkBuildable");
         }
@@ -61,7 +61,8 @@ public interface Buildable extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_buildable_get_buildable_id = Interop.downcallHandle(
             "gtk_buildable_get_buildable_id",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -71,8 +72,8 @@ public interface Buildable extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public BuildableImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public BuildableImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

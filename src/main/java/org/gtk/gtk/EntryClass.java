@@ -31,6 +31,7 @@ public class EntryClass extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -39,7 +40,7 @@ public class EntryClass extends io.github.jwharm.javagi.ResourceBase {
     
     public static EntryClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        EntryClass newInstance = new EntryClass(Refcounted.get(segment.address()));
+        EntryClass newInstance = new EntryClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,11 +51,16 @@ public class EntryClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gtk.WidgetClass parent_class$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gtk.WidgetClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.WidgetClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a EntryClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public EntryClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public EntryClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

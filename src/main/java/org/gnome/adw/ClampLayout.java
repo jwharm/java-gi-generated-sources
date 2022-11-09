@@ -42,13 +42,19 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ClampLayout proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ClampLayout(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ClampLayout(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -60,16 +66,16 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
      */
     public static ClampLayout castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwClampLayout"))) {
-            return new ClampLayout(gobject.refcounted());
+            return new ClampLayout(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwClampLayout");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_clamp_layout_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.adw_clamp_layout_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +86,7 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
      * Creates a new {@code AdwClampLayout}.
      */
     public ClampLayout() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -160,27 +166,32 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
         
         private static final MethodHandle adw_clamp_layout_new = Interop.downcallHandle(
             "adw_clamp_layout_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_clamp_layout_get_maximum_size = Interop.downcallHandle(
             "adw_clamp_layout_get_maximum_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_clamp_layout_get_tightening_threshold = Interop.downcallHandle(
             "adw_clamp_layout_get_tightening_threshold",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_clamp_layout_set_maximum_size = Interop.downcallHandle(
             "adw_clamp_layout_set_maximum_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_clamp_layout_set_tightening_threshold = Interop.downcallHandle(
             "adw_clamp_layout_set_tightening_threshold",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

@@ -108,13 +108,19 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Notebook proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Notebook(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Notebook(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -126,16 +132,16 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public static Notebook castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkNotebook"))) {
-            return new Notebook(gobject.refcounted());
+            return new Notebook(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkNotebook");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_notebook_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,7 +152,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Creates a new {@code GtkNotebook} widget with no pages.
      */
     public Notebook() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -240,7 +246,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -293,7 +299,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -349,7 +355,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -367,7 +373,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.NotebookPage(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.NotebookPage(RESULT, Ownership.NONE);
     }
     
     /**
@@ -387,7 +393,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.ListModel.ListModelImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -471,7 +477,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1062,6 +1068,8 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * responsible for moving/resizing the window and adding the
      * necessary properties to the notebook (e.g. the
      * {@code GtkNotebook}:group-name ).
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Notebook.CreateWindow> onCreateWindow(Notebook.CreateWindow handler) {
         try {
@@ -1135,6 +1143,8 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     /**
      * the ::page-added signal is emitted in the notebook
      * right after a page is added to the notebook.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Notebook.PageAdded> onPageAdded(Notebook.PageAdded handler) {
         try {
@@ -1162,6 +1172,8 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     /**
      * the ::page-removed signal is emitted in the notebook
      * right after a page is removed from the notebook.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Notebook.PageRemoved> onPageRemoved(Notebook.PageRemoved handler) {
         try {
@@ -1189,6 +1201,8 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     /**
      * the ::page-reordered signal is emitted in the notebook
      * right after a page has been reordered.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Notebook.PageReordered> onPageReordered(Notebook.PageReordered handler) {
         try {
@@ -1261,6 +1275,8 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Emitted when the user or a function changes the current page.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Notebook.SwitchPage> onSwitchPage(Notebook.SwitchPage handler) {
         try {
@@ -1284,227 +1300,272 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         
         private static final MethodHandle gtk_notebook_new = Interop.downcallHandle(
             "gtk_notebook_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_append_page = Interop.downcallHandle(
             "gtk_notebook_append_page",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_append_page_menu = Interop.downcallHandle(
             "gtk_notebook_append_page_menu",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_detach_tab = Interop.downcallHandle(
             "gtk_notebook_detach_tab",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_get_action_widget = Interop.downcallHandle(
             "gtk_notebook_get_action_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_notebook_get_current_page = Interop.downcallHandle(
             "gtk_notebook_get_current_page",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_get_group_name = Interop.downcallHandle(
             "gtk_notebook_get_group_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_get_menu_label = Interop.downcallHandle(
             "gtk_notebook_get_menu_label",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_get_menu_label_text = Interop.downcallHandle(
             "gtk_notebook_get_menu_label_text",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_get_n_pages = Interop.downcallHandle(
             "gtk_notebook_get_n_pages",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_get_nth_page = Interop.downcallHandle(
             "gtk_notebook_get_nth_page",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_notebook_get_page = Interop.downcallHandle(
             "gtk_notebook_get_page",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_get_pages = Interop.downcallHandle(
             "gtk_notebook_get_pages",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_get_scrollable = Interop.downcallHandle(
             "gtk_notebook_get_scrollable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_get_show_border = Interop.downcallHandle(
             "gtk_notebook_get_show_border",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_get_show_tabs = Interop.downcallHandle(
             "gtk_notebook_get_show_tabs",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_get_tab_detachable = Interop.downcallHandle(
             "gtk_notebook_get_tab_detachable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_get_tab_label = Interop.downcallHandle(
             "gtk_notebook_get_tab_label",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_get_tab_label_text = Interop.downcallHandle(
             "gtk_notebook_get_tab_label_text",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_get_tab_pos = Interop.downcallHandle(
             "gtk_notebook_get_tab_pos",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_get_tab_reorderable = Interop.downcallHandle(
             "gtk_notebook_get_tab_reorderable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_insert_page = Interop.downcallHandle(
             "gtk_notebook_insert_page",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_notebook_insert_page_menu = Interop.downcallHandle(
             "gtk_notebook_insert_page_menu",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_notebook_next_page = Interop.downcallHandle(
             "gtk_notebook_next_page",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_page_num = Interop.downcallHandle(
             "gtk_notebook_page_num",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_popup_disable = Interop.downcallHandle(
             "gtk_notebook_popup_disable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_popup_enable = Interop.downcallHandle(
             "gtk_notebook_popup_enable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_prepend_page = Interop.downcallHandle(
             "gtk_notebook_prepend_page",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_prepend_page_menu = Interop.downcallHandle(
             "gtk_notebook_prepend_page_menu",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_prev_page = Interop.downcallHandle(
             "gtk_notebook_prev_page",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_remove_page = Interop.downcallHandle(
             "gtk_notebook_remove_page",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_notebook_reorder_child = Interop.downcallHandle(
             "gtk_notebook_reorder_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_notebook_set_action_widget = Interop.downcallHandle(
             "gtk_notebook_set_action_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_notebook_set_current_page = Interop.downcallHandle(
             "gtk_notebook_set_current_page",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_notebook_set_group_name = Interop.downcallHandle(
             "gtk_notebook_set_group_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_set_menu_label = Interop.downcallHandle(
             "gtk_notebook_set_menu_label",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_set_menu_label_text = Interop.downcallHandle(
             "gtk_notebook_set_menu_label_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_set_scrollable = Interop.downcallHandle(
             "gtk_notebook_set_scrollable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_notebook_set_show_border = Interop.downcallHandle(
             "gtk_notebook_set_show_border",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_notebook_set_show_tabs = Interop.downcallHandle(
             "gtk_notebook_set_show_tabs",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_notebook_set_tab_detachable = Interop.downcallHandle(
             "gtk_notebook_set_tab_detachable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_notebook_set_tab_label = Interop.downcallHandle(
             "gtk_notebook_set_tab_label",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_set_tab_label_text = Interop.downcallHandle(
             "gtk_notebook_set_tab_label_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_notebook_set_tab_pos = Interop.downcallHandle(
             "gtk_notebook_set_tab_pos",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_notebook_set_tab_reorderable = Interop.downcallHandle(
             "gtk_notebook_set_tab_reorderable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -1513,61 +1574,61 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         public static boolean signalNotebookChangeCurrentPage(MemoryAddress source, int object, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Notebook.ChangeCurrentPage) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Notebook(Refcounted.get(source)), object);
+            return HANDLER.signalReceived(new Notebook(source, Ownership.UNKNOWN), object);
         }
         
         public static void signalNotebookCreateWindow(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Notebook.CreateWindow) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Notebook(Refcounted.get(source)), new org.gtk.gtk.Widget(Refcounted.get(page, false)));
+            HANDLER.signalReceived(new Notebook(source, Ownership.UNKNOWN), new org.gtk.gtk.Widget(page, Ownership.NONE));
         }
         
         public static boolean signalNotebookFocusTab(MemoryAddress source, int object, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Notebook.FocusTab) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Notebook(Refcounted.get(source)), new org.gtk.gtk.NotebookTab(object));
+            return HANDLER.signalReceived(new Notebook(source, Ownership.UNKNOWN), new org.gtk.gtk.NotebookTab(object));
         }
         
         public static void signalNotebookMoveFocusOut(MemoryAddress source, int object, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Notebook.MoveFocusOut) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Notebook(Refcounted.get(source)), new org.gtk.gtk.DirectionType(object));
+            HANDLER.signalReceived(new Notebook(source, Ownership.UNKNOWN), new org.gtk.gtk.DirectionType(object));
         }
         
         public static void signalNotebookPageAdded(MemoryAddress source, MemoryAddress child, int pageNum, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Notebook.PageAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Notebook(Refcounted.get(source)), new org.gtk.gtk.Widget(Refcounted.get(child, false)), pageNum);
+            HANDLER.signalReceived(new Notebook(source, Ownership.UNKNOWN), new org.gtk.gtk.Widget(child, Ownership.NONE), pageNum);
         }
         
         public static void signalNotebookPageRemoved(MemoryAddress source, MemoryAddress child, int pageNum, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Notebook.PageRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Notebook(Refcounted.get(source)), new org.gtk.gtk.Widget(Refcounted.get(child, false)), pageNum);
+            HANDLER.signalReceived(new Notebook(source, Ownership.UNKNOWN), new org.gtk.gtk.Widget(child, Ownership.NONE), pageNum);
         }
         
         public static void signalNotebookPageReordered(MemoryAddress source, MemoryAddress child, int pageNum, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Notebook.PageReordered) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Notebook(Refcounted.get(source)), new org.gtk.gtk.Widget(Refcounted.get(child, false)), pageNum);
+            HANDLER.signalReceived(new Notebook(source, Ownership.UNKNOWN), new org.gtk.gtk.Widget(child, Ownership.NONE), pageNum);
         }
         
         public static boolean signalNotebookReorderTab(MemoryAddress source, int object, int p0, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Notebook.ReorderTab) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Notebook(Refcounted.get(source)), new org.gtk.gtk.DirectionType(object), p0 != 0);
+            return HANDLER.signalReceived(new Notebook(source, Ownership.UNKNOWN), new org.gtk.gtk.DirectionType(object), p0 != 0);
         }
         
         public static boolean signalNotebookSelectPage(MemoryAddress source, int object, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Notebook.SelectPage) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Notebook(Refcounted.get(source)), object != 0);
+            return HANDLER.signalReceived(new Notebook(source, Ownership.UNKNOWN), object != 0);
         }
         
         public static void signalNotebookSwitchPage(MemoryAddress source, MemoryAddress page, int pageNum, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Notebook.SwitchPage) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Notebook(Refcounted.get(source)), new org.gtk.gtk.Widget(Refcounted.get(page, false)), pageNum);
+            HANDLER.signalReceived(new Notebook(source, Ownership.UNKNOWN), new org.gtk.gtk.Widget(page, Ownership.NONE), pageNum);
         }
     }
 }

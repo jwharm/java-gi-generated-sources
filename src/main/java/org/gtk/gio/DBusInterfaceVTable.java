@@ -69,6 +69,7 @@ public class DBusInterfaceVTable extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -77,7 +78,7 @@ public class DBusInterfaceVTable extends io.github.jwharm.javagi.ResourceBase {
     
     public static DBusInterfaceVTable allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DBusInterfaceVTable newInstance = new DBusInterfaceVTable(Refcounted.get(segment.address()));
+        DBusInterfaceVTable newInstance = new DBusInterfaceVTable(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -115,8 +116,13 @@ public class DBusInterfaceVTable extends io.github.jwharm.javagi.ResourceBase {
         return null /* Unsupported parameter type */;
     }
     
+    /**
+     * Create a DBusInterfaceVTable proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DBusInterfaceVTable(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DBusInterfaceVTable(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

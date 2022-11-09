@@ -28,6 +28,7 @@ public class AsyncInitableIface extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -36,7 +37,7 @@ public class AsyncInitableIface extends io.github.jwharm.javagi.ResourceBase {
     
     public static AsyncInitableIface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AsyncInitableIface newInstance = new AsyncInitableIface(Refcounted.get(segment.address()));
+        AsyncInitableIface newInstance = new AsyncInitableIface(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,11 +48,16 @@ public class AsyncInitableIface extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gobject.TypeInterface g_iface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return new org.gtk.gobject.TypeInterface(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a AsyncInitableIface proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public AsyncInitableIface(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public AsyncInitableIface(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

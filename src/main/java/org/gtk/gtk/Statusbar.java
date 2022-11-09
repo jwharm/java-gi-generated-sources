@@ -54,13 +54,19 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Statusbar proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Statusbar(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Statusbar(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -72,16 +78,16 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public static Statusbar castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkStatusbar"))) {
-            return new Statusbar(gobject.refcounted());
+            return new Statusbar(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkStatusbar");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_statusbar_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_statusbar_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,7 +98,7 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * Creates a new {@code GtkStatusbar} ready for messages.
      */
     public Statusbar() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -197,6 +203,8 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     
     /**
      * Emitted whenever a new message is popped off a statusbar's stack.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Statusbar.TextPopped> onTextPopped(Statusbar.TextPopped handler) {
         try {
@@ -223,6 +231,8 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     
     /**
      * Emitted whenever a new message gets pushed onto a statusbar's stack.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Statusbar.TextPushed> onTextPushed(Statusbar.TextPushed handler) {
         try {
@@ -246,32 +256,38 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         
         private static final MethodHandle gtk_statusbar_new = Interop.downcallHandle(
             "gtk_statusbar_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_statusbar_get_context_id = Interop.downcallHandle(
             "gtk_statusbar_get_context_id",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_statusbar_pop = Interop.downcallHandle(
             "gtk_statusbar_pop",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_statusbar_push = Interop.downcallHandle(
             "gtk_statusbar_push",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_statusbar_remove = Interop.downcallHandle(
             "gtk_statusbar_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_statusbar_remove_all = Interop.downcallHandle(
             "gtk_statusbar_remove_all",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -280,13 +296,13 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         public static void signalStatusbarTextPopped(MemoryAddress source, int contextId, MemoryAddress text, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Statusbar.TextPopped) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Statusbar(Refcounted.get(source)), contextId, Interop.getStringFrom(text));
+            HANDLER.signalReceived(new Statusbar(source, Ownership.UNKNOWN), contextId, Interop.getStringFrom(text));
         }
         
         public static void signalStatusbarTextPushed(MemoryAddress source, int contextId, MemoryAddress text, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Statusbar.TextPushed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Statusbar(Refcounted.get(source)), contextId, Interop.getStringFrom(text));
+            HANDLER.signalReceived(new Statusbar(source, Ownership.UNKNOWN), contextId, Interop.getStringFrom(text));
         }
     }
 }

@@ -118,6 +118,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -128,12 +129,17 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
      */
     public org.gtk.gobject.Object parent$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a TreeModelSort proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TreeModelSort(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TreeModelSort(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -145,18 +151,18 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
      */
     public static TreeModelSort castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeModelSort"))) {
-            return new TreeModelSort(gobject.refcounted());
+            return new TreeModelSort(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTreeModelSort");
         }
     }
     
-    private static Refcounted constructNewWithModel(@NotNull org.gtk.gtk.TreeModel childModel) {
+    private static Addressable constructNewWithModel(@NotNull org.gtk.gtk.TreeModel childModel) {
         java.util.Objects.requireNonNull(childModel, "Parameter 'childModel' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_model_sort_new_with_model.invokeExact(
-                    childModel.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_sort_new_with_model.invokeExact(
+                    childModel.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,7 +175,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
      * @return A new {@code GtkTreeModelSort}.
      */
     public static TreeModelSort newWithModel(@NotNull org.gtk.gtk.TreeModel childModel) {
-        return new TreeModelSort(constructNewWithModel(childModel));
+        return new TreeModelSort(constructNewWithModel(childModel), Ownership.FULL);
     }
     
     /**
@@ -231,7 +237,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreePath(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.TreePath(RESULT, Ownership.FULL);
     }
     
     /**
@@ -271,7 +277,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreePath(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.TreePath(RESULT, Ownership.FULL);
     }
     
     /**
@@ -286,13 +292,14 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.TreeModel.TreeModelImpl(RESULT, Ownership.NONE);
     }
     
     /**
      * &gt; This function is slow. Only use it for debugging and/or testing
-     * &gt; purposes.
-     * <p>
+     * <blockquote>
+     *  purposes.
+     * </blockquote><p>
      * Checks if the given iter is a valid iter for this {@code GtkTreeModelSort}.
      * @param iter A {@code GtkTreeIter}
      * @return {@code true} if the iter is valid, {@code false} if the iter is invalid.
@@ -329,47 +336,56 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
         
         private static final MethodHandle gtk_tree_model_sort_new_with_model = Interop.downcallHandle(
             "gtk_tree_model_sort_new_with_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_model_sort_clear_cache = Interop.downcallHandle(
             "gtk_tree_model_sort_clear_cache",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_model_sort_convert_child_iter_to_iter = Interop.downcallHandle(
             "gtk_tree_model_sort_convert_child_iter_to_iter",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_model_sort_convert_child_path_to_path = Interop.downcallHandle(
             "gtk_tree_model_sort_convert_child_path_to_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_model_sort_convert_iter_to_child_iter = Interop.downcallHandle(
             "gtk_tree_model_sort_convert_iter_to_child_iter",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_model_sort_convert_path_to_child_path = Interop.downcallHandle(
             "gtk_tree_model_sort_convert_path_to_child_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_model_sort_get_model = Interop.downcallHandle(
             "gtk_tree_model_sort_get_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_model_sort_iter_is_valid = Interop.downcallHandle(
             "gtk_tree_model_sort_iter_is_valid",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_model_sort_reset_default_sort_func = Interop.downcallHandle(
             "gtk_tree_model_sort_reset_default_sort_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

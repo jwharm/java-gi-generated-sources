@@ -78,13 +78,19 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a DBusAuthObserver proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DBusAuthObserver(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DBusAuthObserver(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -96,16 +102,16 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
      */
     public static DBusAuthObserver castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusAuthObserver"))) {
-            return new DBusAuthObserver(gobject.refcounted());
+            return new DBusAuthObserver(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDBusAuthObserver");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_auth_observer_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_auth_observer_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,7 +122,7 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
      * Creates a new {@link DBusAuthObserver} object.
      */
     public DBusAuthObserver() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -164,6 +170,8 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
     
     /**
      * Emitted to check if {@code mechanism} is allowed to be used.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DBusAuthObserver.AllowMechanism> onAllowMechanism(DBusAuthObserver.AllowMechanism handler) {
         try {
@@ -191,6 +199,8 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
     /**
      * Emitted to check if a peer that is successfully authenticated
      * is authorized.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DBusAuthObserver.AuthorizeAuthenticatedPeer> onAuthorizeAuthenticatedPeer(DBusAuthObserver.AuthorizeAuthenticatedPeer handler) {
         try {
@@ -214,17 +224,20 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
         
         private static final MethodHandle g_dbus_auth_observer_new = Interop.downcallHandle(
             "g_dbus_auth_observer_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_auth_observer_allow_mechanism = Interop.downcallHandle(
             "g_dbus_auth_observer_allow_mechanism",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_auth_observer_authorize_authenticated_peer = Interop.downcallHandle(
             "g_dbus_auth_observer_authorize_authenticated_peer",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -233,13 +246,13 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
         public static boolean signalDBusAuthObserverAllowMechanism(MemoryAddress source, MemoryAddress mechanism, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusAuthObserver.AllowMechanism) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new DBusAuthObserver(Refcounted.get(source)), Interop.getStringFrom(mechanism));
+            return HANDLER.signalReceived(new DBusAuthObserver(source, Ownership.UNKNOWN), Interop.getStringFrom(mechanism));
         }
         
         public static boolean signalDBusAuthObserverAuthorizeAuthenticatedPeer(MemoryAddress source, MemoryAddress stream, MemoryAddress credentials, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusAuthObserver.AuthorizeAuthenticatedPeer) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new DBusAuthObserver(Refcounted.get(source)), new org.gtk.gio.IOStream(Refcounted.get(stream, false)), new org.gtk.gio.Credentials(Refcounted.get(credentials, false)));
+            return HANDLER.signalReceived(new DBusAuthObserver(source, Ownership.UNKNOWN), new org.gtk.gio.IOStream(stream, Ownership.NONE), new org.gtk.gio.Credentials(credentials, Ownership.NONE));
         }
     }
 }

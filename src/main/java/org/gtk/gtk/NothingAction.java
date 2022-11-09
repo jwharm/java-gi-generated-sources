@@ -20,13 +20,19 @@ public class NothingAction extends org.gtk.gtk.ShortcutAction {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a NothingAction proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public NothingAction(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public NothingAction(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,7 +44,7 @@ public class NothingAction extends org.gtk.gtk.ShortcutAction {
      */
     public static NothingAction castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkNothingAction"))) {
-            return new NothingAction(gobject.refcounted());
+            return new NothingAction(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkNothingAction");
         }
@@ -58,14 +64,15 @@ public class NothingAction extends org.gtk.gtk.ShortcutAction {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.NothingAction(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.NothingAction(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_nothing_action_get = Interop.downcallHandle(
             "gtk_nothing_action_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

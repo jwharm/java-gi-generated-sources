@@ -19,7 +19,7 @@ public interface TreeDragDest extends io.github.jwharm.javagi.Proxy {
      */
     public static TreeDragDest castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeDragDest"))) {
-            return new TreeDragDestImpl(gobject.refcounted());
+            return new TreeDragDestImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTreeDragDest");
         }
@@ -82,13 +82,15 @@ public interface TreeDragDest extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_drag_dest_drag_data_received = Interop.downcallHandle(
             "gtk_tree_drag_dest_drag_data_received",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_drag_dest_row_drop_possible = Interop.downcallHandle(
             "gtk_tree_drag_dest_row_drop_possible",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -98,8 +100,8 @@ public interface TreeDragDest extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public TreeDragDestImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public TreeDragDestImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

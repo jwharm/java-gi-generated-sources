@@ -82,6 +82,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -90,7 +91,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
     
     public static Closure allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Closure newInstance = new Closure(Refcounted.get(segment.address()));
+        Closure newInstance = new Closure(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -137,18 +138,23 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_invalid);
     }
     
+    /**
+     * Create a Closure proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Closure(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Closure(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNewObject(int sizeofClosure, @NotNull org.gtk.gobject.Object object) {
+    private static Addressable constructNewObject(int sizeofClosure, @NotNull org.gtk.gobject.Object object) {
         java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_closure_new_object.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_closure_new_object.invokeExact(
                     sizeofClosure,
-                    object.handle()), true);
+                    object.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,15 +173,15 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * @return a newly allocated {@link Closure}
      */
     public static Closure newObject(int sizeofClosure, @NotNull org.gtk.gobject.Object object) {
-        return new Closure(constructNewObject(sizeofClosure, object));
+        return new Closure(constructNewObject(sizeofClosure, object), Ownership.FULL);
     }
     
-    private static Refcounted constructNewSimple(int sizeofClosure, @Nullable java.lang.foreign.MemoryAddress data) {
-        Refcounted RESULT;
+    private static Addressable constructNewSimple(int sizeofClosure, @Nullable java.lang.foreign.MemoryAddress data) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_closure_new_simple.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_closure_new_simple.invokeExact(
                     sizeofClosure,
-                    data), false);
+                    data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -225,7 +231,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * @return a floating reference to a new {@link Closure}
      */
     public static Closure newSimple(int sizeofClosure, @Nullable java.lang.foreign.MemoryAddress data) {
-        return new Closure(constructNewSimple(sizeofClosure, data));
+        return new Closure(constructNewSimple(sizeofClosure, data), Ownership.NONE);
     }
     
     /**
@@ -344,7 +350,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      *                invoke the callback of {@code closure}
      * @param invocationHint a context-dependent invocation hint
      */
-    public void invoke(@NotNull org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value[] paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
+    public void invoke(@NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value[] paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
         java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
         try {
@@ -372,7 +378,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Closure(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.Closure(RESULT, Ownership.NONE);
     }
     
     /**
@@ -546,72 +552,86 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_closure_new_object = Interop.downcallHandle(
             "g_closure_new_object",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_closure_new_simple = Interop.downcallHandle(
             "g_closure_new_simple",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_closure_add_finalize_notifier = Interop.downcallHandle(
             "g_closure_add_finalize_notifier",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_closure_add_invalidate_notifier = Interop.downcallHandle(
             "g_closure_add_invalidate_notifier",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_closure_add_marshal_guards = Interop.downcallHandle(
             "g_closure_add_marshal_guards",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_closure_invalidate = Interop.downcallHandle(
             "g_closure_invalidate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_closure_invoke = Interop.downcallHandle(
             "g_closure_invoke",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_closure_ref = Interop.downcallHandle(
             "g_closure_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_closure_remove_finalize_notifier = Interop.downcallHandle(
             "g_closure_remove_finalize_notifier",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_closure_remove_invalidate_notifier = Interop.downcallHandle(
             "g_closure_remove_invalidate_notifier",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_closure_set_marshal = Interop.downcallHandle(
             "g_closure_set_marshal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_closure_set_meta_marshal = Interop.downcallHandle(
             "g_closure_set_meta_marshal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_closure_sink = Interop.downcallHandle(
             "g_closure_sink",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_closure_unref = Interop.downcallHandle(
             "g_closure_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

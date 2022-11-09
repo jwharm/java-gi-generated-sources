@@ -19,7 +19,7 @@ public interface DragSurface extends io.github.jwharm.javagi.Proxy {
      */
     public static DragSurface castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkDragSurface"))) {
-            return new DragSurfaceImpl(gobject.refcounted());
+            return new DragSurfaceImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkDragSurface");
         }
@@ -50,7 +50,8 @@ public interface DragSurface extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gdk_drag_surface_present = Interop.downcallHandle(
             "gdk_drag_surface_present",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -60,8 +61,8 @@ public interface DragSurface extends io.github.jwharm.javagi.Proxy {
             Gdk.javagi$ensureInitialized();
         }
         
-        public DragSurfaceImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public DragSurfaceImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

@@ -25,13 +25,19 @@ public class Emblem extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Emblem proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Emblem(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Emblem(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -43,18 +49,18 @@ public class Emblem extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
      */
     public static Emblem castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GEmblem"))) {
-            return new Emblem(gobject.refcounted());
+            return new Emblem(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GEmblem");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gio.Icon icon) {
+    private static Addressable constructNew(@NotNull org.gtk.gio.Icon icon) {
         java.util.Objects.requireNonNull(icon, "Parameter 'icon' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_emblem_new.invokeExact(
-                    icon.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_emblem_new.invokeExact(
+                    icon.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,17 +72,17 @@ public class Emblem extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
      * @param icon a GIcon containing the icon.
      */
     public Emblem(@NotNull org.gtk.gio.Icon icon) {
-        super(constructNew(icon));
+        super(constructNew(icon), Ownership.FULL);
     }
     
-    private static Refcounted constructNewWithOrigin(@NotNull org.gtk.gio.Icon icon, @NotNull org.gtk.gio.EmblemOrigin origin) {
+    private static Addressable constructNewWithOrigin(@NotNull org.gtk.gio.Icon icon, @NotNull org.gtk.gio.EmblemOrigin origin) {
         java.util.Objects.requireNonNull(icon, "Parameter 'icon' must not be null");
         java.util.Objects.requireNonNull(origin, "Parameter 'origin' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_emblem_new_with_origin.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_emblem_new_with_origin.invokeExact(
                     icon.handle(),
-                    origin.getValue()), true);
+                    origin.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +96,7 @@ public class Emblem extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
      * @return a new {@link Emblem}.
      */
     public static Emblem newWithOrigin(@NotNull org.gtk.gio.Icon icon, @NotNull org.gtk.gio.EmblemOrigin origin) {
-        return new Emblem(constructNewWithOrigin(icon, origin));
+        return new Emblem(constructNewWithOrigin(icon, origin), Ownership.FULL);
     }
     
     /**
@@ -106,7 +112,7 @@ public class Emblem extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -128,22 +134,26 @@ public class Emblem extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
         
         private static final MethodHandle g_emblem_new = Interop.downcallHandle(
             "g_emblem_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_emblem_new_with_origin = Interop.downcallHandle(
             "g_emblem_new_with_origin",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_emblem_get_icon = Interop.downcallHandle(
             "g_emblem_get_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_emblem_get_origin = Interop.downcallHandle(
             "g_emblem_get_origin",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

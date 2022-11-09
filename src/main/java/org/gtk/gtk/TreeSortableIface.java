@@ -27,6 +27,7 @@ public class TreeSortableIface extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -35,13 +36,18 @@ public class TreeSortableIface extends io.github.jwharm.javagi.ResourceBase {
     
     public static TreeSortableIface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TreeSortableIface newInstance = new TreeSortableIface(Refcounted.get(segment.address()));
+        TreeSortableIface newInstance = new TreeSortableIface(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a TreeSortableIface proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TreeSortableIface(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TreeSortableIface(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

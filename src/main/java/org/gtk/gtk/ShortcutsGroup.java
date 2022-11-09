@@ -27,13 +27,19 @@ public class ShortcutsGroup extends org.gtk.gtk.Box implements org.gtk.gtk.Acces
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ShortcutsGroup proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ShortcutsGroup(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ShortcutsGroup(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -45,7 +51,7 @@ public class ShortcutsGroup extends org.gtk.gtk.Box implements org.gtk.gtk.Acces
      */
     public static ShortcutsGroup castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkShortcutsGroup"))) {
-            return new ShortcutsGroup(gobject.refcounted());
+            return new ShortcutsGroup(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkShortcutsGroup");
         }

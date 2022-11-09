@@ -33,7 +33,7 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
      */
     public static Native castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkNative"))) {
-            return new NativeImpl(gobject.refcounted());
+            return new NativeImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkNative");
         }
@@ -51,7 +51,7 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.Renderer(Refcounted.get(RESULT, false));
+        return new org.gtk.gsk.Renderer(RESULT, Ownership.NONE);
     }
     
     /**
@@ -66,7 +66,7 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Surface(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Surface(RESULT, Ownership.NONE);
     }
     
     /**
@@ -136,7 +136,7 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Native.NativeImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Native.NativeImpl(RESULT, Ownership.NONE);
     }
     
     @ApiStatus.Internal
@@ -145,37 +145,43 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_native_get_renderer = Interop.downcallHandle(
             "gtk_native_get_renderer",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_native_get_surface = Interop.downcallHandle(
             "gtk_native_get_surface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_native_get_surface_transform = Interop.downcallHandle(
             "gtk_native_get_surface_transform",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_native_realize = Interop.downcallHandle(
             "gtk_native_realize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_native_unrealize = Interop.downcallHandle(
             "gtk_native_unrealize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_native_get_for_surface = Interop.downcallHandle(
             "gtk_native_get_for_surface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -185,8 +191,8 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public NativeImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public NativeImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

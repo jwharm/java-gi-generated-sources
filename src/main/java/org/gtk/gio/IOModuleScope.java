@@ -25,6 +25,7 @@ public class IOModuleScope extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -33,14 +34,19 @@ public class IOModuleScope extends io.github.jwharm.javagi.ResourceBase {
     
     public static IOModuleScope allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        IOModuleScope newInstance = new IOModuleScope(Refcounted.get(segment.address()));
+        IOModuleScope newInstance = new IOModuleScope(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a IOModuleScope proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public IOModuleScope(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public IOModuleScope(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -91,24 +97,27 @@ public class IOModuleScope extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.IOModuleScope(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.IOModuleScope(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_io_module_scope_block = Interop.downcallHandle(
             "g_io_module_scope_block",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_module_scope_free = Interop.downcallHandle(
             "g_io_module_scope_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_module_scope_new = Interop.downcallHandle(
             "g_io_module_scope_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

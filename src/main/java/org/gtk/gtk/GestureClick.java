@@ -26,13 +26,19 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a GestureClick proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public GestureClick(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public GestureClick(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -44,16 +50,16 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
      */
     public static GestureClick castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGestureClick"))) {
-            return new GestureClick(gobject.refcounted());
+            return new GestureClick(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkGestureClick");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_gesture_click_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_click_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,7 +71,7 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
      * single and multiple presses.
      */
     public GestureClick() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     @FunctionalInterface
@@ -75,6 +81,8 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
     
     /**
      * Emitted whenever a button or touch press happens.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureClick.Pressed> onPressed(GestureClick.Pressed handler) {
         try {
@@ -106,6 +114,8 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
      * this event, note that {@code Gtk.GestureClick::stopped} may
      * have been emitted between the press and its release, {@code n_press}
      * will only start over at the next press.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureClick.Released> onReleased(GestureClick.Released handler) {
         try {
@@ -132,6 +142,8 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
     
     /**
      * Emitted whenever any time/distance threshold has been exceeded.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureClick.Stopped> onStopped(GestureClick.Stopped handler) {
         try {
@@ -163,6 +175,8 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
      * Due to implicit grabs, this can only happen on situations
      * where input is grabbed elsewhere mid-press or the pressed
      * widget voluntarily relinquishes its implicit grab.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureClick.UnpairedRelease> onUnpairedRelease(GestureClick.UnpairedRelease handler) {
         try {
@@ -186,7 +200,8 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
         
         private static final MethodHandle gtk_gesture_click_new = Interop.downcallHandle(
             "gtk_gesture_click_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -195,25 +210,25 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
         public static void signalGestureClickPressed(MemoryAddress source, int nPress, double x, double y, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (GestureClick.Pressed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureClick(Refcounted.get(source)), nPress, x, y);
+            HANDLER.signalReceived(new GestureClick(source, Ownership.UNKNOWN), nPress, x, y);
         }
         
         public static void signalGestureClickReleased(MemoryAddress source, int nPress, double x, double y, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (GestureClick.Released) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureClick(Refcounted.get(source)), nPress, x, y);
+            HANDLER.signalReceived(new GestureClick(source, Ownership.UNKNOWN), nPress, x, y);
         }
         
         public static void signalGestureClickStopped(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (GestureClick.Stopped) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureClick(Refcounted.get(source)));
+            HANDLER.signalReceived(new GestureClick(source, Ownership.UNKNOWN));
         }
         
         public static void signalGestureClickUnpairedRelease(MemoryAddress source, double x, double y, int button, MemoryAddress sequence, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (GestureClick.UnpairedRelease) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureClick(Refcounted.get(source)), x, y, button, new org.gtk.gdk.EventSequence(Refcounted.get(sequence, false)));
+            HANDLER.signalReceived(new GestureClick(source, Ownership.UNKNOWN), x, y, button, new org.gtk.gdk.EventSequence(sequence, Ownership.NONE));
         }
     }
 }

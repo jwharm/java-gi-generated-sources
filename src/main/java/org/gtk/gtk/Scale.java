@@ -100,6 +100,7 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -110,12 +111,17 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
      */
     public org.gtk.gtk.Range parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gtk.Range(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.Range(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a Scale proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Scale(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Scale(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -127,19 +133,19 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
      */
     public static Scale castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkScale"))) {
-            return new Scale(gobject.refcounted());
+            return new Scale(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkScale");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gtk.Orientation orientation, @Nullable org.gtk.gtk.Adjustment adjustment) {
+    private static Addressable constructNew(@NotNull org.gtk.gtk.Orientation orientation, @Nullable org.gtk.gtk.Adjustment adjustment) {
         java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_scale_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scale_new.invokeExact(
                     orientation.getValue(),
-                    (Addressable) (adjustment == null ? MemoryAddress.NULL : adjustment.handle())), false);
+                    (Addressable) (adjustment == null ? MemoryAddress.NULL : adjustment.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,18 +159,18 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
      *   the range of the scale, or {@code null} to create a new adjustment.
      */
     public Scale(@NotNull org.gtk.gtk.Orientation orientation, @Nullable org.gtk.gtk.Adjustment adjustment) {
-        super(constructNew(orientation, adjustment));
+        super(constructNew(orientation, adjustment), Ownership.NONE);
     }
     
-    private static Refcounted constructNewWithRange(@NotNull org.gtk.gtk.Orientation orientation, double min, double max, double step) {
+    private static Addressable constructNewWithRange(@NotNull org.gtk.gtk.Orientation orientation, double min, double max, double step) {
         java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_scale_new_with_range.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scale_new_with_range.invokeExact(
                     orientation.getValue(),
                     min,
                     max,
-                    step), false);
+                    step);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -190,7 +196,7 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
      * @return a new {@code GtkScale}
      */
     public static Scale newWithRange(@NotNull org.gtk.gtk.Orientation orientation, double min, double max, double step) {
-        return new Scale(constructNewWithRange(orientation, min, max, step));
+        return new Scale(constructNewWithRange(orientation, min, max, step), Ownership.NONE);
     }
     
     /**
@@ -299,7 +305,7 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Layout(Refcounted.get(RESULT, false));
+        return new org.pango.Layout(RESULT, Ownership.NONE);
     }
     
     /**
@@ -451,77 +457,92 @@ public class Scale extends org.gtk.gtk.Range implements org.gtk.gtk.Accessible, 
         
         private static final MethodHandle gtk_scale_new = Interop.downcallHandle(
             "gtk_scale_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_scale_new_with_range = Interop.downcallHandle(
             "gtk_scale_new_with_range",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_scale_add_mark = Interop.downcallHandle(
             "gtk_scale_add_mark",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_scale_clear_marks = Interop.downcallHandle(
             "gtk_scale_clear_marks",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_scale_get_digits = Interop.downcallHandle(
             "gtk_scale_get_digits",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_scale_get_draw_value = Interop.downcallHandle(
             "gtk_scale_get_draw_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_scale_get_has_origin = Interop.downcallHandle(
             "gtk_scale_get_has_origin",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_scale_get_layout = Interop.downcallHandle(
             "gtk_scale_get_layout",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_scale_get_layout_offsets = Interop.downcallHandle(
             "gtk_scale_get_layout_offsets",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_scale_get_value_pos = Interop.downcallHandle(
             "gtk_scale_get_value_pos",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_scale_set_digits = Interop.downcallHandle(
             "gtk_scale_set_digits",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_scale_set_draw_value = Interop.downcallHandle(
             "gtk_scale_set_draw_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_scale_set_format_value_func = Interop.downcallHandle(
             "gtk_scale_set_format_value_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_scale_set_has_origin = Interop.downcallHandle(
             "gtk_scale_set_has_origin",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_scale_set_value_pos = Interop.downcallHandle(
             "gtk_scale_set_value_pos",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

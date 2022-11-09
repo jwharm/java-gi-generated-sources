@@ -28,6 +28,7 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -38,12 +39,17 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a TextChildAnchor proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TextChildAnchor(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TextChildAnchor(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -55,16 +61,16 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      */
     public static TextChildAnchor castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTextChildAnchor"))) {
-            return new TextChildAnchor(gobject.refcounted());
+            return new TextChildAnchor(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTextChildAnchor");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_text_child_anchor_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_child_anchor_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,15 +86,15 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      * function {@link TextBuffer#createChildAnchor}.
      */
     public TextChildAnchor() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
-    private static Refcounted constructNewWithReplacement(@NotNull java.lang.String character) {
+    private static Addressable constructNewWithReplacement(@NotNull java.lang.String character) {
         java.util.Objects.requireNonNull(character, "Parameter 'character' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_text_child_anchor_new_with_replacement.invokeExact(
-                    Interop.allocateNativeString(character)), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_child_anchor_new_with_replacement.invokeExact(
+                    Interop.allocateNativeString(character));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,7 +109,7 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      * @return a new {@code GtkTextChildAnchor}
      */
     public static TextChildAnchor newWithReplacement(@NotNull java.lang.String character) {
-        return new TextChildAnchor(constructNewWithReplacement(character));
+        return new TextChildAnchor(constructNewWithReplacement(character), Ownership.FULL);
     }
     
     /**
@@ -151,7 +157,7 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
         org.gtk.gtk.Widget[] resultARRAY = new org.gtk.gtk.Widget[outLen.get().intValue()];
         for (int I = 0; I < outLen.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = new org.gtk.gtk.Widget(Refcounted.get(OBJ, false));
+            resultARRAY[I] = new org.gtk.gtk.Widget(OBJ, Ownership.CONTAINER);
         }
         return resultARRAY;
     }
@@ -160,22 +166,26 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
         
         private static final MethodHandle gtk_text_child_anchor_new = Interop.downcallHandle(
             "gtk_text_child_anchor_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_child_anchor_new_with_replacement = Interop.downcallHandle(
             "gtk_text_child_anchor_new_with_replacement",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_child_anchor_get_deleted = Interop.downcallHandle(
             "gtk_text_child_anchor_get_deleted",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_child_anchor_get_widgets = Interop.downcallHandle(
             "gtk_text_child_anchor_get_widgets",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

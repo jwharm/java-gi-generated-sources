@@ -36,13 +36,19 @@ public class CarouselIndicatorLines extends org.gtk.gtk.Widget implements org.gt
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a CarouselIndicatorLines proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CarouselIndicatorLines(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CarouselIndicatorLines(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -54,16 +60,16 @@ public class CarouselIndicatorLines extends org.gtk.gtk.Widget implements org.gt
      */
     public static CarouselIndicatorLines castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwCarouselIndicatorLines"))) {
-            return new CarouselIndicatorLines(gobject.refcounted());
+            return new CarouselIndicatorLines(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwCarouselIndicatorLines");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_carousel_indicator_lines_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.adw_carousel_indicator_lines_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,7 +80,7 @@ public class CarouselIndicatorLines extends org.gtk.gtk.Widget implements org.gt
      * Creates a new {@code AdwCarouselIndicatorLines}.
      */
     public CarouselIndicatorLines() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -89,7 +95,7 @@ public class CarouselIndicatorLines extends org.gtk.gtk.Widget implements org.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.Carousel(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.Carousel(RESULT, Ownership.NONE);
     }
     
     /**
@@ -110,17 +116,20 @@ public class CarouselIndicatorLines extends org.gtk.gtk.Widget implements org.gt
         
         private static final MethodHandle adw_carousel_indicator_lines_new = Interop.downcallHandle(
             "adw_carousel_indicator_lines_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_carousel_indicator_lines_get_carousel = Interop.downcallHandle(
             "adw_carousel_indicator_lines_get_carousel",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_carousel_indicator_lines_set_carousel = Interop.downcallHandle(
             "adw_carousel_indicator_lines_set_carousel",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

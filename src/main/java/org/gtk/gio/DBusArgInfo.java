@@ -29,6 +29,7 @@ public class DBusArgInfo extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -37,7 +38,7 @@ public class DBusArgInfo extends io.github.jwharm.javagi.ResourceBase {
     
     public static DBusArgInfo allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DBusArgInfo newInstance = new DBusArgInfo(Refcounted.get(segment.address()));
+        DBusArgInfo newInstance = new DBusArgInfo(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -105,9 +106,14 @@ public class DBusArgInfo extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(signature));
     }
     
+    /**
+     * Create a DBusArgInfo proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DBusArgInfo(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DBusArgInfo(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -123,7 +129,7 @@ public class DBusArgInfo extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusArgInfo(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.DBusArgInfo(RESULT, Ownership.FULL);
     }
     
     /**
@@ -144,12 +150,14 @@ public class DBusArgInfo extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_dbus_arg_info_ref = Interop.downcallHandle(
             "g_dbus_arg_info_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_arg_info_unref = Interop.downcallHandle(
             "g_dbus_arg_info_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

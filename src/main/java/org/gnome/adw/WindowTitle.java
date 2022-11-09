@@ -32,13 +32,19 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a WindowTitle proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public WindowTitle(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public WindowTitle(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -50,20 +56,20 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public static WindowTitle castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwWindowTitle"))) {
-            return new WindowTitle(gobject.refcounted());
+            return new WindowTitle(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwWindowTitle");
         }
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String title, @NotNull java.lang.String subtitle) {
+    private static Addressable constructNew(@NotNull java.lang.String title, @NotNull java.lang.String subtitle) {
         java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
         java.util.Objects.requireNonNull(subtitle, "Parameter 'subtitle' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_window_title_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.adw_window_title_new.invokeExact(
                     Interop.allocateNativeString(title),
-                    Interop.allocateNativeString(subtitle)), false);
+                    Interop.allocateNativeString(subtitle));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,7 +82,7 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @param subtitle a subtitle
      */
     public WindowTitle(@NotNull java.lang.String title, @NotNull java.lang.String subtitle) {
-        super(constructNew(title, subtitle));
+        super(constructNew(title, subtitle), Ownership.NONE);
     }
     
     /**
@@ -148,27 +154,32 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         
         private static final MethodHandle adw_window_title_new = Interop.downcallHandle(
             "adw_window_title_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_window_title_get_subtitle = Interop.downcallHandle(
             "adw_window_title_get_subtitle",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_window_title_get_title = Interop.downcallHandle(
             "adw_window_title_get_title",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_window_title_set_subtitle = Interop.downcallHandle(
             "adw_window_title_set_subtitle",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_window_title_set_title = Interop.downcallHandle(
             "adw_window_title_set_title",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

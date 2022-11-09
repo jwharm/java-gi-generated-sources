@@ -40,7 +40,7 @@ public interface RemoteActionGroup extends io.github.jwharm.javagi.Proxy {
      */
     public static RemoteActionGroup castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GRemoteActionGroup"))) {
-            return new RemoteActionGroupImpl(gobject.refcounted());
+            return new RemoteActionGroupImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GRemoteActionGroup");
         }
@@ -109,13 +109,15 @@ public interface RemoteActionGroup extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_remote_action_group_activate_action_full = Interop.downcallHandle(
             "g_remote_action_group_activate_action_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_remote_action_group_change_action_state_full = Interop.downcallHandle(
             "g_remote_action_group_change_action_state_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -125,8 +127,8 @@ public interface RemoteActionGroup extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public RemoteActionGroupImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public RemoteActionGroupImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

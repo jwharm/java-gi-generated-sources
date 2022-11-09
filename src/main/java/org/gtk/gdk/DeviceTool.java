@@ -20,13 +20,19 @@ public class DeviceTool extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a DeviceTool proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DeviceTool(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DeviceTool(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,7 +44,7 @@ public class DeviceTool extends org.gtk.gobject.Object {
      */
     public static DeviceTool castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkDeviceTool"))) {
-            return new DeviceTool(gobject.refcounted());
+            return new DeviceTool(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkDeviceTool");
         }
@@ -123,22 +129,26 @@ public class DeviceTool extends org.gtk.gobject.Object {
         
         private static final MethodHandle gdk_device_tool_get_axes = Interop.downcallHandle(
             "gdk_device_tool_get_axes",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_device_tool_get_hardware_id = Interop.downcallHandle(
             "gdk_device_tool_get_hardware_id",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_device_tool_get_serial = Interop.downcallHandle(
             "gdk_device_tool_get_serial",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_device_tool_get_tool_type = Interop.downcallHandle(
             "gdk_device_tool_get_tool_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

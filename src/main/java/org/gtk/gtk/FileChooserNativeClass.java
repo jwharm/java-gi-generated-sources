@@ -21,6 +21,7 @@ public class FileChooserNativeClass extends io.github.jwharm.javagi.ResourceBase
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -29,7 +30,7 @@ public class FileChooserNativeClass extends io.github.jwharm.javagi.ResourceBase
     
     public static FileChooserNativeClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FileChooserNativeClass newInstance = new FileChooserNativeClass(Refcounted.get(segment.address()));
+        FileChooserNativeClass newInstance = new FileChooserNativeClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -40,11 +41,16 @@ public class FileChooserNativeClass extends io.github.jwharm.javagi.ResourceBase
      */
     public org.gtk.gtk.NativeDialogClass parent_class$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gtk.NativeDialogClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.NativeDialogClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a FileChooserNativeClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FileChooserNativeClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FileChooserNativeClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

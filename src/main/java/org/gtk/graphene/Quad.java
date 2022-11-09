@@ -28,6 +28,7 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -36,20 +37,25 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
     
     public static Quad allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Quad newInstance = new Quad(Refcounted.get(segment.address()));
+        Quad newInstance = new Quad(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a Quad proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Quad(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Quad(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructAlloc() {
-        Refcounted RESULT;
+    private static Addressable constructAlloc() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.graphene_quad_alloc.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_quad_alloc.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -63,7 +69,7 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
      * @return the newly created {@link Quad} instance
      */
     public static Quad alloc() {
-        return new Quad(constructAlloc());
+        return new Quad(constructAlloc(), Ownership.FULL);
     }
     
     /**
@@ -125,7 +131,7 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Point(RESULT, Ownership.NONE);
     }
     
     /**
@@ -152,7 +158,7 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quad(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Quad(RESULT, Ownership.NONE);
     }
     
     /**
@@ -160,7 +166,7 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
      * @param points an array of 4 {@link Point}
      * @return the initialized {@link Quad}
      */
-    public @NotNull org.gtk.graphene.Quad initFromPoints(org.gtk.graphene.Point[] points) {
+    public @NotNull org.gtk.graphene.Quad initFromPoints(@NotNull org.gtk.graphene.Point[] points) {
         java.util.Objects.requireNonNull(points, "Parameter 'points' must not be null");
         MemoryAddress RESULT;
         try {
@@ -170,7 +176,7 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quad(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Quad(RESULT, Ownership.NONE);
     }
     
     /**
@@ -189,49 +195,57 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quad(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Quad(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle graphene_quad_alloc = Interop.downcallHandle(
             "graphene_quad_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quad_bounds = Interop.downcallHandle(
             "graphene_quad_bounds",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quad_contains = Interop.downcallHandle(
             "graphene_quad_contains",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quad_free = Interop.downcallHandle(
             "graphene_quad_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quad_get_point = Interop.downcallHandle(
             "graphene_quad_get_point",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle graphene_quad_init = Interop.downcallHandle(
             "graphene_quad_init",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quad_init_from_points = Interop.downcallHandle(
             "graphene_quad_init_from_points",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quad_init_from_rect = Interop.downcallHandle(
             "graphene_quad_init_from_rect",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -45,6 +45,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -55,7 +56,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.TypeInstance g_type_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_type_instance"));
-        return new org.gtk.gobject.TypeInstance(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.TypeInstance(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
     /**
@@ -142,9 +143,14 @@ public class ParamSpec extends org.gtk.gobject.Object {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), owner_type.getValue().longValue());
     }
     
+    /**
+     * Create a ParamSpec proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ParamSpec(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ParamSpec(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -156,7 +162,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      */
     public static ParamSpec castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GParamSpec"))) {
-            return new ParamSpec(gobject.refcounted());
+            return new ParamSpec(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GParamSpec");
         }
@@ -191,7 +197,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Value(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
     }
     
     /**
@@ -279,7 +285,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ParamSpec(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.ParamSpec(RESULT, Ownership.NONE);
     }
     
     /**
@@ -294,7 +300,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ParamSpec(Refcounted.get(RESULT, true));
+        return new org.gtk.gobject.ParamSpec(RESULT, Ownership.FULL);
     }
     
     /**
@@ -309,7 +315,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ParamSpec(Refcounted.get(RESULT, true));
+        return new org.gtk.gobject.ParamSpec(RESULT, Ownership.FULL);
     }
     
     /**
@@ -446,7 +452,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ParamSpec(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.ParamSpec(RESULT, Ownership.NONE);
     }
     
     /**
@@ -475,82 +481,98 @@ public class ParamSpec extends org.gtk.gobject.Object {
         
         private static final MethodHandle g_param_spec_get_blurb = Interop.downcallHandle(
             "g_param_spec_get_blurb",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_param_spec_get_default_value = Interop.downcallHandle(
             "g_param_spec_get_default_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_param_spec_get_name = Interop.downcallHandle(
             "g_param_spec_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_param_spec_get_name_quark = Interop.downcallHandle(
             "g_param_spec_get_name_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_param_spec_get_nick = Interop.downcallHandle(
             "g_param_spec_get_nick",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_param_spec_get_qdata = Interop.downcallHandle(
             "g_param_spec_get_qdata",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_param_spec_get_redirect_target = Interop.downcallHandle(
             "g_param_spec_get_redirect_target",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_param_spec_ref = Interop.downcallHandle(
             "g_param_spec_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_param_spec_ref_sink = Interop.downcallHandle(
             "g_param_spec_ref_sink",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_param_spec_set_qdata = Interop.downcallHandle(
             "g_param_spec_set_qdata",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_param_spec_set_qdata_full = Interop.downcallHandle(
             "g_param_spec_set_qdata_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_param_spec_sink = Interop.downcallHandle(
             "g_param_spec_sink",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_param_spec_steal_qdata = Interop.downcallHandle(
             "g_param_spec_steal_qdata",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_param_spec_unref = Interop.downcallHandle(
             "g_param_spec_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_param_spec_internal = Interop.downcallHandle(
             "g_param_spec_internal",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_param_spec_is_valid_name = Interop.downcallHandle(
             "g_param_spec_is_valid_name",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

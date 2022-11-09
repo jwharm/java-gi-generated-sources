@@ -26,6 +26,7 @@ public class AttrFontDesc extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -34,7 +35,7 @@ public class AttrFontDesc extends io.github.jwharm.javagi.ResourceBase {
     
     public static AttrFontDesc allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AttrFontDesc newInstance = new AttrFontDesc(Refcounted.get(segment.address()));
+        AttrFontDesc newInstance = new AttrFontDesc(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,7 +46,7 @@ public class AttrFontDesc extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.pango.Attribute attr$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("attr"));
-        return new org.pango.Attribute(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.pango.Attribute(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
     /**
@@ -56,7 +57,7 @@ public class AttrFontDesc extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("desc"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.pango.FontDescription(Refcounted.get(RESULT, false));
+        return new org.pango.FontDescription(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -69,9 +70,14 @@ public class AttrFontDesc extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), desc.handle());
     }
     
+    /**
+     * Create a AttrFontDesc proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public AttrFontDesc(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public AttrFontDesc(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -93,14 +99,15 @@ public class AttrFontDesc extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_attr_font_desc_new = Interop.downcallHandle(
             "pango_attr_font_desc_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

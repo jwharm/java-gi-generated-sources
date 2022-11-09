@@ -17,6 +17,7 @@ public class TextBufferPrivate extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -25,13 +26,18 @@ public class TextBufferPrivate extends io.github.jwharm.javagi.ResourceBase {
     
     public static TextBufferPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TextBufferPrivate newInstance = new TextBufferPrivate(Refcounted.get(segment.address()));
+        TextBufferPrivate newInstance = new TextBufferPrivate(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a TextBufferPrivate proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TextBufferPrivate(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TextBufferPrivate(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

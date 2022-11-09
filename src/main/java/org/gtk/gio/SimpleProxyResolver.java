@@ -33,6 +33,7 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -43,12 +44,17 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a SimpleProxyResolver proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SimpleProxyResolver(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SimpleProxyResolver(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -60,7 +66,7 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
      */
     public static SimpleProxyResolver castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSimpleProxyResolver"))) {
-            return new SimpleProxyResolver(gobject.refcounted());
+            return new SimpleProxyResolver(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSimpleProxyResolver");
         }
@@ -95,7 +101,7 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
      * @param ignoreHosts {@code null}-terminated list of hosts/IP addresses
      *     to not use a proxy for
      */
-    public void setIgnoreHosts(java.lang.String[] ignoreHosts) {
+    public void setIgnoreHosts(@NotNull java.lang.String[] ignoreHosts) {
         java.util.Objects.requireNonNull(ignoreHosts, "Parameter 'ignoreHosts' must not be null");
         try {
             DowncallHandles.g_simple_proxy_resolver_set_ignore_hosts.invokeExact(
@@ -142,7 +148,7 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
      *     to not use a proxy for.
      * @return a new {@link SimpleProxyResolver}
      */
-    public static @NotNull org.gtk.gio.ProxyResolver new_(@Nullable java.lang.String defaultProxy, java.lang.String[] ignoreHosts) {
+    public static @NotNull org.gtk.gio.ProxyResolver new_(@Nullable java.lang.String defaultProxy, @Nullable java.lang.String[] ignoreHosts) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_simple_proxy_resolver_new.invokeExact(
@@ -151,29 +157,33 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ProxyResolver.ProxyResolverImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.ProxyResolver.ProxyResolverImpl(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_simple_proxy_resolver_set_default_proxy = Interop.downcallHandle(
             "g_simple_proxy_resolver_set_default_proxy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_proxy_resolver_set_ignore_hosts = Interop.downcallHandle(
             "g_simple_proxy_resolver_set_ignore_hosts",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_proxy_resolver_set_uri_proxy = Interop.downcallHandle(
             "g_simple_proxy_resolver_set_uri_proxy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_proxy_resolver_new = Interop.downcallHandle(
             "g_simple_proxy_resolver_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

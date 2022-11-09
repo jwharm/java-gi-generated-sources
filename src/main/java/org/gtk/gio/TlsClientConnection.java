@@ -21,7 +21,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
      */
     public static TlsClientConnection castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTlsClientConnection"))) {
-            return new TlsClientConnectionImpl(gobject.refcounted());
+            return new TlsClientConnectionImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GTlsClientConnection");
         }
@@ -89,7 +89,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     /**
@@ -106,7 +106,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SocketConnectable.SocketConnectableImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.SocketConnectable.SocketConnectableImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -235,14 +235,15 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_client_connection_new.invokeExact(
                     baseIoStream.handle(),
-                    (Addressable) (serverIdentity == null ? MemoryAddress.NULL : serverIdentity.handle()), (Addressable) GERROR);
+                    (Addressable) (serverIdentity == null ? MemoryAddress.NULL : serverIdentity.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.TlsClientConnection.TlsClientConnectionImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.TlsClientConnection.TlsClientConnectionImpl(RESULT, Ownership.FULL);
     }
     
     @ApiStatus.Internal
@@ -251,55 +252,64 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_tls_client_connection_copy_session_state = Interop.downcallHandle(
             "g_tls_client_connection_copy_session_state",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_client_connection_get_accepted_cas = Interop.downcallHandle(
             "g_tls_client_connection_get_accepted_cas",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_client_connection_get_server_identity = Interop.downcallHandle(
             "g_tls_client_connection_get_server_identity",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_client_connection_get_use_ssl3 = Interop.downcallHandle(
             "g_tls_client_connection_get_use_ssl3",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_client_connection_get_validation_flags = Interop.downcallHandle(
             "g_tls_client_connection_get_validation_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_client_connection_set_server_identity = Interop.downcallHandle(
             "g_tls_client_connection_set_server_identity",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_client_connection_set_use_ssl3 = Interop.downcallHandle(
             "g_tls_client_connection_set_use_ssl3",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_client_connection_set_validation_flags = Interop.downcallHandle(
             "g_tls_client_connection_set_validation_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_client_connection_new = Interop.downcallHandle(
             "g_tls_client_connection_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -309,8 +319,8 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public TlsClientConnectionImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public TlsClientConnectionImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

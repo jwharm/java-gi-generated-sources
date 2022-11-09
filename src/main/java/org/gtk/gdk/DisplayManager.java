@@ -59,13 +59,19 @@ public class DisplayManager extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a DisplayManager proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DisplayManager(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DisplayManager(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -77,7 +83,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
      */
     public static DisplayManager castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkDisplayManager"))) {
-            return new DisplayManager(gobject.refcounted());
+            return new DisplayManager(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkDisplayManager");
         }
@@ -95,7 +101,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
     }
     
     /**
@@ -111,7 +117,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.CONTAINER);
     }
     
     /**
@@ -130,7 +136,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
     }
     
     /**
@@ -167,7 +173,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.DisplayManager(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.DisplayManager(RESULT, Ownership.NONE);
     }
     
     @FunctionalInterface
@@ -177,6 +183,8 @@ public class DisplayManager extends org.gtk.gobject.Object {
     
     /**
      * Emitted when a display is opened.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DisplayManager.DisplayOpened> onDisplayOpened(DisplayManager.DisplayOpened handler) {
         try {
@@ -200,27 +208,32 @@ public class DisplayManager extends org.gtk.gobject.Object {
         
         private static final MethodHandle gdk_display_manager_get_default_display = Interop.downcallHandle(
             "gdk_display_manager_get_default_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_manager_list_displays = Interop.downcallHandle(
             "gdk_display_manager_list_displays",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_manager_open_display = Interop.downcallHandle(
             "gdk_display_manager_open_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_manager_set_default_display = Interop.downcallHandle(
             "gdk_display_manager_set_default_display",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_display_manager_get = Interop.downcallHandle(
             "gdk_display_manager_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -229,7 +242,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
         public static void signalDisplayManagerDisplayOpened(MemoryAddress source, MemoryAddress display, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DisplayManager.DisplayOpened) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DisplayManager(Refcounted.get(source)), new org.gtk.gdk.Display(Refcounted.get(display, false)));
+            HANDLER.signalReceived(new DisplayManager(source, Ownership.UNKNOWN), new org.gtk.gdk.Display(display, Ownership.NONE));
         }
     }
 }

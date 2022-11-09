@@ -27,6 +27,7 @@ public class MediaFileClass extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -35,7 +36,7 @@ public class MediaFileClass extends io.github.jwharm.javagi.ResourceBase {
     
     public static MediaFileClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MediaFileClass newInstance = new MediaFileClass(Refcounted.get(segment.address()));
+        MediaFileClass newInstance = new MediaFileClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,11 +47,16 @@ public class MediaFileClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gtk.MediaStreamClass parent_class$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gtk.MediaStreamClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.MediaStreamClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a MediaFileClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public MediaFileClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public MediaFileClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

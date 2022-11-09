@@ -72,13 +72,19 @@ public class ComboBoxText extends org.gtk.gtk.ComboBox implements org.gtk.gtk.Ac
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ComboBoxText proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ComboBoxText(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ComboBoxText(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -90,16 +96,16 @@ public class ComboBoxText extends org.gtk.gtk.ComboBox implements org.gtk.gtk.Ac
      */
     public static ComboBoxText castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkComboBoxText"))) {
-            return new ComboBoxText(gobject.refcounted());
+            return new ComboBoxText(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkComboBoxText");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_combo_box_text_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_text_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,13 +116,13 @@ public class ComboBoxText extends org.gtk.gtk.ComboBox implements org.gtk.gtk.Ac
      * Creates a new {@code GtkComboBoxText}.
      */
     public ComboBoxText() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
-    private static Refcounted constructNewWithEntry() {
-        Refcounted RESULT;
+    private static Addressable constructNewWithEntry() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_combo_box_text_new_with_entry.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_text_new_with_entry.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -128,7 +134,7 @@ public class ComboBoxText extends org.gtk.gtk.ComboBox implements org.gtk.gtk.Ac
      * @return a new {@code GtkComboBoxText}
      */
     public static ComboBoxText newWithEntry() {
-        return new ComboBoxText(constructNewWithEntry());
+        return new ComboBoxText(constructNewWithEntry(), Ownership.NONE);
     }
     
     /**
@@ -309,57 +315,68 @@ public class ComboBoxText extends org.gtk.gtk.ComboBox implements org.gtk.gtk.Ac
         
         private static final MethodHandle gtk_combo_box_text_new = Interop.downcallHandle(
             "gtk_combo_box_text_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_combo_box_text_new_with_entry = Interop.downcallHandle(
             "gtk_combo_box_text_new_with_entry",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_combo_box_text_append = Interop.downcallHandle(
             "gtk_combo_box_text_append",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_combo_box_text_append_text = Interop.downcallHandle(
             "gtk_combo_box_text_append_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_combo_box_text_get_active_text = Interop.downcallHandle(
             "gtk_combo_box_text_get_active_text",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_combo_box_text_insert = Interop.downcallHandle(
             "gtk_combo_box_text_insert",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_combo_box_text_insert_text = Interop.downcallHandle(
             "gtk_combo_box_text_insert_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_combo_box_text_prepend = Interop.downcallHandle(
             "gtk_combo_box_text_prepend",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_combo_box_text_prepend_text = Interop.downcallHandle(
             "gtk_combo_box_text_prepend_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_combo_box_text_remove = Interop.downcallHandle(
             "gtk_combo_box_text_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_combo_box_text_remove_all = Interop.downcallHandle(
             "gtk_combo_box_text_remove_all",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

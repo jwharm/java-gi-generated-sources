@@ -57,13 +57,19 @@ public class ShortcutsWindow extends org.gtk.gtk.Window implements org.gtk.gtk.A
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ShortcutsWindow proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ShortcutsWindow(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ShortcutsWindow(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -75,7 +81,7 @@ public class ShortcutsWindow extends org.gtk.gtk.Window implements org.gtk.gtk.A
      */
     public static ShortcutsWindow castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkShortcutsWindow"))) {
-            return new ShortcutsWindow(gobject.refcounted());
+            return new ShortcutsWindow(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkShortcutsWindow");
         }
@@ -92,6 +98,8 @@ public class ShortcutsWindow extends org.gtk.gtk.Window implements org.gtk.gtk.A
      * This is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
      * The default binding for this signal is the Escape key.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ShortcutsWindow.Close> onClose(ShortcutsWindow.Close handler) {
         try {
@@ -122,6 +130,8 @@ public class ShortcutsWindow extends org.gtk.gtk.Window implements org.gtk.gtk.A
      * This is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
      * The default binding for this signal is Control-F.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ShortcutsWindow.Search> onSearch(ShortcutsWindow.Search handler) {
         try {
@@ -146,13 +156,13 @@ public class ShortcutsWindow extends org.gtk.gtk.Window implements org.gtk.gtk.A
         public static void signalShortcutsWindowClose(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ShortcutsWindow.Close) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ShortcutsWindow(Refcounted.get(source)));
+            HANDLER.signalReceived(new ShortcutsWindow(source, Ownership.UNKNOWN));
         }
         
         public static void signalShortcutsWindowSearch(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ShortcutsWindow.Search) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ShortcutsWindow(Refcounted.get(source)));
+            HANDLER.signalReceived(new ShortcutsWindow(source, Ownership.UNKNOWN));
         }
     }
 }

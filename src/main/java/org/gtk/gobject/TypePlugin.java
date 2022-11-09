@@ -66,7 +66,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
      */
     public static TypePlugin castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTypePlugin"))) {
-            return new TypePluginImpl(gobject.refcounted());
+            return new TypePluginImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GTypePlugin");
         }
@@ -153,25 +153,29 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_type_plugin_complete_interface_info = Interop.downcallHandle(
             "g_type_plugin_complete_interface_info",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_type_plugin_complete_type_info = Interop.downcallHandle(
             "g_type_plugin_complete_type_info",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_type_plugin_unuse = Interop.downcallHandle(
             "g_type_plugin_unuse",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_type_plugin_use = Interop.downcallHandle(
             "g_type_plugin_use",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -181,8 +185,8 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
             GObject.javagi$ensureInitialized();
         }
         
-        public TypePluginImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public TypePluginImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

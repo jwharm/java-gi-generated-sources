@@ -30,13 +30,19 @@ public class TreeListRow extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a TreeListRow proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TreeListRow(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TreeListRow(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -48,7 +54,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      */
     public static TreeListRow castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeListRow"))) {
-            return new TreeListRow(gobject.refcounted());
+            return new TreeListRow(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTreeListRow");
         }
@@ -69,7 +75,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreeListRow(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.TreeListRow(RESULT, Ownership.FULL);
     }
     
     /**
@@ -89,7 +95,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -144,7 +150,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
+        return new org.gtk.gobject.Object(RESULT, Ownership.FULL);
     }
     
     /**
@@ -168,7 +174,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreeListRow(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.TreeListRow(RESULT, Ownership.FULL);
     }
     
     /**
@@ -232,47 +238,56 @@ public class TreeListRow extends org.gtk.gobject.Object {
         
         private static final MethodHandle gtk_tree_list_row_get_child_row = Interop.downcallHandle(
             "gtk_tree_list_row_get_child_row",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_list_row_get_children = Interop.downcallHandle(
             "gtk_tree_list_row_get_children",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_list_row_get_depth = Interop.downcallHandle(
             "gtk_tree_list_row_get_depth",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_list_row_get_expanded = Interop.downcallHandle(
             "gtk_tree_list_row_get_expanded",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_list_row_get_item = Interop.downcallHandle(
             "gtk_tree_list_row_get_item",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_list_row_get_parent = Interop.downcallHandle(
             "gtk_tree_list_row_get_parent",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_list_row_get_position = Interop.downcallHandle(
             "gtk_tree_list_row_get_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_list_row_is_expandable = Interop.downcallHandle(
             "gtk_tree_list_row_is_expandable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_list_row_set_expanded = Interop.downcallHandle(
             "gtk_tree_list_row_set_expanded",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

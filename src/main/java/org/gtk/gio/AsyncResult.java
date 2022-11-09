@@ -101,7 +101,7 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
      */
     public static AsyncResult castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GAsyncResult"))) {
-            return new AsyncResultImpl(gobject.refcounted());
+            return new AsyncResultImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GAsyncResult");
         }
@@ -120,7 +120,7 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
+        return new org.gtk.gobject.Object(RESULT, Ownership.FULL);
     }
     
     /**
@@ -177,7 +177,8 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_async_result_legacy_propagate_error.invokeExact(
-                    handle(), (Addressable) GERROR);
+                    handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -193,25 +194,29 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_async_result_get_source_object = Interop.downcallHandle(
             "g_async_result_get_source_object",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_async_result_get_user_data = Interop.downcallHandle(
             "g_async_result_get_user_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_async_result_is_tagged = Interop.downcallHandle(
             "g_async_result_is_tagged",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_async_result_legacy_propagate_error = Interop.downcallHandle(
             "g_async_result_legacy_propagate_error",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -221,8 +226,8 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public AsyncResultImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public AsyncResultImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

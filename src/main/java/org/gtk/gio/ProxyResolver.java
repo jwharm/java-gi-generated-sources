@@ -26,7 +26,7 @@ public interface ProxyResolver extends io.github.jwharm.javagi.Proxy {
      */
     public static ProxyResolver castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GProxyResolver"))) {
-            return new ProxyResolverImpl(gobject.refcounted());
+            return new ProxyResolverImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GProxyResolver");
         }
@@ -80,7 +80,8 @@ public interface ProxyResolver extends io.github.jwharm.javagi.Proxy {
             RESULT = (MemoryAddress) DowncallHandles.g_proxy_resolver_lookup.invokeExact(
                     handle(),
                     Interop.allocateNativeString(uri),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,7 +133,8 @@ public interface ProxyResolver extends io.github.jwharm.javagi.Proxy {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_proxy_resolver_lookup_finish.invokeExact(
                     handle(),
-                    result.handle(), (Addressable) GERROR);
+                    result.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,7 +156,7 @@ public interface ProxyResolver extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ProxyResolver.ProxyResolverImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.ProxyResolver.ProxyResolverImpl(RESULT, Ownership.NONE);
     }
     
     @ApiStatus.Internal
@@ -163,31 +165,36 @@ public interface ProxyResolver extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_proxy_resolver_is_supported = Interop.downcallHandle(
             "g_proxy_resolver_is_supported",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_proxy_resolver_lookup = Interop.downcallHandle(
             "g_proxy_resolver_lookup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_proxy_resolver_lookup_async = Interop.downcallHandle(
             "g_proxy_resolver_lookup_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_proxy_resolver_lookup_finish = Interop.downcallHandle(
             "g_proxy_resolver_lookup_finish",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_proxy_resolver_get_default = Interop.downcallHandle(
             "g_proxy_resolver_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -197,8 +204,8 @@ public interface ProxyResolver extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public ProxyResolverImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public ProxyResolverImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

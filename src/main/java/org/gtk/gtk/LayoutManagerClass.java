@@ -35,6 +35,7 @@ public class LayoutManagerClass extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -43,7 +44,7 @@ public class LayoutManagerClass extends io.github.jwharm.javagi.ResourceBase {
     
     public static LayoutManagerClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        LayoutManagerClass newInstance = new LayoutManagerClass(Refcounted.get(segment.address()));
+        LayoutManagerClass newInstance = new LayoutManagerClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -69,8 +70,13 @@ public class LayoutManagerClass extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), layout_child_type.getValue().longValue());
     }
     
+    /**
+     * Create a LayoutManagerClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public LayoutManagerClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public LayoutManagerClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

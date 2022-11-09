@@ -126,13 +126,19 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a SpinButton proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SpinButton(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SpinButton(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -144,19 +150,19 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public static SpinButton castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSpinButton"))) {
-            return new SpinButton(gobject.refcounted());
+            return new SpinButton(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkSpinButton");
         }
     }
     
-    private static Refcounted constructNew(@Nullable org.gtk.gtk.Adjustment adjustment, double climbRate, int digits) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable org.gtk.gtk.Adjustment adjustment, double climbRate, int digits) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_spin_button_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_spin_button_new.invokeExact(
                     (Addressable) (adjustment == null ? MemoryAddress.NULL : adjustment.handle()),
                     climbRate,
-                    digits), false);
+                    digits);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,16 +177,16 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @param digits the number of decimal places to display
      */
     public SpinButton(@Nullable org.gtk.gtk.Adjustment adjustment, double climbRate, int digits) {
-        super(constructNew(adjustment, climbRate, digits));
+        super(constructNew(adjustment, climbRate, digits), Ownership.NONE);
     }
     
-    private static Refcounted constructNewWithRange(double min, double max, double step) {
-        Refcounted RESULT;
+    private static Addressable constructNewWithRange(double min, double max, double step) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_spin_button_new_with_range.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_spin_button_new_with_range.invokeExact(
                     min,
                     max,
-                    step), false);
+                    step);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -207,7 +213,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @return The new {@code GtkSpinButton}
      */
     public static SpinButton newWithRange(double min, double max, double step) {
-        return new SpinButton(constructNewWithRange(min, max, step));
+        return new SpinButton(constructNewWithRange(min, max, step), Ownership.NONE);
     }
     
     /**
@@ -244,7 +250,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Adjustment(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Adjustment(RESULT, Ownership.NONE);
     }
     
     /**
@@ -629,6 +635,8 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * programmatically.
      * <p>
      * The default bindings for this signal are Up/Down and PageUp/PageDown.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SpinButton.ChangeValue> onChangeValue(SpinButton.ChangeValue handler) {
         try {
@@ -661,6 +669,8 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * new value.
      * <p>
      * The default conversion uses g_strtod().
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SpinButton.Input> onInput(SpinButton.Input handler) {
         throw new UnsupportedOperationException("Operation not supported yet");
@@ -692,6 +702,8 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      *    return TRUE;
      * }
      * }</pre>
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SpinButton.Output> onOutput(SpinButton.Output handler) {
         try {
@@ -720,6 +732,8 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * Emitted when the value is changed.
      * <p>
      * Also see the {@code Gtk.SpinButton::output} signal.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SpinButton.ValueChanged> onValueChanged(SpinButton.ValueChanged handler) {
         try {
@@ -747,6 +761,8 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     /**
      * Emitted right after the spinbutton wraps from its maximum
      * to its minimum value or vice-versa.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SpinButton.Wrapped> onWrapped(SpinButton.Wrapped handler) {
         try {
@@ -770,132 +786,158 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         
         private static final MethodHandle gtk_spin_button_new = Interop.downcallHandle(
             "gtk_spin_button_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_new_with_range = Interop.downcallHandle(
             "gtk_spin_button_new_with_range",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_configure = Interop.downcallHandle(
             "gtk_spin_button_configure",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_get_adjustment = Interop.downcallHandle(
             "gtk_spin_button_get_adjustment",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_get_climb_rate = Interop.downcallHandle(
             "gtk_spin_button_get_climb_rate",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_get_digits = Interop.downcallHandle(
             "gtk_spin_button_get_digits",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_get_increments = Interop.downcallHandle(
             "gtk_spin_button_get_increments",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_get_numeric = Interop.downcallHandle(
             "gtk_spin_button_get_numeric",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_get_range = Interop.downcallHandle(
             "gtk_spin_button_get_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_get_snap_to_ticks = Interop.downcallHandle(
             "gtk_spin_button_get_snap_to_ticks",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_get_update_policy = Interop.downcallHandle(
             "gtk_spin_button_get_update_policy",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_get_value = Interop.downcallHandle(
             "gtk_spin_button_get_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_get_value_as_int = Interop.downcallHandle(
             "gtk_spin_button_get_value_as_int",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_get_wrap = Interop.downcallHandle(
             "gtk_spin_button_get_wrap",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_set_adjustment = Interop.downcallHandle(
             "gtk_spin_button_set_adjustment",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_set_climb_rate = Interop.downcallHandle(
             "gtk_spin_button_set_climb_rate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_set_digits = Interop.downcallHandle(
             "gtk_spin_button_set_digits",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_set_increments = Interop.downcallHandle(
             "gtk_spin_button_set_increments",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_set_numeric = Interop.downcallHandle(
             "gtk_spin_button_set_numeric",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_set_range = Interop.downcallHandle(
             "gtk_spin_button_set_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_set_snap_to_ticks = Interop.downcallHandle(
             "gtk_spin_button_set_snap_to_ticks",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_set_update_policy = Interop.downcallHandle(
             "gtk_spin_button_set_update_policy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_set_value = Interop.downcallHandle(
             "gtk_spin_button_set_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_set_wrap = Interop.downcallHandle(
             "gtk_spin_button_set_wrap",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_spin = Interop.downcallHandle(
             "gtk_spin_button_spin",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_spin_button_update = Interop.downcallHandle(
             "gtk_spin_button_update",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -904,7 +946,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         public static void signalSpinButtonChangeValue(MemoryAddress source, int scroll, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SpinButton.ChangeValue) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SpinButton(Refcounted.get(source)), new org.gtk.gtk.ScrollType(scroll));
+            HANDLER.signalReceived(new SpinButton(source, Ownership.UNKNOWN), new org.gtk.gtk.ScrollType(scroll));
         }
         
         public static void signalSpinButtonInput(MemoryAddress source, double newValue, MemoryAddress data) {
@@ -914,19 +956,19 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         public static boolean signalSpinButtonOutput(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SpinButton.Output) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new SpinButton(Refcounted.get(source)));
+            return HANDLER.signalReceived(new SpinButton(source, Ownership.UNKNOWN));
         }
         
         public static void signalSpinButtonValueChanged(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SpinButton.ValueChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SpinButton(Refcounted.get(source)));
+            HANDLER.signalReceived(new SpinButton(source, Ownership.UNKNOWN));
         }
         
         public static void signalSpinButtonWrapped(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SpinButton.Wrapped) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SpinButton(Refcounted.get(source)));
+            HANDLER.signalReceived(new SpinButton(source, Ownership.UNKNOWN));
         }
     }
 }

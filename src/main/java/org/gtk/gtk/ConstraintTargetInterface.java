@@ -17,6 +17,7 @@ public class ConstraintTargetInterface extends io.github.jwharm.javagi.ResourceB
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -25,13 +26,18 @@ public class ConstraintTargetInterface extends io.github.jwharm.javagi.ResourceB
     
     public static ConstraintTargetInterface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ConstraintTargetInterface newInstance = new ConstraintTargetInterface(Refcounted.get(segment.address()));
+        ConstraintTargetInterface newInstance = new ConstraintTargetInterface(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a ConstraintTargetInterface proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ConstraintTargetInterface(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ConstraintTargetInterface(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

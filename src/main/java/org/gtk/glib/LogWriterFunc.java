@@ -28,5 +28,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface LogWriterFunc {
-        org.gtk.glib.LogWriterOutput onLogWriterFunc(@NotNull org.gtk.glib.LogLevelFlags logLevel, PointerProxy<org.gtk.glib.LogField> fields, long nFields);
+        org.gtk.glib.LogWriterOutput onLogWriterFunc(@NotNull org.gtk.glib.LogLevelFlags logLevel, @NotNull PointerProxy<org.gtk.glib.LogField> fields, long nFields);
 }

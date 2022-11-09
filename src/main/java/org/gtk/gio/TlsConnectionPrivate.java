@@ -17,6 +17,7 @@ public class TlsConnectionPrivate extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -25,13 +26,18 @@ public class TlsConnectionPrivate extends io.github.jwharm.javagi.ResourceBase {
     
     public static TlsConnectionPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TlsConnectionPrivate newInstance = new TlsConnectionPrivate(Refcounted.get(segment.address()));
+        TlsConnectionPrivate newInstance = new TlsConnectionPrivate(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a TlsConnectionPrivate proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TlsConnectionPrivate(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TlsConnectionPrivate(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

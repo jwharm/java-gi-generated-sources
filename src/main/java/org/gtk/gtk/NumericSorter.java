@@ -23,13 +23,19 @@ public class NumericSorter extends org.gtk.gtk.Sorter {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a NumericSorter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public NumericSorter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public NumericSorter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -41,17 +47,17 @@ public class NumericSorter extends org.gtk.gtk.Sorter {
      */
     public static NumericSorter castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkNumericSorter"))) {
-            return new NumericSorter(gobject.refcounted());
+            return new NumericSorter(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkNumericSorter");
         }
     }
     
-    private static Refcounted constructNew(@Nullable org.gtk.gtk.Expression expression) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable org.gtk.gtk.Expression expression) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_numeric_sorter_new.invokeExact(
-                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.refcounted().unowned().handle())), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_numeric_sorter_new.invokeExact(
+                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.refcounted().unowned().handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,7 +72,7 @@ public class NumericSorter extends org.gtk.gtk.Sorter {
      * @param expression The expression to evaluate
      */
     public NumericSorter(@Nullable org.gtk.gtk.Expression expression) {
-        super(constructNew(expression));
+        super(constructNew(expression), Ownership.FULL);
     }
     
     /**
@@ -81,7 +87,7 @@ public class NumericSorter extends org.gtk.gtk.Sorter {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Expression(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Expression(RESULT, Ownership.NONE);
     }
     
     /**
@@ -138,27 +144,32 @@ public class NumericSorter extends org.gtk.gtk.Sorter {
         
         private static final MethodHandle gtk_numeric_sorter_new = Interop.downcallHandle(
             "gtk_numeric_sorter_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_numeric_sorter_get_expression = Interop.downcallHandle(
             "gtk_numeric_sorter_get_expression",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_numeric_sorter_get_sort_order = Interop.downcallHandle(
             "gtk_numeric_sorter_get_sort_order",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_numeric_sorter_set_expression = Interop.downcallHandle(
             "gtk_numeric_sorter_set_expression",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_numeric_sorter_set_sort_order = Interop.downcallHandle(
             "gtk_numeric_sorter_set_sort_order",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

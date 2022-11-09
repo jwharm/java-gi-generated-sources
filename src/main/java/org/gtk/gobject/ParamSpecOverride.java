@@ -36,13 +36,19 @@ public class ParamSpecOverride extends org.gtk.gobject.ParamSpec {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Create a ParamSpecOverride proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ParamSpecOverride(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ParamSpecOverride(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -54,7 +60,7 @@ public class ParamSpecOverride extends org.gtk.gobject.ParamSpec {
      */
     public static ParamSpecOverride castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GParamSpecOverride"))) {
-            return new ParamSpecOverride(gobject.refcounted());
+            return new ParamSpecOverride(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GParamSpecOverride");
         }

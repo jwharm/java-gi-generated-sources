@@ -31,13 +31,19 @@ public class CellRendererSpinner extends org.gtk.gtk.CellRenderer {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a CellRendererSpinner proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CellRendererSpinner(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CellRendererSpinner(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -49,16 +55,16 @@ public class CellRendererSpinner extends org.gtk.gtk.CellRenderer {
      */
     public static CellRendererSpinner castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellRendererSpinner"))) {
-            return new CellRendererSpinner(gobject.refcounted());
+            return new CellRendererSpinner(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCellRendererSpinner");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_renderer_spinner_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_renderer_spinner_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,14 +76,15 @@ public class CellRendererSpinner extends org.gtk.gtk.CellRenderer {
      * activity.
      */
     public CellRendererSpinner() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_cell_renderer_spinner_new = Interop.downcallHandle(
             "gtk_cell_renderer_spinner_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

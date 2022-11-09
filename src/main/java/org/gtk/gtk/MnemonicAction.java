@@ -20,13 +20,19 @@ public class MnemonicAction extends org.gtk.gtk.ShortcutAction {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a MnemonicAction proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public MnemonicAction(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public MnemonicAction(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,7 +44,7 @@ public class MnemonicAction extends org.gtk.gtk.ShortcutAction {
      */
     public static MnemonicAction castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMnemonicAction"))) {
-            return new MnemonicAction(gobject.refcounted());
+            return new MnemonicAction(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkMnemonicAction");
         }
@@ -58,14 +64,15 @@ public class MnemonicAction extends org.gtk.gtk.ShortcutAction {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.MnemonicAction(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.MnemonicAction(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_mnemonic_action_get = Interop.downcallHandle(
             "gtk_mnemonic_action_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

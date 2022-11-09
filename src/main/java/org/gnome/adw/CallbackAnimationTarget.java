@@ -22,13 +22,19 @@ public class CallbackAnimationTarget extends org.gnome.adw.AnimationTarget {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a CallbackAnimationTarget proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CallbackAnimationTarget(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CallbackAnimationTarget(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -40,24 +46,24 @@ public class CallbackAnimationTarget extends org.gnome.adw.AnimationTarget {
      */
     public static CallbackAnimationTarget castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwCallbackAnimationTarget"))) {
-            return new CallbackAnimationTarget(gobject.refcounted());
+            return new CallbackAnimationTarget(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwCallbackAnimationTarget");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gnome.adw.AnimationTargetFunc callback) {
+    private static Addressable constructNew(@NotNull org.gnome.adw.AnimationTargetFunc callback) {
         java.util.Objects.requireNonNull(callback, "Parameter 'callback' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_callback_animation_target_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.adw_callback_animation_target_new.invokeExact(
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Adw.Callbacks.class, "cbAnimationTargetFunc",
                             MethodType.methodType(void.class, double.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(callback)),
-                    Interop.cbDestroyNotifySymbol()), true);
+                    Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,14 +76,15 @@ public class CallbackAnimationTarget extends org.gnome.adw.AnimationTarget {
      * @param callback the callback to call
      */
     public CallbackAnimationTarget(@NotNull org.gnome.adw.AnimationTargetFunc callback) {
-        super(constructNew(callback));
+        super(constructNew(callback), Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle adw_callback_animation_target_new = Interop.downcallHandle(
             "adw_callback_animation_target_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

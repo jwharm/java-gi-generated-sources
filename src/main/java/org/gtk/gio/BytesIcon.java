@@ -22,13 +22,19 @@ public class BytesIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ico
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a BytesIcon proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public BytesIcon(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public BytesIcon(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -40,18 +46,18 @@ public class BytesIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ico
      */
     public static BytesIcon castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GBytesIcon"))) {
-            return new BytesIcon(gobject.refcounted());
+            return new BytesIcon(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GBytesIcon");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.glib.Bytes bytes) {
+    private static Addressable constructNew(@NotNull org.gtk.glib.Bytes bytes) {
         java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_bytes_icon_new.invokeExact(
-                    bytes.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_bytes_icon_new.invokeExact(
+                    bytes.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,7 +72,7 @@ public class BytesIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ico
      * @param bytes a {@link org.gtk.glib.Bytes}.
      */
     public BytesIcon(@NotNull org.gtk.glib.Bytes bytes) {
-        super(constructNew(bytes));
+        super(constructNew(bytes), Ownership.FULL);
     }
     
     /**
@@ -81,19 +87,21 @@ public class BytesIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ico
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Bytes(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_bytes_icon_new = Interop.downcallHandle(
             "g_bytes_icon_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_bytes_icon_get_bytes = Interop.downcallHandle(
             "g_bytes_icon_get_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

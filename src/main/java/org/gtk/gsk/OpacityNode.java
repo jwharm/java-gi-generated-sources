@@ -20,13 +20,19 @@ public class OpacityNode extends org.gtk.gsk.RenderNode {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a OpacityNode proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public OpacityNode(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public OpacityNode(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,19 +44,19 @@ public class OpacityNode extends org.gtk.gsk.RenderNode {
      */
     public static OpacityNode castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskOpacityNode"))) {
-            return new OpacityNode(gobject.refcounted());
+            return new OpacityNode(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GskOpacityNode");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gsk.RenderNode child, float opacity) {
+    private static Addressable constructNew(@NotNull org.gtk.gsk.RenderNode child, float opacity) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_opacity_node_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gsk_opacity_node_new.invokeExact(
                     child.handle(),
-                    opacity), true);
+                    opacity);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,7 +70,7 @@ public class OpacityNode extends org.gtk.gsk.RenderNode {
      * @param opacity The opacity to apply
      */
     public OpacityNode(@NotNull org.gtk.gsk.RenderNode child, float opacity) {
-        super(constructNew(child, opacity));
+        super(constructNew(child, opacity), Ownership.FULL);
     }
     
     /**
@@ -79,7 +85,7 @@ public class OpacityNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RenderNode(Refcounted.get(RESULT, false));
+        return new org.gtk.gsk.RenderNode(RESULT, Ownership.NONE);
     }
     
     /**
@@ -101,17 +107,20 @@ public class OpacityNode extends org.gtk.gsk.RenderNode {
         
         private static final MethodHandle gsk_opacity_node_new = Interop.downcallHandle(
             "gsk_opacity_node_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle gsk_opacity_node_get_child = Interop.downcallHandle(
             "gsk_opacity_node_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_opacity_node_get_opacity = Interop.downcallHandle(
             "gsk_opacity_node_get_opacity",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

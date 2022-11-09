@@ -20,7 +20,7 @@ public interface DesktopAppInfoLookup extends io.github.jwharm.javagi.Proxy {
      */
     public static DesktopAppInfoLookup castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDesktopAppInfoLookup"))) {
-            return new DesktopAppInfoLookupImpl(gobject.refcounted());
+            return new DesktopAppInfoLookupImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDesktopAppInfoLookup");
         }
@@ -52,7 +52,7 @@ public interface DesktopAppInfoLookup extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.AppInfo.AppInfoImpl(RESULT, Ownership.FULL);
     }
     
     @ApiStatus.Internal
@@ -61,7 +61,8 @@ public interface DesktopAppInfoLookup extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_desktop_app_info_lookup_get_default_for_uri_scheme = Interop.downcallHandle(
             "g_desktop_app_info_lookup_get_default_for_uri_scheme",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -71,8 +72,8 @@ public interface DesktopAppInfoLookup extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public DesktopAppInfoLookupImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public DesktopAppInfoLookupImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

@@ -22,6 +22,7 @@ public class NativeVolumeMonitorClass extends io.github.jwharm.javagi.ResourceBa
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -30,7 +31,7 @@ public class NativeVolumeMonitorClass extends io.github.jwharm.javagi.ResourceBa
     
     public static NativeVolumeMonitorClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        NativeVolumeMonitorClass newInstance = new NativeVolumeMonitorClass(Refcounted.get(segment.address()));
+        NativeVolumeMonitorClass newInstance = new NativeVolumeMonitorClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -41,11 +42,16 @@ public class NativeVolumeMonitorClass extends io.github.jwharm.javagi.ResourceBa
      */
     public org.gtk.gio.VolumeMonitorClass parent_class$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gio.VolumeMonitorClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.VolumeMonitorClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a NativeVolumeMonitorClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public NativeVolumeMonitorClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public NativeVolumeMonitorClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

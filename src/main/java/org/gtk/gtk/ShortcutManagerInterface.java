@@ -30,6 +30,7 @@ public class ShortcutManagerInterface extends io.github.jwharm.javagi.ResourceBa
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -38,13 +39,18 @@ public class ShortcutManagerInterface extends io.github.jwharm.javagi.ResourceBa
     
     public static ShortcutManagerInterface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ShortcutManagerInterface newInstance = new ShortcutManagerInterface(Refcounted.get(segment.address()));
+        ShortcutManagerInterface newInstance = new ShortcutManagerInterface(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a ShortcutManagerInterface proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ShortcutManagerInterface(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ShortcutManagerInterface(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

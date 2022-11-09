@@ -32,6 +32,7 @@ public class AttrClass extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -40,7 +41,7 @@ public class AttrClass extends io.github.jwharm.javagi.ResourceBase {
     
     public static AttrClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AttrClass newInstance = new AttrClass(Refcounted.get(segment.address()));
+        AttrClass newInstance = new AttrClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -66,8 +67,13 @@ public class AttrClass extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type.getValue());
     }
     
+    /**
+     * Create a AttrClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public AttrClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public AttrClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

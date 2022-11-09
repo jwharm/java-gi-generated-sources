@@ -259,12 +259,14 @@ public class AttrType extends io.github.jwharm.javagi.Enumeration {
         
         private static final MethodHandle pango_attr_type_get_name = Interop.downcallHandle(
             "pango_attr_type_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_type_register = Interop.downcallHandle(
             "pango_attr_type_register",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

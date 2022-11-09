@@ -5,6 +5,9 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
+/**
+ * Constants and functions that are declared in the global PangoCairo namespace.
+ */
 public final class PangoCairo {
     
     static {
@@ -33,7 +36,7 @@ public final class PangoCairo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.cairographics.FontOptions(Refcounted.get(RESULT, false));
+        return new org.cairographics.FontOptions(RESULT, Ownership.NONE);
     }
     
     /**
@@ -166,7 +169,7 @@ public final class PangoCairo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Context(Refcounted.get(RESULT, true));
+        return new org.pango.Context(RESULT, Ownership.FULL);
     }
     
     /**
@@ -194,7 +197,7 @@ public final class PangoCairo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Layout(Refcounted.get(RESULT, true));
+        return new org.pango.Layout(RESULT, Ownership.FULL);
     }
     
     /**
@@ -251,7 +254,7 @@ public final class PangoCairo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontMap(Refcounted.get(RESULT, false));
+        return new org.pango.FontMap(RESULT, Ownership.NONE);
     }
     
     /**
@@ -283,7 +286,7 @@ public final class PangoCairo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontMap(Refcounted.get(RESULT, true));
+        return new org.pango.FontMap(RESULT, Ownership.FULL);
     }
     
     /**
@@ -307,7 +310,7 @@ public final class PangoCairo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontMap(Refcounted.get(RESULT, true));
+        return new org.pango.FontMap(RESULT, Ownership.FULL);
     }
     
     /**
@@ -542,112 +545,134 @@ public final class PangoCairo {
         
         private static final MethodHandle pango_cairo_context_get_font_options = Interop.downcallHandle(
             "pango_cairo_context_get_font_options",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_cairo_context_get_resolution = Interop.downcallHandle(
             "pango_cairo_context_get_resolution",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_cairo_context_get_shape_renderer = Interop.downcallHandle(
             "pango_cairo_context_get_shape_renderer",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_cairo_context_set_font_options = Interop.downcallHandle(
             "pango_cairo_context_set_font_options",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_cairo_context_set_resolution = Interop.downcallHandle(
             "pango_cairo_context_set_resolution",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle pango_cairo_context_set_shape_renderer = Interop.downcallHandle(
             "pango_cairo_context_set_shape_renderer",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_cairo_create_context = Interop.downcallHandle(
             "pango_cairo_create_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_cairo_create_layout = Interop.downcallHandle(
             "pango_cairo_create_layout",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_cairo_error_underline_path = Interop.downcallHandle(
             "pango_cairo_error_underline_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle pango_cairo_font_map_get_default = Interop.downcallHandle(
             "pango_cairo_font_map_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_cairo_font_map_new = Interop.downcallHandle(
             "pango_cairo_font_map_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_cairo_font_map_new_for_font_type = Interop.downcallHandle(
             "pango_cairo_font_map_new_for_font_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_cairo_glyph_string_path = Interop.downcallHandle(
             "pango_cairo_glyph_string_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_cairo_layout_line_path = Interop.downcallHandle(
             "pango_cairo_layout_line_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_cairo_layout_path = Interop.downcallHandle(
             "pango_cairo_layout_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_cairo_show_error_underline = Interop.downcallHandle(
             "pango_cairo_show_error_underline",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle pango_cairo_show_glyph_item = Interop.downcallHandle(
             "pango_cairo_show_glyph_item",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_cairo_show_glyph_string = Interop.downcallHandle(
             "pango_cairo_show_glyph_string",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_cairo_show_layout = Interop.downcallHandle(
             "pango_cairo_show_layout",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_cairo_show_layout_line = Interop.downcallHandle(
             "pango_cairo_show_layout_line",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_cairo_update_context = Interop.downcallHandle(
             "pango_cairo_update_context",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_cairo_update_layout = Interop.downcallHandle(
             "pango_cairo_update_layout",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -657,7 +682,7 @@ public final class PangoCairo {
         public static void cbShapeRendererFunc(MemoryAddress cr, MemoryAddress attr, int doPath, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ShapeRendererFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onShapeRendererFunc(new org.cairographics.Context(Refcounted.get(cr, false)), new org.pango.AttrShape(Refcounted.get(attr, false)), doPath != 0);
+            HANDLER.onShapeRendererFunc(new org.cairographics.Context(cr, Ownership.NONE), new org.pango.AttrShape(attr, Ownership.NONE), doPath != 0);
         }
     }
 }

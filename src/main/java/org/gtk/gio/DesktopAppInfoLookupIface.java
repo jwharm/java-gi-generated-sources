@@ -26,6 +26,7 @@ public class DesktopAppInfoLookupIface extends io.github.jwharm.javagi.ResourceB
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -34,7 +35,7 @@ public class DesktopAppInfoLookupIface extends io.github.jwharm.javagi.ResourceB
     
     public static DesktopAppInfoLookupIface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DesktopAppInfoLookupIface newInstance = new DesktopAppInfoLookupIface(Refcounted.get(segment.address()));
+        DesktopAppInfoLookupIface newInstance = new DesktopAppInfoLookupIface(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,11 +46,16 @@ public class DesktopAppInfoLookupIface extends io.github.jwharm.javagi.ResourceB
      */
     public org.gtk.gobject.TypeInterface g_iface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return new org.gtk.gobject.TypeInterface(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a DesktopAppInfoLookupIface proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DesktopAppInfoLookupIface(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DesktopAppInfoLookupIface(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

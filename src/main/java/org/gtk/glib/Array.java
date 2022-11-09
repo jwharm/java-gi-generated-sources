@@ -25,6 +25,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -33,7 +34,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
     
     public static Array allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Array newInstance = new Array(Refcounted.get(segment.address()));
+        Array newInstance = new Array(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -80,9 +81,14 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
     }
     
+    /**
+     * Create a Array proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Array(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Array(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -92,7 +98,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * @param len the number of elements to append
      * @return the {@link Array}
      */
-    public static @NotNull PointerAddress appendVals(java.lang.foreign.MemoryAddress[] array, @NotNull java.lang.foreign.MemoryAddress data, int len) {
+    public static @NotNull PointerAddress appendVals(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull java.lang.foreign.MemoryAddress data, int len) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -140,7 +146,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      *    for the index of the element, if found.
      * @return {@code true} if {@code target} is one of the elements of {@code array}, {@code false} otherwise.
      */
-    public static boolean binarySearch(java.lang.foreign.MemoryAddress[] array, @Nullable java.lang.foreign.MemoryAddress target, @NotNull org.gtk.glib.CompareFunc compareFunc, Out<Integer> outMatchIndex) {
+    public static boolean binarySearch(@NotNull java.lang.foreign.MemoryAddress[] array, @Nullable java.lang.foreign.MemoryAddress target, @NotNull org.gtk.glib.CompareFunc compareFunc, Out<Integer> outMatchIndex) {
         throw new UnsupportedOperationException("Operation not supported yet");
     }
     
@@ -150,7 +156,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * @param array A {@link Array}.
      * @return A copy of {@code array}.
      */
-    public static @NotNull PointerAddress copy(java.lang.foreign.MemoryAddress[] array) {
+    public static @NotNull PointerAddress copy(@NotNull java.lang.foreign.MemoryAddress[] array) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -182,7 +188,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * @return the element data if {@code free_segment} is {@code false}, otherwise
      *     {@code null}. The element data should be freed using g_free().
      */
-    public static @NotNull java.lang.String free(java.lang.foreign.MemoryAddress[] array, boolean freeSegment) {
+    public static @NotNull java.lang.String free(@NotNull java.lang.foreign.MemoryAddress[] array, boolean freeSegment) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -200,7 +206,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * @param array A {@link Array}
      * @return Size of each element, in bytes
      */
-    public static int getElementSize(java.lang.foreign.MemoryAddress[] array) {
+    public static int getElementSize(@NotNull java.lang.foreign.MemoryAddress[] array) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         int RESULT;
         try {
@@ -232,7 +238,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * @param len the number of elements to insert
      * @return the {@link Array}
      */
-    public static @NotNull PointerAddress insertVals(java.lang.foreign.MemoryAddress[] array, int index, @Nullable java.lang.foreign.MemoryAddress data, int len) {
+    public static @NotNull PointerAddress insertVals(@NotNull java.lang.foreign.MemoryAddress[] array, int index, @Nullable java.lang.foreign.MemoryAddress data, int len) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -283,7 +289,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * @param len the number of elements to prepend, which may be zero
      * @return the {@link Array}
      */
-    public static @NotNull PointerAddress prependVals(java.lang.foreign.MemoryAddress[] array, @Nullable java.lang.foreign.MemoryAddress data, int len) {
+    public static @NotNull PointerAddress prependVals(@NotNull java.lang.foreign.MemoryAddress[] array, @Nullable java.lang.foreign.MemoryAddress data, int len) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -303,7 +309,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * @param array A {@link Array}
      * @return The passed in {@link Array}
      */
-    public static @NotNull PointerAddress ref(java.lang.foreign.MemoryAddress[] array) {
+    public static @NotNull PointerAddress ref(@NotNull java.lang.foreign.MemoryAddress[] array) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -322,7 +328,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * @param index the index of the element to remove
      * @return the {@link Array}
      */
-    public static @NotNull PointerAddress removeIndex(java.lang.foreign.MemoryAddress[] array, int index) {
+    public static @NotNull PointerAddress removeIndex(@NotNull java.lang.foreign.MemoryAddress[] array, int index) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -344,7 +350,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * @param index the index of the element to remove
      * @return the {@link Array}
      */
-    public static @NotNull PointerAddress removeIndexFast(java.lang.foreign.MemoryAddress[] array, int index) {
+    public static @NotNull PointerAddress removeIndexFast(@NotNull java.lang.foreign.MemoryAddress[] array, int index) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -365,7 +371,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * @param length the number of elements to remove
      * @return the {@link Array}
      */
-    public static @NotNull PointerAddress removeRange(java.lang.foreign.MemoryAddress[] array, int index, int length) {
+    public static @NotNull PointerAddress removeRange(@NotNull java.lang.foreign.MemoryAddress[] array, int index, int length) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -413,7 +419,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * @param array A {@link Array}
      * @param clearFunc a function to clear an element of {@code array}
      */
-    public static void setClearFunc(java.lang.foreign.MemoryAddress[] array, @NotNull org.gtk.glib.DestroyNotify clearFunc) {
+    public static void setClearFunc(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull org.gtk.glib.DestroyNotify clearFunc) {
         throw new UnsupportedOperationException("Operation not supported yet");
     }
     
@@ -424,7 +430,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * @param length the new size of the {@link Array}
      * @return the {@link Array}
      */
-    public static @NotNull PointerAddress setSize(java.lang.foreign.MemoryAddress[] array, int length) {
+    public static @NotNull PointerAddress setSize(@NotNull java.lang.foreign.MemoryAddress[] array, int length) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -474,7 +480,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * @param array a {@link Array}
      * @param compareFunc comparison function
      */
-    public static void sort(java.lang.foreign.MemoryAddress[] array, @NotNull org.gtk.glib.CompareFunc compareFunc) {
+    public static void sort(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull org.gtk.glib.CompareFunc compareFunc) {
         throw new UnsupportedOperationException("Operation not supported yet");
     }
     
@@ -490,7 +496,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * @param array a {@link Array}
      * @param compareFunc comparison function
      */
-    public static void sortWithData(java.lang.foreign.MemoryAddress[] array, @NotNull org.gtk.glib.CompareDataFunc compareFunc) {
+    public static void sortWithData(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull org.gtk.glib.CompareDataFunc compareFunc) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
         try {
@@ -532,7 +538,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * @return the element data, which should be
      *     freed using g_free().
      */
-    public static @Nullable java.lang.foreign.MemoryAddress steal(java.lang.foreign.MemoryAddress[] array, Out<Long> len) {
+    public static @Nullable java.lang.foreign.MemoryAddress steal(@NotNull java.lang.foreign.MemoryAddress[] array, Out<Long> len) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         java.util.Objects.requireNonNull(len, "Parameter 'len' must not be null");
         MemorySegment lenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
@@ -555,7 +561,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * thread.
      * @param array A {@link Array}
      */
-    public static void unref(java.lang.foreign.MemoryAddress[] array) {
+    public static void unref(@NotNull java.lang.foreign.MemoryAddress[] array) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         try {
             DowncallHandles.g_array_unref.invokeExact(
@@ -569,97 +575,116 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_array_append_vals = Interop.downcallHandle(
             "g_array_append_vals",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_array_binary_search = Interop.downcallHandle(
             "g_array_binary_search",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_array_copy = Interop.downcallHandle(
             "g_array_copy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_array_free = Interop.downcallHandle(
             "g_array_free",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_array_get_element_size = Interop.downcallHandle(
             "g_array_get_element_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_array_insert_vals = Interop.downcallHandle(
             "g_array_insert_vals",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_array_new = Interop.downcallHandle(
             "g_array_new",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_array_prepend_vals = Interop.downcallHandle(
             "g_array_prepend_vals",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_array_ref = Interop.downcallHandle(
             "g_array_ref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_array_remove_index = Interop.downcallHandle(
             "g_array_remove_index",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_array_remove_index_fast = Interop.downcallHandle(
             "g_array_remove_index_fast",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_array_remove_range = Interop.downcallHandle(
             "g_array_remove_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_array_set_clear_func = Interop.downcallHandle(
             "g_array_set_clear_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_array_set_size = Interop.downcallHandle(
             "g_array_set_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_array_sized_new = Interop.downcallHandle(
             "g_array_sized_new",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_array_sort = Interop.downcallHandle(
             "g_array_sort",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_array_sort_with_data = Interop.downcallHandle(
             "g_array_sort_with_data",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_array_steal = Interop.downcallHandle(
             "g_array_steal",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_array_unref = Interop.downcallHandle(
             "g_array_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

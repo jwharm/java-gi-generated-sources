@@ -39,13 +39,19 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a TabBar proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TabBar(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TabBar(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -57,16 +63,16 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public static TabBar castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwTabBar"))) {
-            return new TabBar(gobject.refcounted());
+            return new TabBar(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwTabBar");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_tab_bar_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.adw_tab_bar_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,7 +83,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * Creates a new {@code AdwTabBar}.
      */
     public TabBar() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -107,7 +113,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -169,7 +175,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -201,7 +207,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.TabView(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.TabView(RESULT, Ownership.NONE);
     }
     
     /**
@@ -315,7 +321,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @param types all supported {@code GType}s that can be dropped
      * @param nTypes number of {@code types}
      */
-    public void setupExtraDropTarget(@NotNull org.gtk.gdk.DragAction actions, org.gtk.glib.Type[] types, long nTypes) {
+    public void setupExtraDropTarget(@NotNull org.gtk.gdk.DragAction actions, @Nullable org.gtk.glib.Type[] types, long nTypes) {
         java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
         try {
             DowncallHandles.adw_tab_bar_setup_extra_drop_target.invokeExact(
@@ -340,6 +346,8 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * {@code TabBar#setupExtraDropTarget}.
      * <p>
      * See {@code Gtk.DropTarget::drop}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TabBar.ExtraDragDrop> onExtraDragDrop(TabBar.ExtraDragDrop handler) {
         try {
@@ -363,82 +371,98 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         
         private static final MethodHandle adw_tab_bar_new = Interop.downcallHandle(
             "adw_tab_bar_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_tab_bar_get_autohide = Interop.downcallHandle(
             "adw_tab_bar_get_autohide",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_tab_bar_get_end_action_widget = Interop.downcallHandle(
             "adw_tab_bar_get_end_action_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_tab_bar_get_expand_tabs = Interop.downcallHandle(
             "adw_tab_bar_get_expand_tabs",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_tab_bar_get_inverted = Interop.downcallHandle(
             "adw_tab_bar_get_inverted",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_tab_bar_get_is_overflowing = Interop.downcallHandle(
             "adw_tab_bar_get_is_overflowing",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_tab_bar_get_start_action_widget = Interop.downcallHandle(
             "adw_tab_bar_get_start_action_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_tab_bar_get_tabs_revealed = Interop.downcallHandle(
             "adw_tab_bar_get_tabs_revealed",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_tab_bar_get_view = Interop.downcallHandle(
             "adw_tab_bar_get_view",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_tab_bar_set_autohide = Interop.downcallHandle(
             "adw_tab_bar_set_autohide",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_tab_bar_set_end_action_widget = Interop.downcallHandle(
             "adw_tab_bar_set_end_action_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_tab_bar_set_expand_tabs = Interop.downcallHandle(
             "adw_tab_bar_set_expand_tabs",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_tab_bar_set_inverted = Interop.downcallHandle(
             "adw_tab_bar_set_inverted",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_tab_bar_set_start_action_widget = Interop.downcallHandle(
             "adw_tab_bar_set_start_action_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_tab_bar_set_view = Interop.downcallHandle(
             "adw_tab_bar_set_view",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_tab_bar_setup_extra_drop_target = Interop.downcallHandle(
             "adw_tab_bar_setup_extra_drop_target",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
     }
     
@@ -447,7 +471,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         public static boolean signalTabBarExtraDragDrop(MemoryAddress source, MemoryAddress page, MemoryAddress value, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TabBar.ExtraDragDrop) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new TabBar(Refcounted.get(source)), new org.gnome.adw.TabPage(Refcounted.get(page, false)), new org.gtk.gobject.Value(Refcounted.get(value, false)));
+            return HANDLER.signalReceived(new TabBar(source, Ownership.UNKNOWN), new org.gnome.adw.TabPage(page, Ownership.NONE), new org.gtk.gobject.Value(value, Ownership.NONE));
         }
     }
 }

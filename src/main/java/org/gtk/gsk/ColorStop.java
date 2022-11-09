@@ -26,6 +26,7 @@ public class ColorStop extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -34,7 +35,7 @@ public class ColorStop extends io.github.jwharm.javagi.ResourceBase {
     
     public static ColorStop allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ColorStop newInstance = new ColorStop(Refcounted.get(segment.address()));
+        ColorStop newInstance = new ColorStop(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -66,11 +67,16 @@ public class ColorStop extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gdk.RGBA color$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("color"));
-        return new org.gtk.gdk.RGBA(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gdk.RGBA(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a ColorStop proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ColorStop(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ColorStop(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

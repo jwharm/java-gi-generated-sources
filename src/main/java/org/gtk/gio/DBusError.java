@@ -364,7 +364,7 @@ public class DBusError extends io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Error(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Error(RESULT, Ownership.FULL);
     }
     
     public static @NotNull org.gtk.glib.Quark quark() {
@@ -414,7 +414,7 @@ public class DBusError extends io.github.jwharm.javagi.Enumeration {
      * @param entries A pointer to {@code num_entries} {@link DBusErrorEntry} struct items.
      * @param numEntries Number of items to register.
      */
-    public static void registerErrorDomain(@NotNull java.lang.String errorDomainQuarkName, PointerLong quarkVolatile, org.gtk.gio.DBusErrorEntry[] entries, int numEntries) {
+    public static void registerErrorDomain(@NotNull java.lang.String errorDomainQuarkName, PointerLong quarkVolatile, @NotNull org.gtk.gio.DBusErrorEntry[] entries, int numEntries) {
         java.util.Objects.requireNonNull(errorDomainQuarkName, "Parameter 'errorDomainQuarkName' must not be null");
         java.util.Objects.requireNonNull(quarkVolatile, "Parameter 'quarkVolatile' must not be null");
         java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
@@ -437,9 +437,21 @@ public class DBusError extends io.github.jwharm.javagi.Enumeration {
      * @param dbusErrorName D-Bus error name.
      * @param dbusErrorMessage D-Bus error message.
      * @param format printf()-style format to prepend to {@code dbus_error_message} or {@code null}.
+     * @param varargs Arguments for {@code format}.
      */
-    public static void setDbusError(@NotNull PointerProxy<org.gtk.glib.Error> error, @NotNull java.lang.String dbusErrorName, @NotNull java.lang.String dbusErrorMessage, @Nullable java.lang.String format) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void setDbusError(@NotNull PointerProxy<org.gtk.glib.Error> error, @NotNull java.lang.String dbusErrorName, @NotNull java.lang.String dbusErrorMessage, @Nullable java.lang.String format, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(dbusErrorName, "Parameter 'dbusErrorName' must not be null");
+        java.util.Objects.requireNonNull(dbusErrorMessage, "Parameter 'dbusErrorMessage' must not be null");
+        try {
+            DowncallHandles.g_dbus_error_set_dbus_error.invokeExact(
+                    error.handle(),
+                    Interop.allocateNativeString(dbusErrorName),
+                    Interop.allocateNativeString(dbusErrorMessage),
+                    (Addressable) (format == null ? MemoryAddress.NULL : Interop.allocateNativeString(format)),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -514,57 +526,68 @@ public class DBusError extends io.github.jwharm.javagi.Enumeration {
         
         private static final MethodHandle g_dbus_error_encode_gerror = Interop.downcallHandle(
             "g_dbus_error_encode_gerror",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_error_get_remote_error = Interop.downcallHandle(
             "g_dbus_error_get_remote_error",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_error_is_remote_error = Interop.downcallHandle(
             "g_dbus_error_is_remote_error",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_error_new_for_dbus_error = Interop.downcallHandle(
             "g_dbus_error_new_for_dbus_error",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_error_quark = Interop.downcallHandle(
             "g_dbus_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_dbus_error_register_error = Interop.downcallHandle(
             "g_dbus_error_register_error",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_error_register_error_domain = Interop.downcallHandle(
             "g_dbus_error_register_error_domain",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_dbus_error_set_dbus_error = Interop.downcallHandle(
             "g_dbus_error_set_dbus_error",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_dbus_error_set_dbus_error_valist = Interop.downcallHandle(
             "g_dbus_error_set_dbus_error_valist",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_error_strip_remote_error = Interop.downcallHandle(
             "g_dbus_error_strip_remote_error",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_error_unregister_error = Interop.downcallHandle(
             "g_dbus_error_unregister_error",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

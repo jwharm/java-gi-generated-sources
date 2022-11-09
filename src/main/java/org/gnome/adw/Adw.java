@@ -5,6 +5,9 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
+/**
+ * Constants and functions that are declared in the global Adw namespace.
+ */
 public final class Adw {
     
     static {
@@ -198,56 +201,75 @@ public final class Adw {
      * A convenience function for showing an application’s about window.
      * @param parent the parent top-level window
      * @param firstPropertyName the name of the first property
+     * @param varargs value of first property, followed by more pairs of property name and
+     *   value, {@code NULL}-terminated
      */
-    public static void showAboutWindow(@Nullable org.gtk.gtk.Window parent, @NotNull java.lang.String firstPropertyName) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void showAboutWindow(@Nullable org.gtk.gtk.Window parent, @NotNull java.lang.String firstPropertyName, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(firstPropertyName, "Parameter 'firstPropertyName' must not be null");
+        try {
+            DowncallHandles.adw_show_about_window.invokeExact(
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                    Interop.allocateNativeString(firstPropertyName),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle adw_easing_ease = Interop.downcallHandle(
             "adw_easing_ease",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle adw_get_enable_animations = Interop.downcallHandle(
             "adw_get_enable_animations",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_get_major_version = Interop.downcallHandle(
             "adw_get_major_version",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_get_micro_version = Interop.downcallHandle(
             "adw_get_micro_version",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_get_minor_version = Interop.downcallHandle(
             "adw_get_minor_version",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_init = Interop.downcallHandle(
             "adw_init",
-            FunctionDescriptor.ofVoid()
+            FunctionDescriptor.ofVoid(),
+            false
         );
         
         private static final MethodHandle adw_is_initialized = Interop.downcallHandle(
             "adw_is_initialized",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_lerp = Interop.downcallHandle(
             "adw_lerp",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle adw_show_about_window = Interop.downcallHandle(
             "adw_show_about_window",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
     }
     

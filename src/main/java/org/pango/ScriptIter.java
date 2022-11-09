@@ -21,6 +21,7 @@ public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -29,23 +30,28 @@ public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
     
     public static ScriptIter allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ScriptIter newInstance = new ScriptIter(Refcounted.get(segment.address()));
+        ScriptIter newInstance = new ScriptIter(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a ScriptIter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ScriptIter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ScriptIter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String text, int length) {
+    private static Addressable constructNew(@NotNull java.lang.String text, int length) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.pango_script_iter_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.pango_script_iter_new.invokeExact(
                     Interop.allocateNativeString(text),
-                    length), true);
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -63,7 +69,7 @@ public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
      * @param length length of {@code text}, or -1 if {@code text} is nul-terminated
      */
     public ScriptIter(@NotNull java.lang.String text, int length) {
-        super(constructNew(text, length));
+        super(constructNew(text, length), Ownership.FULL);
     }
     
     /**
@@ -135,22 +141,26 @@ public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle pango_script_iter_new = Interop.downcallHandle(
             "pango_script_iter_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_script_iter_free = Interop.downcallHandle(
             "pango_script_iter_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_script_iter_get_range = Interop.downcallHandle(
             "pango_script_iter_get_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_script_iter_next = Interop.downcallHandle(
             "pango_script_iter_next",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

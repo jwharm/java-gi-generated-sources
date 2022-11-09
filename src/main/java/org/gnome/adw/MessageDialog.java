@@ -108,6 +108,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -118,12 +119,17 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      */
     public org.gtk.gtk.Window parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gtk.Window(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.Window(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a MessageDialog proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public MessageDialog(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public MessageDialog(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -135,19 +141,19 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      */
     public static MessageDialog castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwMessageDialog"))) {
-            return new MessageDialog(gobject.refcounted());
+            return new MessageDialog(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwMessageDialog");
         }
     }
     
-    private static Refcounted constructNew(@Nullable org.gtk.gtk.Window parent, @Nullable java.lang.String heading, @Nullable java.lang.String body) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable org.gtk.gtk.Window parent, @Nullable java.lang.String heading, @Nullable java.lang.String body) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_message_dialog_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.adw_message_dialog_new.invokeExact(
                     (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
                     (Addressable) (heading == null ? MemoryAddress.NULL : Interop.allocateNativeString(heading)),
-                    (Addressable) (body == null ? MemoryAddress.NULL : Interop.allocateNativeString(body))), false);
+                    (Addressable) (body == null ? MemoryAddress.NULL : Interop.allocateNativeString(body)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -173,7 +179,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * @param body the body text
      */
     public MessageDialog(@Nullable org.gtk.gtk.Window parent, @Nullable java.lang.String heading, @Nullable java.lang.String body) {
-        super(constructNew(parent, heading, body));
+        super(constructNew(parent, heading, body), Ownership.NONE);
     }
     
     /**
@@ -225,9 +231,18 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      *                                   NULL);
      * }</pre>
      * @param firstId response id
+     * @param varargs label for first response, then more id-label pairs
      */
-    public void addResponses(@NotNull java.lang.String firstId) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void addResponses(@NotNull java.lang.String firstId, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(firstId, "Parameter 'firstId' must not be null");
+        try {
+            DowncallHandles.adw_message_dialog_add_responses.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(firstId),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -235,9 +250,18 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * <p>
      * See {@code MessageDialog:body}.
      * @param format the formatted string for the body text
+     * @param varargs the parameters to insert into {@code format}
      */
-    public void formatBody(@NotNull java.lang.String format) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void formatBody(@NotNull java.lang.String format, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+        try {
+            DowncallHandles.adw_message_dialog_format_body.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(format),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -251,9 +275,18 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * <p>
      * See {@code MessageDialog:body}.
      * @param format the formatted string for the body text with Pango markup
+     * @param varargs the parameters to insert into {@code format}
      */
-    public void formatBodyMarkup(@NotNull java.lang.String format) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void formatBodyMarkup(@NotNull java.lang.String format, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+        try {
+            DowncallHandles.adw_message_dialog_format_body_markup.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(format),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -261,9 +294,18 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * <p>
      * See {@code MessageDialog:heading}.
      * @param format the formatted string for the heading
+     * @param varargs the parameters to insert into {@code format}
      */
-    public void formatHeading(@NotNull java.lang.String format) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void formatHeading(@NotNull java.lang.String format, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+        try {
+            DowncallHandles.adw_message_dialog_format_heading.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(format),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -277,9 +319,18 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * <p>
      * See {@code MessageDialog:heading}.
      * @param format the formatted string for the heading with Pango markup
+     * @param varargs the parameters to insert into {@code format}
      */
-    public void formatHeadingMarkup(@NotNull java.lang.String format) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void formatHeadingMarkup(@NotNull java.lang.String format, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+        try {
+            DowncallHandles.adw_message_dialog_format_heading_markup.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(format),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -354,7 +405,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -695,6 +746,9 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * if the dialog was closed by pressing &lt;kbd&gt;Escape&lt;/kbd&gt; or with a system
      * action, {@code response} will be set to the value of
      * {@code MessageDialog:close-response}.
+     * @param detail The signal detail
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<MessageDialog.Response> onResponse(@Nullable String detail, MessageDialog.Response handler) {
         try {
@@ -718,147 +772,176 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
         
         private static final MethodHandle adw_message_dialog_new = Interop.downcallHandle(
             "adw_message_dialog_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_add_response = Interop.downcallHandle(
             "adw_message_dialog_add_response",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_add_responses = Interop.downcallHandle(
             "adw_message_dialog_add_responses",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle adw_message_dialog_format_body = Interop.downcallHandle(
             "adw_message_dialog_format_body",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle adw_message_dialog_format_body_markup = Interop.downcallHandle(
             "adw_message_dialog_format_body_markup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle adw_message_dialog_format_heading = Interop.downcallHandle(
             "adw_message_dialog_format_heading",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle adw_message_dialog_format_heading_markup = Interop.downcallHandle(
             "adw_message_dialog_format_heading_markup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle adw_message_dialog_get_body = Interop.downcallHandle(
             "adw_message_dialog_get_body",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_get_body_use_markup = Interop.downcallHandle(
             "adw_message_dialog_get_body_use_markup",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_get_close_response = Interop.downcallHandle(
             "adw_message_dialog_get_close_response",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_get_default_response = Interop.downcallHandle(
             "adw_message_dialog_get_default_response",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_get_extra_child = Interop.downcallHandle(
             "adw_message_dialog_get_extra_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_get_heading = Interop.downcallHandle(
             "adw_message_dialog_get_heading",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_get_heading_use_markup = Interop.downcallHandle(
             "adw_message_dialog_get_heading_use_markup",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_get_response_appearance = Interop.downcallHandle(
             "adw_message_dialog_get_response_appearance",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_get_response_enabled = Interop.downcallHandle(
             "adw_message_dialog_get_response_enabled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_get_response_label = Interop.downcallHandle(
             "adw_message_dialog_get_response_label",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_has_response = Interop.downcallHandle(
             "adw_message_dialog_has_response",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_response = Interop.downcallHandle(
             "adw_message_dialog_response",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_set_body = Interop.downcallHandle(
             "adw_message_dialog_set_body",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_set_body_use_markup = Interop.downcallHandle(
             "adw_message_dialog_set_body_use_markup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_set_close_response = Interop.downcallHandle(
             "adw_message_dialog_set_close_response",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_set_default_response = Interop.downcallHandle(
             "adw_message_dialog_set_default_response",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_set_extra_child = Interop.downcallHandle(
             "adw_message_dialog_set_extra_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_set_heading = Interop.downcallHandle(
             "adw_message_dialog_set_heading",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_set_heading_use_markup = Interop.downcallHandle(
             "adw_message_dialog_set_heading_use_markup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_set_response_appearance = Interop.downcallHandle(
             "adw_message_dialog_set_response_appearance",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_set_response_enabled = Interop.downcallHandle(
             "adw_message_dialog_set_response_enabled",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_message_dialog_set_response_label = Interop.downcallHandle(
             "adw_message_dialog_set_response_label",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -867,7 +950,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
         public static void signalMessageDialogResponse(MemoryAddress source, MemoryAddress response, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (MessageDialog.Response) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MessageDialog(Refcounted.get(source)), Interop.getStringFrom(response));
+            HANDLER.signalReceived(new MessageDialog(source, Ownership.UNKNOWN), Interop.getStringFrom(response));
         }
     }
 }

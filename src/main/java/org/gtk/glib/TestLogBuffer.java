@@ -22,6 +22,7 @@ public class TestLogBuffer extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -30,14 +31,19 @@ public class TestLogBuffer extends io.github.jwharm.javagi.ResourceBase {
     
     public static TestLogBuffer allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TestLogBuffer newInstance = new TestLogBuffer(Refcounted.get(segment.address()));
+        TestLogBuffer newInstance = new TestLogBuffer(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a TestLogBuffer proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TestLogBuffer(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TestLogBuffer(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -63,7 +69,7 @@ public class TestLogBuffer extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TestLogMsg(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.TestLogMsg(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -91,29 +97,33 @@ public class TestLogBuffer extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TestLogBuffer(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.TestLogBuffer(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_test_log_buffer_free = Interop.downcallHandle(
             "g_test_log_buffer_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_test_log_buffer_pop = Interop.downcallHandle(
             "g_test_log_buffer_pop",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_test_log_buffer_push = Interop.downcallHandle(
             "g_test_log_buffer_push",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_test_log_buffer_new = Interop.downcallHandle(
             "g_test_log_buffer_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -26,6 +26,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -34,7 +35,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
     
     public static SList allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SList newInstance = new SList(Refcounted.get(segment.address()));
+        SList newInstance = new SList(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -68,7 +69,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -81,9 +82,14 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), next.handle());
     }
     
+    /**
+     * Create a SList proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SList(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SList(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -99,7 +105,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -138,7 +144,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -160,7 +166,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -182,7 +188,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -226,7 +232,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -254,7 +260,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -275,7 +281,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -306,7 +312,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -439,7 +445,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -461,7 +467,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -489,7 +495,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -518,7 +524,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -538,7 +544,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -579,7 +585,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -649,7 +655,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -670,7 +676,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -692,7 +698,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -721,7 +727,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -738,7 +744,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -778,154 +784,183 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_slist_alloc = Interop.downcallHandle(
             "g_slist_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_append = Interop.downcallHandle(
             "g_slist_append",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_concat = Interop.downcallHandle(
             "g_slist_concat",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_copy = Interop.downcallHandle(
             "g_slist_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_copy_deep = Interop.downcallHandle(
             "g_slist_copy_deep",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_delete_link = Interop.downcallHandle(
             "g_slist_delete_link",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_find = Interop.downcallHandle(
             "g_slist_find",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_find_custom = Interop.downcallHandle(
             "g_slist_find_custom",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_foreach = Interop.downcallHandle(
             "g_slist_foreach",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_free = Interop.downcallHandle(
             "g_slist_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_free_1 = Interop.downcallHandle(
             "g_slist_free_1",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_free_full = Interop.downcallHandle(
             "g_slist_free_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_index = Interop.downcallHandle(
             "g_slist_index",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_insert = Interop.downcallHandle(
             "g_slist_insert",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_slist_insert_before = Interop.downcallHandle(
             "g_slist_insert_before",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_insert_sorted = Interop.downcallHandle(
             "g_slist_insert_sorted",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_insert_sorted_with_data = Interop.downcallHandle(
             "g_slist_insert_sorted_with_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_last = Interop.downcallHandle(
             "g_slist_last",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_length = Interop.downcallHandle(
             "g_slist_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_nth = Interop.downcallHandle(
             "g_slist_nth",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_slist_nth_data = Interop.downcallHandle(
             "g_slist_nth_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_slist_position = Interop.downcallHandle(
             "g_slist_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_prepend = Interop.downcallHandle(
             "g_slist_prepend",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_remove = Interop.downcallHandle(
             "g_slist_remove",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_remove_all = Interop.downcallHandle(
             "g_slist_remove_all",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_remove_link = Interop.downcallHandle(
             "g_slist_remove_link",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_reverse = Interop.downcallHandle(
             "g_slist_reverse",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_sort = Interop.downcallHandle(
             "g_slist_sort",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_slist_sort_with_data = Interop.downcallHandle(
             "g_slist_sort_with_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

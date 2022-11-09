@@ -27,6 +27,7 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -35,14 +36,19 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
     
     public static FrameTimings allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FrameTimings newInstance = new FrameTimings(Refcounted.get(segment.address()));
+        FrameTimings newInstance = new FrameTimings(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a FrameTimings proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FrameTimings(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FrameTimings(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -188,7 +194,7 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.FrameTimings(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.FrameTimings(RESULT, Ownership.FULL);
     }
     
     /**
@@ -209,42 +215,50 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle gdk_frame_timings_get_complete = Interop.downcallHandle(
             "gdk_frame_timings_get_complete",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_frame_timings_get_frame_counter = Interop.downcallHandle(
             "gdk_frame_timings_get_frame_counter",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_frame_timings_get_frame_time = Interop.downcallHandle(
             "gdk_frame_timings_get_frame_time",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_frame_timings_get_predicted_presentation_time = Interop.downcallHandle(
             "gdk_frame_timings_get_predicted_presentation_time",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_frame_timings_get_presentation_time = Interop.downcallHandle(
             "gdk_frame_timings_get_presentation_time",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_frame_timings_get_refresh_interval = Interop.downcallHandle(
             "gdk_frame_timings_get_refresh_interval",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_frame_timings_ref = Interop.downcallHandle(
             "gdk_frame_timings_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_frame_timings_unref = Interop.downcallHandle(
             "gdk_frame_timings_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

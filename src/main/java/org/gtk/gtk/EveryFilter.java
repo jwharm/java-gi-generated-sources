@@ -22,13 +22,19 @@ public class EveryFilter extends org.gtk.gtk.MultiFilter implements org.gtk.gio.
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a EveryFilter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public EveryFilter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public EveryFilter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -40,16 +46,16 @@ public class EveryFilter extends org.gtk.gtk.MultiFilter implements org.gtk.gio.
      */
     public static EveryFilter castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEveryFilter"))) {
-            return new EveryFilter(gobject.refcounted());
+            return new EveryFilter(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkEveryFilter");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_every_filter_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_every_filter_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,14 +72,15 @@ public class EveryFilter extends org.gtk.gtk.MultiFilter implements org.gtk.gio.
      * has been added to it, the filter matches every item.
      */
     public EveryFilter() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_every_filter_new = Interop.downcallHandle(
             "gtk_every_filter_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

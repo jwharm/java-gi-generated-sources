@@ -26,6 +26,7 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -36,12 +37,17 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
      */
     public org.gtk.gio.InetSocketAddress parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.InetSocketAddress(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.InetSocketAddress(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a ProxyAddress proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ProxyAddress(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ProxyAddress(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -53,26 +59,26 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
      */
     public static ProxyAddress castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GProxyAddress"))) {
-            return new ProxyAddress(gobject.refcounted());
+            return new ProxyAddress(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GProxyAddress");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gio.InetAddress inetaddr, short port, @NotNull java.lang.String protocol, @NotNull java.lang.String destHostname, short destPort, @Nullable java.lang.String username, @Nullable java.lang.String password) {
+    private static Addressable constructNew(@NotNull org.gtk.gio.InetAddress inetaddr, short port, @NotNull java.lang.String protocol, @NotNull java.lang.String destHostname, short destPort, @Nullable java.lang.String username, @Nullable java.lang.String password) {
         java.util.Objects.requireNonNull(inetaddr, "Parameter 'inetaddr' must not be null");
         java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
         java.util.Objects.requireNonNull(destHostname, "Parameter 'destHostname' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_proxy_address_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_new.invokeExact(
                     inetaddr.handle(),
                     port,
                     Interop.allocateNativeString(protocol),
                     Interop.allocateNativeString(destHostname),
                     destPort,
                     (Addressable) (username == null ? MemoryAddress.NULL : Interop.allocateNativeString(username)),
-                    (Addressable) (password == null ? MemoryAddress.NULL : Interop.allocateNativeString(password))), true);
+                    (Addressable) (password == null ? MemoryAddress.NULL : Interop.allocateNativeString(password)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,7 +103,7 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
      *     (or {@code null}).
      */
     public ProxyAddress(@NotNull org.gtk.gio.InetAddress inetaddr, short port, @NotNull java.lang.String protocol, @NotNull java.lang.String destHostname, short destPort, @Nullable java.lang.String username, @Nullable java.lang.String password) {
-        super(constructNew(inetaddr, port, protocol, destHostname, destPort, username, password));
+        super(constructNew(inetaddr, port, protocol, destHostname, destPort, username, password), Ownership.FULL);
     }
     
     /**
@@ -214,42 +220,50 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
         
         private static final MethodHandle g_proxy_address_new = Interop.downcallHandle(
             "g_proxy_address_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_proxy_address_get_destination_hostname = Interop.downcallHandle(
             "g_proxy_address_get_destination_hostname",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_proxy_address_get_destination_port = Interop.downcallHandle(
             "g_proxy_address_get_destination_port",
-            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_proxy_address_get_destination_protocol = Interop.downcallHandle(
             "g_proxy_address_get_destination_protocol",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_proxy_address_get_password = Interop.downcallHandle(
             "g_proxy_address_get_password",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_proxy_address_get_protocol = Interop.downcallHandle(
             "g_proxy_address_get_protocol",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_proxy_address_get_uri = Interop.downcallHandle(
             "g_proxy_address_get_uri",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_proxy_address_get_username = Interop.downcallHandle(
             "g_proxy_address_get_username",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

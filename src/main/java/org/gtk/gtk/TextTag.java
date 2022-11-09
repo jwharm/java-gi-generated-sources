@@ -42,6 +42,7 @@ public class TextTag extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -52,12 +53,17 @@ public class TextTag extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a TextTag proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TextTag(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TextTag(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -69,17 +75,17 @@ public class TextTag extends org.gtk.gobject.Object {
      */
     public static TextTag castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTextTag"))) {
-            return new TextTag(gobject.refcounted());
+            return new TextTag(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTextTag");
         }
     }
     
-    private static Refcounted constructNew(@Nullable java.lang.String name) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable java.lang.String name) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_text_tag_new.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name))), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_tag_new.invokeExact(
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,7 +97,7 @@ public class TextTag extends org.gtk.gobject.Object {
      * @param name tag name
      */
     public TextTag(@Nullable java.lang.String name) {
-        super(constructNew(name));
+        super(constructNew(name), Ownership.FULL);
     }
     
     /**
@@ -158,22 +164,26 @@ public class TextTag extends org.gtk.gobject.Object {
         
         private static final MethodHandle gtk_text_tag_new = Interop.downcallHandle(
             "gtk_text_tag_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_tag_changed = Interop.downcallHandle(
             "gtk_text_tag_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_tag_get_priority = Interop.downcallHandle(
             "gtk_text_tag_get_priority",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_tag_set_priority = Interop.downcallHandle(
             "gtk_text_tag_set_priority",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

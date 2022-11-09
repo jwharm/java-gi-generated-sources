@@ -20,6 +20,7 @@ public class IOSchedulerJob extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -28,14 +29,19 @@ public class IOSchedulerJob extends io.github.jwharm.javagi.ResourceBase {
     
     public static IOSchedulerJob allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        IOSchedulerJob newInstance = new IOSchedulerJob(Refcounted.get(segment.address()));
+        IOSchedulerJob newInstance = new IOSchedulerJob(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a IOSchedulerJob proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public IOSchedulerJob(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public IOSchedulerJob(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -101,12 +107,14 @@ public class IOSchedulerJob extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_io_scheduler_job_send_to_mainloop = Interop.downcallHandle(
             "g_io_scheduler_job_send_to_mainloop",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_scheduler_job_send_to_mainloop_async = Interop.downcallHandle(
             "g_io_scheduler_job_send_to_mainloop_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

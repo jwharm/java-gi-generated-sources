@@ -17,6 +17,7 @@ public class CallbackAnimationTargetClass extends io.github.jwharm.javagi.Resour
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -25,13 +26,18 @@ public class CallbackAnimationTargetClass extends io.github.jwharm.javagi.Resour
     
     public static CallbackAnimationTargetClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CallbackAnimationTargetClass newInstance = new CallbackAnimationTargetClass(Refcounted.get(segment.address()));
+        CallbackAnimationTargetClass newInstance = new CallbackAnimationTargetClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a CallbackAnimationTargetClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CallbackAnimationTargetClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CallbackAnimationTargetClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

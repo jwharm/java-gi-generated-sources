@@ -34,13 +34,19 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a GestureLongPress proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public GestureLongPress(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public GestureLongPress(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -52,16 +58,16 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
      */
     public static GestureLongPress castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGestureLongPress"))) {
-            return new GestureLongPress(gobject.refcounted());
+            return new GestureLongPress(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkGestureLongPress");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_gesture_long_press_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_long_press_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -72,7 +78,7 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
      * Returns a newly created {@code GtkGesture} that recognizes long presses.
      */
     public GestureLongPress() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -115,6 +121,8 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
     /**
      * Emitted whenever a press moved too far, or was released
      * before {@code Gtk.GestureLongPress::pressed} happened.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureLongPress.Cancelled> onCancelled(GestureLongPress.Cancelled handler) {
         try {
@@ -142,6 +150,8 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
     /**
      * Emitted whenever a press goes unmoved/unreleased longer than
      * what the GTK defaults tell.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureLongPress.Pressed> onPressed(GestureLongPress.Pressed handler) {
         try {
@@ -165,17 +175,20 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
         
         private static final MethodHandle gtk_gesture_long_press_new = Interop.downcallHandle(
             "gtk_gesture_long_press_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gesture_long_press_get_delay_factor = Interop.downcallHandle(
             "gtk_gesture_long_press_get_delay_factor",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gesture_long_press_set_delay_factor = Interop.downcallHandle(
             "gtk_gesture_long_press_set_delay_factor",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            false
         );
     }
     
@@ -184,13 +197,13 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
         public static void signalGestureLongPressCancelled(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (GestureLongPress.Cancelled) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureLongPress(Refcounted.get(source)));
+            HANDLER.signalReceived(new GestureLongPress(source, Ownership.UNKNOWN));
         }
         
         public static void signalGestureLongPressPressed(MemoryAddress source, double x, double y, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (GestureLongPress.Pressed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureLongPress(Refcounted.get(source)), x, y);
+            HANDLER.signalReceived(new GestureLongPress(source, Ownership.UNKNOWN), x, y);
         }
     }
 }

@@ -21,6 +21,7 @@ public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -29,14 +30,19 @@ public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
     
     public static TreeNode allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TreeNode newInstance = new TreeNode(Refcounted.get(segment.address()));
+        TreeNode newInstance = new TreeNode(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a TreeNode proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TreeNode(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TreeNode(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -67,7 +73,7 @@ public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TreeNode(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.TreeNode(RESULT, Ownership.NONE);
     }
     
     /**
@@ -83,7 +89,7 @@ public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TreeNode(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.TreeNode(RESULT, Ownership.NONE);
     }
     
     /**
@@ -105,22 +111,26 @@ public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_tree_node_key = Interop.downcallHandle(
             "g_tree_node_key",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tree_node_next = Interop.downcallHandle(
             "g_tree_node_next",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tree_node_previous = Interop.downcallHandle(
             "g_tree_node_previous",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tree_node_value = Interop.downcallHandle(
             "g_tree_node_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

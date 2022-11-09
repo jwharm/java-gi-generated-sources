@@ -53,13 +53,19 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a DropTargetAsync proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DropTargetAsync(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DropTargetAsync(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -71,19 +77,19 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
      */
     public static DropTargetAsync castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkDropTargetAsync"))) {
-            return new DropTargetAsync(gobject.refcounted());
+            return new DropTargetAsync(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkDropTargetAsync");
         }
     }
     
-    private static Refcounted constructNew(@Nullable org.gtk.gdk.ContentFormats formats, @NotNull org.gtk.gdk.DragAction actions) {
+    private static Addressable constructNew(@Nullable org.gtk.gdk.ContentFormats formats, @NotNull org.gtk.gdk.DragAction actions) {
         java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_drop_target_async_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_target_async_new.invokeExact(
                     (Addressable) (formats == null ? MemoryAddress.NULL : formats.refcounted().unowned().handle()),
-                    actions.getValue()), true);
+                    actions.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,7 +102,7 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
      * @param actions the supported actions
      */
     public DropTargetAsync(@Nullable org.gtk.gdk.ContentFormats formats, @NotNull org.gtk.gdk.DragAction actions) {
-        super(constructNew(formats, actions));
+        super(constructNew(formats, actions), Ownership.FULL);
     }
     
     /**
@@ -128,7 +134,7 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentFormats(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
     }
     
     /**
@@ -200,6 +206,8 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
      * further processing, such as inspecting the data, this function should
      * return {@code true} and proceed as is {@code drop} was accepted and if it decides to
      * reject the drop later, it should call {@link DropTargetAsync#rejectDrop}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DropTargetAsync.Accept> onAccept(DropTargetAsync.Accept handler) {
         try {
@@ -228,6 +236,8 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
      * Emitted on the drop site when the pointer enters the widget.
      * <p>
      * It can be used to set up custom highlighting.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DropTargetAsync.DragEnter> onDragEnter(DropTargetAsync.DragEnter handler) {
         try {
@@ -257,6 +267,8 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
      * <p>
      * Its main purpose it to undo things done in
      * {@code GtkDropTargetAsync}::drag-enter.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DropTargetAsync.DragLeave> onDragLeave(DropTargetAsync.DragLeave handler) {
         try {
@@ -283,6 +295,8 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
     
     /**
      * Emitted while the pointer is moving over the drop target.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DropTargetAsync.DragMotion> onDragMotion(DropTargetAsync.DragMotion handler) {
         try {
@@ -322,6 +336,8 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
      * To receive the data, use one of the read functions provided by
      * {@link org.gtk.gdk.Drop} or
      * {@link org.gtk.gdk.Drop#readValueAsync}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DropTargetAsync.Drop> onDrop(DropTargetAsync.Drop handler) {
         try {
@@ -345,32 +361,38 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
         
         private static final MethodHandle gtk_drop_target_async_new = Interop.downcallHandle(
             "gtk_drop_target_async_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_drop_target_async_get_actions = Interop.downcallHandle(
             "gtk_drop_target_async_get_actions",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_drop_target_async_get_formats = Interop.downcallHandle(
             "gtk_drop_target_async_get_formats",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_drop_target_async_reject_drop = Interop.downcallHandle(
             "gtk_drop_target_async_reject_drop",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_drop_target_async_set_actions = Interop.downcallHandle(
             "gtk_drop_target_async_set_actions",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_drop_target_async_set_formats = Interop.downcallHandle(
             "gtk_drop_target_async_set_formats",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -379,31 +401,31 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
         public static boolean signalDropTargetAsyncAccept(MemoryAddress source, MemoryAddress drop, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DropTargetAsync.Accept) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new DropTargetAsync(Refcounted.get(source)), new org.gtk.gdk.Drop(Refcounted.get(drop, false)));
+            return HANDLER.signalReceived(new DropTargetAsync(source, Ownership.UNKNOWN), new org.gtk.gdk.Drop(drop, Ownership.NONE));
         }
         
         public static void signalDropTargetAsyncDragEnter(MemoryAddress source, MemoryAddress drop, double x, double y, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DropTargetAsync.DragEnter) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DropTargetAsync(Refcounted.get(source)), new org.gtk.gdk.Drop(Refcounted.get(drop, false)), x, y);
+            HANDLER.signalReceived(new DropTargetAsync(source, Ownership.UNKNOWN), new org.gtk.gdk.Drop(drop, Ownership.NONE), x, y);
         }
         
         public static void signalDropTargetAsyncDragLeave(MemoryAddress source, MemoryAddress drop, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DropTargetAsync.DragLeave) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DropTargetAsync(Refcounted.get(source)), new org.gtk.gdk.Drop(Refcounted.get(drop, false)));
+            HANDLER.signalReceived(new DropTargetAsync(source, Ownership.UNKNOWN), new org.gtk.gdk.Drop(drop, Ownership.NONE));
         }
         
         public static void signalDropTargetAsyncDragMotion(MemoryAddress source, MemoryAddress drop, double x, double y, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DropTargetAsync.DragMotion) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DropTargetAsync(Refcounted.get(source)), new org.gtk.gdk.Drop(Refcounted.get(drop, false)), x, y);
+            HANDLER.signalReceived(new DropTargetAsync(source, Ownership.UNKNOWN), new org.gtk.gdk.Drop(drop, Ownership.NONE), x, y);
         }
         
         public static boolean signalDropTargetAsyncDrop(MemoryAddress source, MemoryAddress drop, double x, double y, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DropTargetAsync.Drop) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new DropTargetAsync(Refcounted.get(source)), new org.gtk.gdk.Drop(Refcounted.get(drop, false)), x, y);
+            return HANDLER.signalReceived(new DropTargetAsync(source, Ownership.UNKNOWN), new org.gtk.gdk.Drop(drop, Ownership.NONE), x, y);
         }
     }
 }

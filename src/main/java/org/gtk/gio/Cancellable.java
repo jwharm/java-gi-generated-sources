@@ -27,6 +27,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -37,12 +38,17 @@ public class Cancellable extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a Cancellable proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Cancellable(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Cancellable(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -54,16 +60,16 @@ public class Cancellable extends org.gtk.gobject.Object {
      */
     public static Cancellable castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GCancellable"))) {
-            return new Cancellable(gobject.refcounted());
+            return new Cancellable(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GCancellable");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_cancellable_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_cancellable_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -81,7 +87,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * operations or in multiple concurrent operations.
      */
     public Cancellable() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -345,7 +351,8 @@ public class Cancellable extends org.gtk.gobject.Object {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_cancellable_set_error_if_cancelled.invokeExact(
-                    handle(), (Addressable) GERROR);
+                    handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -375,7 +382,7 @@ public class Cancellable extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Source(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Source(RESULT, Ownership.FULL);
     }
     
     /**
@@ -390,7 +397,7 @@ public class Cancellable extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Cancellable(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.Cancellable(RESULT, Ownership.NONE);
     }
     
     @FunctionalInterface
@@ -450,6 +457,8 @@ public class Cancellable extends org.gtk.gobject.Object {
      * Note that the cancelled signal is emitted in the thread that
      * the user cancelled from, which may be the main thread. So, the
      * cancellable signal should not do something that can block.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Cancellable.Cancelled> onCancelled(Cancellable.Cancelled handler) {
         try {
@@ -473,72 +482,86 @@ public class Cancellable extends org.gtk.gobject.Object {
         
         private static final MethodHandle g_cancellable_new = Interop.downcallHandle(
             "g_cancellable_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cancellable_cancel = Interop.downcallHandle(
             "g_cancellable_cancel",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cancellable_connect = Interop.downcallHandle(
             "g_cancellable_connect",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cancellable_disconnect = Interop.downcallHandle(
             "g_cancellable_disconnect",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_cancellable_get_fd = Interop.downcallHandle(
             "g_cancellable_get_fd",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cancellable_is_cancelled = Interop.downcallHandle(
             "g_cancellable_is_cancelled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cancellable_make_pollfd = Interop.downcallHandle(
             "g_cancellable_make_pollfd",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cancellable_pop_current = Interop.downcallHandle(
             "g_cancellable_pop_current",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cancellable_push_current = Interop.downcallHandle(
             "g_cancellable_push_current",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cancellable_release_fd = Interop.downcallHandle(
             "g_cancellable_release_fd",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cancellable_reset = Interop.downcallHandle(
             "g_cancellable_reset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cancellable_set_error_if_cancelled = Interop.downcallHandle(
             "g_cancellable_set_error_if_cancelled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cancellable_source_new = Interop.downcallHandle(
             "g_cancellable_source_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_cancellable_get_current = Interop.downcallHandle(
             "g_cancellable_get_current",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -547,7 +570,7 @@ public class Cancellable extends org.gtk.gobject.Object {
         public static void signalCancellableCancelled(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Cancellable.Cancelled) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Cancellable(Refcounted.get(source)));
+            HANDLER.signalReceived(new Cancellable(source, Ownership.UNKNOWN));
         }
     }
 }

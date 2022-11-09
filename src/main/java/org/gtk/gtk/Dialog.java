@@ -140,6 +140,7 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -150,12 +151,17 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
      */
     public org.gtk.gtk.Window parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gtk.Window(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.Window(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a Dialog proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Dialog(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Dialog(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -167,16 +173,16 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
      */
     public static Dialog castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkDialog"))) {
-            return new Dialog(gobject.refcounted());
+            return new Dialog(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkDialog");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_dialog_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_dialog_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -191,11 +197,23 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
      * as described above.
      */
     public Dialog() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
-    private static Refcounted constructNewWithButtons(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @Nullable java.lang.String firstButtonText) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    private static Addressable constructNewWithButtons(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @Nullable java.lang.String firstButtonText, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        Addressable RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gtk_dialog_new_with_buttons.invokeExact(
+                    (Addressable) (title == null ? MemoryAddress.NULL : Interop.allocateNativeString(title)),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                    flags.getValue(),
+                    (Addressable) (firstButtonText == null ? MemoryAddress.NULL : Interop.allocateNativeString(firstButtonText)),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
     }
     
     /**
@@ -236,10 +254,11 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
      * @param parent Transient parent of the dialog
      * @param flags from {@code GtkDialogFlags}
      * @param firstButtonText text to go in first button
+     * @param varargs response ID for first button, then additional buttons, ending with {@code null}
      * @return a new {@code GtkDialog}
      */
-    public static Dialog newWithButtons(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @Nullable java.lang.String firstButtonText) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static Dialog newWithButtons(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @Nullable java.lang.String firstButtonText, java.lang.Object... varargs) {
+        return new Dialog(constructNewWithButtons(title, parent, flags, firstButtonText, varargs), Ownership.NONE);
     }
     
     /**
@@ -289,7 +308,7 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -300,9 +319,18 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
      * as with {@link Dialog#newWithButtons}. Each button must have both
      * text and response ID.
      * @param firstButtonText button text
+     * @param varargs response ID for first button, then more text-response_id pairs
      */
-    public void addButtons(@NotNull java.lang.String firstButtonText) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void addButtons(@NotNull java.lang.String firstButtonText, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(firstButtonText, "Parameter 'firstButtonText' must not be null");
+        try {
+            DowncallHandles.gtk_dialog_add_buttons.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(firstButtonText),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -317,7 +345,7 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Box(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Box(RESULT, Ownership.NONE);
     }
     
     /**
@@ -335,7 +363,7 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.HeaderBar(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.HeaderBar(RESULT, Ownership.NONE);
     }
     
     /**
@@ -374,7 +402,7 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -439,6 +467,8 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
      * This is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
      * The default binding for this signal is the Escape key.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Dialog.Close> onClose(Dialog.Close handler) {
         try {
@@ -470,6 +500,8 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
      * delete event, and when {@link Dialog#response} is called.
      * On a delete event, the response ID is {@link ResponseType#DELETE_EVENT}.
      * Otherwise, it depends on which action widget was clicked.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Dialog.Response> onResponse(Dialog.Response handler) {
         try {
@@ -493,62 +525,74 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
         
         private static final MethodHandle gtk_dialog_new = Interop.downcallHandle(
             "gtk_dialog_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_dialog_new_with_buttons = Interop.downcallHandle(
             "gtk_dialog_new_with_buttons",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle gtk_dialog_add_action_widget = Interop.downcallHandle(
             "gtk_dialog_add_action_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_dialog_add_button = Interop.downcallHandle(
             "gtk_dialog_add_button",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_dialog_add_buttons = Interop.downcallHandle(
             "gtk_dialog_add_buttons",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle gtk_dialog_get_content_area = Interop.downcallHandle(
             "gtk_dialog_get_content_area",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_dialog_get_header_bar = Interop.downcallHandle(
             "gtk_dialog_get_header_bar",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_dialog_get_response_for_widget = Interop.downcallHandle(
             "gtk_dialog_get_response_for_widget",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_dialog_get_widget_for_response = Interop.downcallHandle(
             "gtk_dialog_get_widget_for_response",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_dialog_response = Interop.downcallHandle(
             "gtk_dialog_response",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_dialog_set_default_response = Interop.downcallHandle(
             "gtk_dialog_set_default_response",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_dialog_set_response_sensitive = Interop.downcallHandle(
             "gtk_dialog_set_response_sensitive",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -557,13 +601,13 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
         public static void signalDialogClose(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Dialog.Close) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Dialog(Refcounted.get(source)));
+            HANDLER.signalReceived(new Dialog(source, Ownership.UNKNOWN));
         }
         
         public static void signalDialogResponse(MemoryAddress source, int responseId, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Dialog.Response) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Dialog(Refcounted.get(source)), responseId);
+            HANDLER.signalReceived(new Dialog(source, Ownership.UNKNOWN), responseId);
         }
     }
 }

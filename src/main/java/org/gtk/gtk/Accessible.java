@@ -35,7 +35,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
      */
     public static Accessible castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkAccessible"))) {
-            return new AccessibleImpl(gobject.refcounted());
+            return new AccessibleImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkAccessible");
         }
@@ -119,9 +119,18 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
      *                                    -1);
      * }</pre>
      * @param firstProperty the first {@code GtkAccessibleProperty}
+     * @param varargs a list of property and value pairs, terminated by -1
      */
-    default void updateProperty(@NotNull org.gtk.gtk.AccessibleProperty firstProperty) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    default void updateProperty(@NotNull org.gtk.gtk.AccessibleProperty firstProperty, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(firstProperty, "Parameter 'firstProperty' must not be null");
+        try {
+            DowncallHandles.gtk_accessible_update_property.invokeExact(
+                    handle(),
+                    firstProperty.getValue(),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -135,7 +144,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
      * @param properties an array of {@code GtkAccessibleProperty}
      * @param values an array of {@code GValues}, one for each property
      */
-    default void updatePropertyValue(int nProperties, org.gtk.gtk.AccessibleProperty[] properties, org.gtk.gobject.Value[] values) {
+    default void updatePropertyValue(int nProperties, @NotNull org.gtk.gtk.AccessibleProperty[] properties, @NotNull org.gtk.gobject.Value[] values) {
         java.util.Objects.requireNonNull(properties, "Parameter 'properties' must not be null");
         java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
         try {
@@ -166,9 +175,18 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
      *                                 -1);
      * }</pre>
      * @param firstRelation the first {@code GtkAccessibleRelation}
+     * @param varargs a list of relation and value pairs, terminated by -1
      */
-    default void updateRelation(@NotNull org.gtk.gtk.AccessibleRelation firstRelation) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    default void updateRelation(@NotNull org.gtk.gtk.AccessibleRelation firstRelation, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(firstRelation, "Parameter 'firstRelation' must not be null");
+        try {
+            DowncallHandles.gtk_accessible_update_relation.invokeExact(
+                    handle(),
+                    firstRelation.getValue(),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -182,7 +200,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
      * @param relations an array of {@code GtkAccessibleRelation}
      * @param values an array of {@code GValues}, one for each relation
      */
-    default void updateRelationValue(int nRelations, org.gtk.gtk.AccessibleRelation[] relations, org.gtk.gobject.Value[] values) {
+    default void updateRelationValue(int nRelations, @NotNull org.gtk.gtk.AccessibleRelation[] relations, @NotNull org.gtk.gobject.Value[] values) {
         java.util.Objects.requireNonNull(relations, "Parameter 'relations' must not be null");
         java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
         try {
@@ -211,9 +229,18 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
      *                              -1);
      * }</pre>
      * @param firstState the first {@code GtkAccessibleState}
+     * @param varargs a list of state and value pairs, terminated by -1
      */
-    default void updateState(@NotNull org.gtk.gtk.AccessibleState firstState) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    default void updateState(@NotNull org.gtk.gtk.AccessibleState firstState, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(firstState, "Parameter 'firstState' must not be null");
+        try {
+            DowncallHandles.gtk_accessible_update_state.invokeExact(
+                    handle(),
+                    firstState.getValue(),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -227,7 +254,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
      * @param states an array of {@code GtkAccessibleState}
      * @param values an array of {@code GValues}, one for each state
      */
-    default void updateStateValue(int nStates, org.gtk.gtk.AccessibleState[] states, org.gtk.gobject.Value[] values) {
+    default void updateStateValue(int nStates, @NotNull org.gtk.gtk.AccessibleState[] states, @NotNull org.gtk.gobject.Value[] values) {
         java.util.Objects.requireNonNull(states, "Parameter 'states' must not be null");
         java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
         try {
@@ -247,61 +274,71 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_accessible_get_accessible_role = Interop.downcallHandle(
             "gtk_accessible_get_accessible_role",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_accessible_reset_property = Interop.downcallHandle(
             "gtk_accessible_reset_property",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_accessible_reset_relation = Interop.downcallHandle(
             "gtk_accessible_reset_relation",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_accessible_reset_state = Interop.downcallHandle(
             "gtk_accessible_reset_state",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_accessible_update_property = Interop.downcallHandle(
             "gtk_accessible_update_property",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            true
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_accessible_update_property_value = Interop.downcallHandle(
             "gtk_accessible_update_property_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_accessible_update_relation = Interop.downcallHandle(
             "gtk_accessible_update_relation",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            true
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_accessible_update_relation_value = Interop.downcallHandle(
             "gtk_accessible_update_relation_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_accessible_update_state = Interop.downcallHandle(
             "gtk_accessible_update_state",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            true
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_accessible_update_state_value = Interop.downcallHandle(
             "gtk_accessible_update_state_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -311,8 +348,8 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public AccessibleImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public AccessibleImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

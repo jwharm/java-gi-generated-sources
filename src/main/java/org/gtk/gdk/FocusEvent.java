@@ -20,13 +20,19 @@ public class FocusEvent extends org.gtk.gdk.Event {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a FocusEvent proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FocusEvent(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FocusEvent(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,7 +44,7 @@ public class FocusEvent extends org.gtk.gdk.Event {
      */
     public static FocusEvent castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkFocusEvent"))) {
-            return new FocusEvent(gobject.refcounted());
+            return new FocusEvent(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkFocusEvent");
         }
@@ -64,7 +70,8 @@ public class FocusEvent extends org.gtk.gdk.Event {
         
         private static final MethodHandle gdk_focus_event_get_in = Interop.downcallHandle(
             "gdk_focus_event_get_in",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

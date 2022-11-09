@@ -17,6 +17,7 @@ public class TreeStorePrivate extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -25,13 +26,18 @@ public class TreeStorePrivate extends io.github.jwharm.javagi.ResourceBase {
     
     public static TreeStorePrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TreeStorePrivate newInstance = new TreeStorePrivate(Refcounted.get(segment.address()));
+        TreeStorePrivate newInstance = new TreeStorePrivate(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a TreeStorePrivate proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TreeStorePrivate(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TreeStorePrivate(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

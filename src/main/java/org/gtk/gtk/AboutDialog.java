@@ -64,13 +64,19 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a AboutDialog proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public AboutDialog(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public AboutDialog(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -82,16 +88,16 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      */
     public static AboutDialog castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkAboutDialog"))) {
-            return new AboutDialog(gobject.refcounted());
+            return new AboutDialog(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkAboutDialog");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_about_dialog_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,7 +108,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * Creates a new {@code GtkAboutDialog}.
      */
     public AboutDialog() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -110,7 +116,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @param sectionName The name of the section
      * @param people The people who belong to that section
      */
-    public void addCreditSection(@NotNull java.lang.String sectionName, java.lang.String[] people) {
+    public void addCreditSection(@NotNull java.lang.String sectionName, @NotNull java.lang.String[] people) {
         java.util.Objects.requireNonNull(sectionName, "Parameter 'sectionName' must not be null");
         java.util.Objects.requireNonNull(people, "Parameter 'people' must not be null");
         try {
@@ -248,7 +254,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Paintable.PaintableImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -380,7 +386,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @param artists the authors of the artwork
      *   of the application
      */
-    public void setArtists(java.lang.String[] artists) {
+    public void setArtists(@NotNull java.lang.String[] artists) {
         java.util.Objects.requireNonNull(artists, "Parameter 'artists' must not be null");
         try {
             DowncallHandles.gtk_about_dialog_set_artists.invokeExact(
@@ -396,7 +402,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * in the "Credits" page of the about dialog.
      * @param authors the authors of the application
      */
-    public void setAuthors(java.lang.String[] authors) {
+    public void setAuthors(@NotNull java.lang.String[] authors) {
         java.util.Objects.requireNonNull(authors, "Parameter 'authors' must not be null");
         try {
             DowncallHandles.gtk_about_dialog_set_authors.invokeExact(
@@ -445,7 +451,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @param documenters the authors of the documentation
      *   of the application
      */
-    public void setDocumenters(java.lang.String[] documenters) {
+    public void setDocumenters(@NotNull java.lang.String[] documenters) {
         java.util.Objects.requireNonNull(documenters, "Parameter 'documenters' must not be null");
         try {
             DowncallHandles.gtk_about_dialog_set_documenters.invokeExact(
@@ -655,6 +661,8 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * <p>
      * Applications may connect to it to override the default behaviour,
      * which is to call {@link Gtk#showUri}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AboutDialog.ActivateLink> onActivateLink(AboutDialog.ActivateLink handler) {
         try {
@@ -678,172 +686,206 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         
         private static final MethodHandle gtk_about_dialog_new = Interop.downcallHandle(
             "gtk_about_dialog_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_add_credit_section = Interop.downcallHandle(
             "gtk_about_dialog_add_credit_section",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_get_artists = Interop.downcallHandle(
             "gtk_about_dialog_get_artists",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_get_authors = Interop.downcallHandle(
             "gtk_about_dialog_get_authors",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_get_comments = Interop.downcallHandle(
             "gtk_about_dialog_get_comments",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_get_copyright = Interop.downcallHandle(
             "gtk_about_dialog_get_copyright",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_get_documenters = Interop.downcallHandle(
             "gtk_about_dialog_get_documenters",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_get_license = Interop.downcallHandle(
             "gtk_about_dialog_get_license",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_get_license_type = Interop.downcallHandle(
             "gtk_about_dialog_get_license_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_get_logo = Interop.downcallHandle(
             "gtk_about_dialog_get_logo",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_get_logo_icon_name = Interop.downcallHandle(
             "gtk_about_dialog_get_logo_icon_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_get_program_name = Interop.downcallHandle(
             "gtk_about_dialog_get_program_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_get_system_information = Interop.downcallHandle(
             "gtk_about_dialog_get_system_information",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_get_translator_credits = Interop.downcallHandle(
             "gtk_about_dialog_get_translator_credits",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_get_version = Interop.downcallHandle(
             "gtk_about_dialog_get_version",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_get_website = Interop.downcallHandle(
             "gtk_about_dialog_get_website",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_get_website_label = Interop.downcallHandle(
             "gtk_about_dialog_get_website_label",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_get_wrap_license = Interop.downcallHandle(
             "gtk_about_dialog_get_wrap_license",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_set_artists = Interop.downcallHandle(
             "gtk_about_dialog_set_artists",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_set_authors = Interop.downcallHandle(
             "gtk_about_dialog_set_authors",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_set_comments = Interop.downcallHandle(
             "gtk_about_dialog_set_comments",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_set_copyright = Interop.downcallHandle(
             "gtk_about_dialog_set_copyright",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_set_documenters = Interop.downcallHandle(
             "gtk_about_dialog_set_documenters",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_set_license = Interop.downcallHandle(
             "gtk_about_dialog_set_license",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_set_license_type = Interop.downcallHandle(
             "gtk_about_dialog_set_license_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_set_logo = Interop.downcallHandle(
             "gtk_about_dialog_set_logo",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_set_logo_icon_name = Interop.downcallHandle(
             "gtk_about_dialog_set_logo_icon_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_set_program_name = Interop.downcallHandle(
             "gtk_about_dialog_set_program_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_set_system_information = Interop.downcallHandle(
             "gtk_about_dialog_set_system_information",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_set_translator_credits = Interop.downcallHandle(
             "gtk_about_dialog_set_translator_credits",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_set_version = Interop.downcallHandle(
             "gtk_about_dialog_set_version",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_set_website = Interop.downcallHandle(
             "gtk_about_dialog_set_website",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_set_website_label = Interop.downcallHandle(
             "gtk_about_dialog_set_website_label",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_about_dialog_set_wrap_license = Interop.downcallHandle(
             "gtk_about_dialog_set_wrap_license",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -852,7 +894,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         public static boolean signalAboutDialogActivateLink(MemoryAddress source, MemoryAddress uri, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (AboutDialog.ActivateLink) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new AboutDialog(Refcounted.get(source)), Interop.getStringFrom(uri));
+            return HANDLER.signalReceived(new AboutDialog(source, Ownership.UNKNOWN), Interop.getStringFrom(uri));
         }
     }
 }

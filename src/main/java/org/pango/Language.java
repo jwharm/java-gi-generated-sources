@@ -24,6 +24,7 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -32,14 +33,19 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
     
     public static Language allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Language newInstance = new Language(Refcounted.get(segment.address()));
+        Language newInstance = new Language(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a Language proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Language(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Language(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -224,7 +230,7 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Language(Refcounted.get(RESULT, false));
+        return new org.pango.Language(RESULT, Ownership.NONE);
     }
     
     /**
@@ -268,7 +274,7 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Language(Refcounted.get(RESULT, false));
+        return new org.pango.Language(RESULT, Ownership.NONE);
     }
     
     /**
@@ -300,42 +306,50 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle pango_language_get_sample_string = Interop.downcallHandle(
             "pango_language_get_sample_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_language_get_scripts = Interop.downcallHandle(
             "pango_language_get_scripts",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_language_includes_script = Interop.downcallHandle(
             "pango_language_includes_script",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_language_matches = Interop.downcallHandle(
             "pango_language_matches",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_language_to_string = Interop.downcallHandle(
             "pango_language_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_language_from_string = Interop.downcallHandle(
             "pango_language_from_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_language_get_default = Interop.downcallHandle(
             "pango_language_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_language_get_preferred = Interop.downcallHandle(
             "pango_language_get_preferred",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -5,6 +5,9 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
+/**
+ * Constants and functions that are declared in the global Gsk namespace.
+ */
 public final class Gsk {
     
     @ApiStatus.Internal static void javagi$ensureInitialized() {}
@@ -61,7 +64,7 @@ public final class Gsk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RenderNode(Refcounted.get(RESULT, true));
+        return new org.gtk.gsk.RenderNode(RESULT, Ownership.FULL);
     }
     
     /**
@@ -78,7 +81,7 @@ public final class Gsk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RenderNode(Refcounted.get(RESULT, false));
+        return new org.gtk.gsk.RenderNode(RESULT, Ownership.NONE);
     }
     
     /**
@@ -122,32 +125,38 @@ public final class Gsk {
         
         private static final MethodHandle gsk_serialization_error_quark = Interop.downcallHandle(
             "gsk_serialization_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gsk_transform_parse = Interop.downcallHandle(
             "gsk_transform_parse",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_value_dup_render_node = Interop.downcallHandle(
             "gsk_value_dup_render_node",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_value_get_render_node = Interop.downcallHandle(
             "gsk_value_get_render_node",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_value_set_render_node = Interop.downcallHandle(
             "gsk_value_set_render_node",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_value_take_render_node = Interop.downcallHandle(
             "gsk_value_take_render_node",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -157,7 +166,7 @@ public final class Gsk {
         public static void cbParseErrorFunc(MemoryAddress start, MemoryAddress end, MemoryAddress error, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ParseErrorFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onParseErrorFunc(new org.gtk.gsk.ParseLocation(Refcounted.get(start, false)), new org.gtk.gsk.ParseLocation(Refcounted.get(end, false)), new org.gtk.glib.Error(Refcounted.get(error, false)));
+            HANDLER.onParseErrorFunc(new org.gtk.gsk.ParseLocation(start, Ownership.NONE), new org.gtk.gsk.ParseLocation(end, Ownership.NONE), new org.gtk.glib.Error(error, Ownership.NONE));
         }
     }
 }

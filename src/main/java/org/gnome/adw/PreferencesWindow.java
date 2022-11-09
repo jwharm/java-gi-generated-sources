@@ -37,6 +37,7 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -47,12 +48,17 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
      */
     public org.gnome.adw.Window parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gnome.adw.Window(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gnome.adw.Window(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a PreferencesWindow proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PreferencesWindow(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PreferencesWindow(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -64,16 +70,16 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
      */
     public static PreferencesWindow castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwPreferencesWindow"))) {
-            return new PreferencesWindow(gobject.refcounted());
+            return new PreferencesWindow(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwPreferencesWindow");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_preferences_window_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_window_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,7 +90,7 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
      * Creates a new {@code AdwPreferencesWindow}.
      */
     public PreferencesWindow() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -175,7 +181,7 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.PreferencesPage(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.PreferencesPage(RESULT, Ownership.NONE);
     }
     
     /**
@@ -302,72 +308,86 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
         
         private static final MethodHandle adw_preferences_window_new = Interop.downcallHandle(
             "adw_preferences_window_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_window_add = Interop.downcallHandle(
             "adw_preferences_window_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_window_add_toast = Interop.downcallHandle(
             "adw_preferences_window_add_toast",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_window_close_subpage = Interop.downcallHandle(
             "adw_preferences_window_close_subpage",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_window_get_can_navigate_back = Interop.downcallHandle(
             "adw_preferences_window_get_can_navigate_back",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_window_get_search_enabled = Interop.downcallHandle(
             "adw_preferences_window_get_search_enabled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_window_get_visible_page = Interop.downcallHandle(
             "adw_preferences_window_get_visible_page",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_window_get_visible_page_name = Interop.downcallHandle(
             "adw_preferences_window_get_visible_page_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_window_present_subpage = Interop.downcallHandle(
             "adw_preferences_window_present_subpage",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_window_remove = Interop.downcallHandle(
             "adw_preferences_window_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_window_set_can_navigate_back = Interop.downcallHandle(
             "adw_preferences_window_set_can_navigate_back",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_preferences_window_set_search_enabled = Interop.downcallHandle(
             "adw_preferences_window_set_search_enabled",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_preferences_window_set_visible_page = Interop.downcallHandle(
             "adw_preferences_window_set_visible_page",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_preferences_window_set_visible_page_name = Interop.downcallHandle(
             "adw_preferences_window_set_visible_page_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

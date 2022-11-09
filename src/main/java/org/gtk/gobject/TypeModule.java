@@ -58,6 +58,7 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -68,7 +69,7 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
     /**
@@ -100,7 +101,7 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type_infos"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -121,7 +122,7 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("interface_infos"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -155,9 +156,14 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(name));
     }
     
+    /**
+     * Create a TypeModule proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TypeModule(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TypeModule(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -169,7 +175,7 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
      */
     public static TypeModule castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTypeModule"))) {
-            return new TypeModule(gobject.refcounted());
+            return new TypeModule(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GTypeModule");
         }
@@ -364,37 +370,44 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
         
         private static final MethodHandle g_type_module_add_interface = Interop.downcallHandle(
             "g_type_module_add_interface",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_type_module_register_enum = Interop.downcallHandle(
             "g_type_module_register_enum",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_type_module_register_flags = Interop.downcallHandle(
             "g_type_module_register_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_type_module_register_type = Interop.downcallHandle(
             "g_type_module_register_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_type_module_set_name = Interop.downcallHandle(
             "g_type_module_set_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_type_module_unuse = Interop.downcallHandle(
             "g_type_module_unuse",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_type_module_use = Interop.downcallHandle(
             "g_type_module_use",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

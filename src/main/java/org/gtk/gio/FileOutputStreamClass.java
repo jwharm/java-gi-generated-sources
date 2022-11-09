@@ -35,6 +35,7 @@ public class FileOutputStreamClass extends io.github.jwharm.javagi.ResourceBase 
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -43,7 +44,7 @@ public class FileOutputStreamClass extends io.github.jwharm.javagi.ResourceBase 
     
     public static FileOutputStreamClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FileOutputStreamClass newInstance = new FileOutputStreamClass(Refcounted.get(segment.address()));
+        FileOutputStreamClass newInstance = new FileOutputStreamClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -54,11 +55,16 @@ public class FileOutputStreamClass extends io.github.jwharm.javagi.ResourceBase 
      */
     public org.gtk.gio.OutputStreamClass parent_class$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gio.OutputStreamClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.OutputStreamClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a FileOutputStreamClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FileOutputStreamClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FileOutputStreamClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

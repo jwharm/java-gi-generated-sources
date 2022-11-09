@@ -29,6 +29,7 @@ public class DBusSignalInfo extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -37,7 +38,7 @@ public class DBusSignalInfo extends io.github.jwharm.javagi.ResourceBase {
     
     public static DBusSignalInfo allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DBusSignalInfo newInstance = new DBusSignalInfo(Refcounted.get(segment.address()));
+        DBusSignalInfo newInstance = new DBusSignalInfo(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -84,9 +85,14 @@ public class DBusSignalInfo extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(name));
     }
     
+    /**
+     * Create a DBusSignalInfo proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DBusSignalInfo(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DBusSignalInfo(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -102,7 +108,7 @@ public class DBusSignalInfo extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusSignalInfo(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.DBusSignalInfo(RESULT, Ownership.FULL);
     }
     
     /**
@@ -123,12 +129,14 @@ public class DBusSignalInfo extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_dbus_signal_info_ref = Interop.downcallHandle(
             "g_dbus_signal_info_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_signal_info_unref = Interop.downcallHandle(
             "g_dbus_signal_info_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

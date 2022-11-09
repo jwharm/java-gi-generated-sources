@@ -158,6 +158,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -168,12 +169,17 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      */
     public org.gtk.gobject.Object parent$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a ListStore proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ListStore(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ListStore(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -185,14 +191,22 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      */
     public static ListStore castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkListStore"))) {
-            return new ListStore(gobject.refcounted());
+            return new ListStore(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkListStore");
         }
     }
     
-    private static Refcounted constructNew(int nColumns) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    private static Addressable constructNew(int nColumns, java.lang.Object... varargs) {
+        Addressable RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_store_new.invokeExact(
+                    nColumns,
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
     }
     
     /**
@@ -204,19 +218,19 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * GDK_TYPE_TEXTURE);} will create a new {@code GtkListStore} with three columns, of type
      * int, string and {@code GdkTexture}, respectively.
      * @param nColumns number of columns in the list store
+     * @param varargs all {@code GType} types for the columns, from first to last
      */
-    public ListStore(int nColumns) {
-        this(Refcounted.get(null)); // avoid compiler error
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public ListStore(int nColumns, java.lang.Object... varargs) {
+        super(constructNew(nColumns, varargs), Ownership.FULL);
     }
     
-    private static Refcounted constructNewv(int nColumns, org.gtk.glib.Type[] types) {
+    private static Addressable constructNewv(int nColumns, @NotNull org.gtk.glib.Type[] types) {
         java.util.Objects.requireNonNull(types, "Parameter 'types' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_list_store_newv.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_store_newv.invokeExact(
                     nColumns,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false)), true);
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -229,8 +243,8 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param types an array of {@code GType} types for the columns, from first to last
      * @return a new {@code GtkListStore}
      */
-    public static ListStore newv(int nColumns, org.gtk.glib.Type[] types) {
-        return new ListStore(constructNewv(nColumns, types));
+    public static ListStore newv(int nColumns, @NotNull org.gtk.glib.Type[] types) {
+        return new ListStore(constructNewv(nColumns, types), Ownership.FULL);
     }
     
     /**
@@ -357,9 +371,19 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter An unset {@code GtkTreeIter} to set to the new row
      * @param position position to insert the new row, or -1 to append after existing
      *    rows
+     * @param varargs pairs of column number and value, terminated with -1
      */
-    public void insertWithValues(@NotNull org.gtk.gtk.TreeIter iter, int position) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void insertWithValues(@NotNull org.gtk.gtk.TreeIter iter, int position, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+        try {
+            DowncallHandles.gtk_list_store_insert_with_values.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    position,
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -374,7 +398,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param values an array of GValues
      * @param nValues the length of the {@code columns} and {@code values} arrays
      */
-    public void insertWithValuesv(@NotNull org.gtk.gtk.TreeIter iter, int position, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
+    public void insertWithValuesv(@NotNull org.gtk.gtk.TreeIter iter, int position, @NotNull int[] columns, @NotNull org.gtk.gobject.Value[] values, int nValues) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(columns, "Parameter 'columns' must not be null");
         java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
@@ -495,7 +519,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      *   i.e. {@code new_order}{@code [newpos] = oldpos}. It must have
      *   exactly as many items as the list store’s length.
      */
-    public void reorder(int[] newOrder) {
+    public void reorder(@NotNull int[] newOrder) {
         java.util.Objects.requireNonNull(newOrder, "Parameter 'newOrder' must not be null");
         try {
             DowncallHandles.gtk_list_store_reorder.invokeExact(
@@ -517,9 +541,18 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * The value will be referenced by the store if it is a {@code G_TYPE_OBJECT}, and it
      * will be copied if it is a {@code G_TYPE_STRING} or {@code G_TYPE_BOXED}.
      * @param iter row iterator
+     * @param varargs pairs of column number and value, terminated with -1
      */
-    public void set(@NotNull org.gtk.gtk.TreeIter iter) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void set(@NotNull org.gtk.gtk.TreeIter iter, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+        try {
+            DowncallHandles.gtk_list_store_set.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -530,7 +563,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param nColumns Number of columns for the list store
      * @param types An array length n of {@code GType}s
      */
-    public void setColumnTypes(int nColumns, org.gtk.glib.Type[] types) {
+    public void setColumnTypes(int nColumns, @NotNull org.gtk.glib.Type[] types) {
         java.util.Objects.requireNonNull(types, "Parameter 'types' must not be null");
         try {
             DowncallHandles.gtk_list_store_set_column_types.invokeExact(
@@ -594,7 +627,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param values an array of GValues
      * @param nValues the length of the {@code columns} and {@code values} arrays
      */
-    public void setValuesv(@NotNull org.gtk.gtk.TreeIter iter, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
+    public void setValuesv(@NotNull org.gtk.gtk.TreeIter iter, @NotNull int[] columns, @NotNull org.gtk.gobject.Value[] values, int nValues) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(columns, "Parameter 'columns' must not be null");
         java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
@@ -633,107 +666,128 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         
         private static final MethodHandle gtk_list_store_new = Interop.downcallHandle(
             "gtk_list_store_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            true
         );
         
         private static final MethodHandle gtk_list_store_newv = Interop.downcallHandle(
             "gtk_list_store_newv",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_store_append = Interop.downcallHandle(
             "gtk_list_store_append",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_store_clear = Interop.downcallHandle(
             "gtk_list_store_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_store_insert = Interop.downcallHandle(
             "gtk_list_store_insert",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_list_store_insert_after = Interop.downcallHandle(
             "gtk_list_store_insert_after",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_store_insert_before = Interop.downcallHandle(
             "gtk_list_store_insert_before",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_store_insert_with_values = Interop.downcallHandle(
             "gtk_list_store_insert_with_values",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            true
         );
         
         private static final MethodHandle gtk_list_store_insert_with_valuesv = Interop.downcallHandle(
             "gtk_list_store_insert_with_valuesv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_list_store_iter_is_valid = Interop.downcallHandle(
             "gtk_list_store_iter_is_valid",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_store_move_after = Interop.downcallHandle(
             "gtk_list_store_move_after",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_store_move_before = Interop.downcallHandle(
             "gtk_list_store_move_before",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_store_prepend = Interop.downcallHandle(
             "gtk_list_store_prepend",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_store_remove = Interop.downcallHandle(
             "gtk_list_store_remove",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_store_reorder = Interop.downcallHandle(
             "gtk_list_store_reorder",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_store_set = Interop.downcallHandle(
             "gtk_list_store_set",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle gtk_list_store_set_column_types = Interop.downcallHandle(
             "gtk_list_store_set_column_types",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_store_set_valist = Interop.downcallHandle(
             "gtk_list_store_set_valist",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_store_set_value = Interop.downcallHandle(
             "gtk_list_store_set_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_store_set_valuesv = Interop.downcallHandle(
             "gtk_list_store_set_valuesv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_list_store_swap = Interop.downcallHandle(
             "gtk_list_store_swap",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

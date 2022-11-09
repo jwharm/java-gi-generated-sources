@@ -31,13 +31,19 @@ public class ColorChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gt
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ColorChooserDialog proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ColorChooserDialog(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ColorChooserDialog(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -49,18 +55,18 @@ public class ColorChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gt
      */
     public static ColorChooserDialog castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkColorChooserDialog"))) {
-            return new ColorChooserDialog(gobject.refcounted());
+            return new ColorChooserDialog(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkColorChooserDialog");
         }
     }
     
-    private static Refcounted constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_color_chooser_dialog_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_color_chooser_dialog_new.invokeExact(
                     (Addressable) (title == null ? MemoryAddress.NULL : Interop.allocateNativeString(title)),
-                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle())), false);
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,14 +79,15 @@ public class ColorChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gt
      * @param parent Transient parent of the dialog
      */
     public ColorChooserDialog(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {
-        super(constructNew(title, parent));
+        super(constructNew(title, parent), Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_color_chooser_dialog_new = Interop.downcallHandle(
             "gtk_color_chooser_dialog_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

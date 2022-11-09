@@ -31,6 +31,7 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -39,7 +40,7 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
     
     public static Item allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Item newInstance = new Item(Refcounted.get(segment.address()));
+        Item newInstance = new Item(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -113,18 +114,23 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.pango.Analysis analysis$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("analysis"));
-        return new org.pango.Analysis(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.pango.Analysis(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a Item proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Item(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Item(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.pango_item_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.pango_item_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,7 +141,7 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
      * Creates a new {@code PangoItem} structure initialized to default values.
      */
     public Item() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -175,7 +181,7 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Item(Refcounted.get(RESULT, true));
+        return new org.pango.Item(RESULT, Ownership.FULL);
     }
     
     /**
@@ -219,34 +225,39 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Item(Refcounted.get(RESULT, true));
+        return new org.pango.Item(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_item_new = Interop.downcallHandle(
             "pango_item_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_item_apply_attrs = Interop.downcallHandle(
             "pango_item_apply_attrs",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_item_copy = Interop.downcallHandle(
             "pango_item_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_item_free = Interop.downcallHandle(
             "pango_item_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_item_split = Interop.downcallHandle(
             "pango_item_split",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

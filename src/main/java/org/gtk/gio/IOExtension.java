@@ -21,6 +21,7 @@ public class IOExtension extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -29,14 +30,19 @@ public class IOExtension extends io.github.jwharm.javagi.ResourceBase {
     
     public static IOExtension allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        IOExtension newInstance = new IOExtension(Refcounted.get(segment.address()));
+        IOExtension newInstance = new IOExtension(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a IOExtension proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public IOExtension(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public IOExtension(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -100,29 +106,33 @@ public class IOExtension extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.TypeClass(Refcounted.get(RESULT, true));
+        return new org.gtk.gobject.TypeClass(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_io_extension_get_name = Interop.downcallHandle(
             "g_io_extension_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_extension_get_priority = Interop.downcallHandle(
             "g_io_extension_get_priority",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_extension_get_type = Interop.downcallHandle(
             "g_io_extension_get_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_extension_ref_class = Interop.downcallHandle(
             "g_io_extension_ref_class",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

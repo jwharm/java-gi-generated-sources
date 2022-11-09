@@ -30,6 +30,7 @@ public class GlyphPositionT extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -38,7 +39,7 @@ public class GlyphPositionT extends io.github.jwharm.javagi.ResourceBase {
     
     public static GlyphPositionT allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GlyphPositionT newInstance = new GlyphPositionT(Refcounted.get(segment.address()));
+        GlyphPositionT newInstance = new GlyphPositionT(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -127,8 +128,13 @@ public class GlyphPositionT extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y_offset.getValue().intValue());
     }
     
+    /**
+     * Create a GlyphPositionT proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public GlyphPositionT(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public GlyphPositionT(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

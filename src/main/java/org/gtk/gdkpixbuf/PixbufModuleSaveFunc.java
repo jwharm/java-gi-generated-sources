@@ -14,5 +14,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PixbufModuleSaveFunc {
-        boolean onPixbufModuleSaveFunc(@Nullable java.lang.foreign.MemoryAddress f, @NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf, PointerString paramKeys, PointerString paramValues);
+        boolean onPixbufModuleSaveFunc(@Nullable java.lang.foreign.MemoryAddress f, @NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf, @Nullable PointerString paramKeys, @Nullable PointerString paramValues);
 }

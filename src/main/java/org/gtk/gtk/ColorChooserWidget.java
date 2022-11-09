@@ -42,13 +42,19 @@ public class ColorChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gt
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ColorChooserWidget proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ColorChooserWidget(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ColorChooserWidget(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -60,16 +66,16 @@ public class ColorChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gt
      */
     public static ColorChooserWidget castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkColorChooserWidget"))) {
-            return new ColorChooserWidget(gobject.refcounted());
+            return new ColorChooserWidget(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkColorChooserWidget");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_color_chooser_widget_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_color_chooser_widget_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,14 +86,15 @@ public class ColorChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gt
      * Creates a new {@code GtkColorChooserWidget}.
      */
     public ColorChooserWidget() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_color_chooser_widget_new = Interop.downcallHandle(
             "gtk_color_chooser_widget_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

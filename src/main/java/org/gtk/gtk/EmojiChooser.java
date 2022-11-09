@@ -46,13 +46,19 @@ public class EmojiChooser extends org.gtk.gtk.Popover implements org.gtk.gtk.Acc
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a EmojiChooser proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public EmojiChooser(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public EmojiChooser(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -64,16 +70,16 @@ public class EmojiChooser extends org.gtk.gtk.Popover implements org.gtk.gtk.Acc
      */
     public static EmojiChooser castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEmojiChooser"))) {
-            return new EmojiChooser(gobject.refcounted());
+            return new EmojiChooser(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkEmojiChooser");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_emoji_chooser_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_emoji_chooser_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,7 +90,7 @@ public class EmojiChooser extends org.gtk.gtk.Popover implements org.gtk.gtk.Acc
      * Creates a new {@code GtkEmojiChooser}.
      */
     public EmojiChooser() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     @FunctionalInterface
@@ -94,6 +100,8 @@ public class EmojiChooser extends org.gtk.gtk.Popover implements org.gtk.gtk.Acc
     
     /**
      * Emitted when the user selects an Emoji.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EmojiChooser.EmojiPicked> onEmojiPicked(EmojiChooser.EmojiPicked handler) {
         try {
@@ -117,7 +125,8 @@ public class EmojiChooser extends org.gtk.gtk.Popover implements org.gtk.gtk.Acc
         
         private static final MethodHandle gtk_emoji_chooser_new = Interop.downcallHandle(
             "gtk_emoji_chooser_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -126,7 +135,7 @@ public class EmojiChooser extends org.gtk.gtk.Popover implements org.gtk.gtk.Acc
         public static void signalEmojiChooserEmojiPicked(MemoryAddress source, MemoryAddress text, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EmojiChooser.EmojiPicked) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EmojiChooser(Refcounted.get(source)), Interop.getStringFrom(text));
+            HANDLER.signalReceived(new EmojiChooser(source, Ownership.UNKNOWN), Interop.getStringFrom(text));
         }
     }
 }

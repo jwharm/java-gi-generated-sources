@@ -15,5 +15,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface SignalEmissionHook {
-        boolean onSignalEmissionHook(@NotNull org.gtk.gobject.SignalInvocationHint ihint, int nParamValues, PointerProxy<org.gtk.gobject.Value> paramValues);
+        boolean onSignalEmissionHook(@NotNull org.gtk.gobject.SignalInvocationHint ihint, int nParamValues, @NotNull PointerProxy<org.gtk.gobject.Value> paramValues);
 }

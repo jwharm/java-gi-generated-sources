@@ -20,13 +20,19 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a UnixMountMonitor proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public UnixMountMonitor(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public UnixMountMonitor(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,7 +44,7 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
      */
     public static UnixMountMonitor castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GUnixMountMonitor"))) {
-            return new UnixMountMonitor(gobject.refcounted());
+            return new UnixMountMonitor(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GUnixMountMonitor");
         }
@@ -86,7 +92,7 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.UnixMountMonitor(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.UnixMountMonitor(RESULT, Ownership.FULL);
     }
     
     @FunctionalInterface
@@ -96,6 +102,8 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
     
     /**
      * Emitted when the unix mount points have changed.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<UnixMountMonitor.MountpointsChanged> onMountpointsChanged(UnixMountMonitor.MountpointsChanged handler) {
         try {
@@ -122,6 +130,8 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
     
     /**
      * Emitted when the unix mounts have changed.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<UnixMountMonitor.MountsChanged> onMountsChanged(UnixMountMonitor.MountsChanged handler) {
         try {
@@ -145,17 +155,20 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
         
         private static final MethodHandle g_unix_mount_monitor_new = Interop.downcallHandle(
             "g_unix_mount_monitor_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_monitor_set_rate_limit = Interop.downcallHandle(
             "g_unix_mount_monitor_set_rate_limit",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_unix_mount_monitor_get = Interop.downcallHandle(
             "g_unix_mount_monitor_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -164,13 +177,13 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
         public static void signalUnixMountMonitorMountpointsChanged(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (UnixMountMonitor.MountpointsChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new UnixMountMonitor(Refcounted.get(source)));
+            HANDLER.signalReceived(new UnixMountMonitor(source, Ownership.UNKNOWN));
         }
         
         public static void signalUnixMountMonitorMountsChanged(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (UnixMountMonitor.MountsChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new UnixMountMonitor(Refcounted.get(source)));
+            HANDLER.signalReceived(new UnixMountMonitor(source, Ownership.UNKNOWN));
         }
     }
 }

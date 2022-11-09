@@ -44,13 +44,19 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a DropDown proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DropDown(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DropDown(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -62,18 +68,18 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public static DropDown castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkDropDown"))) {
-            return new DropDown(gobject.refcounted());
+            return new DropDown(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkDropDown");
         }
     }
     
-    private static Refcounted constructNew(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.Expression expression) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.Expression expression) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_drop_down_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_down_new.invokeExact(
                     (Addressable) (model == null ? MemoryAddress.NULL : model.refcounted().unowned().handle()),
-                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.refcounted().unowned().handle())), false);
+                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.refcounted().unowned().handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -89,15 +95,15 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param expression the expression to use
      */
     public DropDown(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.Expression expression) {
-        super(constructNew(model, expression));
+        super(constructNew(model, expression), Ownership.NONE);
     }
     
-    private static Refcounted constructNewFromStrings(java.lang.String[] strings) {
+    private static Addressable constructNewFromStrings(@NotNull java.lang.String[] strings) {
         java.util.Objects.requireNonNull(strings, "Parameter 'strings' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_drop_down_new_from_strings.invokeExact(
-                    Interop.allocateNativeArray(strings, false)), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_down_new_from_strings.invokeExact(
+                    Interop.allocateNativeArray(strings, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,8 +116,8 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param strings The strings to put in the dropdown
      * @return a new {@code GtkDropDown}
      */
-    public static DropDown newFromStrings(java.lang.String[] strings) {
-        return new DropDown(constructNewFromStrings(strings));
+    public static DropDown newFromStrings(@NotNull java.lang.String[] strings) {
+        return new DropDown(constructNewFromStrings(strings), Ownership.NONE);
     }
     
     /**
@@ -143,7 +149,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Expression(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Expression(RESULT, Ownership.NONE);
     }
     
     /**
@@ -162,7 +168,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.ListItemFactory(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.ListItemFactory(RESULT, Ownership.NONE);
     }
     
     /**
@@ -177,7 +183,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.ListItemFactory(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.ListItemFactory(RESULT, Ownership.NONE);
     }
     
     /**
@@ -192,7 +198,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -223,7 +229,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.Object(RESULT, Ownership.NONE);
     }
     
     /**
@@ -356,6 +362,8 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * <p>
      * The {@code ::activate} signal on {@code GtkDropDown} is an action signal and
      * emitting it causes the drop down to pop up its dropdown.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DropDown.Activate> onActivate(DropDown.Activate handler) {
         try {
@@ -379,87 +387,104 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         
         private static final MethodHandle gtk_drop_down_new = Interop.downcallHandle(
             "gtk_drop_down_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_drop_down_new_from_strings = Interop.downcallHandle(
             "gtk_drop_down_new_from_strings",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_drop_down_get_enable_search = Interop.downcallHandle(
             "gtk_drop_down_get_enable_search",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_drop_down_get_expression = Interop.downcallHandle(
             "gtk_drop_down_get_expression",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_drop_down_get_factory = Interop.downcallHandle(
             "gtk_drop_down_get_factory",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_drop_down_get_list_factory = Interop.downcallHandle(
             "gtk_drop_down_get_list_factory",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_drop_down_get_model = Interop.downcallHandle(
             "gtk_drop_down_get_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_drop_down_get_selected = Interop.downcallHandle(
             "gtk_drop_down_get_selected",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_drop_down_get_selected_item = Interop.downcallHandle(
             "gtk_drop_down_get_selected_item",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_drop_down_get_show_arrow = Interop.downcallHandle(
             "gtk_drop_down_get_show_arrow",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_drop_down_set_enable_search = Interop.downcallHandle(
             "gtk_drop_down_set_enable_search",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_drop_down_set_expression = Interop.downcallHandle(
             "gtk_drop_down_set_expression",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_drop_down_set_factory = Interop.downcallHandle(
             "gtk_drop_down_set_factory",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_drop_down_set_list_factory = Interop.downcallHandle(
             "gtk_drop_down_set_list_factory",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_drop_down_set_model = Interop.downcallHandle(
             "gtk_drop_down_set_model",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_drop_down_set_selected = Interop.downcallHandle(
             "gtk_drop_down_set_selected",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_drop_down_set_show_arrow = Interop.downcallHandle(
             "gtk_drop_down_set_show_arrow",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -468,7 +493,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         public static void signalDropDownActivate(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DropDown.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DropDown(Refcounted.get(source)));
+            HANDLER.signalReceived(new DropDown(source, Ownership.UNKNOWN));
         }
     }
 }

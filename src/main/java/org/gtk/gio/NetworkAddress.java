@@ -34,6 +34,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -44,12 +45,17 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a NetworkAddress proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public NetworkAddress(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public NetworkAddress(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -61,19 +67,19 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
      */
     public static NetworkAddress castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GNetworkAddress"))) {
-            return new NetworkAddress(gobject.refcounted());
+            return new NetworkAddress(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GNetworkAddress");
         }
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String hostname, short port) {
+    private static Addressable constructNew(@NotNull java.lang.String hostname, short port) {
         java.util.Objects.requireNonNull(hostname, "Parameter 'hostname' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_network_address_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_network_address_new.invokeExact(
                     Interop.allocateNativeString(hostname),
-                    port), true);
+                    port);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,14 +99,14 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
      * @param port the port
      */
     public NetworkAddress(@NotNull java.lang.String hostname, short port) {
-        super(constructNew(hostname, port));
+        super(constructNew(hostname, port), Ownership.FULL);
     }
     
-    private static Refcounted constructNewLoopback(short port) {
-        Refcounted RESULT;
+    private static Addressable constructNewLoopback(short port) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_network_address_new_loopback.invokeExact(
-                    port), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_network_address_new_loopback.invokeExact(
+                    port);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,7 +130,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
      * @return the new {@link NetworkAddress}
      */
     public static NetworkAddress newLoopback(short port) {
-        return new NetworkAddress(constructNewLoopback(port));
+        return new NetworkAddress(constructNewLoopback(port), Ownership.FULL);
     }
     
     /**
@@ -208,14 +214,15 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_network_address_parse.invokeExact(
                     Interop.allocateNativeString(hostAndPort),
-                    defaultPort, (Addressable) GERROR);
+                    defaultPort,
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.NetworkAddress(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.NetworkAddress(RESULT, Ownership.FULL);
     }
     
     /**
@@ -238,51 +245,59 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_network_address_parse_uri.invokeExact(
                     Interop.allocateNativeString(uri),
-                    defaultPort, (Addressable) GERROR);
+                    defaultPort,
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.NetworkAddress(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.NetworkAddress(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_network_address_new = Interop.downcallHandle(
             "g_network_address_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT),
+            false
         );
         
         private static final MethodHandle g_network_address_new_loopback = Interop.downcallHandle(
             "g_network_address_new_loopback",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT),
+            false
         );
         
         private static final MethodHandle g_network_address_get_hostname = Interop.downcallHandle(
             "g_network_address_get_hostname",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_network_address_get_port = Interop.downcallHandle(
             "g_network_address_get_port",
-            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_network_address_get_scheme = Interop.downcallHandle(
             "g_network_address_get_scheme",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_network_address_parse = Interop.downcallHandle(
             "g_network_address_parse",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_network_address_parse_uri = Interop.downcallHandle(
             "g_network_address_parse_uri",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

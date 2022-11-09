@@ -51,6 +51,7 @@ public class SocketService extends org.gtk.gio.SocketListener {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -61,12 +62,17 @@ public class SocketService extends org.gtk.gio.SocketListener {
      */
     public org.gtk.gio.SocketListener parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.SocketListener(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.SocketListener(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a SocketService proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SocketService(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SocketService(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -78,16 +84,16 @@ public class SocketService extends org.gtk.gio.SocketListener {
      */
     public static SocketService castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSocketService"))) {
-            return new SocketService(gobject.refcounted());
+            return new SocketService(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSocketService");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_socket_service_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_service_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,7 +110,7 @@ public class SocketService extends org.gtk.gio.SocketListener {
      * called before.
      */
     public SocketService() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -182,6 +188,8 @@ public class SocketService extends org.gtk.gio.SocketListener {
      * <p>
      * {@code connection} will be unreffed once the signal handler returns,
      * so you need to ref it yourself if you are planning to use it.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SocketService.Incoming> onIncoming(SocketService.Incoming handler) {
         try {
@@ -205,22 +213,26 @@ public class SocketService extends org.gtk.gio.SocketListener {
         
         private static final MethodHandle g_socket_service_new = Interop.downcallHandle(
             "g_socket_service_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_socket_service_is_active = Interop.downcallHandle(
             "g_socket_service_is_active",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_socket_service_start = Interop.downcallHandle(
             "g_socket_service_start",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_socket_service_stop = Interop.downcallHandle(
             "g_socket_service_stop",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -229,7 +241,7 @@ public class SocketService extends org.gtk.gio.SocketListener {
         public static boolean signalSocketServiceIncoming(MemoryAddress source, MemoryAddress connection, MemoryAddress sourceObject, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SocketService.Incoming) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new SocketService(Refcounted.get(source)), new org.gtk.gio.SocketConnection(Refcounted.get(connection, false)), new org.gtk.gobject.Object(Refcounted.get(sourceObject, false)));
+            return HANDLER.signalReceived(new SocketService(source, Ownership.UNKNOWN), new org.gtk.gio.SocketConnection(connection, Ownership.NONE), new org.gtk.gobject.Object(sourceObject, Ownership.NONE));
         }
     }
 }

@@ -24,7 +24,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
      */
     public static PrintOperationPreview castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPrintOperationPreview"))) {
-            return new PrintOperationPreviewImpl(gobject.refcounted());
+            return new PrintOperationPreviewImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkPrintOperationPreview");
         }
@@ -97,6 +97,8 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
      * A handler for this signal should update the {@code context}
      * according to {@code page_setup} and set up a suitable cairo
      * context, using {@link PrintContext#setCairoContext}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<PrintOperationPreview.GotPageSize> onGotPageSize(PrintOperationPreview.GotPageSize handler) {
         try {
@@ -126,6 +128,8 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
      * before the first page is rendered.
      * <p>
      * A handler for this signal can be used for setup tasks.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<PrintOperationPreview.Ready> onReady(PrintOperationPreview.Ready handler) {
         try {
@@ -151,19 +155,22 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_print_operation_preview_end_preview = Interop.downcallHandle(
             "gtk_print_operation_preview_end_preview",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_print_operation_preview_is_selected = Interop.downcallHandle(
             "gtk_print_operation_preview_is_selected",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_print_operation_preview_render_page = Interop.downcallHandle(
             "gtk_print_operation_preview_render_page",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -173,13 +180,13 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
         public static void signalPrintOperationPreviewGotPageSize(MemoryAddress source, MemoryAddress context, MemoryAddress pageSetup, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (PrintOperationPreview.GotPageSize) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperationPreview.PrintOperationPreviewImpl(Refcounted.get(source)), new org.gtk.gtk.PrintContext(Refcounted.get(context, false)), new org.gtk.gtk.PageSetup(Refcounted.get(pageSetup, false)));
+            HANDLER.signalReceived(new PrintOperationPreview.PrintOperationPreviewImpl(source, Ownership.UNKNOWN), new org.gtk.gtk.PrintContext(context, Ownership.NONE), new org.gtk.gtk.PageSetup(pageSetup, Ownership.NONE));
         }
         
         public static void signalPrintOperationPreviewReady(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (PrintOperationPreview.Ready) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperationPreview.PrintOperationPreviewImpl(Refcounted.get(source)), new org.gtk.gtk.PrintContext(Refcounted.get(context, false)));
+            HANDLER.signalReceived(new PrintOperationPreview.PrintOperationPreviewImpl(source, Ownership.UNKNOWN), new org.gtk.gtk.PrintContext(context, Ownership.NONE));
         }
     }
     
@@ -189,8 +196,8 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public PrintOperationPreviewImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public PrintOperationPreviewImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

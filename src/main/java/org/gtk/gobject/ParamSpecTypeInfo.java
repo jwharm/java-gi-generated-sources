@@ -39,6 +39,7 @@ public class ParamSpecTypeInfo extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -47,7 +48,7 @@ public class ParamSpecTypeInfo extends io.github.jwharm.javagi.ResourceBase {
     
     public static ParamSpecTypeInfo allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ParamSpecTypeInfo newInstance = new ParamSpecTypeInfo(Refcounted.get(segment.address()));
+        ParamSpecTypeInfo newInstance = new ParamSpecTypeInfo(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -115,8 +116,13 @@ public class ParamSpecTypeInfo extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value_type.getValue().longValue());
     }
     
+    /**
+     * Create a ParamSpecTypeInfo proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ParamSpecTypeInfo(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ParamSpecTypeInfo(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

@@ -61,6 +61,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -69,7 +70,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
     
     public static Scanner allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Scanner newInstance = new Scanner(Refcounted.get(segment.address()));
+        Scanner newInstance = new Scanner(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -166,7 +167,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("config"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.ScannerConfig(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.ScannerConfig(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -208,7 +209,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.TokenValue(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.TokenValue(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -292,7 +293,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next_value"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.TokenValue(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.TokenValue(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -358,9 +359,14 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
         return null /* Unsupported parameter type */;
     }
     
+    /**
+     * Create a Scanner proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Scanner(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Scanner(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -454,9 +460,18 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Outputs an error message, via the {@link Scanner} message handler.
      * @param format the message format. See the printf() documentation
+     * @param varargs the parameters to insert into the format string
      */
-    public void error(@NotNull java.lang.String format) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void error(@NotNull java.lang.String format, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+        try {
+            DowncallHandles.g_scanner_error.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(format),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -716,9 +731,18 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Outputs a warning message, via the {@link Scanner} message handler.
      * @param format the message format. See the printf() documentation
+     * @param varargs the parameters to insert into the format string
      */
-    public void warn(@NotNull java.lang.String format) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void warn(@NotNull java.lang.String format, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+        try {
+            DowncallHandles.g_scanner_warn.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(format),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -740,114 +764,135 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Scanner(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Scanner(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_scanner_cur_line = Interop.downcallHandle(
             "g_scanner_cur_line",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_scanner_cur_position = Interop.downcallHandle(
             "g_scanner_cur_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_scanner_cur_token = Interop.downcallHandle(
             "g_scanner_cur_token",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_scanner_cur_value = Interop.downcallHandle(
             "g_scanner_cur_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_scanner_destroy = Interop.downcallHandle(
             "g_scanner_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_scanner_eof = Interop.downcallHandle(
             "g_scanner_eof",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_scanner_error = Interop.downcallHandle(
             "g_scanner_error",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_scanner_get_next_token = Interop.downcallHandle(
             "g_scanner_get_next_token",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_scanner_input_file = Interop.downcallHandle(
             "g_scanner_input_file",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_scanner_input_text = Interop.downcallHandle(
             "g_scanner_input_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_scanner_lookup_symbol = Interop.downcallHandle(
             "g_scanner_lookup_symbol",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_scanner_peek_next_token = Interop.downcallHandle(
             "g_scanner_peek_next_token",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_scanner_scope_add_symbol = Interop.downcallHandle(
             "g_scanner_scope_add_symbol",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_scanner_scope_foreach_symbol = Interop.downcallHandle(
             "g_scanner_scope_foreach_symbol",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_scanner_scope_lookup_symbol = Interop.downcallHandle(
             "g_scanner_scope_lookup_symbol",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_scanner_scope_remove_symbol = Interop.downcallHandle(
             "g_scanner_scope_remove_symbol",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_scanner_set_scope = Interop.downcallHandle(
             "g_scanner_set_scope",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_scanner_sync_file_offset = Interop.downcallHandle(
             "g_scanner_sync_file_offset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_scanner_unexp_token = Interop.downcallHandle(
             "g_scanner_unexp_token",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_scanner_warn = Interop.downcallHandle(
             "g_scanner_warn",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_scanner_new = Interop.downcallHandle(
             "g_scanner_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

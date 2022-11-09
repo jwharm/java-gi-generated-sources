@@ -21,6 +21,7 @@ public class PasswordEntryRowClass extends io.github.jwharm.javagi.ResourceBase 
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -29,7 +30,7 @@ public class PasswordEntryRowClass extends io.github.jwharm.javagi.ResourceBase 
     
     public static PasswordEntryRowClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PasswordEntryRowClass newInstance = new PasswordEntryRowClass(Refcounted.get(segment.address()));
+        PasswordEntryRowClass newInstance = new PasswordEntryRowClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -40,11 +41,16 @@ public class PasswordEntryRowClass extends io.github.jwharm.javagi.ResourceBase 
      */
     public org.gnome.adw.EntryRowClass parent_class$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gnome.adw.EntryRowClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gnome.adw.EntryRowClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a PasswordEntryRowClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PasswordEntryRowClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PasswordEntryRowClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

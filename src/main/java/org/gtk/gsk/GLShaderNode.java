@@ -20,13 +20,19 @@ public class GLShaderNode extends org.gtk.gsk.RenderNode {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a GLShaderNode proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public GLShaderNode(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public GLShaderNode(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,24 +44,24 @@ public class GLShaderNode extends org.gtk.gsk.RenderNode {
      */
     public static GLShaderNode castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskGLShaderNode"))) {
-            return new GLShaderNode(gobject.refcounted());
+            return new GLShaderNode(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GskGLShaderNode");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gsk.GLShader shader, @NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.glib.Bytes args, org.gtk.gsk.RenderNode[] children, int nChildren) {
+    private static Addressable constructNew(@NotNull org.gtk.gsk.GLShader shader, @NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.glib.Bytes args, @Nullable org.gtk.gsk.RenderNode[] children, int nChildren) {
         java.util.Objects.requireNonNull(shader, "Parameter 'shader' must not be null");
         java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
         java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_gl_shader_node_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_node_new.invokeExact(
                     shader.handle(),
                     bounds.handle(),
                     args.handle(),
                     (Addressable) (children == null ? MemoryAddress.NULL : Interop.allocateNativeArray(children, false)),
-                    nChildren), true);
+                    nChildren);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,8 +94,8 @@ public class GLShaderNode extends org.gtk.gsk.RenderNode {
      * @param nChildren Length of {@code children} (currenly the GL backend supports
      *   up to 4 children)
      */
-    public GLShaderNode(@NotNull org.gtk.gsk.GLShader shader, @NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.glib.Bytes args, org.gtk.gsk.RenderNode[] children, int nChildren) {
-        super(constructNew(shader, bounds, args, children, nChildren));
+    public GLShaderNode(@NotNull org.gtk.gsk.GLShader shader, @NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.glib.Bytes args, @Nullable org.gtk.gsk.RenderNode[] children, int nChildren) {
+        super(constructNew(shader, bounds, args, children, nChildren), Ownership.FULL);
     }
     
     /**
@@ -104,7 +110,7 @@ public class GLShaderNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Bytes(RESULT, Ownership.NONE);
     }
     
     /**
@@ -121,7 +127,7 @@ public class GLShaderNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RenderNode(Refcounted.get(RESULT, false));
+        return new org.gtk.gsk.RenderNode(RESULT, Ownership.NONE);
     }
     
     /**
@@ -151,34 +157,39 @@ public class GLShaderNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.GLShader(Refcounted.get(RESULT, false));
+        return new org.gtk.gsk.GLShader(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_gl_shader_node_new = Interop.downcallHandle(
             "gsk_gl_shader_node_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gsk_gl_shader_node_get_args = Interop.downcallHandle(
             "gsk_gl_shader_node_get_args",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_gl_shader_node_get_child = Interop.downcallHandle(
             "gsk_gl_shader_node_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gsk_gl_shader_node_get_n_children = Interop.downcallHandle(
             "gsk_gl_shader_node_get_n_children",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_gl_shader_node_get_shader = Interop.downcallHandle(
             "gsk_gl_shader_node_get_shader",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

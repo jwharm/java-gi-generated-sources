@@ -20,7 +20,7 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
      */
     public static LoadableIcon castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GLoadableIcon"))) {
-            return new LoadableIconImpl(gobject.refcounted());
+            return new LoadableIconImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GLoadableIcon");
         }
@@ -47,7 +47,8 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
                     handle(),
                     size,
                     (Addressable) typePOINTER.address(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -55,7 +56,7 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
             throw new GErrorException(GERROR);
         }
         type.set(Interop.getStringFrom(typePOINTER.get(ValueLayout.ADDRESS, 0)));
-        return new org.gtk.gio.InputStream(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.InputStream(RESULT, Ownership.FULL);
     }
     
     /**
@@ -102,7 +103,8 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
             RESULT = (MemoryAddress) DowncallHandles.g_loadable_icon_load_finish.invokeExact(
                     handle(),
                     res.handle(),
-                    (Addressable) typePOINTER.address(), (Addressable) GERROR);
+                    (Addressable) typePOINTER.address(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,7 +112,7 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
             throw new GErrorException(GERROR);
         }
         type.set(Interop.getStringFrom(typePOINTER.get(ValueLayout.ADDRESS, 0)));
-        return new org.gtk.gio.InputStream(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.InputStream(RESULT, Ownership.FULL);
     }
     
     @ApiStatus.Internal
@@ -119,19 +121,22 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_loadable_icon_load = Interop.downcallHandle(
             "g_loadable_icon_load",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_loadable_icon_load_async = Interop.downcallHandle(
             "g_loadable_icon_load_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_loadable_icon_load_finish = Interop.downcallHandle(
             "g_loadable_icon_load_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -141,8 +146,8 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public LoadableIconImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public LoadableIconImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

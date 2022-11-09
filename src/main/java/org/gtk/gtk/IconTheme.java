@@ -50,13 +50,19 @@ public class IconTheme extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a IconTheme proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public IconTheme(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public IconTheme(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -68,16 +74,16 @@ public class IconTheme extends org.gtk.gobject.Object {
      */
     public static IconTheme castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkIconTheme"))) {
-            return new IconTheme(gobject.refcounted());
+            return new IconTheme(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkIconTheme");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_icon_theme_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_theme_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,7 +99,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * a new icon theme object for scratch.
      */
     public IconTheme() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -147,7 +153,7 @@ public class IconTheme extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
     }
     
     /**
@@ -310,7 +316,7 @@ public class IconTheme extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.IconPaintable(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.IconPaintable(RESULT, Ownership.FULL);
     }
     
     /**
@@ -338,7 +344,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * @return a {@code GtkIconPaintable} object
      *   containing the icon.
      */
-    public @NotNull org.gtk.gtk.IconPaintable lookupIcon(@NotNull java.lang.String iconName, java.lang.String[] fallbacks, int size, int scale, @NotNull org.gtk.gtk.TextDirection direction, @NotNull org.gtk.gtk.IconLookupFlags flags) {
+    public @NotNull org.gtk.gtk.IconPaintable lookupIcon(@NotNull java.lang.String iconName, @Nullable java.lang.String[] fallbacks, int size, int scale, @NotNull org.gtk.gtk.TextDirection direction, @NotNull org.gtk.gtk.IconLookupFlags flags) {
         java.util.Objects.requireNonNull(iconName, "Parameter 'iconName' must not be null");
         java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
@@ -355,7 +361,7 @@ public class IconTheme extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.IconPaintable(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.IconPaintable(RESULT, Ownership.FULL);
     }
     
     /**
@@ -373,7 +379,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * @param path NULL-terminated array of resource paths
      *   that are searched for icons
      */
-    public void setResourcePath(java.lang.String[] path) {
+    public void setResourcePath(@Nullable java.lang.String[] path) {
         try {
             DowncallHandles.gtk_icon_theme_set_resource_path.invokeExact(
                     handle(),
@@ -402,7 +408,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * @param path NULL-terminated
      *   array of directories that are searched for icon themes
      */
-    public void setSearchPath(java.lang.String[] path) {
+    public void setSearchPath(@Nullable java.lang.String[] path) {
         try {
             DowncallHandles.gtk_icon_theme_set_search_path.invokeExact(
                     handle(),
@@ -454,7 +460,7 @@ public class IconTheme extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.IconTheme(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.IconTheme(RESULT, Ownership.NONE);
     }
     
     @FunctionalInterface
@@ -468,6 +474,8 @@ public class IconTheme extends org.gtk.gobject.Object {
      * This can happen becuase current icon theme is switched or
      * because GTK detects that a change has occurred in the
      * contents of the current icon theme.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<IconTheme.Changed> onChanged(IconTheme.Changed handler) {
         try {
@@ -491,87 +499,104 @@ public class IconTheme extends org.gtk.gobject.Object {
         
         private static final MethodHandle gtk_icon_theme_new = Interop.downcallHandle(
             "gtk_icon_theme_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_theme_add_resource_path = Interop.downcallHandle(
             "gtk_icon_theme_add_resource_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_theme_add_search_path = Interop.downcallHandle(
             "gtk_icon_theme_add_search_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_theme_get_display = Interop.downcallHandle(
             "gtk_icon_theme_get_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_theme_get_icon_names = Interop.downcallHandle(
             "gtk_icon_theme_get_icon_names",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_theme_get_icon_sizes = Interop.downcallHandle(
             "gtk_icon_theme_get_icon_sizes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_theme_get_resource_path = Interop.downcallHandle(
             "gtk_icon_theme_get_resource_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_theme_get_search_path = Interop.downcallHandle(
             "gtk_icon_theme_get_search_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_theme_get_theme_name = Interop.downcallHandle(
             "gtk_icon_theme_get_theme_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_theme_has_gicon = Interop.downcallHandle(
             "gtk_icon_theme_has_gicon",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_theme_has_icon = Interop.downcallHandle(
             "gtk_icon_theme_has_icon",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_theme_lookup_by_gicon = Interop.downcallHandle(
             "gtk_icon_theme_lookup_by_gicon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_theme_lookup_icon = Interop.downcallHandle(
             "gtk_icon_theme_lookup_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_theme_set_resource_path = Interop.downcallHandle(
             "gtk_icon_theme_set_resource_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_theme_set_search_path = Interop.downcallHandle(
             "gtk_icon_theme_set_search_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_theme_set_theme_name = Interop.downcallHandle(
             "gtk_icon_theme_set_theme_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_theme_get_for_display = Interop.downcallHandle(
             "gtk_icon_theme_get_for_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -580,7 +605,7 @@ public class IconTheme extends org.gtk.gobject.Object {
         public static void signalIconThemeChanged(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (IconTheme.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IconTheme(Refcounted.get(source)));
+            HANDLER.signalReceived(new IconTheme(source, Ownership.UNKNOWN));
         }
     }
 }

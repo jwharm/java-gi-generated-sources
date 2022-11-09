@@ -21,6 +21,7 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -29,14 +30,19 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
     
     public static ToplevelSize allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ToplevelSize newInstance = new ToplevelSize(Refcounted.get(segment.address()));
+        ToplevelSize newInstance = new ToplevelSize(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a ToplevelSize proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ToplevelSize(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ToplevelSize(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -140,22 +146,26 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle gdk_toplevel_size_get_bounds = Interop.downcallHandle(
             "gdk_toplevel_size_get_bounds",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_toplevel_size_set_min_size = Interop.downcallHandle(
             "gdk_toplevel_size_set_min_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_toplevel_size_set_shadow_width = Interop.downcallHandle(
             "gdk_toplevel_size_set_shadow_width",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_toplevel_size_set_size = Interop.downcallHandle(
             "gdk_toplevel_size_set_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

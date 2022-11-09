@@ -27,13 +27,19 @@ public class Coverage extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Coverage proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Coverage(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Coverage(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -45,16 +51,16 @@ public class Coverage extends org.gtk.gobject.Object {
      */
     public static Coverage castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoCoverage"))) {
-            return new Coverage(gobject.refcounted());
+            return new Coverage(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of PangoCoverage");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.pango_coverage_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.pango_coverage_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,7 +71,7 @@ public class Coverage extends org.gtk.gobject.Object {
      * Create a new {@code PangoCoverage}
      */
     public Coverage() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -82,7 +88,7 @@ public class Coverage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Coverage(Refcounted.get(RESULT, true));
+        return new org.pango.Coverage(RESULT, Ownership.FULL);
     }
     
     /**
@@ -135,7 +141,7 @@ public class Coverage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Coverage(Refcounted.get(RESULT, true));
+        return new org.pango.Coverage(RESULT, Ownership.FULL);
     }
     
     /**
@@ -162,7 +168,7 @@ public class Coverage extends org.gtk.gobject.Object {
      * @deprecated This returns {@code null}
      */
     @Deprecated
-    public void toBytes(Out<byte[]> bytes, Out<Integer> nBytes) {
+    public void toBytes(@NotNull Out<byte[]> bytes, Out<Integer> nBytes) {
         java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
         java.util.Objects.requireNonNull(nBytes, "Parameter 'nBytes' must not be null");
         MemorySegment bytesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -205,7 +211,7 @@ public class Coverage extends org.gtk.gobject.Object {
      * @deprecated This returns {@code null}
      */
     @Deprecated
-    public static @Nullable org.pango.Coverage fromBytes(byte[] bytes, int nBytes) {
+    public static @Nullable org.pango.Coverage fromBytes(@NotNull byte[] bytes, int nBytes) {
         java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
         MemoryAddress RESULT;
         try {
@@ -215,54 +221,63 @@ public class Coverage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Coverage(Refcounted.get(RESULT, true));
+        return new org.pango.Coverage(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_coverage_new = Interop.downcallHandle(
             "pango_coverage_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_coverage_copy = Interop.downcallHandle(
             "pango_coverage_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_coverage_get = Interop.downcallHandle(
             "pango_coverage_get",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_coverage_max = Interop.downcallHandle(
             "pango_coverage_max",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_coverage_ref = Interop.downcallHandle(
             "pango_coverage_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_coverage_set = Interop.downcallHandle(
             "pango_coverage_set",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_coverage_to_bytes = Interop.downcallHandle(
             "pango_coverage_to_bytes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_coverage_unref = Interop.downcallHandle(
             "pango_coverage_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_coverage_from_bytes = Interop.downcallHandle(
             "pango_coverage_from_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

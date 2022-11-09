@@ -68,6 +68,7 @@ public class Animation extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -78,12 +79,17 @@ public class Animation extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a Animation proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Animation(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Animation(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -95,7 +101,7 @@ public class Animation extends org.gtk.gobject.Object {
      */
     public static Animation castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwAnimation"))) {
-            return new Animation(gobject.refcounted());
+            return new Animation(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwAnimation");
         }
@@ -131,7 +137,7 @@ public class Animation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.AnimationTarget(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.AnimationTarget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -168,7 +174,7 @@ public class Animation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -285,6 +291,8 @@ public class Animation extends org.gtk.gobject.Object {
     /**
      * This signal is emitted when the animation has been completed, either on its
      * own or via calling {@code Animation#skip}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Animation.Done> onDone(Animation.Done handler) {
         try {
@@ -308,52 +316,62 @@ public class Animation extends org.gtk.gobject.Object {
         
         private static final MethodHandle adw_animation_get_state = Interop.downcallHandle(
             "adw_animation_get_state",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_animation_get_target = Interop.downcallHandle(
             "adw_animation_get_target",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_animation_get_value = Interop.downcallHandle(
             "adw_animation_get_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_animation_get_widget = Interop.downcallHandle(
             "adw_animation_get_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_animation_pause = Interop.downcallHandle(
             "adw_animation_pause",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_animation_play = Interop.downcallHandle(
             "adw_animation_play",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_animation_reset = Interop.downcallHandle(
             "adw_animation_reset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_animation_resume = Interop.downcallHandle(
             "adw_animation_resume",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_animation_set_target = Interop.downcallHandle(
             "adw_animation_set_target",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_animation_skip = Interop.downcallHandle(
             "adw_animation_skip",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -362,7 +380,7 @@ public class Animation extends org.gtk.gobject.Object {
         public static void signalAnimationDone(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Animation.Done) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Animation(Refcounted.get(source)));
+            HANDLER.signalReceived(new Animation(source, Ownership.UNKNOWN));
         }
     }
 }

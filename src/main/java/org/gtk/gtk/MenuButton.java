@@ -34,10 +34,10 @@ import org.jetbrains.annotations.*;
  * <p>
  * |           | start                | center                | end                |
  * | -         | ---                  | ---                   | ---                |
- * | <em>*down</em>*  | <img src="./doc-files/down-start.png" alt="">  | <img src="./doc-files/down-center.png" alt="">  | <img src="./doc-files/down-end.png" alt="">  |
- * | <em>*up</em>*    | <img src="./doc-files/up-start.png" alt="">    | <img src="./doc-files/up-center.png" alt="">    | <img src="./doc-files/up-end.png" alt="">    |
- * | <em>*left</em>*  | <img src="./doc-files/left-start.png" alt="">  | <img src="./doc-files/left-center.png" alt="">  | <img src="./doc-files/left-end.png" alt="">  |
- * | <em>*right</em>* | <img src="./doc-files/right-start.png" alt=""> | <img src="./doc-files/right-center.png" alt=""> | <img src="./doc-files/right-end.png" alt=""> |
+ * | <strong>down</strong>  | <img src="./doc-files/down-start.png" alt="">  | <img src="./doc-files/down-center.png" alt="">  | <img src="./doc-files/down-end.png" alt="">  |
+ * | <strong>up</strong>    | <img src="./doc-files/up-start.png" alt="">    | <img src="./doc-files/up-center.png" alt="">    | <img src="./doc-files/up-end.png" alt="">    |
+ * | <strong>left</strong>  | <img src="./doc-files/left-start.png" alt="">  | <img src="./doc-files/left-center.png" alt="">  | <img src="./doc-files/left-end.png" alt="">  |
+ * | <strong>right</strong> | <img src="./doc-files/right-start.png" alt=""> | <img src="./doc-files/right-center.png" alt=""> | <img src="./doc-files/right-end.png" alt=""> |
  * <p>
  * <strong>CSS nodes</strong><br/>
  * <pre>{@code 
@@ -79,13 +79,19 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a MenuButton proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public MenuButton(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public MenuButton(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -97,16 +103,16 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public static MenuButton castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMenuButton"))) {
-            return new MenuButton(gobject.refcounted());
+            return new MenuButton(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkMenuButton");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_menu_button_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_menu_button_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,7 +127,7 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * should you wish to.
      */
     public MenuButton() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -151,7 +157,7 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -226,7 +232,7 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(RESULT, Ownership.NONE);
     }
     
     /**
@@ -244,7 +250,7 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Popover(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Popover(RESULT, Ownership.NONE);
     }
     
     /**
@@ -537,6 +543,8 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * <p>
      * The {@code ::activate} signal on {@code GtkMenuButton} is an action signal and
      * emitting it causes the button to pop up its menu.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<MenuButton.Activate> onActivate(MenuButton.Activate handler) {
         try {
@@ -560,122 +568,146 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         
         private static final MethodHandle gtk_menu_button_new = Interop.downcallHandle(
             "gtk_menu_button_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_get_always_show_arrow = Interop.downcallHandle(
             "gtk_menu_button_get_always_show_arrow",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_get_child = Interop.downcallHandle(
             "gtk_menu_button_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_get_direction = Interop.downcallHandle(
             "gtk_menu_button_get_direction",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_get_has_frame = Interop.downcallHandle(
             "gtk_menu_button_get_has_frame",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_get_icon_name = Interop.downcallHandle(
             "gtk_menu_button_get_icon_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_get_label = Interop.downcallHandle(
             "gtk_menu_button_get_label",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_get_menu_model = Interop.downcallHandle(
             "gtk_menu_button_get_menu_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_get_popover = Interop.downcallHandle(
             "gtk_menu_button_get_popover",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_get_primary = Interop.downcallHandle(
             "gtk_menu_button_get_primary",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_get_use_underline = Interop.downcallHandle(
             "gtk_menu_button_get_use_underline",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_popdown = Interop.downcallHandle(
             "gtk_menu_button_popdown",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_popup = Interop.downcallHandle(
             "gtk_menu_button_popup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_set_always_show_arrow = Interop.downcallHandle(
             "gtk_menu_button_set_always_show_arrow",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_set_child = Interop.downcallHandle(
             "gtk_menu_button_set_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_set_create_popup_func = Interop.downcallHandle(
             "gtk_menu_button_set_create_popup_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_set_direction = Interop.downcallHandle(
             "gtk_menu_button_set_direction",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_set_has_frame = Interop.downcallHandle(
             "gtk_menu_button_set_has_frame",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_set_icon_name = Interop.downcallHandle(
             "gtk_menu_button_set_icon_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_set_label = Interop.downcallHandle(
             "gtk_menu_button_set_label",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_set_menu_model = Interop.downcallHandle(
             "gtk_menu_button_set_menu_model",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_set_popover = Interop.downcallHandle(
             "gtk_menu_button_set_popover",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_set_primary = Interop.downcallHandle(
             "gtk_menu_button_set_primary",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_menu_button_set_use_underline = Interop.downcallHandle(
             "gtk_menu_button_set_use_underline",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -684,7 +716,7 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         public static void signalMenuButtonActivate(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (MenuButton.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MenuButton(Refcounted.get(source)));
+            HANDLER.signalReceived(new MenuButton(source, Ownership.UNKNOWN));
         }
     }
 }

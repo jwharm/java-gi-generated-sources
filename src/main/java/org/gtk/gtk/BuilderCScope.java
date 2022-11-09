@@ -39,6 +39,7 @@ public class BuilderCScope extends org.gtk.gobject.Object implements org.gtk.gtk
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -49,12 +50,17 @@ public class BuilderCScope extends org.gtk.gobject.Object implements org.gtk.gtk
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a BuilderCScope proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public BuilderCScope(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public BuilderCScope(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -66,16 +72,16 @@ public class BuilderCScope extends org.gtk.gobject.Object implements org.gtk.gtk
      */
     public static BuilderCScope castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkBuilderCScope"))) {
-            return new BuilderCScope(gobject.refcounted());
+            return new BuilderCScope(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkBuilderCScope");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_builder_cscope_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_builder_cscope_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +96,7 @@ public class BuilderCScope extends org.gtk.gobject.Object implements org.gtk.gtk
      * custom callbacks via {@link BuilderCScope#addCallbackSymbol}.
      */
     public BuilderCScope() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -116,8 +122,9 @@ public class BuilderCScope extends org.gtk.gobject.Object implements org.gtk.gtk
      * for each symbol.
      * @param firstCallbackName The name of the callback, as expected in the XML
      * @param firstCallbackSymbol The callback pointer
+     * @param varargs A list of callback name and callback symbol pairs terminated with {@code null}
      */
-    public void addCallbackSymbols(@NotNull java.lang.String firstCallbackName, @NotNull org.gtk.gobject.Callback firstCallbackSymbol) {
+    public void addCallbackSymbols(@NotNull java.lang.String firstCallbackName, @NotNull org.gtk.gobject.Callback firstCallbackSymbol, java.lang.Object... varargs) {
         throw new UnsupportedOperationException("Operation not supported yet");
     }
     
@@ -136,22 +143,26 @@ public class BuilderCScope extends org.gtk.gobject.Object implements org.gtk.gtk
         
         private static final MethodHandle gtk_builder_cscope_new = Interop.downcallHandle(
             "gtk_builder_cscope_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_builder_cscope_add_callback_symbol = Interop.downcallHandle(
             "gtk_builder_cscope_add_callback_symbol",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_builder_cscope_add_callback_symbols = Interop.downcallHandle(
             "gtk_builder_cscope_add_callback_symbols",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle gtk_builder_cscope_lookup_callback_symbol = Interop.downcallHandle(
             "gtk_builder_cscope_lookup_callback_symbol",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

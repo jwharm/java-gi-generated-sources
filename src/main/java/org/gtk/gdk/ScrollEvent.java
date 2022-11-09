@@ -20,13 +20,19 @@ public class ScrollEvent extends org.gtk.gdk.Event {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ScrollEvent proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ScrollEvent(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ScrollEvent(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,7 +44,7 @@ public class ScrollEvent extends org.gtk.gdk.Event {
      */
     public static ScrollEvent castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkScrollEvent"))) {
-            return new ScrollEvent(gobject.refcounted());
+            return new ScrollEvent(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkScrollEvent");
         }
@@ -111,17 +117,20 @@ public class ScrollEvent extends org.gtk.gdk.Event {
         
         private static final MethodHandle gdk_scroll_event_get_deltas = Interop.downcallHandle(
             "gdk_scroll_event_get_deltas",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_scroll_event_get_direction = Interop.downcallHandle(
             "gdk_scroll_event_get_direction",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_scroll_event_is_stop = Interop.downcallHandle(
             "gdk_scroll_event_is_stop",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

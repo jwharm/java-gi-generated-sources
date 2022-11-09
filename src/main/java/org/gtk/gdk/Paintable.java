@@ -63,7 +63,7 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
      */
     public static Paintable castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkPaintable"))) {
-            return new PaintableImpl(gobject.refcounted());
+            return new PaintableImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkPaintable");
         }
@@ -130,7 +130,7 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.Paintable.PaintableImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -316,7 +316,7 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.Paintable.PaintableImpl(RESULT, Ownership.FULL);
     }
     
     @FunctionalInterface
@@ -329,6 +329,8 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
      * <p>
      * Examples for such an event would be videos changing to the next frame or
      * the icon theme for an icon changing.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<Paintable.InvalidateContents> onInvalidateContents(Paintable.InvalidateContents handler) {
         try {
@@ -364,6 +366,8 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
      * <p>
      * Examples for such an event would be a paintable displaying
      * the contents of a toplevel surface being resized.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<Paintable.InvalidateSize> onInvalidateSize(Paintable.InvalidateSize handler) {
         try {
@@ -389,61 +393,71 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gdk_paintable_compute_concrete_size = Interop.downcallHandle(
             "gdk_paintable_compute_concrete_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_paintable_get_current_image = Interop.downcallHandle(
             "gdk_paintable_get_current_image",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_paintable_get_flags = Interop.downcallHandle(
             "gdk_paintable_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_paintable_get_intrinsic_aspect_ratio = Interop.downcallHandle(
             "gdk_paintable_get_intrinsic_aspect_ratio",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_paintable_get_intrinsic_height = Interop.downcallHandle(
             "gdk_paintable_get_intrinsic_height",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_paintable_get_intrinsic_width = Interop.downcallHandle(
             "gdk_paintable_get_intrinsic_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_paintable_invalidate_contents = Interop.downcallHandle(
             "gdk_paintable_invalidate_contents",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_paintable_invalidate_size = Interop.downcallHandle(
             "gdk_paintable_invalidate_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_paintable_snapshot = Interop.downcallHandle(
             "gdk_paintable_snapshot",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_paintable_new_empty = Interop.downcallHandle(
             "gdk_paintable_new_empty",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -453,13 +467,13 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
         public static void signalPaintableInvalidateContents(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Paintable.InvalidateContents) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Paintable.PaintableImpl(Refcounted.get(source)));
+            HANDLER.signalReceived(new Paintable.PaintableImpl(source, Ownership.UNKNOWN));
         }
         
         public static void signalPaintableInvalidateSize(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Paintable.InvalidateSize) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Paintable.PaintableImpl(Refcounted.get(source)));
+            HANDLER.signalReceived(new Paintable.PaintableImpl(source, Ownership.UNKNOWN));
         }
     }
     
@@ -469,8 +483,8 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
             Gdk.javagi$ensureInitialized();
         }
         
-        public PaintableImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public PaintableImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

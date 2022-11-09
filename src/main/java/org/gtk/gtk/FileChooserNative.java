@@ -157,13 +157,19 @@ public class FileChooserNative extends org.gtk.gtk.NativeDialog implements org.g
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a FileChooserNative proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FileChooserNative(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FileChooserNative(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -175,22 +181,22 @@ public class FileChooserNative extends org.gtk.gtk.NativeDialog implements org.g
      */
     public static FileChooserNative castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFileChooserNative"))) {
-            return new FileChooserNative(gobject.refcounted());
+            return new FileChooserNative(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkFileChooserNative");
         }
     }
     
-    private static Refcounted constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.FileChooserAction action, @Nullable java.lang.String acceptLabel, @Nullable java.lang.String cancelLabel) {
+    private static Addressable constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.FileChooserAction action, @Nullable java.lang.String acceptLabel, @Nullable java.lang.String cancelLabel) {
         java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_file_chooser_native_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_file_chooser_native_new.invokeExact(
                     (Addressable) (title == null ? MemoryAddress.NULL : Interop.allocateNativeString(title)),
                     (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
                     action.getValue(),
                     (Addressable) (acceptLabel == null ? MemoryAddress.NULL : Interop.allocateNativeString(acceptLabel)),
-                    (Addressable) (cancelLabel == null ? MemoryAddress.NULL : Interop.allocateNativeString(cancelLabel))), true);
+                    (Addressable) (cancelLabel == null ? MemoryAddress.NULL : Interop.allocateNativeString(cancelLabel)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -206,7 +212,7 @@ public class FileChooserNative extends org.gtk.gtk.NativeDialog implements org.g
      * @param cancelLabel text to go in the cancel button, or {@code null} for the default
      */
     public FileChooserNative(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.FileChooserAction action, @Nullable java.lang.String acceptLabel, @Nullable java.lang.String cancelLabel) {
-        super(constructNew(title, parent, action, acceptLabel, cancelLabel));
+        super(constructNew(title, parent, action, acceptLabel, cancelLabel), Ownership.FULL);
     }
     
     /**
@@ -285,27 +291,32 @@ public class FileChooserNative extends org.gtk.gtk.NativeDialog implements org.g
         
         private static final MethodHandle gtk_file_chooser_native_new = Interop.downcallHandle(
             "gtk_file_chooser_native_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_file_chooser_native_get_accept_label = Interop.downcallHandle(
             "gtk_file_chooser_native_get_accept_label",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_file_chooser_native_get_cancel_label = Interop.downcallHandle(
             "gtk_file_chooser_native_get_cancel_label",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_file_chooser_native_set_accept_label = Interop.downcallHandle(
             "gtk_file_chooser_native_set_accept_label",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_file_chooser_native_set_cancel_label = Interop.downcallHandle(
             "gtk_file_chooser_native_set_cancel_label",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

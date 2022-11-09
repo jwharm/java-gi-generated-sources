@@ -31,6 +31,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -39,20 +40,25 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     
     public static Quaternion allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Quaternion newInstance = new Quaternion(Refcounted.get(segment.address()));
+        Quaternion newInstance = new Quaternion(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a Quaternion proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Quaternion(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Quaternion(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructAlloc() {
-        Refcounted RESULT;
+    private static Addressable constructAlloc() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.graphene_quaternion_alloc.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_alloc.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,7 +72,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * @return the newly allocated {@link Quaternion}
      */
     public static Quaternion alloc() {
-        return new Quaternion(constructAlloc());
+        return new Quaternion(constructAlloc(), Ownership.FULL);
     }
     
     /**
@@ -155,7 +161,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quaternion(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Quaternion(RESULT, Ownership.NONE);
     }
     
     /**
@@ -176,7 +182,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quaternion(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Quaternion(RESULT, Ownership.NONE);
     }
     
     /**
@@ -201,7 +207,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quaternion(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Quaternion(RESULT, Ownership.NONE);
     }
     
     /**
@@ -219,7 +225,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quaternion(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Quaternion(RESULT, Ownership.NONE);
     }
     
     /**
@@ -238,7 +244,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quaternion(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Quaternion(RESULT, Ownership.NONE);
     }
     
     /**
@@ -256,7 +262,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quaternion(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Quaternion(RESULT, Ownership.NONE);
     }
     
     /**
@@ -281,7 +287,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quaternion(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Quaternion(RESULT, Ownership.NONE);
     }
     
     /**
@@ -299,7 +305,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quaternion(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Quaternion(RESULT, Ownership.NONE);
     }
     
     /**
@@ -315,7 +321,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quaternion(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Quaternion(RESULT, Ownership.NONE);
     }
     
     /**
@@ -531,122 +537,146 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle graphene_quaternion_alloc = Interop.downcallHandle(
             "graphene_quaternion_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_add = Interop.downcallHandle(
             "graphene_quaternion_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_dot = Interop.downcallHandle(
             "graphene_quaternion_dot",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_equal = Interop.downcallHandle(
             "graphene_quaternion_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_free = Interop.downcallHandle(
             "graphene_quaternion_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_init = Interop.downcallHandle(
             "graphene_quaternion_init",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_init_from_angle_vec3 = Interop.downcallHandle(
             "graphene_quaternion_init_from_angle_vec3",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_init_from_angles = Interop.downcallHandle(
             "graphene_quaternion_init_from_angles",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_init_from_euler = Interop.downcallHandle(
             "graphene_quaternion_init_from_euler",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_init_from_matrix = Interop.downcallHandle(
             "graphene_quaternion_init_from_matrix",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_init_from_quaternion = Interop.downcallHandle(
             "graphene_quaternion_init_from_quaternion",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_init_from_radians = Interop.downcallHandle(
             "graphene_quaternion_init_from_radians",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_init_from_vec4 = Interop.downcallHandle(
             "graphene_quaternion_init_from_vec4",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_init_identity = Interop.downcallHandle(
             "graphene_quaternion_init_identity",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_invert = Interop.downcallHandle(
             "graphene_quaternion_invert",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_multiply = Interop.downcallHandle(
             "graphene_quaternion_multiply",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_normalize = Interop.downcallHandle(
             "graphene_quaternion_normalize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_scale = Interop.downcallHandle(
             "graphene_quaternion_scale",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_slerp = Interop.downcallHandle(
             "graphene_quaternion_slerp",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_to_angle_vec3 = Interop.downcallHandle(
             "graphene_quaternion_to_angle_vec3",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_to_angles = Interop.downcallHandle(
             "graphene_quaternion_to_angles",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_to_matrix = Interop.downcallHandle(
             "graphene_quaternion_to_matrix",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_to_radians = Interop.downcallHandle(
             "graphene_quaternion_to_radians",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_quaternion_to_vec4 = Interop.downcallHandle(
             "graphene_quaternion_to_vec4",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

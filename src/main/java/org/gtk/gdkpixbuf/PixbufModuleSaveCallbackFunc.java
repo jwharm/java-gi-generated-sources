@@ -14,5 +14,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PixbufModuleSaveCallbackFunc {
-        boolean onPixbufModuleSaveCallbackFunc(@NotNull org.gtk.gdkpixbuf.PixbufSaveFunc saveFunc, @NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf, PointerString optionKeys, PointerString optionValues);
+        boolean onPixbufModuleSaveCallbackFunc(@NotNull org.gtk.gdkpixbuf.PixbufSaveFunc saveFunc, @NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf, @Nullable PointerString optionKeys, @Nullable PointerString optionValues);
 }

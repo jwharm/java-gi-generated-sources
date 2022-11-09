@@ -70,7 +70,8 @@ public class RecentManagerError extends io.github.jwharm.javagi.Enumeration {
         
         private static final MethodHandle gtk_recent_manager_error_quark = Interop.downcallHandle(
             "gtk_recent_manager_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
     }
 }

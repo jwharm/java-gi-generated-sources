@@ -21,13 +21,19 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a EventControllerKey proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public EventControllerKey(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public EventControllerKey(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -39,16 +45,16 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
      */
     public static EventControllerKey castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEventControllerKey"))) {
-            return new EventControllerKey(gobject.refcounted());
+            return new EventControllerKey(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkEventControllerKey");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_event_controller_key_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_event_controller_key_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -59,7 +65,7 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
      * Creates a new event controller that will handle key events.
      */
     public EventControllerKey() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -114,7 +120,7 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.IMContext(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.IMContext(RESULT, Ownership.NONE);
     }
     
     /**
@@ -142,6 +148,8 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
      * <p>
      * See {@link EventControllerKey#setImContext} and
      * {@link IMContext#filterKeypress}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EventControllerKey.ImUpdate> onImUpdate(EventControllerKey.ImUpdate handler) {
         try {
@@ -168,6 +176,8 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
     
     /**
      * Emitted whenever a key is pressed.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EventControllerKey.KeyPressed> onKeyPressed(EventControllerKey.KeyPressed handler) {
         try {
@@ -194,6 +204,8 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
     
     /**
      * Emitted whenever a key is released.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EventControllerKey.KeyReleased> onKeyReleased(EventControllerKey.KeyReleased handler) {
         try {
@@ -220,6 +232,8 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
     
     /**
      * Emitted whenever the state of modifier keys and pointer buttons change.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EventControllerKey.Modifiers> onModifiers(EventControllerKey.Modifiers handler) {
         try {
@@ -243,27 +257,32 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
         
         private static final MethodHandle gtk_event_controller_key_new = Interop.downcallHandle(
             "gtk_event_controller_key_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_event_controller_key_forward = Interop.downcallHandle(
             "gtk_event_controller_key_forward",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_event_controller_key_get_group = Interop.downcallHandle(
             "gtk_event_controller_key_get_group",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_event_controller_key_get_im_context = Interop.downcallHandle(
             "gtk_event_controller_key_get_im_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_event_controller_key_set_im_context = Interop.downcallHandle(
             "gtk_event_controller_key_set_im_context",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -272,25 +291,25 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
         public static void signalEventControllerKeyImUpdate(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EventControllerKey.ImUpdate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerKey(Refcounted.get(source)));
+            HANDLER.signalReceived(new EventControllerKey(source, Ownership.UNKNOWN));
         }
         
         public static boolean signalEventControllerKeyKeyPressed(MemoryAddress source, int keyval, int keycode, int state, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EventControllerKey.KeyPressed) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EventControllerKey(Refcounted.get(source)), keyval, keycode, new org.gtk.gdk.ModifierType(state));
+            return HANDLER.signalReceived(new EventControllerKey(source, Ownership.UNKNOWN), keyval, keycode, new org.gtk.gdk.ModifierType(state));
         }
         
         public static void signalEventControllerKeyKeyReleased(MemoryAddress source, int keyval, int keycode, int state, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EventControllerKey.KeyReleased) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerKey(Refcounted.get(source)), keyval, keycode, new org.gtk.gdk.ModifierType(state));
+            HANDLER.signalReceived(new EventControllerKey(source, Ownership.UNKNOWN), keyval, keycode, new org.gtk.gdk.ModifierType(state));
         }
         
         public static boolean signalEventControllerKeyModifiers(MemoryAddress source, int keyval, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EventControllerKey.Modifiers) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EventControllerKey(Refcounted.get(source)), new org.gtk.gdk.ModifierType(keyval));
+            return HANDLER.signalReceived(new EventControllerKey(source, Ownership.UNKNOWN), new org.gtk.gdk.ModifierType(keyval));
         }
     }
 }

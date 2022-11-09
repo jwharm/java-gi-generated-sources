@@ -5,6 +5,9 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
+/**
+ * Constants and functions that are declared in the global Gtk namespace.
+ */
 public final class Gtk {
     
     static {
@@ -24,7 +27,7 @@ public final class Gtk {
      * application compile time, rather than from the library linked
      * against at application run time.
      */
-    public static final int BINARY_AGE = 607;
+    public static final int BINARY_AGE = 608;
     
     public static final java.lang.String IM_MODULE_EXTENSION_POINT_NAME = "gtk-im-module";
     
@@ -41,7 +44,7 @@ public final class Gtk {
      * application compile time, rather than from the library linked
      * against at application run time.
      */
-    public static final int INTERFACE_AGE = 7;
+    public static final int INTERFACE_AGE = 8;
     
     /**
      * The name used for the stock full offset included by {@code GtkLevelBar}.
@@ -74,7 +77,7 @@ public final class Gtk {
      * application compile time, rather than from the library linked
      * against at application run time.
      */
-    public static final int MICRO_VERSION = 7;
+    public static final int MICRO_VERSION = 8;
     
     /**
      * Like {@link Gtk#getMinorVersion}, but from the headers used at
@@ -466,7 +469,7 @@ public final class Gtk {
      *   modifier mask
      * @return {@code true} if parsing succeeded
      */
-    public static boolean acceleratorParseWithKeycode(@NotNull java.lang.String accelerator, @Nullable org.gtk.gdk.Display display, Out<Integer> acceleratorKey, Out<int[]> acceleratorCodes, @NotNull Out<org.gtk.gdk.ModifierType> acceleratorMods) {
+    public static boolean acceleratorParseWithKeycode(@NotNull java.lang.String accelerator, @Nullable org.gtk.gdk.Display display, Out<Integer> acceleratorKey, @NotNull Out<int[]> acceleratorCodes, @NotNull Out<org.gtk.gdk.ModifierType> acceleratorMods) {
         throw new UnsupportedOperationException("Operation not supported yet");
     }
     
@@ -734,7 +737,7 @@ public final class Gtk {
      * @return The remainder of {@code extra_space} after redistributing space
      * to {@code sizes}.
      */
-    public static int distributeNaturalAllocation(int extraSpace, int nRequestedSizes, org.gtk.gtk.RequestedSize[] sizes) {
+    public static int distributeNaturalAllocation(int extraSpace, int nRequestedSizes, @NotNull org.gtk.gtk.RequestedSize[] sizes) {
         java.util.Objects.requireNonNull(sizes, "Parameter 'sizes' must not be null");
         int RESULT;
         try {
@@ -935,7 +938,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Language(Refcounted.get(RESULT, false));
+        return new org.pango.Language(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1180,7 +1183,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Native.NativeImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Native.NativeImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1231,7 +1234,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1259,7 +1262,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ParamSpec(Refcounted.get(RESULT, true));
+        return new org.gtk.gobject.ParamSpec(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1301,7 +1304,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PageSetup(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.PageSetup(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1748,9 +1751,19 @@ public final class Gtk {
      * reused for future invocations of this function.
      * @param parent the parent top-level window
      * @param firstPropertyName the name of the first property
+     * @param varargs value of first property, followed by more pairs of property
+     *   name and value, {@code NULL}-terminated
      */
-    public static void showAboutDialog(@Nullable org.gtk.gtk.Window parent, @NotNull java.lang.String firstPropertyName) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void showAboutDialog(@Nullable org.gtk.gtk.Window parent, @NotNull java.lang.String firstPropertyName, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(firstPropertyName, "Parameter 'firstPropertyName' must not be null");
+        try {
+            DowncallHandles.gtk_show_about_dialog.invokeExact(
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                    Interop.allocateNativeString(firstPropertyName),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -1823,7 +1836,8 @@ public final class Gtk {
         try {
             RESULT = (int) DowncallHandles.gtk_show_uri_full_finish.invokeExact(
                     parent.handle(),
-                    result.handle(), (Addressable) GERROR);
+                    result.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1861,10 +1875,22 @@ public final class Gtk {
      * a specific value.
      * @param accessible a {@code GtkAccessible}
      * @param property a {@code GtkAccessibleProperty}
+     * @param varargs the expected value of {@code property}
      * @return the value of the accessible property
      */
-    public static @NotNull java.lang.String testAccessibleCheckProperty(@NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gtk.AccessibleProperty property) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static @NotNull java.lang.String testAccessibleCheckProperty(@NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gtk.AccessibleProperty property, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(accessible, "Parameter 'accessible' must not be null");
+        java.util.Objects.requireNonNull(property, "Parameter 'property' must not be null");
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gtk_test_accessible_check_property.invokeExact(
+                    accessible.handle(),
+                    property.getValue(),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -1872,10 +1898,22 @@ public final class Gtk {
      * a specific value.
      * @param accessible a {@code GtkAccessible}
      * @param relation a {@code GtkAccessibleRelation}
+     * @param varargs the expected value of {@code relation}
      * @return the value of the accessible relation
      */
-    public static @NotNull java.lang.String testAccessibleCheckRelation(@NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gtk.AccessibleRelation relation) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static @NotNull java.lang.String testAccessibleCheckRelation(@NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gtk.AccessibleRelation relation, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(accessible, "Parameter 'accessible' must not be null");
+        java.util.Objects.requireNonNull(relation, "Parameter 'relation' must not be null");
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gtk_test_accessible_check_relation.invokeExact(
+                    accessible.handle(),
+                    relation.getValue(),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -1883,10 +1921,22 @@ public final class Gtk {
      * a specific value.
      * @param accessible a {@code GtkAccessible}
      * @param state a {@code GtkAccessibleState}
+     * @param varargs the expected value of {@code state}
      * @return the value of the accessible state
      */
-    public static @NotNull java.lang.String testAccessibleCheckState(@NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gtk.AccessibleState state) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static @NotNull java.lang.String testAccessibleCheckState(@NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gtk.AccessibleState state, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(accessible, "Parameter 'accessible' must not be null");
+        java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gtk_test_accessible_check_state.invokeExact(
+                    accessible.handle(),
+                    state.getValue(),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return Interop.getStringFrom(RESULT);
     }
     
     /**
@@ -1985,9 +2035,28 @@ public final class Gtk {
      * @param argvp Address of the {@code argv}
      *   parameter of main(). Any parameters understood by g_test_init()
      *   or gtk_init() are stripped before return.
+     * @param varargs currently unused
      */
-    public static void testInit(Out<Integer> argcp, Out<java.lang.String[]> argvp) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void testInit(Out<Integer> argcp, @NotNull Out<java.lang.String[]> argvp, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(argcp, "Parameter 'argcp' must not be null");
+        java.util.Objects.requireNonNull(argvp, "Parameter 'argvp' must not be null");
+        MemorySegment argcpPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment argvpPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        try {
+            DowncallHandles.gtk_test_init.invokeExact(
+                    (Addressable) argcpPOINTER.address(),
+                    (Addressable) argvpPOINTER.address(),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        argcp.set(argcpPOINTER.get(ValueLayout.JAVA_INT, 0));
+        java.lang.String[] argvpARRAY = new java.lang.String[argcp.get().intValue()];
+        for (int I = 0; I < argcp.get().intValue(); I++) {
+            var OBJ = argvpPOINTER.get(ValueLayout.ADDRESS, I);
+            argvpARRAY[I] = Interop.getStringFrom(OBJ);
+        }
+        argvp.set(argvpARRAY);
     }
     
     /**
@@ -2067,7 +2136,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentProvider(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.ContentProvider(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2142,7 +2211,7 @@ public final class Gtk {
      * @param iter the iter pointing to the parent of the reordered
      * @param newOrder the new order of rows
      */
-    public static void treeRowReferenceReordered(@NotNull org.gtk.gobject.Object proxy, @NotNull org.gtk.gtk.TreePath path, @NotNull org.gtk.gtk.TreeIter iter, int[] newOrder) {
+    public static void treeRowReferenceReordered(@NotNull org.gtk.gobject.Object proxy, @NotNull org.gtk.gtk.TreePath path, @NotNull org.gtk.gtk.TreeIter iter, @NotNull int[] newOrder) {
         java.util.Objects.requireNonNull(proxy, "Parameter 'proxy' must not be null");
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
@@ -2173,7 +2242,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Expression(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.Expression(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2190,7 +2259,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Expression(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Expression(RESULT, Ownership.NONE);
     }
     
     /**
@@ -2234,437 +2303,524 @@ public final class Gtk {
         
         private static final MethodHandle gtk_accelerator_get_default_mod_mask = Interop.downcallHandle(
             "gtk_accelerator_get_default_mod_mask",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_accelerator_get_label = Interop.downcallHandle(
             "gtk_accelerator_get_label",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_accelerator_get_label_with_keycode = Interop.downcallHandle(
             "gtk_accelerator_get_label_with_keycode",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_accelerator_name = Interop.downcallHandle(
             "gtk_accelerator_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_accelerator_name_with_keycode = Interop.downcallHandle(
             "gtk_accelerator_name_with_keycode",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_accelerator_parse = Interop.downcallHandle(
             "gtk_accelerator_parse",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_accelerator_parse_with_keycode = Interop.downcallHandle(
             "gtk_accelerator_parse_with_keycode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_accelerator_valid = Interop.downcallHandle(
             "gtk_accelerator_valid",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_accessible_property_init_value = Interop.downcallHandle(
             "gtk_accessible_property_init_value",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_accessible_relation_init_value = Interop.downcallHandle(
             "gtk_accessible_relation_init_value",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_accessible_state_init_value = Interop.downcallHandle(
             "gtk_accessible_state_init_value",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_bitset_iter_init_at = Interop.downcallHandle(
             "gtk_bitset_iter_init_at",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_bitset_iter_init_first = Interop.downcallHandle(
             "gtk_bitset_iter_init_first",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_bitset_iter_init_last = Interop.downcallHandle(
             "gtk_bitset_iter_init_last",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_builder_error_quark = Interop.downcallHandle(
             "gtk_builder_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_check_version = Interop.downcallHandle(
             "gtk_check_version",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_constraint_vfl_parser_error_quark = Interop.downcallHandle(
             "gtk_constraint_vfl_parser_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_css_parser_error_quark = Interop.downcallHandle(
             "gtk_css_parser_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_css_parser_warning_quark = Interop.downcallHandle(
             "gtk_css_parser_warning_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_disable_setlocale = Interop.downcallHandle(
             "gtk_disable_setlocale",
-            FunctionDescriptor.ofVoid()
+            FunctionDescriptor.ofVoid(),
+            false
         );
         
         private static final MethodHandle gtk_distribute_natural_allocation = Interop.downcallHandle(
             "gtk_distribute_natural_allocation",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_editable_delegate_get_property = Interop.downcallHandle(
             "gtk_editable_delegate_get_property",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_editable_delegate_set_property = Interop.downcallHandle(
             "gtk_editable_delegate_set_property",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_editable_install_properties = Interop.downcallHandle(
             "gtk_editable_install_properties",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_enumerate_printers = Interop.downcallHandle(
             "gtk_enumerate_printers",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_file_chooser_error_quark = Interop.downcallHandle(
             "gtk_file_chooser_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_get_binary_age = Interop.downcallHandle(
             "gtk_get_binary_age",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_get_debug_flags = Interop.downcallHandle(
             "gtk_get_debug_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_get_default_language = Interop.downcallHandle(
             "gtk_get_default_language",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_get_interface_age = Interop.downcallHandle(
             "gtk_get_interface_age",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_get_locale_direction = Interop.downcallHandle(
             "gtk_get_locale_direction",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_get_major_version = Interop.downcallHandle(
             "gtk_get_major_version",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_get_micro_version = Interop.downcallHandle(
             "gtk_get_micro_version",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_get_minor_version = Interop.downcallHandle(
             "gtk_get_minor_version",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_hsv_to_rgb = Interop.downcallHandle(
             "gtk_hsv_to_rgb",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_theme_error_quark = Interop.downcallHandle(
             "gtk_icon_theme_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_init = Interop.downcallHandle(
             "gtk_init",
-            FunctionDescriptor.ofVoid()
+            FunctionDescriptor.ofVoid(),
+            false
         );
         
         private static final MethodHandle gtk_init_check = Interop.downcallHandle(
             "gtk_init_check",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_is_initialized = Interop.downcallHandle(
             "gtk_is_initialized",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_native_get_for_surface = Interop.downcallHandle(
             "gtk_native_get_for_surface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_ordering_from_cmpfunc = Interop.downcallHandle(
             "gtk_ordering_from_cmpfunc",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_get_default = Interop.downcallHandle(
             "gtk_paper_size_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_get_paper_sizes = Interop.downcallHandle(
             "gtk_paper_size_get_paper_sizes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_param_spec_expression = Interop.downcallHandle(
             "gtk_param_spec_expression",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_print_error_quark = Interop.downcallHandle(
             "gtk_print_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_print_run_page_setup_dialog = Interop.downcallHandle(
             "gtk_print_run_page_setup_dialog",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_print_run_page_setup_dialog_async = Interop.downcallHandle(
             "gtk_print_run_page_setup_dialog_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_recent_manager_error_quark = Interop.downcallHandle(
             "gtk_recent_manager_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_render_activity = Interop.downcallHandle(
             "gtk_render_activity",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_render_arrow = Interop.downcallHandle(
             "gtk_render_arrow",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_render_background = Interop.downcallHandle(
             "gtk_render_background",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_render_check = Interop.downcallHandle(
             "gtk_render_check",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_render_expander = Interop.downcallHandle(
             "gtk_render_expander",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_render_focus = Interop.downcallHandle(
             "gtk_render_focus",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_render_frame = Interop.downcallHandle(
             "gtk_render_frame",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_render_handle = Interop.downcallHandle(
             "gtk_render_handle",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_render_icon = Interop.downcallHandle(
             "gtk_render_icon",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_render_layout = Interop.downcallHandle(
             "gtk_render_layout",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_render_line = Interop.downcallHandle(
             "gtk_render_line",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_render_option = Interop.downcallHandle(
             "gtk_render_option",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_rgb_to_hsv = Interop.downcallHandle(
             "gtk_rgb_to_hsv",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_set_debug_flags = Interop.downcallHandle(
             "gtk_set_debug_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_show_about_dialog = Interop.downcallHandle(
             "gtk_show_about_dialog",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle gtk_show_uri = Interop.downcallHandle(
             "gtk_show_uri",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_show_uri_full = Interop.downcallHandle(
             "gtk_show_uri_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_show_uri_full_finish = Interop.downcallHandle(
             "gtk_show_uri_full_finish",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_test_accessible_assertion_message_role = Interop.downcallHandle(
             "gtk_test_accessible_assertion_message_role",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_test_accessible_check_property = Interop.downcallHandle(
             "gtk_test_accessible_check_property",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            true
         );
         
         private static final MethodHandle gtk_test_accessible_check_relation = Interop.downcallHandle(
             "gtk_test_accessible_check_relation",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            true
         );
         
         private static final MethodHandle gtk_test_accessible_check_state = Interop.downcallHandle(
             "gtk_test_accessible_check_state",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            true
         );
         
         private static final MethodHandle gtk_test_accessible_has_property = Interop.downcallHandle(
             "gtk_test_accessible_has_property",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_test_accessible_has_relation = Interop.downcallHandle(
             "gtk_test_accessible_has_relation",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_test_accessible_has_role = Interop.downcallHandle(
             "gtk_test_accessible_has_role",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_test_accessible_has_state = Interop.downcallHandle(
             "gtk_test_accessible_has_state",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_test_init = Interop.downcallHandle(
             "gtk_test_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle gtk_test_list_all_types = Interop.downcallHandle(
             "gtk_test_list_all_types",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_test_register_all_types = Interop.downcallHandle(
             "gtk_test_register_all_types",
-            FunctionDescriptor.ofVoid()
+            FunctionDescriptor.ofVoid(),
+            false
         );
         
         private static final MethodHandle gtk_test_widget_wait_for_draw = Interop.downcallHandle(
             "gtk_test_widget_wait_for_draw",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_create_row_drag_content = Interop.downcallHandle(
             "gtk_tree_create_row_drag_content",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_get_row_drag_data = Interop.downcallHandle(
             "gtk_tree_get_row_drag_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_row_reference_deleted = Interop.downcallHandle(
             "gtk_tree_row_reference_deleted",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_row_reference_inserted = Interop.downcallHandle(
             "gtk_tree_row_reference_inserted",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_row_reference_reordered = Interop.downcallHandle(
             "gtk_tree_row_reference_reordered",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_value_dup_expression = Interop.downcallHandle(
             "gtk_value_dup_expression",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_value_get_expression = Interop.downcallHandle(
             "gtk_value_get_expression",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_value_set_expression = Interop.downcallHandle(
             "gtk_value_set_expression",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_value_take_expression = Interop.downcallHandle(
             "gtk_value_take_expression",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -2681,14 +2837,14 @@ public final class Gtk {
         public static boolean cbEntryCompletionMatchFunc(MemoryAddress completion, MemoryAddress key, MemoryAddress iter, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EntryCompletionMatchFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onEntryCompletionMatchFunc(new org.gtk.gtk.EntryCompletion(Refcounted.get(completion, false)), Interop.getStringFrom(key), new org.gtk.gtk.TreeIter(Refcounted.get(iter, false)));
+            var RESULT = HANDLER.onEntryCompletionMatchFunc(new org.gtk.gtk.EntryCompletion(completion, Ownership.NONE), Interop.getStringFrom(key), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
             return RESULT;
         }
         
         public static void cbMenuButtonCreatePopupFunc(MemoryAddress menuButton, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (MenuButtonCreatePopupFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onMenuButtonCreatePopupFunc(new org.gtk.gtk.MenuButton(Refcounted.get(menuButton, false)));
+            HANDLER.onMenuButtonCreatePopupFunc(new org.gtk.gtk.MenuButton(menuButton, Ownership.NONE));
         }
         
         public static void cbExpressionNotify(MemoryAddress userData) {
@@ -2700,107 +2856,107 @@ public final class Gtk {
         public static org.gtk.gtk.Widget cbFlowBoxCreateWidgetFunc(MemoryAddress item, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FlowBoxCreateWidgetFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onFlowBoxCreateWidgetFunc(new org.gtk.gobject.Object(Refcounted.get(item, false)));
+            var RESULT = HANDLER.onFlowBoxCreateWidgetFunc(new org.gtk.gobject.Object(item, Ownership.NONE));
             return RESULT;
         }
         
         public static void cbFlowBoxForeachFunc(MemoryAddress box, MemoryAddress child, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FlowBoxForeachFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onFlowBoxForeachFunc(new org.gtk.gtk.FlowBox(Refcounted.get(box, false)), new org.gtk.gtk.FlowBoxChild(Refcounted.get(child, false)));
+            HANDLER.onFlowBoxForeachFunc(new org.gtk.gtk.FlowBox(box, Ownership.NONE), new org.gtk.gtk.FlowBoxChild(child, Ownership.NONE));
         }
         
         public static java.lang.String cbScaleFormatValueFunc(MemoryAddress scale, double value, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ScaleFormatValueFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onScaleFormatValueFunc(new org.gtk.gtk.Scale(Refcounted.get(scale, false)), value);
+            var RESULT = HANDLER.onScaleFormatValueFunc(new org.gtk.gtk.Scale(scale, Ownership.NONE), value);
             return RESULT;
         }
         
         public static boolean cbCellCallback(MemoryAddress renderer, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (CellCallback) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onCellCallback(new org.gtk.gtk.CellRenderer(Refcounted.get(renderer, false)));
+            var RESULT = HANDLER.onCellCallback(new org.gtk.gtk.CellRenderer(renderer, Ownership.NONE));
             return RESULT;
         }
         
         public static boolean cbListBoxFilterFunc(MemoryAddress row, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ListBoxFilterFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onListBoxFilterFunc(new org.gtk.gtk.ListBoxRow(Refcounted.get(row, false)));
+            var RESULT = HANDLER.onListBoxFilterFunc(new org.gtk.gtk.ListBoxRow(row, Ownership.NONE));
             return RESULT;
         }
         
         public static int cbListBoxSortFunc(MemoryAddress row1, MemoryAddress row2, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ListBoxSortFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onListBoxSortFunc(new org.gtk.gtk.ListBoxRow(Refcounted.get(row1, false)), new org.gtk.gtk.ListBoxRow(Refcounted.get(row2, false)));
+            var RESULT = HANDLER.onListBoxSortFunc(new org.gtk.gtk.ListBoxRow(row1, Ownership.NONE), new org.gtk.gtk.ListBoxRow(row2, Ownership.NONE));
             return RESULT;
         }
         
         public static void cbCellLayoutDataFunc(MemoryAddress cellLayout, MemoryAddress cell, MemoryAddress treeModel, MemoryAddress iter, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (CellLayoutDataFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onCellLayoutDataFunc(new org.gtk.gtk.CellLayout.CellLayoutImpl(Refcounted.get(cellLayout, false)), new org.gtk.gtk.CellRenderer(Refcounted.get(cell, false)), new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(treeModel, false)), new org.gtk.gtk.TreeIter(Refcounted.get(iter, false)));
+            HANDLER.onCellLayoutDataFunc(new org.gtk.gtk.CellLayout.CellLayoutImpl(cellLayout, Ownership.NONE), new org.gtk.gtk.CellRenderer(cell, Ownership.NONE), new org.gtk.gtk.TreeModel.TreeModelImpl(treeModel, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
         }
         
         public static void cbListBoxForeachFunc(MemoryAddress box, MemoryAddress row, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ListBoxForeachFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onListBoxForeachFunc(new org.gtk.gtk.ListBox(Refcounted.get(box, false)), new org.gtk.gtk.ListBoxRow(Refcounted.get(row, false)));
+            HANDLER.onListBoxForeachFunc(new org.gtk.gtk.ListBox(box, Ownership.NONE), new org.gtk.gtk.ListBoxRow(row, Ownership.NONE));
         }
         
         public static org.gtk.gtk.Widget cbListBoxCreateWidgetFunc(MemoryAddress item, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ListBoxCreateWidgetFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onListBoxCreateWidgetFunc(new org.gtk.gobject.Object(Refcounted.get(item, false)));
+            var RESULT = HANDLER.onListBoxCreateWidgetFunc(new org.gtk.gobject.Object(item, Ownership.NONE));
             return RESULT;
         }
         
         public static void cbTreeViewMappingFunc(MemoryAddress treeView, MemoryAddress path, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TreeViewMappingFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onTreeViewMappingFunc(new org.gtk.gtk.TreeView(Refcounted.get(treeView, false)), new org.gtk.gtk.TreePath(Refcounted.get(path, false)));
+            HANDLER.onTreeViewMappingFunc(new org.gtk.gtk.TreeView(treeView, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE));
         }
         
         public static boolean cbTreeViewColumnDropFunc(MemoryAddress treeView, MemoryAddress column, MemoryAddress prevColumn, MemoryAddress nextColumn, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TreeViewColumnDropFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTreeViewColumnDropFunc(new org.gtk.gtk.TreeView(Refcounted.get(treeView, false)), new org.gtk.gtk.TreeViewColumn(Refcounted.get(column, false)), new org.gtk.gtk.TreeViewColumn(Refcounted.get(prevColumn, false)), new org.gtk.gtk.TreeViewColumn(Refcounted.get(nextColumn, false)));
+            var RESULT = HANDLER.onTreeViewColumnDropFunc(new org.gtk.gtk.TreeView(treeView, Ownership.NONE), new org.gtk.gtk.TreeViewColumn(column, Ownership.NONE), new org.gtk.gtk.TreeViewColumn(prevColumn, Ownership.NONE), new org.gtk.gtk.TreeViewColumn(nextColumn, Ownership.NONE));
             return RESULT;
         }
         
         public static void cbTreeSelectionForeachFunc(MemoryAddress model, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TreeSelectionForeachFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onTreeSelectionForeachFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(model, false)), new org.gtk.gtk.TreePath(Refcounted.get(path, false)), new org.gtk.gtk.TreeIter(Refcounted.get(iter, false)));
+            HANDLER.onTreeSelectionForeachFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
         }
         
         public static int cbFlowBoxSortFunc(MemoryAddress child1, MemoryAddress child2, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FlowBoxSortFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onFlowBoxSortFunc(new org.gtk.gtk.FlowBoxChild(Refcounted.get(child1, false)), new org.gtk.gtk.FlowBoxChild(Refcounted.get(child2, false)));
+            var RESULT = HANDLER.onFlowBoxSortFunc(new org.gtk.gtk.FlowBoxChild(child1, Ownership.NONE), new org.gtk.gtk.FlowBoxChild(child2, Ownership.NONE));
             return RESULT;
         }
         
         public static boolean cbFontFilterFunc(MemoryAddress family, MemoryAddress face, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FontFilterFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onFontFilterFunc(new org.pango.FontFamily(Refcounted.get(family, false)), new org.pango.FontFace(Refcounted.get(face, false)));
+            var RESULT = HANDLER.onFontFilterFunc(new org.pango.FontFamily(family, Ownership.NONE), new org.pango.FontFace(face, Ownership.NONE));
             return RESULT;
         }
         
         public static boolean cbTreeModelForeachFunc(MemoryAddress model, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TreeModelForeachFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTreeModelForeachFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(model, false)), new org.gtk.gtk.TreePath(Refcounted.get(path, false)), new org.gtk.gtk.TreeIter(Refcounted.get(iter, false)));
+            var RESULT = HANDLER.onTreeModelForeachFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
             return RESULT;
         }
         
         public static void cbTextTagTableForeach(MemoryAddress tag, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TextTagTableForeach) Interop.signalRegistry.get(HASH);
-            HANDLER.onTextTagTableForeach(new org.gtk.gtk.TextTag(Refcounted.get(tag, false)));
+            HANDLER.onTextTagTableForeach(new org.gtk.gtk.TextTag(tag, Ownership.NONE));
         }
         
         public static void cbPrintSettingsFunc(MemoryAddress key, MemoryAddress value, MemoryAddress userData) {
@@ -2812,26 +2968,26 @@ public final class Gtk {
         public static void cbTreeModelFilterModifyFunc(MemoryAddress model, MemoryAddress iter, MemoryAddress value, int column, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TreeModelFilterModifyFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onTreeModelFilterModifyFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(model, false)), new org.gtk.gtk.TreeIter(Refcounted.get(iter, false)), new org.gtk.gobject.Value(Refcounted.get(value, false)), column);
+            HANDLER.onTreeModelFilterModifyFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE), new org.gtk.gobject.Value(value, Ownership.NONE), column);
         }
         
         public static boolean cbTreeViewSearchEqualFunc(MemoryAddress model, int column, MemoryAddress key, MemoryAddress iter, MemoryAddress searchData) {
             int HASH = searchData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TreeViewSearchEqualFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTreeViewSearchEqualFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(model, false)), column, Interop.getStringFrom(key), new org.gtk.gtk.TreeIter(Refcounted.get(iter, false)));
+            var RESULT = HANDLER.onTreeViewSearchEqualFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), column, Interop.getStringFrom(key), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
             return RESULT;
         }
         
         public static void cbTreeCellDataFunc(MemoryAddress treeColumn, MemoryAddress cell, MemoryAddress treeModel, MemoryAddress iter, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TreeCellDataFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onTreeCellDataFunc(new org.gtk.gtk.TreeViewColumn(Refcounted.get(treeColumn, false)), new org.gtk.gtk.CellRenderer(Refcounted.get(cell, false)), new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(treeModel, false)), new org.gtk.gtk.TreeIter(Refcounted.get(iter, false)));
+            HANDLER.onTreeCellDataFunc(new org.gtk.gtk.TreeViewColumn(treeColumn, Ownership.NONE), new org.gtk.gtk.CellRenderer(cell, Ownership.NONE), new org.gtk.gtk.TreeModel.TreeModelImpl(treeModel, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
         }
         
         public static boolean cbTreeModelFilterVisibleFunc(MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TreeModelFilterVisibleFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTreeModelFilterVisibleFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(model, false)), new org.gtk.gtk.TreeIter(Refcounted.get(iter, false)));
+            var RESULT = HANDLER.onTreeModelFilterVisibleFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
             return RESULT;
         }
         
@@ -2845,107 +3001,107 @@ public final class Gtk {
         public static void cbPageSetupDoneFunc(MemoryAddress pageSetup, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (PageSetupDoneFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onPageSetupDoneFunc(new org.gtk.gtk.PageSetup(Refcounted.get(pageSetup, false)));
+            HANDLER.onPageSetupDoneFunc(new org.gtk.gtk.PageSetup(pageSetup, Ownership.NONE));
         }
         
         public static void cbIconViewForeachFunc(MemoryAddress iconView, MemoryAddress path, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (IconViewForeachFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onIconViewForeachFunc(new org.gtk.gtk.IconView(Refcounted.get(iconView, false)), new org.gtk.gtk.TreePath(Refcounted.get(path, false)));
+            HANDLER.onIconViewForeachFunc(new org.gtk.gtk.IconView(iconView, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE));
         }
         
         public static org.gtk.gobject.Object cbMapListModelMapFunc(MemoryAddress item, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (MapListModelMapFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onMapListModelMapFunc(new org.gtk.gobject.Object(Refcounted.get(item, true)));
+            var RESULT = HANDLER.onMapListModelMapFunc(new org.gtk.gobject.Object(item, Ownership.FULL));
             return RESULT;
         }
         
         public static boolean cbFlowBoxFilterFunc(MemoryAddress child, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FlowBoxFilterFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onFlowBoxFilterFunc(new org.gtk.gtk.FlowBoxChild(Refcounted.get(child, false)));
+            var RESULT = HANDLER.onFlowBoxFilterFunc(new org.gtk.gtk.FlowBoxChild(child, Ownership.NONE));
             return RESULT;
         }
         
         public static boolean cbCustomFilterFunc(MemoryAddress item, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (CustomFilterFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onCustomFilterFunc(new org.gtk.gobject.Object(Refcounted.get(item, false)));
+            var RESULT = HANDLER.onCustomFilterFunc(new org.gtk.gobject.Object(item, Ownership.NONE));
             return RESULT;
         }
         
         public static void cbPrintJobCompleteFunc(MemoryAddress printJob, MemoryAddress userData, MemoryAddress error) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (PrintJobCompleteFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onPrintJobCompleteFunc(new org.gtk.gtk.PrintJob(Refcounted.get(printJob, false)), new org.gtk.glib.Error(Refcounted.get(error, false)));
+            HANDLER.onPrintJobCompleteFunc(new org.gtk.gtk.PrintJob(printJob, Ownership.NONE), new org.gtk.glib.Error(error, Ownership.NONE));
         }
         
         public static org.gtk.gio.ListModel cbTreeListModelCreateModelFunc(MemoryAddress item, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TreeListModelCreateModelFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTreeListModelCreateModelFunc(new org.gtk.gobject.Object(Refcounted.get(item, false)));
+            var RESULT = HANDLER.onTreeListModelCreateModelFunc(new org.gtk.gobject.Object(item, Ownership.NONE));
             return RESULT;
         }
         
         public static boolean cbTreeSelectionFunc(MemoryAddress selection, MemoryAddress model, MemoryAddress path, int pathCurrentlySelected, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TreeSelectionFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTreeSelectionFunc(new org.gtk.gtk.TreeSelection(Refcounted.get(selection, false)), new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(model, false)), new org.gtk.gtk.TreePath(Refcounted.get(path, false)), pathCurrentlySelected != 0);
+            var RESULT = HANDLER.onTreeSelectionFunc(new org.gtk.gtk.TreeSelection(selection, Ownership.NONE), new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE), pathCurrentlySelected != 0);
             return RESULT;
         }
         
         public static void cbDrawingAreaDrawFunc(MemoryAddress drawingArea, MemoryAddress cr, int width, int height, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DrawingAreaDrawFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onDrawingAreaDrawFunc(new org.gtk.gtk.DrawingArea(Refcounted.get(drawingArea, false)), new org.cairographics.Context(Refcounted.get(cr, false)), width, height);
+            HANDLER.onDrawingAreaDrawFunc(new org.gtk.gtk.DrawingArea(drawingArea, Ownership.NONE), new org.cairographics.Context(cr, Ownership.NONE), width, height);
         }
         
         public static boolean cbShortcutFunc(MemoryAddress widget, MemoryAddress args, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ShortcutFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onShortcutFunc(new org.gtk.gtk.Widget(Refcounted.get(widget, false)), new org.gtk.glib.Variant(Refcounted.get(args, false)));
+            var RESULT = HANDLER.onShortcutFunc(new org.gtk.gtk.Widget(widget, Ownership.NONE), new org.gtk.glib.Variant(args, Ownership.NONE));
             return RESULT;
         }
         
         public static void cbListBoxUpdateHeaderFunc(MemoryAddress row, MemoryAddress before, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ListBoxUpdateHeaderFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onListBoxUpdateHeaderFunc(new org.gtk.gtk.ListBoxRow(Refcounted.get(row, false)), new org.gtk.gtk.ListBoxRow(Refcounted.get(before, false)));
+            HANDLER.onListBoxUpdateHeaderFunc(new org.gtk.gtk.ListBoxRow(row, Ownership.NONE), new org.gtk.gtk.ListBoxRow(before, Ownership.NONE));
         }
         
         public static int cbTreeIterCompareFunc(MemoryAddress model, MemoryAddress a, MemoryAddress b, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TreeIterCompareFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTreeIterCompareFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(model, false)), new org.gtk.gtk.TreeIter(Refcounted.get(a, false)), new org.gtk.gtk.TreeIter(Refcounted.get(b, false)));
+            var RESULT = HANDLER.onTreeIterCompareFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(a, Ownership.NONE), new org.gtk.gtk.TreeIter(b, Ownership.NONE));
             return RESULT;
         }
         
         public static boolean cbCellAllocCallback(MemoryAddress renderer, MemoryAddress cellArea, MemoryAddress cellBackground, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (CellAllocCallback) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onCellAllocCallback(new org.gtk.gtk.CellRenderer(Refcounted.get(renderer, false)), new org.gtk.gdk.Rectangle(Refcounted.get(cellArea, false)), new org.gtk.gdk.Rectangle(Refcounted.get(cellBackground, false)));
+            var RESULT = HANDLER.onCellAllocCallback(new org.gtk.gtk.CellRenderer(renderer, Ownership.NONE), new org.gtk.gdk.Rectangle(cellArea, Ownership.NONE), new org.gtk.gdk.Rectangle(cellBackground, Ownership.NONE));
             return RESULT;
         }
         
         public static boolean cbTickCallback(MemoryAddress widget, MemoryAddress frameClock, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TickCallback) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTickCallback(new org.gtk.gtk.Widget(Refcounted.get(widget, false)), new org.gtk.gdk.FrameClock(Refcounted.get(frameClock, false)));
+            var RESULT = HANDLER.onTickCallback(new org.gtk.gtk.Widget(widget, Ownership.NONE), new org.gtk.gdk.FrameClock(frameClock, Ownership.NONE));
             return RESULT;
         }
         
         public static boolean cbPrinterFunc(MemoryAddress printer, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (PrinterFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onPrinterFunc(new org.gtk.gtk.Printer(Refcounted.get(printer, false)));
+            var RESULT = HANDLER.onPrinterFunc(new org.gtk.gtk.Printer(printer, Ownership.NONE));
             return RESULT;
         }
         
         public static boolean cbTreeViewRowSeparatorFunc(MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TreeViewRowSeparatorFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTreeViewRowSeparatorFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(model, false)), new org.gtk.gtk.TreeIter(Refcounted.get(iter, false)));
+            var RESULT = HANDLER.onTreeViewRowSeparatorFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
             return RESULT;
         }
     }

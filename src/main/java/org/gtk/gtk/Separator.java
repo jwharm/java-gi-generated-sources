@@ -33,13 +33,19 @@ public class Separator extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Separator proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Separator(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Separator(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -51,18 +57,18 @@ public class Separator extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public static Separator castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSeparator"))) {
-            return new Separator(gobject.refcounted());
+            return new Separator(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkSeparator");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gtk.Orientation orientation) {
+    private static Addressable constructNew(@NotNull org.gtk.gtk.Orientation orientation) {
         java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_separator_new.invokeExact(
-                    orientation.getValue()), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_separator_new.invokeExact(
+                    orientation.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,14 +80,15 @@ public class Separator extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @param orientation the separator’s orientation.
      */
     public Separator(@NotNull org.gtk.gtk.Orientation orientation) {
-        super(constructNew(orientation));
+        super(constructNew(orientation), Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_separator_new = Interop.downcallHandle(
             "gtk_separator_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

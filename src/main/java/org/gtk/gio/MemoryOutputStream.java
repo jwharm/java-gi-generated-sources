@@ -29,6 +29,7 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -39,12 +40,17 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
      */
     public org.gtk.gio.OutputStream parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.OutputStream(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.OutputStream(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a MemoryOutputStream proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public MemoryOutputStream(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public MemoryOutputStream(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -56,16 +62,16 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
      */
     public static MemoryOutputStream castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GMemoryOutputStream"))) {
-            return new MemoryOutputStream(gobject.refcounted());
+            return new MemoryOutputStream(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GMemoryOutputStream");
         }
     }
     
-    private static Refcounted constructNew(long size, @Nullable org.gtk.gio.ReallocFunc reallocFunction) {
-        Refcounted RESULT;
+    private static Addressable constructNew(long size, @Nullable org.gtk.gio.ReallocFunc reallocFunction) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_memory_output_stream_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_memory_output_stream_new.invokeExact(
                     (Addressable) (reallocFunction == null ? MemoryAddress.NULL : Interop.registerCallback(reallocFunction)),
                     size,
                     (Addressable) (reallocFunction == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
@@ -73,7 +79,7 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, long.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
                         Interop.getScope())),
-                    Interop.cbDestroyNotifySymbol()), true);
+                    Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,13 +132,13 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
      *     to be called when {@code data} needs to be grown, or {@code null}
      */
     public MemoryOutputStream(long size, @Nullable org.gtk.gio.ReallocFunc reallocFunction) {
-        super(constructNew(size, reallocFunction));
+        super(constructNew(size, reallocFunction), Ownership.FULL);
     }
     
-    private static Refcounted constructNewResizable() {
-        Refcounted RESULT;
+    private static Addressable constructNewResizable() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_memory_output_stream_new_resizable.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_memory_output_stream_new_resizable.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -144,7 +150,7 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
      * for memory allocation.
      */
     public static MemoryOutputStream newResizable() {
-        return new MemoryOutputStream(constructNewResizable());
+        return new MemoryOutputStream(constructNewResizable(), Ownership.FULL);
     }
     
     /**
@@ -224,7 +230,7 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
     }
     
     /**
@@ -252,37 +258,44 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
         
         private static final MethodHandle g_memory_output_stream_new = Interop.downcallHandle(
             "g_memory_output_stream_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_memory_output_stream_new_resizable = Interop.downcallHandle(
             "g_memory_output_stream_new_resizable",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_memory_output_stream_get_data = Interop.downcallHandle(
             "g_memory_output_stream_get_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_memory_output_stream_get_data_size = Interop.downcallHandle(
             "g_memory_output_stream_get_data_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_memory_output_stream_get_size = Interop.downcallHandle(
             "g_memory_output_stream_get_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_memory_output_stream_steal_as_bytes = Interop.downcallHandle(
             "g_memory_output_stream_steal_as_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_memory_output_stream_steal_data = Interop.downcallHandle(
             "g_memory_output_stream_steal_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

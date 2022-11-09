@@ -28,6 +28,7 @@ public class FlagsValue extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -36,7 +37,7 @@ public class FlagsValue extends io.github.jwharm.javagi.ResourceBase {
     
     public static FlagsValue allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FlagsValue newInstance = new FlagsValue(Refcounted.get(segment.address()));
+        FlagsValue newInstance = new FlagsValue(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -104,8 +105,13 @@ public class FlagsValue extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(value_nick));
     }
     
+    /**
+     * Create a FlagsValue proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FlagsValue(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FlagsValue(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

@@ -49,7 +49,7 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
      */
     public static Scrollable castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkScrollable"))) {
-            return new ScrollableImpl(gobject.refcounted());
+            return new ScrollableImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkScrollable");
         }
@@ -90,7 +90,7 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Adjustment(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Adjustment(RESULT, Ownership.NONE);
     }
     
     /**
@@ -120,7 +120,7 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Adjustment(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Adjustment(RESULT, Ownership.NONE);
     }
     
     /**
@@ -208,55 +208,64 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_scrollable_get_border = Interop.downcallHandle(
             "gtk_scrollable_get_border",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_scrollable_get_hadjustment = Interop.downcallHandle(
             "gtk_scrollable_get_hadjustment",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_scrollable_get_hscroll_policy = Interop.downcallHandle(
             "gtk_scrollable_get_hscroll_policy",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_scrollable_get_vadjustment = Interop.downcallHandle(
             "gtk_scrollable_get_vadjustment",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_scrollable_get_vscroll_policy = Interop.downcallHandle(
             "gtk_scrollable_get_vscroll_policy",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_scrollable_set_hadjustment = Interop.downcallHandle(
             "gtk_scrollable_set_hadjustment",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_scrollable_set_hscroll_policy = Interop.downcallHandle(
             "gtk_scrollable_set_hscroll_policy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_scrollable_set_vadjustment = Interop.downcallHandle(
             "gtk_scrollable_set_vadjustment",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_scrollable_set_vscroll_policy = Interop.downcallHandle(
             "gtk_scrollable_set_vscroll_policy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -266,8 +275,8 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public ScrollableImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public ScrollableImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

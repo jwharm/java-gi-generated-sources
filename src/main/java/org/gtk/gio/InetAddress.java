@@ -34,6 +34,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -44,12 +45,17 @@ public class InetAddress extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a InetAddress proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public InetAddress(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public InetAddress(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -61,18 +67,18 @@ public class InetAddress extends org.gtk.gobject.Object {
      */
     public static InetAddress castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GInetAddress"))) {
-            return new InetAddress(gobject.refcounted());
+            return new InetAddress(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GInetAddress");
         }
     }
     
-    private static Refcounted constructNewAny(@NotNull org.gtk.gio.SocketFamily family) {
+    private static Addressable constructNewAny(@NotNull org.gtk.gio.SocketFamily family) {
         java.util.Objects.requireNonNull(family, "Parameter 'family' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_inet_address_new_any.invokeExact(
-                    family.getValue()), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_inet_address_new_any.invokeExact(
+                    family.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,17 +94,17 @@ public class InetAddress extends org.gtk.gobject.Object {
      *     Free the returned object with g_object_unref().
      */
     public static InetAddress newAny(@NotNull org.gtk.gio.SocketFamily family) {
-        return new InetAddress(constructNewAny(family));
+        return new InetAddress(constructNewAny(family), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromBytes(byte[] bytes, @NotNull org.gtk.gio.SocketFamily family) {
+    private static Addressable constructNewFromBytes(@NotNull byte[] bytes, @NotNull org.gtk.gio.SocketFamily family) {
         java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
         java.util.Objects.requireNonNull(family, "Parameter 'family' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_inet_address_new_from_bytes.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_inet_address_new_from_bytes.invokeExact(
                     Interop.allocateNativeArray(bytes, false),
-                    family.getValue()), true);
+                    family.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,16 +120,16 @@ public class InetAddress extends org.gtk.gobject.Object {
      * @return a new {@link InetAddress} corresponding to {@code family} and {@code bytes}.
      *     Free the returned object with g_object_unref().
      */
-    public static InetAddress newFromBytes(byte[] bytes, @NotNull org.gtk.gio.SocketFamily family) {
-        return new InetAddress(constructNewFromBytes(bytes, family));
+    public static InetAddress newFromBytes(@NotNull byte[] bytes, @NotNull org.gtk.gio.SocketFamily family) {
+        return new InetAddress(constructNewFromBytes(bytes, family), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromString(@NotNull java.lang.String string) {
+    private static Addressable constructNewFromString(@NotNull java.lang.String string) {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_inet_address_new_from_string.invokeExact(
-                    Interop.allocateNativeString(string)), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_inet_address_new_from_string.invokeExact(
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,15 +144,15 @@ public class InetAddress extends org.gtk.gobject.Object {
      *     Free the returned object with g_object_unref().
      */
     public static InetAddress newFromString(@NotNull java.lang.String string) {
-        return new InetAddress(constructNewFromString(string));
+        return new InetAddress(constructNewFromString(string), Ownership.FULL);
     }
     
-    private static Refcounted constructNewLoopback(@NotNull org.gtk.gio.SocketFamily family) {
+    private static Addressable constructNewLoopback(@NotNull org.gtk.gio.SocketFamily family) {
         java.util.Objects.requireNonNull(family, "Parameter 'family' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_inet_address_new_loopback.invokeExact(
-                    family.getValue()), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_inet_address_new_loopback.invokeExact(
+                    family.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,7 +167,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      *     Free the returned object with g_object_unref().
      */
     public static InetAddress newLoopback(@NotNull org.gtk.gio.SocketFamily family) {
-        return new InetAddress(constructNewLoopback(family));
+        return new InetAddress(constructNewLoopback(family), Ownership.FULL);
     }
     
     /**
@@ -405,97 +411,116 @@ public class InetAddress extends org.gtk.gobject.Object {
         
         private static final MethodHandle g_inet_address_new_any = Interop.downcallHandle(
             "g_inet_address_new_any",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_inet_address_new_from_bytes = Interop.downcallHandle(
             "g_inet_address_new_from_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_inet_address_new_from_string = Interop.downcallHandle(
             "g_inet_address_new_from_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_new_loopback = Interop.downcallHandle(
             "g_inet_address_new_loopback",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_inet_address_equal = Interop.downcallHandle(
             "g_inet_address_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_get_family = Interop.downcallHandle(
             "g_inet_address_get_family",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_get_is_any = Interop.downcallHandle(
             "g_inet_address_get_is_any",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_get_is_link_local = Interop.downcallHandle(
             "g_inet_address_get_is_link_local",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_get_is_loopback = Interop.downcallHandle(
             "g_inet_address_get_is_loopback",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_get_is_mc_global = Interop.downcallHandle(
             "g_inet_address_get_is_mc_global",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_get_is_mc_link_local = Interop.downcallHandle(
             "g_inet_address_get_is_mc_link_local",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_get_is_mc_node_local = Interop.downcallHandle(
             "g_inet_address_get_is_mc_node_local",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_get_is_mc_org_local = Interop.downcallHandle(
             "g_inet_address_get_is_mc_org_local",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_get_is_mc_site_local = Interop.downcallHandle(
             "g_inet_address_get_is_mc_site_local",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_get_is_multicast = Interop.downcallHandle(
             "g_inet_address_get_is_multicast",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_get_is_site_local = Interop.downcallHandle(
             "g_inet_address_get_is_site_local",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_get_native_size = Interop.downcallHandle(
             "g_inet_address_get_native_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_to_bytes = Interop.downcallHandle(
             "g_inet_address_to_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_to_string = Interop.downcallHandle(
             "g_inet_address_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

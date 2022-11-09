@@ -26,13 +26,19 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ThemedIcon proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ThemedIcon(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ThemedIcon(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -44,18 +50,18 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
      */
     public static ThemedIcon castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GThemedIcon"))) {
-            return new ThemedIcon(gobject.refcounted());
+            return new ThemedIcon(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GThemedIcon");
         }
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String iconname) {
+    private static Addressable constructNew(@NotNull java.lang.String iconname) {
         java.util.Objects.requireNonNull(iconname, "Parameter 'iconname' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_themed_icon_new.invokeExact(
-                    Interop.allocateNativeString(iconname)), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_themed_icon_new.invokeExact(
+                    Interop.allocateNativeString(iconname));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,16 +73,16 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
      * @param iconname a string containing an icon name.
      */
     public ThemedIcon(@NotNull java.lang.String iconname) {
-        super(constructNew(iconname));
+        super(constructNew(iconname), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromNames(java.lang.String[] iconnames, int len) {
+    private static Addressable constructNewFromNames(@NotNull java.lang.String[] iconnames, int len) {
         java.util.Objects.requireNonNull(iconnames, "Parameter 'iconnames' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_themed_icon_new_from_names.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_themed_icon_new_from_names.invokeExact(
                     Interop.allocateNativeArray(iconnames, false),
-                    len), true);
+                    len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,16 +96,16 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
      *     {@code null}-terminated
      * @return a new {@link ThemedIcon}
      */
-    public static ThemedIcon newFromNames(java.lang.String[] iconnames, int len) {
-        return new ThemedIcon(constructNewFromNames(iconnames, len));
+    public static ThemedIcon newFromNames(@NotNull java.lang.String[] iconnames, int len) {
+        return new ThemedIcon(constructNewFromNames(iconnames, len), Ownership.FULL);
     }
     
-    private static Refcounted constructNewWithDefaultFallbacks(@NotNull java.lang.String iconname) {
+    private static Addressable constructNewWithDefaultFallbacks(@NotNull java.lang.String iconname) {
         java.util.Objects.requireNonNull(iconname, "Parameter 'iconname' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_themed_icon_new_with_default_fallbacks.invokeExact(
-                    Interop.allocateNativeString(iconname)), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_themed_icon_new_with_default_fallbacks.invokeExact(
+                    Interop.allocateNativeString(iconname));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,7 +132,7 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
      * @return a new {@link ThemedIcon}.
      */
     public static ThemedIcon newWithDefaultFallbacks(@NotNull java.lang.String iconname) {
-        return new ThemedIcon(constructNewWithDefaultFallbacks(iconname));
+        return new ThemedIcon(constructNewWithDefaultFallbacks(iconname), Ownership.FULL);
     }
     
     /**
@@ -184,32 +190,38 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
         
         private static final MethodHandle g_themed_icon_new = Interop.downcallHandle(
             "g_themed_icon_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_themed_icon_new_from_names = Interop.downcallHandle(
             "g_themed_icon_new_from_names",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_themed_icon_new_with_default_fallbacks = Interop.downcallHandle(
             "g_themed_icon_new_with_default_fallbacks",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_themed_icon_append_name = Interop.downcallHandle(
             "g_themed_icon_append_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_themed_icon_get_names = Interop.downcallHandle(
             "g_themed_icon_get_names",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_themed_icon_prepend_name = Interop.downcallHandle(
             "g_themed_icon_prepend_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

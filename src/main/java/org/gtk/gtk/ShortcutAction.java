@@ -47,13 +47,19 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ShortcutAction proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ShortcutAction(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ShortcutAction(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -65,18 +71,18 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      */
     public static ShortcutAction castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkShortcutAction"))) {
-            return new ShortcutAction(gobject.refcounted());
+            return new ShortcutAction(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkShortcutAction");
         }
     }
     
-    private static Refcounted constructParseString(@NotNull java.lang.String string) {
+    private static Addressable constructParseString(@NotNull java.lang.String string) {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_shortcut_action_parse_string.invokeExact(
-                    Interop.allocateNativeString(string)), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_action_parse_string.invokeExact(
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -101,7 +107,7 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      * @return a new {@code GtkShortcutAction}
      */
     public static ShortcutAction parseString(@NotNull java.lang.String string) {
-        return new ShortcutAction(constructParseString(string));
+        return new ShortcutAction(constructParseString(string), Ownership.FULL);
     }
     
     /**
@@ -175,22 +181,26 @@ public class ShortcutAction extends org.gtk.gobject.Object {
         
         private static final MethodHandle gtk_shortcut_action_parse_string = Interop.downcallHandle(
             "gtk_shortcut_action_parse_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_shortcut_action_activate = Interop.downcallHandle(
             "gtk_shortcut_action_activate",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_shortcut_action_print = Interop.downcallHandle(
             "gtk_shortcut_action_print",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_shortcut_action_to_string = Interop.downcallHandle(
             "gtk_shortcut_action_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

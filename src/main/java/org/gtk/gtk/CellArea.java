@@ -327,13 +327,19 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Create a CellArea proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CellArea(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CellArea(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -345,7 +351,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
      */
     public static CellArea castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellArea"))) {
-            return new CellArea(gobject.refcounted());
+            return new CellArea(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCellArea");
         }
@@ -460,9 +466,21 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
      * See gtk_cell_area_add() and gtk_cell_area_cell_set() for more details.
      * @param renderer a {@code GtkCellRenderer} to be placed inside {@code area}
      * @param firstPropName the name of the first cell property to set
+     * @param varargs a {@code null}-terminated list of property names and values, starting
+     *     with {@code first_prop_name}
      */
-    public void addWithProperties(@NotNull org.gtk.gtk.CellRenderer renderer, @NotNull java.lang.String firstPropName) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void addWithProperties(@NotNull org.gtk.gtk.CellRenderer renderer, @NotNull java.lang.String firstPropName, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(renderer, "Parameter 'renderer' must not be null");
+        java.util.Objects.requireNonNull(firstPropName, "Parameter 'firstPropName' must not be null");
+        try {
+            DowncallHandles.gtk_cell_area_add_with_properties.invokeExact(
+                    handle(),
+                    renderer.handle(),
+                    Interop.allocateNativeString(firstPropName),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -556,9 +574,21 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
      * Gets the values of one or more cell properties for {@code renderer} in {@code area}.
      * @param renderer a {@code GtkCellRenderer} which is inside {@code area}
      * @param firstPropName the name of the first cell property to get
+     * @param varargs return location for the first cell property, followed
+     *     optionally by more name/return location pairs, followed by {@code null}
      */
-    public void cellGet(@NotNull org.gtk.gtk.CellRenderer renderer, @NotNull java.lang.String firstPropName) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void cellGet(@NotNull org.gtk.gtk.CellRenderer renderer, @NotNull java.lang.String firstPropName, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(renderer, "Parameter 'renderer' must not be null");
+        java.util.Objects.requireNonNull(firstPropName, "Parameter 'firstPropName' must not be null");
+        try {
+            DowncallHandles.gtk_cell_area_cell_get.invokeExact(
+                    handle(),
+                    renderer.handle(),
+                    Interop.allocateNativeString(firstPropName),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -608,9 +638,21 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
      * Sets one or more cell properties for {@code cell} in {@code area}.
      * @param renderer a {@code GtkCellRenderer} which is a cell inside {@code area}
      * @param firstPropName the name of the first cell property to set
+     * @param varargs a {@code null}-terminated list of property names and values, starting
+     *           with {@code first_prop_name}
      */
-    public void cellSet(@NotNull org.gtk.gtk.CellRenderer renderer, @NotNull java.lang.String firstPropName) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void cellSet(@NotNull org.gtk.gtk.CellRenderer renderer, @NotNull java.lang.String firstPropName, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(renderer, "Parameter 'renderer' must not be null");
+        java.util.Objects.requireNonNull(firstPropName, "Parameter 'firstPropName' must not be null");
+        try {
+            DowncallHandles.gtk_cell_area_cell_set.invokeExact(
+                    handle(),
+                    renderer.handle(),
+                    Interop.allocateNativeString(firstPropName),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -681,7 +723,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.CellAreaContext(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.CellAreaContext(RESULT, Ownership.FULL);
     }
     
     /**
@@ -701,7 +743,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.CellAreaContext(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.CellAreaContext(RESULT, Ownership.FULL);
     }
     
     /**
@@ -871,7 +913,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.CellRenderer(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.CellRenderer(RESULT, Ownership.NONE);
     }
     
     /**
@@ -908,7 +950,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.CellEditable.CellEditableImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.CellEditable.CellEditableImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -924,7 +966,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.CellRenderer(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.CellRenderer(RESULT, Ownership.NONE);
     }
     
     /**
@@ -939,7 +981,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.CellRenderer(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.CellRenderer(RESULT, Ownership.NONE);
     }
     
     /**
@@ -964,7 +1006,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.CellRenderer(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.CellRenderer(RESULT, Ownership.NONE);
     }
     
     /**
@@ -983,7 +1025,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.List(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1389,6 +1431,8 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
     /**
      * Indicates that editing has started on {@code renderer} and that {@code editable}
      * should be added to the owning cell-layouting widget at {@code cell_area}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<CellArea.AddEditable> onAddEditable(CellArea.AddEditable handler) {
         try {
@@ -1415,6 +1459,8 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
     
     /**
      * This signal is emitted whenever applying attributes to {@code area} from {@code model}
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<CellArea.ApplyAttributes> onApplyAttributes(CellArea.ApplyAttributes handler) {
         try {
@@ -1448,6 +1494,8 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
      * currently focused renderer did not change, this is
      * because focus may change to the same renderer in the
      * same cell area for a different row of data.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<CellArea.FocusChanged> onFocusChanged(CellArea.FocusChanged handler) {
         try {
@@ -1475,6 +1523,8 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
     /**
      * Indicates that editing finished on {@code renderer} and that {@code editable}
      * should be removed from the owning cell-layouting widget.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<CellArea.RemoveEditable> onRemoveEditable(CellArea.RemoveEditable handler) {
         try {
@@ -1498,222 +1548,266 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
         
         private static final MethodHandle gtk_cell_area_activate = Interop.downcallHandle(
             "gtk_cell_area_activate",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_activate_cell = Interop.downcallHandle(
             "gtk_cell_area_activate_cell",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_add = Interop.downcallHandle(
             "gtk_cell_area_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_add_focus_sibling = Interop.downcallHandle(
             "gtk_cell_area_add_focus_sibling",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_add_with_properties = Interop.downcallHandle(
             "gtk_cell_area_add_with_properties",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle gtk_cell_area_apply_attributes = Interop.downcallHandle(
             "gtk_cell_area_apply_attributes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_attribute_connect = Interop.downcallHandle(
             "gtk_cell_area_attribute_connect",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_attribute_disconnect = Interop.downcallHandle(
             "gtk_cell_area_attribute_disconnect",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_attribute_get_column = Interop.downcallHandle(
             "gtk_cell_area_attribute_get_column",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_cell_get = Interop.downcallHandle(
             "gtk_cell_area_cell_get",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle gtk_cell_area_cell_get_property = Interop.downcallHandle(
             "gtk_cell_area_cell_get_property",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_cell_get_valist = Interop.downcallHandle(
             "gtk_cell_area_cell_get_valist",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_cell_set = Interop.downcallHandle(
             "gtk_cell_area_cell_set",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle gtk_cell_area_cell_set_property = Interop.downcallHandle(
             "gtk_cell_area_cell_set_property",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_cell_set_valist = Interop.downcallHandle(
             "gtk_cell_area_cell_set_valist",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_copy_context = Interop.downcallHandle(
             "gtk_cell_area_copy_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_create_context = Interop.downcallHandle(
             "gtk_cell_area_create_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_event = Interop.downcallHandle(
             "gtk_cell_area_event",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_focus = Interop.downcallHandle(
             "gtk_cell_area_focus",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_foreach = Interop.downcallHandle(
             "gtk_cell_area_foreach",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_foreach_alloc = Interop.downcallHandle(
             "gtk_cell_area_foreach_alloc",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_get_cell_allocation = Interop.downcallHandle(
             "gtk_cell_area_get_cell_allocation",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_get_cell_at_position = Interop.downcallHandle(
             "gtk_cell_area_get_cell_at_position",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_get_current_path_string = Interop.downcallHandle(
             "gtk_cell_area_get_current_path_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_get_edit_widget = Interop.downcallHandle(
             "gtk_cell_area_get_edit_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_get_edited_cell = Interop.downcallHandle(
             "gtk_cell_area_get_edited_cell",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_get_focus_cell = Interop.downcallHandle(
             "gtk_cell_area_get_focus_cell",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_get_focus_from_sibling = Interop.downcallHandle(
             "gtk_cell_area_get_focus_from_sibling",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_get_focus_siblings = Interop.downcallHandle(
             "gtk_cell_area_get_focus_siblings",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_get_preferred_height = Interop.downcallHandle(
             "gtk_cell_area_get_preferred_height",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_get_preferred_height_for_width = Interop.downcallHandle(
             "gtk_cell_area_get_preferred_height_for_width",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_get_preferred_width = Interop.downcallHandle(
             "gtk_cell_area_get_preferred_width",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_get_preferred_width_for_height = Interop.downcallHandle(
             "gtk_cell_area_get_preferred_width_for_height",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_get_request_mode = Interop.downcallHandle(
             "gtk_cell_area_get_request_mode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_has_renderer = Interop.downcallHandle(
             "gtk_cell_area_has_renderer",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_inner_cell_area = Interop.downcallHandle(
             "gtk_cell_area_inner_cell_area",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_is_activatable = Interop.downcallHandle(
             "gtk_cell_area_is_activatable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_is_focus_sibling = Interop.downcallHandle(
             "gtk_cell_area_is_focus_sibling",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_remove = Interop.downcallHandle(
             "gtk_cell_area_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_remove_focus_sibling = Interop.downcallHandle(
             "gtk_cell_area_remove_focus_sibling",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_request_renderer = Interop.downcallHandle(
             "gtk_cell_area_request_renderer",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_set_focus_cell = Interop.downcallHandle(
             "gtk_cell_area_set_focus_cell",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_snapshot = Interop.downcallHandle(
             "gtk_cell_area_snapshot",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_stop_editing = Interop.downcallHandle(
             "gtk_cell_area_stop_editing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -1722,25 +1816,25 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
         public static void signalCellAreaAddEditable(MemoryAddress source, MemoryAddress renderer, MemoryAddress editable, MemoryAddress cellArea, MemoryAddress path, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (CellArea.AddEditable) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellArea(Refcounted.get(source)), new org.gtk.gtk.CellRenderer(Refcounted.get(renderer, false)), new org.gtk.gtk.CellEditable.CellEditableImpl(Refcounted.get(editable, false)), new org.gtk.gdk.Rectangle(Refcounted.get(cellArea, false)), Interop.getStringFrom(path));
+            HANDLER.signalReceived(new CellArea(source, Ownership.UNKNOWN), new org.gtk.gtk.CellRenderer(renderer, Ownership.NONE), new org.gtk.gtk.CellEditable.CellEditableImpl(editable, Ownership.NONE), new org.gtk.gdk.Rectangle(cellArea, Ownership.NONE), Interop.getStringFrom(path));
         }
         
         public static void signalCellAreaApplyAttributes(MemoryAddress source, MemoryAddress model, MemoryAddress iter, int isExpander, int isExpanded, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (CellArea.ApplyAttributes) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellArea(Refcounted.get(source)), new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(model, false)), new org.gtk.gtk.TreeIter(Refcounted.get(iter, false)), isExpander != 0, isExpanded != 0);
+            HANDLER.signalReceived(new CellArea(source, Ownership.UNKNOWN), new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE), isExpander != 0, isExpanded != 0);
         }
         
         public static void signalCellAreaFocusChanged(MemoryAddress source, MemoryAddress renderer, MemoryAddress path, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (CellArea.FocusChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellArea(Refcounted.get(source)), new org.gtk.gtk.CellRenderer(Refcounted.get(renderer, false)), Interop.getStringFrom(path));
+            HANDLER.signalReceived(new CellArea(source, Ownership.UNKNOWN), new org.gtk.gtk.CellRenderer(renderer, Ownership.NONE), Interop.getStringFrom(path));
         }
         
         public static void signalCellAreaRemoveEditable(MemoryAddress source, MemoryAddress renderer, MemoryAddress editable, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (CellArea.RemoveEditable) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellArea(Refcounted.get(source)), new org.gtk.gtk.CellRenderer(Refcounted.get(renderer, false)), new org.gtk.gtk.CellEditable.CellEditableImpl(Refcounted.get(editable, false)));
+            HANDLER.signalReceived(new CellArea(source, Ownership.UNKNOWN), new org.gtk.gtk.CellRenderer(renderer, Ownership.NONE), new org.gtk.gtk.CellEditable.CellEditableImpl(editable, Ownership.NONE));
         }
     }
 }

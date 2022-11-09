@@ -48,6 +48,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -56,25 +57,31 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     public static IOChannel allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        IOChannel newInstance = new IOChannel(Refcounted.get(segment.address()));
+        IOChannel newInstance = new IOChannel(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a IOChannel proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public IOChannel(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public IOChannel(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNewFile(@NotNull java.lang.String filename, @NotNull java.lang.String mode) throws GErrorException {
+    private static Addressable constructNewFile(@NotNull java.lang.String filename, @NotNull java.lang.String mode) throws GErrorException {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
         java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_io_channel_new_file.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_io_channel_new_file.invokeExact(
                     Interop.allocateNativeString(filename),
-                    Interop.allocateNativeString(mode), (Addressable) GERROR), true);
+                    Interop.allocateNativeString(mode),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,14 +104,14 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static IOChannel newFile(@NotNull java.lang.String filename, @NotNull java.lang.String mode) throws GErrorException {
-        return new IOChannel(constructNewFile(filename, mode));
+        return new IOChannel(constructNewFile(filename, mode), Ownership.FULL);
     }
     
-    private static Refcounted constructUnixNew(int fd) {
-        Refcounted RESULT;
+    private static Addressable constructUnixNew(int fd) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_io_channel_unix_new.invokeExact(
-                    fd), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_io_channel_unix_new.invokeExact(
+                    fd);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,7 +145,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      * @return a new {@link IOChannel}.
      */
     public static IOChannel unixNew(int fd) {
-        return new IOChannel(constructUnixNew(fd));
+        return new IOChannel(constructUnixNew(fd), Ownership.FULL);
     }
     
     /**
@@ -169,7 +176,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_flush.invokeExact(
-                    handle(), (Addressable) GERROR);
+                    handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -361,7 +369,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      * @return the status of the operation.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.IOStatus readChars(Out<byte[]> buf, long count, Out<Long> bytesRead) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.glib.IOStatus readChars(@NotNull Out<byte[]> buf, long count, Out<Long> bytesRead) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
         java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -373,7 +381,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
                     handle(),
                     (Addressable) bufPOINTER.address(),
                     count,
-                    (Addressable) bytesReadPOINTER.address(), (Addressable) GERROR);
+                    (Addressable) bytesReadPOINTER.address(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -413,7 +422,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
                     handle(),
                     (Addressable) strReturnPOINTER.address(),
                     (Addressable) lengthPOINTER.address(),
-                    (Addressable) terminatorPosPOINTER.address(), (Addressable) GERROR);
+                    (Addressable) terminatorPosPOINTER.address(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -443,7 +453,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
             RESULT = (int) DowncallHandles.g_io_channel_read_line_string.invokeExact(
                     handle(),
                     buffer.handle(),
-                    (Addressable) (terminatorPos == null ? MemoryAddress.NULL : terminatorPos.handle()), (Addressable) GERROR);
+                    (Addressable) (terminatorPos == null ? MemoryAddress.NULL : terminatorPos.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -465,7 +476,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      *     This function never returns {@link IOStatus#EOF}.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.IOStatus readToEnd(Out<byte[]> strReturn, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.glib.IOStatus readToEnd(@NotNull Out<byte[]> strReturn, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(strReturn, "Parameter 'strReturn' must not be null");
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -476,7 +487,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
             RESULT = (int) DowncallHandles.g_io_channel_read_to_end.invokeExact(
                     handle(),
                     (Addressable) strReturnPOINTER.address(),
-                    (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
+                    (Addressable) lengthPOINTER.address(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -503,7 +515,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         try {
             RESULT = (int) DowncallHandles.g_io_channel_read_unichar.invokeExact(
                     handle(),
-                    (Addressable) thecharPOINTER.address(), (Addressable) GERROR);
+                    (Addressable) thecharPOINTER.address(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -526,7 +539,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.IOChannel(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.IOChannel(RESULT, Ownership.FULL);
     }
     
     /**
@@ -573,7 +586,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
             RESULT = (int) DowncallHandles.g_io_channel_seek_position.invokeExact(
                     handle(),
                     offset,
-                    type.getValue(), (Addressable) GERROR);
+                    type.getValue(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -700,7 +714,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         try {
             RESULT = (int) DowncallHandles.g_io_channel_set_encoding.invokeExact(
                     handle(),
-                    (Addressable) (encoding == null ? MemoryAddress.NULL : Interop.allocateNativeString(encoding)), (Addressable) GERROR);
+                    (Addressable) (encoding == null ? MemoryAddress.NULL : Interop.allocateNativeString(encoding)),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -723,7 +738,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         try {
             RESULT = (int) DowncallHandles.g_io_channel_set_flags.invokeExact(
                     handle(),
-                    flags.getValue(), (Addressable) GERROR);
+                    flags.getValue(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -769,7 +785,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         try {
             RESULT = (int) DowncallHandles.g_io_channel_shutdown.invokeExact(
                     handle(),
-                    flush ? 1 : 0, (Addressable) GERROR);
+                    flush ? 1 : 0,
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -852,7 +869,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      * @return the status of the operation.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.IOStatus writeChars(byte[] buf, long count, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.glib.IOStatus writeChars(@NotNull byte[] buf, long count, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
         java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -863,7 +880,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
                     handle(),
                     Interop.allocateNativeArray(buf, false),
                     count,
-                    (Addressable) bytesWrittenPOINTER.address(), (Addressable) GERROR);
+                    (Addressable) bytesWrittenPOINTER.address(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -887,7 +905,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         try {
             RESULT = (int) DowncallHandles.g_io_channel_write_unichar.invokeExact(
                     handle(),
-                    thechar, (Addressable) GERROR);
+                    thechar,
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -928,177 +947,212 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_io_channel_new_file = Interop.downcallHandle(
             "g_io_channel_new_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_unix_new = Interop.downcallHandle(
             "g_io_channel_unix_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_io_channel_close = Interop.downcallHandle(
             "g_io_channel_close",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_flush = Interop.downcallHandle(
             "g_io_channel_flush",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_get_buffer_condition = Interop.downcallHandle(
             "g_io_channel_get_buffer_condition",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_get_buffer_size = Interop.downcallHandle(
             "g_io_channel_get_buffer_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_get_buffered = Interop.downcallHandle(
             "g_io_channel_get_buffered",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_get_close_on_unref = Interop.downcallHandle(
             "g_io_channel_get_close_on_unref",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_get_encoding = Interop.downcallHandle(
             "g_io_channel_get_encoding",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_get_flags = Interop.downcallHandle(
             "g_io_channel_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_get_line_term = Interop.downcallHandle(
             "g_io_channel_get_line_term",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_init = Interop.downcallHandle(
             "g_io_channel_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_read = Interop.downcallHandle(
             "g_io_channel_read",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_read_chars = Interop.downcallHandle(
             "g_io_channel_read_chars",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_read_line = Interop.downcallHandle(
             "g_io_channel_read_line",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_read_line_string = Interop.downcallHandle(
             "g_io_channel_read_line_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_read_to_end = Interop.downcallHandle(
             "g_io_channel_read_to_end",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_read_unichar = Interop.downcallHandle(
             "g_io_channel_read_unichar",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_ref = Interop.downcallHandle(
             "g_io_channel_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_seek = Interop.downcallHandle(
             "g_io_channel_seek",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_io_channel_seek_position = Interop.downcallHandle(
             "g_io_channel_seek_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_set_buffer_size = Interop.downcallHandle(
             "g_io_channel_set_buffer_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_io_channel_set_buffered = Interop.downcallHandle(
             "g_io_channel_set_buffered",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_io_channel_set_close_on_unref = Interop.downcallHandle(
             "g_io_channel_set_close_on_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_io_channel_set_encoding = Interop.downcallHandle(
             "g_io_channel_set_encoding",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_set_flags = Interop.downcallHandle(
             "g_io_channel_set_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_set_line_term = Interop.downcallHandle(
             "g_io_channel_set_line_term",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_io_channel_shutdown = Interop.downcallHandle(
             "g_io_channel_shutdown",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_unix_get_fd = Interop.downcallHandle(
             "g_io_channel_unix_get_fd",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_unref = Interop.downcallHandle(
             "g_io_channel_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_write = Interop.downcallHandle(
             "g_io_channel_write",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_write_chars = Interop.downcallHandle(
             "g_io_channel_write_chars",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_write_unichar = Interop.downcallHandle(
             "g_io_channel_write_unichar",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_channel_error_from_errno = Interop.downcallHandle(
             "g_io_channel_error_from_errno",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_io_channel_error_quark = Interop.downcallHandle(
             "g_io_channel_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
     }
 }

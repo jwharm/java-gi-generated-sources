@@ -64,13 +64,19 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a FileFilter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FileFilter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FileFilter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -82,16 +88,16 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      */
     public static FileFilter castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFileFilter"))) {
-            return new FileFilter(gobject.refcounted());
+            return new FileFilter(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkFileFilter");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_file_filter_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_file_filter_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,15 +121,15 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      * }</pre>
      */
     public FileFilter() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromGvariant(@NotNull org.gtk.glib.Variant variant) {
+    private static Addressable constructNewFromGvariant(@NotNull org.gtk.glib.Variant variant) {
         java.util.Objects.requireNonNull(variant, "Parameter 'variant' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_file_filter_new_from_gvariant.invokeExact(
-                    variant.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_file_filter_new_from_gvariant.invokeExact(
+                    variant.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,7 +145,7 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      * @return a new {@code GtkFileFilter} object
      */
     public static FileFilter newFromGvariant(@NotNull org.gtk.glib.Variant variant) {
-        return new FileFilter(constructNewFromGvariant(variant));
+        return new FileFilter(constructNewFromGvariant(variant), Ownership.FULL);
     }
     
     /**
@@ -280,59 +286,69 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Variant(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_file_filter_new = Interop.downcallHandle(
             "gtk_file_filter_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_file_filter_new_from_gvariant = Interop.downcallHandle(
             "gtk_file_filter_new_from_gvariant",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_file_filter_add_mime_type = Interop.downcallHandle(
             "gtk_file_filter_add_mime_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_file_filter_add_pattern = Interop.downcallHandle(
             "gtk_file_filter_add_pattern",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_file_filter_add_pixbuf_formats = Interop.downcallHandle(
             "gtk_file_filter_add_pixbuf_formats",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_file_filter_add_suffix = Interop.downcallHandle(
             "gtk_file_filter_add_suffix",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_file_filter_get_attributes = Interop.downcallHandle(
             "gtk_file_filter_get_attributes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_file_filter_get_name = Interop.downcallHandle(
             "gtk_file_filter_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_file_filter_set_name = Interop.downcallHandle(
             "gtk_file_filter_set_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_file_filter_to_gvariant = Interop.downcallHandle(
             "gtk_file_filter_to_gvariant",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -31,7 +31,7 @@ public interface Actionable extends io.github.jwharm.javagi.Proxy {
      */
     public static Actionable castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkActionable"))) {
-            return new ActionableImpl(gobject.refcounted());
+            return new ActionableImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkActionable");
         }
@@ -64,7 +64,7 @@ public interface Actionable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Variant(RESULT, Ownership.NONE);
     }
     
     /**
@@ -104,9 +104,18 @@ public interface Actionable extends io.github.jwharm.javagi.Proxy {
      * the action name at the same time, you can use
      * {@link Actionable#setDetailedActionName}.
      * @param formatString a {@code GLib.Variant} format string
+     * @param varargs arguments appropriate for {@code format_string}
      */
-    default void setActionTarget(@NotNull java.lang.String formatString) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    default void setActionTarget(@NotNull java.lang.String formatString, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(formatString, "Parameter 'formatString' must not be null");
+        try {
+            DowncallHandles.gtk_actionable_set_action_target.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(formatString),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -165,37 +174,43 @@ public interface Actionable extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_actionable_get_action_name = Interop.downcallHandle(
             "gtk_actionable_get_action_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_actionable_get_action_target_value = Interop.downcallHandle(
             "gtk_actionable_get_action_target_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_actionable_set_action_name = Interop.downcallHandle(
             "gtk_actionable_set_action_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_actionable_set_action_target = Interop.downcallHandle(
             "gtk_actionable_set_action_target",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_actionable_set_action_target_value = Interop.downcallHandle(
             "gtk_actionable_set_action_target_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_actionable_set_detailed_action_name = Interop.downcallHandle(
             "gtk_actionable_set_detailed_action_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -205,8 +220,8 @@ public interface Actionable extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public ActionableImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public ActionableImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

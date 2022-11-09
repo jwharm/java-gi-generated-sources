@@ -55,13 +55,19 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Image proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Image(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Image(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -73,16 +79,16 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public static Image castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkImage"))) {
-            return new Image(gobject.refcounted());
+            return new Image(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkImage");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_image_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_image_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,15 +99,15 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Creates a new empty {@code GtkImage} widget.
      */
     public Image() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
-    private static Refcounted constructNewFromFile(@NotNull java.lang.String filename) {
+    private static Addressable constructNewFromFile(@NotNull java.lang.String filename) {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_image_new_from_file.invokeExact(
-                    Interop.allocateNativeString(filename)), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_image_new_from_file.invokeExact(
+                    Interop.allocateNativeString(filename));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,15 +132,15 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @return a new {@code GtkImage}
      */
     public static Image newFromFile(@NotNull java.lang.String filename) {
-        return new Image(constructNewFromFile(filename));
+        return new Image(constructNewFromFile(filename), Ownership.NONE);
     }
     
-    private static Refcounted constructNewFromGicon(@NotNull org.gtk.gio.Icon icon) {
+    private static Addressable constructNewFromGicon(@NotNull org.gtk.gio.Icon icon) {
         java.util.Objects.requireNonNull(icon, "Parameter 'icon' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_image_new_from_gicon.invokeExact(
-                    icon.handle()), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_image_new_from_gicon.invokeExact(
+                    icon.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,14 +157,14 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @return a new {@code GtkImage} displaying the themed icon
      */
     public static Image newFromGicon(@NotNull org.gtk.gio.Icon icon) {
-        return new Image(constructNewFromGicon(icon));
+        return new Image(constructNewFromGicon(icon), Ownership.NONE);
     }
     
-    private static Refcounted constructNewFromIconName(@Nullable java.lang.String iconName) {
-        Refcounted RESULT;
+    private static Addressable constructNewFromIconName(@Nullable java.lang.String iconName) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_image_new_from_icon_name.invokeExact(
-                    (Addressable) (iconName == null ? MemoryAddress.NULL : Interop.allocateNativeString(iconName))), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_image_new_from_icon_name.invokeExact(
+                    (Addressable) (iconName == null ? MemoryAddress.NULL : Interop.allocateNativeString(iconName)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,14 +181,14 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @return a new {@code GtkImage} displaying the themed icon
      */
     public static Image newFromIconName(@Nullable java.lang.String iconName) {
-        return new Image(constructNewFromIconName(iconName));
+        return new Image(constructNewFromIconName(iconName), Ownership.NONE);
     }
     
-    private static Refcounted constructNewFromPaintable(@Nullable org.gtk.gdk.Paintable paintable) {
-        Refcounted RESULT;
+    private static Addressable constructNewFromPaintable(@Nullable org.gtk.gdk.Paintable paintable) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_image_new_from_paintable.invokeExact(
-                    (Addressable) (paintable == null ? MemoryAddress.NULL : paintable.handle())), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_image_new_from_paintable.invokeExact(
+                    (Addressable) (paintable == null ? MemoryAddress.NULL : paintable.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,14 +208,14 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @return a new {@code GtkImage}
      */
     public static Image newFromPaintable(@Nullable org.gtk.gdk.Paintable paintable) {
-        return new Image(constructNewFromPaintable(paintable));
+        return new Image(constructNewFromPaintable(paintable), Ownership.NONE);
     }
     
-    private static Refcounted constructNewFromPixbuf(@Nullable org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        Refcounted RESULT;
+    private static Addressable constructNewFromPixbuf(@Nullable org.gtk.gdkpixbuf.Pixbuf pixbuf) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_image_new_from_pixbuf.invokeExact(
-                    (Addressable) (pixbuf == null ? MemoryAddress.NULL : pixbuf.handle())), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_image_new_from_pixbuf.invokeExact(
+                    (Addressable) (pixbuf == null ? MemoryAddress.NULL : pixbuf.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -233,15 +239,15 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @return a new {@code GtkImage}
      */
     public static Image newFromPixbuf(@Nullable org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        return new Image(constructNewFromPixbuf(pixbuf));
+        return new Image(constructNewFromPixbuf(pixbuf), Ownership.NONE);
     }
     
-    private static Refcounted constructNewFromResource(@NotNull java.lang.String resourcePath) {
+    private static Addressable constructNewFromResource(@NotNull java.lang.String resourcePath) {
         java.util.Objects.requireNonNull(resourcePath, "Parameter 'resourcePath' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_image_new_from_resource.invokeExact(
-                    Interop.allocateNativeString(resourcePath)), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_image_new_from_resource.invokeExact(
+                    Interop.allocateNativeString(resourcePath));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -266,7 +272,7 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @return a new {@code GtkImage}
      */
     public static Image newFromResource(@NotNull java.lang.String resourcePath) {
-        return new Image(constructNewFromResource(resourcePath));
+        return new Image(constructNewFromResource(resourcePath), Ownership.NONE);
     }
     
     /**
@@ -298,7 +304,7 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -353,7 +359,7 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Paintable.PaintableImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -527,112 +533,134 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         
         private static final MethodHandle gtk_image_new = Interop.downcallHandle(
             "gtk_image_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_image_new_from_file = Interop.downcallHandle(
             "gtk_image_new_from_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_image_new_from_gicon = Interop.downcallHandle(
             "gtk_image_new_from_gicon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_image_new_from_icon_name = Interop.downcallHandle(
             "gtk_image_new_from_icon_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_image_new_from_paintable = Interop.downcallHandle(
             "gtk_image_new_from_paintable",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_image_new_from_pixbuf = Interop.downcallHandle(
             "gtk_image_new_from_pixbuf",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_image_new_from_resource = Interop.downcallHandle(
             "gtk_image_new_from_resource",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_image_clear = Interop.downcallHandle(
             "gtk_image_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_image_get_gicon = Interop.downcallHandle(
             "gtk_image_get_gicon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_image_get_icon_name = Interop.downcallHandle(
             "gtk_image_get_icon_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_image_get_icon_size = Interop.downcallHandle(
             "gtk_image_get_icon_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_image_get_paintable = Interop.downcallHandle(
             "gtk_image_get_paintable",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_image_get_pixel_size = Interop.downcallHandle(
             "gtk_image_get_pixel_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_image_get_storage_type = Interop.downcallHandle(
             "gtk_image_get_storage_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_image_set_from_file = Interop.downcallHandle(
             "gtk_image_set_from_file",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_image_set_from_gicon = Interop.downcallHandle(
             "gtk_image_set_from_gicon",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_image_set_from_icon_name = Interop.downcallHandle(
             "gtk_image_set_from_icon_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_image_set_from_paintable = Interop.downcallHandle(
             "gtk_image_set_from_paintable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_image_set_from_pixbuf = Interop.downcallHandle(
             "gtk_image_set_from_pixbuf",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_image_set_from_resource = Interop.downcallHandle(
             "gtk_image_set_from_resource",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_image_set_icon_size = Interop.downcallHandle(
             "gtk_image_set_icon_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_image_set_pixel_size = Interop.downcallHandle(
             "gtk_image_set_pixel_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

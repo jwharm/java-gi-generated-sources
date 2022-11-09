@@ -33,6 +33,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -41,7 +42,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
     
     public static Attribute allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Attribute newInstance = new Attribute(Refcounted.get(segment.address()));
+        Attribute newInstance = new Attribute(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -54,7 +55,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("klass"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.pango.AttrClass(Refcounted.get(RESULT, false));
+        return new org.pango.AttrClass(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -109,9 +110,14 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), end_index);
     }
     
+    /**
+     * Create a Attribute proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Attribute(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Attribute(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -129,7 +135,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrColor(Refcounted.get(RESULT, false));
+        return new org.pango.AttrColor(RESULT, Ownership.NONE);
     }
     
     /**
@@ -147,7 +153,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrFloat(Refcounted.get(RESULT, false));
+        return new org.pango.AttrFloat(RESULT, Ownership.NONE);
     }
     
     /**
@@ -165,7 +171,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrFontDesc(Refcounted.get(RESULT, false));
+        return new org.pango.AttrFontDesc(RESULT, Ownership.NONE);
     }
     
     /**
@@ -183,7 +189,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrFontFeatures(Refcounted.get(RESULT, false));
+        return new org.pango.AttrFontFeatures(RESULT, Ownership.NONE);
     }
     
     /**
@@ -201,7 +207,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrInt(Refcounted.get(RESULT, false));
+        return new org.pango.AttrInt(RESULT, Ownership.NONE);
     }
     
     /**
@@ -219,7 +225,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrLanguage(Refcounted.get(RESULT, false));
+        return new org.pango.AttrLanguage(RESULT, Ownership.NONE);
     }
     
     /**
@@ -237,7 +243,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrShape(Refcounted.get(RESULT, false));
+        return new org.pango.AttrShape(RESULT, Ownership.NONE);
     }
     
     /**
@@ -255,7 +261,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrSize(Refcounted.get(RESULT, false));
+        return new org.pango.AttrSize(RESULT, Ownership.NONE);
     }
     
     /**
@@ -273,7 +279,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrString(Refcounted.get(RESULT, false));
+        return new org.pango.AttrString(RESULT, Ownership.NONE);
     }
     
     /**
@@ -290,7 +296,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -349,67 +355,80 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle pango_attribute_as_color = Interop.downcallHandle(
             "pango_attribute_as_color",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attribute_as_float = Interop.downcallHandle(
             "pango_attribute_as_float",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attribute_as_font_desc = Interop.downcallHandle(
             "pango_attribute_as_font_desc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attribute_as_font_features = Interop.downcallHandle(
             "pango_attribute_as_font_features",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attribute_as_int = Interop.downcallHandle(
             "pango_attribute_as_int",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attribute_as_language = Interop.downcallHandle(
             "pango_attribute_as_language",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attribute_as_shape = Interop.downcallHandle(
             "pango_attribute_as_shape",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attribute_as_size = Interop.downcallHandle(
             "pango_attribute_as_size",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attribute_as_string = Interop.downcallHandle(
             "pango_attribute_as_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attribute_copy = Interop.downcallHandle(
             "pango_attribute_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attribute_destroy = Interop.downcallHandle(
             "pango_attribute_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attribute_equal = Interop.downcallHandle(
             "pango_attribute_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attribute_init = Interop.downcallHandle(
             "pango_attribute_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

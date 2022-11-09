@@ -50,13 +50,19 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Leaflet proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Leaflet(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Leaflet(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -68,16 +74,16 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
      */
     public static Leaflet castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwLeaflet"))) {
-            return new Leaflet(gobject.refcounted());
+            return new Leaflet(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwLeaflet");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_leaflet_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.adw_leaflet_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,7 +94,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
      * Creates a new {@code AdwLeaflet}.
      */
     public Leaflet() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -106,7 +112,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.LeafletPage(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.LeafletPage(RESULT, Ownership.NONE);
     }
     
     /**
@@ -131,7 +137,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -198,7 +204,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -213,7 +219,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.SpringParams(Refcounted.get(RESULT, true));
+        return new org.gnome.adw.SpringParams(RESULT, Ownership.FULL);
     }
     
     /**
@@ -309,7 +315,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.LeafletPage(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.LeafletPage(RESULT, Ownership.NONE);
     }
     
     /**
@@ -328,7 +334,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -358,7 +364,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -395,7 +401,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.LeafletPage(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.LeafletPage(RESULT, Ownership.NONE);
     }
     
     /**
@@ -437,7 +443,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.LeafletPage(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.LeafletPage(RESULT, Ownership.NONE);
     }
     
     /**
@@ -683,167 +689,200 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         
         private static final MethodHandle adw_leaflet_new = Interop.downcallHandle(
             "adw_leaflet_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_append = Interop.downcallHandle(
             "adw_leaflet_append",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_get_adjacent_child = Interop.downcallHandle(
             "adw_leaflet_get_adjacent_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_leaflet_get_can_navigate_back = Interop.downcallHandle(
             "adw_leaflet_get_can_navigate_back",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_get_can_navigate_forward = Interop.downcallHandle(
             "adw_leaflet_get_can_navigate_forward",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_get_can_unfold = Interop.downcallHandle(
             "adw_leaflet_get_can_unfold",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_get_child_by_name = Interop.downcallHandle(
             "adw_leaflet_get_child_by_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_get_child_transition_params = Interop.downcallHandle(
             "adw_leaflet_get_child_transition_params",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_get_child_transition_running = Interop.downcallHandle(
             "adw_leaflet_get_child_transition_running",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_get_fold_threshold_policy = Interop.downcallHandle(
             "adw_leaflet_get_fold_threshold_policy",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_get_folded = Interop.downcallHandle(
             "adw_leaflet_get_folded",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_get_homogeneous = Interop.downcallHandle(
             "adw_leaflet_get_homogeneous",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_get_mode_transition_duration = Interop.downcallHandle(
             "adw_leaflet_get_mode_transition_duration",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_get_page = Interop.downcallHandle(
             "adw_leaflet_get_page",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_get_pages = Interop.downcallHandle(
             "adw_leaflet_get_pages",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_get_transition_type = Interop.downcallHandle(
             "adw_leaflet_get_transition_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_get_visible_child = Interop.downcallHandle(
             "adw_leaflet_get_visible_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_get_visible_child_name = Interop.downcallHandle(
             "adw_leaflet_get_visible_child_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_insert_child_after = Interop.downcallHandle(
             "adw_leaflet_insert_child_after",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_navigate = Interop.downcallHandle(
             "adw_leaflet_navigate",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_leaflet_prepend = Interop.downcallHandle(
             "adw_leaflet_prepend",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_remove = Interop.downcallHandle(
             "adw_leaflet_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_reorder_child_after = Interop.downcallHandle(
             "adw_leaflet_reorder_child_after",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_set_can_navigate_back = Interop.downcallHandle(
             "adw_leaflet_set_can_navigate_back",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_leaflet_set_can_navigate_forward = Interop.downcallHandle(
             "adw_leaflet_set_can_navigate_forward",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_leaflet_set_can_unfold = Interop.downcallHandle(
             "adw_leaflet_set_can_unfold",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_leaflet_set_child_transition_params = Interop.downcallHandle(
             "adw_leaflet_set_child_transition_params",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_set_fold_threshold_policy = Interop.downcallHandle(
             "adw_leaflet_set_fold_threshold_policy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_leaflet_set_homogeneous = Interop.downcallHandle(
             "adw_leaflet_set_homogeneous",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_leaflet_set_mode_transition_duration = Interop.downcallHandle(
             "adw_leaflet_set_mode_transition_duration",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_leaflet_set_transition_type = Interop.downcallHandle(
             "adw_leaflet_set_transition_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_leaflet_set_visible_child = Interop.downcallHandle(
             "adw_leaflet_set_visible_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_leaflet_set_visible_child_name = Interop.downcallHandle(
             "adw_leaflet_set_visible_child_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

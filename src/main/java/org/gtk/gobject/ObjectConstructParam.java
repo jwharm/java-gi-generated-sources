@@ -26,6 +26,7 @@ public class ObjectConstructParam extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -34,7 +35,7 @@ public class ObjectConstructParam extends io.github.jwharm.javagi.ResourceBase {
     
     public static ObjectConstructParam allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ObjectConstructParam newInstance = new ObjectConstructParam(Refcounted.get(segment.address()));
+        ObjectConstructParam newInstance = new ObjectConstructParam(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,7 +48,7 @@ public class ObjectConstructParam extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pspec"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gobject.ParamSpec(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.ParamSpec(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -68,7 +69,7 @@ public class ObjectConstructParam extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gobject.Value(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.Value(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -81,8 +82,13 @@ public class ObjectConstructParam extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value.handle());
     }
     
+    /**
+     * Create a ObjectConstructParam proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ObjectConstructParam(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ObjectConstructParam(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

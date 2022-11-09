@@ -21,6 +21,7 @@ public class ConstraintLayoutChildClass extends io.github.jwharm.javagi.Resource
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -29,7 +30,7 @@ public class ConstraintLayoutChildClass extends io.github.jwharm.javagi.Resource
     
     public static ConstraintLayoutChildClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ConstraintLayoutChildClass newInstance = new ConstraintLayoutChildClass(Refcounted.get(segment.address()));
+        ConstraintLayoutChildClass newInstance = new ConstraintLayoutChildClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -40,11 +41,16 @@ public class ConstraintLayoutChildClass extends io.github.jwharm.javagi.Resource
      */
     public org.gtk.gtk.LayoutChildClass parent_class$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gtk.LayoutChildClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.LayoutChildClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a ConstraintLayoutChildClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ConstraintLayoutChildClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ConstraintLayoutChildClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

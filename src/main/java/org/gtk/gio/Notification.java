@@ -64,13 +64,19 @@ public class Notification extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Notification proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Notification(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Notification(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -82,18 +88,18 @@ public class Notification extends org.gtk.gobject.Object {
      */
     public static Notification castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GNotification"))) {
-            return new Notification(gobject.refcounted());
+            return new Notification(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GNotification");
         }
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String title) {
+    private static Addressable constructNew(@NotNull java.lang.String title) {
         java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_notification_new.invokeExact(
-                    Interop.allocateNativeString(title)), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_notification_new.invokeExact(
+                    Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,7 +116,7 @@ public class Notification extends org.gtk.gobject.Object {
      * @param title the title of the notification
      */
     public Notification(@NotNull java.lang.String title) {
-        super(constructNew(title));
+        super(constructNew(title), Ownership.FULL);
     }
     
     /**
@@ -149,9 +155,21 @@ public class Notification extends org.gtk.gobject.Object {
      * @param label label of the button
      * @param action an action name
      * @param targetFormat a {@link org.gtk.glib.Variant} format string, or {@code null}
+     * @param varargs positional parameters, as determined by {@code target_format}
      */
-    public void addButtonWithTarget(@NotNull java.lang.String label, @NotNull java.lang.String action, @Nullable java.lang.String targetFormat) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void addButtonWithTarget(@NotNull java.lang.String label, @NotNull java.lang.String action, @Nullable java.lang.String targetFormat, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
+        java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
+        try {
+            DowncallHandles.g_notification_add_button_with_target.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(label),
+                    Interop.allocateNativeString(action),
+                    (Addressable) (targetFormat == null ? MemoryAddress.NULL : Interop.allocateNativeString(targetFormat)),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -250,9 +268,19 @@ public class Notification extends org.gtk.gobject.Object {
      * was sent on is activated.
      * @param action an action name
      * @param targetFormat a {@link org.gtk.glib.Variant} format string, or {@code null}
+     * @param varargs positional parameters, as determined by {@code target_format}
      */
-    public void setDefaultActionAndTarget(@NotNull java.lang.String action, @Nullable java.lang.String targetFormat) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void setDefaultActionAndTarget(@NotNull java.lang.String action, @Nullable java.lang.String targetFormat, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
+        try {
+            DowncallHandles.g_notification_set_default_action_and_target.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(action),
+                    (Addressable) (targetFormat == null ? MemoryAddress.NULL : Interop.allocateNativeString(targetFormat)),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -347,67 +375,80 @@ public class Notification extends org.gtk.gobject.Object {
         
         private static final MethodHandle g_notification_new = Interop.downcallHandle(
             "g_notification_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_notification_add_button = Interop.downcallHandle(
             "g_notification_add_button",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_notification_add_button_with_target = Interop.downcallHandle(
             "g_notification_add_button_with_target",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_notification_add_button_with_target_value = Interop.downcallHandle(
             "g_notification_add_button_with_target_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_notification_set_body = Interop.downcallHandle(
             "g_notification_set_body",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_notification_set_category = Interop.downcallHandle(
             "g_notification_set_category",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_notification_set_default_action = Interop.downcallHandle(
             "g_notification_set_default_action",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_notification_set_default_action_and_target = Interop.downcallHandle(
             "g_notification_set_default_action_and_target",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_notification_set_default_action_and_target_value = Interop.downcallHandle(
             "g_notification_set_default_action_and_target_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_notification_set_icon = Interop.downcallHandle(
             "g_notification_set_icon",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_notification_set_priority = Interop.downcallHandle(
             "g_notification_set_priority",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_notification_set_title = Interop.downcallHandle(
             "g_notification_set_title",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_notification_set_urgent = Interop.downcallHandle(
             "g_notification_set_urgent",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

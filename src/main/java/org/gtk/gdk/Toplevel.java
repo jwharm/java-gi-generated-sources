@@ -23,7 +23,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      */
     public static Toplevel castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkToplevel"))) {
-            return new ToplevelImpl(gobject.refcounted());
+            return new ToplevelImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkToplevel");
         }
@@ -435,6 +435,8 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * and compute the desired size of the toplevel, given the information
      * passed via the {@code Gdk.ToplevelSize} object. Failing to do so
      * will result in an arbitrary size being used as a result.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<Toplevel.ComputeSize> onComputeSize(Toplevel.ComputeSize handler) {
         try {
@@ -460,115 +462,134 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gdk_toplevel_begin_move = Interop.downcallHandle(
             "gdk_toplevel_begin_move",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_toplevel_begin_resize = Interop.downcallHandle(
             "gdk_toplevel_begin_resize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_toplevel_focus = Interop.downcallHandle(
             "gdk_toplevel_focus",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_toplevel_get_state = Interop.downcallHandle(
             "gdk_toplevel_get_state",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_toplevel_inhibit_system_shortcuts = Interop.downcallHandle(
             "gdk_toplevel_inhibit_system_shortcuts",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_toplevel_lower = Interop.downcallHandle(
             "gdk_toplevel_lower",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_toplevel_minimize = Interop.downcallHandle(
             "gdk_toplevel_minimize",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_toplevel_present = Interop.downcallHandle(
             "gdk_toplevel_present",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_toplevel_restore_system_shortcuts = Interop.downcallHandle(
             "gdk_toplevel_restore_system_shortcuts",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_toplevel_set_decorated = Interop.downcallHandle(
             "gdk_toplevel_set_decorated",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_toplevel_set_deletable = Interop.downcallHandle(
             "gdk_toplevel_set_deletable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_toplevel_set_icon_list = Interop.downcallHandle(
             "gdk_toplevel_set_icon_list",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_toplevel_set_modal = Interop.downcallHandle(
             "gdk_toplevel_set_modal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_toplevel_set_startup_id = Interop.downcallHandle(
             "gdk_toplevel_set_startup_id",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_toplevel_set_title = Interop.downcallHandle(
             "gdk_toplevel_set_title",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_toplevel_set_transient_for = Interop.downcallHandle(
             "gdk_toplevel_set_transient_for",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_toplevel_show_window_menu = Interop.downcallHandle(
             "gdk_toplevel_show_window_menu",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_toplevel_supports_edge_constraints = Interop.downcallHandle(
             "gdk_toplevel_supports_edge_constraints",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_toplevel_titlebar_gesture = Interop.downcallHandle(
             "gdk_toplevel_titlebar_gesture",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -578,7 +599,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         public static void signalToplevelComputeSize(MemoryAddress source, MemoryAddress size, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Toplevel.ComputeSize) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Toplevel.ToplevelImpl(Refcounted.get(source)), new org.gtk.gdk.ToplevelSize(Refcounted.get(size, false)));
+            HANDLER.signalReceived(new Toplevel.ToplevelImpl(source, Ownership.UNKNOWN), new org.gtk.gdk.ToplevelSize(size, Ownership.NONE));
         }
     }
     
@@ -588,8 +609,8 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
             Gdk.javagi$ensureInitialized();
         }
         
-        public ToplevelImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public ToplevelImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

@@ -46,6 +46,7 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -54,14 +55,19 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
     
     public static FontMetrics allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FontMetrics newInstance = new FontMetrics(Refcounted.get(segment.address()));
+        FontMetrics newInstance = new FontMetrics(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a FontMetrics proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FontMetrics(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FontMetrics(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -243,7 +249,7 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontMetrics(Refcounted.get(RESULT, true));
+        return new org.pango.FontMetrics(RESULT, Ownership.FULL);
     }
     
     /**
@@ -264,57 +270,68 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle pango_font_metrics_get_approximate_char_width = Interop.downcallHandle(
             "pango_font_metrics_get_approximate_char_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_font_metrics_get_approximate_digit_width = Interop.downcallHandle(
             "pango_font_metrics_get_approximate_digit_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_font_metrics_get_ascent = Interop.downcallHandle(
             "pango_font_metrics_get_ascent",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_font_metrics_get_descent = Interop.downcallHandle(
             "pango_font_metrics_get_descent",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_font_metrics_get_height = Interop.downcallHandle(
             "pango_font_metrics_get_height",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_font_metrics_get_strikethrough_position = Interop.downcallHandle(
             "pango_font_metrics_get_strikethrough_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_font_metrics_get_strikethrough_thickness = Interop.downcallHandle(
             "pango_font_metrics_get_strikethrough_thickness",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_font_metrics_get_underline_position = Interop.downcallHandle(
             "pango_font_metrics_get_underline_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_font_metrics_get_underline_thickness = Interop.downcallHandle(
             "pango_font_metrics_get_underline_thickness",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_font_metrics_ref = Interop.downcallHandle(
             "pango_font_metrics_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_font_metrics_unref = Interop.downcallHandle(
             "pango_font_metrics_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

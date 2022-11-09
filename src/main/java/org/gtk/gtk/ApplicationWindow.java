@@ -92,6 +92,7 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -102,12 +103,17 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
      */
     public org.gtk.gtk.Window parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gtk.Window(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.Window(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a ApplicationWindow proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ApplicationWindow(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ApplicationWindow(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -119,18 +125,18 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
      */
     public static ApplicationWindow castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkApplicationWindow"))) {
-            return new ApplicationWindow(gobject.refcounted());
+            return new ApplicationWindow(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkApplicationWindow");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gtk.Application application) {
+    private static Addressable constructNew(@NotNull org.gtk.gtk.Application application) {
         java.util.Objects.requireNonNull(application, "Parameter 'application' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_application_window_new.invokeExact(
-                    application.handle()), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_application_window_new.invokeExact(
+                    application.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,7 +148,7 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
      * @param application a {@code GtkApplication}
      */
     public ApplicationWindow(@NotNull org.gtk.gtk.Application application) {
-        super(constructNew(application));
+        super(constructNew(application), Ownership.NONE);
     }
     
     /**
@@ -160,7 +166,7 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.ShortcutsWindow(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.ShortcutsWindow(RESULT, Ownership.NONE);
     }
     
     /**
@@ -235,32 +241,38 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
         
         private static final MethodHandle gtk_application_window_new = Interop.downcallHandle(
             "gtk_application_window_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_application_window_get_help_overlay = Interop.downcallHandle(
             "gtk_application_window_get_help_overlay",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_application_window_get_id = Interop.downcallHandle(
             "gtk_application_window_get_id",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_application_window_get_show_menubar = Interop.downcallHandle(
             "gtk_application_window_get_show_menubar",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_application_window_set_help_overlay = Interop.downcallHandle(
             "gtk_application_window_set_help_overlay",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_application_window_set_show_menubar = Interop.downcallHandle(
             "gtk_application_window_set_show_menubar",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

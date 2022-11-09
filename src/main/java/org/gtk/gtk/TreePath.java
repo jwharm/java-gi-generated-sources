@@ -20,6 +20,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -28,20 +29,25 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     
     public static TreePath allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TreePath newInstance = new TreePath(Refcounted.get(segment.address()));
+        TreePath newInstance = new TreePath(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a TreePath proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TreePath(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TreePath(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_path_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -53,13 +59,13 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      * This refers to a row.
      */
     public TreePath() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFirst() {
-        Refcounted RESULT;
+    private static Addressable constructNewFirst() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_path_new_first.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_new_first.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,29 +79,38 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      * @return A new {@code GtkTreePath}
      */
     public static TreePath newFirst() {
-        return new TreePath(constructNewFirst());
+        return new TreePath(constructNewFirst(), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromIndices(int firstIndex) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    private static Addressable constructNewFromIndices(int firstIndex, java.lang.Object... varargs) {
+        Addressable RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_new_from_indices.invokeExact(
+                    firstIndex,
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
     }
     
     /**
      * Creates a new path with {@code first_index} and {@code varargs} as indices.
      * @param firstIndex first integer
+     * @param varargs list of integers terminated by -1
      * @return A newly created {@code GtkTreePath}
      */
-    public static TreePath newFromIndices(int firstIndex) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static TreePath newFromIndices(int firstIndex, java.lang.Object... varargs) {
+        return new TreePath(constructNewFromIndices(firstIndex, varargs), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromIndicesv(int[] indices, long length) {
+    private static Addressable constructNewFromIndicesv(@NotNull int[] indices, long length) {
         java.util.Objects.requireNonNull(indices, "Parameter 'indices' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_path_new_from_indicesv.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_new_from_indicesv.invokeExact(
                     Interop.allocateNativeArray(indices, false),
-                    length), true);
+                    length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,16 +123,16 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      * @param length length of {@code indices} array
      * @return A newly created {@code GtkTreePath}
      */
-    public static TreePath newFromIndicesv(int[] indices, long length) {
-        return new TreePath(constructNewFromIndicesv(indices, length));
+    public static TreePath newFromIndicesv(@NotNull int[] indices, long length) {
+        return new TreePath(constructNewFromIndicesv(indices, length), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromString(@NotNull java.lang.String path) {
+    private static Addressable constructNewFromString(@NotNull java.lang.String path) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_path_new_from_string.invokeExact(
-                    Interop.allocateNativeString(path)), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_new_from_string.invokeExact(
+                    Interop.allocateNativeString(path));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,7 +151,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      * @return A newly-created {@code GtkTreePath}
      */
     public static TreePath newFromString(@NotNull java.lang.String path) {
-        return new TreePath(constructNewFromString(path));
+        return new TreePath(constructNewFromString(path), Ownership.FULL);
     }
     
     /**
@@ -189,7 +204,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreePath(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.TreePath(RESULT, Ownership.FULL);
     }
     
     /**
@@ -398,102 +413,122 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle gtk_tree_path_new = Interop.downcallHandle(
             "gtk_tree_path_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_path_new_first = Interop.downcallHandle(
             "gtk_tree_path_new_first",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_path_new_from_indices = Interop.downcallHandle(
             "gtk_tree_path_new_from_indices",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            true
         );
         
         private static final MethodHandle gtk_tree_path_new_from_indicesv = Interop.downcallHandle(
             "gtk_tree_path_new_from_indicesv",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle gtk_tree_path_new_from_string = Interop.downcallHandle(
             "gtk_tree_path_new_from_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_path_append_index = Interop.downcallHandle(
             "gtk_tree_path_append_index",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_path_compare = Interop.downcallHandle(
             "gtk_tree_path_compare",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_path_copy = Interop.downcallHandle(
             "gtk_tree_path_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_path_down = Interop.downcallHandle(
             "gtk_tree_path_down",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_path_free = Interop.downcallHandle(
             "gtk_tree_path_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_path_get_depth = Interop.downcallHandle(
             "gtk_tree_path_get_depth",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_path_get_indices = Interop.downcallHandle(
             "gtk_tree_path_get_indices",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_path_get_indices_with_depth = Interop.downcallHandle(
             "gtk_tree_path_get_indices_with_depth",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_path_is_ancestor = Interop.downcallHandle(
             "gtk_tree_path_is_ancestor",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_path_is_descendant = Interop.downcallHandle(
             "gtk_tree_path_is_descendant",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_path_next = Interop.downcallHandle(
             "gtk_tree_path_next",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_path_prepend_index = Interop.downcallHandle(
             "gtk_tree_path_prepend_index",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_path_prev = Interop.downcallHandle(
             "gtk_tree_path_prev",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_path_to_string = Interop.downcallHandle(
             "gtk_tree_path_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_path_up = Interop.downcallHandle(
             "gtk_tree_path_up",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -65,7 +65,7 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
      */
     public static ListModel castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GListModel"))) {
-            return new ListModelImpl(gobject.refcounted());
+            return new ListModelImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GListModel");
         }
@@ -162,7 +162,7 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
+        return new org.gtk.gobject.Object(RESULT, Ownership.FULL);
     }
     
     /**
@@ -214,6 +214,8 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
      * <p>
      * Note: If {@code removed != added}, the positions of all later items
      * in the model change.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<ListModel.ItemsChanged> onItemsChanged(ListModel.ItemsChanged handler) {
         try {
@@ -239,31 +241,36 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_list_model_get_item = Interop.downcallHandle(
             "g_list_model_get_item",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_list_model_get_item_type = Interop.downcallHandle(
             "g_list_model_get_item_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_list_model_get_n_items = Interop.downcallHandle(
             "g_list_model_get_n_items",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_list_model_get_object = Interop.downcallHandle(
             "g_list_model_get_object",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_list_model_items_changed = Interop.downcallHandle(
             "g_list_model_items_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -273,7 +280,7 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
         public static void signalListModelItemsChanged(MemoryAddress source, int position, int removed, int added, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ListModel.ItemsChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListModel.ListModelImpl(Refcounted.get(source)), position, removed, added);
+            HANDLER.signalReceived(new ListModel.ListModelImpl(source, Ownership.UNKNOWN), position, removed, added);
         }
     }
     
@@ -283,8 +290,8 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public ListModelImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public ListModelImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

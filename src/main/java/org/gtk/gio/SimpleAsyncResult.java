@@ -183,13 +183,19 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a SimpleAsyncResult proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SimpleAsyncResult(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SimpleAsyncResult(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -201,14 +207,33 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
      */
     public static SimpleAsyncResult castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSimpleAsyncResult"))) {
-            return new SimpleAsyncResult(gobject.refcounted());
+            return new SimpleAsyncResult(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSimpleAsyncResult");
         }
     }
     
-    private static Refcounted constructNewError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    private static Addressable constructNewError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+        Addressable RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_simple_async_result_new_error.invokeExact(
+                    (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)),
+                    domain.getValue().intValue(),
+                    code,
+                    Interop.allocateNativeString(format),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
     }
     
     /**
@@ -218,19 +243,20 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
      * @param domain a {@link org.gtk.glib.Quark}.
      * @param code an error code.
      * @param format a string with format characters.
+     * @param varargs a list of values to insert into {@code format}.
      * @return a {@link SimpleAsyncResult}.
      * @deprecated Use g_task_new() and g_task_return_new_error() instead.
      */
     @Deprecated
-    public static SimpleAsyncResult newError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static SimpleAsyncResult newError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format, java.lang.Object... varargs) {
+        return new SimpleAsyncResult(constructNewError(sourceObject, callback, domain, code, format, varargs), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Error error) {
+    private static Addressable constructNewFromError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Error error) {
         java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_simple_async_result_new_from_error.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_simple_async_result_new_from_error.invokeExact(
                     (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
@@ -238,7 +264,7 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)),
-                    error.handle()), true);
+                    error.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -255,14 +281,14 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
      */
     @Deprecated
     public static SimpleAsyncResult newFromError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Error error) {
-        return new SimpleAsyncResult(constructNewFromError(sourceObject, callback, error));
+        return new SimpleAsyncResult(constructNewFromError(sourceObject, callback, error), Ownership.FULL);
     }
     
-    private static Refcounted constructNewTakeError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Error error) {
+    private static Addressable constructNewTakeError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Error error) {
         java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_simple_async_result_new_take_error.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_simple_async_result_new_take_error.invokeExact(
                     (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
@@ -270,7 +296,7 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)),
-                    error.handle()), true);
+                    error.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -288,7 +314,7 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
      */
     @Deprecated
     public static SimpleAsyncResult newTakeError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Error error) {
-        return new SimpleAsyncResult(constructNewTakeError(sourceObject, callback, error));
+        return new SimpleAsyncResult(constructNewTakeError(sourceObject, callback, error), Ownership.FULL);
     }
     
     /**
@@ -417,7 +443,8 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_simple_async_result_propagate_error.invokeExact(
-                    handle(), (Addressable) GERROR);
+                    handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -479,11 +506,23 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
      * @param domain a {@link org.gtk.glib.Quark} (usually {@code G_IO_ERROR}).
      * @param code an error code.
      * @param format a formatted error reporting string.
+     * @param varargs a list of variables to fill in {@code format}.
      * @deprecated Use {@link Task} and g_task_return_new_error() instead.
      */
     @Deprecated
-    public void setError(@NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void setError(@NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+        try {
+            DowncallHandles.g_simple_async_result_set_error.invokeExact(
+                    handle(),
+                    domain.getValue().intValue(),
+                    code,
+                    Interop.allocateNativeString(format),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -648,112 +687,134 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
         
         private static final MethodHandle g_simple_async_result_new = Interop.downcallHandle(
             "g_simple_async_result_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_async_result_new_error = Interop.downcallHandle(
             "g_simple_async_result_new_error",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_simple_async_result_new_from_error = Interop.downcallHandle(
             "g_simple_async_result_new_from_error",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_async_result_new_take_error = Interop.downcallHandle(
             "g_simple_async_result_new_take_error",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_async_result_complete = Interop.downcallHandle(
             "g_simple_async_result_complete",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_async_result_complete_in_idle = Interop.downcallHandle(
             "g_simple_async_result_complete_in_idle",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_async_result_get_op_res_gboolean = Interop.downcallHandle(
             "g_simple_async_result_get_op_res_gboolean",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_async_result_get_op_res_gpointer = Interop.downcallHandle(
             "g_simple_async_result_get_op_res_gpointer",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_async_result_get_op_res_gssize = Interop.downcallHandle(
             "g_simple_async_result_get_op_res_gssize",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_async_result_get_source_tag = Interop.downcallHandle(
             "g_simple_async_result_get_source_tag",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_async_result_propagate_error = Interop.downcallHandle(
             "g_simple_async_result_propagate_error",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_async_result_run_in_thread = Interop.downcallHandle(
             "g_simple_async_result_run_in_thread",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_async_result_set_check_cancellable = Interop.downcallHandle(
             "g_simple_async_result_set_check_cancellable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_async_result_set_error = Interop.downcallHandle(
             "g_simple_async_result_set_error",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_simple_async_result_set_error_va = Interop.downcallHandle(
             "g_simple_async_result_set_error_va",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_async_result_set_from_error = Interop.downcallHandle(
             "g_simple_async_result_set_from_error",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_async_result_set_handle_cancellation = Interop.downcallHandle(
             "g_simple_async_result_set_handle_cancellation",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_simple_async_result_set_op_res_gboolean = Interop.downcallHandle(
             "g_simple_async_result_set_op_res_gboolean",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_simple_async_result_set_op_res_gpointer = Interop.downcallHandle(
             "g_simple_async_result_set_op_res_gpointer",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_async_result_set_op_res_gssize = Interop.downcallHandle(
             "g_simple_async_result_set_op_res_gssize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_simple_async_result_take_error = Interop.downcallHandle(
             "g_simple_async_result_take_error",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_async_result_is_valid = Interop.downcallHandle(
             "g_simple_async_result_is_valid",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

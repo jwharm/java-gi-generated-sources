@@ -29,13 +29,19 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a TreeViewColumn proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TreeViewColumn(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TreeViewColumn(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -47,16 +53,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public static TreeViewColumn castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeViewColumn"))) {
-            return new TreeViewColumn(gobject.refcounted());
+            return new TreeViewColumn(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTreeViewColumn");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_view_column_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_column_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,15 +73,15 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Creates a new {@code GtkTreeViewColumn}.
      */
     public TreeViewColumn() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
-    private static Refcounted constructNewWithArea(@NotNull org.gtk.gtk.CellArea area) {
+    private static Addressable constructNewWithArea(@NotNull org.gtk.gtk.CellArea area) {
         java.util.Objects.requireNonNull(area, "Parameter 'area' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_view_column_new_with_area.invokeExact(
-                    area.handle()), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_column_new_with_area.invokeExact(
+                    area.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,11 +94,22 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * @return A newly created {@code GtkTreeViewColumn}.
      */
     public static TreeViewColumn newWithArea(@NotNull org.gtk.gtk.CellArea area) {
-        return new TreeViewColumn(constructNewWithArea(area));
+        return new TreeViewColumn(constructNewWithArea(area), Ownership.NONE);
     }
     
-    private static Refcounted constructNewWithAttributes(@NotNull java.lang.String title, @NotNull org.gtk.gtk.CellRenderer cell) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    private static Addressable constructNewWithAttributes(@NotNull java.lang.String title, @NotNull org.gtk.gtk.CellRenderer cell, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
+        java.util.Objects.requireNonNull(cell, "Parameter 'cell' must not be null");
+        Addressable RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_column_new_with_attributes.invokeExact(
+                    Interop.allocateNativeString(title),
+                    cell.handle(),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
     }
     
     /**
@@ -118,10 +135,11 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * }</pre>
      * @param title The title to set the header to
      * @param cell The {@code GtkCellRenderer}
+     * @param varargs A {@code null}-terminated list of attributes
      * @return A newly created {@code GtkTreeViewColumn}.
      */
-    public static TreeViewColumn newWithAttributes(@NotNull java.lang.String title, @NotNull org.gtk.gtk.CellRenderer cell) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static TreeViewColumn newWithAttributes(@NotNull java.lang.String title, @NotNull org.gtk.gtk.CellRenderer cell, java.lang.Object... varargs) {
+        return new TreeViewColumn(constructNewWithAttributes(title, cell, varargs), Ownership.NONE);
     }
     
     /**
@@ -343,7 +361,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -564,7 +582,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -597,7 +615,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -704,9 +722,18 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * gtk_tree_view_column_add_attribute(). All existing attributes
      * are removed, and replaced with the new attributes.
      * @param cellRenderer the {@code GtkCellRenderer} we’re setting the attributes of
+     * @param varargs A {@code null}-terminated list of attributes
      */
-    public void setAttributes(@NotNull org.gtk.gtk.CellRenderer cellRenderer) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void setAttributes(@NotNull org.gtk.gtk.CellRenderer cellRenderer, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(cellRenderer, "Parameter 'cellRenderer' must not be null");
+        try {
+            DowncallHandles.gtk_tree_view_column_set_attributes.invokeExact(
+                    handle(),
+                    cellRenderer.handle(),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -1002,6 +1029,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     
     /**
      * Emitted when the column's header has been clicked.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TreeViewColumn.Clicked> onClicked(TreeViewColumn.Clicked handler) {
         try {
@@ -1025,267 +1054,320 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         
         private static final MethodHandle gtk_tree_view_column_new = Interop.downcallHandle(
             "gtk_tree_view_column_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_new_with_area = Interop.downcallHandle(
             "gtk_tree_view_column_new_with_area",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_new_with_attributes = Interop.downcallHandle(
             "gtk_tree_view_column_new_with_attributes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle gtk_tree_view_column_add_attribute = Interop.downcallHandle(
             "gtk_tree_view_column_add_attribute",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_cell_get_position = Interop.downcallHandle(
             "gtk_tree_view_column_cell_get_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_cell_get_size = Interop.downcallHandle(
             "gtk_tree_view_column_cell_get_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_cell_is_visible = Interop.downcallHandle(
             "gtk_tree_view_column_cell_is_visible",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_cell_set_cell_data = Interop.downcallHandle(
             "gtk_tree_view_column_cell_set_cell_data",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_clear = Interop.downcallHandle(
             "gtk_tree_view_column_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_clear_attributes = Interop.downcallHandle(
             "gtk_tree_view_column_clear_attributes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_clicked = Interop.downcallHandle(
             "gtk_tree_view_column_clicked",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_focus_cell = Interop.downcallHandle(
             "gtk_tree_view_column_focus_cell",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_get_alignment = Interop.downcallHandle(
             "gtk_tree_view_column_get_alignment",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_get_button = Interop.downcallHandle(
             "gtk_tree_view_column_get_button",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_get_clickable = Interop.downcallHandle(
             "gtk_tree_view_column_get_clickable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_get_expand = Interop.downcallHandle(
             "gtk_tree_view_column_get_expand",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_get_fixed_width = Interop.downcallHandle(
             "gtk_tree_view_column_get_fixed_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_get_max_width = Interop.downcallHandle(
             "gtk_tree_view_column_get_max_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_get_min_width = Interop.downcallHandle(
             "gtk_tree_view_column_get_min_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_get_reorderable = Interop.downcallHandle(
             "gtk_tree_view_column_get_reorderable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_get_resizable = Interop.downcallHandle(
             "gtk_tree_view_column_get_resizable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_get_sizing = Interop.downcallHandle(
             "gtk_tree_view_column_get_sizing",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_get_sort_column_id = Interop.downcallHandle(
             "gtk_tree_view_column_get_sort_column_id",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_get_sort_indicator = Interop.downcallHandle(
             "gtk_tree_view_column_get_sort_indicator",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_get_sort_order = Interop.downcallHandle(
             "gtk_tree_view_column_get_sort_order",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_get_spacing = Interop.downcallHandle(
             "gtk_tree_view_column_get_spacing",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_get_title = Interop.downcallHandle(
             "gtk_tree_view_column_get_title",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_get_tree_view = Interop.downcallHandle(
             "gtk_tree_view_column_get_tree_view",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_get_visible = Interop.downcallHandle(
             "gtk_tree_view_column_get_visible",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_get_widget = Interop.downcallHandle(
             "gtk_tree_view_column_get_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_get_width = Interop.downcallHandle(
             "gtk_tree_view_column_get_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_get_x_offset = Interop.downcallHandle(
             "gtk_tree_view_column_get_x_offset",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_pack_end = Interop.downcallHandle(
             "gtk_tree_view_column_pack_end",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_pack_start = Interop.downcallHandle(
             "gtk_tree_view_column_pack_start",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_queue_resize = Interop.downcallHandle(
             "gtk_tree_view_column_queue_resize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_set_alignment = Interop.downcallHandle(
             "gtk_tree_view_column_set_alignment",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_set_attributes = Interop.downcallHandle(
             "gtk_tree_view_column_set_attributes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle gtk_tree_view_column_set_cell_data_func = Interop.downcallHandle(
             "gtk_tree_view_column_set_cell_data_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_set_clickable = Interop.downcallHandle(
             "gtk_tree_view_column_set_clickable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_set_expand = Interop.downcallHandle(
             "gtk_tree_view_column_set_expand",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_set_fixed_width = Interop.downcallHandle(
             "gtk_tree_view_column_set_fixed_width",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_set_max_width = Interop.downcallHandle(
             "gtk_tree_view_column_set_max_width",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_set_min_width = Interop.downcallHandle(
             "gtk_tree_view_column_set_min_width",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_set_reorderable = Interop.downcallHandle(
             "gtk_tree_view_column_set_reorderable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_set_resizable = Interop.downcallHandle(
             "gtk_tree_view_column_set_resizable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_set_sizing = Interop.downcallHandle(
             "gtk_tree_view_column_set_sizing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_set_sort_column_id = Interop.downcallHandle(
             "gtk_tree_view_column_set_sort_column_id",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_set_sort_indicator = Interop.downcallHandle(
             "gtk_tree_view_column_set_sort_indicator",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_set_sort_order = Interop.downcallHandle(
             "gtk_tree_view_column_set_sort_order",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_set_spacing = Interop.downcallHandle(
             "gtk_tree_view_column_set_spacing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_set_title = Interop.downcallHandle(
             "gtk_tree_view_column_set_title",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_set_visible = Interop.downcallHandle(
             "gtk_tree_view_column_set_visible",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_view_column_set_widget = Interop.downcallHandle(
             "gtk_tree_view_column_set_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -1294,7 +1376,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         public static void signalTreeViewColumnClicked(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TreeViewColumn.Clicked) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeViewColumn(Refcounted.get(source)));
+            HANDLER.signalReceived(new TreeViewColumn(source, Ownership.UNKNOWN));
         }
     }
 }

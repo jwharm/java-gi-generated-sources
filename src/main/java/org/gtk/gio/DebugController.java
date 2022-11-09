@@ -34,7 +34,7 @@ public interface DebugController extends io.github.jwharm.javagi.Proxy {
      */
     public static DebugController castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDebugController"))) {
-            return new DebugControllerImpl(gobject.refcounted());
+            return new DebugControllerImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDebugController");
         }
@@ -75,13 +75,15 @@ public interface DebugController extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_debug_controller_get_debug_enabled = Interop.downcallHandle(
             "g_debug_controller_get_debug_enabled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_debug_controller_set_debug_enabled = Interop.downcallHandle(
             "g_debug_controller_set_debug_enabled",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -91,8 +93,8 @@ public interface DebugController extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public DebugControllerImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public DebugControllerImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

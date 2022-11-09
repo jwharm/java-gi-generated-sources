@@ -56,7 +56,8 @@ public class PrintError extends io.github.jwharm.javagi.Enumeration {
         
         private static final MethodHandle gtk_print_error_quark = Interop.downcallHandle(
             "gtk_print_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
     }
 }

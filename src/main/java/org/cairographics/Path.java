@@ -17,6 +17,7 @@ public class Path extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -25,13 +26,18 @@ public class Path extends io.github.jwharm.javagi.ResourceBase {
     
     public static Path allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Path newInstance = new Path(Refcounted.get(segment.address()));
+        Path newInstance = new Path(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a Path proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Path(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Path(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

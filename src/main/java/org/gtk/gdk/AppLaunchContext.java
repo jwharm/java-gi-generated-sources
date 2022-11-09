@@ -37,13 +37,19 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a AppLaunchContext proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public AppLaunchContext(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public AppLaunchContext(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -55,7 +61,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      */
     public static AppLaunchContext castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkAppLaunchContext"))) {
-            return new AppLaunchContext(gobject.refcounted());
+            return new AppLaunchContext(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkAppLaunchContext");
         }
@@ -73,7 +79,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
     }
     
     /**
@@ -170,27 +176,32 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
         
         private static final MethodHandle gdk_app_launch_context_get_display = Interop.downcallHandle(
             "gdk_app_launch_context_get_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_app_launch_context_set_desktop = Interop.downcallHandle(
             "gdk_app_launch_context_set_desktop",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_app_launch_context_set_icon = Interop.downcallHandle(
             "gdk_app_launch_context_set_icon",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_app_launch_context_set_icon_name = Interop.downcallHandle(
             "gdk_app_launch_context_set_icon_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_app_launch_context_set_timestamp = Interop.downcallHandle(
             "gdk_app_launch_context_set_timestamp",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

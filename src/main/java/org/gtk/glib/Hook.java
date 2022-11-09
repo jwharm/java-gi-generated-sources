@@ -33,6 +33,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -41,7 +42,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
     
     public static Hook allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Hook newInstance = new Hook(Refcounted.get(segment.address()));
+        Hook newInstance = new Hook(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -75,7 +76,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Hook(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -96,7 +97,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("prev"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Hook(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -204,9 +205,14 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         return null /* Unsupported parameter type */;
     }
     
+    /**
+     * Create a Hook proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Hook(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Hook(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -242,7 +248,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hook(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -309,7 +315,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hook(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -332,7 +338,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hook(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -355,7 +361,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hook(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -381,7 +387,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hook(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -405,7 +411,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hook(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -442,7 +448,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hook(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -498,7 +504,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hook(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -535,7 +541,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hook(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -561,87 +567,104 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_hook_compare_ids = Interop.downcallHandle(
             "g_hook_compare_ids",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hook_alloc = Interop.downcallHandle(
             "g_hook_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hook_destroy = Interop.downcallHandle(
             "g_hook_destroy",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_hook_destroy_link = Interop.downcallHandle(
             "g_hook_destroy_link",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hook_find = Interop.downcallHandle(
             "g_hook_find",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hook_find_data = Interop.downcallHandle(
             "g_hook_find_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hook_find_func = Interop.downcallHandle(
             "g_hook_find_func",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hook_find_func_data = Interop.downcallHandle(
             "g_hook_find_func_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hook_first_valid = Interop.downcallHandle(
             "g_hook_first_valid",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_hook_free = Interop.downcallHandle(
             "g_hook_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hook_get = Interop.downcallHandle(
             "g_hook_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_hook_insert_before = Interop.downcallHandle(
             "g_hook_insert_before",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hook_insert_sorted = Interop.downcallHandle(
             "g_hook_insert_sorted",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hook_next_valid = Interop.downcallHandle(
             "g_hook_next_valid",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_hook_prepend = Interop.downcallHandle(
             "g_hook_prepend",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hook_ref = Interop.downcallHandle(
             "g_hook_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hook_unref = Interop.downcallHandle(
             "g_hook_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

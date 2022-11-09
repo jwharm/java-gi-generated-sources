@@ -28,6 +28,7 @@ public class ParseLocation extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -36,7 +37,7 @@ public class ParseLocation extends io.github.jwharm.javagi.ResourceBase {
     
     public static ParseLocation allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ParseLocation newInstance = new ParseLocation(Refcounted.get(segment.address()));
+        ParseLocation newInstance = new ParseLocation(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -146,8 +147,13 @@ public class ParseLocation extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), line_chars);
     }
     
+    /**
+     * Create a ParseLocation proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ParseLocation(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ParseLocation(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

@@ -49,13 +49,19 @@ public class Tooltip extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Tooltip proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Tooltip(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Tooltip(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -67,7 +73,7 @@ public class Tooltip extends org.gtk.gobject.Object {
      */
     public static Tooltip castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTooltip"))) {
-            return new Tooltip(gobject.refcounted());
+            return new Tooltip(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTooltip");
         }
@@ -199,37 +205,44 @@ public class Tooltip extends org.gtk.gobject.Object {
         
         private static final MethodHandle gtk_tooltip_set_custom = Interop.downcallHandle(
             "gtk_tooltip_set_custom",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tooltip_set_icon = Interop.downcallHandle(
             "gtk_tooltip_set_icon",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tooltip_set_icon_from_gicon = Interop.downcallHandle(
             "gtk_tooltip_set_icon_from_gicon",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tooltip_set_icon_from_icon_name = Interop.downcallHandle(
             "gtk_tooltip_set_icon_from_icon_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tooltip_set_markup = Interop.downcallHandle(
             "gtk_tooltip_set_markup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tooltip_set_text = Interop.downcallHandle(
             "gtk_tooltip_set_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tooltip_set_tip_area = Interop.downcallHandle(
             "gtk_tooltip_set_tip_area",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

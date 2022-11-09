@@ -29,6 +29,7 @@ public class PadActionEntry extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -37,7 +38,7 @@ public class PadActionEntry extends io.github.jwharm.javagi.ResourceBase {
     
     public static PadActionEntry allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PadActionEntry newInstance = new PadActionEntry(Refcounted.get(segment.address()));
+        PadActionEntry newInstance = new PadActionEntry(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -147,8 +148,13 @@ public class PadActionEntry extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(action_name));
     }
     
+    /**
+     * Create a PadActionEntry proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PadActionEntry(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PadActionEntry(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

@@ -122,13 +122,19 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Create a GLArea proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public GLArea(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public GLArea(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -140,16 +146,16 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public static GLArea castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGLArea"))) {
-            return new GLArea(gobject.refcounted());
+            return new GLArea(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkGLArea");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_gl_area_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gl_area_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,7 +166,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * Creates a new {@code GtkGLArea} widget.
      */
     public GLArea() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -210,7 +216,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.GLContext(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.GLContext(RESULT, Ownership.NONE);
     }
     
     /**
@@ -225,7 +231,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Error(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Error(RESULT, Ownership.NONE);
     }
     
     /**
@@ -466,6 +472,8 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * If context creation fails then the signal handler can use
      * {@link GLArea#setError} to register a more detailed error
      * of how the construction failed.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GLArea.CreateContext> onCreateContext(GLArea.CreateContext handler) {
         try {
@@ -495,6 +503,8 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * <p>
      * The {@code context} is bound to the {@code area} prior to emitting this function,
      * and the buffers are painted to the window once the emission terminates.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GLArea.Render> onRender(GLArea.Render handler) {
         try {
@@ -531,6 +541,8 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * is emitted.
      * <p>
      * The default handler sets up the GL viewport.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GLArea.Resize> onResize(GLArea.Resize handler) {
         try {
@@ -554,87 +566,104 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         
         private static final MethodHandle gtk_gl_area_new = Interop.downcallHandle(
             "gtk_gl_area_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gl_area_attach_buffers = Interop.downcallHandle(
             "gtk_gl_area_attach_buffers",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gl_area_get_auto_render = Interop.downcallHandle(
             "gtk_gl_area_get_auto_render",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gl_area_get_context = Interop.downcallHandle(
             "gtk_gl_area_get_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gl_area_get_error = Interop.downcallHandle(
             "gtk_gl_area_get_error",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gl_area_get_has_depth_buffer = Interop.downcallHandle(
             "gtk_gl_area_get_has_depth_buffer",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gl_area_get_has_stencil_buffer = Interop.downcallHandle(
             "gtk_gl_area_get_has_stencil_buffer",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gl_area_get_required_version = Interop.downcallHandle(
             "gtk_gl_area_get_required_version",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gl_area_get_use_es = Interop.downcallHandle(
             "gtk_gl_area_get_use_es",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gl_area_make_current = Interop.downcallHandle(
             "gtk_gl_area_make_current",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gl_area_queue_render = Interop.downcallHandle(
             "gtk_gl_area_queue_render",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gl_area_set_auto_render = Interop.downcallHandle(
             "gtk_gl_area_set_auto_render",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_gl_area_set_error = Interop.downcallHandle(
             "gtk_gl_area_set_error",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gl_area_set_has_depth_buffer = Interop.downcallHandle(
             "gtk_gl_area_set_has_depth_buffer",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_gl_area_set_has_stencil_buffer = Interop.downcallHandle(
             "gtk_gl_area_set_has_stencil_buffer",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_gl_area_set_required_version = Interop.downcallHandle(
             "gtk_gl_area_set_required_version",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_gl_area_set_use_es = Interop.downcallHandle(
             "gtk_gl_area_set_use_es",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -643,19 +672,19 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         public static void signalGLAreaCreateContext(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (GLArea.CreateContext) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GLArea(Refcounted.get(source)));
+            HANDLER.signalReceived(new GLArea(source, Ownership.UNKNOWN));
         }
         
         public static boolean signalGLAreaRender(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (GLArea.Render) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new GLArea(Refcounted.get(source)), new org.gtk.gdk.GLContext(Refcounted.get(context, false)));
+            return HANDLER.signalReceived(new GLArea(source, Ownership.UNKNOWN), new org.gtk.gdk.GLContext(context, Ownership.NONE));
         }
         
         public static void signalGLAreaResize(MemoryAddress source, int width, int height, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (GLArea.Resize) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GLArea(Refcounted.get(source)), width, height);
+            HANDLER.signalReceived(new GLArea(source, Ownership.UNKNOWN), width, height);
         }
     }
 }

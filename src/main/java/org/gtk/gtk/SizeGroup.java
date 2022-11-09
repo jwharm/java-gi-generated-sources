@@ -86,6 +86,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -96,12 +97,17 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a SizeGroup proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SizeGroup(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SizeGroup(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -113,18 +119,18 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      */
     public static SizeGroup castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSizeGroup"))) {
-            return new SizeGroup(gobject.refcounted());
+            return new SizeGroup(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkSizeGroup");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gtk.SizeGroupMode mode) {
+    private static Addressable constructNew(@NotNull org.gtk.gtk.SizeGroupMode mode) {
         java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_size_group_new.invokeExact(
-                    mode.getValue()), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_size_group_new.invokeExact(
+                    mode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,7 +142,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param mode the mode for the new size group.
      */
     public SizeGroup(@NotNull org.gtk.gtk.SizeGroupMode mode) {
-        super(constructNew(mode));
+        super(constructNew(mode), Ownership.FULL);
     }
     
     /**
@@ -192,7 +198,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.NONE);
     }
     
     /**
@@ -235,32 +241,38 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         
         private static final MethodHandle gtk_size_group_new = Interop.downcallHandle(
             "gtk_size_group_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_size_group_add_widget = Interop.downcallHandle(
             "gtk_size_group_add_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_size_group_get_mode = Interop.downcallHandle(
             "gtk_size_group_get_mode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_size_group_get_widgets = Interop.downcallHandle(
             "gtk_size_group_get_widgets",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_size_group_remove_widget = Interop.downcallHandle(
             "gtk_size_group_remove_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_size_group_set_mode = Interop.downcallHandle(
             "gtk_size_group_set_mode",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

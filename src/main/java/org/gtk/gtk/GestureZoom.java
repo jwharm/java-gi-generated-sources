@@ -24,13 +24,19 @@ public class GestureZoom extends org.gtk.gtk.Gesture {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a GestureZoom proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public GestureZoom(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public GestureZoom(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -42,16 +48,16 @@ public class GestureZoom extends org.gtk.gtk.Gesture {
      */
     public static GestureZoom castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGestureZoom"))) {
-            return new GestureZoom(gobject.refcounted());
+            return new GestureZoom(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkGestureZoom");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_gesture_zoom_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_zoom_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -63,7 +69,7 @@ public class GestureZoom extends org.gtk.gtk.Gesture {
      * pinch/zoom gestures.
      */
     public GestureZoom() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -93,6 +99,8 @@ public class GestureZoom extends org.gtk.gtk.Gesture {
     
     /**
      * Emitted whenever the distance between both tracked sequences changes.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureZoom.ScaleChanged> onScaleChanged(GestureZoom.ScaleChanged handler) {
         try {
@@ -116,12 +124,14 @@ public class GestureZoom extends org.gtk.gtk.Gesture {
         
         private static final MethodHandle gtk_gesture_zoom_new = Interop.downcallHandle(
             "gtk_gesture_zoom_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gesture_zoom_get_scale_delta = Interop.downcallHandle(
             "gtk_gesture_zoom_get_scale_delta",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -130,7 +140,7 @@ public class GestureZoom extends org.gtk.gtk.Gesture {
         public static void signalGestureZoomScaleChanged(MemoryAddress source, double scale, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (GestureZoom.ScaleChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureZoom(Refcounted.get(source)), scale);
+            HANDLER.signalReceived(new GestureZoom(source, Ownership.UNKNOWN), scale);
         }
     }
 }

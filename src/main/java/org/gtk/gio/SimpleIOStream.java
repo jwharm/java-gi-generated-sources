@@ -28,13 +28,19 @@ public class SimpleIOStream extends org.gtk.gio.IOStream {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a SimpleIOStream proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SimpleIOStream(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SimpleIOStream(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -46,20 +52,20 @@ public class SimpleIOStream extends org.gtk.gio.IOStream {
      */
     public static SimpleIOStream castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSimpleIOStream"))) {
-            return new SimpleIOStream(gobject.refcounted());
+            return new SimpleIOStream(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSimpleIOStream");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gio.InputStream inputStream, @NotNull org.gtk.gio.OutputStream outputStream) {
+    private static Addressable constructNew(@NotNull org.gtk.gio.InputStream inputStream, @NotNull org.gtk.gio.OutputStream outputStream) {
         java.util.Objects.requireNonNull(inputStream, "Parameter 'inputStream' must not be null");
         java.util.Objects.requireNonNull(outputStream, "Parameter 'outputStream' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_simple_io_stream_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_simple_io_stream_new.invokeExact(
                     inputStream.handle(),
-                    outputStream.handle()), true);
+                    outputStream.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,14 +79,15 @@ public class SimpleIOStream extends org.gtk.gio.IOStream {
      * @param outputStream a {@link OutputStream}.
      */
     public SimpleIOStream(@NotNull org.gtk.gio.InputStream inputStream, @NotNull org.gtk.gio.OutputStream outputStream) {
-        super(constructNew(inputStream, outputStream));
+        super(constructNew(inputStream, outputStream), Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_simple_io_stream_new = Interop.downcallHandle(
             "g_simple_io_stream_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

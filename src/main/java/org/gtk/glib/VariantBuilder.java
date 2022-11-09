@@ -26,6 +26,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -34,22 +35,27 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
     
     public static VariantBuilder allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VariantBuilder newInstance = new VariantBuilder(Refcounted.get(segment.address()));
+        VariantBuilder newInstance = new VariantBuilder(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a VariantBuilder proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public VariantBuilder(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public VariantBuilder(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.glib.VariantType type) {
+    private static Addressable constructNew(@NotNull org.gtk.glib.VariantType type) {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_builder_new.invokeExact(
-                    type.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_builder_new.invokeExact(
+                    type.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,7 +75,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * @param type a container type
      */
     public VariantBuilder(@NotNull org.gtk.glib.VariantType type) {
-        super(constructNew(type));
+        super(constructNew(type), Ownership.FULL);
     }
     
     /**
@@ -103,9 +109,18 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * }
      * }</pre>
      * @param formatString a {@link Variant} varargs format string
+     * @param varargs arguments, as per {@code format_string}
      */
-    public void add(@NotNull java.lang.String formatString) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void add(@NotNull java.lang.String formatString, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(formatString, "Parameter 'formatString' must not be null");
+        try {
+            DowncallHandles.g_variant_builder_add.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(formatString),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -135,9 +150,18 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * }
      * }</pre>
      * @param format a text format {@link Variant}
+     * @param varargs arguments as per {@code format}
      */
-    public void addParsed(@NotNull java.lang.String format) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void addParsed(@NotNull java.lang.String format, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+        try {
+            DowncallHandles.g_variant_builder_add_parsed.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(format),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -234,7 +258,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Variant(RESULT, Ownership.NONE);
     }
     
     /**
@@ -345,7 +369,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.VariantBuilder(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.VariantBuilder(RESULT, Ownership.FULL);
     }
     
     /**
@@ -370,57 +394,68 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_variant_builder_new = Interop.downcallHandle(
             "g_variant_builder_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_variant_builder_add = Interop.downcallHandle(
             "g_variant_builder_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_variant_builder_add_parsed = Interop.downcallHandle(
             "g_variant_builder_add_parsed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_variant_builder_add_value = Interop.downcallHandle(
             "g_variant_builder_add_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_variant_builder_clear = Interop.downcallHandle(
             "g_variant_builder_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_variant_builder_close = Interop.downcallHandle(
             "g_variant_builder_close",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_variant_builder_end = Interop.downcallHandle(
             "g_variant_builder_end",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_variant_builder_init = Interop.downcallHandle(
             "g_variant_builder_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_variant_builder_open = Interop.downcallHandle(
             "g_variant_builder_open",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_variant_builder_ref = Interop.downcallHandle(
             "g_variant_builder_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_variant_builder_unref = Interop.downcallHandle(
             "g_variant_builder_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

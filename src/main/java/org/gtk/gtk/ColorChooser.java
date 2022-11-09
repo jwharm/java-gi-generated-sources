@@ -26,7 +26,7 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
      */
     public static ColorChooser castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkColorChooser"))) {
-            return new ColorChooserImpl(gobject.refcounted());
+            return new ColorChooserImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkColorChooser");
         }
@@ -56,7 +56,7 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
      * @param nColors the total number of elements in {@code colors}
      * @param colors the colors of the palette
      */
-    default void addPalette(@NotNull org.gtk.gtk.Orientation orientation, int colorsPerLine, int nColors, org.gtk.gdk.RGBA[] colors) {
+    default void addPalette(@NotNull org.gtk.gtk.Orientation orientation, int colorsPerLine, int nColors, @Nullable org.gtk.gdk.RGBA[] colors) {
         java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
         try {
             DowncallHandles.gtk_color_chooser_add_palette.invokeExact(
@@ -141,6 +141,8 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
      * This usually happens when the user clicks a color swatch,
      * or a color is selected and the user presses one of the keys
      * Space, Shift+Space, Return or Enter.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<ColorChooser.ColorActivated> onColorActivated(ColorChooser.ColorActivated handler) {
         try {
@@ -166,31 +168,36 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_color_chooser_add_palette = Interop.downcallHandle(
             "gtk_color_chooser_add_palette",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_color_chooser_get_rgba = Interop.downcallHandle(
             "gtk_color_chooser_get_rgba",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_color_chooser_get_use_alpha = Interop.downcallHandle(
             "gtk_color_chooser_get_use_alpha",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_color_chooser_set_rgba = Interop.downcallHandle(
             "gtk_color_chooser_set_rgba",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_color_chooser_set_use_alpha = Interop.downcallHandle(
             "gtk_color_chooser_set_use_alpha",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -200,7 +207,7 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
         public static void signalColorChooserColorActivated(MemoryAddress source, MemoryAddress color, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ColorChooser.ColorActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ColorChooser.ColorChooserImpl(Refcounted.get(source)), new org.gtk.gdk.RGBA(Refcounted.get(color, false)));
+            HANDLER.signalReceived(new ColorChooser.ColorChooserImpl(source, Ownership.UNKNOWN), new org.gtk.gdk.RGBA(color, Ownership.NONE));
         }
     }
     
@@ -210,8 +217,8 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public ColorChooserImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public ColorChooserImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

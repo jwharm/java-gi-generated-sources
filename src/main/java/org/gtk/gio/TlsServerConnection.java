@@ -21,7 +21,7 @@ public interface TlsServerConnection extends io.github.jwharm.javagi.Proxy {
      */
     public static TlsServerConnection castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTlsServerConnection"))) {
-            return new TlsServerConnectionImpl(gobject.refcounted());
+            return new TlsServerConnectionImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GTlsServerConnection");
         }
@@ -47,14 +47,15 @@ public interface TlsServerConnection extends io.github.jwharm.javagi.Proxy {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_server_connection_new.invokeExact(
                     baseIoStream.handle(),
-                    (Addressable) (certificate == null ? MemoryAddress.NULL : certificate.handle()), (Addressable) GERROR);
+                    (Addressable) (certificate == null ? MemoryAddress.NULL : certificate.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.TlsServerConnection.TlsServerConnectionImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.TlsServerConnection.TlsServerConnectionImpl(RESULT, Ownership.FULL);
     }
     
     @ApiStatus.Internal
@@ -63,7 +64,8 @@ public interface TlsServerConnection extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_tls_server_connection_new = Interop.downcallHandle(
             "g_tls_server_connection_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -73,8 +75,8 @@ public interface TlsServerConnection extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public TlsServerConnectionImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public TlsServerConnectionImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

@@ -30,13 +30,19 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ShortcutTrigger proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ShortcutTrigger(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ShortcutTrigger(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -48,18 +54,18 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      */
     public static ShortcutTrigger castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkShortcutTrigger"))) {
-            return new ShortcutTrigger(gobject.refcounted());
+            return new ShortcutTrigger(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkShortcutTrigger");
         }
     }
     
-    private static Refcounted constructParseString(@NotNull java.lang.String string) {
+    private static Addressable constructParseString(@NotNull java.lang.String string) {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_shortcut_trigger_parse_string.invokeExact(
-                    Interop.allocateNativeString(string)), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_trigger_parse_string.invokeExact(
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,7 +94,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * @return a new {@code GtkShortcutTrigger}
      */
     public static ShortcutTrigger parseString(@NotNull java.lang.String string) {
-        return new ShortcutTrigger(constructParseString(string));
+        return new ShortcutTrigger(constructParseString(string), Ownership.FULL);
     }
     
     /**
@@ -283,47 +289,56 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
         
         private static final MethodHandle gtk_shortcut_trigger_parse_string = Interop.downcallHandle(
             "gtk_shortcut_trigger_parse_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_shortcut_trigger_compare = Interop.downcallHandle(
             "gtk_shortcut_trigger_compare",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_shortcut_trigger_equal = Interop.downcallHandle(
             "gtk_shortcut_trigger_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_shortcut_trigger_hash = Interop.downcallHandle(
             "gtk_shortcut_trigger_hash",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_shortcut_trigger_print = Interop.downcallHandle(
             "gtk_shortcut_trigger_print",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_shortcut_trigger_print_label = Interop.downcallHandle(
             "gtk_shortcut_trigger_print_label",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_shortcut_trigger_to_label = Interop.downcallHandle(
             "gtk_shortcut_trigger_to_label",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_shortcut_trigger_to_string = Interop.downcallHandle(
             "gtk_shortcut_trigger_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_shortcut_trigger_trigger = Interop.downcallHandle(
             "gtk_shortcut_trigger_trigger",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

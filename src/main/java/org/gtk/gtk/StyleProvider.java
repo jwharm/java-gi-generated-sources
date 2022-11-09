@@ -27,7 +27,7 @@ public interface StyleProvider extends io.github.jwharm.javagi.Proxy {
      */
     public static StyleProvider castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkStyleProvider"))) {
-            return new StyleProviderImpl(gobject.refcounted());
+            return new StyleProviderImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkStyleProvider");
         }
@@ -62,7 +62,7 @@ public interface StyleProvider extends io.github.jwharm.javagi.Proxy {
         public static void signalStyleProviderGtkPrivateChanged(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (StyleProvider.GtkPrivateChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new StyleProvider.StyleProviderImpl(Refcounted.get(source)));
+            HANDLER.signalReceived(new StyleProvider.StyleProviderImpl(source, Ownership.UNKNOWN));
         }
     }
     
@@ -72,8 +72,8 @@ public interface StyleProvider extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public StyleProviderImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public StyleProviderImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

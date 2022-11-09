@@ -22,7 +22,7 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
      */
     public static DBusInterface castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusInterface"))) {
-            return new DBusInterfaceImpl(gobject.refcounted());
+            return new DBusInterfaceImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDBusInterface");
         }
@@ -41,7 +41,7 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusObject.DBusObjectImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.DBusObject.DBusObjectImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -57,7 +57,7 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusInterfaceInfo(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.DBusInterfaceInfo(RESULT, Ownership.NONE);
     }
     
     /**
@@ -77,7 +77,7 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusObject.DBusObjectImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.DBusObject.DBusObjectImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -102,25 +102,29 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_dbus_interface_dup_object = Interop.downcallHandle(
             "g_dbus_interface_dup_object",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dbus_interface_get_info = Interop.downcallHandle(
             "g_dbus_interface_get_info",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dbus_interface_get_object = Interop.downcallHandle(
             "g_dbus_interface_get_object",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dbus_interface_set_object = Interop.downcallHandle(
             "g_dbus_interface_set_object",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -130,8 +134,8 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public DBusInterfaceImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public DBusInterfaceImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

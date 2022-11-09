@@ -26,6 +26,7 @@ public class DebugKey extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -34,7 +35,7 @@ public class DebugKey extends io.github.jwharm.javagi.ResourceBase {
     
     public static DebugKey allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DebugKey newInstance = new DebugKey(Refcounted.get(segment.address()));
+        DebugKey newInstance = new DebugKey(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -81,8 +82,13 @@ public class DebugKey extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
     }
     
+    /**
+     * Create a DebugKey proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DebugKey(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DebugKey(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

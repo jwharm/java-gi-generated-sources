@@ -35,13 +35,19 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Carousel proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Carousel(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Carousel(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -53,16 +59,16 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
      */
     public static Carousel castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwCarousel"))) {
-            return new Carousel(gobject.refcounted());
+            return new Carousel(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwCarousel");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_carousel_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.adw_carousel_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,7 +79,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
      * Creates a new {@code AdwCarousel}.
      */
     public Carousel() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -180,7 +186,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -227,7 +233,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.SpringParams(Refcounted.get(RESULT, true));
+        return new org.gnome.adw.SpringParams(RESULT, Ownership.FULL);
     }
     
     /**
@@ -460,6 +466,8 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
      * <p>
      * It can be used to implement "infinite scrolling" by amending the pages
      * after every scroll.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Carousel.PageChanged> onPageChanged(Carousel.PageChanged handler) {
         try {
@@ -483,122 +491,146 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
         
         private static final MethodHandle adw_carousel_new = Interop.downcallHandle(
             "adw_carousel_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_carousel_append = Interop.downcallHandle(
             "adw_carousel_append",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_carousel_get_allow_long_swipes = Interop.downcallHandle(
             "adw_carousel_get_allow_long_swipes",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_carousel_get_allow_mouse_drag = Interop.downcallHandle(
             "adw_carousel_get_allow_mouse_drag",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_carousel_get_allow_scroll_wheel = Interop.downcallHandle(
             "adw_carousel_get_allow_scroll_wheel",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_carousel_get_interactive = Interop.downcallHandle(
             "adw_carousel_get_interactive",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_carousel_get_n_pages = Interop.downcallHandle(
             "adw_carousel_get_n_pages",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_carousel_get_nth_page = Interop.downcallHandle(
             "adw_carousel_get_nth_page",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_carousel_get_position = Interop.downcallHandle(
             "adw_carousel_get_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_carousel_get_reveal_duration = Interop.downcallHandle(
             "adw_carousel_get_reveal_duration",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_carousel_get_scroll_params = Interop.downcallHandle(
             "adw_carousel_get_scroll_params",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_carousel_get_spacing = Interop.downcallHandle(
             "adw_carousel_get_spacing",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_carousel_insert = Interop.downcallHandle(
             "adw_carousel_insert",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_carousel_prepend = Interop.downcallHandle(
             "adw_carousel_prepend",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_carousel_remove = Interop.downcallHandle(
             "adw_carousel_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_carousel_reorder = Interop.downcallHandle(
             "adw_carousel_reorder",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_carousel_scroll_to = Interop.downcallHandle(
             "adw_carousel_scroll_to",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_carousel_set_allow_long_swipes = Interop.downcallHandle(
             "adw_carousel_set_allow_long_swipes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_carousel_set_allow_mouse_drag = Interop.downcallHandle(
             "adw_carousel_set_allow_mouse_drag",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_carousel_set_allow_scroll_wheel = Interop.downcallHandle(
             "adw_carousel_set_allow_scroll_wheel",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_carousel_set_interactive = Interop.downcallHandle(
             "adw_carousel_set_interactive",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_carousel_set_reveal_duration = Interop.downcallHandle(
             "adw_carousel_set_reveal_duration",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_carousel_set_scroll_params = Interop.downcallHandle(
             "adw_carousel_set_scroll_params",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_carousel_set_spacing = Interop.downcallHandle(
             "adw_carousel_set_spacing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -607,7 +639,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
         public static void signalCarouselPageChanged(MemoryAddress source, int index, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Carousel.PageChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Carousel(Refcounted.get(source)), index);
+            HANDLER.signalReceived(new Carousel(source, Ownership.UNKNOWN), index);
         }
     }
 }

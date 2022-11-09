@@ -16,5 +16,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PixbufDestroyNotify {
-        void onPixbufDestroyNotify(PointerByte pixels);
+        void onPixbufDestroyNotify(@NotNull PointerByte pixels);
 }

@@ -33,13 +33,19 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a BoxLayout proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public BoxLayout(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public BoxLayout(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -51,18 +57,18 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
      */
     public static BoxLayout castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkBoxLayout"))) {
-            return new BoxLayout(gobject.refcounted());
+            return new BoxLayout(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkBoxLayout");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gtk.Orientation orientation) {
+    private static Addressable constructNew(@NotNull org.gtk.gtk.Orientation orientation) {
         java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_box_layout_new.invokeExact(
-                    orientation.getValue()), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_box_layout_new.invokeExact(
+                    orientation.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,7 +80,7 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
      * @param orientation the orientation for the new layout
      */
     public BoxLayout(@NotNull org.gtk.gtk.Orientation orientation) {
-        super(constructNew(orientation));
+        super(constructNew(orientation), Ownership.FULL);
     }
     
     /**
@@ -176,37 +182,44 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
         
         private static final MethodHandle gtk_box_layout_new = Interop.downcallHandle(
             "gtk_box_layout_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_box_layout_get_baseline_position = Interop.downcallHandle(
             "gtk_box_layout_get_baseline_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_box_layout_get_homogeneous = Interop.downcallHandle(
             "gtk_box_layout_get_homogeneous",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_box_layout_get_spacing = Interop.downcallHandle(
             "gtk_box_layout_get_spacing",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_box_layout_set_baseline_position = Interop.downcallHandle(
             "gtk_box_layout_set_baseline_position",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_box_layout_set_homogeneous = Interop.downcallHandle(
             "gtk_box_layout_set_homogeneous",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_box_layout_set_spacing = Interop.downcallHandle(
             "gtk_box_layout_set_spacing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

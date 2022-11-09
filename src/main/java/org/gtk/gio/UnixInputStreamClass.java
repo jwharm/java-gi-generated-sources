@@ -26,6 +26,7 @@ public class UnixInputStreamClass extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -34,7 +35,7 @@ public class UnixInputStreamClass extends io.github.jwharm.javagi.ResourceBase {
     
     public static UnixInputStreamClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        UnixInputStreamClass newInstance = new UnixInputStreamClass(Refcounted.get(segment.address()));
+        UnixInputStreamClass newInstance = new UnixInputStreamClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,11 +46,16 @@ public class UnixInputStreamClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gio.InputStreamClass parent_class$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gio.InputStreamClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.InputStreamClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a UnixInputStreamClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public UnixInputStreamClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public UnixInputStreamClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

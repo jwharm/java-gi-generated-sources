@@ -20,13 +20,19 @@ public class ActivateAction extends org.gtk.gtk.ShortcutAction {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ActivateAction proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ActivateAction(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ActivateAction(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,7 +44,7 @@ public class ActivateAction extends org.gtk.gtk.ShortcutAction {
      */
     public static ActivateAction castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkActivateAction"))) {
-            return new ActivateAction(gobject.refcounted());
+            return new ActivateAction(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkActivateAction");
         }
@@ -58,14 +64,15 @@ public class ActivateAction extends org.gtk.gtk.ShortcutAction {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.ActivateAction(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.ActivateAction(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_activate_action_get = Interop.downcallHandle(
             "gtk_activate_action_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

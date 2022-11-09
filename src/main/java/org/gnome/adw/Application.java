@@ -53,6 +53,7 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -63,12 +64,17 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
      */
     public org.gtk.gtk.Application parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gtk.Application(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.Application(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a Application proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Application(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Application(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -80,19 +86,19 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
      */
     public static Application castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwApplication"))) {
-            return new Application(gobject.refcounted());
+            return new Application(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwApplication");
         }
     }
     
-    private static Refcounted constructNew(@Nullable java.lang.String applicationId, @NotNull org.gtk.gio.ApplicationFlags flags) {
+    private static Addressable constructNew(@Nullable java.lang.String applicationId, @NotNull org.gtk.gio.ApplicationFlags flags) {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_application_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.adw_application_new.invokeExact(
                     (Addressable) (applicationId == null ? MemoryAddress.NULL : Interop.allocateNativeString(applicationId)),
-                    flags.getValue()), true);
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,7 +117,7 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
      * @param flags The application flags
      */
     public Application(@Nullable java.lang.String applicationId, @NotNull org.gtk.gio.ApplicationFlags flags) {
-        super(constructNew(applicationId, flags));
+        super(constructNew(applicationId, flags), Ownership.FULL);
     }
     
     /**
@@ -129,19 +135,21 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.StyleManager(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.StyleManager(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle adw_application_new = Interop.downcallHandle(
             "adw_application_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_application_get_style_manager = Interop.downcallHandle(
             "adw_application_get_style_manager",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

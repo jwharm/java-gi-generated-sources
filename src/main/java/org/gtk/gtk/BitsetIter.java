@@ -29,6 +29,7 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -37,14 +38,19 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
     
     public static BitsetIter allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BitsetIter newInstance = new BitsetIter(Refcounted.get(segment.address()));
+        BitsetIter newInstance = new BitsetIter(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a BitsetIter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public BitsetIter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public BitsetIter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -216,37 +222,44 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle gtk_bitset_iter_get_value = Interop.downcallHandle(
             "gtk_bitset_iter_get_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_bitset_iter_is_valid = Interop.downcallHandle(
             "gtk_bitset_iter_is_valid",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_bitset_iter_next = Interop.downcallHandle(
             "gtk_bitset_iter_next",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_bitset_iter_previous = Interop.downcallHandle(
             "gtk_bitset_iter_previous",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_bitset_iter_init_at = Interop.downcallHandle(
             "gtk_bitset_iter_init_at",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_bitset_iter_init_first = Interop.downcallHandle(
             "gtk_bitset_iter_init_first",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_bitset_iter_init_last = Interop.downcallHandle(
             "gtk_bitset_iter_init_last",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

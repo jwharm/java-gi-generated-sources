@@ -56,13 +56,19 @@ public class LockButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a LockButton proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public LockButton(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public LockButton(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -74,17 +80,17 @@ public class LockButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
      */
     public static LockButton castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkLockButton"))) {
-            return new LockButton(gobject.refcounted());
+            return new LockButton(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkLockButton");
         }
     }
     
-    private static Refcounted constructNew(@Nullable org.gtk.gio.Permission permission) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable org.gtk.gio.Permission permission) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_lock_button_new.invokeExact(
-                    (Addressable) (permission == null ? MemoryAddress.NULL : permission.handle())), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_lock_button_new.invokeExact(
+                    (Addressable) (permission == null ? MemoryAddress.NULL : permission.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,7 +102,7 @@ public class LockButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
      * @param permission a {@code GPermission}
      */
     public LockButton(@Nullable org.gtk.gio.Permission permission) {
-        super(constructNew(permission));
+        super(constructNew(permission), Ownership.NONE);
     }
     
     /**
@@ -111,7 +117,7 @@ public class LockButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Permission(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.Permission(RESULT, Ownership.NONE);
     }
     
     /**
@@ -132,17 +138,20 @@ public class LockButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
         
         private static final MethodHandle gtk_lock_button_new = Interop.downcallHandle(
             "gtk_lock_button_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_lock_button_get_permission = Interop.downcallHandle(
             "gtk_lock_button_get_permission",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_lock_button_set_permission = Interop.downcallHandle(
             "gtk_lock_button_set_permission",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

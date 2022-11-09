@@ -28,6 +28,7 @@ public class GlyphInfo extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -36,7 +37,7 @@ public class GlyphInfo extends io.github.jwharm.javagi.ResourceBase {
     
     public static GlyphInfo allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GlyphInfo newInstance = new GlyphInfo(Refcounted.get(segment.address()));
+        GlyphInfo newInstance = new GlyphInfo(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -68,7 +69,7 @@ public class GlyphInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.pango.GlyphGeometry geometry$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("geometry"));
-        return new org.pango.GlyphGeometry(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.pango.GlyphGeometry(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
     /**
@@ -77,11 +78,16 @@ public class GlyphInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.pango.GlyphVisAttr attr$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("attr"));
-        return new org.pango.GlyphVisAttr(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.pango.GlyphVisAttr(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a GlyphInfo proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public GlyphInfo(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public GlyphInfo(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

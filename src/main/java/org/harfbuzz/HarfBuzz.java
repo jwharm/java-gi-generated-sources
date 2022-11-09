@@ -5,6 +5,9 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
+/**
+ * Constants and functions that are declared in the global HarfBuzz namespace.
+ */
 public final class HarfBuzz {
     
     static {
@@ -121,7 +124,7 @@ public final class HarfBuzz {
      * @param defaultIndex The index of the feature's default selector, if any
      * @return Number of all available feature selectors
      */
-    public static int aatLayoutFeatureTypeGetSelectorInfos(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.AatLayoutFeatureTypeT featureType, int startOffset, Out<Integer> selectorCount, Out<org.harfbuzz.AatLayoutFeatureSelectorInfoT[]> selectors, Out<Integer> defaultIndex) {
+    public static int aatLayoutFeatureTypeGetSelectorInfos(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.AatLayoutFeatureTypeT featureType, int startOffset, Out<Integer> selectorCount, @NotNull Out<org.harfbuzz.AatLayoutFeatureSelectorInfoT[]> selectors, Out<Integer> defaultIndex) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(featureType, "Parameter 'featureType' must not be null");
         java.util.Objects.requireNonNull(selectorCount, "Parameter 'selectorCount' must not be null");
@@ -147,7 +150,7 @@ public final class HarfBuzz {
         org.harfbuzz.AatLayoutFeatureSelectorInfoT[] selectorsARRAY = new org.harfbuzz.AatLayoutFeatureSelectorInfoT[selectorCount.get().intValue()];
         for (int I = 0; I < selectorCount.get().intValue(); I++) {
             var OBJ = selectorsPOINTER.get(ValueLayout.ADDRESS, I);
-            selectorsARRAY[I] = new org.harfbuzz.AatLayoutFeatureSelectorInfoT(Refcounted.get(OBJ, false));
+            selectorsARRAY[I] = new org.harfbuzz.AatLayoutFeatureSelectorInfoT(OBJ, Ownership.NONE);
         }
         selectors.set(selectorsARRAY);
         return RESULT;
@@ -162,7 +165,7 @@ public final class HarfBuzz {
      * @param features Array of feature types found
      * @return Number of all available feature types.
      */
-    public static int aatLayoutGetFeatureTypes(@NotNull org.harfbuzz.FaceT face, int startOffset, Out<Integer> featureCount, Out<org.harfbuzz.AatLayoutFeatureTypeT[]> features) {
+    public static int aatLayoutGetFeatureTypes(@NotNull org.harfbuzz.FaceT face, int startOffset, Out<Integer> featureCount, @NotNull Out<org.harfbuzz.AatLayoutFeatureTypeT[]> features) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(featureCount, "Parameter 'featureCount' must not be null");
         java.util.Objects.requireNonNull(features, "Parameter 'features' must not be null");
@@ -260,7 +263,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -294,7 +297,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -313,7 +316,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -360,7 +363,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -453,7 +456,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -541,7 +544,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -603,7 +606,7 @@ public final class HarfBuzz {
      * @param itemLength the number of code points to add to the {@code buffer}, or -1 for the
      *               end of {@code text} (assuming it is {@code null} terminated).
      */
-    public static void bufferAddCodepoints(@NotNull org.harfbuzz.BufferT buffer, org.harfbuzz.CodepointT[] text, int textLength, int itemOffset, int itemLength) {
+    public static void bufferAddCodepoints(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.CodepointT[] text, int textLength, int itemOffset, int itemLength) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
@@ -631,7 +634,7 @@ public final class HarfBuzz {
      * @param itemLength the number of characters to add to the {@code buffer}, or -1 for the
      *               end of {@code text} (assuming it is {@code null} terminated)
      */
-    public static void bufferAddLatin1(@NotNull org.harfbuzz.BufferT buffer, byte[] text, int textLength, int itemOffset, int itemLength) {
+    public static void bufferAddLatin1(@NotNull org.harfbuzz.BufferT buffer, @NotNull byte[] text, int textLength, int itemOffset, int itemLength) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
@@ -658,7 +661,7 @@ public final class HarfBuzz {
      * @param itemLength The number of characters to add to the {@code buffer}, or -1 for the
      *               end of {@code text} (assuming it is {@code null} terminated)
      */
-    public static void bufferAddUtf16(@NotNull org.harfbuzz.BufferT buffer, short[] text, int textLength, int itemOffset, int itemLength) {
+    public static void bufferAddUtf16(@NotNull org.harfbuzz.BufferT buffer, @NotNull short[] text, int textLength, int itemOffset, int itemLength) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
@@ -685,7 +688,7 @@ public final class HarfBuzz {
      * @param itemLength The number of characters to add to the {@code buffer}, or -1 for the
      *               end of {@code text} (assuming it is {@code null} terminated)
      */
-    public static void bufferAddUtf32(@NotNull org.harfbuzz.BufferT buffer, int[] text, int textLength, int itemOffset, int itemLength) {
+    public static void bufferAddUtf32(@NotNull org.harfbuzz.BufferT buffer, @NotNull int[] text, int textLength, int itemOffset, int itemLength) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
@@ -713,7 +716,7 @@ public final class HarfBuzz {
      * @param itemLength The number of characters to add to the {@code buffer}, or -1 for the
      *               end of {@code text} (assuming it is {@code null} terminated).
      */
-    public static void bufferAddUtf8(@NotNull org.harfbuzz.BufferT buffer, byte[] text, int textLength, int itemOffset, int itemLength) {
+    public static void bufferAddUtf8(@NotNull org.harfbuzz.BufferT buffer, @NotNull byte[] text, int textLength, int itemOffset, int itemLength) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
@@ -796,7 +799,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BufferT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BufferT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -814,7 +817,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BufferT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BufferT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -829,7 +832,7 @@ public final class HarfBuzz {
      * @param format the {@link BufferSerializeFormatT} of the input {@code buf}
      * @return {@code true} if {@code buf} is not fully consumed, {@code false} otherwise.
      */
-    public static @NotNull org.harfbuzz.BoolT bufferDeserializeGlyphs(@NotNull org.harfbuzz.BufferT buffer, java.lang.String[] buf, int bufLen, @NotNull Out<java.lang.String> endPtr, @Nullable org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferSerializeFormatT format) {
+    public static @NotNull org.harfbuzz.BoolT bufferDeserializeGlyphs(@NotNull org.harfbuzz.BufferT buffer, @NotNull java.lang.String[] buf, int bufLen, @NotNull Out<java.lang.String> endPtr, @Nullable org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferSerializeFormatT format) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
         java.util.Objects.requireNonNull(endPtr, "Parameter 'endPtr' must not be null");
@@ -862,7 +865,7 @@ public final class HarfBuzz {
      * @param format the {@link BufferSerializeFormatT} of the input {@code buf}
      * @return {@code true} if {@code buf} is not fully consumed, {@code false} otherwise.
      */
-    public static @NotNull org.harfbuzz.BoolT bufferDeserializeUnicode(@NotNull org.harfbuzz.BufferT buffer, java.lang.String[] buf, int bufLen, @NotNull Out<java.lang.String> endPtr, @NotNull org.harfbuzz.BufferSerializeFormatT format) {
+    public static @NotNull org.harfbuzz.BoolT bufferDeserializeUnicode(@NotNull org.harfbuzz.BufferT buffer, @NotNull java.lang.String[] buf, int bufLen, @NotNull Out<java.lang.String> endPtr, @NotNull org.harfbuzz.BufferSerializeFormatT format) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
         java.util.Objects.requireNonNull(endPtr, "Parameter 'endPtr' must not be null");
@@ -990,7 +993,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BufferT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BufferT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1034,7 +1037,7 @@ public final class HarfBuzz {
         org.harfbuzz.GlyphInfoT[] resultARRAY = new org.harfbuzz.GlyphInfoT[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = new org.harfbuzz.GlyphInfoT(Refcounted.get(OBJ, false));
+            resultARRAY[I] = new org.harfbuzz.GlyphInfoT(OBJ, Ownership.NONE);
         }
         return resultARRAY;
     }
@@ -1068,7 +1071,7 @@ public final class HarfBuzz {
         org.harfbuzz.GlyphPositionT[] resultARRAY = new org.harfbuzz.GlyphPositionT[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = new org.harfbuzz.GlyphPositionT(Refcounted.get(OBJ, false));
+            resultARRAY[I] = new org.harfbuzz.GlyphPositionT(OBJ, Ownership.NONE);
         }
         return resultARRAY;
     }
@@ -1104,7 +1107,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.LanguageT(Refcounted.get(RESULT, false));
+        return new org.harfbuzz.LanguageT(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1208,7 +1211,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.UnicodeFuncsT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.UnicodeFuncsT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1336,7 +1339,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BufferT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BufferT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1422,7 +1425,7 @@ public final class HarfBuzz {
      *         to serialize.
      * @return The number of serialized items.
      */
-    public static int bufferSerialize(@NotNull org.harfbuzz.BufferT buffer, int start, int end, Out<byte[]> buf, Out<Integer> bufSize, Out<Integer> bufConsumed, @Nullable org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferSerializeFormatT format, @NotNull org.harfbuzz.BufferSerializeFlagsT flags) {
+    public static int bufferSerialize(@NotNull org.harfbuzz.BufferT buffer, int start, int end, @NotNull Out<byte[]> buf, Out<Integer> bufSize, Out<Integer> bufConsumed, @Nullable org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferSerializeFormatT format, @NotNull org.harfbuzz.BufferSerializeFlagsT flags) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
         java.util.Objects.requireNonNull(bufConsumed, "Parameter 'bufConsumed' must not be null");
@@ -1460,7 +1463,7 @@ public final class HarfBuzz {
      * @param len length of {@code str}, or -1 if string is {@code null} terminated
      * @return The parsed {@link BufferSerializeFormatT}.
      */
-    public static @NotNull org.harfbuzz.BufferSerializeFormatT bufferSerializeFormatFromString(byte[] str, int len) {
+    public static @NotNull org.harfbuzz.BufferSerializeFormatT bufferSerializeFormatFromString(@NotNull byte[] str, int len) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         int RESULT;
         try {
@@ -1549,7 +1552,7 @@ public final class HarfBuzz {
      *         to serialize.
      * @return The number of serialized items.
      */
-    public static int bufferSerializeGlyphs(@NotNull org.harfbuzz.BufferT buffer, int start, int end, Out<byte[]> buf, Out<Integer> bufSize, Out<Integer> bufConsumed, @Nullable org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferSerializeFormatT format, @NotNull org.harfbuzz.BufferSerializeFlagsT flags) {
+    public static int bufferSerializeGlyphs(@NotNull org.harfbuzz.BufferT buffer, int start, int end, @NotNull Out<byte[]> buf, Out<Integer> bufSize, Out<Integer> bufConsumed, @Nullable org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferSerializeFormatT format, @NotNull org.harfbuzz.BufferSerializeFlagsT flags) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
         java.util.Objects.requireNonNull(bufConsumed, "Parameter 'bufConsumed' must not be null");
@@ -1639,7 +1642,7 @@ public final class HarfBuzz {
      *         to serialize.
      * @return The number of serialized items.
      */
-    public static int bufferSerializeUnicode(@NotNull org.harfbuzz.BufferT buffer, int start, int end, Out<byte[]> buf, Out<Integer> bufSize, Out<Integer> bufConsumed, @NotNull org.harfbuzz.BufferSerializeFormatT format, @NotNull org.harfbuzz.BufferSerializeFlagsT flags) {
+    public static int bufferSerializeUnicode(@NotNull org.harfbuzz.BufferT buffer, int start, int end, @NotNull Out<byte[]> buf, Out<Integer> bufSize, Out<Integer> bufConsumed, @NotNull org.harfbuzz.BufferSerializeFormatT format, @NotNull org.harfbuzz.BufferSerializeFlagsT flags) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
         java.util.Objects.requireNonNull(bufConsumed, "Parameter 'bufConsumed' must not be null");
@@ -2016,7 +2019,7 @@ public final class HarfBuzz {
      * @param len Length of {@code str}, or -1 if it is {@code null}-terminated
      * @return The {@link DirectionT} matching {@code str}
      */
-    public static @NotNull org.harfbuzz.DirectionT directionFromString(byte[] str, int len) {
+    public static @NotNull org.harfbuzz.DirectionT directionFromString(@NotNull byte[] str, int len) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         int RESULT;
         try {
@@ -2111,7 +2114,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.DrawFuncsT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.DrawFuncsT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2176,7 +2179,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.DrawFuncsT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.DrawFuncsT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2343,7 +2346,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FaceT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FaceT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2449,7 +2452,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FaceT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FaceT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2496,7 +2499,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FaceT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FaceT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2545,7 +2548,7 @@ public final class HarfBuzz {
      * @param tableTags The array of table tags found
      * @return Total number of tables, or zero if it is not possible to list
      */
-    public static int faceGetTableTags(@NotNull org.harfbuzz.FaceT face, int startOffset, Out<Integer> tableCount, Out<org.harfbuzz.TagT[]> tableTags) {
+    public static int faceGetTableTags(@NotNull org.harfbuzz.FaceT face, int startOffset, Out<Integer> tableCount, @NotNull Out<org.harfbuzz.TagT[]> tableTags) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(tableCount, "Parameter 'tableCount' must not be null");
         java.util.Objects.requireNonNull(tableTags, "Parameter 'tableTags' must not be null");
@@ -2654,7 +2657,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FaceT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FaceT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2673,7 +2676,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2694,7 +2697,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2805,7 +2808,7 @@ public final class HarfBuzz {
      * @param feature the {@link FeatureT} to initialize with the parsed values
      * @return {@code true} if {@code str} is successfully parsed, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT featureFromString(byte[] str, int len, @NotNull org.harfbuzz.FeatureT feature) {
+    public static @NotNull org.harfbuzz.BoolT featureFromString(@NotNull byte[] str, int len, @NotNull org.harfbuzz.FeatureT feature) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         java.util.Objects.requireNonNull(feature, "Parameter 'feature' must not be null");
         int RESULT;
@@ -2828,7 +2831,7 @@ public final class HarfBuzz {
      * @param buf output string
      * @param size the allocated size of {@code buf}
      */
-    public static void featureToString(@NotNull org.harfbuzz.FeatureT feature, Out<java.lang.String[]> buf, Out<Integer> size) {
+    public static void featureToString(@NotNull org.harfbuzz.FeatureT feature, @NotNull Out<java.lang.String[]> buf, Out<Integer> size) {
         java.util.Objects.requireNonNull(feature, "Parameter 'feature' must not be null");
         java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -2907,7 +2910,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FontT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FontT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2925,7 +2928,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FontT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FontT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2955,7 +2958,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FontFuncsT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FontFuncsT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2985,7 +2988,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FontFuncsT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FontFuncsT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3054,7 +3057,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FontFuncsT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FontFuncsT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3293,7 +3296,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FontT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FontT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3334,7 +3337,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FaceT(Refcounted.get(RESULT, false));
+        return new org.harfbuzz.FaceT(RESULT, Ownership.NONE);
     }
     
     /**
@@ -3580,7 +3583,7 @@ public final class HarfBuzz {
      * @param glyph The glyph ID retrieved
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontGetGlyphFromName(@NotNull org.harfbuzz.FontT font, java.lang.String[] name, int len, @NotNull Out<org.harfbuzz.CodepointT> glyph) {
+    public static @NotNull org.harfbuzz.BoolT fontGetGlyphFromName(@NotNull org.harfbuzz.FontT font, @NotNull java.lang.String[] name, int len, @NotNull Out<org.harfbuzz.CodepointT> glyph) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
@@ -3753,7 +3756,7 @@ public final class HarfBuzz {
      * @param size Length of the glyph-name string retrieved
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontGetGlyphName(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, Out<java.lang.String[]> name, Out<Integer> size) {
+    public static @NotNull org.harfbuzz.BoolT fontGetGlyphName(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull Out<java.lang.String[]> name, Out<Integer> size) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
@@ -4049,7 +4052,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FontT(Refcounted.get(RESULT, false));
+        return new org.harfbuzz.FontT(RESULT, Ownership.NONE);
     }
     
     /**
@@ -4277,7 +4280,7 @@ public final class HarfBuzz {
      * @param glyph The glyph ID corresponding to the string requested
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontGlyphFromString(@NotNull org.harfbuzz.FontT font, byte[] s, int len, @NotNull Out<org.harfbuzz.CodepointT> glyph) {
+    public static @NotNull org.harfbuzz.BoolT fontGlyphFromString(@NotNull org.harfbuzz.FontT font, @NotNull byte[] s, int len, @NotNull Out<org.harfbuzz.CodepointT> glyph) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
@@ -4307,7 +4310,7 @@ public final class HarfBuzz {
      * @param s The string containing the glyph name
      * @param size Length of string {@code s}
      */
-    public static void fontGlyphToString(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, Out<java.lang.String[]> s, Out<Integer> size) {
+    public static void fontGlyphToString(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull Out<java.lang.String[]> s, Out<Integer> size) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
@@ -4376,7 +4379,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FontT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FontT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4543,7 +4546,7 @@ public final class HarfBuzz {
      * @param coords Array of variation coordinates to apply
      * @param coordsLength Number of coordinates to apply
      */
-    public static void fontSetVarCoordsDesign(@NotNull org.harfbuzz.FontT font, float[] coords, int coordsLength) {
+    public static void fontSetVarCoordsDesign(@NotNull org.harfbuzz.FontT font, @NotNull float[] coords, int coordsLength) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(coords, "Parameter 'coords' must not be null");
         try {
@@ -4569,7 +4572,7 @@ public final class HarfBuzz {
      * @param coords Array of variation coordinates to apply
      * @param coordsLength Number of coordinates to apply
      */
-    public static void fontSetVarCoordsNormalized(@NotNull org.harfbuzz.FontT font, int[] coords, int coordsLength) {
+    public static void fontSetVarCoordsNormalized(@NotNull org.harfbuzz.FontT font, @NotNull int[] coords, int coordsLength) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(coords, "Parameter 'coords' must not be null");
         try {
@@ -4608,7 +4611,7 @@ public final class HarfBuzz {
      * @param variations Array of variation settings to apply
      * @param variationsLength Number of variations to apply
      */
-    public static void fontSetVariations(@NotNull org.harfbuzz.FontT font, org.harfbuzz.VariationT[] variations, int variationsLength) {
+    public static void fontSetVariations(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.VariationT[] variations, int variationsLength) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(variations, "Parameter 'variations' must not be null");
         try {
@@ -4892,7 +4895,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4907,7 +4910,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.UnicodeFuncsT(Refcounted.get(RESULT, false));
+        return new org.harfbuzz.UnicodeFuncsT(RESULT, Ownership.NONE);
     }
     
     /**
@@ -4991,7 +4994,7 @@ public final class HarfBuzz {
      * @param len length of the {@code str}, or -1 if it is {@code null}-terminated.
      * @return The {@link LanguageT} corresponding to the BCP 47 language tag.
      */
-    public static @NotNull org.harfbuzz.LanguageT languageFromString(byte[] str, int len) {
+    public static @NotNull org.harfbuzz.LanguageT languageFromString(@NotNull byte[] str, int len) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         MemoryAddress RESULT;
         try {
@@ -5001,7 +5004,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.LanguageT(Refcounted.get(RESULT, false));
+        return new org.harfbuzz.LanguageT(RESULT, Ownership.NONE);
     }
     
     /**
@@ -5023,7 +5026,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.LanguageT(Refcounted.get(RESULT, false));
+        return new org.harfbuzz.LanguageT(RESULT, Ownership.NONE);
     }
     
     /**
@@ -5086,7 +5089,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.MapT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.MapT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -5152,7 +5155,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.MapT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.MapT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -5244,7 +5247,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.MapT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.MapT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -5291,7 +5294,7 @@ public final class HarfBuzz {
      * @param layers The array of layers found
      * @return Total number of layers available for the glyph index queried
      */
-    public static int otColorGlyphGetLayers(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.CodepointT glyph, int startOffset, Out<Integer> layerCount, Out<org.harfbuzz.OtColorLayerT[]> layers) {
+    public static int otColorGlyphGetLayers(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.CodepointT glyph, int startOffset, Out<Integer> layerCount, @Nullable Out<org.harfbuzz.OtColorLayerT[]> layers) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         java.util.Objects.requireNonNull(layerCount, "Parameter 'layerCount' must not be null");
@@ -5312,7 +5315,7 @@ public final class HarfBuzz {
         org.harfbuzz.OtColorLayerT[] layersARRAY = new org.harfbuzz.OtColorLayerT[layerCount.get().intValue()];
         for (int I = 0; I < layerCount.get().intValue(); I++) {
             var OBJ = layersPOINTER.get(ValueLayout.ADDRESS, I);
-            layersARRAY[I] = new org.harfbuzz.OtColorLayerT(Refcounted.get(OBJ, false));
+            layersARRAY[I] = new org.harfbuzz.OtColorLayerT(OBJ, Ownership.NONE);
         }
         layers.set(layersARRAY);
         return RESULT;
@@ -5339,7 +5342,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -5361,7 +5364,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -5471,7 +5474,7 @@ public final class HarfBuzz {
      * @param colors The array of {@link ColorT} records found
      * @return the total number of colors in the palette
      */
-    public static int otColorPaletteGetColors(@NotNull org.harfbuzz.FaceT face, int paletteIndex, int startOffset, Out<Integer> colorCount, Out<org.harfbuzz.ColorT[]> colors) {
+    public static int otColorPaletteGetColors(@NotNull org.harfbuzz.FaceT face, int paletteIndex, int startOffset, Out<Integer> colorCount, @Nullable Out<org.harfbuzz.ColorT[]> colors) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(colorCount, "Parameter 'colorCount' must not be null");
         MemorySegment colorCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
@@ -5663,7 +5666,7 @@ public final class HarfBuzz {
      *               glyph variants.
      * @return Number of total sample characters in the cvXX feature.
      */
-    public static int otLayoutFeatureGetCharacters(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int featureIndex, int startOffset, Out<Integer> charCount, Out<org.harfbuzz.CodepointT[]> characters) {
+    public static int otLayoutFeatureGetCharacters(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int featureIndex, int startOffset, Out<Integer> charCount, @NotNull Out<org.harfbuzz.CodepointT[]> characters) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
         java.util.Objects.requireNonNull(charCount, "Parameter 'charCount' must not be null");
@@ -5705,7 +5708,7 @@ public final class HarfBuzz {
      * @param lookupIndexes The array of lookup indexes found for the query
      * @return Total number of lookups.
      */
-    public static int otLayoutFeatureGetLookups(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int featureIndex, int startOffset, Out<Integer> lookupCount, Out<int[]> lookupIndexes) {
+    public static int otLayoutFeatureGetLookups(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int featureIndex, int startOffset, Out<Integer> lookupCount, @NotNull Out<int[]> lookupIndexes) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
         java.util.Objects.requireNonNull(lookupCount, "Parameter 'lookupCount' must not be null");
@@ -5797,7 +5800,7 @@ public final class HarfBuzz {
      * @param lookupIndexes The array of lookups found for the query
      * @return Total number of lookups.
      */
-    public static int otLayoutFeatureWithVariationsGetLookups(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int featureIndex, int variationsIndex, int startOffset, Out<Integer> lookupCount, Out<int[]> lookupIndexes) {
+    public static int otLayoutFeatureWithVariationsGetLookups(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int featureIndex, int variationsIndex, int startOffset, Out<Integer> lookupCount, @NotNull Out<int[]> lookupIndexes) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
         java.util.Objects.requireNonNull(lookupCount, "Parameter 'lookupCount' must not be null");
@@ -5835,7 +5838,7 @@ public final class HarfBuzz {
      * @param pointArray The array of attachment points found for the query
      * @return Total number of attachment points for {@code glyph}.
      */
-    public static int otLayoutGetAttachPoints(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.CodepointT glyph, int startOffset, Out<Integer> pointCount, Out<int[]> pointArray) {
+    public static int otLayoutGetAttachPoints(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.CodepointT glyph, int startOffset, Out<Integer> pointCount, @NotNull Out<int[]> pointArray) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         java.util.Objects.requireNonNull(pointCount, "Parameter 'pointCount' must not be null");
@@ -6002,7 +6005,7 @@ public final class HarfBuzz {
      * @param caretArray The array of caret positions found for the query
      * @return Total number of ligature caret positions for {@code glyph}.
      */
-    public static int otLayoutGetLigatureCarets(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.DirectionT direction, @NotNull org.harfbuzz.CodepointT glyph, int startOffset, Out<Integer> caretCount, Out<org.harfbuzz.PositionT[]> caretArray) {
+    public static int otLayoutGetLigatureCarets(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.DirectionT direction, @NotNull org.harfbuzz.CodepointT glyph, int startOffset, Out<Integer> caretCount, @NotNull Out<org.harfbuzz.PositionT[]> caretArray) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
@@ -6179,7 +6182,7 @@ public final class HarfBuzz {
      * @param featureIndexes The array of feature indexes found for the query
      * @return Total number of features.
      */
-    public static int otLayoutLanguageGetFeatureIndexes(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, int languageIndex, int startOffset, Out<Integer> featureCount, Out<int[]> featureIndexes) {
+    public static int otLayoutLanguageGetFeatureIndexes(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, int languageIndex, int startOffset, Out<Integer> featureCount, @NotNull Out<int[]> featureIndexes) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
         java.util.Objects.requireNonNull(featureCount, "Parameter 'featureCount' must not be null");
@@ -6218,7 +6221,7 @@ public final class HarfBuzz {
      * @param featureTags The array of {@link TagT} feature tags found for the query
      * @return Total number of feature tags.
      */
-    public static int otLayoutLanguageGetFeatureTags(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, int languageIndex, int startOffset, Out<Integer> featureCount, Out<org.harfbuzz.TagT[]> featureTags) {
+    public static int otLayoutLanguageGetFeatureTags(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, int languageIndex, int startOffset, Out<Integer> featureCount, @NotNull Out<org.harfbuzz.TagT[]> featureTags) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
         java.util.Objects.requireNonNull(featureCount, "Parameter 'featureCount' must not be null");
@@ -6357,7 +6360,7 @@ public final class HarfBuzz {
      *                    Alternate glyphs associated with the glyph id.
      * @return Total number of alternates found in the specific lookup index for the given glyph id.
      */
-    public static int otLayoutLookupGetGlyphAlternates(@NotNull org.harfbuzz.FaceT face, int lookupIndex, @NotNull org.harfbuzz.CodepointT glyph, int startOffset, Out<Integer> alternateCount, Out<org.harfbuzz.CodepointT[]> alternateGlyphs) {
+    public static int otLayoutLookupGetGlyphAlternates(@NotNull org.harfbuzz.FaceT face, int lookupIndex, @NotNull org.harfbuzz.CodepointT glyph, int startOffset, Out<Integer> alternateCount, @NotNull Out<org.harfbuzz.CodepointT[]> alternateGlyphs) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         java.util.Objects.requireNonNull(alternateCount, "Parameter 'alternateCount' must not be null");
@@ -6500,7 +6503,7 @@ public final class HarfBuzz {
      * @param languageTags Array of language tags found in the table
      * @return Total number of language tags.
      */
-    public static int otLayoutScriptGetLanguageTags(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, int startOffset, Out<Integer> languageCount, Out<org.harfbuzz.TagT[]> languageTags) {
+    public static int otLayoutScriptGetLanguageTags(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, int startOffset, Out<Integer> languageCount, @NotNull Out<org.harfbuzz.TagT[]> languageTags) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
         java.util.Objects.requireNonNull(languageCount, "Parameter 'languageCount' must not be null");
@@ -6672,7 +6675,7 @@ public final class HarfBuzz {
      * @param featureTags Array of feature tags found in the table
      * @return Total number of feature tags.
      */
-    public static int otLayoutTableGetFeatureTags(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int startOffset, Out<Integer> featureCount, Out<org.harfbuzz.TagT[]> featureTags) {
+    public static int otLayoutTableGetFeatureTags(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int startOffset, Out<Integer> featureCount, @NotNull Out<org.harfbuzz.TagT[]> featureTags) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
         java.util.Objects.requireNonNull(featureCount, "Parameter 'featureCount' must not be null");
@@ -6732,7 +6735,7 @@ public final class HarfBuzz {
      * @param scriptTags The array of {@link TagT} script tags found for the query
      * @return Total number of script tags.
      */
-    public static int otLayoutTableGetScriptTags(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int startOffset, Out<Integer> scriptCount, Out<org.harfbuzz.TagT[]> scriptTags) {
+    public static int otLayoutTableGetScriptTags(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int startOffset, Out<Integer> scriptCount, @NotNull Out<org.harfbuzz.TagT[]> scriptTags) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
         java.util.Objects.requireNonNull(scriptCount, "Parameter 'scriptCount' must not be null");
@@ -6849,7 +6852,7 @@ public final class HarfBuzz {
      * @param italicsCorrection italics correction of the glyph assembly
      * @return the total number of parts in the glyph assembly
      */
-    public static int otMathGetGlyphAssembly(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DirectionT direction, int startOffset, Out<Integer> partsCount, Out<org.harfbuzz.OtMathGlyphPartT[]> parts, @NotNull Out<org.harfbuzz.PositionT> italicsCorrection) {
+    public static int otMathGetGlyphAssembly(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DirectionT direction, int startOffset, Out<Integer> partsCount, @NotNull Out<org.harfbuzz.OtMathGlyphPartT[]> parts, @NotNull Out<org.harfbuzz.PositionT> italicsCorrection) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
@@ -6877,7 +6880,7 @@ public final class HarfBuzz {
         org.harfbuzz.OtMathGlyphPartT[] partsARRAY = new org.harfbuzz.OtMathGlyphPartT[partsCount.get().intValue()];
         for (int I = 0; I < partsCount.get().intValue(); I++) {
             var OBJ = partsPOINTER.get(ValueLayout.ADDRESS, I);
-            partsARRAY[I] = new org.harfbuzz.OtMathGlyphPartT(Refcounted.get(OBJ, false));
+            partsARRAY[I] = new org.harfbuzz.OtMathGlyphPartT(OBJ, Ownership.NONE);
         }
         parts.set(partsARRAY);
         return RESULT;
@@ -6960,7 +6963,7 @@ public final class HarfBuzz {
      * @param kernEntries array of kern entries returned
      * @return the total number of kern values available or zero
      */
-    public static int otMathGetGlyphKernings(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.OtMathKernT kern, int startOffset, Out<Integer> entriesCount, Out<org.harfbuzz.OtMathKernEntryT[]> kernEntries) {
+    public static int otMathGetGlyphKernings(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.OtMathKernT kern, int startOffset, Out<Integer> entriesCount, @NotNull Out<org.harfbuzz.OtMathKernEntryT[]> kernEntries) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         java.util.Objects.requireNonNull(kern, "Parameter 'kern' must not be null");
@@ -6984,7 +6987,7 @@ public final class HarfBuzz {
         org.harfbuzz.OtMathKernEntryT[] kernEntriesARRAY = new org.harfbuzz.OtMathKernEntryT[entriesCount.get().intValue()];
         for (int I = 0; I < entriesCount.get().intValue(); I++) {
             var OBJ = kernEntriesPOINTER.get(ValueLayout.ADDRESS, I);
-            kernEntriesARRAY[I] = new org.harfbuzz.OtMathKernEntryT(Refcounted.get(OBJ, false));
+            kernEntriesARRAY[I] = new org.harfbuzz.OtMathKernEntryT(OBJ, Ownership.NONE);
         }
         kernEntries.set(kernEntriesARRAY);
         return RESULT;
@@ -7036,7 +7039,7 @@ public final class HarfBuzz {
      * @param variants array of variants returned
      * @return the total number of size variants available or zero
      */
-    public static int otMathGetGlyphVariants(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DirectionT direction, int startOffset, Out<Integer> variantsCount, Out<org.harfbuzz.OtMathGlyphVariantT[]> variants) {
+    public static int otMathGetGlyphVariants(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DirectionT direction, int startOffset, Out<Integer> variantsCount, @NotNull Out<org.harfbuzz.OtMathGlyphVariantT[]> variants) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
@@ -7060,7 +7063,7 @@ public final class HarfBuzz {
         org.harfbuzz.OtMathGlyphVariantT[] variantsARRAY = new org.harfbuzz.OtMathGlyphVariantT[variantsCount.get().intValue()];
         for (int I = 0; I < variantsCount.get().intValue(); I++) {
             var OBJ = variantsPOINTER.get(ValueLayout.ADDRESS, I);
-            variantsARRAY[I] = new org.harfbuzz.OtMathGlyphVariantT(Refcounted.get(OBJ, false));
+            variantsARRAY[I] = new org.harfbuzz.OtMathGlyphVariantT(OBJ, Ownership.NONE);
         }
         variants.set(variantsARRAY);
         return RESULT;
@@ -7138,7 +7141,7 @@ public final class HarfBuzz {
      * @param entries entries tags buffer
      * @return Number of all available feature types.
      */
-    public static int otMetaGetEntryTags(@NotNull org.harfbuzz.FaceT face, int startOffset, Out<Integer> entriesCount, Out<org.harfbuzz.OtMetaTagT[]> entries) {
+    public static int otMetaGetEntryTags(@NotNull org.harfbuzz.FaceT face, int startOffset, Out<Integer> entriesCount, @NotNull Out<org.harfbuzz.OtMetaTagT[]> entries) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(entriesCount, "Parameter 'entriesCount' must not be null");
         java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
@@ -7181,7 +7184,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -7308,7 +7311,7 @@ public final class HarfBuzz {
      * @param text buffer to write fetched name into.
      * @return full length of the requested string, or 0 if not found.
      */
-    public static int otNameGetUtf16(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.OtNameIdT nameId, @NotNull org.harfbuzz.LanguageT language, Out<Integer> textSize, Out<short[]> text) {
+    public static int otNameGetUtf16(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.OtNameIdT nameId, @NotNull org.harfbuzz.LanguageT language, Out<Integer> textSize, @NotNull Out<short[]> text) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(nameId, "Parameter 'nameId' must not be null");
         java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
@@ -7345,7 +7348,7 @@ public final class HarfBuzz {
      * @param text buffer to write fetched name into.
      * @return full length of the requested string, or 0 if not found.
      */
-    public static int otNameGetUtf32(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.OtNameIdT nameId, @NotNull org.harfbuzz.LanguageT language, Out<Integer> textSize, Out<int[]> text) {
+    public static int otNameGetUtf32(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.OtNameIdT nameId, @NotNull org.harfbuzz.LanguageT language, Out<Integer> textSize, @NotNull Out<int[]> text) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(nameId, "Parameter 'nameId' must not be null");
         java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
@@ -7382,7 +7385,7 @@ public final class HarfBuzz {
      * @param text buffer to write fetched name into.
      * @return full length of the requested string, or 0 if not found.
      */
-    public static int otNameGetUtf8(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.OtNameIdT nameId, @NotNull org.harfbuzz.LanguageT language, Out<Integer> textSize, Out<java.lang.String[]> text) {
+    public static int otNameGetUtf8(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.OtNameIdT nameId, @NotNull org.harfbuzz.LanguageT language, Out<Integer> textSize, @NotNull Out<java.lang.String[]> text) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(nameId, "Parameter 'nameId' must not be null");
         java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
@@ -7435,7 +7438,7 @@ public final class HarfBuzz {
         org.harfbuzz.OtNameEntryT[] resultARRAY = new org.harfbuzz.OtNameEntryT[numEntries.get().intValue()];
         for (int I = 0; I < numEntries.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = new org.harfbuzz.OtNameEntryT(Refcounted.get(OBJ, false));
+            resultARRAY[I] = new org.harfbuzz.OtNameEntryT(OBJ, Ownership.NONE);
         }
         return resultARRAY;
     }
@@ -7450,7 +7453,7 @@ public final class HarfBuzz {
      * @param numFeatures The number of features enabled on the buffer
      * @param glyphs The {@link SetT} set of glyphs comprising the transitive closure of the query
      */
-    public static void otShapeGlyphsClosure(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferT buffer, org.harfbuzz.FeatureT[] features, int numFeatures, @NotNull org.harfbuzz.SetT glyphs) {
+    public static void otShapeGlyphsClosure(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.FeatureT[] features, int numFeatures, @NotNull org.harfbuzz.SetT glyphs) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(features, "Parameter 'features' must not be null");
@@ -7514,7 +7517,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.LanguageT(Refcounted.get(RESULT, false));
+        return new org.harfbuzz.LanguageT(RESULT, Ownership.NONE);
     }
     
     /**
@@ -7685,7 +7688,7 @@ public final class HarfBuzz {
      * @deprecated use hb_ot_var_get_axis_infos() instead
      */
     @Deprecated
-    public static int otVarGetAxes(@NotNull org.harfbuzz.FaceT face, int startOffset, Out<Integer> axesCount, Out<org.harfbuzz.OtVarAxisT[]> axesArray) {
+    public static int otVarGetAxes(@NotNull org.harfbuzz.FaceT face, int startOffset, Out<Integer> axesCount, @NotNull Out<org.harfbuzz.OtVarAxisT[]> axesArray) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(axesCount, "Parameter 'axesCount' must not be null");
         java.util.Objects.requireNonNull(axesArray, "Parameter 'axesArray' must not be null");
@@ -7705,7 +7708,7 @@ public final class HarfBuzz {
         org.harfbuzz.OtVarAxisT[] axesArrayARRAY = new org.harfbuzz.OtVarAxisT[axesCount.get().intValue()];
         for (int I = 0; I < axesCount.get().intValue(); I++) {
             var OBJ = axesArrayPOINTER.get(ValueLayout.ADDRESS, I);
-            axesArrayARRAY[I] = new org.harfbuzz.OtVarAxisT(Refcounted.get(OBJ, false));
+            axesArrayARRAY[I] = new org.harfbuzz.OtVarAxisT(OBJ, Ownership.NONE);
         }
         axesArray.set(axesArrayARRAY);
         return RESULT;
@@ -7738,7 +7741,7 @@ public final class HarfBuzz {
      * @param axesArray The array of variation axes found
      * @return the number of variation axes in the face
      */
-    public static int otVarGetAxisInfos(@NotNull org.harfbuzz.FaceT face, int startOffset, Out<Integer> axesCount, Out<org.harfbuzz.OtVarAxisInfoT[]> axesArray) {
+    public static int otVarGetAxisInfos(@NotNull org.harfbuzz.FaceT face, int startOffset, Out<Integer> axesCount, @NotNull Out<org.harfbuzz.OtVarAxisInfoT[]> axesArray) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(axesCount, "Parameter 'axesCount' must not be null");
         java.util.Objects.requireNonNull(axesArray, "Parameter 'axesArray' must not be null");
@@ -7758,7 +7761,7 @@ public final class HarfBuzz {
         org.harfbuzz.OtVarAxisInfoT[] axesArrayARRAY = new org.harfbuzz.OtVarAxisInfoT[axesCount.get().intValue()];
         for (int I = 0; I < axesCount.get().intValue(); I++) {
             var OBJ = axesArrayPOINTER.get(ValueLayout.ADDRESS, I);
-            axesArrayARRAY[I] = new org.harfbuzz.OtVarAxisInfoT(Refcounted.get(OBJ, false));
+            axesArrayARRAY[I] = new org.harfbuzz.OtVarAxisInfoT(OBJ, Ownership.NONE);
         }
         axesArray.set(axesArrayARRAY);
         return RESULT;
@@ -7808,7 +7811,7 @@ public final class HarfBuzz {
      * @param coords The array of coordinates found for the query
      * @return the number of variation axes in the face
      */
-    public static int otVarNamedInstanceGetDesignCoords(@NotNull org.harfbuzz.FaceT face, int instanceIndex, Out<Integer> coordsLength, Out<float[]> coords) {
+    public static int otVarNamedInstanceGetDesignCoords(@NotNull org.harfbuzz.FaceT face, int instanceIndex, Out<Integer> coordsLength, @NotNull Out<float[]> coords) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(coordsLength, "Parameter 'coordsLength' must not be null");
         java.util.Objects.requireNonNull(coords, "Parameter 'coords' must not be null");
@@ -7909,7 +7912,7 @@ public final class HarfBuzz {
      * @param coords The array of normalized coordinates
      * @param coordsLength The length of the coordinate array
      */
-    public static void otVarNormalizeVariations(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.VariationT variations, int variationsLength, Out<int[]> coords, Out<Integer> coordsLength) {
+    public static void otVarNormalizeVariations(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.VariationT variations, int variationsLength, @NotNull Out<int[]> coords, Out<Integer> coordsLength) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(variations, "Parameter 'variations' must not be null");
         java.util.Objects.requireNonNull(coords, "Parameter 'coords' must not be null");
@@ -7955,7 +7958,7 @@ public final class HarfBuzz {
      * @param len length of the {@code str}, or -1 if it is {@code null}-terminated.
      * @return An {@link ScriptT} corresponding to the ISO 15924 tag.
      */
-    public static @NotNull org.harfbuzz.ScriptT scriptFromString(byte[] str, int len) {
+    public static @NotNull org.harfbuzz.ScriptT scriptFromString(@NotNull byte[] str, int len) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         int RESULT;
         try {
@@ -8153,7 +8156,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.SetT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.SetT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -8167,7 +8170,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.SetT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.SetT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -8238,7 +8241,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.SetT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.SetT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -8548,7 +8551,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.SetT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.SetT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -8645,7 +8648,7 @@ public final class HarfBuzz {
      *    specified {@link FeatureT} or {@code null}
      * @param numFeatures the length of {@code features} array
      */
-    public static void shape(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferT buffer, org.harfbuzz.FeatureT[] features, int numFeatures) {
+    public static void shape(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferT buffer, @Nullable org.harfbuzz.FeatureT[] features, int numFeatures) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         try {
@@ -8672,7 +8675,7 @@ public final class HarfBuzz {
      *    array of shapers to use or {@code null}
      * @return false if all shapers failed, true otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT shapeFull(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferT buffer, org.harfbuzz.FeatureT[] features, int numFeatures, java.lang.String[] shaperList) {
+    public static @NotNull org.harfbuzz.BoolT shapeFull(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferT buffer, @Nullable org.harfbuzz.FeatureT[] features, int numFeatures, @Nullable java.lang.String[] shaperList) {
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
@@ -8714,7 +8717,7 @@ public final class HarfBuzz {
      * @param shaperList List of shapers to try
      * @return The shaping plan
      */
-    public static @NotNull org.harfbuzz.ShapePlanT shapePlanCreate(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SegmentPropertiesT props, org.harfbuzz.FeatureT[] userFeatures, int numUserFeatures, java.lang.String[] shaperList) {
+    public static @NotNull org.harfbuzz.ShapePlanT shapePlanCreate(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SegmentPropertiesT props, @NotNull org.harfbuzz.FeatureT[] userFeatures, int numUserFeatures, @NotNull java.lang.String[] shaperList) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(props, "Parameter 'props' must not be null");
         java.util.Objects.requireNonNull(userFeatures, "Parameter 'userFeatures' must not be null");
@@ -8730,7 +8733,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.ShapePlanT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.ShapePlanT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -8746,7 +8749,7 @@ public final class HarfBuzz {
      * @param shaperList List of shapers to try
      * @return The shaping plan
      */
-    public static @NotNull org.harfbuzz.ShapePlanT shapePlanCreate2(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SegmentPropertiesT props, org.harfbuzz.FeatureT[] userFeatures, int numUserFeatures, int[] coords, int numCoords, java.lang.String[] shaperList) {
+    public static @NotNull org.harfbuzz.ShapePlanT shapePlanCreate2(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SegmentPropertiesT props, @NotNull org.harfbuzz.FeatureT[] userFeatures, int numUserFeatures, @NotNull int[] coords, int numCoords, @NotNull java.lang.String[] shaperList) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(props, "Parameter 'props' must not be null");
         java.util.Objects.requireNonNull(userFeatures, "Parameter 'userFeatures' must not be null");
@@ -8765,7 +8768,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.ShapePlanT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.ShapePlanT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -8778,7 +8781,7 @@ public final class HarfBuzz {
      * @param shaperList List of shapers to try
      * @return The shaping plan
      */
-    public static @NotNull org.harfbuzz.ShapePlanT shapePlanCreateCached(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SegmentPropertiesT props, org.harfbuzz.FeatureT[] userFeatures, int numUserFeatures, java.lang.String[] shaperList) {
+    public static @NotNull org.harfbuzz.ShapePlanT shapePlanCreateCached(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SegmentPropertiesT props, @NotNull org.harfbuzz.FeatureT[] userFeatures, int numUserFeatures, @NotNull java.lang.String[] shaperList) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(props, "Parameter 'props' must not be null");
         java.util.Objects.requireNonNull(userFeatures, "Parameter 'userFeatures' must not be null");
@@ -8794,7 +8797,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.ShapePlanT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.ShapePlanT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -8811,7 +8814,7 @@ public final class HarfBuzz {
      * @param shaperList List of shapers to try
      * @return The shaping plan
      */
-    public static @NotNull org.harfbuzz.ShapePlanT shapePlanCreateCached2(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SegmentPropertiesT props, org.harfbuzz.FeatureT[] userFeatures, int numUserFeatures, int[] coords, int numCoords, java.lang.String[] shaperList) {
+    public static @NotNull org.harfbuzz.ShapePlanT shapePlanCreateCached2(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SegmentPropertiesT props, @NotNull org.harfbuzz.FeatureT[] userFeatures, int numUserFeatures, @NotNull int[] coords, int numCoords, @NotNull java.lang.String[] shaperList) {
         java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         java.util.Objects.requireNonNull(props, "Parameter 'props' must not be null");
         java.util.Objects.requireNonNull(userFeatures, "Parameter 'userFeatures' must not be null");
@@ -8830,7 +8833,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.ShapePlanT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.ShapePlanT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -8859,7 +8862,7 @@ public final class HarfBuzz {
      * @param numFeatures The number of features to enable
      * @return {@code true} if success, {@code false} otherwise.
      */
-    public static @NotNull org.harfbuzz.BoolT shapePlanExecute(@NotNull org.harfbuzz.ShapePlanT shapePlan, @NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferT buffer, org.harfbuzz.FeatureT[] features, int numFeatures) {
+    public static @NotNull org.harfbuzz.BoolT shapePlanExecute(@NotNull org.harfbuzz.ShapePlanT shapePlan, @NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.FeatureT[] features, int numFeatures) {
         java.util.Objects.requireNonNull(shapePlan, "Parameter 'shapePlan' must not be null");
         java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
@@ -8889,7 +8892,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.ShapePlanT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.ShapePlanT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -8944,7 +8947,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.ShapePlanT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.ShapePlanT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -8991,7 +8994,7 @@ public final class HarfBuzz {
      * @param len Length of {@code str}, or -1 if it is {@code null}-terminated
      * @return The {@link TagT} corresponding to {@code str}
      */
-    public static @NotNull org.harfbuzz.TagT tagFromString(byte[] str, int len) {
+    public static @NotNull org.harfbuzz.TagT tagFromString(@NotNull byte[] str, int len) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         int RESULT;
         try {
@@ -9010,7 +9013,7 @@ public final class HarfBuzz {
      * @param tag {@link TagT} to convert
      * @param buf Converted string
      */
-    public static void tagToString(@NotNull org.harfbuzz.TagT tag, Out<byte[]> buf) {
+    public static void tagToString(@NotNull org.harfbuzz.TagT tag, @NotNull Out<byte[]> buf) {
         java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
         java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -9170,7 +9173,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.UnicodeFuncsT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.UnicodeFuncsT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -9201,7 +9204,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.UnicodeFuncsT(Refcounted.get(RESULT, false));
+        return new org.harfbuzz.UnicodeFuncsT(RESULT, Ownership.NONE);
     }
     
     /**
@@ -9215,7 +9218,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.UnicodeFuncsT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.UnicodeFuncsT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -9233,7 +9236,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.UnicodeFuncsT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.UnicodeFuncsT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -9304,7 +9307,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.UnicodeFuncsT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.UnicodeFuncsT(RESULT, Ownership.FULL);
     }
     
     /**
@@ -9487,7 +9490,7 @@ public final class HarfBuzz {
      * @param variation the {@link VariationT} to initialize with the parsed values
      * @return {@code true} if {@code str} is successfully parsed, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT variationFromString(byte[] str, int len, @NotNull org.harfbuzz.VariationT variation) {
+    public static @NotNull org.harfbuzz.BoolT variationFromString(@NotNull byte[] str, int len, @NotNull org.harfbuzz.VariationT variation) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         java.util.Objects.requireNonNull(variation, "Parameter 'variation' must not be null");
         int RESULT;
@@ -9510,7 +9513,7 @@ public final class HarfBuzz {
      * @param buf output string
      * @param size the allocated size of {@code buf}
      */
-    public static void variationToString(@NotNull org.harfbuzz.VariationT variation, Out<java.lang.String[]> buf, Out<Integer> size) {
+    public static void variationToString(@NotNull org.harfbuzz.VariationT variation, @NotNull Out<java.lang.String[]> buf, Out<Integer> size) {
         java.util.Objects.requireNonNull(variation, "Parameter 'variation' must not be null");
         java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -9598,2137 +9601,2564 @@ public final class HarfBuzz {
         
         private static final MethodHandle hb_aat_layout_feature_type_get_name_id = Interop.downcallHandle(
             "hb_aat_layout_feature_type_get_name_id",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_aat_layout_feature_type_get_selector_infos = Interop.downcallHandle(
             "hb_aat_layout_feature_type_get_selector_infos",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_aat_layout_get_feature_types = Interop.downcallHandle(
             "hb_aat_layout_get_feature_types",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_aat_layout_has_positioning = Interop.downcallHandle(
             "hb_aat_layout_has_positioning",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_aat_layout_has_substitution = Interop.downcallHandle(
             "hb_aat_layout_has_substitution",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_aat_layout_has_tracking = Interop.downcallHandle(
             "hb_aat_layout_has_tracking",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_blob_copy_writable_or_fail = Interop.downcallHandle(
             "hb_blob_copy_writable_or_fail",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_blob_create = Interop.downcallHandle(
             "hb_blob_create",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_blob_create_from_file = Interop.downcallHandle(
             "hb_blob_create_from_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_blob_create_from_file_or_fail = Interop.downcallHandle(
             "hb_blob_create_from_file_or_fail",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_blob_create_or_fail = Interop.downcallHandle(
             "hb_blob_create_or_fail",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_blob_create_sub_blob = Interop.downcallHandle(
             "hb_blob_create_sub_blob",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_blob_destroy = Interop.downcallHandle(
             "hb_blob_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_blob_get_data = Interop.downcallHandle(
             "hb_blob_get_data",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_blob_get_data_writable = Interop.downcallHandle(
             "hb_blob_get_data_writable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_blob_get_empty = Interop.downcallHandle(
             "hb_blob_get_empty",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_blob_get_length = Interop.downcallHandle(
             "hb_blob_get_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_blob_get_user_data = Interop.downcallHandle(
             "hb_blob_get_user_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_blob_is_immutable = Interop.downcallHandle(
             "hb_blob_is_immutable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_blob_make_immutable = Interop.downcallHandle(
             "hb_blob_make_immutable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_blob_reference = Interop.downcallHandle(
             "hb_blob_reference",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_blob_set_user_data = Interop.downcallHandle(
             "hb_blob_set_user_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_add = Interop.downcallHandle(
             "hb_buffer_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_add_codepoints = Interop.downcallHandle(
             "hb_buffer_add_codepoints",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_add_latin1 = Interop.downcallHandle(
             "hb_buffer_add_latin1",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_add_utf16 = Interop.downcallHandle(
             "hb_buffer_add_utf16",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_add_utf32 = Interop.downcallHandle(
             "hb_buffer_add_utf32",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_add_utf8 = Interop.downcallHandle(
             "hb_buffer_add_utf8",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_allocation_successful = Interop.downcallHandle(
             "hb_buffer_allocation_successful",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_append = Interop.downcallHandle(
             "hb_buffer_append",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_clear_contents = Interop.downcallHandle(
             "hb_buffer_clear_contents",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_create = Interop.downcallHandle(
             "hb_buffer_create",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_create_similar = Interop.downcallHandle(
             "hb_buffer_create_similar",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_deserialize_glyphs = Interop.downcallHandle(
             "hb_buffer_deserialize_glyphs",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_deserialize_unicode = Interop.downcallHandle(
             "hb_buffer_deserialize_unicode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_destroy = Interop.downcallHandle(
             "hb_buffer_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_diff = Interop.downcallHandle(
             "hb_buffer_diff",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_get_cluster_level = Interop.downcallHandle(
             "hb_buffer_get_cluster_level",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_get_content_type = Interop.downcallHandle(
             "hb_buffer_get_content_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_get_direction = Interop.downcallHandle(
             "hb_buffer_get_direction",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_get_empty = Interop.downcallHandle(
             "hb_buffer_get_empty",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_get_flags = Interop.downcallHandle(
             "hb_buffer_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_get_glyph_infos = Interop.downcallHandle(
             "hb_buffer_get_glyph_infos",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_get_glyph_positions = Interop.downcallHandle(
             "hb_buffer_get_glyph_positions",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_get_invisible_glyph = Interop.downcallHandle(
             "hb_buffer_get_invisible_glyph",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_get_language = Interop.downcallHandle(
             "hb_buffer_get_language",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_get_length = Interop.downcallHandle(
             "hb_buffer_get_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_get_not_found_glyph = Interop.downcallHandle(
             "hb_buffer_get_not_found_glyph",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_get_replacement_codepoint = Interop.downcallHandle(
             "hb_buffer_get_replacement_codepoint",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_get_script = Interop.downcallHandle(
             "hb_buffer_get_script",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_get_segment_properties = Interop.downcallHandle(
             "hb_buffer_get_segment_properties",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_get_unicode_funcs = Interop.downcallHandle(
             "hb_buffer_get_unicode_funcs",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_get_user_data = Interop.downcallHandle(
             "hb_buffer_get_user_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_guess_segment_properties = Interop.downcallHandle(
             "hb_buffer_guess_segment_properties",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_has_positions = Interop.downcallHandle(
             "hb_buffer_has_positions",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_normalize_glyphs = Interop.downcallHandle(
             "hb_buffer_normalize_glyphs",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_pre_allocate = Interop.downcallHandle(
             "hb_buffer_pre_allocate",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_reference = Interop.downcallHandle(
             "hb_buffer_reference",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_reset = Interop.downcallHandle(
             "hb_buffer_reset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_reverse = Interop.downcallHandle(
             "hb_buffer_reverse",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_reverse_clusters = Interop.downcallHandle(
             "hb_buffer_reverse_clusters",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_reverse_range = Interop.downcallHandle(
             "hb_buffer_reverse_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_serialize = Interop.downcallHandle(
             "hb_buffer_serialize",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_serialize_format_from_string = Interop.downcallHandle(
             "hb_buffer_serialize_format_from_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_serialize_format_to_string = Interop.downcallHandle(
             "hb_buffer_serialize_format_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_serialize_glyphs = Interop.downcallHandle(
             "hb_buffer_serialize_glyphs",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_serialize_list_formats = Interop.downcallHandle(
             "hb_buffer_serialize_list_formats",
-            FunctionDescriptor.ofVoid()
+            FunctionDescriptor.ofVoid(),
+            false
         );
         
         private static final MethodHandle hb_buffer_serialize_unicode = Interop.downcallHandle(
             "hb_buffer_serialize_unicode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_set_cluster_level = Interop.downcallHandle(
             "hb_buffer_set_cluster_level",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_set_content_type = Interop.downcallHandle(
             "hb_buffer_set_content_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_set_direction = Interop.downcallHandle(
             "hb_buffer_set_direction",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_set_flags = Interop.downcallHandle(
             "hb_buffer_set_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_set_invisible_glyph = Interop.downcallHandle(
             "hb_buffer_set_invisible_glyph",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_set_language = Interop.downcallHandle(
             "hb_buffer_set_language",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_set_length = Interop.downcallHandle(
             "hb_buffer_set_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_set_message_func = Interop.downcallHandle(
             "hb_buffer_set_message_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_set_not_found_glyph = Interop.downcallHandle(
             "hb_buffer_set_not_found_glyph",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_set_replacement_codepoint = Interop.downcallHandle(
             "hb_buffer_set_replacement_codepoint",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_set_script = Interop.downcallHandle(
             "hb_buffer_set_script",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_buffer_set_segment_properties = Interop.downcallHandle(
             "hb_buffer_set_segment_properties",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_set_unicode_funcs = Interop.downcallHandle(
             "hb_buffer_set_unicode_funcs",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_buffer_set_user_data = Interop.downcallHandle(
             "hb_buffer_set_user_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_color_get_alpha = Interop.downcallHandle(
             "hb_color_get_alpha",
-            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_color_get_blue = Interop.downcallHandle(
             "hb_color_get_blue",
-            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_color_get_green = Interop.downcallHandle(
             "hb_color_get_green",
-            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_color_get_red = Interop.downcallHandle(
             "hb_color_get_red",
-            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_direction_from_string = Interop.downcallHandle(
             "hb_direction_from_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_direction_to_string = Interop.downcallHandle(
             "hb_direction_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_draw_close_path = Interop.downcallHandle(
             "hb_draw_close_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_draw_cubic_to = Interop.downcallHandle(
             "hb_draw_cubic_to",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle hb_draw_funcs_create = Interop.downcallHandle(
             "hb_draw_funcs_create",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_draw_funcs_destroy = Interop.downcallHandle(
             "hb_draw_funcs_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_draw_funcs_is_immutable = Interop.downcallHandle(
             "hb_draw_funcs_is_immutable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_draw_funcs_make_immutable = Interop.downcallHandle(
             "hb_draw_funcs_make_immutable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_draw_funcs_reference = Interop.downcallHandle(
             "hb_draw_funcs_reference",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_draw_funcs_set_close_path_func = Interop.downcallHandle(
             "hb_draw_funcs_set_close_path_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_draw_funcs_set_cubic_to_func = Interop.downcallHandle(
             "hb_draw_funcs_set_cubic_to_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_draw_funcs_set_line_to_func = Interop.downcallHandle(
             "hb_draw_funcs_set_line_to_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_draw_funcs_set_move_to_func = Interop.downcallHandle(
             "hb_draw_funcs_set_move_to_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_draw_funcs_set_quadratic_to_func = Interop.downcallHandle(
             "hb_draw_funcs_set_quadratic_to_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_draw_line_to = Interop.downcallHandle(
             "hb_draw_line_to",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle hb_draw_move_to = Interop.downcallHandle(
             "hb_draw_move_to",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle hb_draw_quadratic_to = Interop.downcallHandle(
             "hb_draw_quadratic_to",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle hb_face_builder_add_table = Interop.downcallHandle(
             "hb_face_builder_add_table",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_face_builder_create = Interop.downcallHandle(
             "hb_face_builder_create",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_face_collect_unicodes = Interop.downcallHandle(
             "hb_face_collect_unicodes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_face_collect_variation_selectors = Interop.downcallHandle(
             "hb_face_collect_variation_selectors",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_face_collect_variation_unicodes = Interop.downcallHandle(
             "hb_face_collect_variation_unicodes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_face_count = Interop.downcallHandle(
             "hb_face_count",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_face_create = Interop.downcallHandle(
             "hb_face_create",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_face_create_for_tables = Interop.downcallHandle(
             "hb_face_create_for_tables",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_face_destroy = Interop.downcallHandle(
             "hb_face_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_face_get_empty = Interop.downcallHandle(
             "hb_face_get_empty",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_face_get_glyph_count = Interop.downcallHandle(
             "hb_face_get_glyph_count",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_face_get_index = Interop.downcallHandle(
             "hb_face_get_index",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_face_get_table_tags = Interop.downcallHandle(
             "hb_face_get_table_tags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_face_get_upem = Interop.downcallHandle(
             "hb_face_get_upem",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_face_get_user_data = Interop.downcallHandle(
             "hb_face_get_user_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_face_is_immutable = Interop.downcallHandle(
             "hb_face_is_immutable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_face_make_immutable = Interop.downcallHandle(
             "hb_face_make_immutable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_face_reference = Interop.downcallHandle(
             "hb_face_reference",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_face_reference_blob = Interop.downcallHandle(
             "hb_face_reference_blob",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_face_reference_table = Interop.downcallHandle(
             "hb_face_reference_table",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_face_set_glyph_count = Interop.downcallHandle(
             "hb_face_set_glyph_count",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_face_set_index = Interop.downcallHandle(
             "hb_face_set_index",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_face_set_upem = Interop.downcallHandle(
             "hb_face_set_upem",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_face_set_user_data = Interop.downcallHandle(
             "hb_face_set_user_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_feature_from_string = Interop.downcallHandle(
             "hb_feature_from_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_feature_to_string = Interop.downcallHandle(
             "hb_feature_to_string",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_font_add_glyph_origin_for_direction = Interop.downcallHandle(
             "hb_font_add_glyph_origin_for_direction",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_create = Interop.downcallHandle(
             "hb_font_create",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_create_sub_font = Interop.downcallHandle(
             "hb_font_create_sub_font",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_destroy = Interop.downcallHandle(
             "hb_font_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_create = Interop.downcallHandle(
             "hb_font_funcs_create",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_destroy = Interop.downcallHandle(
             "hb_font_funcs_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_get_empty = Interop.downcallHandle(
             "hb_font_funcs_get_empty",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_get_user_data = Interop.downcallHandle(
             "hb_font_funcs_get_user_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_is_immutable = Interop.downcallHandle(
             "hb_font_funcs_is_immutable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_make_immutable = Interop.downcallHandle(
             "hb_font_funcs_make_immutable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_reference = Interop.downcallHandle(
             "hb_font_funcs_reference",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_set_font_h_extents_func = Interop.downcallHandle(
             "hb_font_funcs_set_font_h_extents_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_set_font_v_extents_func = Interop.downcallHandle(
             "hb_font_funcs_set_font_v_extents_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_set_glyph_contour_point_func = Interop.downcallHandle(
             "hb_font_funcs_set_glyph_contour_point_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_set_glyph_extents_func = Interop.downcallHandle(
             "hb_font_funcs_set_glyph_extents_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_set_glyph_from_name_func = Interop.downcallHandle(
             "hb_font_funcs_set_glyph_from_name_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_set_glyph_func = Interop.downcallHandle(
             "hb_font_funcs_set_glyph_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_set_glyph_h_advance_func = Interop.downcallHandle(
             "hb_font_funcs_set_glyph_h_advance_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_set_glyph_h_advances_func = Interop.downcallHandle(
             "hb_font_funcs_set_glyph_h_advances_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_set_glyph_h_kerning_func = Interop.downcallHandle(
             "hb_font_funcs_set_glyph_h_kerning_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_set_glyph_h_origin_func = Interop.downcallHandle(
             "hb_font_funcs_set_glyph_h_origin_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_set_glyph_name_func = Interop.downcallHandle(
             "hb_font_funcs_set_glyph_name_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_set_glyph_shape_func = Interop.downcallHandle(
             "hb_font_funcs_set_glyph_shape_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_set_glyph_v_advance_func = Interop.downcallHandle(
             "hb_font_funcs_set_glyph_v_advance_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_set_glyph_v_advances_func = Interop.downcallHandle(
             "hb_font_funcs_set_glyph_v_advances_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_set_glyph_v_kerning_func = Interop.downcallHandle(
             "hb_font_funcs_set_glyph_v_kerning_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_set_glyph_v_origin_func = Interop.downcallHandle(
             "hb_font_funcs_set_glyph_v_origin_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_set_nominal_glyph_func = Interop.downcallHandle(
             "hb_font_funcs_set_nominal_glyph_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_set_nominal_glyphs_func = Interop.downcallHandle(
             "hb_font_funcs_set_nominal_glyphs_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_set_user_data = Interop.downcallHandle(
             "hb_font_funcs_set_user_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_font_funcs_set_variation_glyph_func = Interop.downcallHandle(
             "hb_font_funcs_set_variation_glyph_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_empty = Interop.downcallHandle(
             "hb_font_get_empty",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_extents_for_direction = Interop.downcallHandle(
             "hb_font_get_extents_for_direction",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_face = Interop.downcallHandle(
             "hb_font_get_face",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_glyph = Interop.downcallHandle(
             "hb_font_get_glyph",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_glyph_advance_for_direction = Interop.downcallHandle(
             "hb_font_get_glyph_advance_for_direction",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_glyph_advances_for_direction = Interop.downcallHandle(
             "hb_font_get_glyph_advances_for_direction",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_font_get_glyph_contour_point = Interop.downcallHandle(
             "hb_font_get_glyph_contour_point",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_glyph_contour_point_for_origin = Interop.downcallHandle(
             "hb_font_get_glyph_contour_point_for_origin",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_glyph_extents = Interop.downcallHandle(
             "hb_font_get_glyph_extents",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_glyph_extents_for_origin = Interop.downcallHandle(
             "hb_font_get_glyph_extents_for_origin",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_glyph_from_name = Interop.downcallHandle(
             "hb_font_get_glyph_from_name",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_glyph_h_advance = Interop.downcallHandle(
             "hb_font_get_glyph_h_advance",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_font_get_glyph_h_advances = Interop.downcallHandle(
             "hb_font_get_glyph_h_advances",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_font_get_glyph_h_kerning = Interop.downcallHandle(
             "hb_font_get_glyph_h_kerning",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_font_get_glyph_h_origin = Interop.downcallHandle(
             "hb_font_get_glyph_h_origin",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_glyph_kerning_for_direction = Interop.downcallHandle(
             "hb_font_get_glyph_kerning_for_direction",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_glyph_name = Interop.downcallHandle(
             "hb_font_get_glyph_name",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_font_get_glyph_origin_for_direction = Interop.downcallHandle(
             "hb_font_get_glyph_origin_for_direction",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_glyph_shape = Interop.downcallHandle(
             "hb_font_get_glyph_shape",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_glyph_v_advance = Interop.downcallHandle(
             "hb_font_get_glyph_v_advance",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_font_get_glyph_v_advances = Interop.downcallHandle(
             "hb_font_get_glyph_v_advances",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_font_get_glyph_v_kerning = Interop.downcallHandle(
             "hb_font_get_glyph_v_kerning",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_font_get_glyph_v_origin = Interop.downcallHandle(
             "hb_font_get_glyph_v_origin",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_h_extents = Interop.downcallHandle(
             "hb_font_get_h_extents",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_nominal_glyph = Interop.downcallHandle(
             "hb_font_get_nominal_glyph",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_nominal_glyphs = Interop.downcallHandle(
             "hb_font_get_nominal_glyphs",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_font_get_parent = Interop.downcallHandle(
             "hb_font_get_parent",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_ppem = Interop.downcallHandle(
             "hb_font_get_ppem",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_ptem = Interop.downcallHandle(
             "hb_font_get_ptem",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_scale = Interop.downcallHandle(
             "hb_font_get_scale",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_synthetic_slant = Interop.downcallHandle(
             "hb_font_get_synthetic_slant",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_user_data = Interop.downcallHandle(
             "hb_font_get_user_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_v_extents = Interop.downcallHandle(
             "hb_font_get_v_extents",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_var_coords_design = Interop.downcallHandle(
             "hb_font_get_var_coords_design",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_var_coords_normalized = Interop.downcallHandle(
             "hb_font_get_var_coords_normalized",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_get_variation_glyph = Interop.downcallHandle(
             "hb_font_get_variation_glyph",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_glyph_from_string = Interop.downcallHandle(
             "hb_font_glyph_from_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_glyph_to_string = Interop.downcallHandle(
             "hb_font_glyph_to_string",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_font_is_immutable = Interop.downcallHandle(
             "hb_font_is_immutable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_make_immutable = Interop.downcallHandle(
             "hb_font_make_immutable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_reference = Interop.downcallHandle(
             "hb_font_reference",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_set_face = Interop.downcallHandle(
             "hb_font_set_face",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_set_funcs = Interop.downcallHandle(
             "hb_font_set_funcs",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_set_funcs_data = Interop.downcallHandle(
             "hb_font_set_funcs_data",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_set_parent = Interop.downcallHandle(
             "hb_font_set_parent",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_font_set_ppem = Interop.downcallHandle(
             "hb_font_set_ppem",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_font_set_ptem = Interop.downcallHandle(
             "hb_font_set_ptem",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle hb_font_set_scale = Interop.downcallHandle(
             "hb_font_set_scale",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_font_set_synthetic_slant = Interop.downcallHandle(
             "hb_font_set_synthetic_slant",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle hb_font_set_user_data = Interop.downcallHandle(
             "hb_font_set_user_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_font_set_var_coords_design = Interop.downcallHandle(
             "hb_font_set_var_coords_design",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_font_set_var_coords_normalized = Interop.downcallHandle(
             "hb_font_set_var_coords_normalized",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_font_set_var_named_instance = Interop.downcallHandle(
             "hb_font_set_var_named_instance",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_font_set_variations = Interop.downcallHandle(
             "hb_font_set_variations",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_font_subtract_glyph_origin_for_direction = Interop.downcallHandle(
             "hb_font_subtract_glyph_origin_for_direction",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ft_face_create = Interop.downcallHandle(
             "hb_ft_face_create",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ft_face_create_cached = Interop.downcallHandle(
             "hb_ft_face_create_cached",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ft_face_create_referenced = Interop.downcallHandle(
             "hb_ft_face_create_referenced",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ft_font_changed = Interop.downcallHandle(
             "hb_ft_font_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ft_font_create = Interop.downcallHandle(
             "hb_ft_font_create",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ft_font_create_referenced = Interop.downcallHandle(
             "hb_ft_font_create_referenced",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ft_font_get_face = Interop.downcallHandle(
             "hb_ft_font_get_face",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ft_font_get_load_flags = Interop.downcallHandle(
             "hb_ft_font_get_load_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ft_font_lock_face = Interop.downcallHandle(
             "hb_ft_font_lock_face",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ft_font_set_funcs = Interop.downcallHandle(
             "hb_ft_font_set_funcs",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ft_font_set_load_flags = Interop.downcallHandle(
             "hb_ft_font_set_load_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ft_font_unlock_face = Interop.downcallHandle(
             "hb_ft_font_unlock_face",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_glib_blob_create = Interop.downcallHandle(
             "hb_glib_blob_create",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_glib_get_unicode_funcs = Interop.downcallHandle(
             "hb_glib_get_unicode_funcs",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_glib_script_from_script = Interop.downcallHandle(
             "hb_glib_script_from_script",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_glib_script_to_script = Interop.downcallHandle(
             "hb_glib_script_to_script",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_glyph_info_get_glyph_flags = Interop.downcallHandle(
             "hb_glyph_info_get_glyph_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_graphite2_face_get_gr_face = Interop.downcallHandle(
             "hb_graphite2_face_get_gr_face",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_graphite2_font_get_gr_font = Interop.downcallHandle(
             "hb_graphite2_font_get_gr_font",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_language_from_string = Interop.downcallHandle(
             "hb_language_from_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_language_get_default = Interop.downcallHandle(
             "hb_language_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_language_to_string = Interop.downcallHandle(
             "hb_language_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_map_allocation_successful = Interop.downcallHandle(
             "hb_map_allocation_successful",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_map_clear = Interop.downcallHandle(
             "hb_map_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_map_create = Interop.downcallHandle(
             "hb_map_create",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_map_del = Interop.downcallHandle(
             "hb_map_del",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_map_destroy = Interop.downcallHandle(
             "hb_map_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_map_get = Interop.downcallHandle(
             "hb_map_get",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_map_get_empty = Interop.downcallHandle(
             "hb_map_get_empty",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_map_get_population = Interop.downcallHandle(
             "hb_map_get_population",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_map_get_user_data = Interop.downcallHandle(
             "hb_map_get_user_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_map_has = Interop.downcallHandle(
             "hb_map_has",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_map_is_empty = Interop.downcallHandle(
             "hb_map_is_empty",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_map_reference = Interop.downcallHandle(
             "hb_map_reference",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_map_set = Interop.downcallHandle(
             "hb_map_set",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_map_set_user_data = Interop.downcallHandle(
             "hb_map_set_user_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_color_glyph_get_layers = Interop.downcallHandle(
             "hb_ot_color_glyph_get_layers",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_color_glyph_reference_png = Interop.downcallHandle(
             "hb_ot_color_glyph_reference_png",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_color_glyph_reference_svg = Interop.downcallHandle(
             "hb_ot_color_glyph_reference_svg",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_color_has_layers = Interop.downcallHandle(
             "hb_ot_color_has_layers",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_color_has_palettes = Interop.downcallHandle(
             "hb_ot_color_has_palettes",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_color_has_png = Interop.downcallHandle(
             "hb_ot_color_has_png",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_color_has_svg = Interop.downcallHandle(
             "hb_ot_color_has_svg",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_color_palette_color_get_name_id = Interop.downcallHandle(
             "hb_ot_color_palette_color_get_name_id",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_color_palette_get_colors = Interop.downcallHandle(
             "hb_ot_color_palette_get_colors",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_color_palette_get_count = Interop.downcallHandle(
             "hb_ot_color_palette_get_count",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_color_palette_get_flags = Interop.downcallHandle(
             "hb_ot_color_palette_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_color_palette_get_name_id = Interop.downcallHandle(
             "hb_ot_color_palette_get_name_id",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_font_set_funcs = Interop.downcallHandle(
             "hb_ot_font_set_funcs",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_collect_features = Interop.downcallHandle(
             "hb_ot_layout_collect_features",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_collect_lookups = Interop.downcallHandle(
             "hb_ot_layout_collect_lookups",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_feature_get_characters = Interop.downcallHandle(
             "hb_ot_layout_feature_get_characters",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_feature_get_lookups = Interop.downcallHandle(
             "hb_ot_layout_feature_get_lookups",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_feature_get_name_ids = Interop.downcallHandle(
             "hb_ot_layout_feature_get_name_ids",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_feature_with_variations_get_lookups = Interop.downcallHandle(
             "hb_ot_layout_feature_with_variations_get_lookups",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_get_attach_points = Interop.downcallHandle(
             "hb_ot_layout_get_attach_points",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_get_baseline = Interop.downcallHandle(
             "hb_ot_layout_get_baseline",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_get_baseline_with_fallback = Interop.downcallHandle(
             "hb_ot_layout_get_baseline_with_fallback",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_get_glyph_class = Interop.downcallHandle(
             "hb_ot_layout_get_glyph_class",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_get_glyphs_in_class = Interop.downcallHandle(
             "hb_ot_layout_get_glyphs_in_class",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_get_horizontal_baseline_tag_for_script = Interop.downcallHandle(
             "hb_ot_layout_get_horizontal_baseline_tag_for_script",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_get_ligature_carets = Interop.downcallHandle(
             "hb_ot_layout_get_ligature_carets",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_get_size_params = Interop.downcallHandle(
             "hb_ot_layout_get_size_params",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_has_glyph_classes = Interop.downcallHandle(
             "hb_ot_layout_has_glyph_classes",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_has_positioning = Interop.downcallHandle(
             "hb_ot_layout_has_positioning",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_has_substitution = Interop.downcallHandle(
             "hb_ot_layout_has_substitution",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_language_find_feature = Interop.downcallHandle(
             "hb_ot_layout_language_find_feature",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_language_get_feature_indexes = Interop.downcallHandle(
             "hb_ot_layout_language_get_feature_indexes",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_language_get_feature_tags = Interop.downcallHandle(
             "hb_ot_layout_language_get_feature_tags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_language_get_required_feature = Interop.downcallHandle(
             "hb_ot_layout_language_get_required_feature",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_language_get_required_feature_index = Interop.downcallHandle(
             "hb_ot_layout_language_get_required_feature_index",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_lookup_collect_glyphs = Interop.downcallHandle(
             "hb_ot_layout_lookup_collect_glyphs",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_lookup_get_glyph_alternates = Interop.downcallHandle(
             "hb_ot_layout_lookup_get_glyph_alternates",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_lookup_substitute_closure = Interop.downcallHandle(
             "hb_ot_layout_lookup_substitute_closure",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_lookup_would_substitute = Interop.downcallHandle(
             "hb_ot_layout_lookup_would_substitute",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_lookups_substitute_closure = Interop.downcallHandle(
             "hb_ot_layout_lookups_substitute_closure",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_script_find_language = Interop.downcallHandle(
             "hb_ot_layout_script_find_language",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_script_get_language_tags = Interop.downcallHandle(
             "hb_ot_layout_script_get_language_tags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_script_select_language = Interop.downcallHandle(
             "hb_ot_layout_script_select_language",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_table_choose_script = Interop.downcallHandle(
             "hb_ot_layout_table_choose_script",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_table_find_feature_variations = Interop.downcallHandle(
             "hb_ot_layout_table_find_feature_variations",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_table_find_script = Interop.downcallHandle(
             "hb_ot_layout_table_find_script",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_table_get_feature_tags = Interop.downcallHandle(
             "hb_ot_layout_table_get_feature_tags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_table_get_lookup_count = Interop.downcallHandle(
             "hb_ot_layout_table_get_lookup_count",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_table_get_script_tags = Interop.downcallHandle(
             "hb_ot_layout_table_get_script_tags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_layout_table_select_script = Interop.downcallHandle(
             "hb_ot_layout_table_select_script",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_math_get_constant = Interop.downcallHandle(
             "hb_ot_math_get_constant",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_math_get_glyph_assembly = Interop.downcallHandle(
             "hb_ot_math_get_glyph_assembly",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_math_get_glyph_italics_correction = Interop.downcallHandle(
             "hb_ot_math_get_glyph_italics_correction",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_math_get_glyph_kerning = Interop.downcallHandle(
             "hb_ot_math_get_glyph_kerning",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_math_get_glyph_kernings = Interop.downcallHandle(
             "hb_ot_math_get_glyph_kernings",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_math_get_glyph_top_accent_attachment = Interop.downcallHandle(
             "hb_ot_math_get_glyph_top_accent_attachment",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_math_get_glyph_variants = Interop.downcallHandle(
             "hb_ot_math_get_glyph_variants",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_math_get_min_connector_overlap = Interop.downcallHandle(
             "hb_ot_math_get_min_connector_overlap",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_math_has_data = Interop.downcallHandle(
             "hb_ot_math_has_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_math_is_glyph_extended_shape = Interop.downcallHandle(
             "hb_ot_math_is_glyph_extended_shape",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_meta_get_entry_tags = Interop.downcallHandle(
             "hb_ot_meta_get_entry_tags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_meta_reference_entry = Interop.downcallHandle(
             "hb_ot_meta_reference_entry",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_metrics_get_position = Interop.downcallHandle(
             "hb_ot_metrics_get_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_metrics_get_position_with_fallback = Interop.downcallHandle(
             "hb_ot_metrics_get_position_with_fallback",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_metrics_get_variation = Interop.downcallHandle(
             "hb_ot_metrics_get_variation",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_metrics_get_x_variation = Interop.downcallHandle(
             "hb_ot_metrics_get_x_variation",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_metrics_get_y_variation = Interop.downcallHandle(
             "hb_ot_metrics_get_y_variation",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_name_get_utf16 = Interop.downcallHandle(
             "hb_ot_name_get_utf16",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_name_get_utf32 = Interop.downcallHandle(
             "hb_ot_name_get_utf32",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_name_get_utf8 = Interop.downcallHandle(
             "hb_ot_name_get_utf8",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_name_list_names = Interop.downcallHandle(
             "hb_ot_name_list_names",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_shape_glyphs_closure = Interop.downcallHandle(
             "hb_ot_shape_glyphs_closure",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_shape_plan_collect_lookups = Interop.downcallHandle(
             "hb_ot_shape_plan_collect_lookups",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_tag_from_language = Interop.downcallHandle(
             "hb_ot_tag_from_language",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_tag_to_language = Interop.downcallHandle(
             "hb_ot_tag_to_language",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_tag_to_script = Interop.downcallHandle(
             "hb_ot_tag_to_script",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_tags_from_script = Interop.downcallHandle(
             "hb_ot_tags_from_script",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_tags_from_script_and_language = Interop.downcallHandle(
             "hb_ot_tags_from_script_and_language",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_tags_to_script_and_language = Interop.downcallHandle(
             "hb_ot_tags_to_script_and_language",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_var_find_axis = Interop.downcallHandle(
             "hb_ot_var_find_axis",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_var_find_axis_info = Interop.downcallHandle(
             "hb_ot_var_find_axis_info",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_var_get_axes = Interop.downcallHandle(
             "hb_ot_var_get_axes",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_var_get_axis_count = Interop.downcallHandle(
             "hb_ot_var_get_axis_count",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_var_get_axis_infos = Interop.downcallHandle(
             "hb_ot_var_get_axis_infos",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_var_get_named_instance_count = Interop.downcallHandle(
             "hb_ot_var_get_named_instance_count",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_var_has_data = Interop.downcallHandle(
             "hb_ot_var_has_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_var_named_instance_get_design_coords = Interop.downcallHandle(
             "hb_ot_var_named_instance_get_design_coords",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_var_named_instance_get_postscript_name_id = Interop.downcallHandle(
             "hb_ot_var_named_instance_get_postscript_name_id",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_var_named_instance_get_subfamily_name_id = Interop.downcallHandle(
             "hb_ot_var_named_instance_get_subfamily_name_id",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_ot_var_normalize_coords = Interop.downcallHandle(
             "hb_ot_var_normalize_coords",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_ot_var_normalize_variations = Interop.downcallHandle(
             "hb_ot_var_normalize_variations",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_script_from_iso15924_tag = Interop.downcallHandle(
             "hb_script_from_iso15924_tag",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_script_from_string = Interop.downcallHandle(
             "hb_script_from_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_script_get_horizontal_direction = Interop.downcallHandle(
             "hb_script_get_horizontal_direction",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_script_to_iso15924_tag = Interop.downcallHandle(
             "hb_script_to_iso15924_tag",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_segment_properties_equal = Interop.downcallHandle(
             "hb_segment_properties_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_segment_properties_hash = Interop.downcallHandle(
             "hb_segment_properties_hash",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_segment_properties_overlay = Interop.downcallHandle(
             "hb_segment_properties_overlay",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_add = Interop.downcallHandle(
             "hb_set_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_set_add_range = Interop.downcallHandle(
             "hb_set_add_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_set_allocation_successful = Interop.downcallHandle(
             "hb_set_allocation_successful",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_clear = Interop.downcallHandle(
             "hb_set_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_copy = Interop.downcallHandle(
             "hb_set_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_create = Interop.downcallHandle(
             "hb_set_create",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_del = Interop.downcallHandle(
             "hb_set_del",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_set_del_range = Interop.downcallHandle(
             "hb_set_del_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_set_destroy = Interop.downcallHandle(
             "hb_set_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_get_empty = Interop.downcallHandle(
             "hb_set_get_empty",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_get_max = Interop.downcallHandle(
             "hb_set_get_max",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_get_min = Interop.downcallHandle(
             "hb_set_get_min",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_get_population = Interop.downcallHandle(
             "hb_set_get_population",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_get_user_data = Interop.downcallHandle(
             "hb_set_get_user_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_has = Interop.downcallHandle(
             "hb_set_has",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_set_intersect = Interop.downcallHandle(
             "hb_set_intersect",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_invert = Interop.downcallHandle(
             "hb_set_invert",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_is_empty = Interop.downcallHandle(
             "hb_set_is_empty",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_is_equal = Interop.downcallHandle(
             "hb_set_is_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_is_subset = Interop.downcallHandle(
             "hb_set_is_subset",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_next = Interop.downcallHandle(
             "hb_set_next",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_next_range = Interop.downcallHandle(
             "hb_set_next_range",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_previous = Interop.downcallHandle(
             "hb_set_previous",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_previous_range = Interop.downcallHandle(
             "hb_set_previous_range",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_reference = Interop.downcallHandle(
             "hb_set_reference",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_set = Interop.downcallHandle(
             "hb_set_set",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_set_user_data = Interop.downcallHandle(
             "hb_set_set_user_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_set_subtract = Interop.downcallHandle(
             "hb_set_subtract",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_symmetric_difference = Interop.downcallHandle(
             "hb_set_symmetric_difference",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_set_union = Interop.downcallHandle(
             "hb_set_union",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_shape = Interop.downcallHandle(
             "hb_shape",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_shape_full = Interop.downcallHandle(
             "hb_shape_full",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_shape_list_shapers = Interop.downcallHandle(
             "hb_shape_list_shapers",
-            FunctionDescriptor.ofVoid()
+            FunctionDescriptor.ofVoid(),
+            false
         );
         
         private static final MethodHandle hb_shape_plan_create = Interop.downcallHandle(
             "hb_shape_plan_create",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_shape_plan_create2 = Interop.downcallHandle(
             "hb_shape_plan_create2",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_shape_plan_create_cached = Interop.downcallHandle(
             "hb_shape_plan_create_cached",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_shape_plan_create_cached2 = Interop.downcallHandle(
             "hb_shape_plan_create_cached2",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_shape_plan_destroy = Interop.downcallHandle(
             "hb_shape_plan_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_shape_plan_execute = Interop.downcallHandle(
             "hb_shape_plan_execute",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_shape_plan_get_empty = Interop.downcallHandle(
             "hb_shape_plan_get_empty",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_shape_plan_get_shaper = Interop.downcallHandle(
             "hb_shape_plan_get_shaper",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_shape_plan_get_user_data = Interop.downcallHandle(
             "hb_shape_plan_get_user_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_shape_plan_reference = Interop.downcallHandle(
             "hb_shape_plan_reference",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_shape_plan_set_user_data = Interop.downcallHandle(
             "hb_shape_plan_set_user_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_style_get_value = Interop.downcallHandle(
             "hb_style_get_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_tag_from_string = Interop.downcallHandle(
             "hb_tag_from_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_tag_to_string = Interop.downcallHandle(
             "hb_tag_to_string",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_unicode_combining_class = Interop.downcallHandle(
             "hb_unicode_combining_class",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_unicode_compose = Interop.downcallHandle(
             "hb_unicode_compose",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_unicode_decompose = Interop.downcallHandle(
             "hb_unicode_decompose",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_unicode_decompose_compatibility = Interop.downcallHandle(
             "hb_unicode_decompose_compatibility",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_unicode_eastasian_width = Interop.downcallHandle(
             "hb_unicode_eastasian_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_unicode_funcs_create = Interop.downcallHandle(
             "hb_unicode_funcs_create",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_unicode_funcs_destroy = Interop.downcallHandle(
             "hb_unicode_funcs_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_unicode_funcs_get_default = Interop.downcallHandle(
             "hb_unicode_funcs_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_unicode_funcs_get_empty = Interop.downcallHandle(
             "hb_unicode_funcs_get_empty",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_unicode_funcs_get_parent = Interop.downcallHandle(
             "hb_unicode_funcs_get_parent",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_unicode_funcs_get_user_data = Interop.downcallHandle(
             "hb_unicode_funcs_get_user_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_unicode_funcs_is_immutable = Interop.downcallHandle(
             "hb_unicode_funcs_is_immutable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_unicode_funcs_make_immutable = Interop.downcallHandle(
             "hb_unicode_funcs_make_immutable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_unicode_funcs_reference = Interop.downcallHandle(
             "hb_unicode_funcs_reference",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_unicode_funcs_set_combining_class_func = Interop.downcallHandle(
             "hb_unicode_funcs_set_combining_class_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_unicode_funcs_set_compose_func = Interop.downcallHandle(
             "hb_unicode_funcs_set_compose_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_unicode_funcs_set_decompose_compatibility_func = Interop.downcallHandle(
             "hb_unicode_funcs_set_decompose_compatibility_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_unicode_funcs_set_decompose_func = Interop.downcallHandle(
             "hb_unicode_funcs_set_decompose_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_unicode_funcs_set_eastasian_width_func = Interop.downcallHandle(
             "hb_unicode_funcs_set_eastasian_width_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_unicode_funcs_set_general_category_func = Interop.downcallHandle(
             "hb_unicode_funcs_set_general_category_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_unicode_funcs_set_mirroring_func = Interop.downcallHandle(
             "hb_unicode_funcs_set_mirroring_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_unicode_funcs_set_script_func = Interop.downcallHandle(
             "hb_unicode_funcs_set_script_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_unicode_funcs_set_user_data = Interop.downcallHandle(
             "hb_unicode_funcs_set_user_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_unicode_general_category = Interop.downcallHandle(
             "hb_unicode_general_category",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_unicode_mirroring = Interop.downcallHandle(
             "hb_unicode_mirroring",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_unicode_script = Interop.downcallHandle(
             "hb_unicode_script",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_variation_from_string = Interop.downcallHandle(
             "hb_variation_from_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_variation_to_string = Interop.downcallHandle(
             "hb_variation_to_string",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_version = Interop.downcallHandle(
             "hb_version",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle hb_version_atleast = Interop.downcallHandle(
             "hb_version_atleast",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle hb_version_string = Interop.downcallHandle(
             "hb_version_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
     

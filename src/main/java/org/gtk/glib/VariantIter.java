@@ -25,6 +25,7 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -33,14 +34,19 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
     
     public static VariantIter allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VariantIter newInstance = new VariantIter(Refcounted.get(segment.address()));
+        VariantIter newInstance = new VariantIter(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a VariantIter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public VariantIter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public VariantIter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -64,7 +70,7 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.VariantIter(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.VariantIter(RESULT, Ownership.FULL);
     }
     
     /**
@@ -168,11 +174,22 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
      * See the section on
      * [GVariant format strings][gvariant-format-strings-pointers].
      * @param formatString a GVariant format string
+     * @param varargs the arguments to unpack the value into
      * @return {@code true} if a value was unpacked, or {@code false} if there was no
      *          value
      */
-    public boolean loop(@NotNull java.lang.String formatString) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean loop(@NotNull java.lang.String formatString, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(formatString, "Parameter 'formatString' must not be null");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_variant_iter_loop.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(formatString),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT != 0;
     }
     
     /**
@@ -237,10 +254,21 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
      * See the section on
      * [GVariant format strings][gvariant-format-strings-pointers].
      * @param formatString a GVariant format string
+     * @param varargs the arguments to unpack the value into
      * @return {@code true} if a value was unpacked, or {@code false} if there as no value
      */
-    public boolean next(@NotNull java.lang.String formatString) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean next(@NotNull java.lang.String formatString, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(formatString, "Parameter 'formatString' must not be null");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_variant_iter_next.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(formatString),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT != 0;
     }
     
     /**
@@ -281,44 +309,51 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_variant_iter_copy = Interop.downcallHandle(
             "g_variant_iter_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_variant_iter_free = Interop.downcallHandle(
             "g_variant_iter_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_variant_iter_init = Interop.downcallHandle(
             "g_variant_iter_init",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_variant_iter_loop = Interop.downcallHandle(
             "g_variant_iter_loop",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_variant_iter_n_children = Interop.downcallHandle(
             "g_variant_iter_n_children",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_variant_iter_next = Interop.downcallHandle(
             "g_variant_iter_next",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_variant_iter_next_value = Interop.downcallHandle(
             "g_variant_iter_next_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

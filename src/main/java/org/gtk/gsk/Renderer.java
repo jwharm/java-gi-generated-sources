@@ -30,13 +30,19 @@ public class Renderer extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Renderer proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Renderer(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Renderer(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -48,18 +54,18 @@ public class Renderer extends org.gtk.gobject.Object {
      */
     public static Renderer castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskRenderer"))) {
-            return new Renderer(gobject.refcounted());
+            return new Renderer(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GskRenderer");
         }
     }
     
-    private static Refcounted constructNewForSurface(@NotNull org.gtk.gdk.Surface surface) {
+    private static Addressable constructNewForSurface(@NotNull org.gtk.gdk.Surface surface) {
         java.util.Objects.requireNonNull(surface, "Parameter 'surface' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_renderer_new_for_surface.invokeExact(
-                    surface.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.gsk_renderer_new_for_surface.invokeExact(
+                    surface.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -78,7 +84,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * @return a {@code GskRenderer}
      */
     public static Renderer newForSurface(@NotNull org.gtk.gdk.Surface surface) {
-        return new Renderer(constructNewForSurface(surface));
+        return new Renderer(constructNewForSurface(surface), Ownership.FULL);
     }
     
     /**
@@ -95,7 +101,7 @@ public class Renderer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Surface(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Surface(RESULT, Ownership.NONE);
     }
     
     /**
@@ -132,7 +138,8 @@ public class Renderer extends org.gtk.gobject.Object {
         try {
             RESULT = (int) DowncallHandles.gsk_renderer_realize.invokeExact(
                     handle(),
-                    (Addressable) (surface == null ? MemoryAddress.NULL : surface.handle()), (Addressable) GERROR);
+                    (Addressable) (surface == null ? MemoryAddress.NULL : surface.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -195,7 +202,7 @@ public class Renderer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Texture(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.Texture(RESULT, Ownership.FULL);
     }
     
     /**
@@ -214,37 +221,44 @@ public class Renderer extends org.gtk.gobject.Object {
         
         private static final MethodHandle gsk_renderer_new_for_surface = Interop.downcallHandle(
             "gsk_renderer_new_for_surface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_renderer_get_surface = Interop.downcallHandle(
             "gsk_renderer_get_surface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_renderer_is_realized = Interop.downcallHandle(
             "gsk_renderer_is_realized",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_renderer_realize = Interop.downcallHandle(
             "gsk_renderer_realize",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_renderer_render = Interop.downcallHandle(
             "gsk_renderer_render",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_renderer_render_texture = Interop.downcallHandle(
             "gsk_renderer_render_texture",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_renderer_unrealize = Interop.downcallHandle(
             "gsk_renderer_unrealize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -150,7 +150,8 @@ public class AccessibleRelation extends io.github.jwharm.javagi.Enumeration {
         
         private static final MethodHandle gtk_accessible_relation_init_value = Interop.downcallHandle(
             "gtk_accessible_relation_init_value",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

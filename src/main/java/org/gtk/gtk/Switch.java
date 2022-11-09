@@ -43,13 +43,19 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Switch proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Switch(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Switch(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -61,16 +67,16 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public static Switch castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSwitch"))) {
-            return new Switch(gobject.refcounted());
+            return new Switch(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkSwitch");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_switch_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_switch_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -81,7 +87,7 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * Creates a new {@code GtkSwitch} widget.
      */
     public Switch() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -158,6 +164,8 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * <p>
      * Applications should never connect to this signal,
      * but use the {@code Gtk.Switch:active} property.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Switch.Activate> onActivate(Switch.Activate handler) {
         try {
@@ -198,6 +206,8 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * Visually, the underlying state is represented by the trough color of
      * the switch, while the {@code Gtk.Switch:active} property is
      * represented by the position of the switch.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Switch.StateSet> onStateSet(Switch.StateSet handler) {
         try {
@@ -221,27 +231,32 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         
         private static final MethodHandle gtk_switch_new = Interop.downcallHandle(
             "gtk_switch_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_switch_get_active = Interop.downcallHandle(
             "gtk_switch_get_active",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_switch_get_state = Interop.downcallHandle(
             "gtk_switch_get_state",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_switch_set_active = Interop.downcallHandle(
             "gtk_switch_set_active",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_switch_set_state = Interop.downcallHandle(
             "gtk_switch_set_state",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -250,13 +265,13 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         public static void signalSwitchActivate(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Switch.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Switch(Refcounted.get(source)));
+            HANDLER.signalReceived(new Switch(source, Ownership.UNKNOWN));
         }
         
         public static boolean signalSwitchStateSet(MemoryAddress source, int state, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Switch.StateSet) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Switch(Refcounted.get(source)), state != 0);
+            return HANDLER.signalReceived(new Switch(source, Ownership.UNKNOWN), state != 0);
         }
     }
 }

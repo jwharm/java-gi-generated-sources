@@ -32,6 +32,7 @@ public class TreeIter extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -40,7 +41,7 @@ public class TreeIter extends io.github.jwharm.javagi.ResourceBase {
     
     public static TreeIter allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TreeIter newInstance = new TreeIter(Refcounted.get(segment.address()));
+        TreeIter newInstance = new TreeIter(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -129,9 +130,14 @@ public class TreeIter extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), user_data3);
     }
     
+    /**
+     * Create a TreeIter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TreeIter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TreeIter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -151,7 +157,7 @@ public class TreeIter extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreeIter(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.TreeIter(RESULT, Ownership.FULL);
     }
     
     /**
@@ -172,12 +178,14 @@ public class TreeIter extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle gtk_tree_iter_copy = Interop.downcallHandle(
             "gtk_tree_iter_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_iter_free = Interop.downcallHandle(
             "gtk_tree_iter_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

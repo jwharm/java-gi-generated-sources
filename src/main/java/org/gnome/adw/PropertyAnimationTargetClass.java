@@ -17,6 +17,7 @@ public class PropertyAnimationTargetClass extends io.github.jwharm.javagi.Resour
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -25,13 +26,18 @@ public class PropertyAnimationTargetClass extends io.github.jwharm.javagi.Resour
     
     public static PropertyAnimationTargetClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PropertyAnimationTargetClass newInstance = new PropertyAnimationTargetClass(Refcounted.get(segment.address()));
+        PropertyAnimationTargetClass newInstance = new PropertyAnimationTargetClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a PropertyAnimationTargetClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PropertyAnimationTargetClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PropertyAnimationTargetClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

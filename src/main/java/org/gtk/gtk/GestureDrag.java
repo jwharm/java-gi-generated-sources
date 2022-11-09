@@ -28,13 +28,19 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a GestureDrag proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public GestureDrag(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public GestureDrag(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -46,16 +52,16 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
      */
     public static GestureDrag castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGestureDrag"))) {
-            return new GestureDrag(gobject.refcounted());
+            return new GestureDrag(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkGestureDrag");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_gesture_drag_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_drag_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,7 +72,7 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
      * Returns a newly created {@code GtkGesture} that recognizes drags.
      */
     public GestureDrag() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -130,6 +136,8 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
     
     /**
      * Emitted whenever dragging starts.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureDrag.DragBegin> onDragBegin(GestureDrag.DragBegin handler) {
         try {
@@ -156,6 +164,8 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
     
     /**
      * Emitted whenever the dragging is finished.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureDrag.DragEnd> onDragEnd(GestureDrag.DragEnd handler) {
         try {
@@ -182,6 +192,8 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
     
     /**
      * Emitted whenever the dragging point moves.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureDrag.DragUpdate> onDragUpdate(GestureDrag.DragUpdate handler) {
         try {
@@ -205,17 +217,20 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
         
         private static final MethodHandle gtk_gesture_drag_new = Interop.downcallHandle(
             "gtk_gesture_drag_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gesture_drag_get_offset = Interop.downcallHandle(
             "gtk_gesture_drag_get_offset",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gesture_drag_get_start_point = Interop.downcallHandle(
             "gtk_gesture_drag_get_start_point",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -224,19 +239,19 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
         public static void signalGestureDragDragBegin(MemoryAddress source, double startX, double startY, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (GestureDrag.DragBegin) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureDrag(Refcounted.get(source)), startX, startY);
+            HANDLER.signalReceived(new GestureDrag(source, Ownership.UNKNOWN), startX, startY);
         }
         
         public static void signalGestureDragDragEnd(MemoryAddress source, double offsetX, double offsetY, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (GestureDrag.DragEnd) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureDrag(Refcounted.get(source)), offsetX, offsetY);
+            HANDLER.signalReceived(new GestureDrag(source, Ownership.UNKNOWN), offsetX, offsetY);
         }
         
         public static void signalGestureDragDragUpdate(MemoryAddress source, double offsetX, double offsetY, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (GestureDrag.DragUpdate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureDrag(Refcounted.get(source)), offsetX, offsetY);
+            HANDLER.signalReceived(new GestureDrag(source, Ownership.UNKNOWN), offsetX, offsetY);
         }
     }
 }

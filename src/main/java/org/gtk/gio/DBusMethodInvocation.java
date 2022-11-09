@@ -27,13 +27,19 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a DBusMethodInvocation proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DBusMethodInvocation(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DBusMethodInvocation(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -45,7 +51,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      */
     public static DBusMethodInvocation castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusMethodInvocation"))) {
-            return new DBusMethodInvocation(gobject.refcounted());
+            return new DBusMethodInvocation(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDBusMethodInvocation");
         }
@@ -63,7 +69,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusConnection(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.DBusConnection(RESULT, Ownership.NONE);
     }
     
     /**
@@ -105,7 +111,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusMessage(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.DBusMessage(RESULT, Ownership.NONE);
     }
     
     /**
@@ -125,7 +131,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusMethodInfo(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.DBusMethodInfo(RESULT, Ownership.NONE);
     }
     
     /**
@@ -171,7 +177,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Variant(RESULT, Ownership.NONE);
     }
     
     /**
@@ -196,7 +202,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusPropertyInfo(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.DBusPropertyInfo(RESULT, Ownership.NONE);
     }
     
     /**
@@ -275,9 +281,21 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * @param domain A {@link org.gtk.glib.Quark} for the {@link org.gtk.glib.Error} error domain.
      * @param code The error code.
      * @param format printf()-style format.
+     * @param varargs Parameters for {@code format}.
      */
-    public void returnError(@NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void returnError(@NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+        try {
+            DowncallHandles.g_dbus_method_invocation_return_error.invokeExact(
+                    handle(),
+                    domain.getValue().intValue(),
+                    code,
+                    Interop.allocateNativeString(format),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -442,92 +460,110 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         
         private static final MethodHandle g_dbus_method_invocation_get_connection = Interop.downcallHandle(
             "g_dbus_method_invocation_get_connection",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_method_invocation_get_interface_name = Interop.downcallHandle(
             "g_dbus_method_invocation_get_interface_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_method_invocation_get_message = Interop.downcallHandle(
             "g_dbus_method_invocation_get_message",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_method_invocation_get_method_info = Interop.downcallHandle(
             "g_dbus_method_invocation_get_method_info",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_method_invocation_get_method_name = Interop.downcallHandle(
             "g_dbus_method_invocation_get_method_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_method_invocation_get_object_path = Interop.downcallHandle(
             "g_dbus_method_invocation_get_object_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_method_invocation_get_parameters = Interop.downcallHandle(
             "g_dbus_method_invocation_get_parameters",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_method_invocation_get_property_info = Interop.downcallHandle(
             "g_dbus_method_invocation_get_property_info",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_method_invocation_get_sender = Interop.downcallHandle(
             "g_dbus_method_invocation_get_sender",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_method_invocation_get_user_data = Interop.downcallHandle(
             "g_dbus_method_invocation_get_user_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_method_invocation_return_dbus_error = Interop.downcallHandle(
             "g_dbus_method_invocation_return_dbus_error",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_method_invocation_return_error = Interop.downcallHandle(
             "g_dbus_method_invocation_return_error",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_dbus_method_invocation_return_error_literal = Interop.downcallHandle(
             "g_dbus_method_invocation_return_error_literal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_method_invocation_return_error_valist = Interop.downcallHandle(
             "g_dbus_method_invocation_return_error_valist",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_method_invocation_return_gerror = Interop.downcallHandle(
             "g_dbus_method_invocation_return_gerror",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_method_invocation_return_value = Interop.downcallHandle(
             "g_dbus_method_invocation_return_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_method_invocation_return_value_with_unix_fd_list = Interop.downcallHandle(
             "g_dbus_method_invocation_return_value_with_unix_fd_list",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_method_invocation_take_error = Interop.downcallHandle(
             "g_dbus_method_invocation_take_error",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

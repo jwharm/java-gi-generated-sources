@@ -27,6 +27,7 @@ public class ColorChooserInterface extends io.github.jwharm.javagi.ResourceBase 
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -35,7 +36,7 @@ public class ColorChooserInterface extends io.github.jwharm.javagi.ResourceBase 
     
     public static ColorChooserInterface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ColorChooserInterface newInstance = new ColorChooserInterface(Refcounted.get(segment.address()));
+        ColorChooserInterface newInstance = new ColorChooserInterface(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,11 +47,16 @@ public class ColorChooserInterface extends io.github.jwharm.javagi.ResourceBase 
      */
     public org.gtk.gobject.TypeInterface base_interface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("base_interface"));
-        return new org.gtk.gobject.TypeInterface(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a ColorChooserInterface proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ColorChooserInterface(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ColorChooserInterface(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

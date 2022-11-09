@@ -20,6 +20,7 @@ public class TestSuite extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -28,14 +29,19 @@ public class TestSuite extends io.github.jwharm.javagi.ResourceBase {
     
     public static TestSuite allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TestSuite newInstance = new TestSuite(Refcounted.get(segment.address()));
+        TestSuite newInstance = new TestSuite(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a TestSuite proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TestSuite(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TestSuite(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -84,17 +90,20 @@ public class TestSuite extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_test_suite_add = Interop.downcallHandle(
             "g_test_suite_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_test_suite_add_suite = Interop.downcallHandle(
             "g_test_suite_add_suite",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_test_suite_free = Interop.downcallHandle(
             "g_test_suite_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

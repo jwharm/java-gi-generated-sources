@@ -30,6 +30,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -38,21 +39,26 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     
     public static PaperSize allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PaperSize newInstance = new PaperSize(Refcounted.get(segment.address()));
+        PaperSize newInstance = new PaperSize(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a PaperSize proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PaperSize(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PaperSize(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew(@Nullable java.lang.String name) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable java.lang.String name) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_paper_size_new.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name))), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_new.invokeExact(
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,21 +75,21 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
      * @param name a paper size name
      */
     public PaperSize(@Nullable java.lang.String name) {
-        super(constructNew(name));
+        super(constructNew(name), Ownership.FULL);
     }
     
-    private static Refcounted constructNewCustom(@NotNull java.lang.String name, @NotNull java.lang.String displayName, double width, double height, @NotNull org.gtk.gtk.Unit unit) {
+    private static Addressable constructNewCustom(@NotNull java.lang.String name, @NotNull java.lang.String displayName, double width, double height, @NotNull org.gtk.gtk.Unit unit) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(displayName, "Parameter 'displayName' must not be null");
         java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_paper_size_new_custom.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_new_custom.invokeExact(
                     Interop.allocateNativeString(name),
                     Interop.allocateNativeString(displayName),
                     width,
                     height,
-                    unit.getValue()), true);
+                    unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,15 +108,15 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
      * to free it
      */
     public static PaperSize newCustom(@NotNull java.lang.String name, @NotNull java.lang.String displayName, double width, double height, @NotNull org.gtk.gtk.Unit unit) {
-        return new PaperSize(constructNewCustom(name, displayName, width, height, unit));
+        return new PaperSize(constructNewCustom(name, displayName, width, height, unit), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromGvariant(@NotNull org.gtk.glib.Variant variant) {
+    private static Addressable constructNewFromGvariant(@NotNull org.gtk.glib.Variant variant) {
         java.util.Objects.requireNonNull(variant, "Parameter 'variant' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_paper_size_new_from_gvariant.invokeExact(
-                    variant.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_new_from_gvariant.invokeExact(
+                    variant.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,17 +132,17 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
      * @return a new {@code GtkPaperSize} object
      */
     public static PaperSize newFromGvariant(@NotNull org.gtk.glib.Variant variant) {
-        return new PaperSize(constructNewFromGvariant(variant));
+        return new PaperSize(constructNewFromGvariant(variant), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromIpp(@NotNull java.lang.String ippName, double width, double height) {
+    private static Addressable constructNewFromIpp(@NotNull java.lang.String ippName, double width, double height) {
         java.util.Objects.requireNonNull(ippName, "Parameter 'ippName' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_paper_size_new_from_ipp.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_new_from_ipp.invokeExact(
                     Interop.allocateNativeString(ippName),
                     width,
-                    height), true);
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -157,17 +163,18 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
      * to free it
      */
     public static PaperSize newFromIpp(@NotNull java.lang.String ippName, double width, double height) {
-        return new PaperSize(constructNewFromIpp(ippName, width, height));
+        return new PaperSize(constructNewFromIpp(ippName, width, height), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) throws GErrorException {
+    private static Addressable constructNewFromKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) throws GErrorException {
         java.util.Objects.requireNonNull(keyFile, "Parameter 'keyFile' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_paper_size_new_from_key_file.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_new_from_key_file.invokeExact(
                     keyFile.handle(),
-                    (Addressable) (groupName == null ? MemoryAddress.NULL : Interop.allocateNativeString(groupName)), (Addressable) GERROR), true);
+                    (Addressable) (groupName == null ? MemoryAddress.NULL : Interop.allocateNativeString(groupName)),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,19 +194,19 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static PaperSize newFromKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) throws GErrorException {
-        return new PaperSize(constructNewFromKeyFile(keyFile, groupName));
+        return new PaperSize(constructNewFromKeyFile(keyFile, groupName), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromPpd(@NotNull java.lang.String ppdName, @NotNull java.lang.String ppdDisplayName, double width, double height) {
+    private static Addressable constructNewFromPpd(@NotNull java.lang.String ppdName, @NotNull java.lang.String ppdDisplayName, double width, double height) {
         java.util.Objects.requireNonNull(ppdName, "Parameter 'ppdName' must not be null");
         java.util.Objects.requireNonNull(ppdDisplayName, "Parameter 'ppdDisplayName' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_paper_size_new_from_ppd.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_new_from_ppd.invokeExact(
                     Interop.allocateNativeString(ppdName),
                     Interop.allocateNativeString(ppdDisplayName),
                     width,
-                    height), true);
+                    height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -221,7 +228,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
      * to free it
      */
     public static PaperSize newFromPpd(@NotNull java.lang.String ppdName, @NotNull java.lang.String ppdDisplayName, double width, double height) {
-        return new PaperSize(constructNewFromPpd(ppdName, ppdDisplayName, width, height));
+        return new PaperSize(constructNewFromPpd(ppdName, ppdDisplayName, width, height), Ownership.FULL);
     }
     
     /**
@@ -236,7 +243,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PaperSize(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.PaperSize(RESULT, Ownership.FULL);
     }
     
     /**
@@ -487,7 +494,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Variant(RESULT, Ownership.NONE);
     }
     
     /**
@@ -539,134 +546,159 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_paper_size_new = Interop.downcallHandle(
             "gtk_paper_size_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_new_custom = Interop.downcallHandle(
             "gtk_paper_size_new_custom",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_new_from_gvariant = Interop.downcallHandle(
             "gtk_paper_size_new_from_gvariant",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_new_from_ipp = Interop.downcallHandle(
             "gtk_paper_size_new_from_ipp",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_new_from_key_file = Interop.downcallHandle(
             "gtk_paper_size_new_from_key_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_new_from_ppd = Interop.downcallHandle(
             "gtk_paper_size_new_from_ppd",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_copy = Interop.downcallHandle(
             "gtk_paper_size_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_free = Interop.downcallHandle(
             "gtk_paper_size_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_get_default_bottom_margin = Interop.downcallHandle(
             "gtk_paper_size_get_default_bottom_margin",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_get_default_left_margin = Interop.downcallHandle(
             "gtk_paper_size_get_default_left_margin",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_get_default_right_margin = Interop.downcallHandle(
             "gtk_paper_size_get_default_right_margin",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_get_default_top_margin = Interop.downcallHandle(
             "gtk_paper_size_get_default_top_margin",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_get_display_name = Interop.downcallHandle(
             "gtk_paper_size_get_display_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_get_height = Interop.downcallHandle(
             "gtk_paper_size_get_height",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_get_name = Interop.downcallHandle(
             "gtk_paper_size_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_get_ppd_name = Interop.downcallHandle(
             "gtk_paper_size_get_ppd_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_get_width = Interop.downcallHandle(
             "gtk_paper_size_get_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_is_custom = Interop.downcallHandle(
             "gtk_paper_size_is_custom",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_is_equal = Interop.downcallHandle(
             "gtk_paper_size_is_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_is_ipp = Interop.downcallHandle(
             "gtk_paper_size_is_ipp",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_set_size = Interop.downcallHandle(
             "gtk_paper_size_set_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_to_gvariant = Interop.downcallHandle(
             "gtk_paper_size_to_gvariant",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_to_key_file = Interop.downcallHandle(
             "gtk_paper_size_to_key_file",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_get_default = Interop.downcallHandle(
             "gtk_paper_size_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_paper_size_get_paper_sizes = Interop.downcallHandle(
             "gtk_paper_size_get_paper_sizes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

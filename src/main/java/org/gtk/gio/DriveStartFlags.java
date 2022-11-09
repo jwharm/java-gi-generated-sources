@@ -21,4 +21,27 @@ public class DriveStartFlags extends io.github.jwharm.javagi.Bitfield {
     public DriveStartFlags(int value) {
         super(value);
     }
+    
+    /**
+     * Combine (bitwise OR) operation
+     * @param mask the value to combine with
+     * @return the combined value by calculating {@code this | mask} 
+     */
+    public DriveStartFlags combined(DriveStartFlags mask) {
+        this.setValue(this.getValue() | mask.getValue());
+        return this;
+    }
+    
+    /**
+     * Combine (bitwise OR) operation
+     * @param mask the first value to combine
+     * @param masks the other values to combine
+     * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
+     */
+    public static DriveStartFlags combined(DriveStartFlags mask, DriveStartFlags... masks) {
+        for (DriveStartFlags arg : masks) {
+            mask.setValue(mask.getValue() | arg.getValue());
+        }
+        return mask;
+    }
 }

@@ -17,13 +17,19 @@ public class GLRenderer extends org.gtk.gsk.Renderer {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a GLRenderer proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public GLRenderer(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public GLRenderer(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -35,16 +41,16 @@ public class GLRenderer extends org.gtk.gsk.Renderer {
      */
     public static GLRenderer castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskGLRenderer"))) {
-            return new GLRenderer(gobject.refcounted());
+            return new GLRenderer(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GskGLRenderer");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_gl_renderer_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_renderer_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -55,14 +61,15 @@ public class GLRenderer extends org.gtk.gsk.Renderer {
      * Creates a new {@code GskRenderer} using the new OpenGL renderer.
      */
     public GLRenderer() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_gl_renderer_new = Interop.downcallHandle(
             "gsk_gl_renderer_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

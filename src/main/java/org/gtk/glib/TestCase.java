@@ -20,6 +20,7 @@ public class TestCase extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -28,14 +29,19 @@ public class TestCase extends io.github.jwharm.javagi.ResourceBase {
     
     public static TestCase allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TestCase newInstance = new TestCase(Refcounted.get(segment.address()));
+        TestCase newInstance = new TestCase(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a TestCase proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TestCase(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TestCase(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -54,7 +60,8 @@ public class TestCase extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_test_case_free = Interop.downcallHandle(
             "g_test_case_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

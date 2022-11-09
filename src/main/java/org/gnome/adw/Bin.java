@@ -36,6 +36,7 @@ public class Bin extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -46,12 +47,17 @@ public class Bin extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
      */
     public org.gtk.gtk.Widget parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gtk.Widget(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.Widget(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a Bin proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Bin(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Bin(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -63,16 +69,16 @@ public class Bin extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
      */
     public static Bin castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwBin"))) {
-            return new Bin(gobject.refcounted());
+            return new Bin(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwBin");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_bin_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.adw_bin_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,7 +89,7 @@ public class Bin extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
      * Creates a new {@code AdwBin}.
      */
     public Bin() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -98,7 +104,7 @@ public class Bin extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -119,17 +125,20 @@ public class Bin extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
         
         private static final MethodHandle adw_bin_new = Interop.downcallHandle(
             "adw_bin_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_bin_get_child = Interop.downcallHandle(
             "adw_bin_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_bin_set_child = Interop.downcallHandle(
             "adw_bin_set_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

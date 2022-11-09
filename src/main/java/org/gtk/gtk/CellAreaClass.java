@@ -42,6 +42,7 @@ public class CellAreaClass extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -50,14 +51,19 @@ public class CellAreaClass extends io.github.jwharm.javagi.ResourceBase {
     
     public static CellAreaClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CellAreaClass newInstance = new CellAreaClass(Refcounted.get(segment.address()));
+        CellAreaClass newInstance = new CellAreaClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a CellAreaClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CellAreaClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CellAreaClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -75,7 +81,7 @@ public class CellAreaClass extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ParamSpec(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.ParamSpec(RESULT, Ownership.NONE);
     }
     
     /**
@@ -117,7 +123,7 @@ public class CellAreaClass extends io.github.jwharm.javagi.ResourceBase {
         org.gtk.gobject.ParamSpec[] resultARRAY = new org.gtk.gobject.ParamSpec[nProperties.get().intValue()];
         for (int I = 0; I < nProperties.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = new org.gtk.gobject.ParamSpec(Refcounted.get(OBJ, false));
+            resultARRAY[I] = new org.gtk.gobject.ParamSpec(OBJ, Ownership.CONTAINER);
         }
         return resultARRAY;
     }
@@ -126,17 +132,20 @@ public class CellAreaClass extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle gtk_cell_area_class_find_cell_property = Interop.downcallHandle(
             "gtk_cell_area_class_find_cell_property",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_class_install_cell_property = Interop.downcallHandle(
             "gtk_cell_area_class_install_cell_property",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_cell_area_class_list_cell_properties = Interop.downcallHandle(
             "gtk_cell_area_class_list_cell_properties",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * choice if you aren't sure what to choose, it has a good speed/quality
  * balance.
  * <p>
- * <em>*Note</em>*: Cubic filtering is missing from the list; hyperbolic
+ * <strong>Note</strong>: Cubic filtering is missing from the list; hyperbolic
  * interpolation is just as fast and results in higher quality.
  */
 public class InterpType extends io.github.jwharm.javagi.Enumeration {
@@ -51,7 +51,7 @@ public class InterpType extends io.github.jwharm.javagi.Enumeration {
      *  Wolberg's "Digital Image Warping", and is formally defined as the
      *  hyperbolic-filter sampling the ideal hyperbolic-filter interpolated
      *  image (the filter is designed to be idempotent for 1:1 pixel mapping).
-     *  <em>*Deprecated</em>*: this interpolation filter is deprecated, as in reality
+     *  <strong>Deprecated</strong>: this interpolation filter is deprecated, as in reality
      *  it has a lower quality than the {@code GDK_INTERP_BILINEAR} filter
      *  (Since: 2.38)
      */

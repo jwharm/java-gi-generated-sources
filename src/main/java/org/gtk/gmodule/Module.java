@@ -22,6 +22,7 @@ public class Module extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -30,14 +31,19 @@ public class Module extends io.github.jwharm.javagi.ResourceBase {
     
     public static Module allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Module newInstance = new Module(Refcounted.get(segment.address()));
+        Module newInstance = new Module(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a Module proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Module(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Module(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -184,7 +190,7 @@ public class Module extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gmodule.Module(Refcounted.get(RESULT, false));
+        return new org.gtk.gmodule.Module(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -214,14 +220,15 @@ public class Module extends io.github.jwharm.javagi.ResourceBase {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_module_open_full.invokeExact(
                     (Addressable) (fileName == null ? MemoryAddress.NULL : Interop.allocateNativeString(fileName)),
-                    flags.getValue(), (Addressable) GERROR);
+                    flags.getValue(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gmodule.Module(Refcounted.get(RESULT, false));
+        return new org.gtk.gmodule.Module(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -242,52 +249,62 @@ public class Module extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_module_close = Interop.downcallHandle(
             "g_module_close",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_module_make_resident = Interop.downcallHandle(
             "g_module_make_resident",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_module_name = Interop.downcallHandle(
             "g_module_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_module_symbol = Interop.downcallHandle(
             "g_module_symbol",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_module_build_path = Interop.downcallHandle(
             "g_module_build_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_module_error = Interop.downcallHandle(
             "g_module_error",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_module_error_quark = Interop.downcallHandle(
             "g_module_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_module_open = Interop.downcallHandle(
             "g_module_open",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_module_open_full = Interop.downcallHandle(
             "g_module_open_full",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_module_supported = Interop.downcallHandle(
             "g_module_supported",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
     }
 }

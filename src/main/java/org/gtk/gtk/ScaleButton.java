@@ -32,6 +32,7 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -42,12 +43,17 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public org.gtk.gtk.Widget parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gtk.Widget(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.Widget(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a ScaleButton proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ScaleButton(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ScaleButton(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -59,20 +65,20 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public static ScaleButton castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkScaleButton"))) {
-            return new ScaleButton(gobject.refcounted());
+            return new ScaleButton(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkScaleButton");
         }
     }
     
-    private static Refcounted constructNew(double min, double max, double step, java.lang.String[] icons) {
-        Refcounted RESULT;
+    private static Addressable constructNew(double min, double max, double step, @Nullable java.lang.String[] icons) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_scale_button_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scale_button_new.invokeExact(
                     min,
                     max,
                     step,
-                    (Addressable) (icons == null ? MemoryAddress.NULL : Interop.allocateNativeArray(icons, false))), false);
+                    (Addressable) (icons == null ? MemoryAddress.NULL : Interop.allocateNativeArray(icons, false)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,8 +98,8 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      *   array of icon names, or {@code null} if you want to set the list
      *   later with gtk_scale_button_set_icons()
      */
-    public ScaleButton(double min, double max, double step, java.lang.String[] icons) {
-        super(constructNew(min, max, step, icons));
+    public ScaleButton(double min, double max, double step, @Nullable java.lang.String[] icons) {
+        super(constructNew(min, max, step, icons), Ownership.NONE);
     }
     
     /**
@@ -110,7 +116,7 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Adjustment(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Adjustment(RESULT, Ownership.NONE);
     }
     
     /**
@@ -126,7 +132,7 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Button(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Button(RESULT, Ownership.NONE);
     }
     
     /**
@@ -142,7 +148,7 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Button(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Button(RESULT, Ownership.NONE);
     }
     
     /**
@@ -157,7 +163,7 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -197,7 +203,7 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Sets the icons to be used by the scale button.
      * @param icons a {@code null}-terminated array of icon names
      */
-    public void setIcons(java.lang.String[] icons) {
+    public void setIcons(@NotNull java.lang.String[] icons) {
         java.util.Objects.requireNonNull(icons, "Parameter 'icons' must not be null");
         try {
             DowncallHandles.gtk_scale_button_set_icons.invokeExact(
@@ -239,6 +245,8 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * This is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Escape&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ScaleButton.Popdown> onPopdown(ScaleButton.Popdown handler) {
         try {
@@ -270,6 +278,8 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * <p>
      * The default bindings for this signal are &lt;kbd&gt;Space&lt;/kbd&gt;,
      * &lt;kbd&gt;Enter&lt;/kbd&gt; and &lt;kbd&gt;Return&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ScaleButton.Popup> onPopup(ScaleButton.Popup handler) {
         try {
@@ -296,6 +306,8 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     /**
      * Emitted when the value field has changed.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ScaleButton.ValueChanged> onValueChanged(ScaleButton.ValueChanged handler) {
         try {
@@ -319,47 +331,56 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         
         private static final MethodHandle gtk_scale_button_new = Interop.downcallHandle(
             "gtk_scale_button_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_scale_button_get_adjustment = Interop.downcallHandle(
             "gtk_scale_button_get_adjustment",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_scale_button_get_minus_button = Interop.downcallHandle(
             "gtk_scale_button_get_minus_button",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_scale_button_get_plus_button = Interop.downcallHandle(
             "gtk_scale_button_get_plus_button",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_scale_button_get_popup = Interop.downcallHandle(
             "gtk_scale_button_get_popup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_scale_button_get_value = Interop.downcallHandle(
             "gtk_scale_button_get_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_scale_button_set_adjustment = Interop.downcallHandle(
             "gtk_scale_button_set_adjustment",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_scale_button_set_icons = Interop.downcallHandle(
             "gtk_scale_button_set_icons",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_scale_button_set_value = Interop.downcallHandle(
             "gtk_scale_button_set_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            false
         );
     }
     
@@ -368,19 +389,19 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         public static void signalScaleButtonPopdown(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ScaleButton.Popdown) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ScaleButton(Refcounted.get(source)));
+            HANDLER.signalReceived(new ScaleButton(source, Ownership.UNKNOWN));
         }
         
         public static void signalScaleButtonPopup(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ScaleButton.Popup) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ScaleButton(Refcounted.get(source)));
+            HANDLER.signalReceived(new ScaleButton(source, Ownership.UNKNOWN));
         }
         
         public static void signalScaleButtonValueChanged(MemoryAddress source, double value, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ScaleButton.ValueChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ScaleButton(Refcounted.get(source)), value);
+            HANDLER.signalReceived(new ScaleButton(source, Ownership.UNKNOWN), value);
         }
     }
 }

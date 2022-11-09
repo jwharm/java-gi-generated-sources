@@ -21,7 +21,7 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
      */
     public static DtlsClientConnection castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDtlsClientConnection"))) {
-            return new DtlsClientConnectionImpl(gobject.refcounted());
+            return new DtlsClientConnectionImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDtlsClientConnection");
         }
@@ -47,7 +47,7 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     /**
@@ -64,7 +64,7 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SocketConnectable.SocketConnectableImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.SocketConnectable.SocketConnectableImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -133,14 +133,15 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dtls_client_connection_new.invokeExact(
                     baseSocket.handle(),
-                    (Addressable) (serverIdentity == null ? MemoryAddress.NULL : serverIdentity.handle()), (Addressable) GERROR);
+                    (Addressable) (serverIdentity == null ? MemoryAddress.NULL : serverIdentity.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.DtlsClientConnection.DtlsClientConnectionImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.DtlsClientConnection.DtlsClientConnectionImpl(RESULT, Ownership.FULL);
     }
     
     @ApiStatus.Internal
@@ -149,37 +150,43 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_dtls_client_connection_get_accepted_cas = Interop.downcallHandle(
             "g_dtls_client_connection_get_accepted_cas",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_client_connection_get_server_identity = Interop.downcallHandle(
             "g_dtls_client_connection_get_server_identity",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_client_connection_get_validation_flags = Interop.downcallHandle(
             "g_dtls_client_connection_get_validation_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_client_connection_set_server_identity = Interop.downcallHandle(
             "g_dtls_client_connection_set_server_identity",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_client_connection_set_validation_flags = Interop.downcallHandle(
             "g_dtls_client_connection_set_validation_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_client_connection_new = Interop.downcallHandle(
             "g_dtls_client_connection_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -189,8 +196,8 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public DtlsClientConnectionImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public DtlsClientConnectionImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

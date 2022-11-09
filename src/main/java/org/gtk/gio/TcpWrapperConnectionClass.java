@@ -21,6 +21,7 @@ public class TcpWrapperConnectionClass extends io.github.jwharm.javagi.ResourceB
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -29,7 +30,7 @@ public class TcpWrapperConnectionClass extends io.github.jwharm.javagi.ResourceB
     
     public static TcpWrapperConnectionClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TcpWrapperConnectionClass newInstance = new TcpWrapperConnectionClass(Refcounted.get(segment.address()));
+        TcpWrapperConnectionClass newInstance = new TcpWrapperConnectionClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -40,11 +41,16 @@ public class TcpWrapperConnectionClass extends io.github.jwharm.javagi.ResourceB
      */
     public org.gtk.gio.TcpConnectionClass parent_class$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gio.TcpConnectionClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.TcpConnectionClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a TcpWrapperConnectionClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TcpWrapperConnectionClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TcpWrapperConnectionClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

@@ -41,13 +41,19 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a IconView proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public IconView(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public IconView(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -59,16 +65,16 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public static IconView castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkIconView"))) {
-            return new IconView(gobject.refcounted());
+            return new IconView(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkIconView");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_icon_view_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_view_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,15 +85,15 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Creates a new {@code GtkIconView} widget
      */
     public IconView() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
-    private static Refcounted constructNewWithArea(@NotNull org.gtk.gtk.CellArea area) {
+    private static Addressable constructNewWithArea(@NotNull org.gtk.gtk.CellArea area) {
         java.util.Objects.requireNonNull(area, "Parameter 'area' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_icon_view_new_with_area.invokeExact(
-                    area.handle()), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_view_new_with_area.invokeExact(
+                    area.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -101,15 +107,15 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return A newly created {@code GtkIconView} widget
      */
     public static IconView newWithArea(@NotNull org.gtk.gtk.CellArea area) {
-        return new IconView(constructNewWithArea(area));
+        return new IconView(constructNewWithArea(area), Ownership.NONE);
     }
     
-    private static Refcounted constructNewWithModel(@NotNull org.gtk.gtk.TreeModel model) {
+    private static Addressable constructNewWithModel(@NotNull org.gtk.gtk.TreeModel model) {
         java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_icon_view_new_with_model.invokeExact(
-                    model.handle()), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_view_new_with_model.invokeExact(
+                    model.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -122,7 +128,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return A newly created {@code GtkIconView} widget.
      */
     public static IconView newWithModel(@NotNull org.gtk.gtk.TreeModel model) {
-        return new IconView(constructNewWithModel(model));
+        return new IconView(constructNewWithModel(model), Ownership.NONE);
     }
     
     /**
@@ -141,7 +147,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.Paintable.PaintableImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -485,7 +491,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.TreeModel.TreeModelImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -505,7 +511,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreePath(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.TreePath(RESULT, Ownership.FULL);
     }
     
     /**
@@ -581,7 +587,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1249,6 +1255,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * programmatically.
      * <p>
      * The default bindings for this signal are Space, Return and Enter.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<IconView.ActivateCursorItem> onActivateCursorItem(IconView.ActivateCursorItem handler) {
         try {
@@ -1281,6 +1289,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * "activate-on-single-click" property set to {@code true}. It is also
      * emitted when a non-editable item is selected and one of the keys:
      * Space, Return or Enter is pressed.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<IconView.ItemActivated> onItemActivated(IconView.ItemActivated handler) {
         try {
@@ -1322,6 +1332,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * All of these will extend the selection when combined with
      * the Shift modifier.
      * </ul>
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<IconView.MoveCursor> onMoveCursor(IconView.MoveCursor handler) {
         try {
@@ -1355,6 +1367,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * programmatically.
      * <p>
      * The default binding for this signal is Ctrl-a.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<IconView.SelectAll> onSelectAll(IconView.SelectAll handler) {
         try {
@@ -1389,6 +1403,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * programmatically.
      * <p>
      * There is no default binding for this signal.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<IconView.SelectCursorItem> onSelectCursorItem(IconView.SelectCursorItem handler) {
         try {
@@ -1416,6 +1432,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     /**
      * The ::selection-changed signal is emitted when the selection
      * (i.e. the set of selected items) changes.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<IconView.SelectionChanged> onSelectionChanged(IconView.SelectionChanged handler) {
         try {
@@ -1451,6 +1469,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * programmatically.
      * <p>
      * There is no default binding for this signal is Ctrl-Space.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<IconView.ToggleCursorItem> onToggleCursorItem(IconView.ToggleCursorItem handler) {
         try {
@@ -1484,6 +1504,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * programmatically.
      * <p>
      * The default binding for this signal is Ctrl-Shift-a.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<IconView.UnselectAll> onUnselectAll(IconView.UnselectAll handler) {
         try {
@@ -1507,317 +1529,380 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         
         private static final MethodHandle gtk_icon_view_new = Interop.downcallHandle(
             "gtk_icon_view_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_new_with_area = Interop.downcallHandle(
             "gtk_icon_view_new_with_area",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_new_with_model = Interop.downcallHandle(
             "gtk_icon_view_new_with_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_create_drag_icon = Interop.downcallHandle(
             "gtk_icon_view_create_drag_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_enable_model_drag_dest = Interop.downcallHandle(
             "gtk_icon_view_enable_model_drag_dest",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_enable_model_drag_source = Interop.downcallHandle(
             "gtk_icon_view_enable_model_drag_source",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_activate_on_single_click = Interop.downcallHandle(
             "gtk_icon_view_get_activate_on_single_click",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_cell_rect = Interop.downcallHandle(
             "gtk_icon_view_get_cell_rect",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_column_spacing = Interop.downcallHandle(
             "gtk_icon_view_get_column_spacing",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_columns = Interop.downcallHandle(
             "gtk_icon_view_get_columns",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_cursor = Interop.downcallHandle(
             "gtk_icon_view_get_cursor",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_dest_item_at_pos = Interop.downcallHandle(
             "gtk_icon_view_get_dest_item_at_pos",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_drag_dest_item = Interop.downcallHandle(
             "gtk_icon_view_get_drag_dest_item",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_item_at_pos = Interop.downcallHandle(
             "gtk_icon_view_get_item_at_pos",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_item_column = Interop.downcallHandle(
             "gtk_icon_view_get_item_column",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_item_orientation = Interop.downcallHandle(
             "gtk_icon_view_get_item_orientation",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_item_padding = Interop.downcallHandle(
             "gtk_icon_view_get_item_padding",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_item_row = Interop.downcallHandle(
             "gtk_icon_view_get_item_row",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_item_width = Interop.downcallHandle(
             "gtk_icon_view_get_item_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_margin = Interop.downcallHandle(
             "gtk_icon_view_get_margin",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_markup_column = Interop.downcallHandle(
             "gtk_icon_view_get_markup_column",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_model = Interop.downcallHandle(
             "gtk_icon_view_get_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_path_at_pos = Interop.downcallHandle(
             "gtk_icon_view_get_path_at_pos",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_pixbuf_column = Interop.downcallHandle(
             "gtk_icon_view_get_pixbuf_column",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_reorderable = Interop.downcallHandle(
             "gtk_icon_view_get_reorderable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_row_spacing = Interop.downcallHandle(
             "gtk_icon_view_get_row_spacing",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_selected_items = Interop.downcallHandle(
             "gtk_icon_view_get_selected_items",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_selection_mode = Interop.downcallHandle(
             "gtk_icon_view_get_selection_mode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_spacing = Interop.downcallHandle(
             "gtk_icon_view_get_spacing",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_text_column = Interop.downcallHandle(
             "gtk_icon_view_get_text_column",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_tooltip_column = Interop.downcallHandle(
             "gtk_icon_view_get_tooltip_column",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_tooltip_context = Interop.downcallHandle(
             "gtk_icon_view_get_tooltip_context",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_get_visible_range = Interop.downcallHandle(
             "gtk_icon_view_get_visible_range",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_item_activated = Interop.downcallHandle(
             "gtk_icon_view_item_activated",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_path_is_selected = Interop.downcallHandle(
             "gtk_icon_view_path_is_selected",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_scroll_to_path = Interop.downcallHandle(
             "gtk_icon_view_scroll_to_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_select_all = Interop.downcallHandle(
             "gtk_icon_view_select_all",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_select_path = Interop.downcallHandle(
             "gtk_icon_view_select_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_selected_foreach = Interop.downcallHandle(
             "gtk_icon_view_selected_foreach",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_set_activate_on_single_click = Interop.downcallHandle(
             "gtk_icon_view_set_activate_on_single_click",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_set_column_spacing = Interop.downcallHandle(
             "gtk_icon_view_set_column_spacing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_set_columns = Interop.downcallHandle(
             "gtk_icon_view_set_columns",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_set_cursor = Interop.downcallHandle(
             "gtk_icon_view_set_cursor",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_set_drag_dest_item = Interop.downcallHandle(
             "gtk_icon_view_set_drag_dest_item",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_set_item_orientation = Interop.downcallHandle(
             "gtk_icon_view_set_item_orientation",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_set_item_padding = Interop.downcallHandle(
             "gtk_icon_view_set_item_padding",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_set_item_width = Interop.downcallHandle(
             "gtk_icon_view_set_item_width",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_set_margin = Interop.downcallHandle(
             "gtk_icon_view_set_margin",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_set_markup_column = Interop.downcallHandle(
             "gtk_icon_view_set_markup_column",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_set_model = Interop.downcallHandle(
             "gtk_icon_view_set_model",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_set_pixbuf_column = Interop.downcallHandle(
             "gtk_icon_view_set_pixbuf_column",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_set_reorderable = Interop.downcallHandle(
             "gtk_icon_view_set_reorderable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_set_row_spacing = Interop.downcallHandle(
             "gtk_icon_view_set_row_spacing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_set_selection_mode = Interop.downcallHandle(
             "gtk_icon_view_set_selection_mode",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_set_spacing = Interop.downcallHandle(
             "gtk_icon_view_set_spacing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_set_text_column = Interop.downcallHandle(
             "gtk_icon_view_set_text_column",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_set_tooltip_cell = Interop.downcallHandle(
             "gtk_icon_view_set_tooltip_cell",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_set_tooltip_column = Interop.downcallHandle(
             "gtk_icon_view_set_tooltip_column",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_set_tooltip_item = Interop.downcallHandle(
             "gtk_icon_view_set_tooltip_item",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_unselect_all = Interop.downcallHandle(
             "gtk_icon_view_unselect_all",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_unselect_path = Interop.downcallHandle(
             "gtk_icon_view_unselect_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_unset_model_drag_dest = Interop.downcallHandle(
             "gtk_icon_view_unset_model_drag_dest",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_icon_view_unset_model_drag_source = Interop.downcallHandle(
             "gtk_icon_view_unset_model_drag_source",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -1826,49 +1911,49 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         public static boolean signalIconViewActivateCursorItem(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (IconView.ActivateCursorItem) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new IconView(Refcounted.get(source)));
+            return HANDLER.signalReceived(new IconView(source, Ownership.UNKNOWN));
         }
         
         public static void signalIconViewItemActivated(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (IconView.ItemActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IconView(Refcounted.get(source)), new org.gtk.gtk.TreePath(Refcounted.get(path, false)));
+            HANDLER.signalReceived(new IconView(source, Ownership.UNKNOWN), new org.gtk.gtk.TreePath(path, Ownership.NONE));
         }
         
         public static boolean signalIconViewMoveCursor(MemoryAddress source, int step, int count, int extend, int modify, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (IconView.MoveCursor) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new IconView(Refcounted.get(source)), new org.gtk.gtk.MovementStep(step), count, extend != 0, modify != 0);
+            return HANDLER.signalReceived(new IconView(source, Ownership.UNKNOWN), new org.gtk.gtk.MovementStep(step), count, extend != 0, modify != 0);
         }
         
         public static void signalIconViewSelectAll(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (IconView.SelectAll) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IconView(Refcounted.get(source)));
+            HANDLER.signalReceived(new IconView(source, Ownership.UNKNOWN));
         }
         
         public static void signalIconViewSelectCursorItem(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (IconView.SelectCursorItem) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IconView(Refcounted.get(source)));
+            HANDLER.signalReceived(new IconView(source, Ownership.UNKNOWN));
         }
         
         public static void signalIconViewSelectionChanged(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (IconView.SelectionChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IconView(Refcounted.get(source)));
+            HANDLER.signalReceived(new IconView(source, Ownership.UNKNOWN));
         }
         
         public static void signalIconViewToggleCursorItem(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (IconView.ToggleCursorItem) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IconView(Refcounted.get(source)));
+            HANDLER.signalReceived(new IconView(source, Ownership.UNKNOWN));
         }
         
         public static void signalIconViewUnselectAll(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (IconView.UnselectAll) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IconView(Refcounted.get(source)));
+            HANDLER.signalReceived(new IconView(source, Ownership.UNKNOWN));
         }
     }
 }

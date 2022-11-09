@@ -27,6 +27,7 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -35,7 +36,7 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
     
     public static Color allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Color newInstance = new Color(Refcounted.get(segment.address()));
+        Color newInstance = new Color(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -103,9 +104,14 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), blue);
     }
     
+    /**
+     * Create a Color proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Color(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Color(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -126,7 +132,7 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Color(Refcounted.get(RESULT, true));
+        return new org.pango.Color(RESULT, Ownership.FULL);
     }
     
     /**
@@ -230,27 +236,32 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle pango_color_copy = Interop.downcallHandle(
             "pango_color_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_color_free = Interop.downcallHandle(
             "pango_color_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_color_parse = Interop.downcallHandle(
             "pango_color_parse",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_color_parse_with_alpha = Interop.downcallHandle(
             "pango_color_parse_with_alpha",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_color_to_string = Interop.downcallHandle(
             "pango_color_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

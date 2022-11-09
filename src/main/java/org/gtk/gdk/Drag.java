@@ -29,13 +29,19 @@ public class Drag extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Drag proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Drag(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Drag(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -47,7 +53,7 @@ public class Drag extends org.gtk.gobject.Object {
      */
     public static Drag castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkDrag"))) {
-            return new Drag(gobject.refcounted());
+            return new Drag(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkDrag");
         }
@@ -104,7 +110,7 @@ public class Drag extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentProvider(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.ContentProvider(RESULT, Ownership.NONE);
     }
     
     /**
@@ -119,7 +125,7 @@ public class Drag extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Device(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Device(RESULT, Ownership.NONE);
     }
     
     /**
@@ -134,7 +140,7 @@ public class Drag extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
     }
     
     /**
@@ -155,7 +161,7 @@ public class Drag extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Surface(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Surface(RESULT, Ownership.NONE);
     }
     
     /**
@@ -170,7 +176,7 @@ public class Drag extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentFormats(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.NONE);
     }
     
     /**
@@ -200,7 +206,7 @@ public class Drag extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Surface(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Surface(RESULT, Ownership.NONE);
     }
     
     /**
@@ -262,7 +268,7 @@ public class Drag extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Drag(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.Drag(RESULT, Ownership.FULL);
     }
     
     @FunctionalInterface
@@ -272,6 +278,8 @@ public class Drag extends org.gtk.gobject.Object {
     
     /**
      * Emitted when the drag operation is cancelled.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Drag.Cancel> onCancel(Drag.Cancel handler) {
         try {
@@ -300,6 +308,8 @@ public class Drag extends org.gtk.gobject.Object {
      * Emitted when the destination side has finished reading all data.
      * <p>
      * The drag object can now free all miscellaneous data.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Drag.DndFinished> onDndFinished(Drag.DndFinished handler) {
         try {
@@ -326,6 +336,8 @@ public class Drag extends org.gtk.gobject.Object {
     
     /**
      * Emitted when the drop operation is performed on an accepting client.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Drag.DropPerformed> onDropPerformed(Drag.DropPerformed handler) {
         try {
@@ -349,57 +361,68 @@ public class Drag extends org.gtk.gobject.Object {
         
         private static final MethodHandle gdk_drag_drop_done = Interop.downcallHandle(
             "gdk_drag_drop_done",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_drag_get_actions = Interop.downcallHandle(
             "gdk_drag_get_actions",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_drag_get_content = Interop.downcallHandle(
             "gdk_drag_get_content",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_drag_get_device = Interop.downcallHandle(
             "gdk_drag_get_device",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_drag_get_display = Interop.downcallHandle(
             "gdk_drag_get_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_drag_get_drag_surface = Interop.downcallHandle(
             "gdk_drag_get_drag_surface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_drag_get_formats = Interop.downcallHandle(
             "gdk_drag_get_formats",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_drag_get_selected_action = Interop.downcallHandle(
             "gdk_drag_get_selected_action",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_drag_get_surface = Interop.downcallHandle(
             "gdk_drag_get_surface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_drag_set_hotspot = Interop.downcallHandle(
             "gdk_drag_set_hotspot",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_drag_begin = Interop.downcallHandle(
             "gdk_drag_begin",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
     }
     
@@ -408,19 +431,19 @@ public class Drag extends org.gtk.gobject.Object {
         public static void signalDragCancel(MemoryAddress source, int reason, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Drag.Cancel) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Drag(Refcounted.get(source)), new org.gtk.gdk.DragCancelReason(reason));
+            HANDLER.signalReceived(new Drag(source, Ownership.UNKNOWN), new org.gtk.gdk.DragCancelReason(reason));
         }
         
         public static void signalDragDndFinished(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Drag.DndFinished) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Drag(Refcounted.get(source)));
+            HANDLER.signalReceived(new Drag(source, Ownership.UNKNOWN));
         }
         
         public static void signalDragDropPerformed(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Drag.DropPerformed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Drag(Refcounted.get(source)));
+            HANDLER.signalReceived(new Drag(source, Ownership.UNKNOWN));
         }
     }
 }

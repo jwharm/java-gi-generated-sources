@@ -26,6 +26,7 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -34,7 +35,7 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
     
     public static FileAttributeInfoList allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FileAttributeInfoList newInstance = new FileAttributeInfoList(Refcounted.get(segment.address()));
+        FileAttributeInfoList newInstance = new FileAttributeInfoList(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,7 +48,7 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("infos"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gio.FileAttributeInfo(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.FileAttributeInfo(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -81,15 +82,20 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_infos);
     }
     
+    /**
+     * Create a FileAttributeInfoList proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FileAttributeInfoList(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FileAttributeInfoList(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_file_attribute_info_list_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_info_list_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,7 +106,7 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
      * Creates a new file attribute info list.
      */
     public FileAttributeInfoList() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -137,7 +143,7 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.FileAttributeInfoList(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.FileAttributeInfoList(RESULT, Ownership.FULL);
     }
     
     /**
@@ -156,7 +162,7 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.FileAttributeInfo(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.FileAttributeInfo(RESULT, Ownership.NONE);
     }
     
     /**
@@ -171,7 +177,7 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.FileAttributeInfoList(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.FileAttributeInfoList(RESULT, Ownership.FULL);
     }
     
     /**
@@ -191,32 +197,38 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
         
         private static final MethodHandle g_file_attribute_info_list_new = Interop.downcallHandle(
             "g_file_attribute_info_list_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_attribute_info_list_add = Interop.downcallHandle(
             "g_file_attribute_info_list_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_file_attribute_info_list_dup = Interop.downcallHandle(
             "g_file_attribute_info_list_dup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_attribute_info_list_lookup = Interop.downcallHandle(
             "g_file_attribute_info_list_lookup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_attribute_info_list_ref = Interop.downcallHandle(
             "g_file_attribute_info_list_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_attribute_info_list_unref = Interop.downcallHandle(
             "g_file_attribute_info_list_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

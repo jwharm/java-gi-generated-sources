@@ -22,6 +22,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -30,14 +31,19 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     
     public static OptionContext allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        OptionContext newInstance = new OptionContext(Refcounted.get(segment.address()));
+        OptionContext newInstance = new OptionContext(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a OptionContext proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public OptionContext(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public OptionContext(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -65,7 +71,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      *    the {@code --help} output for the options in {@code entries}
      *    with gettext(), or {@code null}
      */
-    public void addMainEntries(org.gtk.glib.OptionEntry[] entries, @Nullable java.lang.String translationDomain) {
+    public void addMainEntries(@NotNull org.gtk.glib.OptionEntry[] entries, @Nullable java.lang.String translationDomain) {
         java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
         try {
             DowncallHandles.g_option_context_add_main_entries.invokeExact(
@@ -179,7 +185,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.OptionGroup(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.OptionGroup(RESULT, Ownership.NONE);
     }
     
     /**
@@ -242,7 +248,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      *               {@code false} if an error occurred
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean parse(Out<Integer> argc, Out<java.lang.String[]> argv) throws io.github.jwharm.javagi.GErrorException {
+    public boolean parse(Out<Integer> argc, @NotNull Out<java.lang.String[]> argv) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(argc, "Parameter 'argc' must not be null");
         java.util.Objects.requireNonNull(argv, "Parameter 'argv' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -253,7 +259,8 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
             RESULT = (int) DowncallHandles.g_option_context_parse.invokeExact(
                     handle(),
                     (Addressable) argcPOINTER.address(),
-                    (Addressable) argvPOINTER.address(), (Addressable) GERROR);
+                    (Addressable) argvPOINTER.address(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -295,7 +302,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      *          {@code false} if an error occurred
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean parseStrv(Out<java.lang.String[]> arguments) throws io.github.jwharm.javagi.GErrorException {
+    public boolean parseStrv(@NotNull Out<java.lang.String[]> arguments) throws io.github.jwharm.javagi.GErrorException {
         throw new UnsupportedOperationException("Operation not supported yet");
     }
     
@@ -511,114 +518,135 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.OptionContext(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.OptionContext(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_option_context_add_group = Interop.downcallHandle(
             "g_option_context_add_group",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_context_add_main_entries = Interop.downcallHandle(
             "g_option_context_add_main_entries",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_context_free = Interop.downcallHandle(
             "g_option_context_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_context_get_description = Interop.downcallHandle(
             "g_option_context_get_description",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_context_get_help = Interop.downcallHandle(
             "g_option_context_get_help",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_context_get_help_enabled = Interop.downcallHandle(
             "g_option_context_get_help_enabled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_context_get_ignore_unknown_options = Interop.downcallHandle(
             "g_option_context_get_ignore_unknown_options",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_context_get_main_group = Interop.downcallHandle(
             "g_option_context_get_main_group",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_context_get_strict_posix = Interop.downcallHandle(
             "g_option_context_get_strict_posix",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_context_get_summary = Interop.downcallHandle(
             "g_option_context_get_summary",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_context_parse = Interop.downcallHandle(
             "g_option_context_parse",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_context_parse_strv = Interop.downcallHandle(
             "g_option_context_parse_strv",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_context_set_description = Interop.downcallHandle(
             "g_option_context_set_description",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_context_set_help_enabled = Interop.downcallHandle(
             "g_option_context_set_help_enabled",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_option_context_set_ignore_unknown_options = Interop.downcallHandle(
             "g_option_context_set_ignore_unknown_options",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_option_context_set_main_group = Interop.downcallHandle(
             "g_option_context_set_main_group",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_context_set_strict_posix = Interop.downcallHandle(
             "g_option_context_set_strict_posix",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_option_context_set_summary = Interop.downcallHandle(
             "g_option_context_set_summary",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_context_set_translate_func = Interop.downcallHandle(
             "g_option_context_set_translate_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_context_set_translation_domain = Interop.downcallHandle(
             "g_option_context_set_translation_domain",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_option_context_new = Interop.downcallHandle(
             "g_option_context_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

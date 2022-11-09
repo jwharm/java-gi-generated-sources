@@ -37,13 +37,19 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a AppInfoMonitor proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public AppInfoMonitor(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public AppInfoMonitor(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -55,7 +61,7 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
      */
     public static AppInfoMonitor castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GAppInfoMonitor"))) {
-            return new AppInfoMonitor(gobject.refcounted());
+            return new AppInfoMonitor(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GAppInfoMonitor");
         }
@@ -80,7 +86,7 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.AppInfoMonitor(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.AppInfoMonitor(RESULT, Ownership.FULL);
     }
     
     @FunctionalInterface
@@ -91,6 +97,8 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
     /**
      * Signal emitted when the app info database for changes (ie: newly installed
      * or removed applications).
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppInfoMonitor.Changed> onChanged(AppInfoMonitor.Changed handler) {
         try {
@@ -114,7 +122,8 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
         
         private static final MethodHandle g_app_info_monitor_get = Interop.downcallHandle(
             "g_app_info_monitor_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -123,7 +132,7 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
         public static void signalAppInfoMonitorChanged(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (AppInfoMonitor.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppInfoMonitor(Refcounted.get(source)));
+            HANDLER.signalReceived(new AppInfoMonitor(source, Ownership.UNKNOWN));
         }
     }
 }

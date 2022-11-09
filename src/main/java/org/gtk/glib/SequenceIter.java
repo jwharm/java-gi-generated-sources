@@ -21,6 +21,7 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -29,14 +30,19 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
     
     public static SequenceIter allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SequenceIter newInstance = new SequenceIter(Refcounted.get(segment.address()));
+        SequenceIter newInstance = new SequenceIter(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a SequenceIter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SequenceIter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SequenceIter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -88,7 +94,7 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Sequence(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Sequence(RESULT, Ownership.NONE);
     }
     
     /**
@@ -139,7 +145,7 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SequenceIter(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SequenceIter(RESULT, Ownership.NONE);
     }
     
     /**
@@ -155,7 +161,7 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SequenceIter(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SequenceIter(RESULT, Ownership.NONE);
     }
     
     /**
@@ -172,49 +178,57 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SequenceIter(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SequenceIter(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_sequence_iter_compare = Interop.downcallHandle(
             "g_sequence_iter_compare",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_sequence_iter_get_position = Interop.downcallHandle(
             "g_sequence_iter_get_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_sequence_iter_get_sequence = Interop.downcallHandle(
             "g_sequence_iter_get_sequence",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_sequence_iter_is_begin = Interop.downcallHandle(
             "g_sequence_iter_is_begin",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_sequence_iter_is_end = Interop.downcallHandle(
             "g_sequence_iter_is_end",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_sequence_iter_move = Interop.downcallHandle(
             "g_sequence_iter_move",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_sequence_iter_next = Interop.downcallHandle(
             "g_sequence_iter_next",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_sequence_iter_prev = Interop.downcallHandle(
             "g_sequence_iter_prev",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

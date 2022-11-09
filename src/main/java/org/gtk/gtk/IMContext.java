@@ -52,6 +52,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -62,12 +63,17 @@ public class IMContext extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a IMContext proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public IMContext(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public IMContext(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -79,7 +85,7 @@ public class IMContext extends org.gtk.gobject.Object {
      */
     public static IMContext castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkIMContext"))) {
-            return new IMContext(gobject.refcounted());
+            return new IMContext(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkIMContext");
         }
@@ -474,6 +480,8 @@ public class IMContext extends org.gtk.gobject.Object {
      * <p>
      * This can be a single character immediately after a key press or
      * the final result of preediting.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<IMContext.Commit> onCommit(IMContext.Commit handler) {
         try {
@@ -501,6 +509,8 @@ public class IMContext extends org.gtk.gobject.Object {
     /**
      * The ::delete-surrounding signal is emitted when the input method
      * needs to delete all or part of the context surrounding the cursor.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<IMContext.DeleteSurrounding> onDeleteSurrounding(IMContext.DeleteSurrounding handler) {
         try {
@@ -531,6 +541,8 @@ public class IMContext extends org.gtk.gobject.Object {
      * <p>
      * It is also emitted at the end of a preedit sequence, in which case
      * {@link IMContext#getPreeditString} returns the empty string.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<IMContext.PreeditChanged> onPreeditChanged(IMContext.PreeditChanged handler) {
         try {
@@ -558,6 +570,8 @@ public class IMContext extends org.gtk.gobject.Object {
     /**
      * The ::preedit-end signal is emitted when a preediting sequence
      * has been completed or canceled.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<IMContext.PreeditEnd> onPreeditEnd(IMContext.PreeditEnd handler) {
         try {
@@ -585,6 +599,8 @@ public class IMContext extends org.gtk.gobject.Object {
     /**
      * The ::preedit-start signal is emitted when a new preediting sequence
      * starts.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<IMContext.PreeditStart> onPreeditStart(IMContext.PreeditStart handler) {
         try {
@@ -615,6 +631,8 @@ public class IMContext extends org.gtk.gobject.Object {
      * <p>
      * The callback should set the input method surrounding context by
      * calling the {@link IMContext#setSurrounding} method.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<IMContext.RetrieveSurrounding> onRetrieveSurrounding(IMContext.RetrieveSurrounding handler) {
         try {
@@ -638,72 +656,86 @@ public class IMContext extends org.gtk.gobject.Object {
         
         private static final MethodHandle gtk_im_context_delete_surrounding = Interop.downcallHandle(
             "gtk_im_context_delete_surrounding",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_im_context_filter_key = Interop.downcallHandle(
             "gtk_im_context_filter_key",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_im_context_filter_keypress = Interop.downcallHandle(
             "gtk_im_context_filter_keypress",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_im_context_focus_in = Interop.downcallHandle(
             "gtk_im_context_focus_in",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_im_context_focus_out = Interop.downcallHandle(
             "gtk_im_context_focus_out",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_im_context_get_preedit_string = Interop.downcallHandle(
             "gtk_im_context_get_preedit_string",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_im_context_get_surrounding = Interop.downcallHandle(
             "gtk_im_context_get_surrounding",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_im_context_get_surrounding_with_selection = Interop.downcallHandle(
             "gtk_im_context_get_surrounding_with_selection",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_im_context_reset = Interop.downcallHandle(
             "gtk_im_context_reset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_im_context_set_client_widget = Interop.downcallHandle(
             "gtk_im_context_set_client_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_im_context_set_cursor_location = Interop.downcallHandle(
             "gtk_im_context_set_cursor_location",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_im_context_set_surrounding = Interop.downcallHandle(
             "gtk_im_context_set_surrounding",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_im_context_set_surrounding_with_selection = Interop.downcallHandle(
             "gtk_im_context_set_surrounding_with_selection",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_im_context_set_use_preedit = Interop.downcallHandle(
             "gtk_im_context_set_use_preedit",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -712,37 +744,37 @@ public class IMContext extends org.gtk.gobject.Object {
         public static void signalIMContextCommit(MemoryAddress source, MemoryAddress str, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (IMContext.Commit) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IMContext(Refcounted.get(source)), Interop.getStringFrom(str));
+            HANDLER.signalReceived(new IMContext(source, Ownership.UNKNOWN), Interop.getStringFrom(str));
         }
         
         public static boolean signalIMContextDeleteSurrounding(MemoryAddress source, int offset, int nChars, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (IMContext.DeleteSurrounding) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new IMContext(Refcounted.get(source)), offset, nChars);
+            return HANDLER.signalReceived(new IMContext(source, Ownership.UNKNOWN), offset, nChars);
         }
         
         public static void signalIMContextPreeditChanged(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (IMContext.PreeditChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IMContext(Refcounted.get(source)));
+            HANDLER.signalReceived(new IMContext(source, Ownership.UNKNOWN));
         }
         
         public static void signalIMContextPreeditEnd(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (IMContext.PreeditEnd) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IMContext(Refcounted.get(source)));
+            HANDLER.signalReceived(new IMContext(source, Ownership.UNKNOWN));
         }
         
         public static void signalIMContextPreeditStart(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (IMContext.PreeditStart) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IMContext(Refcounted.get(source)));
+            HANDLER.signalReceived(new IMContext(source, Ownership.UNKNOWN));
         }
         
         public static boolean signalIMContextRetrieveSurrounding(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (IMContext.RetrieveSurrounding) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new IMContext(Refcounted.get(source)));
+            return HANDLER.signalReceived(new IMContext(source, Ownership.UNKNOWN));
         }
     }
 }

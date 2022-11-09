@@ -17,6 +17,7 @@ public class TaskClass extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -25,13 +26,18 @@ public class TaskClass extends io.github.jwharm.javagi.ResourceBase {
     
     public static TaskClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TaskClass newInstance = new TaskClass(Refcounted.get(segment.address()));
+        TaskClass newInstance = new TaskClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a TaskClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TaskClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TaskClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

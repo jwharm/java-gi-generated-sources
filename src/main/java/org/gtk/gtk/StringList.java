@@ -43,13 +43,19 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a StringList proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public StringList(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public StringList(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -61,17 +67,17 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      */
     public static StringList castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkStringList"))) {
-            return new StringList(gobject.refcounted());
+            return new StringList(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkStringList");
         }
     }
     
-    private static Refcounted constructNew(java.lang.String[] strings) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable java.lang.String[] strings) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_string_list_new.invokeExact(
-                    (Addressable) (strings == null ? MemoryAddress.NULL : Interop.allocateNativeArray(strings, false))), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_string_list_new.invokeExact(
+                    (Addressable) (strings == null ? MemoryAddress.NULL : Interop.allocateNativeArray(strings, false)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,8 +88,8 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * Creates a new {@code GtkStringList} with the given {@code strings}.
      * @param strings The strings to put in the model
      */
-    public StringList(java.lang.String[] strings) {
-        super(constructNew(strings));
+    public StringList(@Nullable java.lang.String[] strings) {
+        super(constructNew(strings), Ownership.FULL);
     }
     
     /**
@@ -160,7 +166,7 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * @param nRemovals the number of strings to remove
      * @param additions The strings to add
      */
-    public void splice(int position, int nRemovals, java.lang.String[] additions) {
+    public void splice(int position, int nRemovals, @Nullable java.lang.String[] additions) {
         try {
             DowncallHandles.gtk_string_list_splice.invokeExact(
                     handle(),
@@ -198,32 +204,38 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
         
         private static final MethodHandle gtk_string_list_new = Interop.downcallHandle(
             "gtk_string_list_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_string_list_append = Interop.downcallHandle(
             "gtk_string_list_append",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_string_list_get_string = Interop.downcallHandle(
             "gtk_string_list_get_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_string_list_remove = Interop.downcallHandle(
             "gtk_string_list_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_string_list_splice = Interop.downcallHandle(
             "gtk_string_list_splice",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_string_list_take = Interop.downcallHandle(
             "gtk_string_list_take",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

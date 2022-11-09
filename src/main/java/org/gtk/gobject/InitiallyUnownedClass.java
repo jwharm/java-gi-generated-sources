@@ -36,6 +36,7 @@ public class InitiallyUnownedClass extends io.github.jwharm.javagi.ResourceBase 
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -44,7 +45,7 @@ public class InitiallyUnownedClass extends io.github.jwharm.javagi.ResourceBase 
     
     public static InitiallyUnownedClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        InitiallyUnownedClass newInstance = new InitiallyUnownedClass(Refcounted.get(segment.address()));
+        InitiallyUnownedClass newInstance = new InitiallyUnownedClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -55,11 +56,16 @@ public class InitiallyUnownedClass extends io.github.jwharm.javagi.ResourceBase 
      */
     public org.gtk.gobject.TypeClass g_type_class$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_type_class"));
-        return new org.gtk.gobject.TypeClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.TypeClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a InitiallyUnownedClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public InitiallyUnownedClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public InitiallyUnownedClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

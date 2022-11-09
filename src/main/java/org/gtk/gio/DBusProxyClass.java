@@ -29,6 +29,7 @@ public class DBusProxyClass extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -37,13 +38,18 @@ public class DBusProxyClass extends io.github.jwharm.javagi.ResourceBase {
     
     public static DBusProxyClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DBusProxyClass newInstance = new DBusProxyClass(Refcounted.get(segment.address()));
+        DBusProxyClass newInstance = new DBusProxyClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a DBusProxyClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DBusProxyClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DBusProxyClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

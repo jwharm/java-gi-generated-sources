@@ -38,6 +38,7 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -48,12 +49,17 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      */
     public org.gtk.gio.FilterInputStream parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.FilterInputStream(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.FilterInputStream(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a BufferedInputStream proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public BufferedInputStream(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public BufferedInputStream(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -65,18 +71,18 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      */
     public static BufferedInputStream castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GBufferedInputStream"))) {
-            return new BufferedInputStream(gobject.refcounted());
+            return new BufferedInputStream(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GBufferedInputStream");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gio.InputStream baseStream) {
+    private static Addressable constructNew(@NotNull org.gtk.gio.InputStream baseStream) {
         java.util.Objects.requireNonNull(baseStream, "Parameter 'baseStream' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_buffered_input_stream_new.invokeExact(
-                    baseStream.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_buffered_input_stream_new.invokeExact(
+                    baseStream.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -89,16 +95,16 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      * @param baseStream a {@link InputStream}
      */
     public BufferedInputStream(@NotNull org.gtk.gio.InputStream baseStream) {
-        super(constructNew(baseStream));
+        super(constructNew(baseStream), Ownership.FULL);
     }
     
-    private static Refcounted constructNewSized(@NotNull org.gtk.gio.InputStream baseStream, long size) {
+    private static Addressable constructNewSized(@NotNull org.gtk.gio.InputStream baseStream, long size) {
         java.util.Objects.requireNonNull(baseStream, "Parameter 'baseStream' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_buffered_input_stream_new_sized.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_buffered_input_stream_new_sized.invokeExact(
                     baseStream.handle(),
-                    size), true);
+                    size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -113,7 +119,7 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      * @return a {@link InputStream}.
      */
     public static BufferedInputStream newSized(@NotNull org.gtk.gio.InputStream baseStream, long size) {
-        return new BufferedInputStream(constructNewSized(baseStream, size));
+        return new BufferedInputStream(constructNewSized(baseStream, size), Ownership.FULL);
     }
     
     /**
@@ -154,7 +160,8 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
             RESULT = (long) DowncallHandles.g_buffered_input_stream_fill.invokeExact(
                     handle(),
                     count,
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -207,7 +214,8 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
         try {
             RESULT = (long) DowncallHandles.g_buffered_input_stream_fill_finish.invokeExact(
                     handle(),
-                    result.handle(), (Addressable) GERROR);
+                    result.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -256,7 +264,7 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      * @param count a {@code gsize}
      * @return a {@code gsize} of the number of bytes peeked, or -1 on error.
      */
-    public long peek(byte[] buffer, long offset, long count) {
+    public long peek(@NotNull byte[] buffer, long offset, long count) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         long RESULT;
         try {
@@ -317,7 +325,8 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
         try {
             RESULT = (int) DowncallHandles.g_buffered_input_stream_read_byte.invokeExact(
                     handle(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -347,57 +356,68 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
         
         private static final MethodHandle g_buffered_input_stream_new = Interop.downcallHandle(
             "g_buffered_input_stream_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_buffered_input_stream_new_sized = Interop.downcallHandle(
             "g_buffered_input_stream_new_sized",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_buffered_input_stream_fill = Interop.downcallHandle(
             "g_buffered_input_stream_fill",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_buffered_input_stream_fill_async = Interop.downcallHandle(
             "g_buffered_input_stream_fill_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_buffered_input_stream_fill_finish = Interop.downcallHandle(
             "g_buffered_input_stream_fill_finish",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_buffered_input_stream_get_available = Interop.downcallHandle(
             "g_buffered_input_stream_get_available",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_buffered_input_stream_get_buffer_size = Interop.downcallHandle(
             "g_buffered_input_stream_get_buffer_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_buffered_input_stream_peek = Interop.downcallHandle(
             "g_buffered_input_stream_peek",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_buffered_input_stream_peek_buffer = Interop.downcallHandle(
             "g_buffered_input_stream_peek_buffer",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_buffered_input_stream_read_byte = Interop.downcallHandle(
             "g_buffered_input_stream_read_byte",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_buffered_input_stream_set_buffer_size = Interop.downcallHandle(
             "g_buffered_input_stream_set_buffer_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
     }
 }

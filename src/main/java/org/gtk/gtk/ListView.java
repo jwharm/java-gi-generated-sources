@@ -114,13 +114,19 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ListView proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ListView(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ListView(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -132,18 +138,18 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
      */
     public static ListView castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkListView"))) {
-            return new ListView(gobject.refcounted());
+            return new ListView(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkListView");
         }
     }
     
-    private static Refcounted constructNew(@Nullable org.gtk.gtk.SelectionModel model, @Nullable org.gtk.gtk.ListItemFactory factory) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable org.gtk.gtk.SelectionModel model, @Nullable org.gtk.gtk.ListItemFactory factory) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_list_view_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_view_new.invokeExact(
                     (Addressable) (model == null ? MemoryAddress.NULL : model.refcounted().unowned().handle()),
-                    (Addressable) (factory == null ? MemoryAddress.NULL : factory.refcounted().unowned().handle())), false);
+                    (Addressable) (factory == null ? MemoryAddress.NULL : factory.refcounted().unowned().handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -164,7 +170,7 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
      * @param factory The factory to populate items with
      */
     public ListView(@Nullable org.gtk.gtk.SelectionModel model, @Nullable org.gtk.gtk.ListItemFactory factory) {
-        super(constructNew(model, factory));
+        super(constructNew(model, factory), Ownership.NONE);
     }
     
     /**
@@ -194,7 +200,7 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.ListItemFactory(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.ListItemFactory(RESULT, Ownership.NONE);
     }
     
     /**
@@ -209,7 +215,7 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -330,6 +336,8 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
      * This allows for a convenient way to handle activation in a listview.
      * See {@link ListItem#setActivatable} for details on how to use
      * this signal.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ListView.Activate> onActivate(ListView.Activate handler) {
         try {
@@ -353,57 +361,68 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
         
         private static final MethodHandle gtk_list_view_new = Interop.downcallHandle(
             "gtk_list_view_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_view_get_enable_rubberband = Interop.downcallHandle(
             "gtk_list_view_get_enable_rubberband",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_view_get_factory = Interop.downcallHandle(
             "gtk_list_view_get_factory",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_view_get_model = Interop.downcallHandle(
             "gtk_list_view_get_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_view_get_show_separators = Interop.downcallHandle(
             "gtk_list_view_get_show_separators",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_view_get_single_click_activate = Interop.downcallHandle(
             "gtk_list_view_get_single_click_activate",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_view_set_enable_rubberband = Interop.downcallHandle(
             "gtk_list_view_set_enable_rubberband",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_list_view_set_factory = Interop.downcallHandle(
             "gtk_list_view_set_factory",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_view_set_model = Interop.downcallHandle(
             "gtk_list_view_set_model",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_view_set_show_separators = Interop.downcallHandle(
             "gtk_list_view_set_show_separators",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_list_view_set_single_click_activate = Interop.downcallHandle(
             "gtk_list_view_set_single_click_activate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -412,7 +431,7 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
         public static void signalListViewActivate(MemoryAddress source, int position, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ListView.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListView(Refcounted.get(source)), position);
+            HANDLER.signalReceived(new ListView(source, Ownership.UNKNOWN), position);
         }
     }
 }

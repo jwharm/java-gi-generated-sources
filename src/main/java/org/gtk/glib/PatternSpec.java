@@ -21,6 +21,7 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -29,22 +30,27 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
     
     public static PatternSpec allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PatternSpec newInstance = new PatternSpec(Refcounted.get(segment.address()));
+        PatternSpec newInstance = new PatternSpec(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a PatternSpec proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PatternSpec(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PatternSpec(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String pattern) {
+    private static Addressable constructNew(@NotNull java.lang.String pattern) {
         java.util.Objects.requireNonNull(pattern, "Parameter 'pattern' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_pattern_spec_new.invokeExact(
-                    Interop.allocateNativeString(pattern)), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_pattern_spec_new.invokeExact(
+                    Interop.allocateNativeString(pattern));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -56,7 +62,7 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
      * @param pattern a zero-terminated UTF-8 encoded string
      */
     public PatternSpec(@NotNull java.lang.String pattern) {
-        super(constructNew(pattern));
+        super(constructNew(pattern), Ownership.FULL);
     }
     
     /**
@@ -71,7 +77,7 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.PatternSpec(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.PatternSpec(RESULT, Ownership.FULL);
     }
     
     /**
@@ -168,32 +174,38 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_pattern_spec_new = Interop.downcallHandle(
             "g_pattern_spec_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_pattern_spec_copy = Interop.downcallHandle(
             "g_pattern_spec_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_pattern_spec_equal = Interop.downcallHandle(
             "g_pattern_spec_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_pattern_spec_free = Interop.downcallHandle(
             "g_pattern_spec_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_pattern_spec_match = Interop.downcallHandle(
             "g_pattern_spec_match",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_pattern_spec_match_string = Interop.downcallHandle(
             "g_pattern_spec_match_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

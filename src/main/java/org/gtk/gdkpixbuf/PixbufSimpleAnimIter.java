@@ -17,13 +17,19 @@ public class PixbufSimpleAnimIter extends org.gtk.gdkpixbuf.PixbufAnimationIter 
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a PixbufSimpleAnimIter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PixbufSimpleAnimIter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PixbufSimpleAnimIter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -35,7 +41,7 @@ public class PixbufSimpleAnimIter extends org.gtk.gdkpixbuf.PixbufAnimationIter 
      */
     public static PixbufSimpleAnimIter castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("null"))) {
-            return new PixbufSimpleAnimIter(gobject.refcounted());
+            return new PixbufSimpleAnimIter(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of null");
         }

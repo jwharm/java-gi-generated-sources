@@ -17,6 +17,7 @@ public class EventControllerScrollClass extends io.github.jwharm.javagi.Resource
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -25,13 +26,18 @@ public class EventControllerScrollClass extends io.github.jwharm.javagi.Resource
     
     public static EventControllerScrollClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        EventControllerScrollClass newInstance = new EventControllerScrollClass(Refcounted.get(segment.address()));
+        EventControllerScrollClass newInstance = new EventControllerScrollClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a EventControllerScrollClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public EventControllerScrollClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public EventControllerScrollClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

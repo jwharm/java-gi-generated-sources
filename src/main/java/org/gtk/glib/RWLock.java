@@ -88,6 +88,7 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -96,14 +97,19 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
     
     public static RWLock allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RWLock newInstance = new RWLock(Refcounted.get(segment.address()));
+        RWLock newInstance = new RWLock(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a RWLock proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public RWLock(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public RWLock(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -272,42 +278,50 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_rw_lock_clear = Interop.downcallHandle(
             "g_rw_lock_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_rw_lock_init = Interop.downcallHandle(
             "g_rw_lock_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_rw_lock_reader_lock = Interop.downcallHandle(
             "g_rw_lock_reader_lock",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_rw_lock_reader_trylock = Interop.downcallHandle(
             "g_rw_lock_reader_trylock",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_rw_lock_reader_unlock = Interop.downcallHandle(
             "g_rw_lock_reader_unlock",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_rw_lock_writer_lock = Interop.downcallHandle(
             "g_rw_lock_writer_lock",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_rw_lock_writer_trylock = Interop.downcallHandle(
             "g_rw_lock_writer_trylock",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_rw_lock_writer_unlock = Interop.downcallHandle(
             "g_rw_lock_writer_unlock",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

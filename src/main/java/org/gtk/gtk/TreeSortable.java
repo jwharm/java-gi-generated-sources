@@ -23,7 +23,7 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
      */
     public static TreeSortable castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeSortable"))) {
-            return new TreeSortableImpl(gobject.refcounted());
+            return new TreeSortableImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTreeSortable");
         }
@@ -177,6 +177,8 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
      * The ::sort-column-changed signal is emitted when the sort column
      * or sort order of {@code sortable} is changed. The signal is emitted before
      * the contents of {@code sortable} are resorted.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<TreeSortable.SortColumnChanged> onSortColumnChanged(TreeSortable.SortColumnChanged handler) {
         try {
@@ -202,37 +204,43 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_sortable_get_sort_column_id = Interop.downcallHandle(
             "gtk_tree_sortable_get_sort_column_id",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_sortable_has_default_sort_func = Interop.downcallHandle(
             "gtk_tree_sortable_has_default_sort_func",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_sortable_set_default_sort_func = Interop.downcallHandle(
             "gtk_tree_sortable_set_default_sort_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_sortable_set_sort_column_id = Interop.downcallHandle(
             "gtk_tree_sortable_set_sort_column_id",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_sortable_set_sort_func = Interop.downcallHandle(
             "gtk_tree_sortable_set_sort_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_sortable_sort_column_changed = Interop.downcallHandle(
             "gtk_tree_sortable_sort_column_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -242,7 +250,7 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
         public static void signalTreeSortableSortColumnChanged(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TreeSortable.SortColumnChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeSortable.TreeSortableImpl(Refcounted.get(source)));
+            HANDLER.signalReceived(new TreeSortable.TreeSortableImpl(source, Ownership.UNKNOWN));
         }
     }
     
@@ -252,8 +260,8 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public TreeSortableImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public TreeSortableImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

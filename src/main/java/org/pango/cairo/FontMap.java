@@ -24,7 +24,7 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
      */
     public static FontMap castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoCairoFontMap"))) {
-            return new FontMapImpl(gobject.refcounted());
+            return new FontMapImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of PangoCairoFontMap");
         }
@@ -44,7 +44,7 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Context(Refcounted.get(RESULT, false));
+        return new org.pango.Context(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -152,7 +152,7 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontMap(Refcounted.get(RESULT, false));
+        return new org.pango.FontMap(RESULT, Ownership.NONE);
     }
     
     /**
@@ -184,7 +184,7 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontMap(Refcounted.get(RESULT, true));
+        return new org.pango.FontMap(RESULT, Ownership.FULL);
     }
     
     /**
@@ -208,7 +208,7 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontMap(Refcounted.get(RESULT, true));
+        return new org.pango.FontMap(RESULT, Ownership.FULL);
     }
     
     @ApiStatus.Internal
@@ -217,49 +217,57 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle pango_cairo_font_map_create_context = Interop.downcallHandle(
             "pango_cairo_font_map_create_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle pango_cairo_font_map_get_font_type = Interop.downcallHandle(
             "pango_cairo_font_map_get_font_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle pango_cairo_font_map_get_resolution = Interop.downcallHandle(
             "pango_cairo_font_map_get_resolution",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle pango_cairo_font_map_set_default = Interop.downcallHandle(
             "pango_cairo_font_map_set_default",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle pango_cairo_font_map_set_resolution = Interop.downcallHandle(
             "pango_cairo_font_map_set_resolution",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle pango_cairo_font_map_get_default = Interop.downcallHandle(
             "pango_cairo_font_map_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle pango_cairo_font_map_new = Interop.downcallHandle(
             "pango_cairo_font_map_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle pango_cairo_font_map_new_for_font_type = Interop.downcallHandle(
             "pango_cairo_font_map_new_for_font_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -269,8 +277,8 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
             PangoCairo.javagi$ensureInitialized();
         }
         
-        public FontMapImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public FontMapImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

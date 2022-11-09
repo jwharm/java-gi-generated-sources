@@ -85,6 +85,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -93,27 +94,33 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     
     public static Regex allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Regex newInstance = new Regex(Refcounted.get(segment.address()));
+        Regex newInstance = new Regex(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a Regex proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Regex(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Regex(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String pattern, @NotNull org.gtk.glib.RegexCompileFlags compileOptions, @NotNull org.gtk.glib.RegexMatchFlags matchOptions) throws GErrorException {
+    private static Addressable constructNew(@NotNull java.lang.String pattern, @NotNull org.gtk.glib.RegexCompileFlags compileOptions, @NotNull org.gtk.glib.RegexMatchFlags matchOptions) throws GErrorException {
         java.util.Objects.requireNonNull(pattern, "Parameter 'pattern' must not be null");
         java.util.Objects.requireNonNull(compileOptions, "Parameter 'compileOptions' must not be null");
         java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_regex_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_regex_new.invokeExact(
                     Interop.allocateNativeString(pattern),
                     compileOptions.getValue(),
-                    matchOptions.getValue(), (Addressable) GERROR), true);
+                    matchOptions.getValue(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,7 +139,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public Regex(@NotNull java.lang.String pattern, @NotNull org.gtk.glib.RegexCompileFlags compileOptions, @NotNull org.gtk.glib.RegexMatchFlags matchOptions) throws GErrorException {
-        super(constructNew(pattern, compileOptions, matchOptions));
+        super(constructNew(pattern, compileOptions, matchOptions), Ownership.FULL);
     }
     
     /**
@@ -417,7 +424,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * @return {@code true} is the string matched, {@code false} otherwise
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean matchAllFull(java.lang.String[] string, long stringLen, int startPosition, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, @NotNull PointerProxy<org.gtk.glib.MatchInfo> matchInfo) throws io.github.jwharm.javagi.GErrorException {
+    public boolean matchAllFull(@NotNull java.lang.String[] string, long stringLen, int startPosition, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, @NotNull PointerProxy<org.gtk.glib.MatchInfo> matchInfo) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
         java.util.Objects.requireNonNull(matchInfo, "Parameter 'matchInfo' must not be null");
@@ -430,7 +437,8 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
                     stringLen,
                     startPosition,
                     matchOptions.getValue(),
-                    matchInfo.handle(), (Addressable) GERROR);
+                    matchInfo.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -500,7 +508,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * @return {@code true} is the string matched, {@code false} otherwise
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean matchFull(java.lang.String[] string, long stringLen, int startPosition, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, @NotNull PointerProxy<org.gtk.glib.MatchInfo> matchInfo) throws io.github.jwharm.javagi.GErrorException {
+    public boolean matchFull(@NotNull java.lang.String[] string, long stringLen, int startPosition, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, @NotNull PointerProxy<org.gtk.glib.MatchInfo> matchInfo) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
         java.util.Objects.requireNonNull(matchInfo, "Parameter 'matchInfo' must not be null");
@@ -513,7 +521,8 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
                     stringLen,
                     startPosition,
                     matchOptions.getValue(),
-                    matchInfo.handle(), (Addressable) GERROR);
+                    matchInfo.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -535,7 +544,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Regex(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Regex(RESULT, Ownership.FULL);
     }
     
     /**
@@ -574,7 +583,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * @return a newly allocated string containing the replacements
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String replace(java.lang.String[] string, long stringLen, int startPosition, @NotNull java.lang.String replacement, @NotNull org.gtk.glib.RegexMatchFlags matchOptions) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull java.lang.String replace(@NotNull java.lang.String[] string, long stringLen, int startPosition, @NotNull java.lang.String replacement, @NotNull org.gtk.glib.RegexMatchFlags matchOptions) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         java.util.Objects.requireNonNull(replacement, "Parameter 'replacement' must not be null");
         java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
@@ -587,7 +596,8 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
                     stringLen,
                     startPosition,
                     Interop.allocateNativeString(replacement),
-                    matchOptions.getValue(), (Addressable) GERROR);
+                    matchOptions.getValue(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -651,7 +661,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * @return a newly allocated string containing the replacements
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String replaceEval(java.lang.String[] string, long stringLen, int startPosition, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, @NotNull org.gtk.glib.RegexEvalCallback eval) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull java.lang.String replaceEval(@NotNull java.lang.String[] string, long stringLen, int startPosition, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, @NotNull org.gtk.glib.RegexEvalCallback eval) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
         java.util.Objects.requireNonNull(eval, "Parameter 'eval' must not be null");
@@ -669,7 +679,8 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(eval)), (Addressable) GERROR);
+                    (Addressable) (Interop.registerCallback(eval)),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -696,7 +707,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * @return a newly allocated string containing the replacements
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String replaceLiteral(java.lang.String[] string, long stringLen, int startPosition, @NotNull java.lang.String replacement, @NotNull org.gtk.glib.RegexMatchFlags matchOptions) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull java.lang.String replaceLiteral(@NotNull java.lang.String[] string, long stringLen, int startPosition, @NotNull java.lang.String replacement, @NotNull org.gtk.glib.RegexMatchFlags matchOptions) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         java.util.Objects.requireNonNull(replacement, "Parameter 'replacement' must not be null");
         java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
@@ -709,7 +720,8 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
                     stringLen,
                     startPosition,
                     Interop.allocateNativeString(replacement),
-                    matchOptions.getValue(), (Addressable) GERROR);
+                    matchOptions.getValue(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -789,7 +801,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * it using g_strfreev()
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull PointerString splitFull(java.lang.String[] string, long stringLen, int startPosition, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, int maxTokens) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull PointerString splitFull(@NotNull java.lang.String[] string, long stringLen, int startPosition, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, int maxTokens) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -801,7 +813,8 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
                     stringLen,
                     startPosition,
                     matchOptions.getValue(),
-                    maxTokens, (Addressable) GERROR);
+                    maxTokens,
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -849,7 +862,8 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         try {
             RESULT = (int) DowncallHandles.g_regex_check_replacement.invokeExact(
                     Interop.allocateNativeString(replacement),
-                    (Addressable) hasReferencesPOINTER.address(), (Addressable) GERROR);
+                    (Addressable) hasReferencesPOINTER.address(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -905,7 +919,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * @param length the length of {@code string}, in bytes, or -1 if {@code string} is nul-terminated
      * @return a newly-allocated escaped string
      */
-    public static @NotNull java.lang.String escapeString(java.lang.String[] string, int length) {
+    public static @NotNull java.lang.String escapeString(@NotNull java.lang.String[] string, int length) {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         MemoryAddress RESULT;
         try {
@@ -1010,132 +1024,158 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_regex_new = Interop.downcallHandle(
             "g_regex_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_regex_get_capture_count = Interop.downcallHandle(
             "g_regex_get_capture_count",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_regex_get_compile_flags = Interop.downcallHandle(
             "g_regex_get_compile_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_regex_get_has_cr_or_lf = Interop.downcallHandle(
             "g_regex_get_has_cr_or_lf",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_regex_get_match_flags = Interop.downcallHandle(
             "g_regex_get_match_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_regex_get_max_backref = Interop.downcallHandle(
             "g_regex_get_max_backref",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_regex_get_max_lookbehind = Interop.downcallHandle(
             "g_regex_get_max_lookbehind",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_regex_get_pattern = Interop.downcallHandle(
             "g_regex_get_pattern",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_regex_get_string_number = Interop.downcallHandle(
             "g_regex_get_string_number",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_regex_match = Interop.downcallHandle(
             "g_regex_match",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_regex_match_all = Interop.downcallHandle(
             "g_regex_match_all",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_regex_match_all_full = Interop.downcallHandle(
             "g_regex_match_all_full",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_regex_match_full = Interop.downcallHandle(
             "g_regex_match_full",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_regex_ref = Interop.downcallHandle(
             "g_regex_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_regex_replace = Interop.downcallHandle(
             "g_regex_replace",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_regex_replace_eval = Interop.downcallHandle(
             "g_regex_replace_eval",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_regex_replace_literal = Interop.downcallHandle(
             "g_regex_replace_literal",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_regex_split = Interop.downcallHandle(
             "g_regex_split",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_regex_split_full = Interop.downcallHandle(
             "g_regex_split_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_regex_unref = Interop.downcallHandle(
             "g_regex_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_regex_check_replacement = Interop.downcallHandle(
             "g_regex_check_replacement",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_regex_error_quark = Interop.downcallHandle(
             "g_regex_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_regex_escape_nul = Interop.downcallHandle(
             "g_regex_escape_nul",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_regex_escape_string = Interop.downcallHandle(
             "g_regex_escape_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_regex_match_simple = Interop.downcallHandle(
             "g_regex_match_simple",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_regex_split_simple = Interop.downcallHandle(
             "g_regex_split_simple",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

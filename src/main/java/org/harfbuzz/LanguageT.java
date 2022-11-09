@@ -21,6 +21,7 @@ public class LanguageT extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -29,14 +30,19 @@ public class LanguageT extends io.github.jwharm.javagi.ResourceBase {
     
     public static LanguageT allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        LanguageT newInstance = new LanguageT(Refcounted.get(segment.address()));
+        LanguageT newInstance = new LanguageT(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a LanguageT proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public LanguageT(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public LanguageT(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -59,7 +65,8 @@ public class LanguageT extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle hb_language_to_string = Interop.downcallHandle(
             "hb_language_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

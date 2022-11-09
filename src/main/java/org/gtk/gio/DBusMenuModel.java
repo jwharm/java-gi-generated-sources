@@ -22,13 +22,19 @@ public class DBusMenuModel extends org.gtk.gio.MenuModel {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a DBusMenuModel proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DBusMenuModel(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DBusMenuModel(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -40,7 +46,7 @@ public class DBusMenuModel extends org.gtk.gio.MenuModel {
      */
     public static DBusMenuModel castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusMenuModel"))) {
-            return new DBusMenuModel(gobject.refcounted());
+            return new DBusMenuModel(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDBusMenuModel");
         }
@@ -74,14 +80,15 @@ public class DBusMenuModel extends org.gtk.gio.MenuModel {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusMenuModel(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.DBusMenuModel(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_dbus_menu_model_get = Interop.downcallHandle(
             "g_dbus_menu_model_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

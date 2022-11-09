@@ -27,6 +27,7 @@ public class Shadow extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -35,7 +36,7 @@ public class Shadow extends io.github.jwharm.javagi.ResourceBase {
     
     public static Shadow allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Shadow newInstance = new Shadow(Refcounted.get(segment.address()));
+        Shadow newInstance = new Shadow(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,7 +47,7 @@ public class Shadow extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gdk.RGBA color$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("color"));
-        return new org.gtk.gdk.RGBA(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gdk.RGBA(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
     /**
@@ -112,8 +113,13 @@ public class Shadow extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), radius);
     }
     
+    /**
+     * Create a Shadow proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Shadow(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Shadow(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

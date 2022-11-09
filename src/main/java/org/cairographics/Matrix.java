@@ -17,6 +17,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -25,13 +26,18 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     
     public static Matrix allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Matrix newInstance = new Matrix(Refcounted.get(segment.address()));
+        Matrix newInstance = new Matrix(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a Matrix proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Matrix(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Matrix(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

@@ -186,13 +186,19 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Label proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Label(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Label(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -204,17 +210,17 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public static Label castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkLabel"))) {
-            return new Label(gobject.refcounted());
+            return new Label(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkLabel");
         }
     }
     
-    private static Refcounted constructNew(@Nullable java.lang.String str) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable java.lang.String str) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_label_new.invokeExact(
-                    (Addressable) (str == null ? MemoryAddress.NULL : Interop.allocateNativeString(str))), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_label_new.invokeExact(
+                    (Addressable) (str == null ? MemoryAddress.NULL : Interop.allocateNativeString(str)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -228,14 +234,14 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param str The text of the label
      */
     public Label(@Nullable java.lang.String str) {
-        super(constructNew(str));
+        super(constructNew(str), Ownership.NONE);
     }
     
-    private static Refcounted constructNewWithMnemonic(@Nullable java.lang.String str) {
-        Refcounted RESULT;
+    private static Addressable constructNewWithMnemonic(@Nullable java.lang.String str) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_label_new_with_mnemonic.invokeExact(
-                    (Addressable) (str == null ? MemoryAddress.NULL : Interop.allocateNativeString(str))), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_label_new_with_mnemonic.invokeExact(
+                    (Addressable) (str == null ? MemoryAddress.NULL : Interop.allocateNativeString(str)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -262,7 +268,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @return the new {@code GtkLabel}
      */
     public static Label newWithMnemonic(@Nullable java.lang.String str) {
-        return new Label(constructNewWithMnemonic(str));
+        return new Label(constructNewWithMnemonic(str), Ownership.NONE);
     }
     
     /**
@@ -284,7 +290,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrList(Refcounted.get(RESULT, false));
+        return new org.pango.AttrList(RESULT, Ownership.NONE);
     }
     
     /**
@@ -340,7 +346,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(RESULT, Ownership.NONE);
     }
     
     /**
@@ -397,7 +403,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Layout(Refcounted.get(RESULT, false));
+        return new org.pango.Layout(RESULT, Ownership.NONE);
     }
     
     /**
@@ -498,7 +504,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1184,6 +1190,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * if they need to control activation of URIs programmatically.
      * <p>
      * The default bindings for this signal are all forms of the Enter key.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Label.ActivateCurrentLink> onActivateCurrentLink(Label.ActivateCurrentLink handler) {
         try {
@@ -1213,6 +1221,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * <p>
      * Applications may connect to it to override the default behaviour,
      * which is to call gtk_show_uri().
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Label.ActivateLink> onActivateLink(Label.ActivateLink handler) {
         try {
@@ -1243,6 +1253,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * The ::copy-clipboard signal is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
      * The default binding for this signal is Ctrl-c.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Label.CopyClipboard> onCopyClipboard(Label.CopyClipboard handler) {
         try {
@@ -1287,6 +1299,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * <li>Ctrl-arrow key combinations move by words/paragraphs
      * <li>Home/End keys move to the ends of the buffer
      * </ul>
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Label.MoveCursor> onMoveCursor(Label.MoveCursor handler) {
         try {
@@ -1310,247 +1324,296 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         
         private static final MethodHandle gtk_label_new = Interop.downcallHandle(
             "gtk_label_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_new_with_mnemonic = Interop.downcallHandle(
             "gtk_label_new_with_mnemonic",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_attributes = Interop.downcallHandle(
             "gtk_label_get_attributes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_current_uri = Interop.downcallHandle(
             "gtk_label_get_current_uri",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_ellipsize = Interop.downcallHandle(
             "gtk_label_get_ellipsize",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_extra_menu = Interop.downcallHandle(
             "gtk_label_get_extra_menu",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_justify = Interop.downcallHandle(
             "gtk_label_get_justify",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_label = Interop.downcallHandle(
             "gtk_label_get_label",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_layout = Interop.downcallHandle(
             "gtk_label_get_layout",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_layout_offsets = Interop.downcallHandle(
             "gtk_label_get_layout_offsets",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_lines = Interop.downcallHandle(
             "gtk_label_get_lines",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_max_width_chars = Interop.downcallHandle(
             "gtk_label_get_max_width_chars",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_mnemonic_keyval = Interop.downcallHandle(
             "gtk_label_get_mnemonic_keyval",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_mnemonic_widget = Interop.downcallHandle(
             "gtk_label_get_mnemonic_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_natural_wrap_mode = Interop.downcallHandle(
             "gtk_label_get_natural_wrap_mode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_selectable = Interop.downcallHandle(
             "gtk_label_get_selectable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_selection_bounds = Interop.downcallHandle(
             "gtk_label_get_selection_bounds",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_single_line_mode = Interop.downcallHandle(
             "gtk_label_get_single_line_mode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_text = Interop.downcallHandle(
             "gtk_label_get_text",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_use_markup = Interop.downcallHandle(
             "gtk_label_get_use_markup",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_use_underline = Interop.downcallHandle(
             "gtk_label_get_use_underline",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_width_chars = Interop.downcallHandle(
             "gtk_label_get_width_chars",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_wrap = Interop.downcallHandle(
             "gtk_label_get_wrap",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_wrap_mode = Interop.downcallHandle(
             "gtk_label_get_wrap_mode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_xalign = Interop.downcallHandle(
             "gtk_label_get_xalign",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_get_yalign = Interop.downcallHandle(
             "gtk_label_get_yalign",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_select_region = Interop.downcallHandle(
             "gtk_label_select_region",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_label_set_attributes = Interop.downcallHandle(
             "gtk_label_set_attributes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_set_ellipsize = Interop.downcallHandle(
             "gtk_label_set_ellipsize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_label_set_extra_menu = Interop.downcallHandle(
             "gtk_label_set_extra_menu",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_set_justify = Interop.downcallHandle(
             "gtk_label_set_justify",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_label_set_label = Interop.downcallHandle(
             "gtk_label_set_label",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_set_lines = Interop.downcallHandle(
             "gtk_label_set_lines",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_label_set_markup = Interop.downcallHandle(
             "gtk_label_set_markup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_set_markup_with_mnemonic = Interop.downcallHandle(
             "gtk_label_set_markup_with_mnemonic",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_set_max_width_chars = Interop.downcallHandle(
             "gtk_label_set_max_width_chars",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_label_set_mnemonic_widget = Interop.downcallHandle(
             "gtk_label_set_mnemonic_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_set_natural_wrap_mode = Interop.downcallHandle(
             "gtk_label_set_natural_wrap_mode",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_label_set_selectable = Interop.downcallHandle(
             "gtk_label_set_selectable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_label_set_single_line_mode = Interop.downcallHandle(
             "gtk_label_set_single_line_mode",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_label_set_text = Interop.downcallHandle(
             "gtk_label_set_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_set_text_with_mnemonic = Interop.downcallHandle(
             "gtk_label_set_text_with_mnemonic",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_label_set_use_markup = Interop.downcallHandle(
             "gtk_label_set_use_markup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_label_set_use_underline = Interop.downcallHandle(
             "gtk_label_set_use_underline",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_label_set_width_chars = Interop.downcallHandle(
             "gtk_label_set_width_chars",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_label_set_wrap = Interop.downcallHandle(
             "gtk_label_set_wrap",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_label_set_wrap_mode = Interop.downcallHandle(
             "gtk_label_set_wrap_mode",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_label_set_xalign = Interop.downcallHandle(
             "gtk_label_set_xalign",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle gtk_label_set_yalign = Interop.downcallHandle(
             "gtk_label_set_yalign",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            false
         );
     }
     
@@ -1559,25 +1622,25 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         public static void signalLabelActivateCurrentLink(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Label.ActivateCurrentLink) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Label(Refcounted.get(source)));
+            HANDLER.signalReceived(new Label(source, Ownership.UNKNOWN));
         }
         
         public static boolean signalLabelActivateLink(MemoryAddress source, MemoryAddress uri, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Label.ActivateLink) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Label(Refcounted.get(source)), Interop.getStringFrom(uri));
+            return HANDLER.signalReceived(new Label(source, Ownership.UNKNOWN), Interop.getStringFrom(uri));
         }
         
         public static void signalLabelCopyClipboard(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Label.CopyClipboard) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Label(Refcounted.get(source)));
+            HANDLER.signalReceived(new Label(source, Ownership.UNKNOWN));
         }
         
         public static void signalLabelMoveCursor(MemoryAddress source, int step, int count, int extendSelection, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Label.MoveCursor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Label(Refcounted.get(source)), new org.gtk.gtk.MovementStep(step), count, extendSelection != 0);
+            HANDLER.signalReceived(new Label(source, Ownership.UNKNOWN), new org.gtk.gtk.MovementStep(step), count, extendSelection != 0);
         }
     }
 }

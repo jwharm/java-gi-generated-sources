@@ -155,6 +155,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -163,23 +164,29 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
     
     public static Resource allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Resource newInstance = new Resource(Refcounted.get(segment.address()));
+        Resource newInstance = new Resource(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a Resource proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Resource(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Resource(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNewFromData(@NotNull org.gtk.glib.Bytes data) throws GErrorException {
+    private static Addressable constructNewFromData(@NotNull org.gtk.glib.Bytes data) throws GErrorException {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_resource_new_from_data.invokeExact(
-                    data.handle(), (Addressable) GERROR), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_resource_new_from_data.invokeExact(
+                    data.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -207,7 +214,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static Resource newFromData(@NotNull org.gtk.glib.Bytes data) throws GErrorException {
-        return new Resource(constructNewFromData(data));
+        return new Resource(constructNewFromData(data), Ownership.FULL);
     }
     
     /**
@@ -259,7 +266,8 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
             RESULT = (MemoryAddress) DowncallHandles.g_resource_enumerate_children.invokeExact(
                     handle(),
                     Interop.allocateNativeString(path),
-                    lookupFlags.getValue(), (Addressable) GERROR);
+                    lookupFlags.getValue(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -298,7 +306,8 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
                     Interop.allocateNativeString(path),
                     lookupFlags.getValue(),
                     (Addressable) sizePOINTER.address(),
-                    (Addressable) flagsPOINTER.address(), (Addressable) GERROR);
+                    (Addressable) flagsPOINTER.address(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -340,14 +349,15 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
             RESULT = (MemoryAddress) DowncallHandles.g_resource_lookup_data.invokeExact(
                     handle(),
                     Interop.allocateNativeString(path),
-                    lookupFlags.getValue(), (Addressable) GERROR);
+                    lookupFlags.getValue(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
     }
     
     /**
@@ -370,14 +380,15 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
             RESULT = (MemoryAddress) DowncallHandles.g_resource_open_stream.invokeExact(
                     handle(),
                     Interop.allocateNativeString(path),
-                    lookupFlags.getValue(), (Addressable) GERROR);
+                    lookupFlags.getValue(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.InputStream(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.InputStream(RESULT, Ownership.FULL);
     }
     
     /**
@@ -393,7 +404,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Resource(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Resource(RESULT, Ownership.FULL);
     }
     
     /**
@@ -432,66 +443,77 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_resource_load.invokeExact(
-                    Interop.allocateNativeString(filename), (Addressable) GERROR);
+                    Interop.allocateNativeString(filename),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.Resource(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Resource(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_resource_new_from_data = Interop.downcallHandle(
             "g_resource_new_from_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_resources_register = Interop.downcallHandle(
             "g_resources_register",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_resources_unregister = Interop.downcallHandle(
             "g_resources_unregister",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_resource_enumerate_children = Interop.downcallHandle(
             "g_resource_enumerate_children",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_resource_get_info = Interop.downcallHandle(
             "g_resource_get_info",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_resource_lookup_data = Interop.downcallHandle(
             "g_resource_lookup_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_resource_open_stream = Interop.downcallHandle(
             "g_resource_open_stream",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_resource_ref = Interop.downcallHandle(
             "g_resource_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_resource_unref = Interop.downcallHandle(
             "g_resource_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_resource_load = Interop.downcallHandle(
             "g_resource_load",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

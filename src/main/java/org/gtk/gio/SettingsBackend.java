@@ -48,6 +48,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -58,12 +59,17 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a SettingsBackend proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SettingsBackend(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SettingsBackend(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -75,7 +81,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      */
     public static SettingsBackend castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSettingsBackend"))) {
-            return new SettingsBackend(gobject.refcounted());
+            return new SettingsBackend(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSettingsBackend");
         }
@@ -164,7 +170,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * @param items the {@code null}-terminated list of changed keys
      * @param originTag the origin tag
      */
-    public void keysChanged(@NotNull java.lang.String path, java.lang.String[] items, @Nullable java.lang.foreign.MemoryAddress originTag) {
+    public void keysChanged(@NotNull java.lang.String path, @NotNull java.lang.String[] items, @Nullable java.lang.foreign.MemoryAddress originTag) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         java.util.Objects.requireNonNull(items, "Parameter 'items' must not be null");
         try {
@@ -266,7 +272,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      *        location to save the relative keys
      * @param values the location to save the values, or {@code null}
      */
-    public static void flattenTree(@NotNull org.gtk.glib.Tree tree, @NotNull Out<java.lang.String> path, Out<java.lang.String[]> keys, Out<org.gtk.glib.Variant[]> values) {
+    public static void flattenTree(@NotNull org.gtk.glib.Tree tree, @NotNull Out<java.lang.String> path, @NotNull Out<java.lang.String[]> keys, @NotNull Out<org.gtk.glib.Variant[]> values) {
         throw new UnsupportedOperationException("Operation not supported yet");
     }
     
@@ -287,49 +293,57 @@ public class SettingsBackend extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SettingsBackend(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.SettingsBackend(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_settings_backend_changed = Interop.downcallHandle(
             "g_settings_backend_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_backend_changed_tree = Interop.downcallHandle(
             "g_settings_backend_changed_tree",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_backend_keys_changed = Interop.downcallHandle(
             "g_settings_backend_keys_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_backend_path_changed = Interop.downcallHandle(
             "g_settings_backend_path_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_backend_path_writable_changed = Interop.downcallHandle(
             "g_settings_backend_path_writable_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_backend_writable_changed = Interop.downcallHandle(
             "g_settings_backend_writable_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_backend_flatten_tree = Interop.downcallHandle(
             "g_settings_backend_flatten_tree",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_backend_get_default = Interop.downcallHandle(
             "g_settings_backend_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

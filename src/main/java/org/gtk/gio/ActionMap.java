@@ -28,7 +28,7 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
      */
     public static ActionMap castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GActionMap"))) {
-            return new ActionMapImpl(gobject.refcounted());
+            return new ActionMapImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GActionMap");
         }
@@ -96,7 +96,7 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
      * @param nEntries the length of {@code entries}, or -1 if {@code entries} is {@code null}-terminated
      * @param userData the user data for signal connections
      */
-    default void addActionEntries(org.gtk.gio.ActionEntry[] entries, int nEntries, @Nullable java.lang.foreign.MemoryAddress userData) {
+    default void addActionEntries(@NotNull org.gtk.gio.ActionEntry[] entries, int nEntries, @Nullable java.lang.foreign.MemoryAddress userData) {
         java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
         try {
             DowncallHandles.g_action_map_add_action_entries.invokeExact(
@@ -126,7 +126,7 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Action.ActionImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.Action.ActionImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -152,25 +152,29 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_action_map_add_action = Interop.downcallHandle(
             "g_action_map_add_action",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_map_add_action_entries = Interop.downcallHandle(
             "g_action_map_add_action_entries",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_map_lookup_action = Interop.downcallHandle(
             "g_action_map_lookup_action",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_map_remove_action = Interop.downcallHandle(
             "g_action_map_remove_action",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -180,8 +184,8 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public ActionMapImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public ActionMapImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

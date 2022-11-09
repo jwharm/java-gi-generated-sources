@@ -23,13 +23,19 @@ public class StringObject extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a StringObject proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public StringObject(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public StringObject(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -41,18 +47,18 @@ public class StringObject extends org.gtk.gobject.Object {
      */
     public static StringObject castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkStringObject"))) {
-            return new StringObject(gobject.refcounted());
+            return new StringObject(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkStringObject");
         }
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String string) {
+    private static Addressable constructNew(@NotNull java.lang.String string) {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_string_object_new.invokeExact(
-                    Interop.allocateNativeString(string)), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_string_object_new.invokeExact(
+                    Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,7 +70,7 @@ public class StringObject extends org.gtk.gobject.Object {
      * @param string The string to wrap
      */
     public StringObject(@NotNull java.lang.String string) {
-        super(constructNew(string));
+        super(constructNew(string), Ownership.FULL);
     }
     
     /**
@@ -86,12 +92,14 @@ public class StringObject extends org.gtk.gobject.Object {
         
         private static final MethodHandle gtk_string_object_new = Interop.downcallHandle(
             "gtk_string_object_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_string_object_get_string = Interop.downcallHandle(
             "gtk_string_object_get_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

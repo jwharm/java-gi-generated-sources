@@ -21,6 +21,7 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -29,22 +30,27 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
     
     public static MainLoop allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MainLoop newInstance = new MainLoop(Refcounted.get(segment.address()));
+        MainLoop newInstance = new MainLoop(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a MainLoop proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public MainLoop(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public MainLoop(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew(@Nullable org.gtk.glib.MainContext context, boolean isRunning) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable org.gtk.glib.MainContext context, boolean isRunning) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_main_loop_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_main_loop_new.invokeExact(
                     (Addressable) (context == null ? MemoryAddress.NULL : context.handle()),
-                    isRunning ? 1 : 0), true);
+                    isRunning ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -59,7 +65,7 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
      * {@code true} anyway.
      */
     public MainLoop(@Nullable org.gtk.glib.MainContext context, boolean isRunning) {
-        super(constructNew(context, isRunning));
+        super(constructNew(context, isRunning), Ownership.FULL);
     }
     
     /**
@@ -74,7 +80,7 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.MainContext(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.MainContext(RESULT, Ownership.NONE);
     }
     
     /**
@@ -120,7 +126,7 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.MainLoop(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.MainLoop(RESULT, Ownership.FULL);
     }
     
     /**
@@ -155,37 +161,44 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_main_loop_new = Interop.downcallHandle(
             "g_main_loop_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_main_loop_get_context = Interop.downcallHandle(
             "g_main_loop_get_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_loop_is_running = Interop.downcallHandle(
             "g_main_loop_is_running",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_loop_quit = Interop.downcallHandle(
             "g_main_loop_quit",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_loop_ref = Interop.downcallHandle(
             "g_main_loop_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_loop_run = Interop.downcallHandle(
             "g_main_loop_run",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_main_loop_unref = Interop.downcallHandle(
             "g_main_loop_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

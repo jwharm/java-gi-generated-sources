@@ -26,6 +26,7 @@ public class OtColorLayerT extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -34,7 +35,7 @@ public class OtColorLayerT extends io.github.jwharm.javagi.ResourceBase {
     
     public static OtColorLayerT allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        OtColorLayerT newInstance = new OtColorLayerT(Refcounted.get(segment.address()));
+        OtColorLayerT newInstance = new OtColorLayerT(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -81,8 +82,13 @@ public class OtColorLayerT extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), color_index);
     }
     
+    /**
+     * Create a OtColorLayerT proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public OtColorLayerT(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public OtColorLayerT(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

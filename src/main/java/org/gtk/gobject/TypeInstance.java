@@ -24,6 +24,7 @@ public class TypeInstance extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -32,14 +33,19 @@ public class TypeInstance extends io.github.jwharm.javagi.ResourceBase {
     
     public static TypeInstance allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TypeInstance newInstance = new TypeInstance(Refcounted.get(segment.address()));
+        TypeInstance newInstance = new TypeInstance(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a TypeInstance proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TypeInstance(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TypeInstance(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     public @Nullable java.lang.foreign.MemoryAddress getPrivate(@NotNull org.gtk.glib.Type privateType) {
@@ -59,7 +65,8 @@ public class TypeInstance extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_type_instance_get_private = Interop.downcallHandle(
             "g_type_instance_get_private",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
     }
 }

@@ -44,6 +44,7 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -54,12 +55,17 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
      */
     public org.gtk.gio.SocketControlMessage parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.SocketControlMessage(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.SocketControlMessage(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a UnixCredentialsMessage proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public UnixCredentialsMessage(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public UnixCredentialsMessage(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -71,16 +77,16 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
      */
     public static UnixCredentialsMessage castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GUnixCredentialsMessage"))) {
-            return new UnixCredentialsMessage(gobject.refcounted());
+            return new UnixCredentialsMessage(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GUnixCredentialsMessage");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_unix_credentials_message_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_credentials_message_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,15 +97,15 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
      * Creates a new {@link UnixCredentialsMessage} with credentials matching the current processes.
      */
     public UnixCredentialsMessage() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
-    private static Refcounted constructNewWithCredentials(@NotNull org.gtk.gio.Credentials credentials) {
+    private static Addressable constructNewWithCredentials(@NotNull org.gtk.gio.Credentials credentials) {
         java.util.Objects.requireNonNull(credentials, "Parameter 'credentials' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_unix_credentials_message_new_with_credentials.invokeExact(
-                    credentials.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_credentials_message_new_with_credentials.invokeExact(
+                    credentials.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,7 +118,7 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
      * @return a new {@link UnixCredentialsMessage}
      */
     public static UnixCredentialsMessage newWithCredentials(@NotNull org.gtk.gio.Credentials credentials) {
-        return new UnixCredentialsMessage(constructNewWithCredentials(credentials));
+        return new UnixCredentialsMessage(constructNewWithCredentials(credentials), Ownership.FULL);
     }
     
     /**
@@ -127,7 +133,7 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Credentials(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.Credentials(RESULT, Ownership.NONE);
     }
     
     /**
@@ -148,22 +154,26 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
         
         private static final MethodHandle g_unix_credentials_message_new = Interop.downcallHandle(
             "g_unix_credentials_message_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_credentials_message_new_with_credentials = Interop.downcallHandle(
             "g_unix_credentials_message_new_with_credentials",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_credentials_message_get_credentials = Interop.downcallHandle(
             "g_unix_credentials_message_get_credentials",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_credentials_message_is_supported = Interop.downcallHandle(
             "g_unix_credentials_message_is_supported",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
     }
 }

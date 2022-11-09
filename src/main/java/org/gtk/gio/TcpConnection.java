@@ -27,6 +27,7 @@ public class TcpConnection extends org.gtk.gio.SocketConnection {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -37,12 +38,17 @@ public class TcpConnection extends org.gtk.gio.SocketConnection {
      */
     public org.gtk.gio.SocketConnection parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.SocketConnection(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.SocketConnection(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a TcpConnection proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TcpConnection(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TcpConnection(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -54,7 +60,7 @@ public class TcpConnection extends org.gtk.gio.SocketConnection {
      */
     public static TcpConnection castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTcpConnection"))) {
-            return new TcpConnection(gobject.refcounted());
+            return new TcpConnection(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GTcpConnection");
         }
@@ -102,12 +108,14 @@ public class TcpConnection extends org.gtk.gio.SocketConnection {
         
         private static final MethodHandle g_tcp_connection_get_graceful_disconnect = Interop.downcallHandle(
             "g_tcp_connection_get_graceful_disconnect",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tcp_connection_set_graceful_disconnect = Interop.downcallHandle(
             "g_tcp_connection_set_graceful_disconnect",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

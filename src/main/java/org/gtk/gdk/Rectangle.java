@@ -41,6 +41,7 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -49,7 +50,7 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
     
     public static Rectangle allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Rectangle newInstance = new Rectangle(Refcounted.get(segment.address()));
+        Rectangle newInstance = new Rectangle(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -138,9 +139,14 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
     }
     
+    /**
+     * Create a Rectangle proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Rectangle(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Rectangle(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -237,22 +243,26 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle gdk_rectangle_contains_point = Interop.downcallHandle(
             "gdk_rectangle_contains_point",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gdk_rectangle_equal = Interop.downcallHandle(
             "gdk_rectangle_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_rectangle_intersect = Interop.downcallHandle(
             "gdk_rectangle_intersect",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_rectangle_union = Interop.downcallHandle(
             "gdk_rectangle_union",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

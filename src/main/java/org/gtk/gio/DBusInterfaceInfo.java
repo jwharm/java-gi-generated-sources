@@ -31,6 +31,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -39,7 +40,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
     
     public static DBusInterfaceInfo allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DBusInterfaceInfo newInstance = new DBusInterfaceInfo(Refcounted.get(segment.address()));
+        DBusInterfaceInfo newInstance = new DBusInterfaceInfo(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -86,9 +87,14 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(name));
     }
     
+    /**
+     * Create a DBusInterfaceInfo proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DBusInterfaceInfo(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DBusInterfaceInfo(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -166,7 +172,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusMethodInfo(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.DBusMethodInfo(RESULT, Ownership.NONE);
     }
     
     /**
@@ -187,7 +193,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusPropertyInfo(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.DBusPropertyInfo(RESULT, Ownership.NONE);
     }
     
     /**
@@ -208,7 +214,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusSignalInfo(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.DBusSignalInfo(RESULT, Ownership.NONE);
     }
     
     /**
@@ -224,7 +230,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusInterfaceInfo(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.DBusInterfaceInfo(RESULT, Ownership.FULL);
     }
     
     /**
@@ -245,42 +251,50 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_dbus_interface_info_cache_build = Interop.downcallHandle(
             "g_dbus_interface_info_cache_build",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_interface_info_cache_release = Interop.downcallHandle(
             "g_dbus_interface_info_cache_release",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_interface_info_generate_xml = Interop.downcallHandle(
             "g_dbus_interface_info_generate_xml",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_interface_info_lookup_method = Interop.downcallHandle(
             "g_dbus_interface_info_lookup_method",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_interface_info_lookup_property = Interop.downcallHandle(
             "g_dbus_interface_info_lookup_property",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_interface_info_lookup_signal = Interop.downcallHandle(
             "g_dbus_interface_info_lookup_signal",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_interface_info_ref = Interop.downcallHandle(
             "g_dbus_interface_info_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_interface_info_unref = Interop.downcallHandle(
             "g_dbus_interface_info_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

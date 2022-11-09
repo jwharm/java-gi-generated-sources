@@ -37,6 +37,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -45,7 +46,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     
     public static PixbufFormat allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PixbufFormat newInstance = new PixbufFormat(Refcounted.get(segment.address()));
+        PixbufFormat newInstance = new PixbufFormat(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -79,7 +80,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("signature"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gdkpixbuf.PixbufModulePattern(Refcounted.get(RESULT, false));
+        return new org.gtk.gdkpixbuf.PixbufModulePattern(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -197,9 +198,14 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(license));
     }
     
+    /**
+     * Create a PixbufFormat proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PixbufFormat(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PixbufFormat(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -215,7 +221,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdkpixbuf.PixbufFormat(Refcounted.get(RESULT, true));
+        return new org.gtk.gdkpixbuf.PixbufFormat(RESULT, Ownership.FULL);
     }
     
     /**
@@ -407,62 +413,74 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle gdk_pixbuf_format_copy = Interop.downcallHandle(
             "gdk_pixbuf_format_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_pixbuf_format_free = Interop.downcallHandle(
             "gdk_pixbuf_format_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_pixbuf_format_get_description = Interop.downcallHandle(
             "gdk_pixbuf_format_get_description",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_pixbuf_format_get_extensions = Interop.downcallHandle(
             "gdk_pixbuf_format_get_extensions",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_pixbuf_format_get_license = Interop.downcallHandle(
             "gdk_pixbuf_format_get_license",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_pixbuf_format_get_mime_types = Interop.downcallHandle(
             "gdk_pixbuf_format_get_mime_types",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_pixbuf_format_get_name = Interop.downcallHandle(
             "gdk_pixbuf_format_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_pixbuf_format_is_disabled = Interop.downcallHandle(
             "gdk_pixbuf_format_is_disabled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_pixbuf_format_is_save_option_supported = Interop.downcallHandle(
             "gdk_pixbuf_format_is_save_option_supported",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_pixbuf_format_is_scalable = Interop.downcallHandle(
             "gdk_pixbuf_format_is_scalable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_pixbuf_format_is_writable = Interop.downcallHandle(
             "gdk_pixbuf_format_is_writable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_pixbuf_format_set_disabled = Interop.downcallHandle(
             "gdk_pixbuf_format_set_disabled",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

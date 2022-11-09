@@ -20,13 +20,19 @@ public class LinearGradientNode extends org.gtk.gsk.RenderNode {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a LinearGradientNode proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public LinearGradientNode(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public LinearGradientNode(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,25 +44,25 @@ public class LinearGradientNode extends org.gtk.gsk.RenderNode {
      */
     public static LinearGradientNode castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskLinearGradientNode"))) {
-            return new LinearGradientNode(gobject.refcounted());
+            return new LinearGradientNode(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GskLinearGradientNode");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point start, @NotNull org.gtk.graphene.Point end, org.gtk.gsk.ColorStop[] colorStops, long nColorStops) {
+    private static Addressable constructNew(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point start, @NotNull org.gtk.graphene.Point end, @NotNull org.gtk.gsk.ColorStop[] colorStops, long nColorStops) {
         java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
         java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         java.util.Objects.requireNonNull(colorStops, "Parameter 'colorStops' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_linear_gradient_node_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gsk_linear_gradient_node_new.invokeExact(
                     bounds.handle(),
                     start.handle(),
                     end.handle(),
                     Interop.allocateNativeArray(colorStops, false),
-                    nColorStops), true);
+                    nColorStops);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -75,8 +81,8 @@ public class LinearGradientNode extends org.gtk.gsk.RenderNode {
      *   stop's offset must be &lt;= 1.
      * @param nColorStops the number of elements in {@code color_stops}
      */
-    public LinearGradientNode(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point start, @NotNull org.gtk.graphene.Point end, org.gtk.gsk.ColorStop[] colorStops, long nColorStops) {
-        super(constructNew(bounds, start, end, colorStops, nColorStops));
+    public LinearGradientNode(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point start, @NotNull org.gtk.graphene.Point end, @NotNull org.gtk.gsk.ColorStop[] colorStops, long nColorStops) {
+        super(constructNew(bounds, start, end, colorStops, nColorStops), Ownership.FULL);
     }
     
     /**
@@ -99,7 +105,7 @@ public class LinearGradientNode extends org.gtk.gsk.RenderNode {
         org.gtk.gsk.ColorStop[] resultARRAY = new org.gtk.gsk.ColorStop[nStops.get().intValue()];
         for (int I = 0; I < nStops.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = new org.gtk.gsk.ColorStop(Refcounted.get(OBJ, false));
+            resultARRAY[I] = new org.gtk.gsk.ColorStop(OBJ, Ownership.NONE);
         }
         return resultARRAY;
     }
@@ -116,7 +122,7 @@ public class LinearGradientNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Point(RESULT, Ownership.NONE);
     }
     
     /**
@@ -146,34 +152,39 @@ public class LinearGradientNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Point(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_linear_gradient_node_new = Interop.downcallHandle(
             "gsk_linear_gradient_node_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle gsk_linear_gradient_node_get_color_stops = Interop.downcallHandle(
             "gsk_linear_gradient_node_get_color_stops",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_linear_gradient_node_get_end = Interop.downcallHandle(
             "gsk_linear_gradient_node_get_end",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_linear_gradient_node_get_n_color_stops = Interop.downcallHandle(
             "gsk_linear_gradient_node_get_n_color_stops",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_linear_gradient_node_get_start = Interop.downcallHandle(
             "gsk_linear_gradient_node_get_start",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

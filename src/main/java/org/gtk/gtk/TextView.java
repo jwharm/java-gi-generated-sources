@@ -56,6 +56,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -66,12 +67,17 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public org.gtk.gtk.Widget parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gtk.Widget(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.Widget(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a TextView proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TextView(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TextView(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -83,16 +89,16 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public static TextView castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTextView"))) {
-            return new TextView(gobject.refcounted());
+            return new TextView(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTextView");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_text_view_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_view_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,15 +114,15 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * your own buffer, consider {@link TextView#newWithBuffer}.
      */
     public TextView() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
-    private static Refcounted constructNewWithBuffer(@NotNull org.gtk.gtk.TextBuffer buffer) {
+    private static Addressable constructNewWithBuffer(@NotNull org.gtk.gtk.TextBuffer buffer) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_text_view_new_with_buffer.invokeExact(
-                    buffer.handle()), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_view_new_with_buffer.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,7 +140,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return a new {@code GtkTextView}.
      */
     public static TextView newWithBuffer(@NotNull org.gtk.gtk.TextBuffer buffer) {
-        return new TextView(constructNewWithBuffer(buffer));
+        return new TextView(constructNewWithBuffer(buffer), Ownership.NONE);
     }
     
     /**
@@ -364,7 +370,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TextBuffer(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.TextBuffer(RESULT, Ownership.NONE);
     }
     
     /**
@@ -451,7 +457,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(RESULT, Ownership.NONE);
     }
     
     /**
@@ -474,7 +480,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -717,7 +723,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Context(Refcounted.get(RESULT, false));
+        return new org.pango.Context(RESULT, Ownership.NONE);
     }
     
     /**
@@ -834,7 +840,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Context(Refcounted.get(RESULT, false));
+        return new org.pango.Context(RESULT, Ownership.NONE);
     }
     
     /**
@@ -855,7 +861,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.TabArray(Refcounted.get(RESULT, true));
+        return new org.pango.TabArray(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1607,6 +1613,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * <p>
      * The default bindings for this signal are
      * &lt;kbd&gt;Backspace&lt;/kbd&gt; and &lt;kbd&gt;Shift&lt;/kbd&gt;-&lt;kbd&gt;Backspace&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TextView.Backspace> onBackspace(TextView.Backspace handler) {
         try {
@@ -1639,6 +1647,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * The default bindings for this signal are
      * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;c&lt;/kbd&gt; and
      * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;Insert&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TextView.CopyClipboard> onCopyClipboard(TextView.CopyClipboard handler) {
         try {
@@ -1671,6 +1681,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * The default bindings for this signal are
      * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;x&lt;/kbd&gt; and
      * &lt;kbd&gt;Shift&lt;/kbd&gt;-&lt;kbd&gt;Delete&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TextView.CutClipboard> onCutClipboard(TextView.CutClipboard handler) {
         try {
@@ -1708,6 +1720,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * deleting a character, &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;Delete&lt;/kbd&gt; for
      * deleting a word and &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;Backspace&lt;/kbd&gt; for
      * deleting a word backwards.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TextView.DeleteFromCursor> onDeleteFromCursor(TextView.DeleteFromCursor handler) {
         try {
@@ -1734,6 +1748,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Emitted when the selection needs to be extended at {@code location}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TextView.ExtendSelection> onExtendSelection(TextView.ExtendSelection handler) {
         try {
@@ -1765,6 +1781,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * The ::insert-at-cursor signal is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
      * This signal has no default bindings.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TextView.InsertAtCursor> onInsertAtCursor(TextView.InsertAtCursor handler) {
         try {
@@ -1797,6 +1815,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * The default bindings for this signal are
      * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;.&lt;/kbd&gt; and
      * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;;&lt;/kbd&gt;
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TextView.InsertEmoji> onInsertEmoji(TextView.InsertEmoji handler) {
         try {
@@ -1845,6 +1865,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * <li>&lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;PgUp&lt;/kbd&gt;, &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;PgDn&lt;/kbd&gt;
      *   move horizontally by pages
      * </ul>
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TextView.MoveCursor> onMoveCursor(TextView.MoveCursor handler) {
         try {
@@ -1878,6 +1900,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * window.
      * <p>
      * There are no default bindings for this signal.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TextView.MoveViewport> onMoveViewport(TextView.MoveViewport handler) {
         try {
@@ -1911,6 +1935,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * The default bindings for this signal are
      * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;v&lt;/kbd&gt; and
      * &lt;kbd&gt;Shift&lt;/kbd&gt;-&lt;kbd&gt;Insert&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TextView.PasteClipboard> onPasteClipboard(TextView.PasteClipboard handler) {
         try {
@@ -1944,6 +1970,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * <p>
      * This signal is only emitted if the text at the given position
      * is actually editable.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TextView.PreeditChanged> onPreeditChanged(TextView.PreeditChanged handler) {
         try {
@@ -1978,6 +2006,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;/&lt;/kbd&gt; for selecting and
      * &lt;kbd&gt;Shift&lt;/kbd&gt;-&lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;a&lt;/kbd&gt; and
      * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;\\&lt;/kbd&gt; for unselecting.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TextView.SelectAll> onSelectAll(TextView.SelectAll handler) {
         try {
@@ -2011,6 +2041,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * "insert" mark.
      * <p>
      * This signal has no default bindings.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TextView.SetAnchor> onSetAnchor(TextView.SetAnchor handler) {
         try {
@@ -2042,6 +2074,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
      * The default binding for this signal is &lt;kbd&gt;F7&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TextView.ToggleCursorVisible> onToggleCursorVisible(TextView.ToggleCursorVisible handler) {
         try {
@@ -2072,6 +2106,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * The ::toggle-overwrite signal is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Insert&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TextView.ToggleOverwrite> onToggleOverwrite(TextView.ToggleOverwrite handler) {
         try {
@@ -2095,367 +2131,440 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         
         private static final MethodHandle gtk_text_view_new = Interop.downcallHandle(
             "gtk_text_view_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_new_with_buffer = Interop.downcallHandle(
             "gtk_text_view_new_with_buffer",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_add_child_at_anchor = Interop.downcallHandle(
             "gtk_text_view_add_child_at_anchor",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_add_overlay = Interop.downcallHandle(
             "gtk_text_view_add_overlay",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_backward_display_line = Interop.downcallHandle(
             "gtk_text_view_backward_display_line",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_backward_display_line_start = Interop.downcallHandle(
             "gtk_text_view_backward_display_line_start",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_buffer_to_window_coords = Interop.downcallHandle(
             "gtk_text_view_buffer_to_window_coords",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_forward_display_line = Interop.downcallHandle(
             "gtk_text_view_forward_display_line",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_forward_display_line_end = Interop.downcallHandle(
             "gtk_text_view_forward_display_line_end",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_accepts_tab = Interop.downcallHandle(
             "gtk_text_view_get_accepts_tab",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_bottom_margin = Interop.downcallHandle(
             "gtk_text_view_get_bottom_margin",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_buffer = Interop.downcallHandle(
             "gtk_text_view_get_buffer",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_cursor_locations = Interop.downcallHandle(
             "gtk_text_view_get_cursor_locations",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_cursor_visible = Interop.downcallHandle(
             "gtk_text_view_get_cursor_visible",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_editable = Interop.downcallHandle(
             "gtk_text_view_get_editable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_extra_menu = Interop.downcallHandle(
             "gtk_text_view_get_extra_menu",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_gutter = Interop.downcallHandle(
             "gtk_text_view_get_gutter",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_indent = Interop.downcallHandle(
             "gtk_text_view_get_indent",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_input_hints = Interop.downcallHandle(
             "gtk_text_view_get_input_hints",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_input_purpose = Interop.downcallHandle(
             "gtk_text_view_get_input_purpose",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_iter_at_location = Interop.downcallHandle(
             "gtk_text_view_get_iter_at_location",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_iter_at_position = Interop.downcallHandle(
             "gtk_text_view_get_iter_at_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_iter_location = Interop.downcallHandle(
             "gtk_text_view_get_iter_location",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_justification = Interop.downcallHandle(
             "gtk_text_view_get_justification",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_left_margin = Interop.downcallHandle(
             "gtk_text_view_get_left_margin",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_line_at_y = Interop.downcallHandle(
             "gtk_text_view_get_line_at_y",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_line_yrange = Interop.downcallHandle(
             "gtk_text_view_get_line_yrange",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_ltr_context = Interop.downcallHandle(
             "gtk_text_view_get_ltr_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_monospace = Interop.downcallHandle(
             "gtk_text_view_get_monospace",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_overwrite = Interop.downcallHandle(
             "gtk_text_view_get_overwrite",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_pixels_above_lines = Interop.downcallHandle(
             "gtk_text_view_get_pixels_above_lines",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_pixels_below_lines = Interop.downcallHandle(
             "gtk_text_view_get_pixels_below_lines",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_pixels_inside_wrap = Interop.downcallHandle(
             "gtk_text_view_get_pixels_inside_wrap",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_right_margin = Interop.downcallHandle(
             "gtk_text_view_get_right_margin",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_rtl_context = Interop.downcallHandle(
             "gtk_text_view_get_rtl_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_tabs = Interop.downcallHandle(
             "gtk_text_view_get_tabs",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_top_margin = Interop.downcallHandle(
             "gtk_text_view_get_top_margin",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_visible_rect = Interop.downcallHandle(
             "gtk_text_view_get_visible_rect",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_get_wrap_mode = Interop.downcallHandle(
             "gtk_text_view_get_wrap_mode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_im_context_filter_keypress = Interop.downcallHandle(
             "gtk_text_view_im_context_filter_keypress",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_move_mark_onscreen = Interop.downcallHandle(
             "gtk_text_view_move_mark_onscreen",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_move_overlay = Interop.downcallHandle(
             "gtk_text_view_move_overlay",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_move_visually = Interop.downcallHandle(
             "gtk_text_view_move_visually",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_place_cursor_onscreen = Interop.downcallHandle(
             "gtk_text_view_place_cursor_onscreen",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_remove = Interop.downcallHandle(
             "gtk_text_view_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_reset_cursor_blink = Interop.downcallHandle(
             "gtk_text_view_reset_cursor_blink",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_reset_im_context = Interop.downcallHandle(
             "gtk_text_view_reset_im_context",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_scroll_mark_onscreen = Interop.downcallHandle(
             "gtk_text_view_scroll_mark_onscreen",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_scroll_to_iter = Interop.downcallHandle(
             "gtk_text_view_scroll_to_iter",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_text_view_scroll_to_mark = Interop.downcallHandle(
             "gtk_text_view_scroll_to_mark",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_text_view_set_accepts_tab = Interop.downcallHandle(
             "gtk_text_view_set_accepts_tab",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_set_bottom_margin = Interop.downcallHandle(
             "gtk_text_view_set_bottom_margin",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_set_buffer = Interop.downcallHandle(
             "gtk_text_view_set_buffer",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_set_cursor_visible = Interop.downcallHandle(
             "gtk_text_view_set_cursor_visible",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_set_editable = Interop.downcallHandle(
             "gtk_text_view_set_editable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_set_extra_menu = Interop.downcallHandle(
             "gtk_text_view_set_extra_menu",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_set_gutter = Interop.downcallHandle(
             "gtk_text_view_set_gutter",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_set_indent = Interop.downcallHandle(
             "gtk_text_view_set_indent",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_set_input_hints = Interop.downcallHandle(
             "gtk_text_view_set_input_hints",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_set_input_purpose = Interop.downcallHandle(
             "gtk_text_view_set_input_purpose",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_set_justification = Interop.downcallHandle(
             "gtk_text_view_set_justification",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_set_left_margin = Interop.downcallHandle(
             "gtk_text_view_set_left_margin",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_set_monospace = Interop.downcallHandle(
             "gtk_text_view_set_monospace",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_set_overwrite = Interop.downcallHandle(
             "gtk_text_view_set_overwrite",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_set_pixels_above_lines = Interop.downcallHandle(
             "gtk_text_view_set_pixels_above_lines",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_set_pixels_below_lines = Interop.downcallHandle(
             "gtk_text_view_set_pixels_below_lines",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_set_pixels_inside_wrap = Interop.downcallHandle(
             "gtk_text_view_set_pixels_inside_wrap",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_set_right_margin = Interop.downcallHandle(
             "gtk_text_view_set_right_margin",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_set_tabs = Interop.downcallHandle(
             "gtk_text_view_set_tabs",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_set_top_margin = Interop.downcallHandle(
             "gtk_text_view_set_top_margin",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_set_wrap_mode = Interop.downcallHandle(
             "gtk_text_view_set_wrap_mode",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_view_starts_display_line = Interop.downcallHandle(
             "gtk_text_view_starts_display_line",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_view_window_to_buffer_coords = Interop.downcallHandle(
             "gtk_text_view_window_to_buffer_coords",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -2464,91 +2573,91 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         public static void signalTextViewBackspace(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TextView.Backspace) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(Refcounted.get(source)));
+            HANDLER.signalReceived(new TextView(source, Ownership.UNKNOWN));
         }
         
         public static void signalTextViewCopyClipboard(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TextView.CopyClipboard) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(Refcounted.get(source)));
+            HANDLER.signalReceived(new TextView(source, Ownership.UNKNOWN));
         }
         
         public static void signalTextViewCutClipboard(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TextView.CutClipboard) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(Refcounted.get(source)));
+            HANDLER.signalReceived(new TextView(source, Ownership.UNKNOWN));
         }
         
         public static void signalTextViewDeleteFromCursor(MemoryAddress source, int type, int count, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TextView.DeleteFromCursor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(Refcounted.get(source)), new org.gtk.gtk.DeleteType(type), count);
+            HANDLER.signalReceived(new TextView(source, Ownership.UNKNOWN), new org.gtk.gtk.DeleteType(type), count);
         }
         
         public static boolean signalTextViewExtendSelection(MemoryAddress source, int granularity, MemoryAddress location, MemoryAddress start, MemoryAddress end, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TextView.ExtendSelection) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new TextView(Refcounted.get(source)), new org.gtk.gtk.TextExtendSelection(granularity), new org.gtk.gtk.TextIter(Refcounted.get(location, false)), new org.gtk.gtk.TextIter(Refcounted.get(start, false)), new org.gtk.gtk.TextIter(Refcounted.get(end, false)));
+            return HANDLER.signalReceived(new TextView(source, Ownership.UNKNOWN), new org.gtk.gtk.TextExtendSelection(granularity), new org.gtk.gtk.TextIter(location, Ownership.NONE), new org.gtk.gtk.TextIter(start, Ownership.NONE), new org.gtk.gtk.TextIter(end, Ownership.NONE));
         }
         
         public static void signalTextViewInsertAtCursor(MemoryAddress source, MemoryAddress string, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TextView.InsertAtCursor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(Refcounted.get(source)), Interop.getStringFrom(string));
+            HANDLER.signalReceived(new TextView(source, Ownership.UNKNOWN), Interop.getStringFrom(string));
         }
         
         public static void signalTextViewInsertEmoji(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TextView.InsertEmoji) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(Refcounted.get(source)));
+            HANDLER.signalReceived(new TextView(source, Ownership.UNKNOWN));
         }
         
         public static void signalTextViewMoveCursor(MemoryAddress source, int step, int count, int extendSelection, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TextView.MoveCursor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(Refcounted.get(source)), new org.gtk.gtk.MovementStep(step), count, extendSelection != 0);
+            HANDLER.signalReceived(new TextView(source, Ownership.UNKNOWN), new org.gtk.gtk.MovementStep(step), count, extendSelection != 0);
         }
         
         public static void signalTextViewMoveViewport(MemoryAddress source, int step, int count, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TextView.MoveViewport) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(Refcounted.get(source)), new org.gtk.gtk.ScrollStep(step), count);
+            HANDLER.signalReceived(new TextView(source, Ownership.UNKNOWN), new org.gtk.gtk.ScrollStep(step), count);
         }
         
         public static void signalTextViewPasteClipboard(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TextView.PasteClipboard) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(Refcounted.get(source)));
+            HANDLER.signalReceived(new TextView(source, Ownership.UNKNOWN));
         }
         
         public static void signalTextViewPreeditChanged(MemoryAddress source, MemoryAddress preedit, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TextView.PreeditChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(Refcounted.get(source)), Interop.getStringFrom(preedit));
+            HANDLER.signalReceived(new TextView(source, Ownership.UNKNOWN), Interop.getStringFrom(preedit));
         }
         
         public static void signalTextViewSelectAll(MemoryAddress source, int select, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TextView.SelectAll) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(Refcounted.get(source)), select != 0);
+            HANDLER.signalReceived(new TextView(source, Ownership.UNKNOWN), select != 0);
         }
         
         public static void signalTextViewSetAnchor(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TextView.SetAnchor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(Refcounted.get(source)));
+            HANDLER.signalReceived(new TextView(source, Ownership.UNKNOWN));
         }
         
         public static void signalTextViewToggleCursorVisible(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TextView.ToggleCursorVisible) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(Refcounted.get(source)));
+            HANDLER.signalReceived(new TextView(source, Ownership.UNKNOWN));
         }
         
         public static void signalTextViewToggleOverwrite(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TextView.ToggleOverwrite) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(Refcounted.get(source)));
+            HANDLER.signalReceived(new TextView(source, Ownership.UNKNOWN));
         }
     }
 }

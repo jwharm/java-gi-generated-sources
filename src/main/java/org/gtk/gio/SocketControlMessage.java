@@ -45,6 +45,7 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -55,12 +56,17 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a SocketControlMessage proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SocketControlMessage(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SocketControlMessage(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -72,7 +78,7 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
      */
     public static SocketControlMessage castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSocketControlMessage"))) {
-            return new SocketControlMessage(gobject.refcounted());
+            return new SocketControlMessage(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSocketControlMessage");
         }
@@ -159,7 +165,7 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
      * @param data pointer to the message data
      * @return the deserialized message or {@code null}
      */
-    public static @NotNull org.gtk.gio.SocketControlMessage deserialize(int level, int type, long size, byte[] data) {
+    public static @NotNull org.gtk.gio.SocketControlMessage deserialize(int level, int type, long size, @NotNull byte[] data) {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         MemoryAddress RESULT;
         try {
@@ -171,34 +177,39 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SocketControlMessage(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.SocketControlMessage(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_socket_control_message_get_level = Interop.downcallHandle(
             "g_socket_control_message_get_level",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_socket_control_message_get_msg_type = Interop.downcallHandle(
             "g_socket_control_message_get_msg_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_socket_control_message_get_size = Interop.downcallHandle(
             "g_socket_control_message_get_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_socket_control_message_serialize = Interop.downcallHandle(
             "g_socket_control_message_serialize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_socket_control_message_deserialize = Interop.downcallHandle(
             "g_socket_control_message_deserialize",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
     }
 }

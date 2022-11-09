@@ -43,7 +43,7 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
      */
     public static PowerProfileMonitor castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GPowerProfileMonitor"))) {
-            return new PowerProfileMonitorImpl(gobject.refcounted());
+            return new PowerProfileMonitorImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GPowerProfileMonitor");
         }
@@ -79,7 +79,7 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.PowerProfileMonitor.PowerProfileMonitorImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.PowerProfileMonitor.PowerProfileMonitorImpl(RESULT, Ownership.FULL);
     }
     
     @ApiStatus.Internal
@@ -88,13 +88,15 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_power_profile_monitor_get_power_saver_enabled = Interop.downcallHandle(
             "g_power_profile_monitor_get_power_saver_enabled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_power_profile_monitor_dup_default = Interop.downcallHandle(
             "g_power_profile_monitor_dup_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -104,8 +106,8 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public PowerProfileMonitorImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public PowerProfileMonitorImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

@@ -34,6 +34,7 @@ public class Analysis extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -42,7 +43,7 @@ public class Analysis extends io.github.jwharm.javagi.ResourceBase {
     
     public static Analysis allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Analysis newInstance = new Analysis(Refcounted.get(segment.address()));
+        Analysis newInstance = new Analysis(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -97,7 +98,7 @@ public class Analysis extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("font"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.pango.Font(Refcounted.get(RESULT, false));
+        return new org.pango.Font(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -202,7 +203,7 @@ public class Analysis extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("language"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.pango.Language(Refcounted.get(RESULT, false));
+        return new org.pango.Language(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -223,7 +224,7 @@ public class Analysis extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("extra_attrs"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -236,8 +237,13 @@ public class Analysis extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), extra_attrs.handle());
     }
     
+    /**
+     * Create a Analysis proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Analysis(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Analysis(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

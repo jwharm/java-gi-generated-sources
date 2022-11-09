@@ -21,6 +21,7 @@ public class OverlayLayoutChildClass extends io.github.jwharm.javagi.ResourceBas
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -29,7 +30,7 @@ public class OverlayLayoutChildClass extends io.github.jwharm.javagi.ResourceBas
     
     public static OverlayLayoutChildClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        OverlayLayoutChildClass newInstance = new OverlayLayoutChildClass(Refcounted.get(segment.address()));
+        OverlayLayoutChildClass newInstance = new OverlayLayoutChildClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -40,11 +41,16 @@ public class OverlayLayoutChildClass extends io.github.jwharm.javagi.ResourceBas
      */
     public org.gtk.gtk.LayoutChildClass parent_class$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gtk.LayoutChildClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.LayoutChildClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a OverlayLayoutChildClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public OverlayLayoutChildClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public OverlayLayoutChildClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

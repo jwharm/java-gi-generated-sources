@@ -22,13 +22,19 @@ public class DBusActionGroup extends org.gtk.gobject.Object implements org.gtk.g
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a DBusActionGroup proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DBusActionGroup(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DBusActionGroup(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -40,7 +46,7 @@ public class DBusActionGroup extends org.gtk.gobject.Object implements org.gtk.g
      */
     public static DBusActionGroup castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusActionGroup"))) {
-            return new DBusActionGroup(gobject.refcounted());
+            return new DBusActionGroup(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDBusActionGroup");
         }
@@ -78,14 +84,15 @@ public class DBusActionGroup extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusActionGroup(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.DBusActionGroup(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_dbus_action_group_get = Interop.downcallHandle(
             "g_dbus_action_group_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

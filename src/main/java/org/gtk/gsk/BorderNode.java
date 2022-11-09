@@ -20,13 +20,19 @@ public class BorderNode extends org.gtk.gsk.RenderNode {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a BorderNode proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public BorderNode(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public BorderNode(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,22 +44,22 @@ public class BorderNode extends org.gtk.gsk.RenderNode {
      */
     public static BorderNode castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskBorderNode"))) {
-            return new BorderNode(gobject.refcounted());
+            return new BorderNode(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GskBorderNode");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gsk.RoundedRect outline, float[] borderWidth, org.gtk.gdk.RGBA[] borderColor) {
+    private static Addressable constructNew(@NotNull org.gtk.gsk.RoundedRect outline, @NotNull float[] borderWidth, @NotNull org.gtk.gdk.RGBA[] borderColor) {
         java.util.Objects.requireNonNull(outline, "Parameter 'outline' must not be null");
         java.util.Objects.requireNonNull(borderWidth, "Parameter 'borderWidth' must not be null");
         java.util.Objects.requireNonNull(borderColor, "Parameter 'borderColor' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_border_node_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gsk_border_node_new.invokeExact(
                     outline.handle(),
                     Interop.allocateNativeArray(borderWidth, false),
-                    Interop.allocateNativeArray(borderColor, false)), true);
+                    Interop.allocateNativeArray(borderColor, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -71,8 +77,8 @@ public class BorderNode extends org.gtk.gsk.RenderNode {
      * @param borderColor the color used on the top, right,
      *     bottom and left side.
      */
-    public BorderNode(@NotNull org.gtk.gsk.RoundedRect outline, float[] borderWidth, org.gtk.gdk.RGBA[] borderColor) {
-        super(constructNew(outline, borderWidth, borderColor));
+    public BorderNode(@NotNull org.gtk.gsk.RoundedRect outline, @NotNull float[] borderWidth, @NotNull org.gtk.gdk.RGBA[] borderColor) {
+        super(constructNew(outline, borderWidth, borderColor), Ownership.FULL);
     }
     
     /**
@@ -88,7 +94,7 @@ public class BorderNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.RGBA(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.RGBA(RESULT, Ownership.NONE);
     }
     
     /**
@@ -103,7 +109,7 @@ public class BorderNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RoundedRect(Refcounted.get(RESULT, false));
+        return new org.gtk.gsk.RoundedRect(RESULT, Ownership.NONE);
     }
     
     /**
@@ -127,22 +133,26 @@ public class BorderNode extends org.gtk.gsk.RenderNode {
         
         private static final MethodHandle gsk_border_node_new = Interop.downcallHandle(
             "gsk_border_node_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_border_node_get_colors = Interop.downcallHandle(
             "gsk_border_node_get_colors",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_border_node_get_outline = Interop.downcallHandle(
             "gsk_border_node_get_outline",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_border_node_get_widths = Interop.downcallHandle(
             "gsk_border_node_get_widths",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -91,13 +91,19 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Create a ToggleButton proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ToggleButton(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ToggleButton(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -109,16 +115,16 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
      */
     public static ToggleButton castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkToggleButton"))) {
-            return new ToggleButton(gobject.refcounted());
+            return new ToggleButton(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkToggleButton");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_toggle_button_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_toggle_button_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -131,15 +137,15 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
      * A widget should be packed into the button, as in {@link Button#Button}.
      */
     public ToggleButton() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
-    private static Refcounted constructNewWithLabel(@NotNull java.lang.String label) {
+    private static Addressable constructNewWithLabel(@NotNull java.lang.String label) {
         java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_toggle_button_new_with_label.invokeExact(
-                    Interop.allocateNativeString(label)), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_toggle_button_new_with_label.invokeExact(
+                    Interop.allocateNativeString(label));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,15 +158,15 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
      * @return a new toggle button.
      */
     public static ToggleButton newWithLabel(@NotNull java.lang.String label) {
-        return new ToggleButton(constructNewWithLabel(label));
+        return new ToggleButton(constructNewWithLabel(label), Ownership.NONE);
     }
     
-    private static Refcounted constructNewWithMnemonic(@NotNull java.lang.String label) {
+    private static Addressable constructNewWithMnemonic(@NotNull java.lang.String label) {
         java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_toggle_button_new_with_mnemonic.invokeExact(
-                    Interop.allocateNativeString(label)), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_toggle_button_new_with_mnemonic.invokeExact(
+                    Interop.allocateNativeString(label));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,7 +183,7 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
      * @return a new {@code GtkToggleButton}
      */
     public static ToggleButton newWithMnemonic(@NotNull java.lang.String label) {
-        return new ToggleButton(constructNewWithMnemonic(label));
+        return new ToggleButton(constructNewWithMnemonic(label), Ownership.NONE);
     }
     
     /**
@@ -264,6 +270,8 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
     
     /**
      * Emitted whenever the {@code GtkToggleButton}'s state is changed.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ToggleButton.Toggled> onToggled(ToggleButton.Toggled handler) {
         try {
@@ -287,37 +295,44 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
         
         private static final MethodHandle gtk_toggle_button_new = Interop.downcallHandle(
             "gtk_toggle_button_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_toggle_button_new_with_label = Interop.downcallHandle(
             "gtk_toggle_button_new_with_label",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_toggle_button_new_with_mnemonic = Interop.downcallHandle(
             "gtk_toggle_button_new_with_mnemonic",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_toggle_button_get_active = Interop.downcallHandle(
             "gtk_toggle_button_get_active",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_toggle_button_set_active = Interop.downcallHandle(
             "gtk_toggle_button_set_active",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_toggle_button_set_group = Interop.downcallHandle(
             "gtk_toggle_button_set_group",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_toggle_button_toggled = Interop.downcallHandle(
             "gtk_toggle_button_toggled",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -326,7 +341,7 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
         public static void signalToggleButtonToggled(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ToggleButton.Toggled) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ToggleButton(Refcounted.get(source)));
+            HANDLER.signalReceived(new ToggleButton(source, Ownership.UNKNOWN));
         }
     }
 }

@@ -5,6 +5,9 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
+/**
+ * Constants and functions that are declared in the global GdkPixbuf namespace.
+ */
 public final class GdkPixbuf {
     
     static {
@@ -53,7 +56,8 @@ public final class GdkPixbuf {
         
         private static final MethodHandle gdk_pixbuf_error_quark = Interop.downcallHandle(
             "gdk_pixbuf_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -75,7 +79,7 @@ public final class GdkPixbuf {
         public static boolean cbPixbufModuleSaveCallbackFunc(MemoryAddress saveFunc, MemoryAddress userData, MemoryAddress pixbuf, MemoryAddress optionKeys, MemoryAddress optionValues) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (PixbufModuleSaveCallbackFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onPixbufModuleSaveCallbackFunc(null /* Unsupported parameter type */, new org.gtk.gdkpixbuf.Pixbuf(Refcounted.get(pixbuf, false)), new PointerString(optionKeys), new PointerString(optionValues));
+            var RESULT = HANDLER.onPixbufModuleSaveCallbackFunc(null /* Unsupported parameter type */, new org.gtk.gdkpixbuf.Pixbuf(pixbuf, Ownership.NONE), new PointerString(optionKeys), new PointerString(optionValues));
             return RESULT;
         }
         
@@ -89,13 +93,13 @@ public final class GdkPixbuf {
         public static void cbPixbufModuleUpdatedFunc(MemoryAddress pixbuf, int x, int y, int width, int height, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (PixbufModuleUpdatedFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onPixbufModuleUpdatedFunc(new org.gtk.gdkpixbuf.Pixbuf(Refcounted.get(pixbuf, false)), x, y, width, height);
+            HANDLER.onPixbufModuleUpdatedFunc(new org.gtk.gdkpixbuf.Pixbuf(pixbuf, Ownership.NONE), x, y, width, height);
         }
         
         public static void cbPixbufModulePreparedFunc(MemoryAddress pixbuf, MemoryAddress anim, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (PixbufModulePreparedFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onPixbufModulePreparedFunc(new org.gtk.gdkpixbuf.Pixbuf(Refcounted.get(pixbuf, false)), new org.gtk.gdkpixbuf.PixbufAnimation(Refcounted.get(anim, false)));
+            HANDLER.onPixbufModulePreparedFunc(new org.gtk.gdkpixbuf.Pixbuf(pixbuf, Ownership.NONE), new org.gtk.gdkpixbuf.PixbufAnimation(anim, Ownership.NONE));
         }
         
         public static java.lang.foreign.MemoryAddress cbPixbufModuleBeginLoadFunc(MemoryAddress sizeFunc, MemoryAddress preparedFunc, MemoryAddress updatedFunc, MemoryAddress userData) {

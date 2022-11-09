@@ -22,13 +22,19 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a IOModule proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public IOModule(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public IOModule(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -40,18 +46,18 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      */
     public static IOModule castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GIOModule"))) {
-            return new IOModule(gobject.refcounted());
+            return new IOModule(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GIOModule");
         }
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String filename) {
+    private static Addressable constructNew(@NotNull java.lang.String filename) {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_io_module_new.invokeExact(
-                    Interop.allocateNativeString(filename)), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_io_module_new.invokeExact(
+                    Interop.allocateNativeString(filename));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,7 +70,7 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      * @param filename filename of the shared library module.
      */
     public IOModule(@NotNull java.lang.String filename) {
-        super(constructNew(filename));
+        super(constructNew(filename), Ownership.FULL);
     }
     
     /**
@@ -164,22 +170,26 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
         
         private static final MethodHandle g_io_module_new = Interop.downcallHandle(
             "g_io_module_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_module_load = Interop.downcallHandle(
             "g_io_module_load",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_module_unload = Interop.downcallHandle(
             "g_io_module_unload",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_module_query = Interop.downcallHandle(
             "g_io_module_query",
-            FunctionDescriptor.ofVoid()
+            FunctionDescriptor.ofVoid(),
+            false
         );
     }
 }

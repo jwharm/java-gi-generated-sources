@@ -23,7 +23,7 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
      */
     public static CellEditable castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellEditable"))) {
-            return new CellEditableImpl(gobject.refcounted());
+            return new CellEditableImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCellEditable");
         }
@@ -94,6 +94,8 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
      * <p>
      * gtk_cell_editable_editing_done() is a convenience method
      * for emitting {@code GtkCellEditable::editing-done}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<CellEditable.EditingDone> onEditingDone(CellEditable.EditingDone handler) {
         try {
@@ -131,6 +133,8 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
      * <p>
      * gtk_cell_editable_remove_widget() is a convenience method
      * for emitting {@code GtkCellEditable::remove-widget}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<CellEditable.RemoveWidget> onRemoveWidget(CellEditable.RemoveWidget handler) {
         try {
@@ -156,19 +160,22 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_editable_editing_done = Interop.downcallHandle(
             "gtk_cell_editable_editing_done",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_editable_remove_widget = Interop.downcallHandle(
             "gtk_cell_editable_remove_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_editable_start_editing = Interop.downcallHandle(
             "gtk_cell_editable_start_editing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -178,13 +185,13 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
         public static void signalCellEditableEditingDone(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (CellEditable.EditingDone) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellEditable.CellEditableImpl(Refcounted.get(source)));
+            HANDLER.signalReceived(new CellEditable.CellEditableImpl(source, Ownership.UNKNOWN));
         }
         
         public static void signalCellEditableRemoveWidget(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (CellEditable.RemoveWidget) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellEditable.CellEditableImpl(Refcounted.get(source)));
+            HANDLER.signalReceived(new CellEditable.CellEditableImpl(source, Ownership.UNKNOWN));
         }
     }
     
@@ -194,8 +201,8 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public CellEditableImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public CellEditableImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

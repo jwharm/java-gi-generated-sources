@@ -29,6 +29,7 @@ public class ConverterOutputStream extends org.gtk.gio.FilterOutputStream implem
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -39,12 +40,17 @@ public class ConverterOutputStream extends org.gtk.gio.FilterOutputStream implem
      */
     public org.gtk.gio.FilterOutputStream parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.FilterOutputStream(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.FilterOutputStream(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a ConverterOutputStream proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ConverterOutputStream(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ConverterOutputStream(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -56,20 +62,20 @@ public class ConverterOutputStream extends org.gtk.gio.FilterOutputStream implem
      */
     public static ConverterOutputStream castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GConverterOutputStream"))) {
-            return new ConverterOutputStream(gobject.refcounted());
+            return new ConverterOutputStream(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GConverterOutputStream");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gio.OutputStream baseStream, @NotNull org.gtk.gio.Converter converter) {
+    private static Addressable constructNew(@NotNull org.gtk.gio.OutputStream baseStream, @NotNull org.gtk.gio.Converter converter) {
         java.util.Objects.requireNonNull(baseStream, "Parameter 'baseStream' must not be null");
         java.util.Objects.requireNonNull(converter, "Parameter 'converter' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_converter_output_stream_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_converter_output_stream_new.invokeExact(
                     baseStream.handle(),
-                    converter.handle()), true);
+                    converter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +88,7 @@ public class ConverterOutputStream extends org.gtk.gio.FilterOutputStream implem
      * @param converter a {@link Converter}
      */
     public ConverterOutputStream(@NotNull org.gtk.gio.OutputStream baseStream, @NotNull org.gtk.gio.Converter converter) {
-        super(constructNew(baseStream, converter));
+        super(constructNew(baseStream, converter), Ownership.FULL);
     }
     
     /**
@@ -97,19 +103,21 @@ public class ConverterOutputStream extends org.gtk.gio.FilterOutputStream implem
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Converter.ConverterImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.Converter.ConverterImpl(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_converter_output_stream_new = Interop.downcallHandle(
             "g_converter_output_stream_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_converter_output_stream_get_converter = Interop.downcallHandle(
             "g_converter_output_stream_get_converter",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -33,6 +33,7 @@ public class UnixOutputStream extends org.gtk.gio.OutputStream implements org.gt
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -43,12 +44,17 @@ public class UnixOutputStream extends org.gtk.gio.OutputStream implements org.gt
      */
     public org.gtk.gio.OutputStream parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.OutputStream(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.OutputStream(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a UnixOutputStream proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public UnixOutputStream(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public UnixOutputStream(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -60,18 +66,18 @@ public class UnixOutputStream extends org.gtk.gio.OutputStream implements org.gt
      */
     public static UnixOutputStream castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GUnixOutputStream"))) {
-            return new UnixOutputStream(gobject.refcounted());
+            return new UnixOutputStream(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GUnixOutputStream");
         }
     }
     
-    private static Refcounted constructNew(int fd, boolean closeFd) {
-        Refcounted RESULT;
+    private static Addressable constructNew(int fd, boolean closeFd) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_unix_output_stream_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_output_stream_new.invokeExact(
                     fd,
-                    closeFd ? 1 : 0), true);
+                    closeFd ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,7 +93,7 @@ public class UnixOutputStream extends org.gtk.gio.OutputStream implements org.gt
      * @param closeFd {@code true} to close the file descriptor when done
      */
     public UnixOutputStream(int fd, boolean closeFd) {
-        super(constructNew(fd, closeFd));
+        super(constructNew(fd, closeFd), Ownership.FULL);
     }
     
     /**
@@ -140,22 +146,26 @@ public class UnixOutputStream extends org.gtk.gio.OutputStream implements org.gt
         
         private static final MethodHandle g_unix_output_stream_new = Interop.downcallHandle(
             "g_unix_output_stream_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_unix_output_stream_get_close_fd = Interop.downcallHandle(
             "g_unix_output_stream_get_close_fd",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_output_stream_get_fd = Interop.downcallHandle(
             "g_unix_output_stream_get_fd",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_output_stream_set_close_fd = Interop.downcallHandle(
             "g_unix_output_stream_set_close_fd",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

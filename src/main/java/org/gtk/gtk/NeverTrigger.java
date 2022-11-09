@@ -20,13 +20,19 @@ public class NeverTrigger extends org.gtk.gtk.ShortcutTrigger {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a NeverTrigger proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public NeverTrigger(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public NeverTrigger(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,7 +44,7 @@ public class NeverTrigger extends org.gtk.gtk.ShortcutTrigger {
      */
     public static NeverTrigger castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkNeverTrigger"))) {
-            return new NeverTrigger(gobject.refcounted());
+            return new NeverTrigger(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkNeverTrigger");
         }
@@ -59,14 +65,15 @@ public class NeverTrigger extends org.gtk.gtk.ShortcutTrigger {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.NeverTrigger(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.NeverTrigger(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_never_trigger_get = Interop.downcallHandle(
             "gtk_never_trigger_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

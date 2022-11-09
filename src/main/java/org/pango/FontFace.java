@@ -25,6 +25,7 @@ public class FontFace extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -35,12 +36,17 @@ public class FontFace extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a FontFace proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FontFace(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FontFace(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -52,7 +58,7 @@ public class FontFace extends org.gtk.gobject.Object {
      */
     public static FontFace castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoFontFace"))) {
-            return new FontFace(gobject.refcounted());
+            return new FontFace(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of PangoFontFace");
         }
@@ -76,7 +82,7 @@ public class FontFace extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontDescription(Refcounted.get(RESULT, true));
+        return new org.pango.FontDescription(RESULT, Ownership.FULL);
     }
     
     /**
@@ -111,7 +117,7 @@ public class FontFace extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontFamily(Refcounted.get(RESULT, false));
+        return new org.pango.FontFamily(RESULT, Ownership.NONE);
     }
     
     /**
@@ -144,7 +150,7 @@ public class FontFace extends org.gtk.gobject.Object {
      *   should be freed with g_free().
      * @param nSizes location to store the number of elements in {@code sizes}
      */
-    public void listSizes(Out<int[]> sizes, Out<Integer> nSizes) {
+    public void listSizes(@Nullable Out<int[]> sizes, Out<Integer> nSizes) {
         java.util.Objects.requireNonNull(nSizes, "Parameter 'nSizes' must not be null");
         MemorySegment sizesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment nSizesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
@@ -164,27 +170,32 @@ public class FontFace extends org.gtk.gobject.Object {
         
         private static final MethodHandle pango_font_face_describe = Interop.downcallHandle(
             "pango_font_face_describe",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_font_face_get_face_name = Interop.downcallHandle(
             "pango_font_face_get_face_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_font_face_get_family = Interop.downcallHandle(
             "pango_font_face_get_family",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_font_face_is_synthesized = Interop.downcallHandle(
             "pango_font_face_is_synthesized",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_font_face_list_sizes = Interop.downcallHandle(
             "pango_font_face_list_sizes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

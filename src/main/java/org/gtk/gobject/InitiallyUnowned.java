@@ -30,6 +30,7 @@ public class InitiallyUnowned extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -40,12 +41,17 @@ public class InitiallyUnowned extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.TypeInstance g_type_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_type_instance"));
-        return new org.gtk.gobject.TypeInstance(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.TypeInstance(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a InitiallyUnowned proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public InitiallyUnowned(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public InitiallyUnowned(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -57,7 +63,7 @@ public class InitiallyUnowned extends org.gtk.gobject.Object {
      */
     public static InitiallyUnowned castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GInitiallyUnowned"))) {
-            return new InitiallyUnowned(gobject.refcounted());
+            return new InitiallyUnowned(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GInitiallyUnowned");
         }

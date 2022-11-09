@@ -52,6 +52,7 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -62,12 +63,17 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a CssProvider proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CssProvider(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CssProvider(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -79,16 +85,16 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
      */
     public static CssProvider castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCssProvider"))) {
-            return new CssProvider(gobject.refcounted());
+            return new CssProvider(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCssProvider");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_css_provider_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_css_provider_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +105,7 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
      * Returns a newly created {@code GtkCssProvider}.
      */
     public CssProvider() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -111,7 +117,7 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
      *   {@code length} is not -1, the code will assume it is not NUL terminated and will
      *   potentially do a copy.
      */
-    public void loadFromData(byte[] data, long length) {
+    public void loadFromData(@NotNull byte[] data, long length) {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         try {
             DowncallHandles.gtk_css_provider_load_from_data.invokeExact(
@@ -237,6 +243,8 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
      * Note that this signal may be emitted at any time as the css provider
      * may opt to defer parsing parts or all of the input to a later time
      * than when a loading function was called.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<CssProvider.ParsingError> onParsingError(CssProvider.ParsingError handler) {
         try {
@@ -260,37 +268,44 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
         
         private static final MethodHandle gtk_css_provider_new = Interop.downcallHandle(
             "gtk_css_provider_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_css_provider_load_from_data = Interop.downcallHandle(
             "gtk_css_provider_load_from_data",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle gtk_css_provider_load_from_file = Interop.downcallHandle(
             "gtk_css_provider_load_from_file",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_css_provider_load_from_path = Interop.downcallHandle(
             "gtk_css_provider_load_from_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_css_provider_load_from_resource = Interop.downcallHandle(
             "gtk_css_provider_load_from_resource",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_css_provider_load_named = Interop.downcallHandle(
             "gtk_css_provider_load_named",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_css_provider_to_string = Interop.downcallHandle(
             "gtk_css_provider_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -299,7 +314,7 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
         public static void signalCssProviderParsingError(MemoryAddress source, MemoryAddress section, MemoryAddress error, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (CssProvider.ParsingError) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CssProvider(Refcounted.get(source)), new org.gtk.gtk.CssSection(Refcounted.get(section, false)), new org.gtk.glib.Error(Refcounted.get(error, false)));
+            HANDLER.signalReceived(new CssProvider(source, Ownership.UNKNOWN), new org.gtk.gtk.CssSection(section, Ownership.NONE), new org.gtk.glib.Error(error, Ownership.NONE));
         }
     }
 }

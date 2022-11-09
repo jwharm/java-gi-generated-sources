@@ -26,6 +26,7 @@ public class TestLogMsg extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -34,7 +35,7 @@ public class TestLogMsg extends io.github.jwharm.javagi.ResourceBase {
     
     public static TestLogMsg allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TestLogMsg newInstance = new TestLogMsg(Refcounted.get(segment.address()));
+        TestLogMsg newInstance = new TestLogMsg(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -144,9 +145,14 @@ public class TestLogMsg extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nums.handle());
     }
     
+    /**
+     * Create a TestLogMsg proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TestLogMsg(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TestLogMsg(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -165,7 +171,8 @@ public class TestLogMsg extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_test_log_msg_free = Interop.downcallHandle(
             "g_test_log_msg_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

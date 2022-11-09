@@ -53,13 +53,19 @@ public class FixedLayout extends org.gtk.gtk.LayoutManager {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a FixedLayout proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FixedLayout(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FixedLayout(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -71,16 +77,16 @@ public class FixedLayout extends org.gtk.gtk.LayoutManager {
      */
     public static FixedLayout castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFixedLayout"))) {
-            return new FixedLayout(gobject.refcounted());
+            return new FixedLayout(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkFixedLayout");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_fixed_layout_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_fixed_layout_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,14 +97,15 @@ public class FixedLayout extends org.gtk.gtk.LayoutManager {
      * Creates a new {@code GtkFixedLayout}.
      */
     public FixedLayout() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_fixed_layout_new = Interop.downcallHandle(
             "gtk_fixed_layout_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

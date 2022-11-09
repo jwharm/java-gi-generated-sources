@@ -29,6 +29,7 @@ public class TypePluginClass extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -37,7 +38,7 @@ public class TypePluginClass extends io.github.jwharm.javagi.ResourceBase {
     
     public static TypePluginClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TypePluginClass newInstance = new TypePluginClass(Refcounted.get(segment.address()));
+        TypePluginClass newInstance = new TypePluginClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -86,8 +87,13 @@ public class TypePluginClass extends io.github.jwharm.javagi.ResourceBase {
         return null /* Unsupported parameter type */;
     }
     
+    /**
+     * Create a TypePluginClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TypePluginClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TypePluginClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

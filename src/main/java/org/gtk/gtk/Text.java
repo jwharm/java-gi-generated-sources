@@ -83,13 +83,19 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
     
+    /**
+     * Create a Text proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Text(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Text(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -101,16 +107,16 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      */
     public static Text castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkText"))) {
-            return new Text(gobject.refcounted());
+            return new Text(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkText");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_text_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,15 +127,15 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * Creates a new {@code GtkText}.
      */
     public Text() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
-    private static Refcounted constructNewWithBuffer(@NotNull org.gtk.gtk.EntryBuffer buffer) {
+    private static Addressable constructNewWithBuffer(@NotNull org.gtk.gtk.EntryBuffer buffer) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_text_new_with_buffer.invokeExact(
-                    buffer.handle()), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_new_with_buffer.invokeExact(
+                    buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,7 +148,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * @return a new {@code GtkText}
      */
     public static Text newWithBuffer(@NotNull org.gtk.gtk.EntryBuffer buffer) {
-        return new Text(constructNewWithBuffer(buffer));
+        return new Text(constructNewWithBuffer(buffer), Ownership.NONE);
     }
     
     /**
@@ -206,7 +212,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrList(Refcounted.get(RESULT, false));
+        return new org.pango.AttrList(RESULT, Ownership.NONE);
     }
     
     /**
@@ -222,7 +228,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.EntryBuffer(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.EntryBuffer(RESULT, Ownership.NONE);
     }
     
     /**
@@ -255,7 +261,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(RESULT, Ownership.NONE);
     }
     
     /**
@@ -392,7 +398,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.TabArray(Refcounted.get(RESULT, false));
+        return new org.pango.TabArray(RESULT, Ownership.NONE);
     }
     
     /**
@@ -752,6 +758,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * <p>
      * The default bindings for this signal are all forms
      * of the &lt;kbd&gt;Enter&lt;/kbd&gt; key.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Text.Activate> onActivate(Text.Activate handler) {
         try {
@@ -783,6 +791,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * <p>
      * The default bindings for this signal are
      * &lt;kbd&gt;Backspace&lt;/kbd&gt; and &lt;kbd&gt;Shift&lt;/kbd&gt;-&lt;kbd&gt;Backspace&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Text.Backspace> onBackspace(Text.Backspace handler) {
         try {
@@ -815,6 +825,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * The default bindings for this signal are
      * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;c&lt;/kbd&gt; and
      * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;Insert&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Text.CopyClipboard> onCopyClipboard(Text.CopyClipboard handler) {
         try {
@@ -847,6 +859,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * The default bindings for this signal are
      * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;x&lt;/kbd&gt; and
      * &lt;kbd&gt;Shift&lt;/kbd&gt;-&lt;kbd&gt;Delete&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Text.CutClipboard> onCutClipboard(Text.CutClipboard handler) {
         try {
@@ -883,6 +897,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * The default bindings for this signal are &lt;kbd&gt;Delete&lt;/kbd&gt;
      * for deleting a character and &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;Delete&lt;/kbd&gt;
      * for deleting a word.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Text.DeleteFromCursor> onDeleteFromCursor(Text.DeleteFromCursor handler) {
         try {
@@ -914,6 +930,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * This is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
      * This signal has no default bindings.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Text.InsertAtCursor> onInsertAtCursor(Text.InsertAtCursor handler) {
         try {
@@ -946,6 +964,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * The default bindings for this signal are
      * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;.&lt;/kbd&gt; and
      * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;;&lt;/kbd&gt;
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Text.InsertEmoji> onInsertEmoji(Text.InsertEmoji handler) {
         try {
@@ -992,6 +1012,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * <li>&lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;→&lt;/kbd&gt;, etc. move by words/paragraphs
      * <li>&lt;kbd&gt;Home&lt;/kbd&gt;, &lt;kbd&gt;End&lt;/kbd&gt; move to the ends of the buffer
      * </ul>
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Text.MoveCursor> onMoveCursor(Text.MoveCursor handler) {
         try {
@@ -1023,6 +1045,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * <p>
      * The default bindings for this signal are
      * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;v&lt;/kbd&gt; and &lt;kbd&gt;Shift&lt;/kbd&gt;-&lt;kbd&gt;Insert&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Text.PasteClipboard> onPasteClipboard(Text.PasteClipboard handler) {
         try {
@@ -1053,6 +1077,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * If an input method is used, the typed text will not immediately
      * be committed to the buffer. So if you are interested in the text,
      * connect to this signal.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Text.PreeditChanged> onPreeditChanged(Text.PreeditChanged handler) {
         try {
@@ -1083,6 +1109,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * This is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
      * The default bindings for this signal is &lt;kbd&gt;Insert&lt;/kbd&gt;.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Text.ToggleOverwrite> onToggleOverwrite(Text.ToggleOverwrite handler) {
         try {
@@ -1106,182 +1134,218 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         
         private static final MethodHandle gtk_text_new = Interop.downcallHandle(
             "gtk_text_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_new_with_buffer = Interop.downcallHandle(
             "gtk_text_new_with_buffer",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_compute_cursor_extents = Interop.downcallHandle(
             "gtk_text_compute_cursor_extents",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_get_activates_default = Interop.downcallHandle(
             "gtk_text_get_activates_default",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_get_attributes = Interop.downcallHandle(
             "gtk_text_get_attributes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_get_buffer = Interop.downcallHandle(
             "gtk_text_get_buffer",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_get_enable_emoji_completion = Interop.downcallHandle(
             "gtk_text_get_enable_emoji_completion",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_get_extra_menu = Interop.downcallHandle(
             "gtk_text_get_extra_menu",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_get_input_hints = Interop.downcallHandle(
             "gtk_text_get_input_hints",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_get_input_purpose = Interop.downcallHandle(
             "gtk_text_get_input_purpose",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_get_invisible_char = Interop.downcallHandle(
             "gtk_text_get_invisible_char",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_get_max_length = Interop.downcallHandle(
             "gtk_text_get_max_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_get_overwrite_mode = Interop.downcallHandle(
             "gtk_text_get_overwrite_mode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_get_placeholder_text = Interop.downcallHandle(
             "gtk_text_get_placeholder_text",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_get_propagate_text_width = Interop.downcallHandle(
             "gtk_text_get_propagate_text_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_get_tabs = Interop.downcallHandle(
             "gtk_text_get_tabs",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_get_text_length = Interop.downcallHandle(
             "gtk_text_get_text_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_get_truncate_multiline = Interop.downcallHandle(
             "gtk_text_get_truncate_multiline",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_get_visibility = Interop.downcallHandle(
             "gtk_text_get_visibility",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_grab_focus_without_selecting = Interop.downcallHandle(
             "gtk_text_grab_focus_without_selecting",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_set_activates_default = Interop.downcallHandle(
             "gtk_text_set_activates_default",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_set_attributes = Interop.downcallHandle(
             "gtk_text_set_attributes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_set_buffer = Interop.downcallHandle(
             "gtk_text_set_buffer",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_set_enable_emoji_completion = Interop.downcallHandle(
             "gtk_text_set_enable_emoji_completion",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_set_extra_menu = Interop.downcallHandle(
             "gtk_text_set_extra_menu",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_set_input_hints = Interop.downcallHandle(
             "gtk_text_set_input_hints",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_set_input_purpose = Interop.downcallHandle(
             "gtk_text_set_input_purpose",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_set_invisible_char = Interop.downcallHandle(
             "gtk_text_set_invisible_char",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_set_max_length = Interop.downcallHandle(
             "gtk_text_set_max_length",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_set_overwrite_mode = Interop.downcallHandle(
             "gtk_text_set_overwrite_mode",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_set_placeholder_text = Interop.downcallHandle(
             "gtk_text_set_placeholder_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_set_propagate_text_width = Interop.downcallHandle(
             "gtk_text_set_propagate_text_width",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_set_tabs = Interop.downcallHandle(
             "gtk_text_set_tabs",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_text_set_truncate_multiline = Interop.downcallHandle(
             "gtk_text_set_truncate_multiline",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_set_visibility = Interop.downcallHandle(
             "gtk_text_set_visibility",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_text_unset_invisible_char = Interop.downcallHandle(
             "gtk_text_unset_invisible_char",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -1290,67 +1354,67 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         public static void signalTextActivate(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Text.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(Refcounted.get(source)));
+            HANDLER.signalReceived(new Text(source, Ownership.UNKNOWN));
         }
         
         public static void signalTextBackspace(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Text.Backspace) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(Refcounted.get(source)));
+            HANDLER.signalReceived(new Text(source, Ownership.UNKNOWN));
         }
         
         public static void signalTextCopyClipboard(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Text.CopyClipboard) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(Refcounted.get(source)));
+            HANDLER.signalReceived(new Text(source, Ownership.UNKNOWN));
         }
         
         public static void signalTextCutClipboard(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Text.CutClipboard) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(Refcounted.get(source)));
+            HANDLER.signalReceived(new Text(source, Ownership.UNKNOWN));
         }
         
         public static void signalTextDeleteFromCursor(MemoryAddress source, int type, int count, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Text.DeleteFromCursor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(Refcounted.get(source)), new org.gtk.gtk.DeleteType(type), count);
+            HANDLER.signalReceived(new Text(source, Ownership.UNKNOWN), new org.gtk.gtk.DeleteType(type), count);
         }
         
         public static void signalTextInsertAtCursor(MemoryAddress source, MemoryAddress string, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Text.InsertAtCursor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(Refcounted.get(source)), Interop.getStringFrom(string));
+            HANDLER.signalReceived(new Text(source, Ownership.UNKNOWN), Interop.getStringFrom(string));
         }
         
         public static void signalTextInsertEmoji(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Text.InsertEmoji) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(Refcounted.get(source)));
+            HANDLER.signalReceived(new Text(source, Ownership.UNKNOWN));
         }
         
         public static void signalTextMoveCursor(MemoryAddress source, int step, int count, int extend, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Text.MoveCursor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(Refcounted.get(source)), new org.gtk.gtk.MovementStep(step), count, extend != 0);
+            HANDLER.signalReceived(new Text(source, Ownership.UNKNOWN), new org.gtk.gtk.MovementStep(step), count, extend != 0);
         }
         
         public static void signalTextPasteClipboard(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Text.PasteClipboard) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(Refcounted.get(source)));
+            HANDLER.signalReceived(new Text(source, Ownership.UNKNOWN));
         }
         
         public static void signalTextPreeditChanged(MemoryAddress source, MemoryAddress preedit, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Text.PreeditChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(Refcounted.get(source)), Interop.getStringFrom(preedit));
+            HANDLER.signalReceived(new Text(source, Ownership.UNKNOWN), Interop.getStringFrom(preedit));
         }
         
         public static void signalTextToggleOverwrite(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Text.ToggleOverwrite) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(Refcounted.get(source)));
+            HANDLER.signalReceived(new Text(source, Ownership.UNKNOWN));
         }
     }
 }

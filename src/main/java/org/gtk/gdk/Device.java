@@ -24,13 +24,19 @@ public class Device extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a Device proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Device(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Device(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -42,7 +48,7 @@ public class Device extends org.gtk.gobject.Object {
      */
     public static Device castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkDevice"))) {
-            return new Device(gobject.refcounted());
+            return new Device(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkDevice");
         }
@@ -77,7 +83,7 @@ public class Device extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.DeviceTool(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.DeviceTool(RESULT, Ownership.NONE);
     }
     
     /**
@@ -114,7 +120,7 @@ public class Device extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
     }
     
     /**
@@ -246,7 +252,7 @@ public class Device extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Seat(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Seat(RESULT, Ownership.NONE);
     }
     
     /**
@@ -293,7 +299,7 @@ public class Device extends org.gtk.gobject.Object {
         }
         winX.set(winXPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
         winY.set(winYPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        return new org.gtk.gdk.Surface(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Surface(RESULT, Ownership.NONE);
     }
     
     /**
@@ -387,6 +393,8 @@ public class Device extends org.gtk.gobject.Object {
      * example, user switches from the USB mouse to a tablet); in
      * that case the logical device will change to reflect the axes
      * and keys on the new physical device.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Device.Changed> onChanged(Device.Changed handler) {
         try {
@@ -413,6 +421,8 @@ public class Device extends org.gtk.gobject.Object {
     
     /**
      * Emitted on pen/eraser devices whenever tools enter or leave proximity.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Device.ToolChanged> onToolChanged(Device.ToolChanged handler) {
         try {
@@ -436,87 +446,104 @@ public class Device extends org.gtk.gobject.Object {
         
         private static final MethodHandle gdk_device_get_caps_lock_state = Interop.downcallHandle(
             "gdk_device_get_caps_lock_state",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_device_get_device_tool = Interop.downcallHandle(
             "gdk_device_get_device_tool",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_device_get_direction = Interop.downcallHandle(
             "gdk_device_get_direction",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_device_get_display = Interop.downcallHandle(
             "gdk_device_get_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_device_get_has_cursor = Interop.downcallHandle(
             "gdk_device_get_has_cursor",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_device_get_modifier_state = Interop.downcallHandle(
             "gdk_device_get_modifier_state",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_device_get_name = Interop.downcallHandle(
             "gdk_device_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_device_get_num_lock_state = Interop.downcallHandle(
             "gdk_device_get_num_lock_state",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_device_get_num_touches = Interop.downcallHandle(
             "gdk_device_get_num_touches",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_device_get_product_id = Interop.downcallHandle(
             "gdk_device_get_product_id",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_device_get_scroll_lock_state = Interop.downcallHandle(
             "gdk_device_get_scroll_lock_state",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_device_get_seat = Interop.downcallHandle(
             "gdk_device_get_seat",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_device_get_source = Interop.downcallHandle(
             "gdk_device_get_source",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_device_get_surface_at_position = Interop.downcallHandle(
             "gdk_device_get_surface_at_position",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_device_get_timestamp = Interop.downcallHandle(
             "gdk_device_get_timestamp",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_device_get_vendor_id = Interop.downcallHandle(
             "gdk_device_get_vendor_id",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_device_has_bidi_layouts = Interop.downcallHandle(
             "gdk_device_has_bidi_layouts",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -525,13 +552,13 @@ public class Device extends org.gtk.gobject.Object {
         public static void signalDeviceChanged(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Device.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Device(Refcounted.get(source)));
+            HANDLER.signalReceived(new Device(source, Ownership.UNKNOWN));
         }
         
         public static void signalDeviceToolChanged(MemoryAddress source, MemoryAddress tool, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Device.ToolChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Device(Refcounted.get(source)), new org.gtk.gdk.DeviceTool(Refcounted.get(tool, false)));
+            HANDLER.signalReceived(new Device(source, Ownership.UNKNOWN), new org.gtk.gdk.DeviceTool(tool, Ownership.NONE));
         }
     }
 }

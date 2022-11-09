@@ -17,6 +17,7 @@ public class AppLaunchContextPrivate extends io.github.jwharm.javagi.ResourceBas
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -25,13 +26,18 @@ public class AppLaunchContextPrivate extends io.github.jwharm.javagi.ResourceBas
     
     public static AppLaunchContextPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AppLaunchContextPrivate newInstance = new AppLaunchContextPrivate(Refcounted.get(segment.address()));
+        AppLaunchContextPrivate newInstance = new AppLaunchContextPrivate(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a AppLaunchContextPrivate proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public AppLaunchContextPrivate(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public AppLaunchContextPrivate(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

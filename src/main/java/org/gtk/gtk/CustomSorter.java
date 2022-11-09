@@ -21,13 +21,19 @@ public class CustomSorter extends org.gtk.gtk.Sorter {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a CustomSorter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CustomSorter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CustomSorter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -39,23 +45,23 @@ public class CustomSorter extends org.gtk.gtk.Sorter {
      */
     public static CustomSorter castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCustomSorter"))) {
-            return new CustomSorter(gobject.refcounted());
+            return new CustomSorter(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCustomSorter");
         }
     }
     
-    private static Refcounted constructNew(@Nullable org.gtk.glib.CompareDataFunc sortFunc) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable org.gtk.glib.CompareDataFunc sortFunc) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_custom_sorter_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_custom_sorter_new.invokeExact(
                     (Addressable) (sortFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (sortFunc == null ? MemoryAddress.NULL : Interop.registerCallback(sortFunc)),
-                    Interop.cbDestroyNotifySymbol()), true);
+                    Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,7 +76,7 @@ public class CustomSorter extends org.gtk.gtk.Sorter {
      * @param sortFunc the {@code GCompareDataFunc} to use for sorting
      */
     public CustomSorter(@Nullable org.gtk.glib.CompareDataFunc sortFunc) {
-        super(constructNew(sortFunc));
+        super(constructNew(sortFunc), Ownership.FULL);
     }
     
     /**
@@ -105,12 +111,14 @@ public class CustomSorter extends org.gtk.gtk.Sorter {
         
         private static final MethodHandle gtk_custom_sorter_new = Interop.downcallHandle(
             "gtk_custom_sorter_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_custom_sorter_set_sort_func = Interop.downcallHandle(
             "gtk_custom_sorter_set_sort_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

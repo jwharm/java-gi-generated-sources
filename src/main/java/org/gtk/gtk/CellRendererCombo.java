@@ -31,13 +31,19 @@ public class CellRendererCombo extends org.gtk.gtk.CellRendererText {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a CellRendererCombo proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CellRendererCombo(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CellRendererCombo(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -49,16 +55,16 @@ public class CellRendererCombo extends org.gtk.gtk.CellRendererText {
      */
     public static CellRendererCombo castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellRendererCombo"))) {
-            return new CellRendererCombo(gobject.refcounted());
+            return new CellRendererCombo(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCellRendererCombo");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_renderer_combo_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_renderer_combo_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -75,7 +81,7 @@ public class CellRendererCombo extends org.gtk.gtk.CellRendererText {
      * a different string in each row of the {@code GtkTreeView}.
      */
     public CellRendererCombo() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     @FunctionalInterface
@@ -95,6 +101,8 @@ public class CellRendererCombo extends org.gtk.gtk.CellRendererText {
      * the tree view will immediately cease the editing operating.  This
      * means that you most probably want to refrain from changing the model
      * until the combo cell renderer emits the edited or editing_canceled signal.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<CellRendererCombo.Changed> onChanged(CellRendererCombo.Changed handler) {
         try {
@@ -118,7 +126,8 @@ public class CellRendererCombo extends org.gtk.gtk.CellRendererText {
         
         private static final MethodHandle gtk_cell_renderer_combo_new = Interop.downcallHandle(
             "gtk_cell_renderer_combo_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -127,7 +136,7 @@ public class CellRendererCombo extends org.gtk.gtk.CellRendererText {
         public static void signalCellRendererComboChanged(MemoryAddress source, MemoryAddress pathString, MemoryAddress newIter, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (CellRendererCombo.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellRendererCombo(Refcounted.get(source)), Interop.getStringFrom(pathString), new org.gtk.gtk.TreeIter(Refcounted.get(newIter, false)));
+            HANDLER.signalReceived(new CellRendererCombo(source, Ownership.UNKNOWN), Interop.getStringFrom(pathString), new org.gtk.gtk.TreeIter(newIter, Ownership.NONE));
         }
     }
 }

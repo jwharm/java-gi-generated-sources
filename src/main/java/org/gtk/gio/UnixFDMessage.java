@@ -37,6 +37,7 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -47,12 +48,17 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
      */
     public org.gtk.gio.SocketControlMessage parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.SocketControlMessage(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.SocketControlMessage(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a UnixFDMessage proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public UnixFDMessage(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public UnixFDMessage(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -64,16 +70,16 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
      */
     public static UnixFDMessage castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GUnixFDMessage"))) {
-            return new UnixFDMessage(gobject.refcounted());
+            return new UnixFDMessage(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GUnixFDMessage");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_unix_fd_message_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_message_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,15 +91,15 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
      * list.
      */
     public UnixFDMessage() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
-    private static Refcounted constructNewWithFdList(@NotNull org.gtk.gio.UnixFDList fdList) {
+    private static Addressable constructNewWithFdList(@NotNull org.gtk.gio.UnixFDList fdList) {
         java.util.Objects.requireNonNull(fdList, "Parameter 'fdList' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_unix_fd_message_new_with_fd_list.invokeExact(
-                    fdList.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_message_new_with_fd_list.invokeExact(
+                    fdList.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,7 +112,7 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
      * @return a new {@link UnixFDMessage}
      */
     public static UnixFDMessage newWithFdList(@NotNull org.gtk.gio.UnixFDList fdList) {
-        return new UnixFDMessage(constructNewWithFdList(fdList));
+        return new UnixFDMessage(constructNewWithFdList(fdList), Ownership.FULL);
     }
     
     /**
@@ -128,7 +134,8 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
         try {
             RESULT = (int) DowncallHandles.g_unix_fd_message_append_fd.invokeExact(
                     handle(),
-                    fd, (Addressable) GERROR);
+                    fd,
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,7 +159,7 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.UnixFDList(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.UnixFDList(RESULT, Ownership.NONE);
     }
     
     /**
@@ -197,27 +204,32 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
         
         private static final MethodHandle g_unix_fd_message_new = Interop.downcallHandle(
             "g_unix_fd_message_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_fd_message_new_with_fd_list = Interop.downcallHandle(
             "g_unix_fd_message_new_with_fd_list",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_fd_message_append_fd = Interop.downcallHandle(
             "g_unix_fd_message_append_fd",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_fd_message_get_fd_list = Interop.downcallHandle(
             "g_unix_fd_message_get_fd_list",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_fd_message_steal_fds = Interop.downcallHandle(
             "g_unix_fd_message_steal_fds",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

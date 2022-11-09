@@ -77,6 +77,7 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -87,12 +88,17 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
      */
     public org.gtk.gtk.Dialog parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gtk.Dialog(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.Dialog(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a MessageDialog proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public MessageDialog(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public MessageDialog(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -104,14 +110,29 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
      */
     public static MessageDialog castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMessageDialog"))) {
-            return new MessageDialog(gobject.refcounted());
+            return new MessageDialog(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkMessageDialog");
         }
     }
     
-    private static Refcounted constructNew(@Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @NotNull org.gtk.gtk.MessageType type, @NotNull org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    private static Addressable constructNew(@Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @NotNull org.gtk.gtk.MessageType type, @NotNull org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+        java.util.Objects.requireNonNull(buttons, "Parameter 'buttons' must not be null");
+        Addressable RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gtk_message_dialog_new.invokeExact(
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                    flags.getValue(),
+                    type.getValue(),
+                    buttons.getValue(),
+                    (Addressable) (messageFormat == null ? MemoryAddress.NULL : Interop.allocateNativeString(messageFormat)),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
     }
     
     /**
@@ -126,14 +147,29 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
      * @param type type of message
      * @param buttons set of buttons to use
      * @param messageFormat printf()-style format string
+     * @param varargs arguments for {@code message_format}
      */
-    public MessageDialog(@Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @NotNull org.gtk.gtk.MessageType type, @NotNull org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat) {
-        this(Refcounted.get(null)); // avoid compiler error
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public MessageDialog(@Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @NotNull org.gtk.gtk.MessageType type, @NotNull org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat, java.lang.Object... varargs) {
+        super(constructNew(parent, flags, type, buttons, messageFormat, varargs), Ownership.NONE);
     }
     
-    private static Refcounted constructNewWithMarkup(@Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @NotNull org.gtk.gtk.MessageType type, @NotNull org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    private static Addressable constructNewWithMarkup(@Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @NotNull org.gtk.gtk.MessageType type, @NotNull org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+        java.util.Objects.requireNonNull(buttons, "Parameter 'buttons' must not be null");
+        Addressable RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gtk_message_dialog_new_with_markup.invokeExact(
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                    flags.getValue(),
+                    type.getValue(),
+                    buttons.getValue(),
+                    (Addressable) (messageFormat == null ? MemoryAddress.NULL : Interop.allocateNativeString(messageFormat)),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
     }
     
     /**
@@ -169,10 +205,11 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
      * @param type type of message
      * @param buttons set of buttons to use
      * @param messageFormat printf()-style format string
+     * @param varargs arguments for {@code message_format}
      * @return a new {@code GtkMessageDialog}
      */
-    public static MessageDialog newWithMarkup(@Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @NotNull org.gtk.gtk.MessageType type, @NotNull org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static MessageDialog newWithMarkup(@Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @NotNull org.gtk.gtk.MessageType type, @NotNull org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat, java.lang.Object... varargs) {
+        return new MessageDialog(constructNewWithMarkup(parent, flags, type, buttons, messageFormat, varargs), Ownership.NONE);
     }
     
     /**
@@ -193,17 +230,34 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
      * g_free (msg);
      * }</pre>
      * @param messageFormat printf()-style string with Pango markup
+     * @param varargs arguments for {@code message_format}
      */
-    public void formatSecondaryMarkup(@NotNull java.lang.String messageFormat) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void formatSecondaryMarkup(@NotNull java.lang.String messageFormat, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(messageFormat, "Parameter 'messageFormat' must not be null");
+        try {
+            DowncallHandles.gtk_message_dialog_format_secondary_markup.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(messageFormat),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
      * Sets the secondary text of the message dialog.
      * @param messageFormat printf()-style format string
+     * @param varargs arguments for {@code message_format}
      */
-    public void formatSecondaryText(@Nullable java.lang.String messageFormat) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void formatSecondaryText(@Nullable java.lang.String messageFormat, java.lang.Object... varargs) {
+        try {
+            DowncallHandles.gtk_message_dialog_format_secondary_text.invokeExact(
+                    handle(),
+                    (Addressable) (messageFormat == null ? MemoryAddress.NULL : Interop.allocateNativeString(messageFormat)),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -224,7 +278,7 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -246,32 +300,38 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
         
         private static final MethodHandle gtk_message_dialog_new = Interop.downcallHandle(
             "gtk_message_dialog_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle gtk_message_dialog_new_with_markup = Interop.downcallHandle(
             "gtk_message_dialog_new_with_markup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle gtk_message_dialog_format_secondary_markup = Interop.downcallHandle(
             "gtk_message_dialog_format_secondary_markup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle gtk_message_dialog_format_secondary_text = Interop.downcallHandle(
             "gtk_message_dialog_format_secondary_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle gtk_message_dialog_get_message_area = Interop.downcallHandle(
             "gtk_message_dialog_get_message_area",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_message_dialog_set_markup = Interop.downcallHandle(
             "gtk_message_dialog_set_markup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

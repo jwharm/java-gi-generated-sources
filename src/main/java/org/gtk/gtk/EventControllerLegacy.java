@@ -24,13 +24,19 @@ public class EventControllerLegacy extends org.gtk.gtk.EventController {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a EventControllerLegacy proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public EventControllerLegacy(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public EventControllerLegacy(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -42,16 +48,16 @@ public class EventControllerLegacy extends org.gtk.gtk.EventController {
      */
     public static EventControllerLegacy castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEventControllerLegacy"))) {
-            return new EventControllerLegacy(gobject.refcounted());
+            return new EventControllerLegacy(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkEventControllerLegacy");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_event_controller_legacy_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_event_controller_legacy_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -62,7 +68,7 @@ public class EventControllerLegacy extends org.gtk.gtk.EventController {
      * Creates a new legacy event controller.
      */
     public EventControllerLegacy() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     @FunctionalInterface
@@ -72,6 +78,8 @@ public class EventControllerLegacy extends org.gtk.gtk.EventController {
     
     /**
      * Emitted for each GDK event delivered to {@code controller}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EventControllerLegacy.Event> onEvent(EventControllerLegacy.Event handler) {
         try {
@@ -95,7 +103,8 @@ public class EventControllerLegacy extends org.gtk.gtk.EventController {
         
         private static final MethodHandle gtk_event_controller_legacy_new = Interop.downcallHandle(
             "gtk_event_controller_legacy_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -104,7 +113,7 @@ public class EventControllerLegacy extends org.gtk.gtk.EventController {
         public static boolean signalEventControllerLegacyEvent(MemoryAddress source, MemoryAddress event, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EventControllerLegacy.Event) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EventControllerLegacy(Refcounted.get(source)), new org.gtk.gdk.Event(Refcounted.get(event, false)));
+            return HANDLER.signalReceived(new EventControllerLegacy(source, Ownership.UNKNOWN), new org.gtk.gdk.Event(event, Ownership.NONE));
         }
     }
 }

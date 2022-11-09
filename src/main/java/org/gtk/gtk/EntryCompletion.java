@@ -57,13 +57,19 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a EntryCompletion proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public EntryCompletion(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public EntryCompletion(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -75,16 +81,16 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      */
     public static EntryCompletion castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEntryCompletion"))) {
-            return new EntryCompletion(gobject.refcounted());
+            return new EntryCompletion(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkEntryCompletion");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_entry_completion_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_completion_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,15 +101,15 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      * Creates a new {@code GtkEntryCompletion} object.
      */
     public EntryCompletion() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
-    private static Refcounted constructNewWithArea(@NotNull org.gtk.gtk.CellArea area) {
+    private static Addressable constructNewWithArea(@NotNull org.gtk.gtk.CellArea area) {
         java.util.Objects.requireNonNull(area, "Parameter 'area' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_entry_completion_new_with_area.invokeExact(
-                    area.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_entry_completion_new_with_area.invokeExact(
+                    area.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,7 +126,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      * @return A newly created {@code GtkEntryCompletion} object
      */
     public static EntryCompletion newWithArea(@NotNull org.gtk.gtk.CellArea area) {
-        return new EntryCompletion(constructNewWithArea(area));
+        return new EntryCompletion(constructNewWithArea(area), Ownership.FULL);
     }
     
     /**
@@ -190,7 +196,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -253,7 +259,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.TreeModel.TreeModelImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -508,6 +514,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      * <p>
      * Note that {@code model} is the model that was passed to
      * {@link EntryCompletion#setModel}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EntryCompletion.CursorOnMatch> onCursorOnMatch(EntryCompletion.CursorOnMatch handler) {
         try {
@@ -542,6 +550,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      * smaller part of the {@code prefix} into the entry - e.g. the entry used in
      * the {@code GtkFileChooser} inserts only the part of the prefix up to the
      * next '/'.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EntryCompletion.InsertPrefix> onInsertPrefix(EntryCompletion.InsertPrefix handler) {
         try {
@@ -575,6 +585,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      * <p>
      * Note that {@code model} is the model that was passed to
      * {@link EntryCompletion#setModel}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EntryCompletion.MatchSelected> onMatchSelected(EntryCompletion.MatchSelected handler) {
         try {
@@ -604,6 +616,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      * number of rows in completion_complete method.
      * <p>
      * In other words when {@code GtkEntryCompletion} is out of suggestions.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EntryCompletion.NoMatches> onNoMatches(EntryCompletion.NoMatches handler) {
         try {
@@ -627,122 +641,146 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         
         private static final MethodHandle gtk_entry_completion_new = Interop.downcallHandle(
             "gtk_entry_completion_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_new_with_area = Interop.downcallHandle(
             "gtk_entry_completion_new_with_area",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_complete = Interop.downcallHandle(
             "gtk_entry_completion_complete",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_compute_prefix = Interop.downcallHandle(
             "gtk_entry_completion_compute_prefix",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_get_completion_prefix = Interop.downcallHandle(
             "gtk_entry_completion_get_completion_prefix",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_get_entry = Interop.downcallHandle(
             "gtk_entry_completion_get_entry",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_get_inline_completion = Interop.downcallHandle(
             "gtk_entry_completion_get_inline_completion",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_get_inline_selection = Interop.downcallHandle(
             "gtk_entry_completion_get_inline_selection",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_get_minimum_key_length = Interop.downcallHandle(
             "gtk_entry_completion_get_minimum_key_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_get_model = Interop.downcallHandle(
             "gtk_entry_completion_get_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_get_popup_completion = Interop.downcallHandle(
             "gtk_entry_completion_get_popup_completion",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_get_popup_set_width = Interop.downcallHandle(
             "gtk_entry_completion_get_popup_set_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_get_popup_single_match = Interop.downcallHandle(
             "gtk_entry_completion_get_popup_single_match",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_get_text_column = Interop.downcallHandle(
             "gtk_entry_completion_get_text_column",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_insert_prefix = Interop.downcallHandle(
             "gtk_entry_completion_insert_prefix",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_set_inline_completion = Interop.downcallHandle(
             "gtk_entry_completion_set_inline_completion",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_set_inline_selection = Interop.downcallHandle(
             "gtk_entry_completion_set_inline_selection",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_set_match_func = Interop.downcallHandle(
             "gtk_entry_completion_set_match_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_set_minimum_key_length = Interop.downcallHandle(
             "gtk_entry_completion_set_minimum_key_length",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_set_model = Interop.downcallHandle(
             "gtk_entry_completion_set_model",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_set_popup_completion = Interop.downcallHandle(
             "gtk_entry_completion_set_popup_completion",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_set_popup_set_width = Interop.downcallHandle(
             "gtk_entry_completion_set_popup_set_width",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_set_popup_single_match = Interop.downcallHandle(
             "gtk_entry_completion_set_popup_single_match",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_entry_completion_set_text_column = Interop.downcallHandle(
             "gtk_entry_completion_set_text_column",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -751,25 +789,25 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         public static boolean signalEntryCompletionCursorOnMatch(MemoryAddress source, MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EntryCompletion.CursorOnMatch) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EntryCompletion(Refcounted.get(source)), new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(model, false)), new org.gtk.gtk.TreeIter(Refcounted.get(iter, false)));
+            return HANDLER.signalReceived(new EntryCompletion(source, Ownership.UNKNOWN), new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
         }
         
         public static boolean signalEntryCompletionInsertPrefix(MemoryAddress source, MemoryAddress prefix, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EntryCompletion.InsertPrefix) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EntryCompletion(Refcounted.get(source)), Interop.getStringFrom(prefix));
+            return HANDLER.signalReceived(new EntryCompletion(source, Ownership.UNKNOWN), Interop.getStringFrom(prefix));
         }
         
         public static boolean signalEntryCompletionMatchSelected(MemoryAddress source, MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EntryCompletion.MatchSelected) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EntryCompletion(Refcounted.get(source)), new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(model, false)), new org.gtk.gtk.TreeIter(Refcounted.get(iter, false)));
+            return HANDLER.signalReceived(new EntryCompletion(source, Ownership.UNKNOWN), new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
         }
         
         public static void signalEntryCompletionNoMatches(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EntryCompletion.NoMatches) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EntryCompletion(Refcounted.get(source)));
+            HANDLER.signalReceived(new EntryCompletion(source, Ownership.UNKNOWN));
         }
     }
 }

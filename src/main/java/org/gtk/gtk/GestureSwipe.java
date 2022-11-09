@@ -31,13 +31,19 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a GestureSwipe proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public GestureSwipe(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public GestureSwipe(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -49,16 +55,16 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
      */
     public static GestureSwipe castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGestureSwipe"))) {
-            return new GestureSwipe(gobject.refcounted());
+            return new GestureSwipe(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkGestureSwipe");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_gesture_swipe_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_swipe_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,7 +75,7 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
      * Returns a newly created {@code GtkGesture} that recognizes swipes.
      */
     public GestureSwipe() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -110,6 +116,8 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
      * Emitted when the recognized gesture is finished.
      * <p>
      * Velocity and direction are a product of previously recorded events.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureSwipe.Swipe> onSwipe(GestureSwipe.Swipe handler) {
         try {
@@ -133,12 +141,14 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
         
         private static final MethodHandle gtk_gesture_swipe_new = Interop.downcallHandle(
             "gtk_gesture_swipe_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gesture_swipe_get_velocity = Interop.downcallHandle(
             "gtk_gesture_swipe_get_velocity",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -147,7 +157,7 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
         public static void signalGestureSwipeSwipe(MemoryAddress source, double velocityX, double velocityY, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (GestureSwipe.Swipe) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureSwipe(Refcounted.get(source)), velocityX, velocityY);
+            HANDLER.signalReceived(new GestureSwipe(source, Ownership.UNKNOWN), velocityX, velocityY);
         }
     }
 }

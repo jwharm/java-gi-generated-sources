@@ -20,13 +20,19 @@ public class PixbufSimpleAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a PixbufSimpleAnim proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PixbufSimpleAnim(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PixbufSimpleAnim(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,19 +44,19 @@ public class PixbufSimpleAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
      */
     public static PixbufSimpleAnim castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkPixbufSimpleAnim"))) {
-            return new PixbufSimpleAnim(gobject.refcounted());
+            return new PixbufSimpleAnim(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkPixbufSimpleAnim");
         }
     }
     
-    private static Refcounted constructNew(int width, int height, float rate) {
-        Refcounted RESULT;
+    private static Addressable constructNew(int width, int height, float rate) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_simple_anim_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_simple_anim_new.invokeExact(
                     width,
                     height,
-                    rate), true);
+                    rate);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,7 +70,7 @@ public class PixbufSimpleAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
      * @param rate the speed of the animation, in frames per second
      */
     public PixbufSimpleAnim(int width, int height, float rate) {
-        super(constructNew(width, height, rate));
+        super(constructNew(width, height, rate), Ownership.FULL);
     }
     
     /**
@@ -117,22 +123,26 @@ public class PixbufSimpleAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
         
         private static final MethodHandle gdk_pixbuf_simple_anim_new = Interop.downcallHandle(
             "gdk_pixbuf_simple_anim_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_FLOAT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_FLOAT),
+            false
         );
         
         private static final MethodHandle gdk_pixbuf_simple_anim_add_frame = Interop.downcallHandle(
             "gdk_pixbuf_simple_anim_add_frame",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_pixbuf_simple_anim_get_loop = Interop.downcallHandle(
             "gdk_pixbuf_simple_anim_get_loop",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_pixbuf_simple_anim_set_loop = Interop.downcallHandle(
             "gdk_pixbuf_simple_anim_set_loop",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

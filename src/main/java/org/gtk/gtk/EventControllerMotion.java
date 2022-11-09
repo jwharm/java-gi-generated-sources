@@ -28,13 +28,19 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a EventControllerMotion proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public EventControllerMotion(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public EventControllerMotion(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -46,16 +52,16 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
      */
     public static EventControllerMotion castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEventControllerMotion"))) {
-            return new EventControllerMotion(gobject.refcounted());
+            return new EventControllerMotion(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkEventControllerMotion");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_event_controller_motion_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_event_controller_motion_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,7 +72,7 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
      * Creates a new event controller that will handle motion events.
      */
     public EventControllerMotion() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -106,6 +112,8 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
     
     /**
      * Signals that the pointer has entered the widget.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EventControllerMotion.Enter> onEnter(EventControllerMotion.Enter handler) {
         try {
@@ -132,6 +140,8 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
     
     /**
      * Signals that the pointer has left the widget.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EventControllerMotion.Leave> onLeave(EventControllerMotion.Leave handler) {
         try {
@@ -158,6 +168,8 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
     
     /**
      * Emitted when the pointer moves inside the widget.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EventControllerMotion.Motion> onMotion(EventControllerMotion.Motion handler) {
         try {
@@ -181,17 +193,20 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
         
         private static final MethodHandle gtk_event_controller_motion_new = Interop.downcallHandle(
             "gtk_event_controller_motion_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_event_controller_motion_contains_pointer = Interop.downcallHandle(
             "gtk_event_controller_motion_contains_pointer",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_event_controller_motion_is_pointer = Interop.downcallHandle(
             "gtk_event_controller_motion_is_pointer",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -200,19 +215,19 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
         public static void signalEventControllerMotionEnter(MemoryAddress source, double x, double y, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EventControllerMotion.Enter) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerMotion(Refcounted.get(source)), x, y);
+            HANDLER.signalReceived(new EventControllerMotion(source, Ownership.UNKNOWN), x, y);
         }
         
         public static void signalEventControllerMotionLeave(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EventControllerMotion.Leave) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerMotion(Refcounted.get(source)));
+            HANDLER.signalReceived(new EventControllerMotion(source, Ownership.UNKNOWN));
         }
         
         public static void signalEventControllerMotionMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (EventControllerMotion.Motion) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerMotion(Refcounted.get(source)), x, y);
+            HANDLER.signalReceived(new EventControllerMotion(source, Ownership.UNKNOWN), x, y);
         }
     }
 }

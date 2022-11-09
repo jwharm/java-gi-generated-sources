@@ -23,6 +23,7 @@ public class SimpleActionGroupClass extends io.github.jwharm.javagi.ResourceBase
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -31,13 +32,18 @@ public class SimpleActionGroupClass extends io.github.jwharm.javagi.ResourceBase
     
     public static SimpleActionGroupClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SimpleActionGroupClass newInstance = new SimpleActionGroupClass(Refcounted.get(segment.address()));
+        SimpleActionGroupClass newInstance = new SimpleActionGroupClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a SimpleActionGroupClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SimpleActionGroupClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SimpleActionGroupClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

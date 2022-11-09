@@ -41,13 +41,19 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a AppChooserWidget proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public AppChooserWidget(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public AppChooserWidget(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -59,18 +65,18 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
      */
     public static AppChooserWidget castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkAppChooserWidget"))) {
-            return new AppChooserWidget(gobject.refcounted());
+            return new AppChooserWidget(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkAppChooserWidget");
         }
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String contentType) {
+    private static Addressable constructNew(@NotNull java.lang.String contentType) {
         java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_app_chooser_widget_new.invokeExact(
-                    Interop.allocateNativeString(contentType)), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_widget_new.invokeExact(
+                    Interop.allocateNativeString(contentType));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,7 +89,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * @param contentType the content type to show applications for
      */
     public AppChooserWidget(@NotNull java.lang.String contentType) {
-        super(constructNew(contentType));
+        super(constructNew(contentType), Ownership.NONE);
     }
     
     /**
@@ -284,6 +290,8 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * This usually happens when the user double clicks an item, or an item
      * is selected and the user presses one of the keys Space, Shift+Space,
      * Return or Enter.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppChooserWidget.ApplicationActivated> onApplicationActivated(AppChooserWidget.ApplicationActivated handler) {
         try {
@@ -310,6 +318,8 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     
     /**
      * Emitted when an application item is selected from the widget's list.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppChooserWidget.ApplicationSelected> onApplicationSelected(AppChooserWidget.ApplicationSelected handler) {
         try {
@@ -333,67 +343,80 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
         
         private static final MethodHandle gtk_app_chooser_widget_new = Interop.downcallHandle(
             "gtk_app_chooser_widget_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_get_default_text = Interop.downcallHandle(
             "gtk_app_chooser_widget_get_default_text",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_get_show_all = Interop.downcallHandle(
             "gtk_app_chooser_widget_get_show_all",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_get_show_default = Interop.downcallHandle(
             "gtk_app_chooser_widget_get_show_default",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_get_show_fallback = Interop.downcallHandle(
             "gtk_app_chooser_widget_get_show_fallback",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_get_show_other = Interop.downcallHandle(
             "gtk_app_chooser_widget_get_show_other",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_get_show_recommended = Interop.downcallHandle(
             "gtk_app_chooser_widget_get_show_recommended",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_set_default_text = Interop.downcallHandle(
             "gtk_app_chooser_widget_set_default_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_set_show_all = Interop.downcallHandle(
             "gtk_app_chooser_widget_set_show_all",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_set_show_default = Interop.downcallHandle(
             "gtk_app_chooser_widget_set_show_default",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_set_show_fallback = Interop.downcallHandle(
             "gtk_app_chooser_widget_set_show_fallback",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_set_show_other = Interop.downcallHandle(
             "gtk_app_chooser_widget_set_show_other",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_set_show_recommended = Interop.downcallHandle(
             "gtk_app_chooser_widget_set_show_recommended",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -402,13 +425,13 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
         public static void signalAppChooserWidgetApplicationActivated(MemoryAddress source, MemoryAddress application, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (AppChooserWidget.ApplicationActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppChooserWidget(Refcounted.get(source)), new org.gtk.gio.AppInfo.AppInfoImpl(Refcounted.get(application, false)));
+            HANDLER.signalReceived(new AppChooserWidget(source, Ownership.UNKNOWN), new org.gtk.gio.AppInfo.AppInfoImpl(application, Ownership.NONE));
         }
         
         public static void signalAppChooserWidgetApplicationSelected(MemoryAddress source, MemoryAddress application, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (AppChooserWidget.ApplicationSelected) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppChooserWidget(Refcounted.get(source)), new org.gtk.gio.AppInfo.AppInfoImpl(Refcounted.get(application, false)));
+            HANDLER.signalReceived(new AppChooserWidget(source, Ownership.UNKNOWN), new org.gtk.gio.AppInfo.AppInfoImpl(application, Ownership.NONE));
         }
     }
 }

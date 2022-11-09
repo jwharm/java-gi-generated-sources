@@ -20,13 +20,19 @@ public class RepeatingLinearGradientNode extends org.gtk.gsk.RenderNode {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a RepeatingLinearGradientNode proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public RepeatingLinearGradientNode(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public RepeatingLinearGradientNode(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,25 +44,25 @@ public class RepeatingLinearGradientNode extends org.gtk.gsk.RenderNode {
      */
     public static RepeatingLinearGradientNode castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskRepeatingLinearGradientNode"))) {
-            return new RepeatingLinearGradientNode(gobject.refcounted());
+            return new RepeatingLinearGradientNode(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GskRepeatingLinearGradientNode");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point start, @NotNull org.gtk.graphene.Point end, org.gtk.gsk.ColorStop[] colorStops, long nColorStops) {
+    private static Addressable constructNew(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point start, @NotNull org.gtk.graphene.Point end, @NotNull org.gtk.gsk.ColorStop[] colorStops, long nColorStops) {
         java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
         java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         java.util.Objects.requireNonNull(colorStops, "Parameter 'colorStops' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_repeating_linear_gradient_node_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gsk_repeating_linear_gradient_node_new.invokeExact(
                     bounds.handle(),
                     start.handle(),
                     end.handle(),
                     Interop.allocateNativeArray(colorStops, false),
-                    nColorStops), true);
+                    nColorStops);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,15 +82,16 @@ public class RepeatingLinearGradientNode extends org.gtk.gsk.RenderNode {
      *   stop's offset must be &lt;= 1.
      * @param nColorStops the number of elements in {@code color_stops}
      */
-    public RepeatingLinearGradientNode(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point start, @NotNull org.gtk.graphene.Point end, org.gtk.gsk.ColorStop[] colorStops, long nColorStops) {
-        super(constructNew(bounds, start, end, colorStops, nColorStops));
+    public RepeatingLinearGradientNode(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point start, @NotNull org.gtk.graphene.Point end, @NotNull org.gtk.gsk.ColorStop[] colorStops, long nColorStops) {
+        super(constructNew(bounds, start, end, colorStops, nColorStops), Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_repeating_linear_gradient_node_new = Interop.downcallHandle(
             "gsk_repeating_linear_gradient_node_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
     }
 }

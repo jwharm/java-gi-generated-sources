@@ -91,13 +91,19 @@ public class TestDBus extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a TestDBus proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TestDBus(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TestDBus(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -109,18 +115,18 @@ public class TestDBus extends org.gtk.gobject.Object {
      */
     public static TestDBus castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTestDBus"))) {
-            return new TestDBus(gobject.refcounted());
+            return new TestDBus(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GTestDBus");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gio.TestDBusFlags flags) {
+    private static Addressable constructNew(@NotNull org.gtk.gio.TestDBusFlags flags) {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_test_dbus_new.invokeExact(
-                    flags.getValue()), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_test_dbus_new.invokeExact(
+                    flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,7 +138,7 @@ public class TestDBus extends org.gtk.gobject.Object {
      * @param flags a {@link TestDBusFlags}
      */
     public TestDBus(@NotNull org.gtk.gio.TestDBusFlags flags) {
-        super(constructNew(flags));
+        super(constructNew(flags), Ownership.FULL);
     }
     
     /**
@@ -255,42 +261,50 @@ public class TestDBus extends org.gtk.gobject.Object {
         
         private static final MethodHandle g_test_dbus_new = Interop.downcallHandle(
             "g_test_dbus_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_test_dbus_add_service_dir = Interop.downcallHandle(
             "g_test_dbus_add_service_dir",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_test_dbus_down = Interop.downcallHandle(
             "g_test_dbus_down",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_test_dbus_get_bus_address = Interop.downcallHandle(
             "g_test_dbus_get_bus_address",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_test_dbus_get_flags = Interop.downcallHandle(
             "g_test_dbus_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_test_dbus_stop = Interop.downcallHandle(
             "g_test_dbus_stop",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_test_dbus_up = Interop.downcallHandle(
             "g_test_dbus_up",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_test_dbus_unset = Interop.downcallHandle(
             "g_test_dbus_unset",
-            FunctionDescriptor.ofVoid()
+            FunctionDescriptor.ofVoid(),
+            false
         );
     }
 }

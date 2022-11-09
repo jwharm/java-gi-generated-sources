@@ -30,6 +30,7 @@ public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -38,14 +39,19 @@ public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
     
     public static StrvBuilder allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        StrvBuilder newInstance = new StrvBuilder(Refcounted.get(segment.address()));
+        StrvBuilder newInstance = new StrvBuilder(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a StrvBuilder proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public StrvBuilder(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public StrvBuilder(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -69,9 +75,16 @@ public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
      * Appends all the given strings to the builder.
      * <p>
      * Since 2.70
+     * @param varargs one or more strings followed by {@code null}
      */
-    public void addMany() {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void addMany(java.lang.Object... varargs) {
+        try {
+            DowncallHandles.g_strv_builder_add_many.invokeExact(
+                    handle(),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -80,7 +93,7 @@ public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
      * Since 2.70
      * @param value the vector of strings to add
      */
-    public void addv(java.lang.String[] value) {
+    public void addv(@NotNull java.lang.String[] value) {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
             DowncallHandles.g_strv_builder_addv.invokeExact(
@@ -123,7 +136,7 @@ public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.StrvBuilder(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.StrvBuilder(RESULT, Ownership.FULL);
     }
     
     /**
@@ -153,44 +166,51 @@ public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.StrvBuilder(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.StrvBuilder(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_strv_builder_add = Interop.downcallHandle(
             "g_strv_builder_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_strv_builder_add_many = Interop.downcallHandle(
             "g_strv_builder_add_many",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_strv_builder_addv = Interop.downcallHandle(
             "g_strv_builder_addv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_strv_builder_end = Interop.downcallHandle(
             "g_strv_builder_end",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_strv_builder_ref = Interop.downcallHandle(
             "g_strv_builder_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_strv_builder_unref = Interop.downcallHandle(
             "g_strv_builder_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_strv_builder_new = Interop.downcallHandle(
             "g_strv_builder_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

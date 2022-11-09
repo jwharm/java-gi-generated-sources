@@ -29,6 +29,7 @@ public class GLAreaClass extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -37,13 +38,18 @@ public class GLAreaClass extends io.github.jwharm.javagi.ResourceBase {
     
     public static GLAreaClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLAreaClass newInstance = new GLAreaClass(Refcounted.get(segment.address()));
+        GLAreaClass newInstance = new GLAreaClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a GLAreaClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public GLAreaClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public GLAreaClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

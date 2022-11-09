@@ -31,6 +31,7 @@ public class RecentData extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -39,7 +40,7 @@ public class RecentData extends io.github.jwharm.javagi.ResourceBase {
     
     public static RecentData allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RecentData newInstance = new RecentData(Refcounted.get(segment.address()));
+        RecentData newInstance = new RecentData(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -170,8 +171,13 @@ public class RecentData extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_private ? 1 : 0);
     }
     
+    /**
+     * Create a RecentData proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public RecentData(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public RecentData(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

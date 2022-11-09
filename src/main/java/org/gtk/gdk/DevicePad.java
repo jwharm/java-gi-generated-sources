@@ -35,7 +35,7 @@ public interface DevicePad extends io.github.jwharm.javagi.Proxy {
      */
     public static DevicePad castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkDevicePad"))) {
-            return new DevicePadImpl(gobject.refcounted());
+            return new DevicePadImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkDevicePad");
         }
@@ -123,25 +123,29 @@ public interface DevicePad extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gdk_device_pad_get_feature_group = Interop.downcallHandle(
             "gdk_device_pad_get_feature_group",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_device_pad_get_group_n_modes = Interop.downcallHandle(
             "gdk_device_pad_get_group_n_modes",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_device_pad_get_n_features = Interop.downcallHandle(
             "gdk_device_pad_get_n_features",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_device_pad_get_n_groups = Interop.downcallHandle(
             "gdk_device_pad_get_n_groups",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -151,8 +155,8 @@ public interface DevicePad extends io.github.jwharm.javagi.Proxy {
             Gdk.javagi$ensureInitialized();
         }
         
-        public DevicePadImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public DevicePadImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

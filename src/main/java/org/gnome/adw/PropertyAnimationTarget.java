@@ -22,13 +22,19 @@ public class PropertyAnimationTarget extends org.gnome.adw.AnimationTarget {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a PropertyAnimationTarget proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PropertyAnimationTarget(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PropertyAnimationTarget(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -40,20 +46,20 @@ public class PropertyAnimationTarget extends org.gnome.adw.AnimationTarget {
      */
     public static PropertyAnimationTarget castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwPropertyAnimationTarget"))) {
-            return new PropertyAnimationTarget(gobject.refcounted());
+            return new PropertyAnimationTarget(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwPropertyAnimationTarget");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gobject.Object object, @NotNull java.lang.String propertyName) {
+    private static Addressable constructNew(@NotNull org.gtk.gobject.Object object, @NotNull java.lang.String propertyName) {
         java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
         java.util.Objects.requireNonNull(propertyName, "Parameter 'propertyName' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_property_animation_target_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.adw_property_animation_target_new.invokeExact(
                     object.handle(),
-                    Interop.allocateNativeString(propertyName)), true);
+                    Interop.allocateNativeString(propertyName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,17 +73,17 @@ public class PropertyAnimationTarget extends org.gnome.adw.AnimationTarget {
      * @param propertyName the name of the property on {@code object} to animate
      */
     public PropertyAnimationTarget(@NotNull org.gtk.gobject.Object object, @NotNull java.lang.String propertyName) {
-        super(constructNew(object, propertyName));
+        super(constructNew(object, propertyName), Ownership.FULL);
     }
     
-    private static Refcounted constructNewForPspec(@NotNull org.gtk.gobject.Object object, @NotNull org.gtk.gobject.ParamSpec pspec) {
+    private static Addressable constructNewForPspec(@NotNull org.gtk.gobject.Object object, @NotNull org.gtk.gobject.ParamSpec pspec) {
         java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
         java.util.Objects.requireNonNull(pspec, "Parameter 'pspec' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_property_animation_target_new_for_pspec.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.adw_property_animation_target_new_for_pspec.invokeExact(
                     object.handle(),
-                    pspec.handle()), true);
+                    pspec.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,7 +98,7 @@ public class PropertyAnimationTarget extends org.gnome.adw.AnimationTarget {
      * @return new newly created {@code AdwPropertyAnimationTarget}
      */
     public static PropertyAnimationTarget newForPspec(@NotNull org.gtk.gobject.Object object, @NotNull org.gtk.gobject.ParamSpec pspec) {
-        return new PropertyAnimationTarget(constructNewForPspec(object, pspec));
+        return new PropertyAnimationTarget(constructNewForPspec(object, pspec), Ownership.FULL);
     }
     
     /**
@@ -111,7 +117,7 @@ public class PropertyAnimationTarget extends org.gnome.adw.AnimationTarget {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.Object(RESULT, Ownership.NONE);
     }
     
     /**
@@ -126,29 +132,33 @@ public class PropertyAnimationTarget extends org.gnome.adw.AnimationTarget {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ParamSpec(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.ParamSpec(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle adw_property_animation_target_new = Interop.downcallHandle(
             "adw_property_animation_target_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_property_animation_target_new_for_pspec = Interop.downcallHandle(
             "adw_property_animation_target_new_for_pspec",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_property_animation_target_get_object = Interop.downcallHandle(
             "adw_property_animation_target_get_object",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_property_animation_target_get_pspec = Interop.downcallHandle(
             "adw_property_animation_target_get_pspec",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

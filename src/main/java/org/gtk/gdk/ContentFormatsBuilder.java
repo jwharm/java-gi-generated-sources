@@ -21,6 +21,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -29,20 +30,25 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
     
     public static ContentFormatsBuilder allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ContentFormatsBuilder newInstance = new ContentFormatsBuilder(Refcounted.get(segment.address()));
+        ContentFormatsBuilder newInstance = new ContentFormatsBuilder(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a ContentFormatsBuilder proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ContentFormatsBuilder(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ContentFormatsBuilder(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_content_formats_builder_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_builder_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -56,7 +62,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
      * Use addition functions to add types to it.
      */
     public ContentFormatsBuilder() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -119,7 +125,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentFormats(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
     }
     
     /**
@@ -138,7 +144,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentFormatsBuilder(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.ContentFormatsBuilder(RESULT, Ownership.NONE);
     }
     
     /**
@@ -160,7 +166,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentFormats(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
     }
     
     /**
@@ -179,42 +185,50 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
         
         private static final MethodHandle gdk_content_formats_builder_new = Interop.downcallHandle(
             "gdk_content_formats_builder_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_formats_builder_add_formats = Interop.downcallHandle(
             "gdk_content_formats_builder_add_formats",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_formats_builder_add_gtype = Interop.downcallHandle(
             "gdk_content_formats_builder_add_gtype",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle gdk_content_formats_builder_add_mime_type = Interop.downcallHandle(
             "gdk_content_formats_builder_add_mime_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_formats_builder_free_to_formats = Interop.downcallHandle(
             "gdk_content_formats_builder_free_to_formats",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_formats_builder_ref = Interop.downcallHandle(
             "gdk_content_formats_builder_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_formats_builder_to_formats = Interop.downcallHandle(
             "gdk_content_formats_builder_to_formats",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_formats_builder_unref = Interop.downcallHandle(
             "gdk_content_formats_builder_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

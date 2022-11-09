@@ -21,13 +21,19 @@ public class FileIcon extends org.gtk.gobject.Object implements org.gtk.gio.Icon
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a FileIcon proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FileIcon(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FileIcon(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -39,18 +45,18 @@ public class FileIcon extends org.gtk.gobject.Object implements org.gtk.gio.Icon
      */
     public static FileIcon castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GFileIcon"))) {
-            return new FileIcon(gobject.refcounted());
+            return new FileIcon(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GFileIcon");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gio.File file) {
+    private static Addressable constructNew(@NotNull org.gtk.gio.File file) {
         java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_file_icon_new.invokeExact(
-                    file.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_file_icon_new.invokeExact(
+                    file.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -62,7 +68,7 @@ public class FileIcon extends org.gtk.gobject.Object implements org.gtk.gio.Icon
      * @param file a {@link File}.
      */
     public FileIcon(@NotNull org.gtk.gio.File file) {
-        super(constructNew(file));
+        super(constructNew(file), Ownership.FULL);
     }
     
     /**
@@ -77,19 +83,21 @@ public class FileIcon extends org.gtk.gobject.Object implements org.gtk.gio.Icon
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_file_icon_new = Interop.downcallHandle(
             "g_file_icon_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_icon_get_file = Interop.downcallHandle(
             "g_file_icon_get_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

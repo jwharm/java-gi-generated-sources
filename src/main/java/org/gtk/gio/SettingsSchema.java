@@ -108,6 +108,7 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -116,14 +117,19 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
     
     public static SettingsSchema allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SettingsSchema newInstance = new SettingsSchema(Refcounted.get(segment.address()));
+        SettingsSchema newInstance = new SettingsSchema(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a SettingsSchema proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SettingsSchema(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SettingsSchema(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -159,7 +165,7 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SettingsSchemaKey(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.SettingsSchemaKey(RESULT, Ownership.FULL);
     }
     
     /**
@@ -254,7 +260,7 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SettingsSchema(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.SettingsSchema(RESULT, Ownership.FULL);
     }
     
     /**
@@ -273,42 +279,50 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_settings_schema_get_id = Interop.downcallHandle(
             "g_settings_schema_get_id",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_schema_get_key = Interop.downcallHandle(
             "g_settings_schema_get_key",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_schema_get_path = Interop.downcallHandle(
             "g_settings_schema_get_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_schema_has_key = Interop.downcallHandle(
             "g_settings_schema_has_key",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_schema_list_children = Interop.downcallHandle(
             "g_settings_schema_list_children",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_schema_list_keys = Interop.downcallHandle(
             "g_settings_schema_list_keys",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_schema_ref = Interop.downcallHandle(
             "g_settings_schema_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_schema_unref = Interop.downcallHandle(
             "g_settings_schema_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

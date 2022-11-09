@@ -27,6 +27,7 @@ public class Requisition extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -35,7 +36,7 @@ public class Requisition extends io.github.jwharm.javagi.ResourceBase {
     
     public static Requisition allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Requisition newInstance = new Requisition(Refcounted.get(segment.address()));
+        Requisition newInstance = new Requisition(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -82,15 +83,20 @@ public class Requisition extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
     }
     
+    /**
+     * Create a Requisition proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Requisition(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Requisition(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_requisition_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_requisition_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,7 +109,7 @@ public class Requisition extends io.github.jwharm.javagi.ResourceBase {
      * The struct is initialized to zero.
      */
     public Requisition() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -118,7 +124,7 @@ public class Requisition extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Requisition(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.Requisition(RESULT, Ownership.FULL);
     }
     
     /**
@@ -137,17 +143,20 @@ public class Requisition extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle gtk_requisition_new = Interop.downcallHandle(
             "gtk_requisition_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_requisition_copy = Interop.downcallHandle(
             "gtk_requisition_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_requisition_free = Interop.downcallHandle(
             "gtk_requisition_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

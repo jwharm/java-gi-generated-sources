@@ -22,7 +22,7 @@ public interface ConstraintTarget extends io.github.jwharm.javagi.Proxy {
      */
     public static ConstraintTarget castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkConstraintTarget"))) {
-            return new ConstraintTargetImpl(gobject.refcounted());
+            return new ConstraintTargetImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkConstraintTarget");
         }
@@ -34,8 +34,8 @@ public interface ConstraintTarget extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public ConstraintTargetImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public ConstraintTargetImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

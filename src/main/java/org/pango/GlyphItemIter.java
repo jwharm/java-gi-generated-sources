@@ -70,6 +70,7 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -78,7 +79,7 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
     
     public static GlyphItemIter allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GlyphItemIter newInstance = new GlyphItemIter(Refcounted.get(segment.address()));
+        GlyphItemIter newInstance = new GlyphItemIter(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -91,7 +92,7 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("glyph_item"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.pango.GlyphItem(Refcounted.get(RESULT, false));
+        return new org.pango.GlyphItem(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -251,9 +252,14 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), end_char);
     }
     
+    /**
+     * Create a GlyphItemIter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public GlyphItemIter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public GlyphItemIter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -268,7 +274,7 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.GlyphItemIter(Refcounted.get(RESULT, true));
+        return new org.pango.GlyphItemIter(RESULT, Ownership.FULL);
     }
     
     /**
@@ -370,32 +376,38 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle pango_glyph_item_iter_copy = Interop.downcallHandle(
             "pango_glyph_item_iter_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_glyph_item_iter_free = Interop.downcallHandle(
             "pango_glyph_item_iter_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_glyph_item_iter_init_end = Interop.downcallHandle(
             "pango_glyph_item_iter_init_end",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_glyph_item_iter_init_start = Interop.downcallHandle(
             "pango_glyph_item_iter_init_start",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_glyph_item_iter_next_cluster = Interop.downcallHandle(
             "pango_glyph_item_iter_next_cluster",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_glyph_item_iter_prev_cluster = Interop.downcallHandle(
             "pango_glyph_item_iter_prev_cluster",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -28,13 +28,19 @@ public class VulkanContext extends org.gtk.gdk.DrawContext implements org.gtk.gi
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a VulkanContext proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public VulkanContext(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public VulkanContext(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -46,7 +52,7 @@ public class VulkanContext extends org.gtk.gdk.DrawContext implements org.gtk.gi
      */
     public static VulkanContext castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkVulkanContext"))) {
-            return new VulkanContext(gobject.refcounted());
+            return new VulkanContext(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkVulkanContext");
         }
@@ -62,6 +68,8 @@ public class VulkanContext extends org.gtk.gdk.DrawContext implements org.gtk.gi
      * <p>
      * Usually this means that the swapchain had to be recreated,
      * for example in response to a change of the surface size.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<VulkanContext.ImagesUpdated> onImagesUpdated(VulkanContext.ImagesUpdated handler) {
         try {
@@ -86,7 +94,7 @@ public class VulkanContext extends org.gtk.gdk.DrawContext implements org.gtk.gi
         public static void signalVulkanContextImagesUpdated(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (VulkanContext.ImagesUpdated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new VulkanContext(Refcounted.get(source)));
+            HANDLER.signalReceived(new VulkanContext(source, Ownership.UNKNOWN));
         }
     }
 }

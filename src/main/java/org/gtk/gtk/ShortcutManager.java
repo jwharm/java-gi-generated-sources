@@ -30,7 +30,7 @@ public interface ShortcutManager extends io.github.jwharm.javagi.Proxy {
      */
     public static ShortcutManager castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkShortcutManager"))) {
-            return new ShortcutManagerImpl(gobject.refcounted());
+            return new ShortcutManagerImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkShortcutManager");
         }
@@ -42,8 +42,8 @@ public interface ShortcutManager extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public ShortcutManagerImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public ShortcutManagerImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

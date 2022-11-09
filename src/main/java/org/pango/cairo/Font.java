@@ -24,7 +24,7 @@ public interface Font extends io.github.jwharm.javagi.Proxy {
      */
     public static Font castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoCairoFont"))) {
-            return new FontImpl(gobject.refcounted());
+            return new FontImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of PangoCairoFont");
         }
@@ -45,7 +45,7 @@ public interface Font extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.cairographics.ScaledFont(Refcounted.get(RESULT, false));
+        return new org.cairographics.ScaledFont(RESULT, Ownership.NONE);
     }
     
     @ApiStatus.Internal
@@ -54,7 +54,8 @@ public interface Font extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle pango_cairo_font_get_scaled_font = Interop.downcallHandle(
             "pango_cairo_font_get_scaled_font",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -64,8 +65,8 @@ public interface Font extends io.github.jwharm.javagi.Proxy {
             PangoCairo.javagi$ensureInitialized();
         }
         
-        public FontImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public FontImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

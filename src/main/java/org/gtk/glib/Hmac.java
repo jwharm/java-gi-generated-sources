@@ -23,6 +23,7 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -31,14 +32,19 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
     
     public static Hmac allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Hmac newInstance = new Hmac(Refcounted.get(segment.address()));
+        Hmac newInstance = new Hmac(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a Hmac proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Hmac(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Hmac(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -56,7 +62,7 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hmac(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Hmac(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -69,7 +75,7 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      * @param digestLen an inout parameter. The caller initializes it to the
      *   size of {@code buffer}. After the call it contains the length of the digest
      */
-    public void getDigest(byte[] buffer, Out<Long> digestLen) {
+    public void getDigest(@NotNull byte[] buffer, Out<Long> digestLen) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(digestLen, "Parameter 'digestLen' must not be null");
         MemorySegment digestLenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
@@ -120,7 +126,7 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hmac(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Hmac(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -148,7 +154,7 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      * @param data buffer used to compute the checksum
      * @param length size of the buffer, or -1 if it is a nul-terminated string
      */
-    public void update(byte[] data, long length) {
+    public void update(@NotNull byte[] data, long length) {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         try {
             DowncallHandles.g_hmac_update.invokeExact(
@@ -183,7 +189,7 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      * @return the newly created {@link Hmac}, or {@code null}.
      *   Use g_hmac_unref() to free the memory allocated by it.
      */
-    public static @NotNull org.gtk.glib.Hmac new_(@NotNull org.gtk.glib.ChecksumType digestType, byte[] key, long keyLen) {
+    public static @NotNull org.gtk.glib.Hmac new_(@NotNull org.gtk.glib.ChecksumType digestType, @NotNull byte[] key, long keyLen) {
         java.util.Objects.requireNonNull(digestType, "Parameter 'digestType' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
@@ -195,44 +201,51 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hmac(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Hmac(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_hmac_copy = Interop.downcallHandle(
             "g_hmac_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hmac_get_digest = Interop.downcallHandle(
             "g_hmac_get_digest",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hmac_get_string = Interop.downcallHandle(
             "g_hmac_get_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hmac_ref = Interop.downcallHandle(
             "g_hmac_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hmac_unref = Interop.downcallHandle(
             "g_hmac_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_hmac_update = Interop.downcallHandle(
             "g_hmac_update",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_hmac_new = Interop.downcallHandle(
             "g_hmac_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
     }
 }

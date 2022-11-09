@@ -21,6 +21,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -29,14 +30,19 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
     
     public static SettingsSchemaKey allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SettingsSchemaKey newInstance = new SettingsSchemaKey(Refcounted.get(segment.address()));
+        SettingsSchemaKey newInstance = new SettingsSchemaKey(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a SettingsSchemaKey proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SettingsSchemaKey(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SettingsSchemaKey(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -54,7 +60,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
     }
     
     /**
@@ -147,7 +153,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
     }
     
     /**
@@ -189,7 +195,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.VariantType(RESULT, Ownership.NONE);
     }
     
     /**
@@ -226,7 +232,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SettingsSchemaKey(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.SettingsSchemaKey(RESULT, Ownership.FULL);
     }
     
     /**
@@ -245,47 +251,56 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_settings_schema_key_get_default_value = Interop.downcallHandle(
             "g_settings_schema_key_get_default_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_schema_key_get_description = Interop.downcallHandle(
             "g_settings_schema_key_get_description",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_schema_key_get_name = Interop.downcallHandle(
             "g_settings_schema_key_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_schema_key_get_range = Interop.downcallHandle(
             "g_settings_schema_key_get_range",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_schema_key_get_summary = Interop.downcallHandle(
             "g_settings_schema_key_get_summary",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_schema_key_get_value_type = Interop.downcallHandle(
             "g_settings_schema_key_get_value_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_schema_key_range_check = Interop.downcallHandle(
             "g_settings_schema_key_range_check",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_schema_key_ref = Interop.downcallHandle(
             "g_settings_schema_key_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_schema_key_unref = Interop.downcallHandle(
             "g_settings_schema_key_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

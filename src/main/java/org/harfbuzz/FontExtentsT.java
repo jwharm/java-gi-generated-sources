@@ -38,6 +38,7 @@ public class FontExtentsT extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -46,7 +47,7 @@ public class FontExtentsT extends io.github.jwharm.javagi.ResourceBase {
     
     public static FontExtentsT allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FontExtentsT newInstance = new FontExtentsT(Refcounted.get(segment.address()));
+        FontExtentsT newInstance = new FontExtentsT(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -114,8 +115,13 @@ public class FontExtentsT extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), line_gap.getValue().intValue());
     }
     
+    /**
+     * Create a FontExtentsT proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FontExtentsT(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FontExtentsT(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

@@ -50,6 +50,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -60,12 +61,17 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      */
     public org.gtk.gobject.Object parent$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a TreeStore proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TreeStore(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TreeStore(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -77,14 +83,22 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      */
     public static TreeStore castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeStore"))) {
-            return new TreeStore(gobject.refcounted());
+            return new TreeStore(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTreeStore");
         }
     }
     
-    private static Refcounted constructNew(int nColumns) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    private static Addressable constructNew(int nColumns, java.lang.Object... varargs) {
+        Addressable RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_store_new.invokeExact(
+                    nColumns,
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
     }
     
     /**
@@ -100,19 +114,19 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * will create a new {@code GtkTreeStore} with three columns, of type
      * {@code int}, {@code gchararray}, and {@code GdkTexture} respectively.
      * @param nColumns number of columns in the tree store
+     * @param varargs all {@code GType} types for the columns, from first to last
      */
-    public TreeStore(int nColumns) {
-        this(Refcounted.get(null)); // avoid compiler error
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public TreeStore(int nColumns, java.lang.Object... varargs) {
+        super(constructNew(nColumns, varargs), Ownership.FULL);
     }
     
-    private static Refcounted constructNewv(int nColumns, org.gtk.glib.Type[] types) {
+    private static Addressable constructNewv(int nColumns, @NotNull org.gtk.glib.Type[] types) {
         java.util.Objects.requireNonNull(types, "Parameter 'types' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_store_newv.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_store_newv.invokeExact(
                     nColumns,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false)), true);
+                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,8 +139,8 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param types an array of {@code GType} types for the columns, from first to last
      * @return a new {@code GtkTreeStore}
      */
-    public static TreeStore newv(int nColumns, org.gtk.glib.Type[] types) {
-        return new TreeStore(constructNewv(nColumns, types));
+    public static TreeStore newv(int nColumns, @NotNull org.gtk.glib.Type[] types) {
+        return new TreeStore(constructNewv(nColumns, types), Ownership.FULL);
     }
     
     /**
@@ -263,9 +277,20 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter An unset {@code GtkTreeIter} to set the new row
      * @param parent A valid {@code GtkTreeIter}
      * @param position position to insert the new row, or -1 to append after existing rows
+     * @param varargs pairs of column number and value, terminated with -1
      */
-    public void insertWithValues(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent, int position) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void insertWithValues(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent, int position, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+        try {
+            DowncallHandles.gtk_tree_store_insert_with_values.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                    position,
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -279,7 +304,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param values an array of GValues
      * @param nValues the length of the {@code columns} and {@code values} arrays
      */
-    public void insertWithValuesv(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent, int position, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
+    public void insertWithValuesv(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent, int position, @NotNull int[] columns, @NotNull org.gtk.gobject.Value[] values, int nValues) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(columns, "Parameter 'columns' must not be null");
         java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
@@ -449,7 +474,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      *   to its old position before the re-ordering,
      *   i.e. {@code new_order}{@code [newpos] = oldpos}.
      */
-    public void reorder(@Nullable org.gtk.gtk.TreeIter parent, int[] newOrder) {
+    public void reorder(@Nullable org.gtk.gtk.TreeIter parent, @NotNull int[] newOrder) {
         java.util.Objects.requireNonNull(newOrder, "Parameter 'newOrder' must not be null");
         try {
             DowncallHandles.gtk_tree_store_reorder.invokeExact(
@@ -472,9 +497,18 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * The value will be referenced by the store if it is a {@code G_TYPE_OBJECT}, and it
      * will be copied if it is a {@code G_TYPE_STRING} or {@code G_TYPE_BOXED}.
      * @param iter A valid {@code GtkTreeIter} for the row being modified
+     * @param varargs pairs of column number and value, terminated with -1
      */
-    public void set(@NotNull org.gtk.gtk.TreeIter iter) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void set(@NotNull org.gtk.gtk.TreeIter iter, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+        try {
+            DowncallHandles.gtk_tree_store_set.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -485,7 +519,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param nColumns Number of columns for the tree store
      * @param types An array of {@code GType} types, one for each column
      */
-    public void setColumnTypes(int nColumns, org.gtk.glib.Type[] types) {
+    public void setColumnTypes(int nColumns, @NotNull org.gtk.glib.Type[] types) {
         java.util.Objects.requireNonNull(types, "Parameter 'types' must not be null");
         try {
             DowncallHandles.gtk_tree_store_set_column_types.invokeExact(
@@ -548,7 +582,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param values an array of GValues
      * @param nValues the length of the {@code columns} and {@code values} arrays
      */
-    public void setValuesv(@NotNull org.gtk.gtk.TreeIter iter, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
+    public void setValuesv(@NotNull org.gtk.gtk.TreeIter iter, @NotNull int[] columns, @NotNull org.gtk.gobject.Value[] values, int nValues) {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(columns, "Parameter 'columns' must not be null");
         java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
@@ -587,117 +621,140 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         
         private static final MethodHandle gtk_tree_store_new = Interop.downcallHandle(
             "gtk_tree_store_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            true
         );
         
         private static final MethodHandle gtk_tree_store_newv = Interop.downcallHandle(
             "gtk_tree_store_newv",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_store_append = Interop.downcallHandle(
             "gtk_tree_store_append",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_store_clear = Interop.downcallHandle(
             "gtk_tree_store_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_store_insert = Interop.downcallHandle(
             "gtk_tree_store_insert",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_store_insert_after = Interop.downcallHandle(
             "gtk_tree_store_insert_after",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_store_insert_before = Interop.downcallHandle(
             "gtk_tree_store_insert_before",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_store_insert_with_values = Interop.downcallHandle(
             "gtk_tree_store_insert_with_values",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            true
         );
         
         private static final MethodHandle gtk_tree_store_insert_with_valuesv = Interop.downcallHandle(
             "gtk_tree_store_insert_with_valuesv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_store_is_ancestor = Interop.downcallHandle(
             "gtk_tree_store_is_ancestor",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_store_iter_depth = Interop.downcallHandle(
             "gtk_tree_store_iter_depth",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_store_iter_is_valid = Interop.downcallHandle(
             "gtk_tree_store_iter_is_valid",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_store_move_after = Interop.downcallHandle(
             "gtk_tree_store_move_after",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_store_move_before = Interop.downcallHandle(
             "gtk_tree_store_move_before",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_store_prepend = Interop.downcallHandle(
             "gtk_tree_store_prepend",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_store_remove = Interop.downcallHandle(
             "gtk_tree_store_remove",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_store_reorder = Interop.downcallHandle(
             "gtk_tree_store_reorder",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_store_set = Interop.downcallHandle(
             "gtk_tree_store_set",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle gtk_tree_store_set_column_types = Interop.downcallHandle(
             "gtk_tree_store_set_column_types",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_store_set_valist = Interop.downcallHandle(
             "gtk_tree_store_set_valist",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_store_set_value = Interop.downcallHandle(
             "gtk_tree_store_set_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_tree_store_set_valuesv = Interop.downcallHandle(
             "gtk_tree_store_set_valuesv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_tree_store_swap = Interop.downcallHandle(
             "gtk_tree_store_swap",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

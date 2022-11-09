@@ -25,6 +25,7 @@ public class IMMulticontextClass extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -33,7 +34,7 @@ public class IMMulticontextClass extends io.github.jwharm.javagi.ResourceBase {
     
     public static IMMulticontextClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        IMMulticontextClass newInstance = new IMMulticontextClass(Refcounted.get(segment.address()));
+        IMMulticontextClass newInstance = new IMMulticontextClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,11 +45,16 @@ public class IMMulticontextClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gtk.IMContextClass parent_class$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gtk.IMContextClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.IMContextClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a IMMulticontextClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public IMMulticontextClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public IMMulticontextClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

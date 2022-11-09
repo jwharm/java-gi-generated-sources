@@ -27,6 +27,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -37,12 +38,17 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a AppLaunchContext proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public AppLaunchContext(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public AppLaunchContext(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -54,16 +60,16 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      */
     public static AppLaunchContext castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GAppLaunchContext"))) {
-            return new AppLaunchContext(gobject.refcounted());
+            return new AppLaunchContext(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GAppLaunchContext");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_app_launch_context_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_app_launch_context_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -75,7 +81,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * instead you instantiate a subclass of this, such as {@link org.gtk.gdk.AppLaunchContext}.
      */
     public AppLaunchContext() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -205,6 +211,8 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * The {@link AppLaunchContext}::launch-failed signal is emitted when a {@link AppInfo} launch
      * fails. The startup notification id is provided, so that the launcher
      * can cancel the startup notification.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppLaunchContext.LaunchFailed> onLaunchFailed(AppLaunchContext.LaunchFailed handler) {
         try {
@@ -244,6 +252,8 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * <p>
      * It is guaranteed that this signal is followed by either a {@link AppLaunchContext}::launched or
      * {@link AppLaunchContext}::launch-failed signal.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppLaunchContext.LaunchStarted> onLaunchStarted(AppLaunchContext.LaunchStarted handler) {
         try {
@@ -278,6 +288,8 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * Since 2.72 the {@code pid} may be 0 if the process id wasn't known (for
      * example if the process was launched via D-Bus). The {@code pid} may not be
      * set at all in subsequent releases.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppLaunchContext.Launched> onLaunched(AppLaunchContext.Launched handler) {
         try {
@@ -301,37 +313,44 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
         
         private static final MethodHandle g_app_launch_context_new = Interop.downcallHandle(
             "g_app_launch_context_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_app_launch_context_get_display = Interop.downcallHandle(
             "g_app_launch_context_get_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_app_launch_context_get_environment = Interop.downcallHandle(
             "g_app_launch_context_get_environment",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_app_launch_context_get_startup_notify_id = Interop.downcallHandle(
             "g_app_launch_context_get_startup_notify_id",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_app_launch_context_launch_failed = Interop.downcallHandle(
             "g_app_launch_context_launch_failed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_app_launch_context_setenv = Interop.downcallHandle(
             "g_app_launch_context_setenv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_app_launch_context_unsetenv = Interop.downcallHandle(
             "g_app_launch_context_unsetenv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -340,19 +359,19 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
         public static void signalAppLaunchContextLaunchFailed(MemoryAddress source, MemoryAddress startupNotifyId, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (AppLaunchContext.LaunchFailed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppLaunchContext(Refcounted.get(source)), Interop.getStringFrom(startupNotifyId));
+            HANDLER.signalReceived(new AppLaunchContext(source, Ownership.UNKNOWN), Interop.getStringFrom(startupNotifyId));
         }
         
         public static void signalAppLaunchContextLaunchStarted(MemoryAddress source, MemoryAddress info, MemoryAddress platformData, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (AppLaunchContext.LaunchStarted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppLaunchContext(Refcounted.get(source)), new org.gtk.gio.AppInfo.AppInfoImpl(Refcounted.get(info, false)), new org.gtk.glib.Variant(Refcounted.get(platformData, false)));
+            HANDLER.signalReceived(new AppLaunchContext(source, Ownership.UNKNOWN), new org.gtk.gio.AppInfo.AppInfoImpl(info, Ownership.NONE), new org.gtk.glib.Variant(platformData, Ownership.NONE));
         }
         
         public static void signalAppLaunchContextLaunched(MemoryAddress source, MemoryAddress info, MemoryAddress platformData, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (AppLaunchContext.Launched) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppLaunchContext(Refcounted.get(source)), new org.gtk.gio.AppInfo.AppInfoImpl(Refcounted.get(info, false)), new org.gtk.glib.Variant(Refcounted.get(platformData, false)));
+            HANDLER.signalReceived(new AppLaunchContext(source, Ownership.UNKNOWN), new org.gtk.gio.AppInfo.AppInfoImpl(info, Ownership.NONE), new org.gtk.glib.Variant(platformData, Ownership.NONE));
         }
     }
 }

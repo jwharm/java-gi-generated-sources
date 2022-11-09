@@ -32,13 +32,19 @@ public class StringFilter extends org.gtk.gtk.Filter {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a StringFilter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public StringFilter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public StringFilter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -50,17 +56,17 @@ public class StringFilter extends org.gtk.gtk.Filter {
      */
     public static StringFilter castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkStringFilter"))) {
-            return new StringFilter(gobject.refcounted());
+            return new StringFilter(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkStringFilter");
         }
     }
     
-    private static Refcounted constructNew(@Nullable org.gtk.gtk.Expression expression) {
-        Refcounted RESULT;
+    private static Addressable constructNew(@Nullable org.gtk.gtk.Expression expression) {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_string_filter_new.invokeExact(
-                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.refcounted().unowned().handle())), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_string_filter_new.invokeExact(
+                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.refcounted().unowned().handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -75,7 +81,7 @@ public class StringFilter extends org.gtk.gtk.Filter {
      * @param expression The expression to evaluate
      */
     public StringFilter(@Nullable org.gtk.gtk.Expression expression) {
-        super(constructNew(expression));
+        super(constructNew(expression), Ownership.FULL);
     }
     
     /**
@@ -91,7 +97,7 @@ public class StringFilter extends org.gtk.gtk.Filter {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Expression(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Expression(RESULT, Ownership.NONE);
     }
     
     /**
@@ -204,47 +210,56 @@ public class StringFilter extends org.gtk.gtk.Filter {
         
         private static final MethodHandle gtk_string_filter_new = Interop.downcallHandle(
             "gtk_string_filter_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_string_filter_get_expression = Interop.downcallHandle(
             "gtk_string_filter_get_expression",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_string_filter_get_ignore_case = Interop.downcallHandle(
             "gtk_string_filter_get_ignore_case",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_string_filter_get_match_mode = Interop.downcallHandle(
             "gtk_string_filter_get_match_mode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_string_filter_get_search = Interop.downcallHandle(
             "gtk_string_filter_get_search",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_string_filter_set_expression = Interop.downcallHandle(
             "gtk_string_filter_set_expression",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_string_filter_set_ignore_case = Interop.downcallHandle(
             "gtk_string_filter_set_ignore_case",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_string_filter_set_match_mode = Interop.downcallHandle(
             "gtk_string_filter_set_match_mode",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_string_filter_set_search = Interop.downcallHandle(
             "gtk_string_filter_set_search",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

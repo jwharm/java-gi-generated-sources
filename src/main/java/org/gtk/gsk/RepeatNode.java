@@ -20,13 +20,19 @@ public class RepeatNode extends org.gtk.gsk.RenderNode {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a RepeatNode proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public RepeatNode(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public RepeatNode(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,21 +44,21 @@ public class RepeatNode extends org.gtk.gsk.RenderNode {
      */
     public static RepeatNode castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskRepeatNode"))) {
-            return new RepeatNode(gobject.refcounted());
+            return new RepeatNode(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GskRepeatNode");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.gsk.RenderNode child, @Nullable org.gtk.graphene.Rect childBounds) {
+    private static Addressable constructNew(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.gsk.RenderNode child, @Nullable org.gtk.graphene.Rect childBounds) {
         java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_repeat_node_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gsk_repeat_node_new.invokeExact(
                     bounds.handle(),
                     child.handle(),
-                    (Addressable) (childBounds == null ? MemoryAddress.NULL : childBounds.handle())), true);
+                    (Addressable) (childBounds == null ? MemoryAddress.NULL : childBounds.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -68,7 +74,7 @@ public class RepeatNode extends org.gtk.gsk.RenderNode {
      *     use the child's bounds
      */
     public RepeatNode(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.gsk.RenderNode child, @Nullable org.gtk.graphene.Rect childBounds) {
-        super(constructNew(bounds, child, childBounds));
+        super(constructNew(bounds, child, childBounds), Ownership.FULL);
     }
     
     /**
@@ -83,7 +89,7 @@ public class RepeatNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RenderNode(Refcounted.get(RESULT, false));
+        return new org.gtk.gsk.RenderNode(RESULT, Ownership.NONE);
     }
     
     /**
@@ -98,24 +104,27 @@ public class RepeatNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Rect(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Rect(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_repeat_node_new = Interop.downcallHandle(
             "gsk_repeat_node_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_repeat_node_get_child = Interop.downcallHandle(
             "gsk_repeat_node_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_repeat_node_get_child_bounds = Interop.downcallHandle(
             "gsk_repeat_node_get_child_bounds",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

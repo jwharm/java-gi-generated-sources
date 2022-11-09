@@ -49,6 +49,7 @@ public class AppInfoIface extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -57,7 +58,7 @@ public class AppInfoIface extends io.github.jwharm.javagi.ResourceBase {
     
     public static AppInfoIface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AppInfoIface newInstance = new AppInfoIface(Refcounted.get(segment.address()));
+        AppInfoIface newInstance = new AppInfoIface(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -68,11 +69,16 @@ public class AppInfoIface extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gobject.TypeInterface g_iface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return new org.gtk.gobject.TypeInterface(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a AppInfoIface proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public AppInfoIface(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public AppInfoIface(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

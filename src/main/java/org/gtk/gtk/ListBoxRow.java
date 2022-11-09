@@ -24,6 +24,7 @@ public class ListBoxRow extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -34,12 +35,17 @@ public class ListBoxRow extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public org.gtk.gtk.Widget parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gtk.Widget(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.Widget(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a ListBoxRow proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ListBoxRow(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ListBoxRow(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -51,16 +57,16 @@ public class ListBoxRow extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public static ListBoxRow castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkListBoxRow"))) {
-            return new ListBoxRow(gobject.refcounted());
+            return new ListBoxRow(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkListBoxRow");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_list_box_row_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_row_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -71,7 +77,7 @@ public class ListBoxRow extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * Creates a new {@code GtkListBoxRow}.
      */
     public ListBoxRow() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -130,7 +136,7 @@ public class ListBoxRow extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -150,7 +156,7 @@ public class ListBoxRow extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -271,6 +277,8 @@ public class ListBoxRow extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * If you want to be notified when the user activates a row (by key or not),
      * use the {@code Gtk.ListBox::row-activated} signal on the row’s parent
      * {@code GtkListBox}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ListBoxRow.Activate> onActivate(ListBoxRow.Activate handler) {
         try {
@@ -294,62 +302,74 @@ public class ListBoxRow extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         
         private static final MethodHandle gtk_list_box_row_new = Interop.downcallHandle(
             "gtk_list_box_row_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_box_row_changed = Interop.downcallHandle(
             "gtk_list_box_row_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_box_row_get_activatable = Interop.downcallHandle(
             "gtk_list_box_row_get_activatable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_box_row_get_child = Interop.downcallHandle(
             "gtk_list_box_row_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_box_row_get_header = Interop.downcallHandle(
             "gtk_list_box_row_get_header",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_box_row_get_index = Interop.downcallHandle(
             "gtk_list_box_row_get_index",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_box_row_get_selectable = Interop.downcallHandle(
             "gtk_list_box_row_get_selectable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_box_row_is_selected = Interop.downcallHandle(
             "gtk_list_box_row_is_selected",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_box_row_set_activatable = Interop.downcallHandle(
             "gtk_list_box_row_set_activatable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_list_box_row_set_child = Interop.downcallHandle(
             "gtk_list_box_row_set_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_box_row_set_header = Interop.downcallHandle(
             "gtk_list_box_row_set_header",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_list_box_row_set_selectable = Interop.downcallHandle(
             "gtk_list_box_row_set_selectable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -358,7 +378,7 @@ public class ListBoxRow extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         public static void signalListBoxRowActivate(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (ListBoxRow.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListBoxRow(Refcounted.get(source)));
+            HANDLER.signalReceived(new ListBoxRow(source, Ownership.UNKNOWN));
         }
     }
 }

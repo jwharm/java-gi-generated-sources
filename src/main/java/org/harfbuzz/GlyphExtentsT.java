@@ -29,6 +29,7 @@ public class GlyphExtentsT extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -37,7 +38,7 @@ public class GlyphExtentsT extends io.github.jwharm.javagi.ResourceBase {
     
     public static GlyphExtentsT allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GlyphExtentsT newInstance = new GlyphExtentsT(Refcounted.get(segment.address()));
+        GlyphExtentsT newInstance = new GlyphExtentsT(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -126,8 +127,13 @@ public class GlyphExtentsT extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), height.getValue().intValue());
     }
     
+    /**
+     * Create a GlyphExtentsT proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public GlyphExtentsT(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public GlyphExtentsT(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

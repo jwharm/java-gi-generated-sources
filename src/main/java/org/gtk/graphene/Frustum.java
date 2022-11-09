@@ -28,6 +28,7 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -36,20 +37,25 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
     
     public static Frustum allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Frustum newInstance = new Frustum(Refcounted.get(segment.address()));
+        Frustum newInstance = new Frustum(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a Frustum proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Frustum(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Frustum(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructAlloc() {
-        Refcounted RESULT;
+    private static Addressable constructAlloc() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.graphene_frustum_alloc.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_frustum_alloc.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,7 +71,7 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
      *   allocated by this function.
      */
     public static Frustum alloc() {
-        return new Frustum(constructAlloc());
+        return new Frustum(constructAlloc(), Ownership.FULL);
     }
     
     /**
@@ -122,7 +128,7 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
      * @param planes return location for an array
      *   of 6 {@link Plane}
      */
-    public void getPlanes(Out<org.gtk.graphene.Plane[]> planes) {
+    public void getPlanes(@NotNull Out<org.gtk.graphene.Plane[]> planes) {
         java.util.Objects.requireNonNull(planes, "Parameter 'planes' must not be null");
         MemorySegment planesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
@@ -135,7 +141,7 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
         org.gtk.graphene.Plane[] planesARRAY = new org.gtk.graphene.Plane[6];
         for (int I = 0; I < 6; I++) {
             var OBJ = planesPOINTER.get(ValueLayout.ADDRESS, I);
-            planesARRAY[I] = new org.gtk.graphene.Plane(Refcounted.get(OBJ, false));
+            planesARRAY[I] = new org.gtk.graphene.Plane(OBJ, Ownership.NONE);
         }
         planes.set(planesARRAY);
     }
@@ -171,7 +177,7 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Frustum(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Frustum(RESULT, Ownership.NONE);
     }
     
     /**
@@ -190,7 +196,7 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Frustum(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Frustum(RESULT, Ownership.NONE);
     }
     
     /**
@@ -208,7 +214,7 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Frustum(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Frustum(RESULT, Ownership.NONE);
     }
     
     /**
@@ -253,52 +259,62 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle graphene_frustum_alloc = Interop.downcallHandle(
             "graphene_frustum_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_frustum_contains_point = Interop.downcallHandle(
             "graphene_frustum_contains_point",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_frustum_equal = Interop.downcallHandle(
             "graphene_frustum_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_frustum_free = Interop.downcallHandle(
             "graphene_frustum_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_frustum_get_planes = Interop.downcallHandle(
             "graphene_frustum_get_planes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_frustum_init = Interop.downcallHandle(
             "graphene_frustum_init",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_frustum_init_from_frustum = Interop.downcallHandle(
             "graphene_frustum_init_from_frustum",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_frustum_init_from_matrix = Interop.downcallHandle(
             "graphene_frustum_init_from_matrix",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_frustum_intersects_box = Interop.downcallHandle(
             "graphene_frustum_intersects_box",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_frustum_intersects_sphere = Interop.downcallHandle(
             "graphene_frustum_intersects_sphere",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -39,6 +39,7 @@ public class SocketListener extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -49,12 +50,17 @@ public class SocketListener extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a SocketListener proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SocketListener(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SocketListener(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -66,16 +72,16 @@ public class SocketListener extends org.gtk.gobject.Object {
      */
     public static SocketListener castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSocketListener"))) {
-            return new SocketListener(gobject.refcounted());
+            return new SocketListener(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSocketListener");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_socket_listener_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_listener_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,7 +94,7 @@ public class SocketListener extends org.gtk.gobject.Object {
      * or g_socket_listener_add_inet_port().
      */
     public SocketListener() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -115,14 +121,15 @@ public class SocketListener extends org.gtk.gobject.Object {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_listener_accept.invokeExact(
                     handle(),
                     (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.SocketConnection(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.SocketConnection(RESULT, Ownership.FULL);
     }
     
     /**
@@ -165,14 +172,15 @@ public class SocketListener extends org.gtk.gobject.Object {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_listener_accept_finish.invokeExact(
                     handle(),
                     result.handle(),
-                    (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()), (Addressable) GERROR);
+                    (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.SocketConnection(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.SocketConnection(RESULT, Ownership.FULL);
     }
     
     /**
@@ -202,14 +210,15 @@ public class SocketListener extends org.gtk.gobject.Object {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_listener_accept_socket.invokeExact(
                     handle(),
                     (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.Socket(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Socket(RESULT, Ownership.FULL);
     }
     
     /**
@@ -252,14 +261,15 @@ public class SocketListener extends org.gtk.gobject.Object {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_listener_accept_socket_finish.invokeExact(
                     handle(),
                     result.handle(),
-                    (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()), (Addressable) GERROR);
+                    (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.Socket(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Socket(RESULT, Ownership.FULL);
     }
     
     /**
@@ -308,7 +318,8 @@ public class SocketListener extends org.gtk.gobject.Object {
                     type.getValue(),
                     protocol.getValue(),
                     (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
-                    effectiveAddress.handle(), (Addressable) GERROR);
+                    effectiveAddress.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -339,7 +350,8 @@ public class SocketListener extends org.gtk.gobject.Object {
         try {
             RESULT = (short) DowncallHandles.g_socket_listener_add_any_inet_port.invokeExact(
                     handle(),
-                    (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()), (Addressable) GERROR);
+                    (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -374,7 +386,8 @@ public class SocketListener extends org.gtk.gobject.Object {
             RESULT = (int) DowncallHandles.g_socket_listener_add_inet_port.invokeExact(
                     handle(),
                     port,
-                    (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()), (Addressable) GERROR);
+                    (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -411,7 +424,8 @@ public class SocketListener extends org.gtk.gobject.Object {
             RESULT = (int) DowncallHandles.g_socket_listener_add_socket.invokeExact(
                     handle(),
                     socket.handle(),
-                    (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()), (Addressable) GERROR);
+                    (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -461,6 +475,8 @@ public class SocketListener extends org.gtk.gobject.Object {
      * Note that when {@code listener} is used to listen on both IPv4 and
      * IPv6, a separate set of signals will be emitted for each, and
      * the order they happen in is undefined.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SocketListener.Event> onEvent(SocketListener.Event handler) {
         try {
@@ -484,67 +500,80 @@ public class SocketListener extends org.gtk.gobject.Object {
         
         private static final MethodHandle g_socket_listener_new = Interop.downcallHandle(
             "g_socket_listener_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_socket_listener_accept = Interop.downcallHandle(
             "g_socket_listener_accept",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_socket_listener_accept_async = Interop.downcallHandle(
             "g_socket_listener_accept_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_socket_listener_accept_finish = Interop.downcallHandle(
             "g_socket_listener_accept_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_socket_listener_accept_socket = Interop.downcallHandle(
             "g_socket_listener_accept_socket",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_socket_listener_accept_socket_async = Interop.downcallHandle(
             "g_socket_listener_accept_socket_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_socket_listener_accept_socket_finish = Interop.downcallHandle(
             "g_socket_listener_accept_socket_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_socket_listener_add_address = Interop.downcallHandle(
             "g_socket_listener_add_address",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_socket_listener_add_any_inet_port = Interop.downcallHandle(
             "g_socket_listener_add_any_inet_port",
-            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_socket_listener_add_inet_port = Interop.downcallHandle(
             "g_socket_listener_add_inet_port",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_socket_listener_add_socket = Interop.downcallHandle(
             "g_socket_listener_add_socket",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_socket_listener_close = Interop.downcallHandle(
             "g_socket_listener_close",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_socket_listener_set_backlog = Interop.downcallHandle(
             "g_socket_listener_set_backlog",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -553,7 +582,7 @@ public class SocketListener extends org.gtk.gobject.Object {
         public static void signalSocketListenerEvent(MemoryAddress source, int event, MemoryAddress socket, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SocketListener.Event) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SocketListener(Refcounted.get(source)), new org.gtk.gio.SocketListenerEvent(event), new org.gtk.gio.Socket(Refcounted.get(socket, false)));
+            HANDLER.signalReceived(new SocketListener(source, Ownership.UNKNOWN), new org.gtk.gio.SocketListenerEvent(event), new org.gtk.gio.Socket(socket, Ownership.NONE));
         }
     }
 }

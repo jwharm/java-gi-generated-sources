@@ -25,6 +25,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -33,14 +34,19 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
     
     public static LayoutIter allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        LayoutIter newInstance = new LayoutIter(Refcounted.get(segment.address()));
+        LayoutIter newInstance = new LayoutIter(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a LayoutIter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public LayoutIter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public LayoutIter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -70,7 +76,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.LayoutIter(Refcounted.get(RESULT, true));
+        return new org.pango.LayoutIter(RESULT, Ownership.FULL);
     }
     
     /**
@@ -176,7 +182,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Layout(Refcounted.get(RESULT, false));
+        return new org.pango.Layout(RESULT, Ownership.NONE);
     }
     
     /**
@@ -213,7 +219,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.LayoutLine(Refcounted.get(RESULT, false));
+        return new org.pango.LayoutLine(RESULT, Ownership.NONE);
     }
     
     /**
@@ -256,7 +262,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.LayoutLine(Refcounted.get(RESULT, false));
+        return new org.pango.LayoutLine(RESULT, Ownership.NONE);
     }
     
     /**
@@ -311,7 +317,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.LayoutRun(Refcounted.get(RESULT, false));
+        return new org.pango.LayoutRun(RESULT, Ownership.NONE);
     }
     
     /**
@@ -376,7 +382,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.LayoutRun(Refcounted.get(RESULT, false));
+        return new org.pango.LayoutRun(RESULT, Ownership.NONE);
     }
     
     /**
@@ -451,107 +457,128 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle pango_layout_iter_at_last_line = Interop.downcallHandle(
             "pango_layout_iter_at_last_line",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_iter_copy = Interop.downcallHandle(
             "pango_layout_iter_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_iter_free = Interop.downcallHandle(
             "pango_layout_iter_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_iter_get_baseline = Interop.downcallHandle(
             "pango_layout_iter_get_baseline",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_iter_get_char_extents = Interop.downcallHandle(
             "pango_layout_iter_get_char_extents",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_iter_get_cluster_extents = Interop.downcallHandle(
             "pango_layout_iter_get_cluster_extents",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_iter_get_index = Interop.downcallHandle(
             "pango_layout_iter_get_index",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_iter_get_layout = Interop.downcallHandle(
             "pango_layout_iter_get_layout",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_iter_get_layout_extents = Interop.downcallHandle(
             "pango_layout_iter_get_layout_extents",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_iter_get_line = Interop.downcallHandle(
             "pango_layout_iter_get_line",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_iter_get_line_extents = Interop.downcallHandle(
             "pango_layout_iter_get_line_extents",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_iter_get_line_readonly = Interop.downcallHandle(
             "pango_layout_iter_get_line_readonly",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_iter_get_line_yrange = Interop.downcallHandle(
             "pango_layout_iter_get_line_yrange",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_iter_get_run = Interop.downcallHandle(
             "pango_layout_iter_get_run",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_iter_get_run_baseline = Interop.downcallHandle(
             "pango_layout_iter_get_run_baseline",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_iter_get_run_extents = Interop.downcallHandle(
             "pango_layout_iter_get_run_extents",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_iter_get_run_readonly = Interop.downcallHandle(
             "pango_layout_iter_get_run_readonly",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_iter_next_char = Interop.downcallHandle(
             "pango_layout_iter_next_char",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_iter_next_cluster = Interop.downcallHandle(
             "pango_layout_iter_next_cluster",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_iter_next_line = Interop.downcallHandle(
             "pango_layout_iter_next_line",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_iter_next_run = Interop.downcallHandle(
             "pango_layout_iter_next_run",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

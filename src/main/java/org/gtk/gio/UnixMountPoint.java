@@ -21,6 +21,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -29,14 +30,19 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
     
     public static UnixMountPoint allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        UnixMountPoint newInstance = new UnixMountPoint(Refcounted.get(segment.address()));
+        UnixMountPoint newInstance = new UnixMountPoint(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a UnixMountPoint proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public UnixMountPoint(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public UnixMountPoint(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -70,7 +76,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.UnixMountPoint(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.UnixMountPoint(RESULT, Ownership.FULL);
     }
     
     /**
@@ -172,7 +178,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -204,7 +210,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -277,84 +283,99 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         timeRead.set(timeReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return new org.gtk.gio.UnixMountPoint(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.UnixMountPoint(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_unix_mount_point_compare = Interop.downcallHandle(
             "g_unix_mount_point_compare",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_point_copy = Interop.downcallHandle(
             "g_unix_mount_point_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_point_free = Interop.downcallHandle(
             "g_unix_mount_point_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_point_get_device_path = Interop.downcallHandle(
             "g_unix_mount_point_get_device_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_point_get_fs_type = Interop.downcallHandle(
             "g_unix_mount_point_get_fs_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_point_get_mount_path = Interop.downcallHandle(
             "g_unix_mount_point_get_mount_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_point_get_options = Interop.downcallHandle(
             "g_unix_mount_point_get_options",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_point_guess_can_eject = Interop.downcallHandle(
             "g_unix_mount_point_guess_can_eject",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_point_guess_icon = Interop.downcallHandle(
             "g_unix_mount_point_guess_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_point_guess_name = Interop.downcallHandle(
             "g_unix_mount_point_guess_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_point_guess_symbolic_icon = Interop.downcallHandle(
             "g_unix_mount_point_guess_symbolic_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_point_is_loopback = Interop.downcallHandle(
             "g_unix_mount_point_is_loopback",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_point_is_readonly = Interop.downcallHandle(
             "g_unix_mount_point_is_readonly",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_point_is_user_mountable = Interop.downcallHandle(
             "g_unix_mount_point_is_user_mountable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_point_at = Interop.downcallHandle(
             "g_unix_mount_point_at",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

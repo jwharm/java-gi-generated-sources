@@ -63,13 +63,19 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ButtonContent proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ButtonContent(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ButtonContent(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -81,16 +87,16 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      */
     public static ButtonContent castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwButtonContent"))) {
-            return new ButtonContent(gobject.refcounted());
+            return new ButtonContent(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwButtonContent");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_button_content_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.adw_button_content_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -101,7 +107,7 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * Creates a new {@code AdwButtonContent}.
      */
     public ButtonContent() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -203,37 +209,44 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         
         private static final MethodHandle adw_button_content_new = Interop.downcallHandle(
             "adw_button_content_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_button_content_get_icon_name = Interop.downcallHandle(
             "adw_button_content_get_icon_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_button_content_get_label = Interop.downcallHandle(
             "adw_button_content_get_label",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_button_content_get_use_underline = Interop.downcallHandle(
             "adw_button_content_get_use_underline",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_button_content_set_icon_name = Interop.downcallHandle(
             "adw_button_content_set_icon_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_button_content_set_label = Interop.downcallHandle(
             "adw_button_content_set_label",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_button_content_set_use_underline = Interop.downcallHandle(
             "adw_button_content_set_use_underline",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

@@ -20,13 +20,19 @@ public class CairoNode extends org.gtk.gsk.RenderNode {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a CairoNode proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CairoNode(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CairoNode(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,18 +44,18 @@ public class CairoNode extends org.gtk.gsk.RenderNode {
      */
     public static CairoNode castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskCairoNode"))) {
-            return new CairoNode(gobject.refcounted());
+            return new CairoNode(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GskCairoNode");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.graphene.Rect bounds) {
+    private static Addressable constructNew(@NotNull org.gtk.graphene.Rect bounds) {
         java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_cairo_node_new.invokeExact(
-                    bounds.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.gsk_cairo_node_new.invokeExact(
+                    bounds.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,7 +70,7 @@ public class CairoNode extends org.gtk.gsk.RenderNode {
      * @param bounds the rectangle to render to
      */
     public CairoNode(@NotNull org.gtk.graphene.Rect bounds) {
-        super(constructNew(bounds));
+        super(constructNew(bounds), Ownership.FULL);
     }
     
     /**
@@ -84,7 +90,7 @@ public class CairoNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.cairographics.Context(Refcounted.get(RESULT, true));
+        return new org.cairographics.Context(RESULT, Ownership.FULL);
     }
     
     /**
@@ -99,24 +105,27 @@ public class CairoNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.cairographics.Surface(Refcounted.get(RESULT, false));
+        return new org.cairographics.Surface(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_cairo_node_new = Interop.downcallHandle(
             "gsk_cairo_node_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_cairo_node_get_draw_context = Interop.downcallHandle(
             "gsk_cairo_node_get_draw_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gsk_cairo_node_get_surface = Interop.downcallHandle(
             "gsk_cairo_node_get_surface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

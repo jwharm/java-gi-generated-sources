@@ -43,6 +43,7 @@ public class TypeInfo extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -51,7 +52,7 @@ public class TypeInfo extends io.github.jwharm.javagi.ResourceBase {
     
     public static TypeInfo allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TypeInfo newInstance = new TypeInfo(Refcounted.get(segment.address()));
+        TypeInfo newInstance = new TypeInfo(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -203,7 +204,7 @@ public class TypeInfo extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value_table"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gobject.TypeValueTable(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.TypeValueTable(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -216,8 +217,13 @@ public class TypeInfo extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value_table.handle());
     }
     
+    /**
+     * Create a TypeInfo proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public TypeInfo(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public TypeInfo(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

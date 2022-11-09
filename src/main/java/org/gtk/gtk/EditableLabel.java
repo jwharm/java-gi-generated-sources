@@ -46,13 +46,19 @@ public class EditableLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a EditableLabel proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public EditableLabel(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public EditableLabel(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -64,18 +70,18 @@ public class EditableLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      */
     public static EditableLabel castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEditableLabel"))) {
-            return new EditableLabel(gobject.refcounted());
+            return new EditableLabel(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkEditableLabel");
         }
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String str) {
+    private static Addressable constructNew(@NotNull java.lang.String str) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_editable_label_new.invokeExact(
-                    Interop.allocateNativeString(str)), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_editable_label_new.invokeExact(
+                    Interop.allocateNativeString(str));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,7 +93,7 @@ public class EditableLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * @param str the text for the label
      */
     public EditableLabel(@NotNull java.lang.String str) {
-        super(constructNew(str));
+        super(constructNew(str), Ownership.NONE);
     }
     
     /**
@@ -140,22 +146,26 @@ public class EditableLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         
         private static final MethodHandle gtk_editable_label_new = Interop.downcallHandle(
             "gtk_editable_label_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_editable_label_get_editing = Interop.downcallHandle(
             "gtk_editable_label_get_editing",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_editable_label_start_editing = Interop.downcallHandle(
             "gtk_editable_label_start_editing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_editable_label_stop_editing = Interop.downcallHandle(
             "gtk_editable_label_stop_editing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

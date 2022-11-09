@@ -25,7 +25,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
      */
     public static NetworkMonitor castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GNetworkMonitor"))) {
-            return new NetworkMonitorImpl(gobject.refcounted());
+            return new NetworkMonitorImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GNetworkMonitor");
         }
@@ -62,7 +62,8 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
             RESULT = (int) DowncallHandles.g_network_monitor_can_reach.invokeExact(
                     handle(),
                     connectable.handle(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,7 +120,8 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
         try {
             RESULT = (int) DowncallHandles.g_network_monitor_can_reach_finish.invokeExact(
                     handle(),
-                    result.handle(), (Addressable) GERROR);
+                    result.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -208,7 +210,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.NetworkMonitor.NetworkMonitorImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.NetworkMonitor.NetworkMonitorImpl(RESULT, Ownership.NONE);
     }
     
     @FunctionalInterface
@@ -218,6 +220,8 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
     
     /**
      * Emitted when the network configuration changes.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<NetworkMonitor.NetworkChanged> onNetworkChanged(NetworkMonitor.NetworkChanged handler) {
         try {
@@ -243,43 +247,50 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_network_monitor_can_reach = Interop.downcallHandle(
             "g_network_monitor_can_reach",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_network_monitor_can_reach_async = Interop.downcallHandle(
             "g_network_monitor_can_reach_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_network_monitor_can_reach_finish = Interop.downcallHandle(
             "g_network_monitor_can_reach_finish",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_network_monitor_get_connectivity = Interop.downcallHandle(
             "g_network_monitor_get_connectivity",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_network_monitor_get_network_available = Interop.downcallHandle(
             "g_network_monitor_get_network_available",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_network_monitor_get_network_metered = Interop.downcallHandle(
             "g_network_monitor_get_network_metered",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_network_monitor_get_default = Interop.downcallHandle(
             "g_network_monitor_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -289,7 +300,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
         public static void signalNetworkMonitorNetworkChanged(MemoryAddress source, int networkAvailable, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (NetworkMonitor.NetworkChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new NetworkMonitor.NetworkMonitorImpl(Refcounted.get(source)), networkAvailable != 0);
+            HANDLER.signalReceived(new NetworkMonitor.NetworkMonitorImpl(source, Ownership.UNKNOWN), networkAvailable != 0);
         }
     }
     
@@ -299,8 +310,8 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public NetworkMonitorImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public NetworkMonitorImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

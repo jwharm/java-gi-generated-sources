@@ -33,6 +33,7 @@ public class FileInputStream extends org.gtk.gio.InputStream implements org.gtk.
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -43,12 +44,17 @@ public class FileInputStream extends org.gtk.gio.InputStream implements org.gtk.
      */
     public org.gtk.gio.InputStream parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.InputStream(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.InputStream(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a FileInputStream proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FileInputStream(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FileInputStream(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -60,7 +66,7 @@ public class FileInputStream extends org.gtk.gio.InputStream implements org.gtk.
      */
     public static FileInputStream castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GFileInputStream"))) {
-            return new FileInputStream(gobject.refcounted());
+            return new FileInputStream(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GFileInputStream");
         }
@@ -85,14 +91,15 @@ public class FileInputStream extends org.gtk.gio.InputStream implements org.gtk.
             RESULT = (MemoryAddress) DowncallHandles.g_file_input_stream_query_info.invokeExact(
                     handle(),
                     Interop.allocateNativeString(attributes),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileInfo(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.FileInfo(RESULT, Ownership.FULL);
     }
     
     /**
@@ -144,31 +151,35 @@ public class FileInputStream extends org.gtk.gio.InputStream implements org.gtk.
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_input_stream_query_info_finish.invokeExact(
                     handle(),
-                    result.handle(), (Addressable) GERROR);
+                    result.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileInfo(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.FileInfo(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_file_input_stream_query_info = Interop.downcallHandle(
             "g_file_input_stream_query_info",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_input_stream_query_info_async = Interop.downcallHandle(
             "g_file_input_stream_query_info_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_input_stream_query_info_finish = Interop.downcallHandle(
             "g_file_input_stream_query_info_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

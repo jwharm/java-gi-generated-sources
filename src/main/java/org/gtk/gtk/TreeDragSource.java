@@ -19,7 +19,7 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
      */
     public static TreeDragSource castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeDragSource"))) {
-            return new TreeDragSourceImpl(gobject.refcounted());
+            return new TreeDragSourceImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTreeDragSource");
         }
@@ -65,7 +65,7 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentProvider(Refcounted.get(RESULT, true));
+        return new org.gtk.gdk.ContentProvider(RESULT, Ownership.FULL);
     }
     
     /**
@@ -94,19 +94,22 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_drag_source_drag_data_delete = Interop.downcallHandle(
             "gtk_tree_drag_source_drag_data_delete",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_drag_source_drag_data_get = Interop.downcallHandle(
             "gtk_tree_drag_source_drag_data_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_drag_source_row_draggable = Interop.downcallHandle(
             "gtk_tree_drag_source_row_draggable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -116,8 +119,8 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public TreeDragSourceImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public TreeDragSourceImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

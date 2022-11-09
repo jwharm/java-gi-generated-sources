@@ -17,13 +17,19 @@ public class PixbufNonAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a PixbufNonAnim proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PixbufNonAnim(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PixbufNonAnim(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -35,18 +41,18 @@ public class PixbufNonAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
      */
     public static PixbufNonAnim castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("null"))) {
-            return new PixbufNonAnim(gobject.refcounted());
+            return new PixbufNonAnim(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of null");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf) {
+    private static Addressable constructNew(@NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf) {
         java.util.Objects.requireNonNull(pixbuf, "Parameter 'pixbuf' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_non_anim_new.invokeExact(
-                    pixbuf.handle()), true);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_non_anim_new.invokeExact(
+                    pixbuf.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -54,14 +60,15 @@ public class PixbufNonAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
     }
     
     public PixbufNonAnim(@NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        super(constructNew(pixbuf));
+        super(constructNew(pixbuf), Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_pixbuf_non_anim_new = Interop.downcallHandle(
             "gdk_pixbuf_non_anim_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

@@ -34,6 +34,7 @@ public class UnixFDList extends org.gtk.gobject.Object {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -44,12 +45,17 @@ public class UnixFDList extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a UnixFDList proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public UnixFDList(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public UnixFDList(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -61,16 +67,16 @@ public class UnixFDList extends org.gtk.gobject.Object {
      */
     public static UnixFDList castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GUnixFDList"))) {
-            return new UnixFDList(gobject.refcounted());
+            return new UnixFDList(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GUnixFDList");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_unix_fd_list_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_list_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -81,16 +87,16 @@ public class UnixFDList extends org.gtk.gobject.Object {
      * Creates a new {@link UnixFDList} containing no file descriptors.
      */
     public UnixFDList() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromArray(int[] fds, int nFds) {
+    private static Addressable constructNewFromArray(@NotNull int[] fds, int nFds) {
         java.util.Objects.requireNonNull(fds, "Parameter 'fds' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_unix_fd_list_new_from_array.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_list_new_from_array.invokeExact(
                     Interop.allocateNativeArray(fds, false),
-                    nFds), true);
+                    nFds);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,8 +116,8 @@ public class UnixFDList extends org.gtk.gobject.Object {
      * @param nFds the length of {@code fds}, or -1
      * @return a new {@link UnixFDList}
      */
-    public static UnixFDList newFromArray(int[] fds, int nFds) {
-        return new UnixFDList(constructNewFromArray(fds, nFds));
+    public static UnixFDList newFromArray(@NotNull int[] fds, int nFds) {
+        return new UnixFDList(constructNewFromArray(fds, nFds), Ownership.FULL);
     }
     
     /**
@@ -138,7 +144,8 @@ public class UnixFDList extends org.gtk.gobject.Object {
         try {
             RESULT = (int) DowncallHandles.g_unix_fd_list_append.invokeExact(
                     handle(),
-                    fd, (Addressable) GERROR);
+                    fd,
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,7 +178,8 @@ public class UnixFDList extends org.gtk.gobject.Object {
         try {
             RESULT = (int) DowncallHandles.g_unix_fd_list_get.invokeExact(
                     handle(),
-                    index, (Addressable) GERROR);
+                    index,
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -274,37 +282,44 @@ public class UnixFDList extends org.gtk.gobject.Object {
         
         private static final MethodHandle g_unix_fd_list_new = Interop.downcallHandle(
             "g_unix_fd_list_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_fd_list_new_from_array = Interop.downcallHandle(
             "g_unix_fd_list_new_from_array",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_unix_fd_list_append = Interop.downcallHandle(
             "g_unix_fd_list_append",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_fd_list_get = Interop.downcallHandle(
             "g_unix_fd_list_get",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_fd_list_get_length = Interop.downcallHandle(
             "g_unix_fd_list_get_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_fd_list_peek_fds = Interop.downcallHandle(
             "g_unix_fd_list_peek_fds",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_fd_list_steal_fds = Interop.downcallHandle(
             "g_unix_fd_list_steal_fds",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

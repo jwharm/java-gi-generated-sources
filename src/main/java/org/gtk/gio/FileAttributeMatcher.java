@@ -20,6 +20,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -28,22 +29,27 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
     
     public static FileAttributeMatcher allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FileAttributeMatcher newInstance = new FileAttributeMatcher(Refcounted.get(segment.address()));
+        FileAttributeMatcher newInstance = new FileAttributeMatcher(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a FileAttributeMatcher proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FileAttributeMatcher(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FileAttributeMatcher(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
-    private static Refcounted constructNew(@NotNull java.lang.String attributes) {
+    private static Addressable constructNew(@NotNull java.lang.String attributes) {
         java.util.Objects.requireNonNull(attributes, "Parameter 'attributes' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_file_attribute_matcher_new.invokeExact(
-                    Interop.allocateNativeString(attributes)), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_matcher_new.invokeExact(
+                    Interop.allocateNativeString(attributes));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,7 +80,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
      * @param attributes an attribute string to match.
      */
     public FileAttributeMatcher(@NotNull java.lang.String attributes) {
-        super(constructNew(attributes));
+        super(constructNew(attributes), Ownership.FULL);
     }
     
     /**
@@ -168,7 +174,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.FileAttributeMatcher(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.FileAttributeMatcher(RESULT, Ownership.FULL);
     }
     
     /**
@@ -193,7 +199,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.FileAttributeMatcher(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.FileAttributeMatcher(RESULT, Ownership.FULL);
     }
     
     /**
@@ -232,47 +238,56 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_file_attribute_matcher_new = Interop.downcallHandle(
             "g_file_attribute_matcher_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_attribute_matcher_enumerate_namespace = Interop.downcallHandle(
             "g_file_attribute_matcher_enumerate_namespace",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_attribute_matcher_enumerate_next = Interop.downcallHandle(
             "g_file_attribute_matcher_enumerate_next",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_attribute_matcher_matches = Interop.downcallHandle(
             "g_file_attribute_matcher_matches",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_attribute_matcher_matches_only = Interop.downcallHandle(
             "g_file_attribute_matcher_matches_only",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_attribute_matcher_ref = Interop.downcallHandle(
             "g_file_attribute_matcher_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_attribute_matcher_subtract = Interop.downcallHandle(
             "g_file_attribute_matcher_subtract",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_attribute_matcher_to_string = Interop.downcallHandle(
             "g_file_attribute_matcher_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_attribute_matcher_unref = Interop.downcallHandle(
             "g_file_attribute_matcher_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

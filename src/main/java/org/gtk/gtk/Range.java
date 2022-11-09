@@ -32,6 +32,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -42,12 +43,17 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public org.gtk.gtk.Widget parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gtk.Widget(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.Widget(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a Range proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Range(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Range(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -59,7 +65,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public static Range castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkRange"))) {
-            return new Range(gobject.refcounted());
+            return new Range(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkRange");
         }
@@ -77,7 +83,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Adjustment(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Adjustment(RESULT, Ownership.NONE);
     }
     
     /**
@@ -477,6 +483,8 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     /**
      * Emitted before clamping a value, to give the application a
      * chance to adjust the bounds.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Range.AdjustBounds> onAdjustBounds(Range.AdjustBounds handler) {
         try {
@@ -514,6 +522,8 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * the ::change-value signal is responsible for clamping the value
      * to the desired number of decimal digits; the default GTK
      * handler clamps the value based on {@code Gtk.Range:round-digits}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Range.ChangeValue> onChangeValue(Range.ChangeValue handler) {
         try {
@@ -542,6 +552,8 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Virtual function that moves the slider.
      * <p>
      * Used for keybindings.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Range.MoveSlider> onMoveSlider(Range.MoveSlider handler) {
         try {
@@ -568,6 +580,8 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     /**
      * Emitted when the range value changes.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Range.ValueChanged> onValueChanged(Range.ValueChanged handler) {
         try {
@@ -591,112 +605,134 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         
         private static final MethodHandle gtk_range_get_adjustment = Interop.downcallHandle(
             "gtk_range_get_adjustment",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_range_get_fill_level = Interop.downcallHandle(
             "gtk_range_get_fill_level",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_range_get_flippable = Interop.downcallHandle(
             "gtk_range_get_flippable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_range_get_inverted = Interop.downcallHandle(
             "gtk_range_get_inverted",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_range_get_range_rect = Interop.downcallHandle(
             "gtk_range_get_range_rect",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_range_get_restrict_to_fill_level = Interop.downcallHandle(
             "gtk_range_get_restrict_to_fill_level",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_range_get_round_digits = Interop.downcallHandle(
             "gtk_range_get_round_digits",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_range_get_show_fill_level = Interop.downcallHandle(
             "gtk_range_get_show_fill_level",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_range_get_slider_range = Interop.downcallHandle(
             "gtk_range_get_slider_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_range_get_slider_size_fixed = Interop.downcallHandle(
             "gtk_range_get_slider_size_fixed",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_range_get_value = Interop.downcallHandle(
             "gtk_range_get_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_range_set_adjustment = Interop.downcallHandle(
             "gtk_range_set_adjustment",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_range_set_fill_level = Interop.downcallHandle(
             "gtk_range_set_fill_level",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_range_set_flippable = Interop.downcallHandle(
             "gtk_range_set_flippable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_range_set_increments = Interop.downcallHandle(
             "gtk_range_set_increments",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_range_set_inverted = Interop.downcallHandle(
             "gtk_range_set_inverted",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_range_set_range = Interop.downcallHandle(
             "gtk_range_set_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle gtk_range_set_restrict_to_fill_level = Interop.downcallHandle(
             "gtk_range_set_restrict_to_fill_level",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_range_set_round_digits = Interop.downcallHandle(
             "gtk_range_set_round_digits",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_range_set_show_fill_level = Interop.downcallHandle(
             "gtk_range_set_show_fill_level",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_range_set_slider_size_fixed = Interop.downcallHandle(
             "gtk_range_set_slider_size_fixed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_range_set_value = Interop.downcallHandle(
             "gtk_range_set_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            false
         );
     }
     
@@ -705,25 +741,25 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         public static void signalRangeAdjustBounds(MemoryAddress source, double value, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Range.AdjustBounds) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Range(Refcounted.get(source)), value);
+            HANDLER.signalReceived(new Range(source, Ownership.UNKNOWN), value);
         }
         
         public static boolean signalRangeChangeValue(MemoryAddress source, int scroll, double value, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Range.ChangeValue) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Range(Refcounted.get(source)), new org.gtk.gtk.ScrollType(scroll), value);
+            return HANDLER.signalReceived(new Range(source, Ownership.UNKNOWN), new org.gtk.gtk.ScrollType(scroll), value);
         }
         
         public static void signalRangeMoveSlider(MemoryAddress source, int step, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Range.MoveSlider) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Range(Refcounted.get(source)), new org.gtk.gtk.ScrollType(step));
+            HANDLER.signalReceived(new Range(source, Ownership.UNKNOWN), new org.gtk.gtk.ScrollType(step));
         }
         
         public static void signalRangeValueChanged(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Range.ValueChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Range(Refcounted.get(source)));
+            HANDLER.signalReceived(new Range(source, Ownership.UNKNOWN));
         }
     }
 }

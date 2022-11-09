@@ -5,6 +5,9 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
+/**
+ * Constants and functions that are declared in the global Gio namespace.
+ */
 public final class Gio {
     
     static {
@@ -1076,7 +1079,8 @@ public final class Gio {
             RESULT = (int) DowncallHandles.g_action_parse_detailed_name.invokeExact(
                     Interop.allocateNativeString(detailedName),
                     (Addressable) actionNamePOINTER.address(),
-                    targetValue.handle(), (Addressable) GERROR);
+                    targetValue.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1138,14 +1142,15 @@ public final class Gio {
             RESULT = (MemoryAddress) DowncallHandles.g_app_info_create_from_commandline.invokeExact(
                     Interop.allocateNativeString(commandline),
                     (Addressable) (applicationName == null ? MemoryAddress.NULL : Interop.allocateNativeString(applicationName)),
-                    flags.getValue(), (Addressable) GERROR);
+                    flags.getValue(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.AppInfo.AppInfoImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1166,7 +1171,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1187,7 +1192,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1208,7 +1213,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.AppInfo.AppInfoImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1229,7 +1234,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.AppInfo.AppInfoImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1249,7 +1254,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1272,7 +1277,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1296,7 +1301,8 @@ public final class Gio {
         try {
             RESULT = (int) DowncallHandles.g_app_info_launch_default_for_uri.invokeExact(
                     Interop.allocateNativeString(uri),
-                    (Addressable) (context == null ? MemoryAddress.NULL : context.handle()), (Addressable) GERROR);
+                    (Addressable) (context == null ? MemoryAddress.NULL : context.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1352,7 +1358,8 @@ public final class Gio {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_app_info_launch_default_for_uri_finish.invokeExact(
-                    result.handle(), (Addressable) GERROR);
+                    result.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1473,14 +1480,15 @@ public final class Gio {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bus_get_finish.invokeExact(
-                    res.handle(), (Addressable) GERROR);
+                    res.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.DBusConnection(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.DBusConnection(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1515,14 +1523,15 @@ public final class Gio {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bus_get_sync.invokeExact(
                     busType.getValue(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.DBusConnection(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.DBusConnection(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2044,7 +2053,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2097,7 +2106,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2113,7 +2122,7 @@ public final class Gio {
      * @return a string indicating a guessed content type for the
      *     given data. Free with g_free()
      */
-    public static @NotNull java.lang.String contentTypeGuess(@Nullable java.lang.String filename, byte[] data, long dataSize, Out<Boolean> resultUncertain) {
+    public static @NotNull java.lang.String contentTypeGuess(@Nullable java.lang.String filename, @Nullable byte[] data, long dataSize, Out<Boolean> resultUncertain) {
         java.util.Objects.requireNonNull(resultUncertain, "Parameter 'resultUncertain' must not be null");
         MemorySegment resultUncertainPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
@@ -2250,7 +2259,7 @@ public final class Gio {
      *    directories to load MIME data from, including any {@code mime/} subdirectory,
      *    and with the first directory to try listed first
      */
-    public static void contentTypeSetMimeDirs(java.lang.String[] dirs) {
+    public static void contentTypeSetMimeDirs(@Nullable java.lang.String[] dirs) {
         try {
             DowncallHandles.g_content_type_set_mime_dirs.invokeExact(
                     (Addressable) (dirs == null ? MemoryAddress.NULL : Interop.allocateNativeArray(dirs, false)));
@@ -2273,7 +2282,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2321,7 +2330,8 @@ public final class Gio {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_address_get_for_bus_sync.invokeExact(
                     busType.getValue(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2382,7 +2392,8 @@ public final class Gio {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_address_get_stream_finish.invokeExact(
                     res.handle(),
-                    (Addressable) (outGuid == null ? MemoryAddress.NULL : (Addressable) outGuidPOINTER.address()), (Addressable) GERROR);
+                    (Addressable) (outGuid == null ? MemoryAddress.NULL : (Addressable) outGuidPOINTER.address()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2390,7 +2401,7 @@ public final class Gio {
             throw new GErrorException(GERROR);
         }
         if (outGuid != null) outGuid.set(Interop.getStringFrom(outGuidPOINTER.get(ValueLayout.ADDRESS, 0)));
-        return new org.gtk.gio.IOStream(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.IOStream(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2419,7 +2430,8 @@ public final class Gio {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_address_get_stream_sync.invokeExact(
                     Interop.allocateNativeString(address),
                     (Addressable) (outGuid == null ? MemoryAddress.NULL : (Addressable) outGuidPOINTER.address()),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2427,7 +2439,7 @@ public final class Gio {
             throw new GErrorException(GERROR);
         }
         if (outGuid != null) outGuid.set(Interop.getStringFrom(outGuidPOINTER.get(ValueLayout.ADDRESS, 0)));
-        return new org.gtk.gio.IOStream(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.IOStream(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2438,7 +2450,7 @@ public final class Gio {
      * @param name The name of the annotation to look up.
      * @return The value or {@code null} if not found. Do not free, it is owned by {@code annotations}.
      */
-    public static @Nullable java.lang.String dbusAnnotationInfoLookup(org.gtk.gio.DBusAnnotationInfo[] annotations, @NotNull java.lang.String name) {
+    public static @Nullable java.lang.String dbusAnnotationInfoLookup(@Nullable org.gtk.gio.DBusAnnotationInfo[] annotations, @NotNull java.lang.String name) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
@@ -2563,7 +2575,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Error(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Error(RESULT, Ownership.FULL);
     }
     
     public static @NotNull org.gtk.glib.Quark dbusErrorQuark() {
@@ -2613,7 +2625,7 @@ public final class Gio {
      * @param entries A pointer to {@code num_entries} {@link DBusErrorEntry} struct items.
      * @param numEntries Number of items to register.
      */
-    public static void dbusErrorRegisterErrorDomain(@NotNull java.lang.String errorDomainQuarkName, PointerLong quarkVolatile, org.gtk.gio.DBusErrorEntry[] entries, int numEntries) {
+    public static void dbusErrorRegisterErrorDomain(@NotNull java.lang.String errorDomainQuarkName, PointerLong quarkVolatile, @NotNull org.gtk.gio.DBusErrorEntry[] entries, int numEntries) {
         java.util.Objects.requireNonNull(errorDomainQuarkName, "Parameter 'errorDomainQuarkName' must not be null");
         java.util.Objects.requireNonNull(quarkVolatile, "Parameter 'quarkVolatile' must not be null");
         java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
@@ -2709,7 +2721,7 @@ public final class Gio {
      * @param bytes the string of bytes to escape
      * @return an escaped version of {@code bytes}. Free with g_free().
      */
-    public static @NotNull java.lang.String dbusEscapeObjectPathBytestring(byte[] bytes) {
+    public static @NotNull java.lang.String dbusEscapeObjectPathBytestring(@NotNull byte[] bytes) {
         java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
         MemoryAddress RESULT;
         try {
@@ -2792,7 +2804,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2952,7 +2964,8 @@ public final class Gio {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dbus_is_supported_address.invokeExact(
-                    Interop.allocateNativeString(string), (Addressable) GERROR);
+                    Interop.allocateNativeString(string),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3021,14 +3034,15 @@ public final class Gio {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dtls_client_connection_new.invokeExact(
                     baseSocket.handle(),
-                    (Addressable) (serverIdentity == null ? MemoryAddress.NULL : serverIdentity.handle()), (Addressable) GERROR);
+                    (Addressable) (serverIdentity == null ? MemoryAddress.NULL : serverIdentity.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.DtlsClientConnection.DtlsClientConnectionImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.DtlsClientConnection.DtlsClientConnectionImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3046,14 +3060,15 @@ public final class Gio {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dtls_server_connection_new.invokeExact(
                     baseSocket.handle(),
-                    (Addressable) (certificate == null ? MemoryAddress.NULL : certificate.handle()), (Addressable) GERROR);
+                    (Addressable) (certificate == null ? MemoryAddress.NULL : certificate.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.DtlsServerConnection.DtlsServerConnectionImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.DtlsServerConnection.DtlsServerConnectionImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3084,7 +3099,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3114,7 +3129,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3135,7 +3150,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3156,7 +3171,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3184,14 +3199,15 @@ public final class Gio {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_new_tmp.invokeExact(
                     (Addressable) (tmpl == null ? MemoryAddress.NULL : Interop.allocateNativeString(tmpl)),
-                    iostream.handle(), (Addressable) GERROR);
+                    iostream.handle(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3211,7 +3227,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3228,7 +3244,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3267,14 +3283,15 @@ public final class Gio {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_icon_new_for_string.invokeExact(
-                    Interop.allocateNativeString(str), (Addressable) GERROR);
+                    Interop.allocateNativeString(str),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3292,7 +3309,7 @@ public final class Gio {
      * g_initable_init() instead. See {@link org.gtk.gobject.Parameter} for more information.
      */
     @Deprecated
-    public static @NotNull org.gtk.gobject.Object initableNewv(@NotNull org.gtk.glib.Type objectType, int nParameters, org.gtk.gobject.Parameter[] parameters, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull org.gtk.gobject.Object initableNewv(@NotNull org.gtk.glib.Type objectType, int nParameters, @NotNull org.gtk.gobject.Parameter[] parameters, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(objectType, "Parameter 'objectType' must not be null");
         java.util.Objects.requireNonNull(parameters, "Parameter 'parameters' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -3302,14 +3319,15 @@ public final class Gio {
                     objectType.getValue().longValue(),
                     nParameters,
                     Interop.allocateNativeArray(parameters, false),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
+        return new org.gtk.gobject.Object(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3374,7 +3392,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.IOExtension(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.IOExtension(RESULT, Ownership.NONE);
     }
     
     /**
@@ -3392,7 +3410,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.IOExtensionPoint(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.IOExtensionPoint(RESULT, Ownership.NONE);
     }
     
     /**
@@ -3410,7 +3428,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.IOExtensionPoint(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.IOExtensionPoint(RESULT, Ownership.NONE);
     }
     
     /**
@@ -3437,7 +3455,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3467,7 +3485,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3641,7 +3659,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SettingsBackend(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.SettingsBackend(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3655,7 +3673,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.MemoryMonitor.MemoryMonitorImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.MemoryMonitor.MemoryMonitorImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3673,7 +3691,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SettingsBackend(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.SettingsBackend(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3688,7 +3706,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.NetworkMonitor.NetworkMonitorImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.NetworkMonitor.NetworkMonitorImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -3719,7 +3737,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SettingsBackend(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.SettingsBackend(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3740,7 +3758,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Source(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Source(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3765,7 +3783,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Source(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Source(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3787,7 +3805,7 @@ public final class Gio {
      * @return the number of bytes read, or -1 on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static long pollableStreamRead(@NotNull org.gtk.gio.InputStream stream, byte[] buffer, long count, boolean blocking, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public static long pollableStreamRead(@NotNull org.gtk.gio.InputStream stream, @NotNull byte[] buffer, long count, boolean blocking, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -3798,7 +3816,8 @@ public final class Gio {
                     Interop.allocateNativeArray(buffer, false),
                     count,
                     blocking ? 1 : 0,
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3828,7 +3847,7 @@ public final class Gio {
      * @return the number of bytes written, or -1 on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static long pollableStreamWrite(@NotNull org.gtk.gio.OutputStream stream, byte[] buffer, long count, boolean blocking, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public static long pollableStreamWrite(@NotNull org.gtk.gio.OutputStream stream, @NotNull byte[] buffer, long count, boolean blocking, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -3839,7 +3858,8 @@ public final class Gio {
                     Interop.allocateNativeArray(buffer, false),
                     count,
                     blocking ? 1 : 0,
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3879,7 +3899,7 @@ public final class Gio {
      * @return {@code true} on success, {@code false} if there was an error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean pollableStreamWriteAll(@NotNull org.gtk.gio.OutputStream stream, byte[] buffer, long count, boolean blocking, Out<Long> bytesWritten, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean pollableStreamWriteAll(@NotNull org.gtk.gio.OutputStream stream, @NotNull byte[] buffer, long count, boolean blocking, Out<Long> bytesWritten, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
@@ -3893,7 +3913,8 @@ public final class Gio {
                     count,
                     blocking ? 1 : 0,
                     (Addressable) bytesWrittenPOINTER.address(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()), (Addressable) GERROR);
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3915,7 +3936,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.PowerProfileMonitor.PowerProfileMonitorImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.PowerProfileMonitor.PowerProfileMonitorImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3934,7 +3955,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Proxy.ProxyImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Proxy.ProxyImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3949,7 +3970,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ProxyResolver.ProxyResolverImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.ProxyResolver.ProxyResolverImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -4001,14 +4022,15 @@ public final class Gio {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_resource_load.invokeExact(
-                    Interop.allocateNativeString(filename), (Addressable) GERROR);
+                    Interop.allocateNativeString(filename),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.Resource(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Resource(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4031,7 +4053,8 @@ public final class Gio {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_resources_enumerate_children.invokeExact(
                     Interop.allocateNativeString(path),
-                    lookupFlags.getValue(), (Addressable) GERROR);
+                    lookupFlags.getValue(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4069,7 +4092,8 @@ public final class Gio {
                     Interop.allocateNativeString(path),
                     lookupFlags.getValue(),
                     (Addressable) sizePOINTER.address(),
-                    (Addressable) flagsPOINTER.address(), (Addressable) GERROR);
+                    (Addressable) flagsPOINTER.address(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4110,14 +4134,15 @@ public final class Gio {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_resources_lookup_data.invokeExact(
                     Interop.allocateNativeString(path),
-                    lookupFlags.getValue(), (Addressable) GERROR);
+                    lookupFlags.getValue(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4140,14 +4165,15 @@ public final class Gio {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_resources_open_stream.invokeExact(
                     Interop.allocateNativeString(path),
-                    lookupFlags.getValue(), (Addressable) GERROR);
+                    lookupFlags.getValue(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.InputStream(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.InputStream(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4203,7 +4229,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SettingsSchemaSource(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.SettingsSchemaSource(RESULT, Ownership.NONE);
     }
     
     /**
@@ -4215,11 +4241,29 @@ public final class Gio {
      * @param domain a {@link org.gtk.glib.Quark} containing the error domain (usually {@code G_IO_ERROR}).
      * @param code a specific error code.
      * @param format a formatted error reporting string.
+     * @param varargs a list of variables to fill in {@code format}.
      * @deprecated Use g_task_report_error().
      */
     @Deprecated
-    public static void simpleAsyncReportErrorInIdle(@Nullable org.gtk.gobject.Object object, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void simpleAsyncReportErrorInIdle(@Nullable org.gtk.gobject.Object object, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+        try {
+            DowncallHandles.g_simple_async_report_error_in_idle.invokeExact(
+                    (Addressable) (object == null ? MemoryAddress.NULL : object.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)),
+                    domain.getValue().intValue(),
+                    code,
+                    Interop.allocateNativeString(format),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -4290,7 +4334,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4305,7 +4349,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsBackend.TlsBackendImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.TlsBackend.TlsBackendImpl(RESULT, Ownership.NONE);
     }
     
     /**
@@ -4343,14 +4387,15 @@ public final class Gio {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_client_connection_new.invokeExact(
                     baseIoStream.handle(),
-                    (Addressable) (serverIdentity == null ? MemoryAddress.NULL : serverIdentity.handle()), (Addressable) GERROR);
+                    (Addressable) (serverIdentity == null ? MemoryAddress.NULL : serverIdentity.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.TlsClientConnection.TlsClientConnectionImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.TlsClientConnection.TlsClientConnectionImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4383,14 +4428,15 @@ public final class Gio {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_file_database_new.invokeExact(
-                    Interop.allocateNativeString(anchors), (Addressable) GERROR);
+                    Interop.allocateNativeString(anchors),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.TlsFileDatabase.TlsFileDatabaseImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.TlsFileDatabase.TlsFileDatabaseImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4413,14 +4459,15 @@ public final class Gio {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_server_connection_new.invokeExact(
                     baseIoStream.handle(),
-                    (Addressable) (certificate == null ? MemoryAddress.NULL : certificate.handle()), (Addressable) GERROR);
+                    (Addressable) (certificate == null ? MemoryAddress.NULL : certificate.handle()),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.TlsServerConnection.TlsServerConnectionImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.TlsServerConnection.TlsServerConnectionImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4517,7 +4564,7 @@ public final class Gio {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         timeRead.set(timeReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return new org.gtk.gio.UnixMountEntry(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.UnixMountEntry(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4555,7 +4602,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.UnixMountEntry(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.UnixMountEntry(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4585,7 +4632,7 @@ public final class Gio {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         timeRead.set(timeReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return new org.gtk.gio.UnixMountEntry(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.UnixMountEntry(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4728,7 +4775,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4781,7 +4828,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4848,7 +4895,7 @@ public final class Gio {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         timeRead.set(timeReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return new org.gtk.gio.UnixMountPoint(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.UnixMountPoint(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4886,7 +4933,7 @@ public final class Gio {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         timeRead.set(timeReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4924,784 +4971,939 @@ public final class Gio {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         timeRead.set(timeReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_action_name_is_valid = Interop.downcallHandle(
             "g_action_name_is_valid",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_action_parse_detailed_name = Interop.downcallHandle(
             "g_action_parse_detailed_name",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_action_print_detailed_name = Interop.downcallHandle(
             "g_action_print_detailed_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_app_info_create_from_commandline = Interop.downcallHandle(
             "g_app_info_create_from_commandline",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_app_info_get_all = Interop.downcallHandle(
             "g_app_info_get_all",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_app_info_get_all_for_type = Interop.downcallHandle(
             "g_app_info_get_all_for_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_app_info_get_default_for_type = Interop.downcallHandle(
             "g_app_info_get_default_for_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_app_info_get_default_for_uri_scheme = Interop.downcallHandle(
             "g_app_info_get_default_for_uri_scheme",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_app_info_get_fallback_for_type = Interop.downcallHandle(
             "g_app_info_get_fallback_for_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_app_info_get_recommended_for_type = Interop.downcallHandle(
             "g_app_info_get_recommended_for_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_app_info_launch_default_for_uri = Interop.downcallHandle(
             "g_app_info_launch_default_for_uri",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_app_info_launch_default_for_uri_async = Interop.downcallHandle(
             "g_app_info_launch_default_for_uri_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_app_info_launch_default_for_uri_finish = Interop.downcallHandle(
             "g_app_info_launch_default_for_uri_finish",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_app_info_reset_type_associations = Interop.downcallHandle(
             "g_app_info_reset_type_associations",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_async_initable_newv_async = Interop.downcallHandle(
             "g_async_initable_newv_async",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_bus_get = Interop.downcallHandle(
             "g_bus_get",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_bus_get_finish = Interop.downcallHandle(
             "g_bus_get_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_bus_get_sync = Interop.downcallHandle(
             "g_bus_get_sync",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_bus_own_name = Interop.downcallHandle(
             "g_bus_own_name",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_bus_own_name_on_connection = Interop.downcallHandle(
             "g_bus_own_name_on_connection",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_bus_own_name_on_connection_with_closures = Interop.downcallHandle(
             "g_bus_own_name_on_connection_with_closures",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_bus_own_name_with_closures = Interop.downcallHandle(
             "g_bus_own_name_with_closures",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_bus_unown_name = Interop.downcallHandle(
             "g_bus_unown_name",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_bus_unwatch_name = Interop.downcallHandle(
             "g_bus_unwatch_name",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_bus_watch_name = Interop.downcallHandle(
             "g_bus_watch_name",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_bus_watch_name_on_connection = Interop.downcallHandle(
             "g_bus_watch_name_on_connection",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_bus_watch_name_on_connection_with_closures = Interop.downcallHandle(
             "g_bus_watch_name_on_connection_with_closures",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_bus_watch_name_with_closures = Interop.downcallHandle(
             "g_bus_watch_name_with_closures",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_content_type_can_be_executable = Interop.downcallHandle(
             "g_content_type_can_be_executable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_content_type_equals = Interop.downcallHandle(
             "g_content_type_equals",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_content_type_from_mime_type = Interop.downcallHandle(
             "g_content_type_from_mime_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_content_type_get_description = Interop.downcallHandle(
             "g_content_type_get_description",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_content_type_get_generic_icon_name = Interop.downcallHandle(
             "g_content_type_get_generic_icon_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_content_type_get_icon = Interop.downcallHandle(
             "g_content_type_get_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_content_type_get_mime_dirs = Interop.downcallHandle(
             "g_content_type_get_mime_dirs",
-            FunctionDescriptor.ofVoid()
+            FunctionDescriptor.ofVoid(),
+            false
         );
         
         private static final MethodHandle g_content_type_get_mime_type = Interop.downcallHandle(
             "g_content_type_get_mime_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_content_type_get_symbolic_icon = Interop.downcallHandle(
             "g_content_type_get_symbolic_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_content_type_guess = Interop.downcallHandle(
             "g_content_type_guess",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_content_type_guess_for_tree = Interop.downcallHandle(
             "g_content_type_guess_for_tree",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_content_type_is_a = Interop.downcallHandle(
             "g_content_type_is_a",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_content_type_is_mime_type = Interop.downcallHandle(
             "g_content_type_is_mime_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_content_type_is_unknown = Interop.downcallHandle(
             "g_content_type_is_unknown",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_content_type_set_mime_dirs = Interop.downcallHandle(
             "g_content_type_set_mime_dirs",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_content_types_get_registered = Interop.downcallHandle(
             "g_content_types_get_registered",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_address_escape_value = Interop.downcallHandle(
             "g_dbus_address_escape_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_address_get_for_bus_sync = Interop.downcallHandle(
             "g_dbus_address_get_for_bus_sync",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_address_get_stream = Interop.downcallHandle(
             "g_dbus_address_get_stream",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_address_get_stream_finish = Interop.downcallHandle(
             "g_dbus_address_get_stream_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_address_get_stream_sync = Interop.downcallHandle(
             "g_dbus_address_get_stream_sync",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_annotation_info_lookup = Interop.downcallHandle(
             "g_dbus_annotation_info_lookup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_error_encode_gerror = Interop.downcallHandle(
             "g_dbus_error_encode_gerror",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_error_get_remote_error = Interop.downcallHandle(
             "g_dbus_error_get_remote_error",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_error_is_remote_error = Interop.downcallHandle(
             "g_dbus_error_is_remote_error",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_error_new_for_dbus_error = Interop.downcallHandle(
             "g_dbus_error_new_for_dbus_error",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_error_quark = Interop.downcallHandle(
             "g_dbus_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_dbus_error_register_error = Interop.downcallHandle(
             "g_dbus_error_register_error",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_error_register_error_domain = Interop.downcallHandle(
             "g_dbus_error_register_error_domain",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_dbus_error_strip_remote_error = Interop.downcallHandle(
             "g_dbus_error_strip_remote_error",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_error_unregister_error = Interop.downcallHandle(
             "g_dbus_error_unregister_error",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_escape_object_path = Interop.downcallHandle(
             "g_dbus_escape_object_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_escape_object_path_bytestring = Interop.downcallHandle(
             "g_dbus_escape_object_path_bytestring",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_generate_guid = Interop.downcallHandle(
             "g_dbus_generate_guid",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_gvalue_to_gvariant = Interop.downcallHandle(
             "g_dbus_gvalue_to_gvariant",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_gvariant_to_gvalue = Interop.downcallHandle(
             "g_dbus_gvariant_to_gvalue",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_is_address = Interop.downcallHandle(
             "g_dbus_is_address",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_is_error_name = Interop.downcallHandle(
             "g_dbus_is_error_name",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_is_guid = Interop.downcallHandle(
             "g_dbus_is_guid",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_is_interface_name = Interop.downcallHandle(
             "g_dbus_is_interface_name",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_is_member_name = Interop.downcallHandle(
             "g_dbus_is_member_name",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_is_name = Interop.downcallHandle(
             "g_dbus_is_name",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_is_supported_address = Interop.downcallHandle(
             "g_dbus_is_supported_address",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_is_unique_name = Interop.downcallHandle(
             "g_dbus_is_unique_name",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dbus_unescape_object_path = Interop.downcallHandle(
             "g_dbus_unescape_object_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dtls_client_connection_new = Interop.downcallHandle(
             "g_dtls_client_connection_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_dtls_server_connection_new = Interop.downcallHandle(
             "g_dtls_server_connection_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_new_for_commandline_arg = Interop.downcallHandle(
             "g_file_new_for_commandline_arg",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_new_for_commandline_arg_and_cwd = Interop.downcallHandle(
             "g_file_new_for_commandline_arg_and_cwd",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_new_for_path = Interop.downcallHandle(
             "g_file_new_for_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_new_for_uri = Interop.downcallHandle(
             "g_file_new_for_uri",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_new_tmp = Interop.downcallHandle(
             "g_file_new_tmp",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_file_parse_name = Interop.downcallHandle(
             "g_file_parse_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_icon_deserialize = Interop.downcallHandle(
             "g_icon_deserialize",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_icon_hash = Interop.downcallHandle(
             "g_icon_hash",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_icon_new_for_string = Interop.downcallHandle(
             "g_icon_new_for_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_initable_newv = Interop.downcallHandle(
             "g_initable_newv",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_error_from_errno = Interop.downcallHandle(
             "g_io_error_from_errno",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_io_error_quark = Interop.downcallHandle(
             "g_io_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_io_extension_point_implement = Interop.downcallHandle(
             "g_io_extension_point_implement",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_io_extension_point_lookup = Interop.downcallHandle(
             "g_io_extension_point_lookup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_extension_point_register = Interop.downcallHandle(
             "g_io_extension_point_register",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_modules_load_all_in_directory = Interop.downcallHandle(
             "g_io_modules_load_all_in_directory",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_modules_load_all_in_directory_with_scope = Interop.downcallHandle(
             "g_io_modules_load_all_in_directory_with_scope",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_modules_scan_all_in_directory = Interop.downcallHandle(
             "g_io_modules_scan_all_in_directory",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_modules_scan_all_in_directory_with_scope = Interop.downcallHandle(
             "g_io_modules_scan_all_in_directory_with_scope",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_io_scheduler_cancel_all_jobs = Interop.downcallHandle(
             "g_io_scheduler_cancel_all_jobs",
-            FunctionDescriptor.ofVoid()
+            FunctionDescriptor.ofVoid(),
+            false
         );
         
         private static final MethodHandle g_io_scheduler_push_job = Interop.downcallHandle(
             "g_io_scheduler_push_job",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_keyfile_settings_backend_new = Interop.downcallHandle(
             "g_keyfile_settings_backend_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_memory_monitor_dup_default = Interop.downcallHandle(
             "g_memory_monitor_dup_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_memory_settings_backend_new = Interop.downcallHandle(
             "g_memory_settings_backend_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_network_monitor_get_default = Interop.downcallHandle(
             "g_network_monitor_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_networking_init = Interop.downcallHandle(
             "g_networking_init",
-            FunctionDescriptor.ofVoid()
+            FunctionDescriptor.ofVoid(),
+            false
         );
         
         private static final MethodHandle g_null_settings_backend_new = Interop.downcallHandle(
             "g_null_settings_backend_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_pollable_source_new = Interop.downcallHandle(
             "g_pollable_source_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_pollable_source_new_full = Interop.downcallHandle(
             "g_pollable_source_new_full",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_pollable_stream_read = Interop.downcallHandle(
             "g_pollable_stream_read",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_pollable_stream_write = Interop.downcallHandle(
             "g_pollable_stream_write",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_pollable_stream_write_all = Interop.downcallHandle(
             "g_pollable_stream_write_all",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_power_profile_monitor_dup_default = Interop.downcallHandle(
             "g_power_profile_monitor_dup_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_proxy_get_default_for_protocol = Interop.downcallHandle(
             "g_proxy_get_default_for_protocol",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_proxy_resolver_get_default = Interop.downcallHandle(
             "g_proxy_resolver_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_resolver_error_quark = Interop.downcallHandle(
             "g_resolver_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_resource_error_quark = Interop.downcallHandle(
             "g_resource_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_resource_load = Interop.downcallHandle(
             "g_resource_load",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_resources_enumerate_children = Interop.downcallHandle(
             "g_resources_enumerate_children",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_resources_get_info = Interop.downcallHandle(
             "g_resources_get_info",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_resources_lookup_data = Interop.downcallHandle(
             "g_resources_lookup_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_resources_open_stream = Interop.downcallHandle(
             "g_resources_open_stream",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_resources_register = Interop.downcallHandle(
             "g_resources_register",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_resources_unregister = Interop.downcallHandle(
             "g_resources_unregister",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_settings_schema_source_get_default = Interop.downcallHandle(
             "g_settings_schema_source_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_async_report_error_in_idle = Interop.downcallHandle(
             "g_simple_async_report_error_in_idle",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_simple_async_report_gerror_in_idle = Interop.downcallHandle(
             "g_simple_async_report_gerror_in_idle",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_simple_async_report_take_gerror_in_idle = Interop.downcallHandle(
             "g_simple_async_report_take_gerror_in_idle",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_srv_target_list_sort = Interop.downcallHandle(
             "g_srv_target_list_sort",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_backend_get_default = Interop.downcallHandle(
             "g_tls_backend_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_channel_binding_error_quark = Interop.downcallHandle(
             "g_tls_channel_binding_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_tls_client_connection_new = Interop.downcallHandle(
             "g_tls_client_connection_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_error_quark = Interop.downcallHandle(
             "g_tls_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_tls_file_database_new = Interop.downcallHandle(
             "g_tls_file_database_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_tls_server_connection_new = Interop.downcallHandle(
             "g_tls_server_connection_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_is_mount_path_system_internal = Interop.downcallHandle(
             "g_unix_is_mount_path_system_internal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_is_system_device_path = Interop.downcallHandle(
             "g_unix_is_system_device_path",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_is_system_fs_type = Interop.downcallHandle(
             "g_unix_is_system_fs_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_at = Interop.downcallHandle(
             "g_unix_mount_at",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_compare = Interop.downcallHandle(
             "g_unix_mount_compare",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_copy = Interop.downcallHandle(
             "g_unix_mount_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_for = Interop.downcallHandle(
             "g_unix_mount_for",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_free = Interop.downcallHandle(
             "g_unix_mount_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_get_device_path = Interop.downcallHandle(
             "g_unix_mount_get_device_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_get_fs_type = Interop.downcallHandle(
             "g_unix_mount_get_fs_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_get_mount_path = Interop.downcallHandle(
             "g_unix_mount_get_mount_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_get_options = Interop.downcallHandle(
             "g_unix_mount_get_options",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_get_root_path = Interop.downcallHandle(
             "g_unix_mount_get_root_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_guess_can_eject = Interop.downcallHandle(
             "g_unix_mount_guess_can_eject",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_guess_icon = Interop.downcallHandle(
             "g_unix_mount_guess_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_guess_name = Interop.downcallHandle(
             "g_unix_mount_guess_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_guess_should_display = Interop.downcallHandle(
             "g_unix_mount_guess_should_display",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_guess_symbolic_icon = Interop.downcallHandle(
             "g_unix_mount_guess_symbolic_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_is_readonly = Interop.downcallHandle(
             "g_unix_mount_is_readonly",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_is_system_internal = Interop.downcallHandle(
             "g_unix_mount_is_system_internal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_point_at = Interop.downcallHandle(
             "g_unix_mount_point_at",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mount_points_changed_since = Interop.downcallHandle(
             "g_unix_mount_points_changed_since",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_unix_mount_points_get = Interop.downcallHandle(
             "g_unix_mount_points_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_unix_mounts_changed_since = Interop.downcallHandle(
             "g_unix_mounts_changed_since",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_unix_mounts_get = Interop.downcallHandle(
             "g_unix_mounts_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -5711,13 +5913,13 @@ public final class Gio {
         public static void cbBusNameVanishedCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (BusNameVanishedCallback) Interop.signalRegistry.get(HASH);
-            HANDLER.onBusNameVanishedCallback(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(name));
+            HANDLER.onBusNameVanishedCallback(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), Interop.getStringFrom(name));
         }
         
         public static void cbBusNameAppearedCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress nameOwner, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (BusNameAppearedCallback) Interop.signalRegistry.get(HASH);
-            HANDLER.onBusNameAppearedCallback(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(name), Interop.getStringFrom(nameOwner));
+            HANDLER.onBusNameAppearedCallback(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), Interop.getStringFrom(name), Interop.getStringFrom(nameOwner));
         }
         
         public static void cbFileMeasureProgressCallback(int reporting, long currentSize, long numDirs, long numFiles, MemoryAddress userData) {
@@ -5729,7 +5931,7 @@ public final class Gio {
         public static boolean cbDatagramBasedSourceFunc(MemoryAddress datagramBased, int condition, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DatagramBasedSourceFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onDatagramBasedSourceFunc(new org.gtk.gio.DatagramBased.DatagramBasedImpl(Refcounted.get(datagramBased, false)), new org.gtk.glib.IOCondition(condition));
+            var RESULT = HANDLER.onDatagramBasedSourceFunc(new org.gtk.gio.DatagramBased.DatagramBasedImpl(datagramBased, Ownership.NONE), new org.gtk.glib.IOCondition(condition));
             return RESULT;
         }
         
@@ -5737,7 +5939,7 @@ public final class Gio {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SettingsGetMapping) Interop.signalRegistry.get(HASH);
         var resultOUT = new Out<java.lang.foreign.MemoryAddress>(result);
-            var RESULT = HANDLER.onSettingsGetMapping(new org.gtk.glib.Variant(Refcounted.get(value, false)), resultOUT);
+            var RESULT = HANDLER.onSettingsGetMapping(new org.gtk.glib.Variant(value, Ownership.NONE), resultOUT);
             result.set(ValueLayout.ADDRESS, 0, resultOUT.get());
             return RESULT;
         }
@@ -5745,20 +5947,20 @@ public final class Gio {
         public static org.gtk.glib.Variant cbDBusInterfaceGetPropertyFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress propertyName, MemoryAddress error, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusInterfaceGetPropertyFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onDBusInterfaceGetPropertyFunc(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName), Interop.getStringFrom(propertyName), new PointerProxy<org.gtk.glib.Error>(error, org.gtk.glib.Error.class));
+            var RESULT = HANDLER.onDBusInterfaceGetPropertyFunc(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName), Interop.getStringFrom(propertyName), new PointerProxy<org.gtk.glib.Error>(error, org.gtk.glib.Error.class));
             return RESULT;
         }
         
         public static void cbBusAcquiredCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (BusAcquiredCallback) Interop.signalRegistry.get(HASH);
-            HANDLER.onBusAcquiredCallback(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(name));
+            HANDLER.onBusAcquiredCallback(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), Interop.getStringFrom(name));
         }
         
         public static org.gtk.glib.Variant cbSettingsBindSetMapping(MemoryAddress value, MemoryAddress expectedType, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SettingsBindSetMapping) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onSettingsBindSetMapping(new org.gtk.gobject.Value(Refcounted.get(value, false)), new org.gtk.glib.VariantType(Refcounted.get(expectedType, false)));
+            var RESULT = HANDLER.onSettingsBindSetMapping(new org.gtk.gobject.Value(value, Ownership.NONE), new org.gtk.glib.VariantType(expectedType, Ownership.NONE));
             return RESULT;
         }
         
@@ -5772,21 +5974,21 @@ public final class Gio {
         public static boolean cbCancellableSourceFunc(MemoryAddress cancellable, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (CancellableSourceFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onCancellableSourceFunc(new org.gtk.gio.Cancellable(Refcounted.get(cancellable, false)));
+            var RESULT = HANDLER.onCancellableSourceFunc(new org.gtk.gio.Cancellable(cancellable, Ownership.NONE));
             return RESULT;
         }
         
         public static boolean cbDBusInterfaceSetPropertyFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress propertyName, MemoryAddress value, MemoryAddress error, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusInterfaceSetPropertyFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onDBusInterfaceSetPropertyFunc(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName), Interop.getStringFrom(propertyName), new org.gtk.glib.Variant(Refcounted.get(value, false)), new PointerProxy<org.gtk.glib.Error>(error, org.gtk.glib.Error.class));
+            var RESULT = HANDLER.onDBusInterfaceSetPropertyFunc(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName), Interop.getStringFrom(propertyName), new org.gtk.glib.Variant(value, Ownership.NONE), new PointerProxy<org.gtk.glib.Error>(error, org.gtk.glib.Error.class));
             return RESULT;
         }
         
         public static void cbBusNameLostCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (BusNameLostCallback) Interop.signalRegistry.get(HASH);
-            HANDLER.onBusNameLostCallback(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(name));
+            HANDLER.onBusNameLostCallback(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), Interop.getStringFrom(name));
         }
         
         public static boolean cbFileReadMoreCallback(MemoryAddress fileContents, long fileSize, MemoryAddress callbackData) {
@@ -5799,47 +6001,47 @@ public final class Gio {
         public static boolean cbSocketSourceFunc(MemoryAddress socket, int condition, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SocketSourceFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onSocketSourceFunc(new org.gtk.gio.Socket(Refcounted.get(socket, false)), new org.gtk.glib.IOCondition(condition));
+            var RESULT = HANDLER.onSocketSourceFunc(new org.gtk.gio.Socket(socket, Ownership.NONE), new org.gtk.glib.IOCondition(condition));
             return RESULT;
         }
         
         public static void cbDesktopAppLaunchCallback(MemoryAddress appinfo, int pid, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DesktopAppLaunchCallback) Interop.signalRegistry.get(HASH);
-            HANDLER.onDesktopAppLaunchCallback(new org.gtk.gio.DesktopAppInfo(Refcounted.get(appinfo, false)), new org.gtk.glib.Pid(pid));
+            HANDLER.onDesktopAppLaunchCallback(new org.gtk.gio.DesktopAppInfo(appinfo, Ownership.NONE), new org.gtk.glib.Pid(pid));
         }
         
         public static boolean cbPollableSourceFunc(MemoryAddress pollableStream, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (PollableSourceFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onPollableSourceFunc(new org.gtk.gobject.Object(Refcounted.get(pollableStream, false)));
+            var RESULT = HANDLER.onPollableSourceFunc(new org.gtk.gobject.Object(pollableStream, Ownership.NONE));
             return RESULT;
         }
         
         public static void cbAsyncReadyCallback(MemoryAddress sourceObject, MemoryAddress res, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (AsyncReadyCallback) Interop.signalRegistry.get(HASH);
-            HANDLER.onAsyncReadyCallback(new org.gtk.gobject.Object(Refcounted.get(sourceObject, false)), new org.gtk.gio.AsyncResult.AsyncResultImpl(Refcounted.get(res, false)));
+            HANDLER.onAsyncReadyCallback(new org.gtk.gobject.Object(sourceObject, Ownership.NONE), new org.gtk.gio.AsyncResult.AsyncResultImpl(res, Ownership.NONE));
         }
         
         public static boolean cbSettingsBindGetMapping(MemoryAddress value, MemoryAddress variant, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SettingsBindGetMapping) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onSettingsBindGetMapping(new org.gtk.gobject.Value(Refcounted.get(value, false)), new org.gtk.glib.Variant(Refcounted.get(variant, false)));
+            var RESULT = HANDLER.onSettingsBindGetMapping(new org.gtk.gobject.Value(value, Ownership.NONE), new org.gtk.glib.Variant(variant, Ownership.NONE));
             return RESULT;
         }
         
         public static org.gtk.gio.DBusInterfaceVTable cbDBusSubtreeDispatchFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress node, MemoryAddress outUserData, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusSubtreeDispatchFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onDBusSubtreeDispatchFunc(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName), Interop.getStringFrom(node), outUserData);
+            var RESULT = HANDLER.onDBusSubtreeDispatchFunc(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName), Interop.getStringFrom(node), outUserData);
             return RESULT;
         }
         
         public static void cbDBusSignalCallback(MemoryAddress connection, MemoryAddress senderName, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress signalName, MemoryAddress parameters, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusSignalCallback) Interop.signalRegistry.get(HASH);
-            HANDLER.onDBusSignalCallback(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(senderName), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName), Interop.getStringFrom(signalName), new org.gtk.glib.Variant(Refcounted.get(parameters, false)));
+            HANDLER.onDBusSignalCallback(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), Interop.getStringFrom(senderName), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName), Interop.getStringFrom(signalName), new org.gtk.glib.Variant(parameters, Ownership.NONE));
         }
         
         public static void cbFileProgressCallback(long currentNumBytes, long totalNumBytes, MemoryAddress userData) {
@@ -5851,58 +6053,58 @@ public final class Gio {
         public static org.gtk.gio.File cbVfsFileLookupFunc(MemoryAddress vfs, MemoryAddress identifier, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (VfsFileLookupFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onVfsFileLookupFunc(new org.gtk.gio.Vfs(Refcounted.get(vfs, false)), Interop.getStringFrom(identifier));
+            var RESULT = HANDLER.onVfsFileLookupFunc(new org.gtk.gio.Vfs(vfs, Ownership.NONE), Interop.getStringFrom(identifier));
             return RESULT;
         }
         
         public static void cbDBusInterfaceMethodCallFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress methodName, MemoryAddress parameters, MemoryAddress invocation, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusInterfaceMethodCallFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onDBusInterfaceMethodCallFunc(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName), Interop.getStringFrom(methodName), new org.gtk.glib.Variant(Refcounted.get(parameters, false)), new org.gtk.gio.DBusMethodInvocation(Refcounted.get(invocation, true)));
+            HANDLER.onDBusInterfaceMethodCallFunc(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName), Interop.getStringFrom(methodName), new org.gtk.glib.Variant(parameters, Ownership.NONE), new org.gtk.gio.DBusMethodInvocation(invocation, Ownership.FULL));
         }
         
         public static void cbDBusSubtreeEnumerateFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusSubtreeEnumerateFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onDBusSubtreeEnumerateFunc(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath));
+            HANDLER.onDBusSubtreeEnumerateFunc(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath));
         }
         
         public static org.gtk.gio.DBusMessage cbDBusMessageFilterFunction(MemoryAddress connection, MemoryAddress message, int incoming, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusMessageFilterFunction) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onDBusMessageFilterFunction(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), new org.gtk.gio.DBusMessage(Refcounted.get(message, true)), incoming != 0);
+            var RESULT = HANDLER.onDBusMessageFilterFunction(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), new org.gtk.gio.DBusMessage(message, Ownership.FULL), incoming != 0);
             return RESULT;
         }
         
         public static void cbDBusSubtreeIntrospectFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress node, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusSubtreeIntrospectFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onDBusSubtreeIntrospectFunc(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath), Interop.getStringFrom(node));
+            HANDLER.onDBusSubtreeIntrospectFunc(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath), Interop.getStringFrom(node));
         }
         
         public static org.gtk.glib.Type cbDBusProxyTypeFunc(MemoryAddress manager, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (DBusProxyTypeFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onDBusProxyTypeFunc(new org.gtk.gio.DBusObjectManagerClient(Refcounted.get(manager, false)), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName));
+            var RESULT = HANDLER.onDBusProxyTypeFunc(new org.gtk.gio.DBusObjectManagerClient(manager, Ownership.NONE), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName));
             return RESULT;
         }
         
         public static void cbTaskThreadFunc(MemoryAddress task, MemoryAddress sourceObject, MemoryAddress taskData, MemoryAddress cancellable) {
             int HASH = taskData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TaskThreadFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onTaskThreadFunc(new org.gtk.gio.Task(Refcounted.get(task, false)), new org.gtk.gobject.Object(Refcounted.get(sourceObject, false)), new org.gtk.gio.Cancellable(Refcounted.get(cancellable, false)));
+            HANDLER.onTaskThreadFunc(new org.gtk.gio.Task(task, Ownership.NONE), new org.gtk.gobject.Object(sourceObject, Ownership.NONE), new org.gtk.gio.Cancellable(cancellable, Ownership.NONE));
         }
         
         public static void cbBusNameAcquiredCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (BusNameAcquiredCallback) Interop.signalRegistry.get(HASH);
-            HANDLER.onBusNameAcquiredCallback(new org.gtk.gio.DBusConnection(Refcounted.get(connection, false)), Interop.getStringFrom(name));
+            HANDLER.onBusNameAcquiredCallback(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), Interop.getStringFrom(name));
         }
         
         public static boolean cbIOSchedulerJobFunc(MemoryAddress job, MemoryAddress cancellable, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (IOSchedulerJobFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onIOSchedulerJobFunc(new org.gtk.gio.IOSchedulerJob(Refcounted.get(job, false)), new org.gtk.gio.Cancellable(Refcounted.get(cancellable, false)));
+            var RESULT = HANDLER.onIOSchedulerJobFunc(new org.gtk.gio.IOSchedulerJob(job, Ownership.NONE), new org.gtk.gio.Cancellable(cancellable, Ownership.NONE));
             return RESULT;
         }
     }

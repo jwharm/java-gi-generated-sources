@@ -29,6 +29,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements org.gtk.g
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -39,12 +40,17 @@ public class InetAddressMask extends org.gtk.gobject.Object implements org.gtk.g
      */
     public org.gtk.gobject.Object parent_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a InetAddressMask proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public InetAddressMask(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public InetAddressMask(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -56,20 +62,21 @@ public class InetAddressMask extends org.gtk.gobject.Object implements org.gtk.g
      */
     public static InetAddressMask castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GInetAddressMask"))) {
-            return new InetAddressMask(gobject.refcounted());
+            return new InetAddressMask(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GInetAddressMask");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.gio.InetAddress addr, int length) throws GErrorException {
+    private static Addressable constructNew(@NotNull org.gtk.gio.InetAddress addr, int length) throws GErrorException {
         java.util.Objects.requireNonNull(addr, "Parameter 'addr' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_inet_address_mask_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_inet_address_mask_new.invokeExact(
                     addr.handle(),
-                    length, (Addressable) GERROR), true);
+                    length,
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,16 +94,17 @@ public class InetAddressMask extends org.gtk.gobject.Object implements org.gtk.g
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public InetAddressMask(@NotNull org.gtk.gio.InetAddress addr, int length) throws GErrorException {
-        super(constructNew(addr, length));
+        super(constructNew(addr, length), Ownership.FULL);
     }
     
-    private static Refcounted constructNewFromString(@NotNull java.lang.String maskString) throws GErrorException {
+    private static Addressable constructNewFromString(@NotNull java.lang.String maskString) throws GErrorException {
         java.util.Objects.requireNonNull(maskString, "Parameter 'maskString' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_inet_address_mask_new_from_string.invokeExact(
-                    Interop.allocateNativeString(maskString), (Addressable) GERROR), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_inet_address_mask_new_from_string.invokeExact(
+                    Interop.allocateNativeString(maskString),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,7 +125,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements org.gtk.g
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static InetAddressMask newFromString(@NotNull java.lang.String maskString) throws GErrorException {
-        return new InetAddressMask(constructNewFromString(maskString));
+        return new InetAddressMask(constructNewFromString(maskString), Ownership.FULL);
     }
     
     /**
@@ -150,7 +158,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.InetAddress(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.InetAddress(RESULT, Ownership.NONE);
     }
     
     /**
@@ -221,42 +229,50 @@ public class InetAddressMask extends org.gtk.gobject.Object implements org.gtk.g
         
         private static final MethodHandle g_inet_address_mask_new = Interop.downcallHandle(
             "g_inet_address_mask_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_mask_new_from_string = Interop.downcallHandle(
             "g_inet_address_mask_new_from_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_mask_equal = Interop.downcallHandle(
             "g_inet_address_mask_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_mask_get_address = Interop.downcallHandle(
             "g_inet_address_mask_get_address",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_mask_get_family = Interop.downcallHandle(
             "g_inet_address_mask_get_family",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_mask_get_length = Interop.downcallHandle(
             "g_inet_address_mask_get_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_mask_matches = Interop.downcallHandle(
             "g_inet_address_mask_matches",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_inet_address_mask_to_string = Interop.downcallHandle(
             "g_inet_address_mask_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

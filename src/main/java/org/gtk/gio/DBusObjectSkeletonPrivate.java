@@ -17,6 +17,7 @@ public class DBusObjectSkeletonPrivate extends io.github.jwharm.javagi.ResourceB
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -25,13 +26,18 @@ public class DBusObjectSkeletonPrivate extends io.github.jwharm.javagi.ResourceB
     
     public static DBusObjectSkeletonPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DBusObjectSkeletonPrivate newInstance = new DBusObjectSkeletonPrivate(Refcounted.get(segment.address()));
+        DBusObjectSkeletonPrivate newInstance = new DBusObjectSkeletonPrivate(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a DBusObjectSkeletonPrivate proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public DBusObjectSkeletonPrivate(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public DBusObjectSkeletonPrivate(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

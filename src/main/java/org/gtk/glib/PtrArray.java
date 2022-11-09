@@ -25,6 +25,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -33,7 +34,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
     
     public static PtrArray allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PtrArray newInstance = new PtrArray(Refcounted.get(segment.address()));
+        PtrArray newInstance = new PtrArray(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -80,9 +81,14 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
     }
     
+    /**
+     * Create a PtrArray proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PtrArray(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PtrArray(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -91,7 +97,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * @param array a {@link PtrArray}
      * @param data the pointer to add
      */
-    public static void add(java.lang.foreign.MemoryAddress[] array, @Nullable java.lang.foreign.MemoryAddress data) {
+    public static void add(@NotNull java.lang.foreign.MemoryAddress[] array, @Nullable java.lang.foreign.MemoryAddress data) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         try {
             DowncallHandles.g_ptr_array_add.invokeExact(
@@ -120,7 +126,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * @param func a copy function used to copy every element in the array
      * @return a deep copy of the initial {@link PtrArray}.
      */
-    public static @NotNull PointerAddress copy(java.lang.foreign.MemoryAddress[] array, @Nullable org.gtk.glib.CopyFunc func) {
+    public static @NotNull PointerAddress copy(@NotNull java.lang.foreign.MemoryAddress[] array, @Nullable org.gtk.glib.CopyFunc func) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -155,7 +161,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * @param array a {@link PtrArray} to add to the end of {@code array_to_extend}.
      * @param func a copy function used to copy every element in the array
      */
-    public static void extend(java.lang.foreign.MemoryAddress[] arrayToExtend, java.lang.foreign.MemoryAddress[] array, @Nullable org.gtk.glib.CopyFunc func) {
+    public static void extend(@NotNull java.lang.foreign.MemoryAddress[] arrayToExtend, @NotNull java.lang.foreign.MemoryAddress[] array, @Nullable org.gtk.glib.CopyFunc func) {
         java.util.Objects.requireNonNull(arrayToExtend, "Parameter 'arrayToExtend' must not be null");
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         try {
@@ -185,7 +191,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * @param array a {@link PtrArray} to add to the end of
      *     {@code array_to_extend}.
      */
-    public static void extendAndSteal(java.lang.foreign.MemoryAddress[] arrayToExtend, java.lang.foreign.MemoryAddress[] array) {
+    public static void extendAndSteal(@NotNull java.lang.foreign.MemoryAddress[] arrayToExtend, @NotNull java.lang.foreign.MemoryAddress[] array) {
         java.util.Objects.requireNonNull(arrayToExtend, "Parameter 'arrayToExtend' must not be null");
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         try {
@@ -211,7 +217,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      *    the element, if found
      * @return {@code true} if {@code needle} is one of the elements of {@code haystack}
      */
-    public static boolean find(java.lang.foreign.MemoryAddress[] haystack, @Nullable java.lang.foreign.MemoryAddress needle, Out<Integer> index) {
+    public static boolean find(@NotNull java.lang.foreign.MemoryAddress[] haystack, @Nullable java.lang.foreign.MemoryAddress needle, Out<Integer> index) {
         java.util.Objects.requireNonNull(haystack, "Parameter 'haystack' must not be null");
         java.util.Objects.requireNonNull(index, "Parameter 'index' must not be null");
         MemorySegment indexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
@@ -247,7 +253,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      *    the element, if found
      * @return {@code true} if {@code needle} is one of the elements of {@code haystack}
      */
-    public static boolean findWithEqualFunc(java.lang.foreign.MemoryAddress[] haystack, @Nullable java.lang.foreign.MemoryAddress needle, @Nullable org.gtk.glib.EqualFunc equalFunc, Out<Integer> index) {
+    public static boolean findWithEqualFunc(@NotNull java.lang.foreign.MemoryAddress[] haystack, @Nullable java.lang.foreign.MemoryAddress needle, @Nullable org.gtk.glib.EqualFunc equalFunc, Out<Integer> index) {
         throw new UnsupportedOperationException("Operation not supported yet");
     }
     
@@ -257,7 +263,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * @param array a {@link PtrArray}
      * @param func the function to call for each array element
      */
-    public static void foreach(java.lang.foreign.MemoryAddress[] array, @NotNull org.gtk.glib.Func func) {
+    public static void foreach(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull org.gtk.glib.Func func) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
@@ -294,7 +300,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * @return the pointer array if {@code free_seg} is
      *     {@code false}, otherwise {@code null}. The pointer array should be freed using g_free().
      */
-    public static @Nullable java.lang.foreign.MemoryAddress free(java.lang.foreign.MemoryAddress[] array, boolean freeSeg) {
+    public static @Nullable java.lang.foreign.MemoryAddress free(@NotNull java.lang.foreign.MemoryAddress[] array, boolean freeSeg) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -314,7 +320,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * @param index the index to place the new element at, or -1 to append
      * @param data the pointer to add.
      */
-    public static void insert(java.lang.foreign.MemoryAddress[] array, int index, @Nullable java.lang.foreign.MemoryAddress data) {
+    public static void insert(@NotNull java.lang.foreign.MemoryAddress[] array, int index, @Nullable java.lang.foreign.MemoryAddress data) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         try {
             DowncallHandles.g_ptr_array_insert.invokeExact(
@@ -376,7 +382,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * @param array a {@link PtrArray}
      * @return The passed in {@link PtrArray}
      */
-    public static @NotNull PointerAddress ref(java.lang.foreign.MemoryAddress[] array) {
+    public static @NotNull PointerAddress ref(@NotNull java.lang.foreign.MemoryAddress[] array) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -401,7 +407,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * @return {@code true} if the pointer is removed, {@code false} if the pointer
      *     is not found in the array
      */
-    public static boolean remove(java.lang.foreign.MemoryAddress[] array, @Nullable java.lang.foreign.MemoryAddress data) {
+    public static boolean remove(@NotNull java.lang.foreign.MemoryAddress[] array, @Nullable java.lang.foreign.MemoryAddress data) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         int RESULT;
         try {
@@ -427,7 +433,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * @param data the pointer to remove
      * @return {@code true} if the pointer was found in the array
      */
-    public static boolean removeFast(java.lang.foreign.MemoryAddress[] array, @Nullable java.lang.foreign.MemoryAddress data) {
+    public static boolean removeFast(@NotNull java.lang.foreign.MemoryAddress[] array, @Nullable java.lang.foreign.MemoryAddress data) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         int RESULT;
         try {
@@ -450,7 +456,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * @param index the index of the pointer to remove
      * @return the pointer which was removed
      */
-    public static @Nullable java.lang.foreign.MemoryAddress removeIndex(java.lang.foreign.MemoryAddress[] array, int index) {
+    public static @Nullable java.lang.foreign.MemoryAddress removeIndex(@NotNull java.lang.foreign.MemoryAddress[] array, int index) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -475,7 +481,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * @param index the index of the pointer to remove
      * @return the pointer which was removed
      */
-    public static @Nullable java.lang.foreign.MemoryAddress removeIndexFast(java.lang.foreign.MemoryAddress[] array, int index) {
+    public static @Nullable java.lang.foreign.MemoryAddress removeIndexFast(@NotNull java.lang.foreign.MemoryAddress[] array, int index) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -498,7 +504,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * @param length the number of pointers to remove
      * @return the {@code array}
      */
-    public static @NotNull PointerAddress removeRange(java.lang.foreign.MemoryAddress[] array, int index, int length) {
+    public static @NotNull PointerAddress removeRange(@NotNull java.lang.foreign.MemoryAddress[] array, int index, int length) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -520,7 +526,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * @param elementFreeFunc A function to free elements with
      *     destroy {@code array} or {@code null}
      */
-    public static void setFreeFunc(java.lang.foreign.MemoryAddress[] array, @Nullable org.gtk.glib.DestroyNotify elementFreeFunc) {
+    public static void setFreeFunc(@NotNull java.lang.foreign.MemoryAddress[] array, @Nullable org.gtk.glib.DestroyNotify elementFreeFunc) {
         throw new UnsupportedOperationException("Operation not supported yet");
     }
     
@@ -532,7 +538,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * @param array a {@link PtrArray}
      * @param length the new length of the pointer array
      */
-    public static void setSize(java.lang.foreign.MemoryAddress[] array, int length) {
+    public static void setSize(@NotNull java.lang.foreign.MemoryAddress[] array, int length) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         try {
             DowncallHandles.g_ptr_array_set_size.invokeExact(
@@ -600,7 +606,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * @param array a {@link PtrArray}
      * @param compareFunc comparison function
      */
-    public static void sort(java.lang.foreign.MemoryAddress[] array, @NotNull org.gtk.glib.CompareFunc compareFunc) {
+    public static void sort(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull org.gtk.glib.CompareFunc compareFunc) {
         throw new UnsupportedOperationException("Operation not supported yet");
     }
     
@@ -660,7 +666,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * @param array a {@link PtrArray}
      * @param compareFunc comparison function
      */
-    public static void sortWithData(java.lang.foreign.MemoryAddress[] array, @NotNull org.gtk.glib.CompareDataFunc compareFunc) {
+    public static void sortWithData(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull org.gtk.glib.CompareDataFunc compareFunc) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
         try {
@@ -724,7 +730,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * @return the element data, which should be
      *     freed using g_free().
      */
-    public static @Nullable java.lang.foreign.MemoryAddress steal(java.lang.foreign.MemoryAddress[] array, Out<Long> len) {
+    public static @Nullable java.lang.foreign.MemoryAddress steal(@NotNull java.lang.foreign.MemoryAddress[] array, Out<Long> len) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         java.util.Objects.requireNonNull(len, "Parameter 'len' must not be null");
         MemorySegment lenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
@@ -749,7 +755,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * @param index the index of the pointer to steal
      * @return the pointer which was removed
      */
-    public static @Nullable java.lang.foreign.MemoryAddress stealIndex(java.lang.foreign.MemoryAddress[] array, int index) {
+    public static @Nullable java.lang.foreign.MemoryAddress stealIndex(@NotNull java.lang.foreign.MemoryAddress[] array, int index) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -773,7 +779,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * @param index the index of the pointer to steal
      * @return the pointer which was removed
      */
-    public static @Nullable java.lang.foreign.MemoryAddress stealIndexFast(java.lang.foreign.MemoryAddress[] array, int index) {
+    public static @Nullable java.lang.foreign.MemoryAddress stealIndexFast(@NotNull java.lang.foreign.MemoryAddress[] array, int index) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
@@ -793,7 +799,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * is thread-safe and may be called from any thread.
      * @param array A {@link PtrArray}
      */
-    public static void unref(java.lang.foreign.MemoryAddress[] array) {
+    public static void unref(@NotNull java.lang.foreign.MemoryAddress[] array) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         try {
             DowncallHandles.g_ptr_array_unref.invokeExact(
@@ -807,137 +813,164 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_ptr_array_add = Interop.downcallHandle(
             "g_ptr_array_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_ptr_array_copy = Interop.downcallHandle(
             "g_ptr_array_copy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_ptr_array_extend = Interop.downcallHandle(
             "g_ptr_array_extend",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_ptr_array_extend_and_steal = Interop.downcallHandle(
             "g_ptr_array_extend_and_steal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_ptr_array_find = Interop.downcallHandle(
             "g_ptr_array_find",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_ptr_array_find_with_equal_func = Interop.downcallHandle(
             "g_ptr_array_find_with_equal_func",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_ptr_array_foreach = Interop.downcallHandle(
             "g_ptr_array_foreach",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_ptr_array_free = Interop.downcallHandle(
             "g_ptr_array_free",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_ptr_array_insert = Interop.downcallHandle(
             "g_ptr_array_insert",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_ptr_array_new = Interop.downcallHandle(
             "g_ptr_array_new",
-            FunctionDescriptor.ofVoid()
+            FunctionDescriptor.ofVoid(),
+            false
         );
         
         private static final MethodHandle g_ptr_array_new_full = Interop.downcallHandle(
             "g_ptr_array_new_full",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_ptr_array_new_with_free_func = Interop.downcallHandle(
             "g_ptr_array_new_with_free_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_ptr_array_ref = Interop.downcallHandle(
             "g_ptr_array_ref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_ptr_array_remove = Interop.downcallHandle(
             "g_ptr_array_remove",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_ptr_array_remove_fast = Interop.downcallHandle(
             "g_ptr_array_remove_fast",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_ptr_array_remove_index = Interop.downcallHandle(
             "g_ptr_array_remove_index",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_ptr_array_remove_index_fast = Interop.downcallHandle(
             "g_ptr_array_remove_index_fast",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_ptr_array_remove_range = Interop.downcallHandle(
             "g_ptr_array_remove_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_ptr_array_set_free_func = Interop.downcallHandle(
             "g_ptr_array_set_free_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_ptr_array_set_size = Interop.downcallHandle(
             "g_ptr_array_set_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_ptr_array_sized_new = Interop.downcallHandle(
             "g_ptr_array_sized_new",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_ptr_array_sort = Interop.downcallHandle(
             "g_ptr_array_sort",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_ptr_array_sort_with_data = Interop.downcallHandle(
             "g_ptr_array_sort_with_data",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_ptr_array_steal = Interop.downcallHandle(
             "g_ptr_array_steal",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_ptr_array_steal_index = Interop.downcallHandle(
             "g_ptr_array_steal_index",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_ptr_array_steal_index_fast = Interop.downcallHandle(
             "g_ptr_array_steal_index_fast",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_ptr_array_unref = Interop.downcallHandle(
             "g_ptr_array_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

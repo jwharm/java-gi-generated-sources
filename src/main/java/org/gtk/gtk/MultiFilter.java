@@ -20,13 +20,19 @@ public class MultiFilter extends org.gtk.gtk.Filter implements org.gtk.gio.ListM
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a MultiFilter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public MultiFilter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public MultiFilter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,7 +44,7 @@ public class MultiFilter extends org.gtk.gtk.Filter implements org.gtk.gio.ListM
      */
     public static MultiFilter castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMultiFilter"))) {
-            return new MultiFilter(gobject.refcounted());
+            return new MultiFilter(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkMultiFilter");
         }
@@ -81,12 +87,14 @@ public class MultiFilter extends org.gtk.gtk.Filter implements org.gtk.gio.ListM
         
         private static final MethodHandle gtk_multi_filter_append = Interop.downcallHandle(
             "gtk_multi_filter_append",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_multi_filter_remove = Interop.downcallHandle(
             "gtk_multi_filter_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
 }

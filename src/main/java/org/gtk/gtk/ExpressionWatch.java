@@ -23,6 +23,7 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -31,14 +32,19 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
     
     public static ExpressionWatch allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ExpressionWatch newInstance = new ExpressionWatch(Refcounted.get(segment.address()));
+        ExpressionWatch newInstance = new ExpressionWatch(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a ExpressionWatch proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ExpressionWatch(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ExpressionWatch(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -75,7 +81,7 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.ExpressionWatch(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.ExpressionWatch(RESULT, Ownership.FULL);
     }
     
     /**
@@ -112,22 +118,26 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle gtk_expression_watch_evaluate = Interop.downcallHandle(
             "gtk_expression_watch_evaluate",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_expression_watch_ref = Interop.downcallHandle(
             "gtk_expression_watch_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_expression_watch_unref = Interop.downcallHandle(
             "gtk_expression_watch_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_expression_watch_unwatch = Interop.downcallHandle(
             "gtk_expression_watch_unwatch",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
 }

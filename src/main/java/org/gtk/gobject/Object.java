@@ -38,6 +38,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -48,12 +49,17 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gobject.TypeInstance g_type_instance$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_type_instance"));
-        return new org.gtk.gobject.TypeInstance(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.TypeInstance(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a Object proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public Object(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public Object(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -65,14 +71,25 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Object castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GObject"))) {
-            return new Object(gobject.refcounted());
+            return new Object(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GObject");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.glib.Type objectType, @NotNull java.lang.String firstPropertyName) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    private static Addressable constructNew(@NotNull org.gtk.glib.Type objectType, @NotNull java.lang.String firstPropertyName, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(objectType, "Parameter 'objectType' must not be null");
+        java.util.Objects.requireNonNull(firstPropertyName, "Parameter 'firstPropertyName' must not be null");
+        Addressable RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_object_new.invokeExact(
+                    objectType.getValue().longValue(),
+                    Interop.allocateNativeString(firstPropertyName),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
     }
     
     /**
@@ -104,22 +121,23 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * appropriately padded.
      * @param objectType the type id of the {@link Object} subtype to instantiate
      * @param firstPropertyName the name of the first property
+     * @param varargs the value of the first property, followed optionally by more
+     *  name/value pairs, followed by {@code null}
      */
-    public Object(@NotNull org.gtk.glib.Type objectType, @NotNull java.lang.String firstPropertyName) {
-        this(Refcounted.get(null)); // avoid compiler error
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public Object(@NotNull org.gtk.glib.Type objectType, @NotNull java.lang.String firstPropertyName, java.lang.Object... varargs) {
+        super(constructNew(objectType, firstPropertyName, varargs), Ownership.FULL);
     }
     
-    private static Refcounted constructNewValist(@NotNull org.gtk.glib.Type objectType, @NotNull java.lang.String firstPropertyName, @NotNull VaList varArgs) {
+    private static Addressable constructNewValist(@NotNull org.gtk.glib.Type objectType, @NotNull java.lang.String firstPropertyName, @NotNull VaList varArgs) {
         java.util.Objects.requireNonNull(objectType, "Parameter 'objectType' must not be null");
         java.util.Objects.requireNonNull(firstPropertyName, "Parameter 'firstPropertyName' must not be null");
         java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_object_new_valist.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_object_new_valist.invokeExact(
                     objectType.getValue().longValue(),
                     Interop.allocateNativeString(firstPropertyName),
-                    varArgs), true);
+                    varArgs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,20 +156,20 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * @return a new instance of {@code object_type}
      */
     public static Object newValist(@NotNull org.gtk.glib.Type objectType, @NotNull java.lang.String firstPropertyName, @NotNull VaList varArgs) {
-        return new Object(constructNewValist(objectType, firstPropertyName, varArgs));
+        return new Object(constructNewValist(objectType, firstPropertyName, varArgs), Ownership.FULL);
     }
     
-    private static Refcounted constructNewWithProperties(@NotNull org.gtk.glib.Type objectType, int nProperties, java.lang.String[] names, org.gtk.gobject.Value[] values) {
+    private static Addressable constructNewWithProperties(@NotNull org.gtk.glib.Type objectType, int nProperties, @NotNull java.lang.String[] names, @NotNull org.gtk.gobject.Value[] values) {
         java.util.Objects.requireNonNull(objectType, "Parameter 'objectType' must not be null");
         java.util.Objects.requireNonNull(names, "Parameter 'names' must not be null");
         java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_object_new_with_properties.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_object_new_with_properties.invokeExact(
                     objectType.getValue().longValue(),
                     nProperties,
                     Interop.allocateNativeArray(names, false),
-                    Interop.allocateNativeArray(values, false)), true);
+                    Interop.allocateNativeArray(values, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -172,19 +190,19 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * @return a new instance of
      * {@code object_type}
      */
-    public static Object newWithProperties(@NotNull org.gtk.glib.Type objectType, int nProperties, java.lang.String[] names, org.gtk.gobject.Value[] values) {
-        return new Object(constructNewWithProperties(objectType, nProperties, names, values));
+    public static Object newWithProperties(@NotNull org.gtk.glib.Type objectType, int nProperties, @NotNull java.lang.String[] names, @NotNull org.gtk.gobject.Value[] values) {
+        return new Object(constructNewWithProperties(objectType, nProperties, names, values), Ownership.FULL);
     }
     
-    private static Refcounted constructNewv(@NotNull org.gtk.glib.Type objectType, int nParameters, org.gtk.gobject.Parameter[] parameters) {
+    private static Addressable constructNewv(@NotNull org.gtk.glib.Type objectType, int nParameters, @NotNull org.gtk.gobject.Parameter[] parameters) {
         java.util.Objects.requireNonNull(objectType, "Parameter 'objectType' must not be null");
         java.util.Objects.requireNonNull(parameters, "Parameter 'parameters' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_object_newv.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_object_newv.invokeExact(
                     objectType.getValue().longValue(),
                     nParameters,
-                    Interop.allocateNativeArray(parameters, false)), true);
+                    Interop.allocateNativeArray(parameters, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,8 +223,8 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * deprecated. See {@link Parameter} for more information.
      */
     @Deprecated
-    public static Object newv(@NotNull org.gtk.glib.Type objectType, int nParameters, org.gtk.gobject.Parameter[] parameters) {
-        return new Object(constructNewv(objectType, nParameters, parameters));
+    public static Object newv(@NotNull org.gtk.glib.Type objectType, int nParameters, @NotNull org.gtk.gobject.Parameter[] parameters) {
+        return new Object(constructNewv(objectType, nParameters, parameters), Ownership.FULL);
     }
     
     /**
@@ -339,7 +357,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Binding(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.Binding(RESULT, Ownership.NONE);
     }
     
     /**
@@ -408,7 +426,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Binding(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.Binding(RESULT, Ownership.NONE);
     }
     
     /**
@@ -451,7 +469,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Binding(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.Binding(RESULT, Ownership.NONE);
     }
     
     /**
@@ -480,10 +498,23 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * 				     NULL);
      * }</pre>
      * @param signalSpec the spec for the first signal
+     * @param varargs {@link Callback} for the first signal, followed by data for the
+     *       first signal, followed optionally by more signal
+     *       spec/callback/data triples, followed by {@code null}
      * @return {@code object}
      */
-    public @NotNull org.gtk.gobject.Object connect(@NotNull java.lang.String signalSpec) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public @NotNull org.gtk.gobject.Object connect(@NotNull java.lang.String signalSpec, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(signalSpec, "Parameter 'signalSpec' must not be null");
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_object_connect.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(signalSpec),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.gobject.Object(RESULT, Ownership.NONE);
     }
     
     /**
@@ -494,9 +525,20 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * callback and data, or "any_signal::signal_name", which only
      * disconnects the signal named "signal_name".
      * @param signalSpec the spec for the first signal
+     * @param varargs {@link Callback} for the first signal, followed by data for the first signal,
+     *  followed optionally by more signal spec/callback/data triples,
+     *  followed by {@code null}
      */
-    public void disconnect(@NotNull java.lang.String signalSpec) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void disconnect(@NotNull java.lang.String signalSpec, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(signalSpec, "Parameter 'signalSpec' must not be null");
+        try {
+            DowncallHandles.g_object_disconnect.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(signalSpec),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -644,9 +686,19 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      *  g_object_unref (objval);
      * }</pre>
      * @param firstPropertyName name of the first property to get
+     * @param varargs return location for the first property, followed optionally by more
+     *  name/return location pairs, followed by {@code null}
      */
-    public void get(@NotNull java.lang.String firstPropertyName) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void get(@NotNull java.lang.String firstPropertyName, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(firstPropertyName, "Parameter 'firstPropertyName' must not be null");
+        try {
+            DowncallHandles.g_object_get.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(firstPropertyName),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -755,7 +807,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * @param names the names of each property to get
      * @param values the values of each property to get
      */
-    public void getv(int nProperties, java.lang.String[] names, org.gtk.gobject.Value[] values) {
+    public void getv(int nProperties, @NotNull java.lang.String[] names, @NotNull org.gtk.gobject.Value[] values) {
         java.util.Objects.requireNonNull(names, "Parameter 'names' must not be null");
         java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
         try {
@@ -875,7 +927,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.Object(RESULT, Ownership.NONE);
     }
     
     /**
@@ -900,7 +952,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.Object(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1028,9 +1080,19 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * reverse order) after all properties have been set. See
      * g_object_freeze_notify().
      * @param firstPropertyName name of the first property to set
+     * @param varargs value for the first property, followed optionally by more
+     *  name/value pairs, followed by {@code null}
      */
-    public void set(@NotNull java.lang.String firstPropertyName) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void set(@NotNull java.lang.String firstPropertyName, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(firstPropertyName, "Parameter 'firstPropertyName' must not be null");
+        try {
+            DowncallHandles.g_object_set.invokeExact(
+                    handle(),
+                    Interop.allocateNativeString(firstPropertyName),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -1176,7 +1238,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * @param names the names of each property to be set
      * @param values the values of each property to be set
      */
-    public void setv(int nProperties, java.lang.String[] names, org.gtk.gobject.Value[] values) {
+    public void setv(int nProperties, @NotNull java.lang.String[] names, @NotNull org.gtk.gobject.Value[] values) {
         java.util.Objects.requireNonNull(names, "Parameter 'names' must not be null");
         java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
         try {
@@ -1308,7 +1370,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
+        return new org.gtk.gobject.Object(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1457,7 +1519,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ParamSpec(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.ParamSpec(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1524,7 +1586,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         org.gtk.gobject.ParamSpec[] resultARRAY = new org.gtk.gobject.ParamSpec[nPropertiesP.get().intValue()];
         for (int I = 0; I < nPropertiesP.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = new org.gtk.gobject.ParamSpec(Refcounted.get(OBJ, false));
+            resultARRAY[I] = new org.gtk.gobject.ParamSpec(OBJ, Ownership.CONTAINER);
         }
         return resultARRAY;
     }
@@ -1559,6 +1621,9 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * It is important to note that you must use
      * [canonical parameter names][canonical-parameter-names] as
      * detail strings for the notify signal.
+     * @param detail The signal detail
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Object.Notify> onNotify(@Nullable String detail, Object.Notify handler) {
         try {
@@ -1582,257 +1647,308 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle g_object_new = Interop.downcallHandle(
             "g_object_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_object_new_valist = Interop.downcallHandle(
             "g_object_new_valist",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_new_with_properties = Interop.downcallHandle(
             "g_object_new_with_properties",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_newv = Interop.downcallHandle(
             "g_object_newv",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_add_toggle_ref = Interop.downcallHandle(
             "g_object_add_toggle_ref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_add_weak_pointer = Interop.downcallHandle(
             "g_object_add_weak_pointer",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_bind_property = Interop.downcallHandle(
             "g_object_bind_property",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_object_bind_property_full = Interop.downcallHandle(
             "g_object_bind_property_full",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_bind_property_with_closures = Interop.downcallHandle(
             "g_object_bind_property_with_closures",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_connect = Interop.downcallHandle(
             "g_object_connect",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_object_disconnect = Interop.downcallHandle(
             "g_object_disconnect",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_object_dup_data = Interop.downcallHandle(
             "g_object_dup_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_dup_qdata = Interop.downcallHandle(
             "g_object_dup_qdata",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_force_floating = Interop.downcallHandle(
             "g_object_force_floating",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_freeze_notify = Interop.downcallHandle(
             "g_object_freeze_notify",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_get = Interop.downcallHandle(
             "g_object_get",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_object_get_data = Interop.downcallHandle(
             "g_object_get_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_get_property = Interop.downcallHandle(
             "g_object_get_property",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_get_qdata = Interop.downcallHandle(
             "g_object_get_qdata",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_object_get_valist = Interop.downcallHandle(
             "g_object_get_valist",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_getv = Interop.downcallHandle(
             "g_object_getv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_is_floating = Interop.downcallHandle(
             "g_object_is_floating",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_notify = Interop.downcallHandle(
             "g_object_notify",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_notify_by_pspec = Interop.downcallHandle(
             "g_object_notify_by_pspec",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_ref = Interop.downcallHandle(
             "g_object_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_ref_sink = Interop.downcallHandle(
             "g_object_ref_sink",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_remove_toggle_ref = Interop.downcallHandle(
             "g_object_remove_toggle_ref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_remove_weak_pointer = Interop.downcallHandle(
             "g_object_remove_weak_pointer",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_replace_data = Interop.downcallHandle(
             "g_object_replace_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_replace_qdata = Interop.downcallHandle(
             "g_object_replace_qdata",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_run_dispose = Interop.downcallHandle(
             "g_object_run_dispose",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_set = Interop.downcallHandle(
             "g_object_set",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         private static final MethodHandle g_object_set_data = Interop.downcallHandle(
             "g_object_set_data",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_set_data_full = Interop.downcallHandle(
             "g_object_set_data_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_set_property = Interop.downcallHandle(
             "g_object_set_property",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_set_qdata = Interop.downcallHandle(
             "g_object_set_qdata",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_set_qdata_full = Interop.downcallHandle(
             "g_object_set_qdata_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_set_valist = Interop.downcallHandle(
             "g_object_set_valist",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_setv = Interop.downcallHandle(
             "g_object_setv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_steal_data = Interop.downcallHandle(
             "g_object_steal_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_steal_qdata = Interop.downcallHandle(
             "g_object_steal_qdata",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_object_take_ref = Interop.downcallHandle(
             "g_object_take_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_thaw_notify = Interop.downcallHandle(
             "g_object_thaw_notify",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_unref = Interop.downcallHandle(
             "g_object_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_watch_closure = Interop.downcallHandle(
             "g_object_watch_closure",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_weak_ref = Interop.downcallHandle(
             "g_object_weak_ref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_weak_unref = Interop.downcallHandle(
             "g_object_weak_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_compat_control = Interop.downcallHandle(
             "g_object_compat_control",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_interface_find_property = Interop.downcallHandle(
             "g_object_interface_find_property",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_interface_install_property = Interop.downcallHandle(
             "g_object_interface_install_property",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_object_interface_list_properties = Interop.downcallHandle(
             "g_object_interface_list_properties",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -1841,7 +1957,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         public static void signalObjectNotify(MemoryAddress source, MemoryAddress pspec, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (Object.Notify) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Object(Refcounted.get(source)), new org.gtk.gobject.ParamSpec(Refcounted.get(pspec, false)));
+            HANDLER.signalReceived(new Object(source, Ownership.UNKNOWN), new org.gtk.gobject.ParamSpec(pspec, Ownership.NONE));
         }
     }
 }

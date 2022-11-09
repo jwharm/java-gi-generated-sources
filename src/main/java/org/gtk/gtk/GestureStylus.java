@@ -23,13 +23,19 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a GestureStylus proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public GestureStylus(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public GestureStylus(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -41,16 +47,16 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
      */
     public static GestureStylus castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGestureStylus"))) {
-            return new GestureStylus(gobject.refcounted());
+            return new GestureStylus(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkGestureStylus");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_gesture_stylus_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_stylus_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -61,7 +67,7 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
      * Creates a new {@code GtkGestureStylus}.
      */
     public GestureStylus() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -75,7 +81,7 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
      * @param values return location for the axis values
      * @return {@code true} if there is a current value for the axes
      */
-    public boolean getAxes(org.gtk.gdk.AxisUse[] axes, Out<double[]> values) {
+    public boolean getAxes(@NotNull org.gtk.gdk.AxisUse[] axes, @NotNull Out<double[]> values) {
         throw new UnsupportedOperationException("Operation not supported yet");
     }
     
@@ -125,7 +131,7 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
      * @param nElems return location for the number of elements
      * @return {@code true} if there is a backlog to unfold in the current state.
      */
-    public boolean getBacklog(Out<org.gtk.gdk.TimeCoord[]> backlog, Out<Integer> nElems) {
+    public boolean getBacklog(@NotNull Out<org.gtk.gdk.TimeCoord[]> backlog, Out<Integer> nElems) {
         java.util.Objects.requireNonNull(backlog, "Parameter 'backlog' must not be null");
         java.util.Objects.requireNonNull(nElems, "Parameter 'nElems' must not be null");
         MemorySegment backlogPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -143,7 +149,7 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
         org.gtk.gdk.TimeCoord[] backlogARRAY = new org.gtk.gdk.TimeCoord[nElems.get().intValue()];
         for (int I = 0; I < nElems.get().intValue(); I++) {
             var OBJ = backlogPOINTER.get(ValueLayout.ADDRESS, I);
-            backlogARRAY[I] = new org.gtk.gdk.TimeCoord(Refcounted.get(OBJ, true));
+            backlogARRAY[I] = new org.gtk.gdk.TimeCoord(OBJ, Ownership.FULL);
         }
         backlog.set(backlogARRAY);
         return RESULT != 0;
@@ -166,7 +172,7 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.DeviceTool(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.DeviceTool(RESULT, Ownership.NONE);
     }
     
     @FunctionalInterface
@@ -176,6 +182,8 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
     
     /**
      * Emitted when the stylus touches the device.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureStylus.Down> onDown(GestureStylus.Down handler) {
         try {
@@ -202,6 +210,8 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
     
     /**
      * Emitted when the stylus moves while touching the device.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureStylus.Motion> onMotion(GestureStylus.Motion handler) {
         try {
@@ -228,6 +238,8 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
     
     /**
      * Emitted when the stylus is in proximity of the device.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureStylus.Proximity> onProximity(GestureStylus.Proximity handler) {
         try {
@@ -254,6 +266,8 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
     
     /**
      * Emitted when the stylus no longer touches the device.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureStylus.Up> onUp(GestureStylus.Up handler) {
         try {
@@ -277,27 +291,32 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
         
         private static final MethodHandle gtk_gesture_stylus_new = Interop.downcallHandle(
             "gtk_gesture_stylus_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gesture_stylus_get_axes = Interop.downcallHandle(
             "gtk_gesture_stylus_get_axes",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gesture_stylus_get_axis = Interop.downcallHandle(
             "gtk_gesture_stylus_get_axis",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gesture_stylus_get_backlog = Interop.downcallHandle(
             "gtk_gesture_stylus_get_backlog",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_gesture_stylus_get_device_tool = Interop.downcallHandle(
             "gtk_gesture_stylus_get_device_tool",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -306,25 +325,25 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
         public static void signalGestureStylusDown(MemoryAddress source, double x, double y, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (GestureStylus.Down) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureStylus(Refcounted.get(source)), x, y);
+            HANDLER.signalReceived(new GestureStylus(source, Ownership.UNKNOWN), x, y);
         }
         
         public static void signalGestureStylusMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (GestureStylus.Motion) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureStylus(Refcounted.get(source)), x, y);
+            HANDLER.signalReceived(new GestureStylus(source, Ownership.UNKNOWN), x, y);
         }
         
         public static void signalGestureStylusProximity(MemoryAddress source, double x, double y, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (GestureStylus.Proximity) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureStylus(Refcounted.get(source)), x, y);
+            HANDLER.signalReceived(new GestureStylus(source, Ownership.UNKNOWN), x, y);
         }
         
         public static void signalGestureStylusUp(MemoryAddress source, double x, double y, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (GestureStylus.Up) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureStylus(Refcounted.get(source)), x, y);
+            HANDLER.signalReceived(new GestureStylus(source, Ownership.UNKNOWN), x, y);
         }
     }
 }

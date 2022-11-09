@@ -49,13 +49,19 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a PasswordEntry proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public PasswordEntry(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public PasswordEntry(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -67,16 +73,16 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      */
     public static PasswordEntry castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPasswordEntry"))) {
-            return new PasswordEntry(gobject.refcounted());
+            return new PasswordEntry(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkPasswordEntry");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_password_entry_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_password_entry_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,7 +93,7 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * Creates a {@code GtkPasswordEntry}.
      */
     public PasswordEntry() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -102,7 +108,7 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(RESULT, Ownership.NONE);
     }
     
     /**
@@ -162,6 +168,8 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * Emitted when the entry is activated.
      * <p>
      * The keybindings for this signal are all forms of the Enter key.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<PasswordEntry.Activate> onActivate(PasswordEntry.Activate handler) {
         try {
@@ -185,27 +193,32 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         
         private static final MethodHandle gtk_password_entry_new = Interop.downcallHandle(
             "gtk_password_entry_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_password_entry_get_extra_menu = Interop.downcallHandle(
             "gtk_password_entry_get_extra_menu",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_password_entry_get_show_peek_icon = Interop.downcallHandle(
             "gtk_password_entry_get_show_peek_icon",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_password_entry_set_extra_menu = Interop.downcallHandle(
             "gtk_password_entry_set_extra_menu",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_password_entry_set_show_peek_icon = Interop.downcallHandle(
             "gtk_password_entry_set_show_peek_icon",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -214,7 +227,7 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         public static void signalPasswordEntryActivate(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (PasswordEntry.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PasswordEntry(Refcounted.get(source)));
+            HANDLER.signalReceived(new PasswordEntry(source, Ownership.UNKNOWN));
         }
     }
 }

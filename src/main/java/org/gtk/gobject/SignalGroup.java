@@ -39,13 +39,19 @@ public class SignalGroup extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a SignalGroup proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SignalGroup(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SignalGroup(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -57,18 +63,18 @@ public class SignalGroup extends org.gtk.gobject.Object {
      */
     public static SignalGroup castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSignalGroup"))) {
-            return new SignalGroup(gobject.refcounted());
+            return new SignalGroup(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSignalGroup");
         }
     }
     
-    private static Refcounted constructNew(@NotNull org.gtk.glib.Type targetType) {
+    private static Addressable constructNew(@NotNull org.gtk.glib.Type targetType) {
         java.util.Objects.requireNonNull(targetType, "Parameter 'targetType' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_signal_group_new.invokeExact(
-                    targetType.getValue().longValue()), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_signal_group_new.invokeExact(
+                    targetType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +86,7 @@ public class SignalGroup extends org.gtk.gobject.Object {
      * @param targetType the {@link Type} of the target instance.
      */
     public SignalGroup(@NotNull org.gtk.glib.Type targetType) {
-        super(constructNew(targetType));
+        super(constructNew(targetType), Ownership.FULL);
     }
     
     /**
@@ -247,7 +253,7 @@ public class SignalGroup extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
+        return new org.gtk.gobject.Object(RESULT, Ownership.FULL);
     }
     
     /**
@@ -295,6 +301,8 @@ public class SignalGroup extends org.gtk.gobject.Object {
      * other than {@code null}. It is similar to {@link Object}::notify on {@code target} except it
      * will not emit when {@link SignalGroup}:target is {@code null} and also allows for
      * receiving the {@link Object} without a data-race.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SignalGroup.Bind> onBind(SignalGroup.Bind handler) {
         try {
@@ -325,6 +333,8 @@ public class SignalGroup extends org.gtk.gobject.Object {
      * <p>
      * This signal will only be emitted if the previous target of {@code self} is
      * non-{@code null}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SignalGroup.Unbind> onUnbind(SignalGroup.Unbind handler) {
         try {
@@ -348,52 +358,62 @@ public class SignalGroup extends org.gtk.gobject.Object {
         
         private static final MethodHandle g_signal_group_new = Interop.downcallHandle(
             "g_signal_group_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            false
         );
         
         private static final MethodHandle g_signal_group_block = Interop.downcallHandle(
             "g_signal_group_block",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_signal_group_connect = Interop.downcallHandle(
             "g_signal_group_connect",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_signal_group_connect_after = Interop.downcallHandle(
             "g_signal_group_connect_after",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_signal_group_connect_data = Interop.downcallHandle(
             "g_signal_group_connect_data",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_signal_group_connect_object = Interop.downcallHandle(
             "g_signal_group_connect_object",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_signal_group_connect_swapped = Interop.downcallHandle(
             "g_signal_group_connect_swapped",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_signal_group_dup_target = Interop.downcallHandle(
             "g_signal_group_dup_target",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_signal_group_set_target = Interop.downcallHandle(
             "g_signal_group_set_target",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_signal_group_unblock = Interop.downcallHandle(
             "g_signal_group_unblock",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -402,13 +422,13 @@ public class SignalGroup extends org.gtk.gobject.Object {
         public static void signalSignalGroupBind(MemoryAddress source, MemoryAddress instance, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SignalGroup.Bind) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SignalGroup(Refcounted.get(source)), new org.gtk.gobject.Object(Refcounted.get(instance, false)));
+            HANDLER.signalReceived(new SignalGroup(source, Ownership.UNKNOWN), new org.gtk.gobject.Object(instance, Ownership.NONE));
         }
         
         public static void signalSignalGroupUnbind(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SignalGroup.Unbind) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SignalGroup(Refcounted.get(source)));
+            HANDLER.signalReceived(new SignalGroup(source, Ownership.UNKNOWN));
         }
     }
 }

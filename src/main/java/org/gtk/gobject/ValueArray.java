@@ -27,6 +27,7 @@ public class ValueArray extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -35,7 +36,7 @@ public class ValueArray extends io.github.jwharm.javagi.ResourceBase {
     
     public static ValueArray allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ValueArray newInstance = new ValueArray(Refcounted.get(segment.address()));
+        ValueArray newInstance = new ValueArray(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -69,7 +70,7 @@ public class ValueArray extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("values"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gobject.Value(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.Value(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -82,9 +83,14 @@ public class ValueArray extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), values.handle());
     }
     
+    /**
+     * Create a ValueArray proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ValueArray(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ValueArray(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -104,7 +110,7 @@ public class ValueArray extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ValueArray(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.ValueArray(RESULT, Ownership.NONE);
     }
     
     /**
@@ -122,7 +128,7 @@ public class ValueArray extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ValueArray(Refcounted.get(RESULT, true));
+        return new org.gtk.gobject.ValueArray(RESULT, Ownership.FULL);
     }
     
     /**
@@ -155,7 +161,7 @@ public class ValueArray extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Value(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
     }
     
     /**
@@ -177,7 +183,7 @@ public class ValueArray extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ValueArray(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.ValueArray(RESULT, Ownership.NONE);
     }
     
     /**
@@ -197,7 +203,7 @@ public class ValueArray extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ValueArray(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.ValueArray(RESULT, Ownership.NONE);
     }
     
     /**
@@ -217,7 +223,7 @@ public class ValueArray extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ValueArray(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.ValueArray(RESULT, Ownership.NONE);
     }
     
     /**
@@ -261,59 +267,69 @@ public class ValueArray extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ValueArray(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.ValueArray(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_value_array_new = Interop.downcallHandle(
             "g_value_array_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_value_array_append = Interop.downcallHandle(
             "g_value_array_append",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_value_array_copy = Interop.downcallHandle(
             "g_value_array_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_value_array_free = Interop.downcallHandle(
             "g_value_array_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_value_array_get_nth = Interop.downcallHandle(
             "g_value_array_get_nth",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_value_array_insert = Interop.downcallHandle(
             "g_value_array_insert",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_value_array_prepend = Interop.downcallHandle(
             "g_value_array_prepend",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_value_array_remove = Interop.downcallHandle(
             "g_value_array_remove",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle g_value_array_sort = Interop.downcallHandle(
             "g_value_array_sort",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_value_array_sort_with_data = Interop.downcallHandle(
             "g_value_array_sort_with_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

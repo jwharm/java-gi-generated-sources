@@ -10,5 +10,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ClosureMarshal {
-        void onClosureMarshal(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, int nParamValues, PointerProxy<org.gtk.gobject.Value> paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint);
+        void onClosureMarshal(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, int nParamValues, @NotNull PointerProxy<org.gtk.gobject.Value> paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint);
 }

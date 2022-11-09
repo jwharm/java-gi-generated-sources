@@ -215,7 +215,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      */
     public static TreeModel castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeModel"))) {
-            return new TreeModelImpl(gobject.refcounted());
+            return new TreeModelImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTreeModel");
         }
@@ -236,7 +236,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.TreeModel.TreeModelImpl(RESULT, Ownership.FULL);
     }
     
     /**
@@ -277,9 +277,19 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * values with type {@code G_TYPE_STRING} or {@code G_TYPE_BOXED} have to be freed.
      * Other values are passed by value.
      * @param iter a row in {@code tree_model}
+     * @param varargs pairs of column number and value return locations,
+     *   terminated by -1
      */
-    default void get(@NotNull org.gtk.gtk.TreeIter iter) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    default void get(@NotNull org.gtk.gtk.TreeIter iter, java.lang.Object... varargs) {
+        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+        try {
+            DowncallHandles.gtk_tree_model_get.invokeExact(
+                    handle(),
+                    iter.handle(),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -419,7 +429,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreePath(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.TreePath(RESULT, Ownership.FULL);
     }
     
     /**
@@ -819,7 +829,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      *   i.e. {@code new_order}{@code [newpos] = oldpos}
      * @param length length of {@code new_order} array
      */
-    default void rowsReorderedWithLength(@NotNull org.gtk.gtk.TreePath path, @Nullable org.gtk.gtk.TreeIter iter, int[] newOrder, int length) {
+    default void rowsReorderedWithLength(@NotNull org.gtk.gtk.TreePath path, @Nullable org.gtk.gtk.TreeIter iter, @NotNull int[] newOrder, int length) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         java.util.Objects.requireNonNull(newOrder, "Parameter 'newOrder' must not be null");
         try {
@@ -863,6 +873,8 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     
     /**
      * This signal is emitted when a row in the model has changed.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<TreeModel.RowChanged> onRowChanged(TreeModel.RowChanged handler) {
         try {
@@ -896,6 +908,8 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * This should be called by models after a row has been removed.
      * The location pointed to by {@code path} should be the location that
      * the row previously was at. It may not be a valid location anymore.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<TreeModel.RowDeleted> onRowDeleted(TreeModel.RowDeleted handler) {
         try {
@@ -923,6 +937,8 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     /**
      * This signal is emitted when a row has gotten the first child
      * row or lost its last child row.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<TreeModel.RowHasChildToggled> onRowHasChildToggled(TreeModel.RowHasChildToggled handler) {
         try {
@@ -954,6 +970,8 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * Note that the row may still be empty at this point, since
      * it is a common pattern to first insert an empty row, and
      * then fill it with the desired values.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<TreeModel.RowInserted> onRowInserted(TreeModel.RowInserted handler) {
         try {
@@ -985,6 +1003,8 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * Note that this signal is not emitted
      * when rows are reordered by DND, since this is implemented
      * by removing and then reinserting the row.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<TreeModel.RowsReordered> onRowsReordered(TreeModel.RowsReordered handler) {
         try {
@@ -1010,169 +1030,197 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_filter_new = Interop.downcallHandle(
             "gtk_tree_model_filter_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_foreach = Interop.downcallHandle(
             "gtk_tree_model_foreach",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get = Interop.downcallHandle(
             "gtk_tree_model_get",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            true
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get_column_type = Interop.downcallHandle(
             "gtk_tree_model_get_column_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get_flags = Interop.downcallHandle(
             "gtk_tree_model_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get_iter = Interop.downcallHandle(
             "gtk_tree_model_get_iter",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get_iter_first = Interop.downcallHandle(
             "gtk_tree_model_get_iter_first",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get_iter_from_string = Interop.downcallHandle(
             "gtk_tree_model_get_iter_from_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get_n_columns = Interop.downcallHandle(
             "gtk_tree_model_get_n_columns",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get_path = Interop.downcallHandle(
             "gtk_tree_model_get_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get_string_from_iter = Interop.downcallHandle(
             "gtk_tree_model_get_string_from_iter",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get_valist = Interop.downcallHandle(
             "gtk_tree_model_get_valist",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get_value = Interop.downcallHandle(
             "gtk_tree_model_get_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_iter_children = Interop.downcallHandle(
             "gtk_tree_model_iter_children",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_iter_has_child = Interop.downcallHandle(
             "gtk_tree_model_iter_has_child",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_iter_n_children = Interop.downcallHandle(
             "gtk_tree_model_iter_n_children",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_iter_next = Interop.downcallHandle(
             "gtk_tree_model_iter_next",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_iter_nth_child = Interop.downcallHandle(
             "gtk_tree_model_iter_nth_child",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_iter_parent = Interop.downcallHandle(
             "gtk_tree_model_iter_parent",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_iter_previous = Interop.downcallHandle(
             "gtk_tree_model_iter_previous",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_ref_node = Interop.downcallHandle(
             "gtk_tree_model_ref_node",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_row_changed = Interop.downcallHandle(
             "gtk_tree_model_row_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_row_deleted = Interop.downcallHandle(
             "gtk_tree_model_row_deleted",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_row_has_child_toggled = Interop.downcallHandle(
             "gtk_tree_model_row_has_child_toggled",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_row_inserted = Interop.downcallHandle(
             "gtk_tree_model_row_inserted",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_rows_reordered = Interop.downcallHandle(
             "gtk_tree_model_rows_reordered",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_rows_reordered_with_length = Interop.downcallHandle(
             "gtk_tree_model_rows_reordered_with_length",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_unref_node = Interop.downcallHandle(
             "gtk_tree_model_unref_node",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -1182,31 +1230,31 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         public static void signalTreeModelRowChanged(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TreeModel.RowChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeModel.TreeModelImpl(Refcounted.get(source)), new org.gtk.gtk.TreePath(Refcounted.get(path, false)), new org.gtk.gtk.TreeIter(Refcounted.get(iter, false)));
+            HANDLER.signalReceived(new TreeModel.TreeModelImpl(source, Ownership.UNKNOWN), new org.gtk.gtk.TreePath(path, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
         }
         
         public static void signalTreeModelRowDeleted(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TreeModel.RowDeleted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeModel.TreeModelImpl(Refcounted.get(source)), new org.gtk.gtk.TreePath(Refcounted.get(path, false)));
+            HANDLER.signalReceived(new TreeModel.TreeModelImpl(source, Ownership.UNKNOWN), new org.gtk.gtk.TreePath(path, Ownership.NONE));
         }
         
         public static void signalTreeModelRowHasChildToggled(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TreeModel.RowHasChildToggled) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeModel.TreeModelImpl(Refcounted.get(source)), new org.gtk.gtk.TreePath(Refcounted.get(path, false)), new org.gtk.gtk.TreeIter(Refcounted.get(iter, false)));
+            HANDLER.signalReceived(new TreeModel.TreeModelImpl(source, Ownership.UNKNOWN), new org.gtk.gtk.TreePath(path, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
         }
         
         public static void signalTreeModelRowInserted(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TreeModel.RowInserted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeModel.TreeModelImpl(Refcounted.get(source)), new org.gtk.gtk.TreePath(Refcounted.get(path, false)), new org.gtk.gtk.TreeIter(Refcounted.get(iter, false)));
+            HANDLER.signalReceived(new TreeModel.TreeModelImpl(source, Ownership.UNKNOWN), new org.gtk.gtk.TreePath(path, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
         }
         
         public static void signalTreeModelRowsReordered(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress newOrder, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (TreeModel.RowsReordered) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeModel.TreeModelImpl(Refcounted.get(source)), new org.gtk.gtk.TreePath(Refcounted.get(path, false)), new org.gtk.gtk.TreeIter(Refcounted.get(iter, false)), newOrder);
+            HANDLER.signalReceived(new TreeModel.TreeModelImpl(source, Ownership.UNKNOWN), new org.gtk.gtk.TreePath(path, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE), newOrder);
         }
     }
     
@@ -1216,8 +1264,8 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
             Gtk.javagi$ensureInitialized();
         }
         
-        public TreeModelImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public TreeModelImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

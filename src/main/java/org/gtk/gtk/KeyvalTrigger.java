@@ -20,13 +20,19 @@ public class KeyvalTrigger extends org.gtk.gtk.ShortcutTrigger {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a KeyvalTrigger proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public KeyvalTrigger(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public KeyvalTrigger(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,19 +44,19 @@ public class KeyvalTrigger extends org.gtk.gtk.ShortcutTrigger {
      */
     public static KeyvalTrigger castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkKeyvalTrigger"))) {
-            return new KeyvalTrigger(gobject.refcounted());
+            return new KeyvalTrigger(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkKeyvalTrigger");
         }
     }
     
-    private static Refcounted constructNew(int keyval, @NotNull org.gtk.gdk.ModifierType modifiers) {
+    private static Addressable constructNew(int keyval, @NotNull org.gtk.gdk.ModifierType modifiers) {
         java.util.Objects.requireNonNull(modifiers, "Parameter 'modifiers' must not be null");
-        Refcounted RESULT;
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_keyval_trigger_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.gtk_keyval_trigger_new.invokeExact(
                     keyval,
-                    modifiers.getValue()), true);
+                    modifiers.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,7 +70,7 @@ public class KeyvalTrigger extends org.gtk.gtk.ShortcutTrigger {
      * @param modifiers the modifiers that need to be present
      */
     public KeyvalTrigger(int keyval, @NotNull org.gtk.gdk.ModifierType modifiers) {
-        super(constructNew(keyval, modifiers));
+        super(constructNew(keyval, modifiers), Ownership.FULL);
     }
     
     /**
@@ -103,17 +109,20 @@ public class KeyvalTrigger extends org.gtk.gtk.ShortcutTrigger {
         
         private static final MethodHandle gtk_keyval_trigger_new = Interop.downcallHandle(
             "gtk_keyval_trigger_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle gtk_keyval_trigger_get_keyval = Interop.downcallHandle(
             "gtk_keyval_trigger_get_keyval",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_keyval_trigger_get_modifiers = Interop.downcallHandle(
             "gtk_keyval_trigger_get_modifiers",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

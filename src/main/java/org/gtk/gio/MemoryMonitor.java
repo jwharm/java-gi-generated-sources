@@ -65,7 +65,7 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
      */
     public static MemoryMonitor castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GMemoryMonitor"))) {
-            return new MemoryMonitorImpl(gobject.refcounted());
+            return new MemoryMonitorImpl(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GMemoryMonitor");
         }
@@ -82,7 +82,7 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.MemoryMonitor.MemoryMonitorImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.MemoryMonitor.MemoryMonitorImpl(RESULT, Ownership.FULL);
     }
     
     @FunctionalInterface
@@ -95,6 +95,8 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
      * handler should then take the appropriate action depending on the
      * warning level. See the {@link MemoryMonitorWarningLevel} documentation for
      * details.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<MemoryMonitor.LowMemoryWarning> onLowMemoryWarning(MemoryMonitor.LowMemoryWarning handler) {
         try {
@@ -120,7 +122,8 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_memory_monitor_dup_default = Interop.downcallHandle(
             "g_memory_monitor_dup_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -130,7 +133,7 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
         public static void signalMemoryMonitorLowMemoryWarning(MemoryAddress source, int level, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (MemoryMonitor.LowMemoryWarning) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MemoryMonitor.MemoryMonitorImpl(Refcounted.get(source)), new org.gtk.gio.MemoryMonitorWarningLevel(level));
+            HANDLER.signalReceived(new MemoryMonitor.MemoryMonitorImpl(source, Ownership.UNKNOWN), new org.gtk.gio.MemoryMonitorWarningLevel(level));
         }
     }
     
@@ -140,8 +143,8 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
             Gio.javagi$ensureInitialized();
         }
         
-        public MemoryMonitorImpl(io.github.jwharm.javagi.Refcounted ref) {
-            super(ref);
+        public MemoryMonitorImpl(Addressable address, Ownership ownership) {
+            super(address, ownership);
         }
     }
 }

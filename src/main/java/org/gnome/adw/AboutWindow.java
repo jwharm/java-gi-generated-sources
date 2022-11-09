@@ -176,13 +176,19 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a AboutWindow proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public AboutWindow(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public AboutWindow(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -194,16 +200,16 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      */
     public static AboutWindow castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwAboutWindow"))) {
-            return new AboutWindow(gobject.refcounted());
+            return new AboutWindow(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwAboutWindow");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_about_window_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -214,7 +220,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * Creates a new {@code AdwAboutWindow}.
      */
     public AboutWindow() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -238,7 +244,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param name the section name
      * @param people the list of names
      */
-    public void addAcknowledgementSection(@Nullable java.lang.String name, java.lang.String[] people) {
+    public void addAcknowledgementSection(@Nullable java.lang.String name, @NotNull java.lang.String[] people) {
         java.util.Objects.requireNonNull(people, "Parameter 'people' must not be null");
         try {
             DowncallHandles.adw_about_window_add_acknowledgement_section.invokeExact(
@@ -269,7 +275,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param name the section name
      * @param people the list of names
      */
-    public void addCreditSection(@Nullable java.lang.String name, java.lang.String[] people) {
+    public void addCreditSection(@Nullable java.lang.String name, @NotNull java.lang.String[] people) {
         java.util.Objects.requireNonNull(people, "Parameter 'people' must not be null");
         try {
             DowncallHandles.adw_about_window_add_credit_section.invokeExact(
@@ -717,7 +723,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * * {@code AboutWindow#addAcknowledgementSection}
      * @param artists the list of artists
      */
-    public void setArtists(java.lang.String[] artists) {
+    public void setArtists(@Nullable java.lang.String[] artists) {
         try {
             DowncallHandles.adw_about_window_set_artists.invokeExact(
                     handle(),
@@ -834,7 +840,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * * {@code AboutWindow#addAcknowledgementSection}
      * @param designers the list of designers
      */
-    public void setDesigners(java.lang.String[] designers) {
+    public void setDesigners(@Nullable java.lang.String[] designers) {
         try {
             DowncallHandles.adw_about_window_set_designers.invokeExact(
                     handle(),
@@ -884,7 +890,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * * {@code AboutWindow#addAcknowledgementSection}
      * @param developers the list of developers
      */
-    public void setDevelopers(java.lang.String[] developers) {
+    public void setDevelopers(@Nullable java.lang.String[] developers) {
         try {
             DowncallHandles.adw_about_window_set_developers.invokeExact(
                     handle(),
@@ -912,7 +918,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * * {@code AboutWindow#addAcknowledgementSection}
      * @param documenters the list of documenters
      */
-    public void setDocumenters(java.lang.String[] documenters) {
+    public void setDocumenters(@Nullable java.lang.String[] documenters) {
         try {
             DowncallHandles.adw_about_window_set_documenters.invokeExact(
                     handle(),
@@ -1161,6 +1167,8 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * <p>
      * Applications may connect to it to override the default behavior, which is
      * to call {@link org.gtk.gtk.Gtk#showUri}.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AboutWindow.ActivateLink> onActivateLink(AboutWindow.ActivateLink handler) {
         try {
@@ -1184,227 +1192,272 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
         
         private static final MethodHandle adw_about_window_new = Interop.downcallHandle(
             "adw_about_window_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_add_acknowledgement_section = Interop.downcallHandle(
             "adw_about_window_add_acknowledgement_section",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_add_credit_section = Interop.downcallHandle(
             "adw_about_window_add_credit_section",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_add_legal_section = Interop.downcallHandle(
             "adw_about_window_add_legal_section",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_add_link = Interop.downcallHandle(
             "adw_about_window_add_link",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_get_application_icon = Interop.downcallHandle(
             "adw_about_window_get_application_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_get_application_name = Interop.downcallHandle(
             "adw_about_window_get_application_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_get_artists = Interop.downcallHandle(
             "adw_about_window_get_artists",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_get_comments = Interop.downcallHandle(
             "adw_about_window_get_comments",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_get_copyright = Interop.downcallHandle(
             "adw_about_window_get_copyright",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_get_debug_info = Interop.downcallHandle(
             "adw_about_window_get_debug_info",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_get_debug_info_filename = Interop.downcallHandle(
             "adw_about_window_get_debug_info_filename",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_get_designers = Interop.downcallHandle(
             "adw_about_window_get_designers",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_get_developer_name = Interop.downcallHandle(
             "adw_about_window_get_developer_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_get_developers = Interop.downcallHandle(
             "adw_about_window_get_developers",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_get_documenters = Interop.downcallHandle(
             "adw_about_window_get_documenters",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_get_issue_url = Interop.downcallHandle(
             "adw_about_window_get_issue_url",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_get_license = Interop.downcallHandle(
             "adw_about_window_get_license",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_get_license_type = Interop.downcallHandle(
             "adw_about_window_get_license_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_get_release_notes = Interop.downcallHandle(
             "adw_about_window_get_release_notes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_get_release_notes_version = Interop.downcallHandle(
             "adw_about_window_get_release_notes_version",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_get_support_url = Interop.downcallHandle(
             "adw_about_window_get_support_url",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_get_translator_credits = Interop.downcallHandle(
             "adw_about_window_get_translator_credits",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_get_version = Interop.downcallHandle(
             "adw_about_window_get_version",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_get_website = Interop.downcallHandle(
             "adw_about_window_get_website",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_set_application_icon = Interop.downcallHandle(
             "adw_about_window_set_application_icon",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_set_application_name = Interop.downcallHandle(
             "adw_about_window_set_application_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_set_artists = Interop.downcallHandle(
             "adw_about_window_set_artists",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_set_comments = Interop.downcallHandle(
             "adw_about_window_set_comments",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_set_copyright = Interop.downcallHandle(
             "adw_about_window_set_copyright",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_set_debug_info = Interop.downcallHandle(
             "adw_about_window_set_debug_info",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_set_debug_info_filename = Interop.downcallHandle(
             "adw_about_window_set_debug_info_filename",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_set_designers = Interop.downcallHandle(
             "adw_about_window_set_designers",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_set_developer_name = Interop.downcallHandle(
             "adw_about_window_set_developer_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_set_developers = Interop.downcallHandle(
             "adw_about_window_set_developers",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_set_documenters = Interop.downcallHandle(
             "adw_about_window_set_documenters",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_set_issue_url = Interop.downcallHandle(
             "adw_about_window_set_issue_url",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_set_license = Interop.downcallHandle(
             "adw_about_window_set_license",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_set_license_type = Interop.downcallHandle(
             "adw_about_window_set_license_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle adw_about_window_set_release_notes = Interop.downcallHandle(
             "adw_about_window_set_release_notes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_set_release_notes_version = Interop.downcallHandle(
             "adw_about_window_set_release_notes_version",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_set_support_url = Interop.downcallHandle(
             "adw_about_window_set_support_url",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_set_translator_credits = Interop.downcallHandle(
             "adw_about_window_set_translator_credits",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_set_version = Interop.downcallHandle(
             "adw_about_window_set_version",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle adw_about_window_set_website = Interop.downcallHandle(
             "adw_about_window_set_website",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -1413,7 +1466,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
         public static boolean signalAboutWindowActivateLink(MemoryAddress source, MemoryAddress uri, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (AboutWindow.ActivateLink) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new AboutWindow(Refcounted.get(source)), Interop.getStringFrom(uri));
+            return HANDLER.signalReceived(new AboutWindow(source, Ownership.UNKNOWN), Interop.getStringFrom(uri));
         }
     }
 }

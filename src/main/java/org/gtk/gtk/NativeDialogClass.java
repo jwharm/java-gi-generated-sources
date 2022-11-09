@@ -31,6 +31,7 @@ public class NativeDialogClass extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -39,13 +40,18 @@ public class NativeDialogClass extends io.github.jwharm.javagi.ResourceBase {
     
     public static NativeDialogClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        NativeDialogClass newInstance = new NativeDialogClass(Refcounted.get(segment.address()));
+        NativeDialogClass newInstance = new NativeDialogClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a NativeDialogClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public NativeDialogClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public NativeDialogClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

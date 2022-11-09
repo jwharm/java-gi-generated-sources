@@ -26,6 +26,7 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
@@ -34,14 +35,19 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
     
     public static AttrIterator allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AttrIterator newInstance = new AttrIterator(Refcounted.get(segment.address()));
+        AttrIterator newInstance = new AttrIterator(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Create a AttrIterator proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public AttrIterator(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public AttrIterator(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -58,7 +64,7 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrIterator(Refcounted.get(RESULT, true));
+        return new org.pango.AttrIterator(RESULT, Ownership.FULL);
     }
     
     /**
@@ -95,7 +101,7 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, false));
+        return new org.pango.Attribute(RESULT, Ownership.NONE);
     }
     
     /**
@@ -113,7 +119,7 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.SList(RESULT, Ownership.FULL);
     }
     
     /**
@@ -196,37 +202,44 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
         
         private static final MethodHandle pango_attr_iterator_copy = Interop.downcallHandle(
             "pango_attr_iterator_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attr_iterator_destroy = Interop.downcallHandle(
             "pango_attr_iterator_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attr_iterator_get = Interop.downcallHandle(
             "pango_attr_iterator_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_iterator_get_attrs = Interop.downcallHandle(
             "pango_attr_iterator_get_attrs",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attr_iterator_get_font = Interop.downcallHandle(
             "pango_attr_iterator_get_font",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attr_iterator_next = Interop.downcallHandle(
             "pango_attr_iterator_next",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attr_iterator_range = Interop.downcallHandle(
             "pango_attr_iterator_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

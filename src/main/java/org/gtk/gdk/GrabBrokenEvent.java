@@ -20,13 +20,19 @@ public class GrabBrokenEvent extends org.gtk.gdk.Event {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a GrabBrokenEvent proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public GrabBrokenEvent(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public GrabBrokenEvent(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -38,7 +44,7 @@ public class GrabBrokenEvent extends org.gtk.gdk.Event {
      */
     public static GrabBrokenEvent castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkGrabBrokenEvent"))) {
-            return new GrabBrokenEvent(gobject.refcounted());
+            return new GrabBrokenEvent(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkGrabBrokenEvent");
         }
@@ -56,7 +62,7 @@ public class GrabBrokenEvent extends org.gtk.gdk.Event {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Surface(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Surface(RESULT, Ownership.NONE);
     }
     
     /**
@@ -78,12 +84,14 @@ public class GrabBrokenEvent extends org.gtk.gdk.Event {
         
         private static final MethodHandle gdk_grab_broken_event_get_grab_surface = Interop.downcallHandle(
             "gdk_grab_broken_event_get_grab_surface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_grab_broken_event_get_implicit = Interop.downcallHandle(
             "gdk_grab_broken_event_get_implicit",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
     }
 }

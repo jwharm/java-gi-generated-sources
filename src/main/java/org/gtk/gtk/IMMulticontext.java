@@ -30,6 +30,7 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -40,12 +41,17 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
      */
     public org.gtk.gtk.IMContext object$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("object"));
-        return new org.gtk.gtk.IMContext(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gtk.IMContext(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a IMMulticontext proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public IMMulticontext(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public IMMulticontext(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -57,16 +63,16 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
      */
     public static IMMulticontext castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkIMMulticontext"))) {
-            return new IMMulticontext(gobject.refcounted());
+            return new IMMulticontext(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkIMMulticontext");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_im_multicontext_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_im_multicontext_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,7 +83,7 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
      * Creates a new {@code GtkIMMulticontext}.
      */
     public IMMulticontext() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -120,17 +126,20 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
         
         private static final MethodHandle gtk_im_multicontext_new = Interop.downcallHandle(
             "gtk_im_multicontext_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_im_multicontext_get_context_id = Interop.downcallHandle(
             "gtk_im_multicontext_get_context_id",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_im_multicontext_set_context_id = Interop.downcallHandle(
             "gtk_im_multicontext_set_context_id",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

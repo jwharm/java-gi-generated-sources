@@ -61,13 +61,19 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a SearchEntry proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public SearchEntry(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public SearchEntry(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -79,16 +85,16 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public static SearchEntry castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSearchEntry"))) {
-            return new SearchEntry(gobject.refcounted());
+            return new SearchEntry(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkSearchEntry");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_search_entry_new.invokeExact(), false);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_search_entry_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +105,7 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Creates a {@code GtkSearchEntry}.
      */
     public SearchEntry() {
-        super(constructNew());
+        super(constructNew(), Ownership.NONE);
     }
     
     /**
@@ -114,7 +120,7 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
     /**
@@ -156,6 +162,8 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Emitted when the entry is activated.
      * <p>
      * The keybindings for this signal are all forms of the Enter key.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SearchEntry.Activate> onActivate(SearchEntry.Activate handler) {
         try {
@@ -190,6 +198,8 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * between matches.
      * <p>
      * The default bindings for this signal is Ctrl-g.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SearchEntry.NextMatch> onNextMatch(SearchEntry.NextMatch handler) {
         try {
@@ -224,6 +234,8 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * between matches.
      * <p>
      * The default bindings for this signal is Ctrl-Shift-g.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SearchEntry.PreviousMatch> onPreviousMatch(SearchEntry.PreviousMatch handler) {
         try {
@@ -251,6 +263,8 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     /**
      * Emitted with a short delay of 150 milliseconds after the
      * last change to the entry text.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SearchEntry.SearchChanged> onSearchChanged(SearchEntry.SearchChanged handler) {
         try {
@@ -277,6 +291,8 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     /**
      * Emitted when the user initiated a search on the entry.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SearchEntry.SearchStarted> onSearchStarted(SearchEntry.SearchStarted handler) {
         try {
@@ -310,6 +326,8 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * the search entry in this case.
      * <p>
      * The default bindings for this signal is Escape.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SearchEntry.StopSearch> onStopSearch(SearchEntry.StopSearch handler) {
         try {
@@ -333,17 +351,20 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         
         private static final MethodHandle gtk_search_entry_new = Interop.downcallHandle(
             "gtk_search_entry_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_search_entry_get_key_capture_widget = Interop.downcallHandle(
             "gtk_search_entry_get_key_capture_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gtk_search_entry_set_key_capture_widget = Interop.downcallHandle(
             "gtk_search_entry_set_key_capture_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -352,37 +373,37 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         public static void signalSearchEntryActivate(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SearchEntry.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(Refcounted.get(source)));
+            HANDLER.signalReceived(new SearchEntry(source, Ownership.UNKNOWN));
         }
         
         public static void signalSearchEntryNextMatch(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SearchEntry.NextMatch) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(Refcounted.get(source)));
+            HANDLER.signalReceived(new SearchEntry(source, Ownership.UNKNOWN));
         }
         
         public static void signalSearchEntryPreviousMatch(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SearchEntry.PreviousMatch) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(Refcounted.get(source)));
+            HANDLER.signalReceived(new SearchEntry(source, Ownership.UNKNOWN));
         }
         
         public static void signalSearchEntrySearchChanged(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SearchEntry.SearchChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(Refcounted.get(source)));
+            HANDLER.signalReceived(new SearchEntry(source, Ownership.UNKNOWN));
         }
         
         public static void signalSearchEntrySearchStarted(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SearchEntry.SearchStarted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(Refcounted.get(source)));
+            HANDLER.signalReceived(new SearchEntry(source, Ownership.UNKNOWN));
         }
         
         public static void signalSearchEntryStopSearch(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (SearchEntry.StopSearch) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(Refcounted.get(source)));
+            HANDLER.signalReceived(new SearchEntry(source, Ownership.UNKNOWN));
         }
     }
 }

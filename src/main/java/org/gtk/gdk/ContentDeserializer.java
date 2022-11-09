@@ -30,13 +30,19 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a ContentDeserializer proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public ContentDeserializer(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public ContentDeserializer(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -48,7 +54,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      */
     public static ContentDeserializer castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkContentDeserializer"))) {
-            return new ContentDeserializer(gobject.refcounted());
+            return new ContentDeserializer(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkContentDeserializer");
         }
@@ -68,7 +74,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Cancellable(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.Cancellable(RESULT, Ownership.NONE);
     }
     
     /**
@@ -100,7 +106,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.InputStream(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.InputStream(RESULT, Ownership.NONE);
     }
     
     /**
@@ -179,7 +185,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Value(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
     }
     
     /**
@@ -231,57 +237,68 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
         
         private static final MethodHandle gdk_content_deserializer_get_cancellable = Interop.downcallHandle(
             "gdk_content_deserializer_get_cancellable",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_deserializer_get_gtype = Interop.downcallHandle(
             "gdk_content_deserializer_get_gtype",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_deserializer_get_input_stream = Interop.downcallHandle(
             "gdk_content_deserializer_get_input_stream",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_deserializer_get_mime_type = Interop.downcallHandle(
             "gdk_content_deserializer_get_mime_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_deserializer_get_priority = Interop.downcallHandle(
             "gdk_content_deserializer_get_priority",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_deserializer_get_task_data = Interop.downcallHandle(
             "gdk_content_deserializer_get_task_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_deserializer_get_user_data = Interop.downcallHandle(
             "gdk_content_deserializer_get_user_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_deserializer_get_value = Interop.downcallHandle(
             "gdk_content_deserializer_get_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_deserializer_return_error = Interop.downcallHandle(
             "gdk_content_deserializer_return_error",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_deserializer_return_success = Interop.downcallHandle(
             "gdk_content_deserializer_return_success",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle gdk_content_deserializer_set_task_data = Interop.downcallHandle(
             "gdk_content_deserializer_set_task_data",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

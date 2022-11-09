@@ -5,6 +5,9 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
+/**
+ * Constants and functions that are declared in the global Pango namespace.
+ */
 public final class Pango {
     
     static {
@@ -102,7 +105,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -120,7 +123,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -142,7 +145,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -170,7 +173,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -186,7 +189,7 @@ public final class Pango {
      *   per character in {@code text}, plus one extra, to be filled in
      * @param attrsLen length of {@code attrs} array
      */
-    public static void attrBreak(@NotNull java.lang.String text, int length, @NotNull org.pango.AttrList attrList, int offset, org.pango.LogAttr[] attrs, int attrsLen) {
+    public static void attrBreak(@NotNull java.lang.String text, int length, @NotNull org.pango.AttrList attrList, int offset, @NotNull org.pango.LogAttr[] attrs, int attrsLen) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         java.util.Objects.requireNonNull(attrList, "Parameter 'attrList' must not be null");
         java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
@@ -224,7 +227,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -243,7 +246,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -265,7 +268,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -288,7 +291,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -311,7 +314,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -329,7 +332,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -351,7 +354,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -370,7 +373,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -389,7 +392,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -411,7 +414,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -430,7 +433,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -449,7 +452,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -469,7 +472,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -489,7 +492,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -509,7 +512,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrList(Refcounted.get(RESULT, true));
+        return new org.pango.AttrList(RESULT, Ownership.FULL);
     }
     
     /**
@@ -534,7 +537,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -553,7 +556,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -572,7 +575,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -593,7 +596,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -612,7 +615,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -639,7 +642,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -675,7 +678,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -695,7 +698,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -713,7 +716,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -731,7 +734,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -750,7 +753,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -775,7 +778,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -793,7 +796,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -812,7 +815,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -832,7 +835,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -904,7 +907,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -923,7 +926,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -941,7 +944,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -960,7 +963,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -979,7 +982,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1017,7 +1020,7 @@ public final class Pango {
      *   {@code tailor_break#] and [func@Pango.attrBreak}.
      */
     @Deprecated
-    public static void break_(@NotNull java.lang.String text, int length, @NotNull org.pango.Analysis analysis, org.pango.LogAttr[] attrs, int attrsLen) {
+    public static void break_(@NotNull java.lang.String text, int length, @NotNull org.pango.Analysis analysis, @NotNull org.pango.LogAttr[] attrs, int attrsLen) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         java.util.Objects.requireNonNull(analysis, "Parameter 'analysis' must not be null");
         java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
@@ -1214,7 +1217,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontDescription(Refcounted.get(RESULT, true));
+        return new org.pango.FontDescription(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1235,7 +1238,7 @@ public final class Pango {
      *   per character in {@code text}, plus one extra, to be filled in
      * @param attrsLen length of {@code attrs} array
      */
-    public static void getLogAttrs(@NotNull java.lang.String text, int length, int level, @NotNull org.pango.Language language, org.pango.LogAttr[] attrs, int attrsLen) {
+    public static void getLogAttrs(@NotNull java.lang.String text, int length, int level, @NotNull org.pango.Language language, @NotNull org.pango.LogAttr[] attrs, int attrsLen) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
         java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
@@ -1448,7 +1451,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1488,7 +1491,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1515,7 +1518,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Language(Refcounted.get(RESULT, false));
+        return new org.pango.Language(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1559,7 +1562,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Language(Refcounted.get(RESULT, false));
+        return new org.pango.Language(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1655,7 +1658,8 @@ public final class Pango {
                     context.handle(),
                     attrList.handle(),
                     (Addressable) textPOINTER.address(),
-                    (Addressable) accelCharPOINTER.address(), (Addressable) GERROR);
+                    (Addressable) accelCharPOINTER.address(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1702,7 +1706,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.MarkupParseContext(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.MarkupParseContext(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1790,7 +1794,8 @@ public final class Pango {
                     accelMarker,
                     attrList.handle(),
                     (Addressable) textPOINTER.address(),
-                    (Addressable) accelCharPOINTER.address(), (Addressable) GERROR);
+                    (Addressable) accelCharPOINTER.address(),
+                    (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1996,7 +2001,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2151,7 +2156,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Language(Refcounted.get(RESULT, true));
+        return new org.pango.Language(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2371,7 +2376,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.TabArray(Refcounted.get(RESULT, true));
+        return new org.pango.TabArray(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2393,7 +2398,7 @@ public final class Pango {
      *   per character in {@code text}, plus one extra, to be filled in
      * @param attrsLen length of {@code attrs} array
      */
-    public static void tailorBreak(@NotNull java.lang.String text, int length, @NotNull org.pango.Analysis analysis, int offset, org.pango.LogAttr[] attrs, int attrsLen) {
+    public static void tailorBreak(@NotNull java.lang.String text, int length, @NotNull org.pango.Analysis analysis, int offset, @NotNull org.pango.LogAttr[] attrs, int attrsLen) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         java.util.Objects.requireNonNull(analysis, "Parameter 'analysis' must not be null");
         java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
@@ -2569,472 +2574,566 @@ public final class Pango {
         
         private static final MethodHandle pango_attr_allow_breaks_new = Interop.downcallHandle(
             "pango_attr_allow_breaks_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_background_alpha_new = Interop.downcallHandle(
             "pango_attr_background_alpha_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT),
+            false
         );
         
         private static final MethodHandle pango_attr_background_new = Interop.downcallHandle(
             "pango_attr_background_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT),
+            false
         );
         
         private static final MethodHandle pango_attr_baseline_shift_new = Interop.downcallHandle(
             "pango_attr_baseline_shift_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_break = Interop.downcallHandle(
             "pango_attr_break",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_fallback_new = Interop.downcallHandle(
             "pango_attr_fallback_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_family_new = Interop.downcallHandle(
             "pango_attr_family_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attr_font_desc_new = Interop.downcallHandle(
             "pango_attr_font_desc_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attr_font_features_new = Interop.downcallHandle(
             "pango_attr_font_features_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attr_font_scale_new = Interop.downcallHandle(
             "pango_attr_font_scale_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_foreground_alpha_new = Interop.downcallHandle(
             "pango_attr_foreground_alpha_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT),
+            false
         );
         
         private static final MethodHandle pango_attr_foreground_new = Interop.downcallHandle(
             "pango_attr_foreground_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT),
+            false
         );
         
         private static final MethodHandle pango_attr_gravity_hint_new = Interop.downcallHandle(
             "pango_attr_gravity_hint_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_gravity_new = Interop.downcallHandle(
             "pango_attr_gravity_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_insert_hyphens_new = Interop.downcallHandle(
             "pango_attr_insert_hyphens_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_language_new = Interop.downcallHandle(
             "pango_attr_language_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attr_letter_spacing_new = Interop.downcallHandle(
             "pango_attr_letter_spacing_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_line_height_new = Interop.downcallHandle(
             "pango_attr_line_height_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle pango_attr_line_height_new_absolute = Interop.downcallHandle(
             "pango_attr_line_height_new_absolute",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_list_from_string = Interop.downcallHandle(
             "pango_attr_list_from_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attr_overline_color_new = Interop.downcallHandle(
             "pango_attr_overline_color_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT),
+            false
         );
         
         private static final MethodHandle pango_attr_overline_new = Interop.downcallHandle(
             "pango_attr_overline_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_rise_new = Interop.downcallHandle(
             "pango_attr_rise_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_scale_new = Interop.downcallHandle(
             "pango_attr_scale_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle pango_attr_sentence_new = Interop.downcallHandle(
             "pango_attr_sentence_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attr_shape_new = Interop.downcallHandle(
             "pango_attr_shape_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attr_shape_new_with_data = Interop.downcallHandle(
             "pango_attr_shape_new_with_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attr_show_new = Interop.downcallHandle(
             "pango_attr_show_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_size_new = Interop.downcallHandle(
             "pango_attr_size_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_size_new_absolute = Interop.downcallHandle(
             "pango_attr_size_new_absolute",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_stretch_new = Interop.downcallHandle(
             "pango_attr_stretch_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_strikethrough_color_new = Interop.downcallHandle(
             "pango_attr_strikethrough_color_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT),
+            false
         );
         
         private static final MethodHandle pango_attr_strikethrough_new = Interop.downcallHandle(
             "pango_attr_strikethrough_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_style_new = Interop.downcallHandle(
             "pango_attr_style_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_text_transform_new = Interop.downcallHandle(
             "pango_attr_text_transform_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_type_get_name = Interop.downcallHandle(
             "pango_attr_type_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_type_register = Interop.downcallHandle(
             "pango_attr_type_register",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_attr_underline_color_new = Interop.downcallHandle(
             "pango_attr_underline_color_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT),
+            false
         );
         
         private static final MethodHandle pango_attr_underline_new = Interop.downcallHandle(
             "pango_attr_underline_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_variant_new = Interop.downcallHandle(
             "pango_attr_variant_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_weight_new = Interop.downcallHandle(
             "pango_attr_weight_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_attr_word_new = Interop.downcallHandle(
             "pango_attr_word_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_bidi_type_for_unichar = Interop.downcallHandle(
             "pango_bidi_type_for_unichar",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_break = Interop.downcallHandle(
             "pango_break",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_default_break = Interop.downcallHandle(
             "pango_default_break",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_extents_to_pixels = Interop.downcallHandle(
             "pango_extents_to_pixels",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_find_base_dir = Interop.downcallHandle(
             "pango_find_base_dir",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_find_paragraph_boundary = Interop.downcallHandle(
             "pango_find_paragraph_boundary",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_font_description_from_string = Interop.downcallHandle(
             "pango_font_description_from_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_get_log_attrs = Interop.downcallHandle(
             "pango_get_log_attrs",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_get_mirror_char = Interop.downcallHandle(
             "pango_get_mirror_char",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_gravity_get_for_matrix = Interop.downcallHandle(
             "pango_gravity_get_for_matrix",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_gravity_get_for_script = Interop.downcallHandle(
             "pango_gravity_get_for_script",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_gravity_get_for_script_and_width = Interop.downcallHandle(
             "pango_gravity_get_for_script_and_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_gravity_to_rotation = Interop.downcallHandle(
             "pango_gravity_to_rotation",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_is_zero_width = Interop.downcallHandle(
             "pango_is_zero_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_itemize = Interop.downcallHandle(
             "pango_itemize",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_itemize_with_base_dir = Interop.downcallHandle(
             "pango_itemize_with_base_dir",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_language_from_string = Interop.downcallHandle(
             "pango_language_from_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_language_get_default = Interop.downcallHandle(
             "pango_language_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_language_get_preferred = Interop.downcallHandle(
             "pango_language_get_preferred",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_layout_deserialize_error_quark = Interop.downcallHandle(
             "pango_layout_deserialize_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_log2vis_get_embedding_levels = Interop.downcallHandle(
             "pango_log2vis_get_embedding_levels",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_markup_parser_finish = Interop.downcallHandle(
             "pango_markup_parser_finish",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_markup_parser_new = Interop.downcallHandle(
             "pango_markup_parser_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_parse_enum = Interop.downcallHandle(
             "pango_parse_enum",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_parse_markup = Interop.downcallHandle(
             "pango_parse_markup",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_parse_stretch = Interop.downcallHandle(
             "pango_parse_stretch",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_parse_style = Interop.downcallHandle(
             "pango_parse_style",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_parse_variant = Interop.downcallHandle(
             "pango_parse_variant",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_parse_weight = Interop.downcallHandle(
             "pango_parse_weight",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_quantize_line_geometry = Interop.downcallHandle(
             "pango_quantize_line_geometry",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_read_line = Interop.downcallHandle(
             "pango_read_line",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_reorder_items = Interop.downcallHandle(
             "pango_reorder_items",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_scan_int = Interop.downcallHandle(
             "pango_scan_int",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_scan_string = Interop.downcallHandle(
             "pango_scan_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_scan_word = Interop.downcallHandle(
             "pango_scan_word",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_script_for_unichar = Interop.downcallHandle(
             "pango_script_for_unichar",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_script_get_sample_language = Interop.downcallHandle(
             "pango_script_get_sample_language",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_shape = Interop.downcallHandle(
             "pango_shape",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_shape_full = Interop.downcallHandle(
             "pango_shape_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_shape_item = Interop.downcallHandle(
             "pango_shape_item",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_shape_with_flags = Interop.downcallHandle(
             "pango_shape_with_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_skip_space = Interop.downcallHandle(
             "pango_skip_space",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_split_file_list = Interop.downcallHandle(
             "pango_split_file_list",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_tab_array_from_string = Interop.downcallHandle(
             "pango_tab_array_from_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_tailor_break = Interop.downcallHandle(
             "pango_tailor_break",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_trim_string = Interop.downcallHandle(
             "pango_trim_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle pango_unichar_direction = Interop.downcallHandle(
             "pango_unichar_direction",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_units_from_double = Interop.downcallHandle(
             "pango_units_from_double",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE),
+            false
         );
         
         private static final MethodHandle pango_units_to_double = Interop.downcallHandle(
             "pango_units_to_double",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_version = Interop.downcallHandle(
             "pango_version",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_version_check = Interop.downcallHandle(
             "pango_version_check",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            false
         );
         
         private static final MethodHandle pango_version_string = Interop.downcallHandle(
             "pango_version_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
     
@@ -3044,7 +3143,7 @@ public final class Pango {
         public static boolean cbFontsetForeachFunc(MemoryAddress fontset, MemoryAddress font, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FontsetForeachFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onFontsetForeachFunc(new org.pango.Fontset(Refcounted.get(fontset, false)), new org.pango.Font(Refcounted.get(font, false)));
+            var RESULT = HANDLER.onFontsetForeachFunc(new org.pango.Fontset(fontset, Ownership.NONE), new org.pango.Font(font, Ownership.NONE));
             return RESULT;
         }
         
@@ -3058,7 +3157,7 @@ public final class Pango {
         public static boolean cbAttrFilterFunc(MemoryAddress attribute, MemoryAddress userData) {
             int HASH = userData.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (AttrFilterFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onAttrFilterFunc(new org.pango.Attribute(Refcounted.get(attribute, false)));
+            var RESULT = HANDLER.onAttrFilterFunc(new org.pango.Attribute(attribute, Ownership.NONE));
             return RESULT;
         }
     }

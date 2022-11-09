@@ -30,6 +30,7 @@ public class EnumClass extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -38,7 +39,7 @@ public class EnumClass extends io.github.jwharm.javagi.ResourceBase {
     
     public static EnumClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        EnumClass newInstance = new EnumClass(Refcounted.get(segment.address()));
+        EnumClass newInstance = new EnumClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,7 +50,7 @@ public class EnumClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gobject.TypeClass g_type_class$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_type_class"));
-        return new org.gtk.gobject.TypeClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gobject.TypeClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
     /**
@@ -123,7 +124,7 @@ public class EnumClass extends io.github.jwharm.javagi.ResourceBase {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("values"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gobject.EnumValue(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.EnumValue(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -136,8 +137,13 @@ public class EnumClass extends io.github.jwharm.javagi.ResourceBase {
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), values.handle());
     }
     
+    /**
+     * Create a EnumClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public EnumClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public EnumClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

@@ -23,6 +23,7 @@ public class UnixFDMessageClass extends io.github.jwharm.javagi.ResourceBase {
      * The memory layout of the native struct.
      * @return the memory layout
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return memoryLayout;
     }
@@ -31,7 +32,7 @@ public class UnixFDMessageClass extends io.github.jwharm.javagi.ResourceBase {
     
     public static UnixFDMessageClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        UnixFDMessageClass newInstance = new UnixFDMessageClass(Refcounted.get(segment.address()));
+        UnixFDMessageClass newInstance = new UnixFDMessageClass(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,11 +43,16 @@ public class UnixFDMessageClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gio.SocketControlMessageClass parent_class$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gio.SocketControlMessageClass(Refcounted.get(((MemoryAddress) handle()).addOffset(OFFSET), false));
+        return new org.gtk.gio.SocketControlMessageClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
     
+    /**
+     * Create a UnixFDMessageClass proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public UnixFDMessageClass(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public UnixFDMessageClass(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
 }

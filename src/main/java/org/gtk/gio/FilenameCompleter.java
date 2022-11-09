@@ -22,13 +22,19 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a FilenameCompleter proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public FilenameCompleter(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public FilenameCompleter(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -40,16 +46,16 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
      */
     public static FilenameCompleter castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GFilenameCompleter"))) {
-            return new FilenameCompleter(gobject.refcounted());
+            return new FilenameCompleter(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GFilenameCompleter");
         }
     }
     
-    private static Refcounted constructNew() {
-        Refcounted RESULT;
+    private static Addressable constructNew() {
+        Addressable RESULT;
         try {
-            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_filename_completer_new.invokeExact(), true);
+            RESULT = (MemoryAddress) DowncallHandles.g_filename_completer_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -60,7 +66,7 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
      * Creates a new filename completer.
      */
     public FilenameCompleter() {
-        super(constructNew());
+        super(constructNew(), Ownership.FULL);
     }
     
     /**
@@ -124,6 +130,8 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
     
     /**
      * Emitted when the file name completion information comes available.
+     * @param handler The signal handler
+     * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FilenameCompleter.GotCompletionData> onGotCompletionData(FilenameCompleter.GotCompletionData handler) {
         try {
@@ -147,22 +155,26 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
         
         private static final MethodHandle g_filename_completer_new = Interop.downcallHandle(
             "g_filename_completer_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_filename_completer_get_completion_suffix = Interop.downcallHandle(
             "g_filename_completer_get_completion_suffix",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_filename_completer_get_completions = Interop.downcallHandle(
             "g_filename_completer_get_completions",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle g_filename_completer_set_dirs_only = Interop.downcallHandle(
             "g_filename_completer_set_dirs_only",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            false
         );
     }
     
@@ -171,7 +183,7 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
         public static void signalFilenameCompleterGotCompletionData(MemoryAddress source, MemoryAddress data) {
             int HASH = data.get(ValueLayout.JAVA_INT, 0);
             var HANDLER = (FilenameCompleter.GotCompletionData) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FilenameCompleter(Refcounted.get(source)));
+            HANDLER.signalReceived(new FilenameCompleter(source, Ownership.UNKNOWN));
         }
     }
 }

@@ -25,13 +25,19 @@ public class CustomLayout extends org.gtk.gtk.LayoutManager {
      * Memory layout of the native struct is unknown.
      * @return always {@code Interop.valueLayout.ADDRESS}
      */
+    @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
         return Interop.valueLayout.ADDRESS;
     }
     
+    /**
+     * Create a CustomLayout proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
     @ApiStatus.Internal
-    public CustomLayout(io.github.jwharm.javagi.Refcounted ref) {
-        super(ref);
+    public CustomLayout(Addressable address, Ownership ownership) {
+        super(address, ownership);
     }
     
     /**
@@ -43,13 +49,13 @@ public class CustomLayout extends org.gtk.gtk.LayoutManager {
      */
     public static CustomLayout castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCustomLayout"))) {
-            return new CustomLayout(gobject.refcounted());
+            return new CustomLayout(gobject.handle(), gobject.refcounted().getOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCustomLayout");
         }
     }
     
-    private static Refcounted constructNew(@Nullable org.gtk.gtk.CustomRequestModeFunc requestMode, @NotNull org.gtk.gtk.CustomMeasureFunc measure, @NotNull org.gtk.gtk.CustomAllocateFunc allocate) {
+    private static Addressable constructNew(@Nullable org.gtk.gtk.CustomRequestModeFunc requestMode, @NotNull org.gtk.gtk.CustomMeasureFunc measure, @NotNull org.gtk.gtk.CustomAllocateFunc allocate) {
         throw new UnsupportedOperationException("Operation not supported yet");
     }
     
@@ -67,7 +73,7 @@ public class CustomLayout extends org.gtk.gtk.LayoutManager {
      *   the layout manager
      */
     public CustomLayout(@Nullable org.gtk.gtk.CustomRequestModeFunc requestMode, @NotNull org.gtk.gtk.CustomMeasureFunc measure, @NotNull org.gtk.gtk.CustomAllocateFunc allocate) {
-        this(Refcounted.get(null)); // avoid compiler error
+        this(null, null); // avoid compiler error
         throw new UnsupportedOperationException("Operation not supported yet");
     }
     
@@ -75,7 +81,8 @@ public class CustomLayout extends org.gtk.gtk.LayoutManager {
         
         private static final MethodHandle gtk_custom_layout_new = Interop.downcallHandle(
             "gtk_custom_layout_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            false
         );
     }
 }

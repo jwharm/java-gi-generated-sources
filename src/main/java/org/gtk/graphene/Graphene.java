@@ -5,6 +5,9 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
+/**
+ * Constants and functions that are declared in the global Graphene namespace.
+ */
 public final class Graphene {
     
     static {
@@ -84,7 +87,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
     }
     
     /**
@@ -100,7 +103,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
     }
     
     /**
@@ -117,7 +120,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
     }
     
     /**
@@ -134,7 +137,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
     }
     
     /**
@@ -151,7 +154,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
     }
     
     /**
@@ -167,7 +170,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
     }
     
     /**
@@ -181,7 +184,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Point3D(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Point3D(RESULT, Ownership.NONE);
     }
     
     /**
@@ -195,7 +198,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Point(RESULT, Ownership.NONE);
     }
     
     /**
@@ -211,7 +214,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Rect(Refcounted.get(RESULT, true));
+        return new org.gtk.graphene.Rect(RESULT, Ownership.FULL);
     }
     
     /**
@@ -226,7 +229,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Rect(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Rect(RESULT, Ownership.NONE);
     }
     
     /**
@@ -241,7 +244,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Size(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Size(RESULT, Ownership.NONE);
     }
     
     /**
@@ -255,7 +258,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec2(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec2(RESULT, Ownership.NONE);
     }
     
     /**
@@ -269,7 +272,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec2(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec2(RESULT, Ownership.NONE);
     }
     
     /**
@@ -283,7 +286,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec2(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec2(RESULT, Ownership.NONE);
     }
     
     /**
@@ -297,7 +300,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec2(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec2(RESULT, Ownership.NONE);
     }
     
     /**
@@ -312,7 +315,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec3(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec3(RESULT, Ownership.NONE);
     }
     
     /**
@@ -327,7 +330,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec3(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec3(RESULT, Ownership.NONE);
     }
     
     /**
@@ -342,7 +345,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec3(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec3(RESULT, Ownership.NONE);
     }
     
     /**
@@ -357,7 +360,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec3(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec3(RESULT, Ownership.NONE);
     }
     
     /**
@@ -372,7 +375,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec3(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec3(RESULT, Ownership.NONE);
     }
     
     /**
@@ -387,7 +390,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec4(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec4(RESULT, Ownership.NONE);
     }
     
     /**
@@ -402,7 +405,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec4(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec4(RESULT, Ownership.NONE);
     }
     
     /**
@@ -417,7 +420,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec4(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec4(RESULT, Ownership.NONE);
     }
     
     /**
@@ -432,7 +435,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec4(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec4(RESULT, Ownership.NONE);
     }
     
     /**
@@ -447,7 +450,7 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec4(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec4(RESULT, Ownership.NONE);
     }
     
     /**
@@ -462,139 +465,165 @@ public final class Graphene {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec4(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec4(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle graphene_box_empty = Interop.downcallHandle(
             "graphene_box_empty",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_box_infinite = Interop.downcallHandle(
             "graphene_box_infinite",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_box_minus_one = Interop.downcallHandle(
             "graphene_box_minus_one",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_box_one = Interop.downcallHandle(
             "graphene_box_one",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_box_one_minus_one = Interop.downcallHandle(
             "graphene_box_one_minus_one",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_box_zero = Interop.downcallHandle(
             "graphene_box_zero",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_point3d_zero = Interop.downcallHandle(
             "graphene_point3d_zero",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_point_zero = Interop.downcallHandle(
             "graphene_point_zero",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_alloc = Interop.downcallHandle(
             "graphene_rect_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_rect_zero = Interop.downcallHandle(
             "graphene_rect_zero",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_size_zero = Interop.downcallHandle(
             "graphene_size_zero",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_vec2_one = Interop.downcallHandle(
             "graphene_vec2_one",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_vec2_x_axis = Interop.downcallHandle(
             "graphene_vec2_x_axis",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_vec2_y_axis = Interop.downcallHandle(
             "graphene_vec2_y_axis",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_vec2_zero = Interop.downcallHandle(
             "graphene_vec2_zero",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_vec3_one = Interop.downcallHandle(
             "graphene_vec3_one",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_vec3_x_axis = Interop.downcallHandle(
             "graphene_vec3_x_axis",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_vec3_y_axis = Interop.downcallHandle(
             "graphene_vec3_y_axis",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_vec3_z_axis = Interop.downcallHandle(
             "graphene_vec3_z_axis",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_vec3_zero = Interop.downcallHandle(
             "graphene_vec3_zero",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_vec4_one = Interop.downcallHandle(
             "graphene_vec4_one",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_vec4_w_axis = Interop.downcallHandle(
             "graphene_vec4_w_axis",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_vec4_x_axis = Interop.downcallHandle(
             "graphene_vec4_x_axis",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_vec4_y_axis = Interop.downcallHandle(
             "graphene_vec4_y_axis",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_vec4_z_axis = Interop.downcallHandle(
             "graphene_vec4_z_axis",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
         
         private static final MethodHandle graphene_vec4_zero = Interop.downcallHandle(
             "graphene_vec4_zero",
-            FunctionDescriptor.of(ValueLayout.ADDRESS)
+            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            false
         );
     }
 }

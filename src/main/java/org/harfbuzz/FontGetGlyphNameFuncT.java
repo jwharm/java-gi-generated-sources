@@ -13,5 +13,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface FontGetGlyphNameFuncT {
-        org.harfbuzz.BoolT onFontGetGlyphNameFuncT(@NotNull org.harfbuzz.FontT font, @Nullable java.lang.foreign.MemoryAddress fontData, @NotNull org.harfbuzz.CodepointT glyph, Out<java.lang.String[]> name, Out<Integer> size, @Nullable java.lang.foreign.MemoryAddress userData);
+        org.harfbuzz.BoolT onFontGetGlyphNameFuncT(@NotNull org.harfbuzz.FontT font, @Nullable java.lang.foreign.MemoryAddress fontData, @NotNull org.harfbuzz.CodepointT glyph, @NotNull Out<java.lang.String[]> name, Out<Integer> size, @Nullable java.lang.foreign.MemoryAddress userData);
 }
